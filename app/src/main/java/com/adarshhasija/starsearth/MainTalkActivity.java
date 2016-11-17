@@ -1,5 +1,6 @@
 package com.adarshhasija.starsearth;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -80,8 +81,23 @@ public class MainTalkActivity extends AppCompatActivity  implements View.OnClick
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "0");
         }
         else {
+            //HashMap<String, String> map = new HashMap<>();
+            //map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "0");
             textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21(String text) {
+        String utteranceId=this.hashCode() + "";
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
     private SpeechRecognizer speechRecognizer=null;
@@ -164,8 +180,15 @@ public class MainTalkActivity extends AppCompatActivity  implements View.OnClick
         tvRepeatResponseLabel.setVisibility(View.GONE);
     }
 
+    private void stopTalking() {
+        if (textToSpeech.isSpeaking()) {
+            textToSpeech.stop();
+        }
+    }
+
     @Override
     public void onClick(View v) {
+        stopTalking();
         if (isNetworkAvailable()) {
             vibrate(500);
             stateStartTalking();
@@ -266,7 +289,6 @@ public class MainTalkActivity extends AppCompatActivity  implements View.OnClick
     }
 
     private void setUserInput(String text) {
-        TextView tvUserInput = (TextView) findViewById(R.id.tvUserInput);
         tvUserInput.setText(text);
     }
 
@@ -364,10 +386,13 @@ public class MainTalkActivity extends AppCompatActivity  implements View.OnClick
         @Override
         public void onResults(Bundle results) {
             ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            String text = data.get(0).toString();
-            if (isTextDefined(text)) {
-                userQuery(text);
+            if (data != null && !data.isEmpty()) {
+                String text = data.get(0).toString();
+                if (isTextDefined(text)) {
+                    userQuery(text);
+                }
             }
+
         }
 
         @Override
