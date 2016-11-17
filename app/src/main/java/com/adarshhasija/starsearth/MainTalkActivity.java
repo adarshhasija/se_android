@@ -185,10 +185,18 @@ public class MainTalkActivity extends AppCompatActivity  implements View.OnClick
     public boolean onLongClick(View v) {
         if (lastBotResponse != null && !lastBotResponse.isEmpty()) {
             setBotResponse(lastBotResponse);
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.CHARACTER, Integer.toString(lastBotResponse.length()));
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
         else {
             //Vibration when there is nothing to respond
             vibrate(500);
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.CHARACTER, "0");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
         return true;
     }
