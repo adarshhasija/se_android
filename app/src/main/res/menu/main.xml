@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_help"
+        android:id="@+id/action_talk_by_typing"
         android:orderInCategory="100"
-        android:title="@string/action_help"
+        android:title="@string/talk_by_typing"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_questions_feedback"
+        android:orderInCategory="100"
+        android:title="@string/action_questions_feedback"
         app:showAsAction="never" />
 </menu>
