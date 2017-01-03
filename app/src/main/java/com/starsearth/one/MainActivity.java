@@ -1,4 +1,4 @@
-package com.adarshhasija.starsearth;
+package com.starsearth.one;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

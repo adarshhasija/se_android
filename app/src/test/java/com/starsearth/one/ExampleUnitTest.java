@@ -1,4 +1,4 @@
-package com.adarshhasija.starsearth;
+package com.starsearth.one;
 
 import org.junit.Test;
 

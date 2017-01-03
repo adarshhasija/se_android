@@ -1,4 +1,4 @@
-package com.adarshhasija.starsearth;
+package com.starsearth.one;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

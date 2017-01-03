@@ -10,28 +10,50 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.adarshhasija.starsearth.activity.MainTalkActivity"
+    tools:context="com.starsearth.one.activity.MainTalkActivity"
     tools:showIn="@layout/activity_main_talk">
 
-    <TextView
-        android:id="@+id/tvActionSwipeRight"
-        android:text="@string/swipe_right_action"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+    <LinearLayout
+        android:id="@+id/llMainAction"
+        android:orientation="vertical"
         android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvMainAction"
+            android:text="@string/swipe_left_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true" />
+
+        <Button
+            android:id="@+id/btnMainAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tap_here_to_start_activity"
+            android:textColor="#FFFFFF"
+            android:background="#000000" />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/tvUserInput"
         android:text="@string/tap_screen_to_talk"
+        android:visibility="gone"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvActionSwipeRight"
+        android:layout_below="@id/llMainAction"
         android:layout_marginTop="40dp" />
 
 
@@ -53,7 +75,7 @@
             android:textColor="#FFFFFF"
             android:text="@string/what_can_i_ask" />
 
-        <com.adarshhasija.starsearth.ExtendedEditText
+        <com.starsearth.one.ExtendedEditText
             android:id="@+id/etUserInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.adarshhasija.starsearth.application;
+package com.starsearth.one.application;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
-import com.adarshhasija.starsearth.R;
+import com.starsearth.one.R;
 
 /**
  * Created by faimac on 11/28/16.

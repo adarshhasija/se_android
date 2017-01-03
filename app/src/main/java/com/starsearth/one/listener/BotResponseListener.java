@@ -1,8 +1,6 @@
-package com.adarshhasija.starsearth.listener;
+package com.starsearth.one.listener;
 
 import com.google.firebase.storage.StorageReference;
-
-import ai.api.model.AIResponse;
 
 /**
  * Created by faimac on 11/24/16.

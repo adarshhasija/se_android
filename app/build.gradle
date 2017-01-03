@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.adarshhasija.starsearth"
+        applicationId "com.starsearth.one"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1

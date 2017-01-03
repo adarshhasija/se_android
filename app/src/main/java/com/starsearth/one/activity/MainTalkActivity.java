@@ -1,68 +1,35 @@
-package com.adarshhasija.starsearth.activity;
+package com.starsearth.one.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Vibrator;
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.adarshhasija.starsearth.ExtendedEditText;
-import com.adarshhasija.starsearth.StateMachine;
-import com.adarshhasija.starsearth.Talk;
-import com.adarshhasija.starsearth.ai.ApiAi;
-import com.adarshhasija.starsearth.application.StarsEarthApplication;
-import com.adarshhasija.starsearth.listener.BotResponseListener;
-import com.adarshhasija.starsearth.R;
-import com.adarshhasija.starsearth.listener.VoiceListener;
+import com.starsearth.one.ExtendedEditText;
+import com.starsearth.one.StateMachine;
+import com.starsearth.one.Talk;
+import com.starsearth.one.ai.ApiAi;
+import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.listener.BotResponseListener;
+import com.starsearth.one.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.JsonElement;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-
-import ai.api.AIConfiguration;
-import ai.api.AIDataService;
-import ai.api.AIServiceException;
-import ai.api.model.AIRequest;
-import ai.api.model.AIResponse;
-import ai.api.model.Fulfillment;
-import ai.api.model.Result;
 
 public class MainTalkActivity extends AppCompatActivity  implements BotResponseListener, GestureDetector.OnGestureListener, View.OnTouchListener {
 
@@ -73,7 +40,9 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
     private StateMachine stateMachine = new StateMachine();
 
     private RelativeLayout rlMainView;
-    private TextView tvActionSwipeRight;
+    private LinearLayout llMainAction;
+    private TextView tvMainAction;
+    private Button btnMainAction;
     private TextView tvUserInput;
     private LinearLayout llTypingView;
     private Button btnQuickReplies;
@@ -95,8 +64,9 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         setSupportActionBar(toolbar);
 
         rlMainView = (RelativeLayout) findViewById(R.id.rlMainView);
-        tvActionSwipeRight = (TextView) findViewById(R.id.tvActionSwipeRight);
-        tvActionSwipeRight.setText(tvActionSwipeRight.getText().toString().replace("*","<"));
+        llMainAction = (LinearLayout) findViewById(R.id.llMainAction);
+        tvMainAction = (TextView) findViewById(R.id.tvMainAction);
+        tvMainAction.setText(tvMainAction.getText().toString().replace("*","<"));
         tvUserInput = (TextView) findViewById(R.id.tvUserInput);
         llTypingView = (LinearLayout) findViewById(R.id.llTypingView);
         etUserInput = (ExtendedEditText) findViewById(R.id.etUserInput);
@@ -107,11 +77,18 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         talk = new Talk(this, this);
         setupGestureDetector();
 
+        btnMainAction = (Button) findViewById(R.id.btnMainAction);
+        btnMainAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToStateMainAction();
+            }
+        });
         btnQuickReplies = (Button) findViewById(R.id.btnQuickReplies);
         btnQuickReplies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToStateViewingQuickReplies();
+                goToStateViewingBotQuestions();
             }
         });
         btnTextSubmit = (Button) findViewById(R.id.btnTextSubmit);
@@ -122,7 +99,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
             }
         });
 
-
+        goToStateIdle();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
     @Override
@@ -139,17 +116,195 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         rlMainView.setOnTouchListener(this);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
     }
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
 
-        // Checks whether a hardware keyboard is available
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        talk=null;
+    }
+
+    /************************
+     *
+     * State Machine
+     *
+     ************************/
+    private void goToStateIdle() {
+        showMainActionUI();
+
+        String userInput = stateMachine.getCurrentUserInput();
+        String botResponse = stateMachine.getCurrentBotTextResponse();
+        if (userInput != null && !userInput.isEmpty()) {
+            setLabel(tvUserInput, userInput);
+            showUserInputUI();
+        }
+        else {
+            setLabel(tvUserInput, getString(R.string.tap_screen_to_talk));
+            showUserInputUI();
+        }
+
+        if (botResponse != null && !botResponse.isEmpty()) {
+            setLabel(tvBotResponse, botResponse);
+            setLabel(tvAdditionalInstructions, getString(R.string.long_press_to_repeat_response));
+            showBotResponseUI();
+        }
+        else {
+            hideBotResponseUI();
+        }
+        stateMachine.setState(StateMachine.State.IDLE);
+    }
+    private void goToStateTalking() {
+        talk.stopTalking();
+        if (((StarsEarthApplication) getApplication()).isNetworkAvailable()) {
+            ((StarsEarthApplication) getApplication()).vibrate(500);
+            hideMainActionUI();
+            setLabel(tvUserInput, getString(R.string.talk_prompt));
+            showUserInputUI();
+            hideBotResponseUI();
+            startListening();
+        }
+        else {
+            ((StarsEarthApplication) getApplication()).showNoInternetDialog(this);
+        }
+        stateMachine.setState(StateMachine.State.TALKING);
+    }
+    private void goToStateTyping() {
+        talk.stopTalking();
+        hideMainActionUI();
+        hideUserInputUI();
+        hideBotResponseUI();
+        showTypingUI();
+        stateMachine.setState(StateMachine.State.TYPING);
+    }
+    private void goToStateInputProcessingTalking(String text) {
+        stateTypingTalking(text);
+        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TALKING);
+    }
+    private void goToStateInputProcessingTyping() {
+        String text = etUserInput.getText().toString();
+        hideTypingUI();
+        stateTypingTalking(text);
+        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TYPING);
+    }
+    private void stateTypingTalking(String text) {
+        hideMainActionUI();
+        setLabel(tvUserInput, text);
+        showUserInputUI();
+        setLabel(tvBotResponse, getString(R.string.please_wait));
+        sayText(talk, getString(R.string.please_wait));
+        setLabel(tvAdditionalInstructions, getString(R.string.long_press_to_cancel));
+        showBotResponseUI();
+        apiAi = new ApiAi(this, this);
+        apiAi.send(text);
+    }
+    private void goToStateMainAction() {
+        Intent intent = new Intent(this, TypingActivity.class);
+        startActivity(intent);
+    }
+    private void goToStateViewingBotQuestions() {
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+
+
+    /******************************
+
+     All UI modifications
+
+     *******************************/
+    private LinearLayout getLlMainActionUI() { return llMainAction; }
+    private TextView getUserInputUI() {
+        return tvUserInput;
+    }
+    private TextView getBotResponseUI() {
+        return tvBotResponse;
+    }
+    private TextView getAdditionalInstructionsUI() {
+        return tvAdditionalInstructions;
+    }
+    private LinearLayout getTypingView() {
+        return llTypingView;
+    }
+    private void showUI(View item) {
+        if (item != null && item instanceof View) {
+            View mItem = (View) item;
+            mItem.setVisibility(View.VISIBLE);
         }
     }
+    private void hideUI(View item) {
+        if (item != null && item instanceof View) {
+            View mItem = (View) item;
+            mItem.setVisibility(View.GONE);
+        }
+    }
+    private void showMainActionUI() {
+        LinearLayout ll = getLlMainActionUI();
+        if (ll != null) showUI(ll);
+    }
+    private void hideMainActionUI() {
+        LinearLayout ll = getLlMainActionUI();
+        if (ll != null) hideUI(ll);
+    }
+    private void showUserInputUI() {
+        //TextView tv = getUserInputUI();
+        //if (tv != null) showUI(tv);
+    }
+    private void hideUserInputUI() {
+        TextView tv = getUserInputUI();
+        if (tv != null) hideUI(tv);
+    }
+    private void showBotResponseUI() {
+        TextView tvBot = getBotResponseUI();
+        TextView tvAdInst = getAdditionalInstructionsUI();
+
+        if (tvBot != null) {
+            showUI(tvBot);
+            if (!tvBot.getText().toString().isEmpty()) {
+                tvAdInst.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+    private void hideBotResponseUI() {
+        TextView tvBot = getBotResponseUI();
+        TextView tvAdInst = getAdditionalInstructionsUI();
+
+        if (tvBot != null) tvBot.setVisibility(View.GONE);
+        if (tvAdInst != null) tvAdInst.setVisibility(View.GONE);
+    }
+    private void showTypingUI() {
+        LinearLayout view = getTypingView();
+        if (view != null) view.setVisibility(View.VISIBLE);
+    }
+    private void hideTypingUI() {
+        LinearLayout view = getTypingView();
+        if (view != null) view.setVisibility(View.GONE);
+    }
+
+
+
+
+
+    /****************************
+
+
+     Set user/bot input
+
+     *****************************/
+    private void setLabel(View item, String text) {
+        if (text != null && !text.isEmpty()) {
+            if (item instanceof TextView) {
+                TextView mItem = (TextView) item;
+                mItem.setText(text);
+            }
+        }
+    }
+    private void sayText(Talk mTalk, String text) {
+        if (text != null && !text.isEmpty() &&
+                mTalk != null && mTalk instanceof Talk) {
+            mTalk.playAudio(text);
+        }
+    }
+
 
 
 
@@ -174,7 +329,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
             //Set the state machine
             stateMachine.setCurrentUserInput(tvUserInput.getText().toString());
             stateMachine.setCurrentBotTextResponse(text);
-            sayBotResponse(text);
+            sayText(talk, text);
             goToStateIdle();
         }
         apiAi = null;
@@ -201,157 +356,19 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
     }
 
 
-    /************************
-     *
-     * State Machine
-     *
-     ************************/
-    private void goToStateIdle() {
-        String userInput = stateMachine.getCurrentUserInput();
-        String botResponse = stateMachine.getCurrentBotTextResponse();
-        if (userInput != null && !userInput.isEmpty()) {
-            tvUserInput.setText(userInput);
-            showUserInputUI();
-        }
-        else {
-            tvUserInput.setText(getString(R.string.tap_screen_to_talk));
-            showUserInputUI();
-        }
-
-        if (botResponse != null && !botResponse.isEmpty()) {
-            tvBotResponse.setText(botResponse);
-            tvAdditionalInstructions.setText(R.string.long_press_to_repeat_response);
-            showBotResponseUI();
-        }
-        else {
-            hideBotResponseUI();
-        }
-        stateMachine.setState(StateMachine.State.IDLE);
-    }
-    private void goToStateTalking() {
-        talk.stopTalking();
-        if (((StarsEarthApplication) getApplication()).isNetworkAvailable()) {
-            ((StarsEarthApplication) getApplication()).vibrate(500);
-            startListening();
-        }
-        else {
-            ((StarsEarthApplication) getApplication()).showNoInternetDialog(this);
-        }
-        stateMachine.setState(StateMachine.State.TALKING);
-    }
-    private void goToStateTyping() {
-        talk.stopTalking();
-        hideUserInputUI();
-        hideBotResponseUI();
-        showTypingUI();
-        stateMachine.setState(StateMachine.State.TYPING);
-    }
-    private void goToStateInputProcessingTalking(String text) {
-        stateTypingTalking(text);
-        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TALKING);
-    }
-    private void goToStateInputProcessingTyping() {
-        String text = etUserInput.getText().toString();
-        hideTypingUI();
-        stateTypingTalking(text);
-        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TYPING);
-    }
-    private void stateTypingTalking(String text) {
-        setUserInput(text);
-        showUserInputUI();
-        setBotResponse(getString(R.string.please_wait));
-        sayBotResponse(getString(R.string.please_wait));
-        setAdditionalInstructions(getString(R.string.long_press_to_cancel));
-        showBotResponseUI();
-        apiAi = new ApiAi(this, this);
-        apiAi.send(text);
-    }
-    private void goToStateViewingQuickReplies() {
-
-    }
 
 
 
-
-
-
-    /****************************
-
-
-            Set user/bot input
-
-     *****************************/
-    private void setUserInput(String text) {
-        if (text != null && !text.isEmpty()) {
-            tvUserInput.setText(text);
-        }
-    }
-    private void setBotResponse(String text) {
-        if (text != null && !text.isEmpty()) {
-            tvBotResponse.setText(text);
-        }
-    }
-    private void setAdditionalInstructions(String text) {
-        if (text != null & !text.isEmpty()) {
-            tvAdditionalInstructions.setText(text);
-        }
-    }
-    private void sayBotResponse(String text) {
-        if (text != null && !text.isEmpty()) {
-            talk.playAudio(text);
-        }
-    }
-
-
-    /*
-
-           All UI modifications
-
-     */
-
-    private void showUserInputUI() {
-        tvUserInput.setVisibility(View.VISIBLE);
-    }
-    private void hideUserInputUI() {
-        tvUserInput.setVisibility(View.GONE);
-    }
-    private void showBotResponseUI() {
-        tvBotResponse.setVisibility(View.VISIBLE);
-        if (!tvBotResponse.getText().toString().isEmpty()) {
-            tvAdditionalInstructions.setVisibility(View.VISIBLE);
-        }
-    }
-    private void hideBotResponseUI() {
-        tvBotResponse.setVisibility(View.GONE);
-        tvAdditionalInstructions.setVisibility(View.GONE);
-    }
-    private void showTypingUI() {
-        llTypingView.setVisibility(View.VISIBLE);
-    }
-    private void hideTypingUI() {
-        llTypingView.setVisibility(View.GONE);
-    }
 
 
     /**********************
-     * Start listening user actions
+     * Listening: start + cancel
+     * Typing: Cancel
      *
      *******************/
     private void startListening() {
-        tvUserInput.setText(R.string.talk_prompt);
-        showUserInputUI();
-        hideBotResponseUI();
         talk.startListening();
     }
-
-
-
-
-
-    /***********************
-     * Stop listening and stop typing user actions
-     *
-     */
     private void cancelListening() {
         talk.cancelListening();
     }
@@ -422,7 +439,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         }
         if (tvBotResponse.getText().toString() != null && !tvBotResponse.getText().toString().isEmpty()) {
             talk.stopTalking();
-            sayBotResponse(tvBotResponse.getText().toString());
+            sayText(talk, tvBotResponse.getText().toString());
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.CHARACTER, Integer.toString(tvBotResponse.getText().toString().length()));
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");
@@ -430,11 +447,11 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         }
         else {
             //Vibration when there is nothing to respond
-            ((StarsEarthApplication) getApplication()).vibrate(500);
+         /*   ((StarsEarthApplication) getApplication()).vibrate(500);
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.CHARACTER, "0");
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);    */
         }
     }
 
@@ -452,7 +469,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         }
 
         if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-            onBottomToTopFling();
+            //onBottomToTopFling();
             return true;
         }
         else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
@@ -473,7 +490,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
      *
      */
     private void onRightToLeft() {
-
+        goToStateMainAction();
     }
     private void onLeftToRight() {
 

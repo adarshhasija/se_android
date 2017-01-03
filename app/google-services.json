@@ -19,7 +19,42 @@
           "client_type": 3
         }
       ],
-      "api_key": [{ "current_key": "" }],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQcoAuwEbU_RsV3064XvKwpvD-xvF8RCM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215757859591:android:e2a6283c67846cb4",
+        "android_client_info": {
+          "package_name": "com.starsearth.one"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215757859591-jl5okctgo7v9ektqvb7ttev8g76gatbg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQcoAuwEbU_RsV3064XvKwpvD-xvF8RCM"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1

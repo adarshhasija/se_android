@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StarsEarth</string>
+    <string name="app_name">StarsEarth Typing Tutor</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,7 +9,8 @@
     <string name="message_questions_feedback">You can share you questions/feedback via our Google Play Store page. Would you like to do this?</string>
     <string name="talk_by_typing">Talk by typing</string>
 
-    <string name="swipe_right_action">Swipe left to start learning typing\n*------------------------|</string>
+    <string name="swipe_left_action">Tap button or swipe left\nTo start learning typing\n*------------------------|</string>
+    <string name="tap_here_to_start_activity">TAP HERE TO START ACTIVITY</string>
     <string name="tap_screen_to_talk">Swipe up to ask questions</string>
     <string name="long_press_to_repeat_response">Long press screen to repeat response</string>
     <string name="long_press_to_cancel">Long press to cancel</string>
@@ -24,4 +25,11 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
+    <!-- Typing tutorial -->
+    <string name="prompt_connect_keyboard">Connect a keyboard to type</string>
+    <string name="press_f1_to_start">Press F1 to enable keypad reading mode.\nF1 is the second button on the top left of the keyboard</string>
+    <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
+    <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
 </resources>
