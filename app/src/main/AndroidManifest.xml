@@ -12,7 +12,7 @@
     <application
         android:name=".application.StarsEarthApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/typing"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -23,22 +23,25 @@
         <activity
             android:name=".activity.MainTalkActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".activity.ListActivity" />
-        <activity android:name=".activity.TypingActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:configChanges="keyboard|keyboardHidden"/>
+        <activity
+            android:name=".activity.TypingActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

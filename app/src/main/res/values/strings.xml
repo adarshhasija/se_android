@@ -28,8 +28,15 @@
 
 
     <!-- Typing tutorial -->
-    <string name="prompt_connect_keyboard">Connect a keyboard to type</string>
-    <string name="press_f1_to_start">Press F1 to enable keypad reading mode.\nF1 is the second button on the top left of the keyboard</string>
+    <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
+    <string name="keyboard_removed">Keyboard has been removed</string>
+    <string name="press_any_key">Keyboard detected.\nPress any key to know more about your keyboard</string>
     <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
     <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
+    <string name="continue_to_login_screen">Continue to login screen</string>
+
+    <!-- Login screen -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 </resources>
