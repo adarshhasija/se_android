@@ -1,10 +1,17 @@
 package com.starsearth.one.database;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.starsearth.one.domain.Course;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by faimac on 11/24/16.
@@ -22,6 +29,27 @@ public class Firebase {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         this.databasereference = database.getReference(reference);
         this.storageReference = storage.getReferenceFromUrl(URL_STORAGE);
+    }
+
+    //Returns key of the newly created course
+    public String writeNewCourse(String type, int difficulty, String name, String description) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databasereference.push().getKey();
+        Course course = new Course(key, type, difficulty, name, description, user.getUid());
+        Map<String, Object> courseValues = course.toMap();
+        courseValues.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, courseValues);
+
+        databasereference.updateChildren(childUpdates);
+        return key;
+    }
+
+    public void updateExistingCourse(String key, Course course) {
+        //databasereference.child(key).setValue(course);
+        Map<String, Object> courseValues = course.toMap();
+        courseValues.put("timestamp", ServerValue.TIMESTAMP);
+        databasereference.child(key).setValue(courseValues);
     }
 
     public Query getDatabaseQuery(String indexOn, String item) {

@@ -3,7 +3,6 @@ package com.starsearth.one.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -201,7 +200,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         startActivity(intent);
     }
     private void goToStateViewingBotQuestions() {
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, BotHelpActivity.class);
         startActivityForResult(intent, 1);
     }
 
@@ -336,9 +335,9 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
     }
     @Override
     public void processFireBaseImage(StorageReference storageReference) {
-        Intent intent = new Intent(this, FullscreenActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "image");
+        //Intent intent = new Intent(this, FullscreenActivity.class);
+        //Bundle bundle = new Bundle();
+        //bundle.putString("type", "image");
     }
     @Override
     public void onKeyboardClosed() {

@@ -11,9 +11,9 @@ import com.starsearth.one.R;
 
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity {
+public class BotHelpActivity extends AppCompatActivity {
 
-    public static String LOG_TAG = "ListActivity";
+    public static String LOG_TAG = "BotHelpActivity";
 
     private ListView lvMain;
 
