@@ -24,7 +24,6 @@ public class AddEditCourseActivity extends AppCompatActivity {
     private Course course;
 
     //UI
-    private EditText etCourseName;
     private Spinner spinnerCourseType;
     private Spinner spinnerCourseDifficulty;
     private EditText etCourseDescription;
@@ -35,7 +34,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_course);
 
-        setTitle("Enter/Edit Course Details");
+        setTitle(R.string.enter_edit_course_details);
 
         spinnerCourseType = (Spinner) findViewById(R.id.spinner_course_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -58,7 +57,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
                 int courseDifficulty = spinnerCourseDifficulty.getSelectedItemPosition();
                 String courseDescription = etCourseDescription.getText().toString();
                 if (courseDescription == null || courseDescription.length() < 1) {
-                    Toast.makeText(AddEditCourseActivity.this, "You need to provide a course description", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditCourseActivity.this, R.string.course_description_blank, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -94,7 +93,6 @@ public class AddEditCourseActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             course = extras.getParcelable("course");
-            etCourseName.setText(course.getName());
             etCourseDescription.setText(course.getDescription());
             UID = course.getUid();
         }

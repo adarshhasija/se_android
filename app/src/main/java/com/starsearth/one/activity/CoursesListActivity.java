@@ -3,6 +3,7 @@ package com.starsearth.one.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 public class CoursesListActivity extends AppCompatActivity {
 
+    private String REFERENCE = "courses";
 
     private ListView listView;
 
@@ -98,10 +100,11 @@ public class CoursesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_courses_list);
 
-        courseList = new ArrayList<Course>();
+        courseList = new ArrayList<>();
 
-        setTitle("Courses List");
+        setTitle(R.string.courses_list);
         listView = (ListView) findViewById(R.id.listView);
+        registerForContextMenu(listView);
         Button button = (Button) findViewById(R.id.btn_add_course);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,8 +126,8 @@ public class CoursesListActivity extends AppCompatActivity {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("courses");
-        Query query = mDatabase.child("courses");
+        mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
+        Query query = mDatabase.child(REFERENCE);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,7 +145,6 @@ public class CoursesListActivity extends AppCompatActivity {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("courses");
         mDatabase.addChildEventListener(listener);
 
     }
@@ -151,6 +153,19 @@ public class CoursesListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onStop();
         mDatabase.removeEventListener(listener);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(R.string.delete);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+
+        return super.onContextItemSelected(item);
     }
 
     @Override

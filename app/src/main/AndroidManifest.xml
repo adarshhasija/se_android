@@ -41,7 +41,9 @@
         <activity android:name=".activity.CoursesListActivity" />
         <activity android:name=".activity.AddEditCourseActivity" />
         <activity android:name=".activity.LessonsListActivity" />
-        <activity android:name=".activity.AddEditLessonActivity"></activity>
+        <activity android:name=".activity.AddEditLessonActivity" />
+        <activity android:name=".activity.TopicsListActivity" />
+        <activity android:name=".activity.AddEditTopicActivity"></activity>
     </application>
 
 </manifest>
