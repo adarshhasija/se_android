@@ -12,17 +12,17 @@
     tools:context="com.starsearth.one.activity.AddEditTopicActivity">
 
     <EditText
-        android:id="@+id/et_topic_name"
+        android:id="@+id/et_topic_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/topic_name"
         android:maxLines="1" />
 
     <EditText
-        android:id="@+id/et_topic_content"
+        android:id="@+id/et_topic_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/topic_content" />
+        android:hint="@string/topic_description" />
 
     <Button
         android:id="@+id/btn_done"

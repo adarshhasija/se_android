@@ -9,6 +9,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.starsearth.one.domain.Course;
+import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Topic;
 
@@ -77,10 +78,10 @@ public class Firebase {
         databasereference.child(key).setValue(values);
     }
 
-    public String writeNewTopic(int index, String name, String content, String parent) {
+    public String writeNewTopic(int index, String name, String description, String parent) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databasereference.push().getKey();
-        Topic topic = new Topic(key, name, content, index, user.getUid(), parent);
+        Topic topic = new Topic(key, name, description, index, user.getUid(), parent);
         Map<String, Object> topicValues = topic.toMap();
         topicValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -93,6 +94,27 @@ public class Firebase {
     public void updateExistingTopic(String key, Topic topic) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = topic.toMap();
+        values.put("updatedBy", user.getUid());
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        databasereference.child(key).setValue(values);
+    }
+
+    public String writeNewExercise(int index, String title, String description, String parent) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databasereference.push().getKey();
+        Exercise exercise = new Exercise(key, title, description, index, user.getUid(), parent);
+        Map<String, Object> topicValues = exercise.toMap();
+        topicValues.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, topicValues);
+
+        databasereference.updateChildren(childUpdates);
+        return key;
+    }
+
+    public void updateExistingExercise(String key, Exercise exercise) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Map<String, Object> values = exercise.toMap();
         values.put("updatedBy", user.getUid());
         values.put("timestamp", ServerValue.TIMESTAMP);
         databasereference.child(key).setValue(values);

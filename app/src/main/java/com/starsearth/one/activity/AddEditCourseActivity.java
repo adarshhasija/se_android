@@ -62,27 +62,27 @@ public class AddEditCourseActivity extends AppCompatActivity {
                 }
 
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
-                String courseName;
+                String courseTitle;
                 String courseDifficultyString = "Basic";
                 if (courseDifficulty == 0) { courseDifficultyString = "Basic"; }
-                courseName = courseDifficultyString + " " + courseType;
+                courseTitle = courseDifficultyString + " " + courseType;
                 if (UID != null) {
                     course.setType(courseType);
                     course.setDifficulty(courseDifficulty);
-                    course.setName(courseName);
+                    course.setTitle(courseTitle);
                     course.setDescription(courseDescription);
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     course.setUpdatedBy(currentUser.getUid());
                     firebase.updateExistingCourse(UID, course);
                 }
                 else {
-                    UID = firebase.writeNewCourse(courseType, courseDifficulty, courseName, courseDescription);
+                    UID = firebase.writeNewCourse(courseType, courseDifficulty, courseTitle, courseDescription);
                 }
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("uid", UID);
-                bundle.putString("name", courseName);
+                bundle.putString("name", courseTitle);
                 bundle.putString("description", courseDescription);
                 intent.putExtras(bundle);
                 setResult(RESULT_OK, intent);

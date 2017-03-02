@@ -1,6 +1,8 @@
 package com.starsearth.one.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -95,6 +97,24 @@ public class CoursesListActivity extends AppCompatActivity {
         }
     };
 
+    private void deleteItem(final Course deleteCourse) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_course)
+                .setMessage(R.string.delete_course_confirm_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabase.child(deleteCourse.getUid()).removeValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +139,7 @@ public class CoursesListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Course course = adapter.getItem(position);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("course", course);
+                bundle.putParcelable("parent", course);
                 Intent intent = new Intent(CoursesListActivity.this, LessonsListActivity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, position);
@@ -158,12 +178,31 @@ public class CoursesListActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(R.string.delete);
+        menu.add(0, 0, 0, R.string.edit);
+        menu.add(0, 1, 1, R.string.delete);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
 
+        Intent intent;
+        Bundle bundle;
+
+        switch (item.getItemId()) {
+            case 0:
+                intent = new Intent(this, AddEditCourseActivity.class);
+                bundle = new Bundle();
+                bundle.putParcelable("course", courseList.get(index));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, index);
+                break;
+            case 1:
+                deleteItem(courseList.get(index));
+                break;
+            default: break;
+        }
 
         return super.onContextItemSelected(item);
     }

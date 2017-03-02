@@ -27,7 +27,7 @@ public class AddEditLessonActivity extends AppCompatActivity {
 
     //UI
     private Spinner spinnerLessonNumber;
-    private EditText etLessonName;
+    private EditText etLessonTitle;
     private Button btnDone;
 
     @Override
@@ -59,34 +59,34 @@ public class AddEditLessonActivity extends AppCompatActivity {
             spinnerLessonNumber.setSelection(spinnerLessonNumber.getCount() - 1);
         }
 
-        etLessonName = (EditText) findViewById(R.id.et_lesson_name);
-        if (lesson != null) { etLessonName.setText(lesson.getName()); }
+        etLessonTitle = (EditText) findViewById(R.id.et_lesson_title);
+        if (lesson != null) { etLessonTitle.setText(lesson.getTitle()); }
         btnDone = (Button) findViewById(R.id.btn_done);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int selectedIndex = spinnerLessonNumber.getSelectedItemPosition();
-                String lessonName = etLessonName.getText().toString();
-                if (lessonName == null || lessonName.length() < 1) {
+                String lessonTitle = etLessonTitle.getText().toString();
+                if (lessonTitle == null || lessonTitle.length() < 1) {
                     Toast.makeText(AddEditLessonActivity.this, R.string.lesson_name_blank, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
                 if (UID != null) {
-                    lesson.setName(lessonName);
+                    lesson.setTitle(lessonTitle);
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     lesson.setUpdatedBy(currentUser.getUid());
                     firebase.updateExistingLesson(UID, lesson);
                 }
                 else {
-                    UID = firebase.writeNewLesson(selectedIndex, lessonName, parentId);
+                    UID = firebase.writeNewLesson(selectedIndex, lessonTitle, parentId);
                 }
 
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("uid", UID);
-                bundle.putString("name", lessonName);
+                bundle.putString("title", lessonTitle);
                 intent.putExtras(bundle);
                 setResult(RESULT_OK, intent);
                 finish();

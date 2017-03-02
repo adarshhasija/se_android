@@ -31,33 +31,22 @@ import com.starsearth.one.domain.Lesson;
 
 import java.util.ArrayList;
 
-public class LessonsListActivity extends AppCompatActivity {
+public class LessonsListActivity extends ItemListAdminActivity {
 
-    private String REFERENCE_PARENT = "/courses/";
-    private String REFERENCE = "lessons";
-
-    private Course course;
-    private ArrayList<Lesson> lessonList;
-    private DatabaseReference mParentDatabase;
-    private DatabaseReference mDatabase; //Lessons list DB
+    private Course parent;
+    private ArrayList<Lesson> itemList;
     private LessonsAdapter adapter;
-
-    //UI
-    private TextView tvParentName;
-    private TextView tvParentDescription;
-    private ListView listView;
-    private Button btnAddLesson;
 
     private ValueEventListener parentListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            course = null;
-            course = dataSnapshot.getValue(Course.class);
-            String courseKey = dataSnapshot.getKey();
+            parent = null;
+            parent = dataSnapshot.getValue(Course.class);
 
-            if (course != null) {
-                tvParentName.setText(course.getName());
-                tvParentDescription.setText(course.getDescription());
+            if (parent != null) {
+                tvParentLine1.setText(parent.getTitle());
+                tvParentLine2.setText(parent.getDescription());
+                tvParentLine2.setVisibility(View.VISIBLE);
             }
             else {
                 //this means the parent was deleted from somewhere else
@@ -78,8 +67,8 @@ public class LessonsListActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            course.addLesson(lessonKey);
-            mParentDatabase.setValue(course);
+            parent.addLesson(lessonKey);
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 adapter.add(newLesson);
@@ -109,8 +98,8 @@ public class LessonsListActivity extends AppCompatActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Lesson removedLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            course.removeLesson(lessonKey);
-            mParentDatabase.setValue(course);
+            parent.removeLesson(lessonKey);
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 ArrayList<Lesson> list = adapter.getLessonList();
@@ -135,22 +124,39 @@ public class LessonsListActivity extends AppCompatActivity {
         }
     };
 
+    private void deleteItem(final Lesson lesson) {
+        new AlertDialog.Builder(LessonsListActivity.this)
+                .setTitle(R.string.delete_lesson)
+                .setMessage(R.string.delete_lesson_confirm_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabase.child(lesson.getUid()).removeValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lessons_list);
-
-        lessonList = new ArrayList<>();
-
+        //setContentView(R.layout.activity_lessons_list);
         setTitle(R.string.course_details);
-        Bundle bundle = getIntent().getExtras();
-        course = bundle.getParcelable("course");
+        tvListViewHeader.setText(R.string.lessons);
+        btnAddItem.setText(R.string.add_lesson);
+        REFERENCE_PARENT = "/courses/";
+        REFERENCE = "lessons";
 
-        tvParentName = (TextView) findViewById(R.id.tv_parent_name);
-        tvParentName.setText(course.getName());
-        tvParentDescription = (TextView) findViewById(R.id.tv_course_description);
-        tvParentDescription.setText(course.getDescription());
-        listView = (ListView) findViewById(R.id.listView);
+        itemList = new ArrayList<>();
+
+        Bundle bundle = getIntent().getExtras();
+        parent = bundle.getParcelable("parent");
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -162,21 +168,20 @@ public class LessonsListActivity extends AppCompatActivity {
                 startActivityForResult(intent, position);
             }
         });
-        btnAddLesson = (Button) findViewById(R.id.btn_add_lesson);
-        btnAddLesson.setOnClickListener(new View.OnClickListener() {
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LessonsListActivity.this, AddEditLessonActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("totalItems", lessonList.size());
-                bundle.putString("parentId", course.getUid());
+                bundle.putInt("totalItems", itemList.size());
+                bundle.putString("parentId", parent.getUid());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, -1);
             }
         });
-        listView.setEmptyView(btnAddLesson);
+        listView.setEmptyView(btnAddItem);
 
-        mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + course.getUid());
+        mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         Query query = mDatabase.child(REFERENCE);
@@ -185,9 +190,9 @@ public class LessonsListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     Lesson lesson = snapshot.getValue(Lesson.class);
-                    lessonList.add(lesson);
+                    itemList.add(lesson);
                 }
-                adapter = new LessonsAdapter(getApplicationContext(), 0, lessonList);
+                adapter = new LessonsAdapter(getApplicationContext(), 0, itemList);
                 listView.setAdapter(adapter);
             }
 
@@ -209,10 +214,38 @@ public class LessonsListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_lessons_list, menu);
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
 
-        return super.onCreateOptionsMenu(menu);
+        Intent intent;
+        Bundle bundle;
+
+        switch (item.getItemId()) {
+            case 0:
+                intent = new Intent(this, AddEditLessonActivity.class);
+                bundle = new Bundle();
+                bundle.putParcelable("lesson", itemList.get(index));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, index);
+                break;
+            case 1:
+                deleteItem(itemList.get(index));
+                break;
+            default: break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setTitle(R.string.edit_course);
+        menu.getItem(1).setTitle(R.string.delete_course);
+        menu.getItem(2).setTitle(R.string.add_lesson);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -221,14 +254,14 @@ public class LessonsListActivity extends AppCompatActivity {
         Bundle bundle;
 
         switch (item.getItemId()) {
-            case R.id.edit_course:
+            case R.id.edit_parent:
                 intent = new Intent(LessonsListActivity.this, AddEditCourseActivity.class);
                 bundle = new Bundle();
-                bundle.putParcelable("course", course);
+                bundle.putParcelable("course", parent);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 100);
                 return true;
-            case R.id.delete_course:
+            case R.id.delete_parent:
                 new AlertDialog.Builder(LessonsListActivity.this)
                         .setTitle(R.string.delete_course)
                         .setMessage(R.string.delete_course_confirm_message)
@@ -247,11 +280,11 @@ public class LessonsListActivity extends AppCompatActivity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 return true;
-            case R.id.add_lesson:
+            case R.id.add_item:
                 intent = new Intent(this, AddEditLessonActivity.class);
                 bundle = new Bundle();
-                bundle.putInt("totalItems", lessonList.size());
-                bundle.putString("parentId", course.getUid());
+                bundle.putInt("totalItems", itemList.size());
+                bundle.putString("parentId", parent.getUid());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, -1);
                 return true;
@@ -259,9 +292,5 @@ public class LessonsListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void goToAddEditLessonActivity() {
-
     }
 }

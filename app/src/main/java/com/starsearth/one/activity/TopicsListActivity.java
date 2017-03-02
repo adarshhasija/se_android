@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,32 +30,22 @@ import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TopicsListActivity extends AppCompatActivity {
+public class TopicsListActivity extends ItemListAdminActivity {
 
-    private String REFERENCE_PARENT = "/lessons/";
-    private String REFERENCE = "topics";
-
-    private Lesson lesson;
-    private ArrayList<Topic> topicList;
-    private DatabaseReference mParentDatabase;
-    private DatabaseReference mDatabase; //Lessons list DB
+    private Lesson parent;
+    private ArrayList<Topic> itemList;
     private TopicsAdapter adapter;
-
-    //UI
-    private TextView tvParentName;
-    private ListView listView;
-    private Button btnAddTopic;
 
     private ValueEventListener parentListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            lesson = null;
-            lesson = dataSnapshot.getValue(Lesson.class);
-            String lessonKey = dataSnapshot.getKey();
+            parent = null;
+            parent = dataSnapshot.getValue(Lesson.class);
 
-            if (lesson != null) {
-                tvParentName.setText(lesson.getName());
+            if (parent != null) {
+                tvParentLine1.setText(parent.getTitle());
             }
             else {
                 //This means the parent was deleted from somewhere else
@@ -75,8 +66,8 @@ public class TopicsListActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            lesson.addTopic(topicKey);
-            mParentDatabase.setValue(lesson);
+            parent.addTopic(topicKey);
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 adapter.add(newTopic);
@@ -108,8 +99,8 @@ public class TopicsListActivity extends AppCompatActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Topic removedTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            lesson.removeTopic(topicKey);
-            mParentDatabase.setValue(lesson);
+            parent.removeTopic(topicKey);
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 ArrayList<Topic> list = adapter.getTopicList();
@@ -135,53 +126,83 @@ public class TopicsListActivity extends AppCompatActivity {
         }
     };
 
+    private void deleteItem(final Topic topic) {
+        new AlertDialog.Builder(TopicsListActivity.this)
+                .setTitle(R.string.delete_topic)
+                .setMessage(R.string.delete_topic_confirm_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDatabase.child(topic.getUid()).removeValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topics_list);
-
-        topicList = new ArrayList<>();
-
+        //setContentView(R.layout.activity_topics_list);
         setTitle(R.string.lesson_details);
-        Bundle bundle = getIntent().getExtras();
-        lesson = bundle.getParcelable("lesson");
+        tvListViewHeader.setText(R.string.topics);
+        btnAddItem.setText(R.string.add_topic);
+        REFERENCE_PARENT = "/lessons/";
+        REFERENCE = "topics";
 
-        tvParentName = (TextView) findViewById(R.id.tv_parent_name);
-        tvParentName.setText(lesson.getName());
-        listView = (ListView) findViewById(R.id.listView);
+        itemList = new ArrayList<>();
+
+        Bundle bundle = getIntent().getExtras();
+        parent = bundle.getParcelable("parent");
+
+        if (parent != null) {
+            mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
+            mParentDatabase.addValueEventListener(parentListener);
+
+            tvParentLine1.setText(parent.getTitle());
+            llParent.setVisibility(View.VISIBLE);
+        }
+        else {
+            llParent.setVisibility(View.GONE);
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
-        btnAddTopic = (Button) findViewById(R.id.btn_add_topic);
-        btnAddTopic.setOnClickListener(new View.OnClickListener() {
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TopicsListActivity.this, AddEditTopicActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("totalItems", topicList.size());
-                bundle.putString("parentId", lesson.getUid());
+                bundle.putInt("totalItems", itemList.size());
+                bundle.putString("parentId", parent.getUid());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, -1);
+
             }
         });
-        listView.setEmptyView(btnAddTopic);
-
-        mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + lesson.getUid());
+        listView.setEmptyView(btnAddItem);
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         Query query = mDatabase.child(REFERENCE);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Topic> topicList = new ArrayList<>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     Topic topic = snapshot.getValue(Topic.class);
                     topicList.add(topic);
                 }
                 adapter = new TopicsAdapter(getApplicationContext(), 0, topicList);
                 listView.setAdapter(adapter);
+                listView.setTag(topicList);
             }
 
             @Override
@@ -190,7 +211,7 @@ public class TopicsListActivity extends AppCompatActivity {
             }
         });
 
-        mParentDatabase.addValueEventListener(parentListener);
+
         mDatabase.addChildEventListener(listener);
     }
 
@@ -202,10 +223,37 @@ public class TopicsListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_topics_list, menu);
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
 
-        return super.onCreateOptionsMenu(menu);
+        Intent intent;
+        Bundle bundle;
+
+        switch (item.getItemId()) {
+            case 0:
+                intent = new Intent(this, AddEditTopicActivity.class);
+                bundle = new Bundle();
+                bundle.putParcelable("topic", itemList.get(index));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, index);
+                break;
+            case 1:
+                deleteItem(itemList.get(index));
+                break;
+            default: break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setTitle(R.string.edit_lesson);
+        menu.getItem(1).setTitle(R.string.delete_lesson);
+        menu.getItem(2).setTitle(R.string.add_topic);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -214,14 +262,14 @@ public class TopicsListActivity extends AppCompatActivity {
         Bundle bundle;
 
         switch (item.getItemId()) {
-            case R.id.edit_lesson:
+            case R.id.edit_parent:
                 intent = new Intent(TopicsListActivity.this, AddEditLessonActivity.class);
                 bundle = new Bundle();
-                bundle.putParcelable("lesson", lesson);
+                bundle.putParcelable("lesson", parent);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 100);
                 return true;
-            case R.id.delete_lesson:
+            case R.id.delete_parent:
                 new AlertDialog.Builder(TopicsListActivity.this)
                         .setTitle(R.string.delete_lesson)
                         .setMessage(R.string.delete_lesson_confirm_message)
@@ -240,11 +288,11 @@ public class TopicsListActivity extends AppCompatActivity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 return true;
-            case R.id.add_topic:
+            case R.id.add_item:
                 intent = new Intent(TopicsListActivity.this, AddEditTopicActivity.class);
                 bundle = new Bundle();
-                bundle.putInt("totalItems", topicList.size());
-                bundle.putString("parentId", lesson.getUid());
+                bundle.putInt("totalItems", itemList.size());
+                bundle.putString("parentId", parent.getUid());
                 intent.putExtras(bundle);
                 startActivityForResult(intent, -1);
                 return true;
