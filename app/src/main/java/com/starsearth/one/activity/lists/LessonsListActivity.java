@@ -78,7 +78,7 @@ public class LessonsListActivity extends ItemListAdminActivity {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
             Map<String, SENestedObject> topics = newLesson.topics;
-            parent.getLessons().get(lessonKey).children = topics;
+            parent.lessons.get(lessonKey).children = topics;
             mParentDatabase.setValue(parent);
 
             if (adapter != null) {
@@ -124,13 +124,15 @@ public class LessonsListActivity extends ItemListAdminActivity {
         }
     };
 
-    private void deleteItem(final Lesson lesson) {
+    private void deleteItem(final Lesson deleteLesson) {
         new AlertDialog.Builder(LessonsListActivity.this)
                 .setTitle(R.string.delete_lesson)
                 .setMessage(R.string.delete_lesson_confirm_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mDatabase.child(lesson.getUid()).removeValue();
+                        Firebase firebase = new Firebase(REFERENCE);
+                        firebase.removeLesson(deleteLesson);
+                        //mDatabase.child(lesson.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -159,6 +161,17 @@ public class LessonsListActivity extends ItemListAdminActivity {
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
 
+        if (parent != null) {
+            mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
+            mParentDatabase.addValueEventListener(parentListener);
+
+            tvParentLine1.setText(parent.getTitle());
+            llParent.setVisibility(View.VISIBLE);
+        }
+        else {
+            llParent.setVisibility(View.GONE);
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -182,8 +195,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
             }
         });
         listView.setEmptyView(btnAddItem);
-
-        mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());

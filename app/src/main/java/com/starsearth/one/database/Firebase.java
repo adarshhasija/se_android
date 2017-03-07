@@ -45,7 +45,6 @@ public class Firebase {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             SENestedObject value = (SENestedObject) pair.getValue();
-            //Map<String, Map<String, SENestedObject>> children = value.children;
             Map<String, SENestedObject> children = value.children;
             if (children.size() > 0) {
                 removeChildren(children.entrySet().iterator());
@@ -82,7 +81,7 @@ public class Firebase {
 
     public void removeCourse(Course course) {
         if (course == null) return;
-        Map<String, SENestedObject> lessons = course.getLessons();
+        Map<String, SENestedObject> lessons = course.lessons;
         Iterator it = lessons.entrySet().iterator();
         removeChildren(it);
         databaseReference.child(course.getUid()).removeValue();
@@ -110,7 +109,11 @@ public class Firebase {
     }
 
     public void removeLesson(Lesson lesson) {
-
+        if (lesson == null) return;
+        Map<String, SENestedObject> topics = lesson.topics;
+        Iterator it = topics.entrySet().iterator();
+        removeChildren(it);
+        databaseReference.child(lesson.getUid()).removeValue();
     }
 
     public String writeNewTopic(int index, String name, String description, String parent) {
@@ -134,15 +137,12 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public void deleteTopic(Topic topic) {
-        Iterator it = topic.getExercises().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Firebase firebase = new Firebase(pair.getKey().toString());
-            //firebase.deleteExercise();
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-        databaseReference.removeValue();
+    public void removeTopic(Topic topic) {
+        if (topic == null) return;
+        Map<String, SENestedObject> exercises = topic.exercises;
+        Iterator it = exercises.entrySet().iterator();
+        removeChildren(it);
+        databaseReference.child(topic.getUid()).removeValue();
     }
 
     public String writeNewExercise(int index, String title, String description, String parent) {
@@ -166,13 +166,12 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public void deleteExercise(Exercise exercise) {
-        Iterator it = exercise.getQuestions().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
-        }
+    public void removeExercise(Exercise exercise) {
+        if (exercise == null) return;
+        Map<String, SENestedObject> exercises = exercise.questions;
+        Iterator it = exercises.entrySet().iterator();
+        removeChildren(it);
+        databaseReference.child(exercise.getUid()).removeValue();
     }
 
     public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight, String parent) {
@@ -194,6 +193,11 @@ public class Firebase {
         values.put("updatedBy", user.getUid());
         values.put("timestamp", ServerValue.TIMESTAMP);
         databaseReference.child(key).setValue(values);
+    }
+
+    public void removeQuestion(Question question) {
+        if (question == null) return;
+        databaseReference.child(question.getUid()).removeValue();
     }
 
 

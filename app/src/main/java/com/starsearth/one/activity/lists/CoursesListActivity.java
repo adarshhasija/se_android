@@ -26,6 +26,7 @@ import com.starsearth.one.activity.forms.AddEditCourseActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.adapter.CoursesAdapter;
 import com.starsearth.one.adapter.LessonsAdapter;
+import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Course;
 
 import java.util.ArrayList;
@@ -102,7 +103,9 @@ public class CoursesListActivity extends ItemListAdminActivity {
                 .setMessage(R.string.delete_course_confirm_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mDatabase.child(deleteCourse.getUid()).removeValue();
+                        Firebase firebase = new Firebase(REFERENCE);
+                        firebase.removeCourse(deleteCourse);
+                        //mDatabase.child(deleteCourse.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -160,7 +163,7 @@ public class CoursesListActivity extends ItemListAdminActivity {
 
     @Override
     protected void onDestroy() {
-        super.onStop();
+        super.onDestroy();
         mDatabase.removeEventListener(listener);
     }
 

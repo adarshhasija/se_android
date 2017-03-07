@@ -33,7 +33,7 @@ public class AddEditExerciseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_exercise);
-        setTitle(R.string.enter_edit_topic_details);
+        setTitle(R.string.enter_edit_exercise_details);
 
         Bundle extras = getIntent().getExtras();
         int totalExercises = 0;

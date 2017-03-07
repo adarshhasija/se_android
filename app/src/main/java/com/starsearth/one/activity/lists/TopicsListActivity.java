@@ -19,11 +19,13 @@ import com.starsearth.one.R;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.activity.forms.AddEditTopicActivity;
 import com.starsearth.one.adapter.TopicsAdapter;
+import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class TopicsListActivity extends ItemListAdminActivity {
 
@@ -61,7 +63,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
             String topicKey = dataSnapshot.getKey();
             SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
             parent.addTopic(nestedObject);
-            //parent.addTopic(new SENestedObject(topicKey));
             mParentDatabase.setValue(parent);
 
             if (adapter != null) {
@@ -75,6 +76,9 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
+            Map<String, SENestedObject> exercises = newTopic.exercises;
+            parent.topics.get(topicKey).children = exercises;
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 ArrayList<Topic> list = adapter.getTopicList();
@@ -121,13 +125,15 @@ public class TopicsListActivity extends ItemListAdminActivity {
         }
     };
 
-    private void deleteItem(final Topic topic) {
+    private void deleteItem(final Topic deleteTopic) {
         new AlertDialog.Builder(TopicsListActivity.this)
                 .setTitle(R.string.delete_topic)
                 .setMessage(R.string.delete_topic_confirm_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mDatabase.child(topic.getUid()).removeValue();
+                        Firebase firebase = new Firebase(REFERENCE);
+                        firebase.removeTopic(deleteTopic);
+                        //mDatabase.child(topic.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -170,7 +176,12 @@ public class TopicsListActivity extends ItemListAdminActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Topic topic = adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("parent", topic);
+                Intent intent = new Intent(TopicsListActivity.this, ExercisesListActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, position);
             }
         });
         btnAddItem.setOnClickListener(new View.OnClickListener() {
