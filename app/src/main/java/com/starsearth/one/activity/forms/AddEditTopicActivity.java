@@ -1,4 +1,4 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.forms;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,77 +12,75 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
-import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
 
-public class AddEditExerciseActivity extends AppCompatActivity {
+public class AddEditTopicActivity extends AppCompatActivity {
 
-    private String DATABASE_REFERENCE = "exercises";
+    private String DATABASE_REFERENCE = "topics";
     private String UID;
     private String parentId;
-    private Exercise exercise;
+    private Topic topic;
     private int selectedIndex = 0;
 
     //UI
-    private EditText etTitle;
-    private EditText etDescription;
+    private EditText etTopicTitle;
+    private EditText etTopicDescription;
     private Button btnDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_edit_exercise);
+        setContentView(R.layout.activity_add_edit_topic);
         setTitle(R.string.enter_edit_topic_details);
 
         Bundle extras = getIntent().getExtras();
-        int totalExercises = 0;
+        int totalTopics = 0;
         if (extras != null) {
-            totalExercises = extras.getInt("totalItems");
+            totalTopics = extras.getInt("totalItems");
             parentId = extras.getString("parentId");
-            exercise = extras.getParcelable("exercise");
-            if (exercise != null )UID = exercise.getUid();
+            topic = extras.getParcelable("topic");
+            if (topic != null )UID = topic.getUid();
         }
         ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < (totalExercises + 1); i++) {
+        for (int i = 0; i < (totalTopics + 1); i++) {
             list.add(i+1);
         }
         selectedIndex = list.get(list.size()-1) - 1;
 
-        etTitle = (EditText) findViewById(R.id.et_title);
-        etDescription = (EditText) findViewById(R.id.et_description);
-        if (exercise != null) {
-            etTitle.setText(exercise.getTitle());
-            etDescription.setText(exercise.getDescription());
+        etTopicTitle = (EditText) findViewById(R.id.et_topic_title);
+        etTopicDescription = (EditText) findViewById(R.id.et_topic_description);
+        if (topic != null) {
+            etTopicTitle.setText(topic.getTitle());
+            etTopicDescription.setText(topic.getDescription());
         }
-
         btnDone = (Button) findViewById(R.id.btn_done);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String topicTitle = etTitle.getText().toString();
-                String topicDescription = etDescription.getText().toString();
+                String topicTitle = etTopicTitle.getText().toString();
+                String topicDescription = etTopicDescription.getText().toString();
 
                 if (topicTitle == null || topicTitle.length() < 1) {
-                    Toast.makeText(AddEditExerciseActivity.this, R.string.exercise_title_blank, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditTopicActivity.this, R.string.topic_title_blank, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (topicDescription == null || topicDescription.length() < 1) {
-                    Toast.makeText(AddEditExerciseActivity.this, R.string.exercise_description_blank, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditTopicActivity.this, R.string.topic_description_blank, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
                 if (UID != null) {
-                    exercise.setTitle(topicTitle);
-                    exercise.setDescription(topicDescription);
+                    topic.setTitle(topicTitle);
+                    topic.setDescription(topicDescription);
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                    exercise.setUpdatedBy(currentUser.getUid());
-                    firebase.updateExistingExercise(UID, exercise);
+                    topic.setUpdatedBy(currentUser.getUid());
+                    firebase.updateExistingTopic(UID, topic);
                 }
                 else {
-                    UID = firebase.writeNewExercise(selectedIndex, topicTitle, topicDescription, parentId);
+                    UID = firebase.writeNewTopic(selectedIndex, topicTitle, topicDescription, parentId);
                 }
 
                 Intent intent = new Intent();

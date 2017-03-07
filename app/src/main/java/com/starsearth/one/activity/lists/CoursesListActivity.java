@@ -1,4 +1,4 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.lists;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,22 +22,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.forms.AddEditCourseActivity;
+import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.adapter.CoursesAdapter;
-import com.starsearth.one.database.Firebase;
+import com.starsearth.one.adapter.LessonsAdapter;
 import com.starsearth.one.domain.Course;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-public class CoursesListActivity extends AppCompatActivity {
+public class CoursesListActivity extends ItemListAdminActivity {
 
-    private String REFERENCE = "courses";
-
-    private ListView listView;
-
+    private ArrayList<Course> itemList;
     private CoursesAdapter adapter;
-    private DatabaseReference mDatabase;
-    private ArrayList<Course> courseList;
+
 
     private ChildEventListener listener = new ChildEventListener() {
         @Override
@@ -120,25 +117,21 @@ public class CoursesListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_courses_list);
+        //setContentView(R.layout.activity_admin_console);
+        setTitle("");
+        llParent.setVisibility(View.GONE);
+        tvListViewHeader.setText(R.string.courses);
+        btnAddItem.setText(R.string.add_course);
+        REFERENCE_PARENT = null;
+        REFERENCE = "courses";
 
-        courseList = new ArrayList<>();
+        itemList = new ArrayList<>();
+        adapter = new CoursesAdapter(getApplicationContext(), 0, itemList);
+        listView.setAdapter(adapter);
 
-        setTitle(R.string.courses_list);
-        listView = (ListView) findViewById(R.id.listView);
-        registerForContextMenu(listView);
-        Button button = (Button) findViewById(R.id.btn_add_course);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CoursesListActivity.this, AddEditCourseActivity.class);
-                startActivityForResult(intent, -1);
-            }
-        });
-        listView.setEmptyView(button);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Course course = adapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("parent", course);
@@ -147,26 +140,20 @@ public class CoursesListActivity extends AppCompatActivity {
                 startActivityForResult(intent, position);
             }
         });
-
-        mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
-        Query query = mDatabase.child(REFERENCE);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    Course course = snapshot.getValue(Course.class);
-                    courseList.add(course);
-                }
-                adapter = new CoursesAdapter(getApplicationContext(), 0, courseList);
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(CoursesListActivity.this, AddEditCourseActivity.class);
+                Bundle bundle = new Bundle();
+                //bundle.putInt("totalItems", itemList.size());
+                //bundle.putString("parentId", parent.getUid());
+                //intent.putExtras(bundle);
+                startActivityForResult(intent, -1);
             }
         });
+        listView.setEmptyView(btnAddItem);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         mDatabase.addChildEventListener(listener);
 
     }
@@ -175,13 +162,6 @@ public class CoursesListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onStop();
         mDatabase.removeEventListener(listener);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, 0, 0, R.string.edit);
-        menu.add(0, 1, 1, R.string.delete);
     }
 
     @Override
@@ -196,12 +176,12 @@ public class CoursesListActivity extends AppCompatActivity {
             case 0:
                 intent = new Intent(this, AddEditCourseActivity.class);
                 bundle = new Bundle();
-                bundle.putParcelable("course", courseList.get(index));
+                bundle.putParcelable("course", itemList.get(index));
                 intent.putExtras(bundle);
                 startActivityForResult(intent, index);
                 break;
             case 1:
-                deleteItem(courseList.get(index));
+                deleteItem(itemList.get(index));
                 break;
             default: break;
         }
@@ -210,17 +190,20 @@ public class CoursesListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_courses_list, menu);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
+        menu.getItem(2).setTitle(R.string.add_course);
 
-        return super.onCreateOptionsMenu(menu);
+        return super.onPrepareOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.add_course:
+            case R.id.add_item:
                 Intent intent = new Intent(this, AddEditCourseActivity.class);
                 startActivityForResult(intent, -1);
                 return true;

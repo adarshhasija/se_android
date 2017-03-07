@@ -1,37 +1,29 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.lists;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.adapter.LessonsAdapter;
+import com.starsearth.one.activity.forms.AddEditLessonActivity;
+import com.starsearth.one.activity.forms.AddEditTopicActivity;
 import com.starsearth.one.adapter.TopicsAdapter;
-import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TopicsListActivity extends ItemListAdminActivity {
 

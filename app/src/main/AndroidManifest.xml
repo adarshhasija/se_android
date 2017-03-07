@@ -38,15 +38,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CoursesListActivity" />
-        <activity android:name=".activity.AddEditCourseActivity" />
-        <activity android:name=".activity.LessonsListActivity" />
-        <activity android:name=".activity.AddEditLessonActivity" />
-        <activity android:name=".activity.TopicsListActivity" />
-        <activity android:name=".activity.AddEditTopicActivity" />
-        <activity android:name=".activity.AddEditExerciseActivity" />
-        <activity android:name=".activity.ItemListAdminActivity" />
-        <activity android:name=".activity.ExercisesListActivity"></activity>
+        <activity android:name=".activity.lists.CoursesListActivity" />
+        <activity android:name=".activity.forms.AddEditCourseActivity" />
+        <activity android:name=".activity.lists.LessonsListActivity" />
+        <activity android:name=".activity.forms.AddEditLessonActivity" />
+        <activity android:name=".activity.lists.TopicsListActivity" />
+        <activity android:name=".activity.forms.AddEditTopicActivity" />
+        <activity android:name=".activity.forms.AddEditExerciseActivity" />
+        <activity android:name=".activity.lists.ItemListAdminActivity" />
+        <activity android:name=".activity.lists.ExercisesListActivity" />
+        <activity android:name=".activity.AdminConsoleActivity"></activity>
     </application>
 
 </manifest>

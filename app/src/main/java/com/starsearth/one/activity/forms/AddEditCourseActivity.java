@@ -1,4 +1,4 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.forms;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

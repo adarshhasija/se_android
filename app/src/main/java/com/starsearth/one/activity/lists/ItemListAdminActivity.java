@@ -1,4 +1,4 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.lists;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

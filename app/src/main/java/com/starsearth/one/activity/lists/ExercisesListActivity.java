@@ -1,12 +1,10 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.lists;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.starsearth.one.R;
 import com.starsearth.one.adapter.TopicsAdapter;
 import com.starsearth.one.domain.Exercise;
-import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;

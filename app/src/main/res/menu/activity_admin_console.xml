@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/add_course"
-        android:orderInCategory="100"
-        android:title="@string/add_course"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/logout"
         android:orderInCategory="100"
         android:title="@string/logout"

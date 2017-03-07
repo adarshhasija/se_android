@@ -1,30 +1,23 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.lists;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.adapter.CoursesAdapter;
+import com.starsearth.one.activity.forms.AddEditCourseActivity;
+import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.adapter.LessonsAdapter;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Course;
@@ -32,8 +25,6 @@ import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.SENestedObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class LessonsListActivity extends ItemListAdminActivity {
@@ -267,27 +258,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
                                 Firebase firebase = new Firebase(REFERENCE_PARENT);
                                 firebase.removeCourse(parent);
                                 finish();
-                            /*    Iterator it = parent.getLessons().entrySet().iterator();
-                                while (it.hasNext()) {
-                                    Map.Entry pair = (Map.Entry)it.next();
-                                    SENestedObject value = (SENestedObject) pair.getValue();
-                                    if (value.children.size() > 0) {
-                                        Iterator it2 = value.children.entrySet().iterator();
-                                        while (it2.hasNext()) {
-                                            Map.Entry pair2 = (Map.Entry) it2.next();
-                                            SENestedObject value2 = (SENestedObject) pair2.getValue();
-                                            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(value2.type + "/" + value2.uid);
-                                            mRef.removeValue();
-                                        }
-                                        //DatabaseReference mRef2 = FirebaseDatabase.getInstance().getReference(value.uid);
-                                        //mRef2.setValue(null);
-                                    }
-                                    final DatabaseReference mRef3 = FirebaseDatabase.getInstance().getReference(value.type + "/" + value.uid);
-                                    mRef3.removeValue();
-
-                                    it.remove(); // avoids a ConcurrentModificationException
-                                }
-                                mParentDatabase.removeValue();  */
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

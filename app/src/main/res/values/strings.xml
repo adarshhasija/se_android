@@ -43,8 +43,12 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
 
+    <!--Admin console-->
+    <string name="admin">Admin</string>
+    <string name="view_data">View data</string>
+
     <!--Courses list screen -->
-    <string name="courses_list">Courses List</string>
+    <string name="courses">COURSES</string>
     <string name="logout">Logout</string>
     <string name="add_course">Add course</string>
 
