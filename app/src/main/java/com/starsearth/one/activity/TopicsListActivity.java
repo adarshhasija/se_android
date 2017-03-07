@@ -27,6 +27,7 @@ import com.starsearth.one.adapter.LessonsAdapter;
 import com.starsearth.one.adapter.TopicsAdapter;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Lesson;
+import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
@@ -66,7 +67,9 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            parent.addTopic(topicKey);
+            SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
+            parent.addTopic(nestedObject);
+            //parent.addTopic(new SENestedObject(topicKey));
             mParentDatabase.setValue(parent);
 
             if (adapter != null) {
@@ -155,6 +158,8 @@ public class TopicsListActivity extends ItemListAdminActivity {
         REFERENCE = "topics";
 
         itemList = new ArrayList<>();
+        adapter = new TopicsAdapter(getApplicationContext(), 0, itemList);
+        listView.setAdapter(adapter);
 
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
@@ -191,28 +196,8 @@ public class TopicsListActivity extends ItemListAdminActivity {
         listView.setEmptyView(btnAddItem);
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
-        Query query = mDatabase.child(REFERENCE);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Topic> topicList = new ArrayList<>();
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    Topic topic = snapshot.getValue(Topic.class);
-                    topicList.add(topic);
-                }
-                adapter = new TopicsAdapter(getApplicationContext(), 0, topicList);
-                listView.setAdapter(adapter);
-                listView.setTag(topicList);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        mDatabase.addChildEventListener(listener);
+        query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());
+        query.addChildEventListener(listener);
     }
 
     @Override

@@ -23,9 +23,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.adapter.CoursesAdapter;
+import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Course;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CoursesListActivity extends AppCompatActivity {
 

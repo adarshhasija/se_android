@@ -26,10 +26,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.adapter.CoursesAdapter;
 import com.starsearth.one.adapter.LessonsAdapter;
+import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Lesson;
+import com.starsearth.one.domain.SENestedObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class LessonsListActivity extends ItemListAdminActivity {
 
@@ -67,7 +72,8 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            parent.addLesson(lessonKey);
+            //parent.addLesson(newLesson.getTopics());
+            parent.addLesson(new SENestedObject(lessonKey, "lessons"));
             mParentDatabase.setValue(parent);
 
             if (adapter != null) {
@@ -80,6 +86,9 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
+            Map<String, SENestedObject> topics = newLesson.topics;
+            parent.getLessons().get(lessonKey).children = topics;
+            mParentDatabase.setValue(parent);
 
             if (adapter != null) {
                 ArrayList<Lesson> list = adapter.getLessonList();
@@ -153,6 +162,8 @@ public class LessonsListActivity extends ItemListAdminActivity {
         REFERENCE = "lessons";
 
         itemList = new ArrayList<>();
+        adapter = new LessonsAdapter(getApplicationContext(), 0, itemList);
+        listView.setAdapter(adapter);
 
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
@@ -184,26 +195,10 @@ public class LessonsListActivity extends ItemListAdminActivity {
         mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
-        Query query = mDatabase.child(REFERENCE);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    Lesson lesson = snapshot.getValue(Lesson.class);
-                    itemList.add(lesson);
-                }
-                adapter = new LessonsAdapter(getApplicationContext(), 0, itemList);
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());
+        query.addChildEventListener(listener);
         mParentDatabase.addValueEventListener(parentListener);
-        mDatabase.addChildEventListener(listener);
+
     }
 
     @Override
@@ -268,8 +263,31 @@ public class LessonsListActivity extends ItemListAdminActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mParentDatabase.removeEventListener(parentListener);
-                                mParentDatabase.removeValue();
+                                mDatabase.removeEventListener(listener);
+                                Firebase firebase = new Firebase(REFERENCE_PARENT);
+                                firebase.removeCourse(parent);
                                 finish();
+                            /*    Iterator it = parent.getLessons().entrySet().iterator();
+                                while (it.hasNext()) {
+                                    Map.Entry pair = (Map.Entry)it.next();
+                                    SENestedObject value = (SENestedObject) pair.getValue();
+                                    if (value.children.size() > 0) {
+                                        Iterator it2 = value.children.entrySet().iterator();
+                                        while (it2.hasNext()) {
+                                            Map.Entry pair2 = (Map.Entry) it2.next();
+                                            SENestedObject value2 = (SENestedObject) pair2.getValue();
+                                            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(value2.type + "/" + value2.uid);
+                                            mRef.removeValue();
+                                        }
+                                        //DatabaseReference mRef2 = FirebaseDatabase.getInstance().getReference(value.uid);
+                                        //mRef2.setValue(null);
+                                    }
+                                    final DatabaseReference mRef3 = FirebaseDatabase.getInstance().getReference(value.type + "/" + value.uid);
+                                    mRef3.removeValue();
+
+                                    it.remove(); // avoids a ConcurrentModificationException
+                                }
+                                mParentDatabase.removeValue();  */
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

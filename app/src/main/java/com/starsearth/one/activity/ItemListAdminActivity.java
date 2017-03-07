@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 
 public class ItemListAdminActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class ItemListAdminActivity extends AppCompatActivity {
 
     protected DatabaseReference mParentDatabase;
     protected DatabaseReference mDatabase;
+    protected Query query;
 
     //UI
     protected LinearLayout llParent;

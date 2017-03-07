@@ -43,6 +43,8 @@ public class SEBaseObject implements Parcelable {
         uid = in.readString();
         createdBy = in.readString();
         updatedBy = in.readString();
+        parentType = in.readString();
+        parentId = in.readString();
         timestamp = in.readLong();
     }
 
@@ -80,6 +82,8 @@ public class SEBaseObject implements Parcelable {
         result.put("uid", uid);
         result.put("createdBy", createdBy);
         result.put("updatedBy", updatedBy);
+        result.put("parentType", parentType);
+        result.put("parentId", parentId);
         result.put("timestamp", timestamp);
 
         return result;
@@ -95,6 +99,8 @@ public class SEBaseObject implements Parcelable {
         dest.writeString(uid);
         dest.writeString(createdBy);
         dest.writeString(updatedBy);
+        dest.writeString(parentType);
+        dest.writeString(parentId);
         dest.writeLong(timestamp);
     }
 }
