@@ -57,7 +57,7 @@ public class CoursesListActivity extends ItemListAdminActivity {
             if (adapter != null) {
                 ArrayList<Course> list = adapter.getCourseList();
                 for (int i = 0; i < list.size(); i++) {
-                    Course course = list.get(0);
+                    Course course = list.get(i);
                     if (course.getUid().equals(courseKey)) {
                         adapter.remove(course);
                         adapter.insert(newCourse, i);
@@ -76,7 +76,7 @@ public class CoursesListActivity extends ItemListAdminActivity {
             if (adapter != null) {
                 ArrayList<Course> list = adapter.getCourseList();
                 for (int i = 0; i < list.size(); i++) {
-                    Course course = list.get(0);
+                    Course course = list.get(i);
                     if (course.getUid().equals(courseKey)) {
                         adapter.remove(course);
                         adapter.notifyDataSetChanged();
@@ -105,7 +105,6 @@ public class CoursesListActivity extends ItemListAdminActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Firebase firebase = new Firebase(REFERENCE);
                         firebase.removeCourse(deleteCourse);
-                        //mDatabase.child(deleteCourse.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -147,10 +146,6 @@ public class CoursesListActivity extends ItemListAdminActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CoursesListActivity.this, AddEditCourseActivity.class);
-                Bundle bundle = new Bundle();
-                //bundle.putInt("totalItems", itemList.size());
-                //bundle.putString("parentId", parent.getUid());
-                //intent.putExtras(bundle);
                 startActivityForResult(intent, -1);
             }
         });

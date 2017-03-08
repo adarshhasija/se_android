@@ -64,8 +64,9 @@ public class LessonsListActivity extends ItemListAdminActivity {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
             //parent.addLesson(newLesson.getTopics());
-            parent.addLesson(new SENestedObject(lessonKey, "lessons"));
-            mParentDatabase.setValue(parent);
+            //parent.addLesson(new SENestedObject(lessonKey, "lessons"));
+            //mParentDatabase.setValue(parent);
+            addItemReferenceToParent(lessonKey);
 
             if (adapter != null) {
                 adapter.add(newLesson);
@@ -77,14 +78,15 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            Map<String, SENestedObject> topics = newLesson.topics;
-            parent.lessons.get(lessonKey).children = topics;
-            mParentDatabase.setValue(parent);
+            //Map<String, SENestedObject> topics = newLesson.topics;
+            //parent.lessons.get(lessonKey).children = topics;
+            //mParentDatabase.setValue(parent);
+            updateItemChildInParent(newLesson);
 
             if (adapter != null) {
                 ArrayList<Lesson> list = adapter.getLessonList();
                 for (int i = 0; i < list.size(); i++) {
-                    Lesson lesson = list.get(0);
+                    Lesson lesson = list.get(i);
                     if (lesson.getUid().equals(lessonKey)) {
                         adapter.remove(lesson);
                         adapter.insert(newLesson, i);
@@ -98,13 +100,14 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Lesson removedLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            parent.removeLesson(lessonKey);
-            mParentDatabase.setValue(parent);
+            //parent.removeLesson(lessonKey);
+            //mParentDatabase.setValue(parent);
+            removeItemFromParent(lessonKey);
 
             if (adapter != null) {
                 ArrayList<Lesson> list = adapter.getLessonList();
                 for (int i = 0; i < list.size(); i++) {
-                    Lesson lesson = list.get(0);
+                    Lesson lesson = list.get(i);
                     if (lesson.getUid().equals(lessonKey)) {
                         adapter.remove(lesson);
                         adapter.notifyDataSetChanged();
@@ -124,6 +127,24 @@ public class LessonsListActivity extends ItemListAdminActivity {
         }
     };
 
+    private void addItemReferenceToParent(String lessonKey) {
+        //parent.addLesson(newLesson.getTopics());
+        parent.addLesson(new SENestedObject(lessonKey, "lessons"));
+        mParentDatabase.setValue(parent);
+    }
+
+    private void updateItemChildInParent(Lesson newLesson) {
+        String lessonKey = newLesson.getUid();
+        Map<String, SENestedObject> topics = newLesson.topics;
+        parent.lessons.get(lessonKey).children = topics;
+        mParentDatabase.setValue(parent);
+    }
+
+    private void removeItemFromParent(String lessonKey) {
+        parent.removeLesson(lessonKey);
+        mParentDatabase.setValue(parent);
+    }
+
     private void deleteItem(final Lesson deleteLesson) {
         new AlertDialog.Builder(LessonsListActivity.this)
                 .setTitle(R.string.delete_lesson)
@@ -132,7 +153,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Firebase firebase = new Firebase(REFERENCE);
                         firebase.removeLesson(deleteLesson);
-                        //mDatabase.child(lesson.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

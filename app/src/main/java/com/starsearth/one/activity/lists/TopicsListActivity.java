@@ -61,9 +61,10 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
-            parent.addTopic(nestedObject);
-            mParentDatabase.setValue(parent);
+            //SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
+            //parent.addTopic(nestedObject);
+            //mParentDatabase.setValue(parent);
+            addItemReferenceToParent(topicKey);
 
             if (adapter != null) {
                 adapter.add(newTopic);
@@ -76,14 +77,15 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            Map<String, SENestedObject> exercises = newTopic.exercises;
-            parent.topics.get(topicKey).children = exercises;
-            mParentDatabase.setValue(parent);
+            //Map<String, SENestedObject> exercises = newTopic.exercises;
+            //parent.topics.get(topicKey).children = exercises;
+            //mParentDatabase.setValue(parent);
+            updateItemChildInParent(newTopic);
 
             if (adapter != null) {
                 ArrayList<Topic> list = adapter.getTopicList();
                 for (int i = 0; i < list.size(); i++) {
-                    Topic topic = list.get(0);
+                    Topic topic = list.get(i);
                     if (topic.getUid().equals(topicKey)) {
                         adapter.remove(topic);
                         adapter.insert(newTopic, i);
@@ -98,13 +100,14 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Topic removedTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            parent.removeTopic(topicKey);
-            mParentDatabase.setValue(parent);
+            //parent.removeTopic(topicKey);
+            //mParentDatabase.setValue(parent);
+            removeItemFromParent(topicKey);
 
             if (adapter != null) {
                 ArrayList<Topic> list = adapter.getTopicList();
                 for (int i = 0; i < list.size(); i++) {
-                    Topic topic = list.get(0);
+                    Topic topic = list.get(i);
                     if (topic.getUid().equals(topicKey)) {
                         adapter.remove(topic);
                         adapter.notifyDataSetChanged();
@@ -125,6 +128,25 @@ public class TopicsListActivity extends ItemListAdminActivity {
         }
     };
 
+    private void addItemReferenceToParent(String topicKey) {
+        //parent.addLesson(newLesson.getTopics());
+        SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
+        parent.addTopic(nestedObject);
+        mParentDatabase.setValue(parent);
+    }
+
+    private void updateItemChildInParent(Topic newTopic) {
+        String topicKey = newTopic.getUid();
+        Map<String, SENestedObject> exercises = newTopic.exercises;
+        parent.topics.get(topicKey).children = exercises;
+        mParentDatabase.setValue(parent);
+    }
+
+    private void removeItemFromParent(String topicKey) {
+        parent.removeTopic(topicKey);
+        mParentDatabase.setValue(parent);
+    }
+
     private void deleteItem(final Topic deleteTopic) {
         new AlertDialog.Builder(TopicsListActivity.this)
                 .setTitle(R.string.delete_topic)
@@ -133,7 +155,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Firebase firebase = new Firebase(REFERENCE);
                         firebase.removeTopic(deleteTopic);
-                        //mDatabase.child(topic.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

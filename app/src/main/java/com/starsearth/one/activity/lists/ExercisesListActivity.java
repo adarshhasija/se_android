@@ -85,7 +85,7 @@ public class ExercisesListActivity extends ItemListAdminActivity {
             if (adapter != null) {
                 ArrayList<Exercise> list = adapter.getExerciseList();
                 for (int i = 0; i < list.size(); i++) {
-                    Exercise exercise = list.get(0);
+                    Exercise exercise = list.get(i);
                     if (exercise.getUid().equals(exerciseKey)) {
                         adapter.remove(exercise);
                         adapter.insert(newExercise, i);
@@ -105,7 +105,7 @@ public class ExercisesListActivity extends ItemListAdminActivity {
             if (adapter != null) {
                 ArrayList<Exercise> list = adapter.getExerciseList();
                 for (int i = 0; i < list.size(); i++) {
-                    Exercise exercise = list.get(0);
+                    Exercise exercise = list.get(i);
                     if (exercise.getUid().equals(exerciseKey)) {
                         adapter.remove(exercise);
                         adapter.notifyDataSetChanged();
@@ -133,7 +133,6 @@ public class ExercisesListActivity extends ItemListAdminActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Firebase firebase = new Firebase(REFERENCE);
                         firebase.removeExercise(deleteExercise);
-                        //mDatabase.child(topic.getUid()).removeValue();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
