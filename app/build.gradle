@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.starsearth.one"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.0.0'
     // FirebaseUI Storage only
     compile 'com.firebaseui:firebase-ui-storage:0.6.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

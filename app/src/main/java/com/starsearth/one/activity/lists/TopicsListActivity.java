@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.TopicActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.activity.forms.AddEditTopicActivity;
 import com.starsearth.one.adapter.TopicsAdapter;
@@ -27,7 +28,7 @@ import com.starsearth.one.domain.Topic;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class TopicsListActivity extends ItemListAdminActivity {
+public class TopicsListActivity extends ItemListActivity {
 
     private Lesson parent;
     private ArrayList<Topic> itemList;
@@ -61,9 +62,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            //SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
-            //parent.addTopic(nestedObject);
-            //mParentDatabase.setValue(parent);
             addItemReferenceToParent(topicKey);
 
             if (adapter != null) {
@@ -77,9 +75,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Topic newTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            //Map<String, SENestedObject> exercises = newTopic.exercises;
-            //parent.topics.get(topicKey).children = exercises;
-            //mParentDatabase.setValue(parent);
             updateItemChildInParent(newTopic);
 
             if (adapter != null) {
@@ -100,8 +95,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Topic removedTopic = dataSnapshot.getValue(Topic.class);
             String topicKey = dataSnapshot.getKey();
-            //parent.removeTopic(topicKey);
-            //mParentDatabase.setValue(parent);
             removeItemFromParent(topicKey);
 
             if (adapter != null) {
@@ -129,7 +122,6 @@ public class TopicsListActivity extends ItemListAdminActivity {
     };
 
     private void addItemReferenceToParent(String topicKey) {
-        //parent.addLesson(newLesson.getTopics());
         SENestedObject nestedObject = new SENestedObject(topicKey, "topics");
         parent.addTopic(nestedObject);
         mParentDatabase.setValue(parent);
@@ -198,11 +190,22 @@ public class TopicsListActivity extends ItemListAdminActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Topic topic = adapter.getItem(position);
+                Intent intent;
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("parent", topic);
-                Intent intent = new Intent(TopicsListActivity.this, ExercisesListActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, position);
+                bundle.putBoolean("admin", admin);
+                if (admin) {
+                    bundle.putParcelable("parent", topic);
+                    intent = new Intent(TopicsListActivity.this, ExercisesListActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, position);
+                }
+                else {
+                    bundle.putParcelable("topic", topic);
+                    intent = new Intent(TopicsListActivity.this, TopicActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, position);
+                }
+
             }
         });
         btnAddItem.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +220,7 @@ public class TopicsListActivity extends ItemListAdminActivity {
 
             }
         });
-        listView.setEmptyView(btnAddItem);
+        //listView.setEmptyView(btnAddItem);
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());
@@ -258,9 +261,12 @@ public class TopicsListActivity extends ItemListAdminActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle(R.string.edit_lesson);
-        menu.getItem(1).setTitle(R.string.delete_lesson);
-        menu.getItem(2).setTitle(R.string.add_topic);
+        if (menu.size() > 0) {
+            menu.getItem(0).setTitle(R.string.edit_lesson);
+            menu.getItem(1).setTitle(R.string.delete_lesson);
+            menu.getItem(2).setTitle(R.string.add_topic);
+        }
+
 
         return super.onPrepareOptionsMenu(menu);
     }

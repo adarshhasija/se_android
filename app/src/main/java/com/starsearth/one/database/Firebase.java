@@ -17,6 +17,7 @@ import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Question;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
+import com.starsearth.one.domain.User;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,6 +55,12 @@ public class Firebase {
 
             it.remove(); // avoids a ConcurrentModificationException
         }
+    }
+
+    public void writeNewUser(String uid, boolean admin, String email) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        User user = new User(uid, admin, email);
+        databaseReference.child(uid).setValue(user);
     }
 
     //Returns key of the newly created course
@@ -174,10 +181,12 @@ public class Firebase {
         databaseReference.child(exercise.getUid()).removeValue();
     }
 
-    public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight, String parent) {
+    public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight,
+                                   String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Question question = new Question(key, title, answer, hint, index, positiveWeight, negativeWeight, user.getUid(), parent);
+        Question question = new Question(key, title, answer, hint, index, positiveWeight, negativeWeight,
+                                            feedbackCorrectAnswer, feedbackWrongAnswer, user.getUid(), parent);
         Map<String, Object> values = question.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

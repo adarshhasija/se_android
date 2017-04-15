@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.starsearth.one.ExtendedEditText;
 import com.starsearth.one.StateMachine;
-import com.starsearth.one.Talk;
+import com.starsearth.one.ChatBot;
 import com.starsearth.one.ai.ApiAi;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.listener.BotResponseListener;
@@ -30,12 +30,12 @@ import com.starsearth.one.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.storage.StorageReference;
 
-public class MainTalkActivity extends AppCompatActivity  implements BotResponseListener, GestureDetector.OnGestureListener, View.OnTouchListener {
+public class ChatBotActivity extends AppCompatActivity  implements BotResponseListener, GestureDetector.OnGestureListener, View.OnTouchListener {
 
-    public static String LOG_TAG = "MainTalkActivity";
+    public static String LOG_TAG = "ChatBotActivity";
     private FirebaseAnalytics mFirebaseAnalytics;
     private ApiAi apiAi;
-    private Talk talk;
+    private ChatBot chatBot;
     private StateMachine stateMachine = new StateMachine();
 
     private RelativeLayout rlMainView;
@@ -58,7 +58,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_talk);
+        setContentView(R.layout.activity_chat_bot);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -73,7 +73,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         tvBotResponse = (TextView) findViewById(R.id.tvBotResponse);
         tvAdditionalInstructions = (TextView) findViewById(R.id.tvAdditionalInstructions);
 
-        talk = new Talk(this, this);
+        chatBot = new ChatBot(this, this);
         setupGestureDetector();
 
         btnMainAction = (Button) findViewById(R.id.btnMainAction);
@@ -119,7 +119,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        talk=null;
+        chatBot =null;
     }
 
     /************************
@@ -152,7 +152,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         stateMachine.setState(StateMachine.State.IDLE);
     }
     private void goToStateTalking() {
-        talk.stopTalking();
+        chatBot.stopTalking();
         if (((StarsEarthApplication) getApplication()).isNetworkAvailable()) {
             ((StarsEarthApplication) getApplication()).vibrate(500);
             hideMainActionUI();
@@ -167,7 +167,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         stateMachine.setState(StateMachine.State.TALKING);
     }
     private void goToStateTyping() {
-        talk.stopTalking();
+        chatBot.stopTalking();
         hideMainActionUI();
         hideUserInputUI();
         hideBotResponseUI();
@@ -189,7 +189,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         setLabel(tvUserInput, text);
         showUserInputUI();
         setLabel(tvBotResponse, getString(R.string.please_wait));
-        sayText(talk, getString(R.string.please_wait));
+        sayText(chatBot, getString(R.string.please_wait));
         setLabel(tvAdditionalInstructions, getString(R.string.long_press_to_cancel));
         showBotResponseUI();
         apiAi = new ApiAi(this, this);
@@ -200,8 +200,8 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
         startActivity(intent);
     }
     private void goToStateViewingBotQuestions() {
-        Intent intent = new Intent(this, BotHelpActivity.class);
-        startActivityForResult(intent, 1);
+        //Intent intent = new Intent(this, BotHelpActivity.class);
+        //startActivityForResult(intent, 1);
     }
 
 
@@ -297,10 +297,10 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
             }
         }
     }
-    private void sayText(Talk mTalk, String text) {
+    private void sayText(ChatBot mChatBot, String text) {
         if (text != null && !text.isEmpty() &&
-                mTalk != null && mTalk instanceof Talk) {
-            mTalk.playAudio(text);
+                mChatBot != null && mChatBot instanceof ChatBot) {
+            mChatBot.playAudio(text);
         }
     }
 
@@ -328,7 +328,7 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
             //Set the state machine
             stateMachine.setCurrentUserInput(tvUserInput.getText().toString());
             stateMachine.setCurrentBotTextResponse(text);
-            sayText(talk, text);
+            sayText(chatBot, text);
             goToStateIdle();
         }
         apiAi = null;
@@ -366,10 +366,10 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
      *
      *******************/
     private void startListening() {
-        talk.startListening();
+        chatBot.startListening();
     }
     private void cancelListening() {
-        talk.cancelListening();
+        chatBot.cancelListening();
     }
     private void cancelTyping() {
         etUserInput.clearFocus();
@@ -437,8 +437,8 @@ public class MainTalkActivity extends AppCompatActivity  implements BotResponseL
             return;
         }
         if (tvBotResponse.getText().toString() != null && !tvBotResponse.getText().toString().isEmpty()) {
-            talk.stopTalking();
-            sayText(talk, tvBotResponse.getText().toString());
+            chatBot.stopTalking();
+            sayText(chatBot, tvBotResponse.getText().toString());
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.CHARACTER, Integer.toString(tvBotResponse.getText().toString().length()));
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");

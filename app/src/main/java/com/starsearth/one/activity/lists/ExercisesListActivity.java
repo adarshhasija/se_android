@@ -20,17 +20,15 @@ import com.starsearth.one.activity.forms.AddEditExerciseActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.activity.forms.AddEditTopicActivity;
 import com.starsearth.one.adapter.ExercisesAdapter;
-import com.starsearth.one.adapter.TopicsAdapter;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Exercise;
-import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ExercisesListActivity extends ItemListAdminActivity {
+public class ExercisesListActivity extends ItemListActivity {
 
     private Topic parent;
     private ArrayList<Exercise> itemList;
@@ -64,9 +62,10 @@ public class ExercisesListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Exercise newExercise = dataSnapshot.getValue(Exercise.class);
             String exerciseKey = dataSnapshot.getKey();
-            SENestedObject nestedObject = new SENestedObject(exerciseKey, "exercises");
-            parent.addExercise(nestedObject);
-            mParentDatabase.setValue(parent);
+            //SENestedObject nestedObject = new SENestedObject(exerciseKey, "exercises");
+            //parent.addExercise(nestedObject);
+            //mParentDatabase.setValue(parent);
+            addItemReferenceToParent(exerciseKey);
 
             if (adapter != null) {
                 adapter.add(newExercise);
@@ -78,9 +77,10 @@ public class ExercisesListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Exercise newExercise = dataSnapshot.getValue(Exercise.class);
             String exerciseKey = dataSnapshot.getKey();
-            Map<String, SENestedObject> questions = newExercise.questions;
-            parent.exercises.get(exerciseKey).children = questions;
-            mParentDatabase.setValue(parent);
+            //Map<String, SENestedObject> questions = newExercise.questions;
+            //parent.exercises.get(exerciseKey).children = questions;
+            //mParentDatabase.setValue(parent);
+            updateItemChildInParent(newExercise);
 
             if (adapter != null) {
                 ArrayList<Exercise> list = adapter.getExerciseList();
@@ -99,8 +99,9 @@ public class ExercisesListActivity extends ItemListAdminActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Exercise removedExercise = dataSnapshot.getValue(Exercise.class);
             String exerciseKey = dataSnapshot.getKey();
-            parent.removeExercise(exerciseKey);
-            mParentDatabase.setValue(parent);
+            //parent.removeExercise(exerciseKey);
+            //mParentDatabase.setValue(parent);
+            removeItemFromParent(exerciseKey);
 
             if (adapter != null) {
                 ArrayList<Exercise> list = adapter.getExerciseList();
@@ -124,6 +125,24 @@ public class ExercisesListActivity extends ItemListAdminActivity {
 
         }
     };
+
+    private void addItemReferenceToParent(String exerciseKey) {
+        SENestedObject nestedObject = new SENestedObject(exerciseKey, "exercises");
+        parent.addExercise(nestedObject);
+        mParentDatabase.setValue(parent);
+    }
+
+    private void updateItemChildInParent(Exercise newExercise) {
+        String exerciseKey = newExercise.getUid();
+        Map<String, SENestedObject> questions = newExercise.questions;
+        parent.exercises.get(exerciseKey).children = questions;
+        mParentDatabase.setValue(parent);
+    }
+
+    private void removeItemFromParent(String exerciseKey) {
+        parent.removeExercise(exerciseKey);
+        mParentDatabase.setValue(parent);
+    }
 
     private void deleteItem(final Exercise deleteExercise) {
         new AlertDialog.Builder(ExercisesListActivity.this)
@@ -175,7 +194,13 @@ public class ExercisesListActivity extends ItemListAdminActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Exercise exercise = adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("parent", exercise);
+                bundle.putBoolean("admin", admin);
+                Intent intent = new Intent(ExercisesListActivity.this, QuestionsListActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, position);
             }
         });
 
@@ -191,7 +216,7 @@ public class ExercisesListActivity extends ItemListAdminActivity {
 
             }
         });
-        listView.setEmptyView(btnAddItem);
+        //listView.setEmptyView(btnAddItem);
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());
@@ -233,9 +258,12 @@ public class ExercisesListActivity extends ItemListAdminActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle(R.string.edit_topic);
-        menu.getItem(1).setTitle(R.string.delete_topic);
-        menu.getItem(2).setTitle(R.string.add_exercise);
+        if (menu.size() > 0) {
+            menu.getItem(0).setTitle(R.string.edit_topic);
+            menu.getItem(1).setTitle(R.string.delete_topic);
+            menu.getItem(2).setTitle(R.string.add_exercise);
+        }
+
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -247,7 +275,7 @@ public class ExercisesListActivity extends ItemListAdminActivity {
 
         switch (item.getItemId()) {
             case R.id.edit_parent:
-                intent = new Intent(ExercisesListActivity.this, AddEditLessonActivity.class);
+                intent = new Intent(ExercisesListActivity.this, AddEditTopicActivity.class);
                 bundle = new Bundle();
                 bundle.putParcelable("topic", parent);
                 intent.putExtras(bundle);

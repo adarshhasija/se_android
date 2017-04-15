@@ -3,35 +3,26 @@ package com.starsearth.one.activity.lists;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.forms.AddEditCourseActivity;
-import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.adapter.CoursesAdapter;
-import com.starsearth.one.adapter.LessonsAdapter;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Course;
 
 import java.util.ArrayList;
 
-public class CoursesListActivity extends ItemListAdminActivity {
+public class CoursesListActivity extends ItemListActivity {
 
     private ArrayList<Course> itemList;
     private CoursesAdapter adapter;
@@ -119,7 +110,7 @@ public class CoursesListActivity extends ItemListAdminActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_admin_console);
+        //setContentView(R.layout.activity_admin_users);
         setTitle("");
         llParent.setVisibility(View.GONE);
         tvListViewHeader.setText(R.string.courses);
@@ -137,6 +128,7 @@ public class CoursesListActivity extends ItemListAdminActivity {
                 Course course = adapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("parent", course);
+                bundle.putBoolean("admin", admin);
                 Intent intent = new Intent(CoursesListActivity.this, LessonsListActivity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, position);
@@ -149,7 +141,8 @@ public class CoursesListActivity extends ItemListAdminActivity {
                 startActivityForResult(intent, -1);
             }
         });
-        listView.setEmptyView(btnAddItem);
+
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         mDatabase.addChildEventListener(listener);
@@ -189,9 +182,12 @@ public class CoursesListActivity extends ItemListAdminActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setVisible(false);
-        menu.getItem(1).setVisible(false);
-        menu.getItem(2).setTitle(R.string.add_course);
+        if (menu.size() > 0) {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setTitle(R.string.add_course);
+        }
+
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -204,10 +200,6 @@ public class CoursesListActivity extends ItemListAdminActivity {
             case R.id.add_item:
                 Intent intent = new Intent(this, AddEditCourseActivity.class);
                 startActivityForResult(intent, -1);
-                return true;
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                finish();
                 return true;
             default: break;
         }

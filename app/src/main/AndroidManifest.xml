@@ -21,23 +21,15 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.MainTalkActivity"
+            android:name=".activity.ChatBotActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.BotHelpActivity" />
         <activity
             android:name=".activity.TypingActivity"
-            android:configChanges="keyboard|keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
+            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|smallestScreenSize|navigation|locale|layoutDirection|fontScale" />
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.lists.CoursesListActivity" />
         <activity android:name=".activity.forms.AddEditCourseActivity" />
         <activity android:name=".activity.lists.LessonsListActivity" />
@@ -45,9 +37,30 @@
         <activity android:name=".activity.lists.TopicsListActivity" />
         <activity android:name=".activity.forms.AddEditTopicActivity" />
         <activity android:name=".activity.forms.AddEditExerciseActivity" />
-        <activity android:name=".activity.lists.ItemListAdminActivity" />
+        <activity android:name=".activity.lists.ItemListActivity" />
         <activity android:name=".activity.lists.ExercisesListActivity" />
-        <activity android:name=".activity.AdminConsoleActivity"></activity>
+        <activity android:name=".activity.AdminModeActivity" />
+        <activity android:name=".activity.lists.QuestionsListActivity" />
+        <activity android:name=".activity.forms.AddEditQuestionActivity" />
+        <activity android:name=".activity.SignupActivity" />
+        <activity android:name=".activity.MainSEActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.TopicActivity"
+            android:label="@string/topic_details" />
+        <activity
+            android:name=".QuestionActivity"
+            android:label="@string/title_activity_question"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity
+            android:name=".activity.lists.AdminUsersActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

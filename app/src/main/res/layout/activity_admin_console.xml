@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.starsearth.one.activity.AdminConsoleActivity">
+    android:background="#FF0000"
+    tools:context="com.starsearth.one.activity.AdminModeActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/admin_description" />
 
     <Button
         android:id="@+id/btn_view_data"

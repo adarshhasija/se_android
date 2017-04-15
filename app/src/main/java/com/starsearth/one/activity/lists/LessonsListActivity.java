@@ -27,7 +27,7 @@ import com.starsearth.one.domain.SENestedObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class LessonsListActivity extends ItemListAdminActivity {
+public class LessonsListActivity extends ItemListActivity {
 
     private Course parent;
     private ArrayList<Lesson> itemList;
@@ -63,9 +63,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            //parent.addLesson(newLesson.getTopics());
-            //parent.addLesson(new SENestedObject(lessonKey, "lessons"));
-            //mParentDatabase.setValue(parent);
             addItemReferenceToParent(lessonKey);
 
             if (adapter != null) {
@@ -78,9 +75,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Lesson newLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            //Map<String, SENestedObject> topics = newLesson.topics;
-            //parent.lessons.get(lessonKey).children = topics;
-            //mParentDatabase.setValue(parent);
             updateItemChildInParent(newLesson);
 
             if (adapter != null) {
@@ -100,8 +94,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
         public void onChildRemoved(DataSnapshot dataSnapshot) {
             Lesson removedLesson = dataSnapshot.getValue(Lesson.class);
             String lessonKey = dataSnapshot.getKey();
-            //parent.removeLesson(lessonKey);
-            //mParentDatabase.setValue(parent);
             removeItemFromParent(lessonKey);
 
             if (adapter != null) {
@@ -128,7 +120,6 @@ public class LessonsListActivity extends ItemListAdminActivity {
     };
 
     private void addItemReferenceToParent(String lessonKey) {
-        //parent.addLesson(newLesson.getTopics());
         parent.addLesson(new SENestedObject(lessonKey, "lessons"));
         mParentDatabase.setValue(parent);
     }
@@ -198,6 +189,7 @@ public class LessonsListActivity extends ItemListAdminActivity {
                 Lesson lesson = adapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("parent", lesson);
+                bundle.putBoolean("admin", admin);
                 Intent intent = new Intent(LessonsListActivity.this, TopicsListActivity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, position);
@@ -214,7 +206,7 @@ public class LessonsListActivity extends ItemListAdminActivity {
                 startActivityForResult(intent, -1);
             }
         });
-        listView.setEmptyView(btnAddItem);
+        //listView.setEmptyView(btnAddItem);
 
         mDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE);
         query = mDatabase.orderByChild("parentId").equalTo(parent.getUid());
@@ -258,9 +250,12 @@ public class LessonsListActivity extends ItemListAdminActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle(R.string.edit_course);
-        menu.getItem(1).setTitle(R.string.delete_course);
-        menu.getItem(2).setTitle(R.string.add_lesson);
+        if (menu.size() > 0) {
+            menu.getItem(0).setTitle(R.string.edit_course);
+            menu.getItem(1).setTitle(R.string.delete_course);
+            menu.getItem(2).setTitle(R.string.add_lesson);
+        }
+
 
         return super.onPrepareOptionsMenu(menu);
     }

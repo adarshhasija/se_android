@@ -18,18 +18,18 @@ import java.util.Locale;
  * Created by faimac on 11/28/16.
  */
 
-public class Talk {
+public class ChatBot {
 
     private Context context;
     private BotResponseListener listener;
 
-    public Talk(Context context) {
+    public ChatBot(Context context) {
         this.context = context;
         setupSpeechToText();
         setupTextToSpeech();
     }
 
-    public Talk(Context context, BotResponseListener listener) {
+    public ChatBot(Context context, BotResponseListener listener) {
         this.context = context;
         this.listener = listener;
         setupSpeechToText();

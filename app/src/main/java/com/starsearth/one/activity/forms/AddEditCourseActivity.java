@@ -93,6 +93,10 @@ public class AddEditCourseActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             course = extras.getParcelable("course");
+            spinnerCourseDifficulty.setSelection(course.difficulty);
+            if (course.type.equalsIgnoreCase("typing")) {
+                spinnerCourseType.setSelection(0);
+            }
             etCourseDescription.setText(course.getDescription());
             UID = course.getUid();
         }

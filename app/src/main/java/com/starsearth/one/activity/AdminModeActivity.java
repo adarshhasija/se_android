@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.lists.CoursesListActivity;
 
-public class AdminConsoleActivity extends AppCompatActivity {
+public class AdminModeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,30 +24,12 @@ public class AdminConsoleActivity extends AppCompatActivity {
         btnViewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminConsoleActivity.this, CoursesListActivity.class);
+                Intent intent = new Intent(AdminModeActivity.this, CoursesListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("admin", true);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_admin_console, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                break;
-            default: break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

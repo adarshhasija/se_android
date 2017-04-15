@@ -4,6 +4,7 @@
     <string name="submit">SUBMIT</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="continue_label">Continue</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -18,19 +19,23 @@
     <string name="tap_screen_to_talk">Swipe up to ask questions</string>
     <string name="long_press_to_repeat_response">Long press screen to repeat response</string>
     <string name="long_press_to_cancel">Long press to cancel</string>
-    <string name="talk_prompt">Talk...</string>
-    <string name="type_prompt">Start typing...</string>
+    <string name="talk_prompt">Talk</string>
+    <string name="type_prompt">Start typing</string>
     <string name="what_can_i_ask">What can I ask</string>
-    <string name="please_wait">Please wait...</string>
+    <string name="please_wait">Please wait</string>
     <string name="error">Error</string>
     <string name="no_internet">You do not have an internet connection</string>
+    <string name="no_items_to_displayay">No items to display</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="no_user_found">No User Found</string>
+    <string name="login_signup_access_questions">You need to login or signup to do the questions</string>
 
-    <!-- Typing tutorial -->
+
+    <!-- Typing Activity -->
     <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
     <string name="keyboard_removed">Keyboard has been removed</string>
     <string name="press_any_key">Keyboard detected.\nPress any key to know more about your keyboard</string>
@@ -38,18 +43,39 @@
     <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
     <string name="continue_to_login_screen">Continue to login screen</string>
 
+    <!-- Main SE Activity -->
+    <string name="main_menu">Main Menu</string>
+    <array name="se_main_list">
+        <item>View Courses</item>
+    </array>
+    <array name="se_login_list">
+        <item>Login to your account</item>
+    </array>
+    <array name="se_user_account_list">
+        <item>Change Password</item>
+        <item>Logout</item>
+    </array>
+    <array name="se_user_admin_list">
+        <item>Admin Mode</item>
+    </array>
+    <array name="se_user_god_mode">
+        <item>Admin Access List</item>
+    </array>
+    <string name="logout_successful">Logout Successful</string>
+
     <!-- Login screen -->
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="signup">Signup</string>
 
     <!--Admin console-->
     <string name="admin">Admin</string>
+    <string name="admin_description">You are now entering admin mode. Here you will be able to add, edit and delete data. Tap the button to continue</string>
     <string name="view_data">View data</string>
 
     <!--Courses list screen -->
     <string name="courses">COURSES</string>
-    <string name="logout">Logout</string>
     <string name="add_course">Add course</string>
 
     <!-- Add course screen -->
@@ -117,13 +143,35 @@
     <string name="add_question">Add Question</string>
     <string name="questions">QUESTIONS</string>
     <string name="delete_exercise_confirm_message">Are you sure you want to delete this exercise? All related information will also be deleted</string>
+    <string name="delete_question">Delete Question</string>
+    <string name="delete_question_confirm_message">Are you sure you want to delete this question?</string>
 
     <!--Add question screen-->
     <string name="enter_edit_question_details">Enter/Edit Question Details</string>
     <string name="question_title">Question</string>
-    <string name="question_answer">Hint</string>
+    <string name="question_answer">Answer</string>
+    <string name="question_hint">Hint</string>
     <string name="question_positive_weight">Positive weight</string>
     <string name="question_negative_weight">Negative weight</string>
+    <string name="question_feedback_correct_answer">Feedback for correct answer</string>
+    <string name="question_feedback_wrong_answer">Feedback for wrong answer</string>
+    <string name="question_title_blank">You need to provide a question title</string>
+    <string name="question_answer_blank">You need to provide an answer to the question</string>
+    <string name="question_feedback_correct_answer_hint">You need to provide feedback for the correct answer</string>
+    <string name="question_feedback_wrong_answer_hint">You need to provide feedback for the wrong answer</string>
 
+    <string name="no_exercises_go_back">No exercises, go back</string>
+    <string name="title_activity_question">QuestionActivity</string>
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="new_password_hint_repeat">Reenter new password</string>
+    <string name="current_password_error">You have not provided your current password</string>
+    <string name="new_password_error">You have not provided a new password</string>
+    <string name="new_password_repeat_error">You have not repeated your new password</string>
+    <string name="new_password_match_error">Your password and repeated password do not match</string>
+    <string name="updating_password_please_wait">Updating password please wait</string>
+    <string name="password_updated_successfully">Password updated successfully</string>
+    <string name="password_update_failed">Password update failed</string>
+    <string name="logout">Logout</string>
 
 </resources>
