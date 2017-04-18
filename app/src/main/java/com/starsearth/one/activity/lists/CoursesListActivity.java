@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
 import com.starsearth.one.activity.forms.AddEditCourseActivity;
 import com.starsearth.one.adapter.CoursesAdapter;
 import com.starsearth.one.database.Firebase;
@@ -37,6 +39,10 @@ public class CoursesListActivity extends ItemListActivity {
             if (adapter != null) {
                 adapter.add(newCourse);
                 adapter.notifyDataSetChanged();
+                if (adapter.getCount() == 1) {
+                    listView.setSelection(0);
+                    listView.announceForAccessibility(newCourse.getTitle());
+                }
             }
         }
 

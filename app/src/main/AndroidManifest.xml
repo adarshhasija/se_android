@@ -60,7 +60,13 @@
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity
             android:name=".activity.lists.AdminUsersActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.domaindetail.ItemDetailActivity" />
+        <activity
+            android:name=".activity.domaindetail.CourseDetailActivity"
+            android:label="@string/course_details" />
+        <activity android:name=".activity.domaindetail.LessonDetailActivity"
+                android:label="@string/lesson_details"></activity>
     </application>
 
 </manifest>

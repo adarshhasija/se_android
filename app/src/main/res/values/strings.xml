@@ -66,6 +66,11 @@
     <!-- Login screen -->
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="email_error">You have not entered an email address</string>
+    <string name="password_error">You have not entered a password</string>
+    <string name="login_started">Login started, please wait</string>
+    <string name="login_successful">Login successful</string>
+    <string name="login_failed">Login failed </string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
 
@@ -173,5 +178,6 @@
     <string name="password_updated_successfully">Password updated successfully</string>
     <string name="password_update_failed">Password update failed</string>
     <string name="logout">Logout</string>
+    <string name="view_courses_selected">View Courses selected</string>
 
 </resources>

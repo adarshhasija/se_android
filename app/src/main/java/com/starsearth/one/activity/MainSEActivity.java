@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +46,12 @@ public class MainSEActivity extends AppCompatActivity {
     protected TextView tvActionLine2;
     protected TextView tvListViewHeader;
     protected ListView listView;
+    protected ProgressBar progressBar;
 
-    private void changeListOnLoginStatus(User user) {
+    private void addToListOnUserSignIn(User user) {
         mAdapter.getObjectList().clear();
+        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
         if (user != null) {
-            mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
             if (user.email.contains("hasijaadarsh")) {
                 //mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_god_mode)));
             }
@@ -58,20 +60,23 @@ public class MainSEActivity extends AppCompatActivity {
             }
             mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
             mAdapter.notifyDataSetChanged();
+            listView.setSelection(0);
+            listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
             changeState(State.LOGGED_IN);
         }
-        else {
-            //user is signed out
-            changeListOnUserSignOut();
-        }
+        progressBar.setVisibility(View.GONE);
     }
 
-    private void changeListOnUserSignOut() {
+
+    private void addToListOnUserSignOut() {
         mAdapter.getObjectList().clear();
         mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
         mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_login_list)));
         mAdapter.notifyDataSetChanged();
+        listView.setSelection(0);
+        listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
         changeState(State.LOGGED_OUT);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void changeState(State state) {
@@ -90,9 +95,9 @@ public class MainSEActivity extends AppCompatActivity {
         tvActionLine2 = (TextView) findViewById(R.id.tv_action_line_2);
         tvListViewHeader = (TextView) findViewById(R.id.tv_listview_header);
         listView = (ListView) findViewById(R.id.listView);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_login_list)));
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,7 +137,9 @@ public class MainSEActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                //checkUser(firebaseAuth);
+                progressBar.setVisibility(View.VISIBLE);
+                listView.announceForAccessibility(getResources().getString(R.string.please_wait));
+
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+user.getUid());
@@ -140,17 +147,17 @@ public class MainSEActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User userDetails = dataSnapshot.getValue(User.class);
-                            changeListOnLoginStatus(userDetails);
+                            addToListOnUserSignIn(userDetails);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            changeListOnUserSignOut();
+                            addToListOnUserSignOut();
                         }
                     });
                 }
                 else {
-                    changeListOnUserSignOut();
+                    addToListOnUserSignOut();
                 }
             }
         };

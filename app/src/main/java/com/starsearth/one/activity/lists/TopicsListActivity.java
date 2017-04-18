@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.TopicActivity;
+import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
+import com.starsearth.one.activity.domaindetail.LessonDetailActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.activity.forms.AddEditTopicActivity;
 import com.starsearth.one.adapter.TopicsAdapter;
@@ -158,6 +161,13 @@ public class TopicsListActivity extends ItemListActivity {
                 .show();
     }
 
+    private void setupParentDetailView() {
+        Intent intent = new Intent(TopicsListActivity.this, LessonDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("item", parent);
+        showParentDetailView(intent, bundle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,6 +191,21 @@ public class TopicsListActivity extends ItemListActivity {
 
             tvParentLine1.setText(parent.getTitle());
             llParent.setVisibility(View.VISIBLE);
+            llParent.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                        setupParentDetailView();
+                    }
+                    return false;
+                }
+            });
+            llParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setupParentDetailView();
+                }
+            });
         }
         else {
             llParent.setVisibility(View.GONE);

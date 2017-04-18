@@ -1,5 +1,6 @@
 package com.starsearth.one.activity.lists;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
 
 public class ItemListActivity extends AppCompatActivity {
 
@@ -34,6 +36,14 @@ public class ItemListActivity extends AppCompatActivity {
     protected TextView tvListViewHeader;
     protected ListView listView;
     protected Button btnAddItem;
+
+
+    protected void showParentDetailView(Intent intent, Bundle bundle) {
+        if (intent != null && bundle != null) {
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

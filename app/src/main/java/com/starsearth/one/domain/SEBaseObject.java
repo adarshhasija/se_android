@@ -15,6 +15,7 @@ import java.util.Map;
 public class SEBaseObject implements Parcelable {
 
     public String uid;
+    public String title;
     public String createdBy;
     public String updatedBy;
     public String parentType;
@@ -25,14 +26,16 @@ public class SEBaseObject implements Parcelable {
 
     }
 
-    public SEBaseObject(String uid, String createdBy) {
+    public SEBaseObject(String uid, String title, String createdBy) {
         this.uid = uid;
+        this.title = title;
         this.createdBy = createdBy;
         this.updatedBy = createdBy;
     }
 
-    public SEBaseObject(String uid, String createdBy, String parentType, String parentId) {
+    public SEBaseObject(String uid, String title, String createdBy, String parentType, String parentId) {
         this.uid = uid;
+        this.title = title;
         this.createdBy = createdBy;
         this.updatedBy = createdBy;
         this.parentType = parentType;
@@ -41,6 +44,7 @@ public class SEBaseObject implements Parcelable {
 
     protected SEBaseObject(Parcel in) {
         uid = in.readString();
+        title = in.readString();
         createdBy = in.readString();
         updatedBy = in.readString();
         parentType = in.readString();
@@ -68,6 +72,14 @@ public class SEBaseObject implements Parcelable {
         return createdBy;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
@@ -80,6 +92,7 @@ public class SEBaseObject implements Parcelable {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
+        result.put("title", title);
         result.put("createdBy", createdBy);
         result.put("updatedBy", updatedBy);
         result.put("parentType", parentType);
@@ -97,6 +110,7 @@ public class SEBaseObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(uid);
+        dest.writeString(title);
         dest.writeString(createdBy);
         dest.writeString(updatedBy);
         dest.writeString(parentType);
