@@ -248,6 +248,8 @@ public class QuestionsListActivity extends ItemListActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 Question question = itemList.get(position);
 
+                sendAnalytics(question.title);
+
                 if (admin) {
                     showQuestionAdminMode(question, position);
                     return;

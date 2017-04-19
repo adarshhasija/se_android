@@ -15,23 +15,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:focusable="true"
         android:text="@string/course_type" />
     <Spinner
         android:id="@+id/spinner_course_type"
         android:background="#D3D3D3"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:focusable="true"
+        android:layout_height="50dp" >
+        <requestFocus />
+    </Spinner>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:focusable="true"
         android:text="@string/course_difficulty"/>
     <Spinner
         android:id="@+id/spinner_course_difficulty"
         android:background="#D3D3D3"
         android:layout_width="match_parent"
+        android:focusable="true"
         android:layout_height="50dp" />
 
     <EditText
@@ -39,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:focusable="true"
         android:hint="@string/course_description" />
 
     <Button
@@ -47,6 +54,7 @@
         android:layout_height="wrap_content"
         android:text="@string/done"
         android:textColor="#FFFFFF"
+        android:focusable="true"
         android:background="#000000" />
 
 </LinearLayout>

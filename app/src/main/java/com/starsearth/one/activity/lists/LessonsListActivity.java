@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
 import com.starsearth.one.activity.forms.AddEditCourseActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
@@ -191,6 +192,7 @@ public class LessonsListActivity extends ItemListActivity {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                        sendAnalyticsParentOpenedFromKeyboard(parent.title);
                         setupParentDetailView();
                     }
                     return false;
@@ -199,6 +201,7 @@ public class LessonsListActivity extends ItemListActivity {
             llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    sendAnalyticsParentOpenedFromTouch(parent.title);
                     setupParentDetailView();
                 }
             });
@@ -211,6 +214,9 @@ public class LessonsListActivity extends ItemListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Lesson lesson = adapter.getItem(position);
+
+                sendAnalytics(lesson.title);
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("parent", lesson);
                 bundle.putBoolean("admin", admin);

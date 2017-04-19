@@ -7,25 +7,34 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
 
 public class ItemListActivity extends AppCompatActivity {
+
+    public String ANALYTICS_ADMIN = "";
+    public String ANALYTICS_PARENT_F1 = "parent_opened_keyboard_f1";
+    public String ANALYTICS_PARENT_TOUCH = "parent_opened_touch";
 
     protected String REFERENCE_PARENT;
     protected String REFERENCE;
 
     protected DatabaseReference mParentDatabase;
     protected DatabaseReference mDatabase;
+    protected FirebaseAnalytics mFirebaseAnalytics;
     protected Query query;
     protected boolean admin = false;
 
@@ -45,10 +54,30 @@ public class ItemListActivity extends AppCompatActivity {
         }
     }
 
+    protected void sendAnalyticsParentOpenedFromTouch(String parent) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, ANALYTICS_PARENT_TOUCH + parent);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    protected void sendAnalyticsParentOpenedFromKeyboard(String parent) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, ANALYTICS_PARENT_F1 + parent);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    protected void sendAnalytics(String selected) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected+ANALYTICS_ADMIN);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         llParent = (LinearLayout) findViewById(R.id.ll_parent);
         tvParentLine1 = (TextView) findViewById(R.id.tv_parent_line_1);
@@ -62,6 +91,7 @@ public class ItemListActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean("admin")) {
             admin = true;
+            ANALYTICS_ADMIN = "_admin";
             ActionBar actionBar = getSupportActionBar();
             actionBar.setBackgroundDrawable(new ColorDrawable(Color.RED));
         }

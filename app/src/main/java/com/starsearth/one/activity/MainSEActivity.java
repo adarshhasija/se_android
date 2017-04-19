@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,11 +33,19 @@ import java.util.Arrays;
 
 public class MainSEActivity extends AppCompatActivity {
 
+    public String ANALYTICS_MAINSE_LOGIN = "mainse_login";
+    public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN = "mainse_view_courses_loggin_in";
+    public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT = "mainse_view_courses_logged_out";
+    public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
+    public String ANALYTICS_MAINSE_CHANGE_PASSWORD = "mainse_change_password";
+    public String ANALYTICS_MAINSE_ADMIN_MODE = "mainse_admin_mode";
+
     private enum State {
         LOGGED_IN, LOGGED_OUT;
     }
 
     private FirebaseAuth mAuth;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private MainSEAdapter mAdapter;
     private State mCurrentState = State.LOGGED_OUT;
@@ -83,11 +92,18 @@ public class MainSEActivity extends AppCompatActivity {
         mCurrentState = state;
     }
 
+    private void sendAnalytics(String selected) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_se);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
@@ -106,10 +122,12 @@ public class MainSEActivity extends AppCompatActivity {
                 String selected = mAdapter.getItem(position);
                 Intent intent;
                 if (selected.contains("Login")) {
+                    sendAnalytics(ANALYTICS_MAINSE_LOGIN);
                     intent = new Intent(MainSEActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
                 else if (selected.contains("Logout")) {
+                    sendAnalytics(ANALYTICS_MAINSE_LOGOUT);
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(MainSEActivity.this, R.string.logout_successful, Toast.LENGTH_SHORT).show();
                 }
@@ -119,14 +137,23 @@ public class MainSEActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else if(selected.contains("Admin Mode")) {
+                    sendAnalytics(ANALYTICS_MAINSE_ADMIN_MODE);
                     intent = new Intent(MainSEActivity.this, AdminModeActivity.class);
                     startActivity(intent);
                 }
                 else if (selected.contains("Change Password")) {
+                    sendAnalytics(ANALYTICS_MAINSE_CHANGE_PASSWORD);
                     intent = new Intent(MainSEActivity.this, ChangePasswordActivity.class);
                     startActivity(intent);
                 }
                 else if (selected.contains("View Courses")) {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                    }
+                    else {
+                        sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT);
+                    }
                     intent = new Intent(MainSEActivity.this, CoursesListActivity.class);
                     startActivity(intent);
                 }

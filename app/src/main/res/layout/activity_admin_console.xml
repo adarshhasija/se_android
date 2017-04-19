@@ -7,13 +7,22 @@
     android:background="#FF0000"
     tools:context="com.starsearth.one.activity.AdminModeActivity">
 
+    <!-- This is a hack to make sure focus goes on the main text when user presses the down button -->
+    <TextView
+        android:id="@+id/tv_dummy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:focusable="true" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/tv_dummy"
         android:layout_centerVertical="true"
         android:gravity="center"
+        android:focusable="true"
         android:text="@string/admin_description" />
 
     <Button
@@ -23,6 +32,7 @@
         android:layout_centerInParent="true"
         android:background="#000000"
         android:textColor="#FFFFFF"
+        android:focusable="true"
         android:text="@string/view_data" />
 
 </RelativeLayout>

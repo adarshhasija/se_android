@@ -195,6 +195,9 @@ public class ExercisesListActivity extends ItemListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Exercise exercise = adapter.getItem(position);
+
+                sendAnalytics(exercise.title);
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("parent", exercise);
                 bundle.putBoolean("admin", admin);

@@ -195,6 +195,7 @@ public class TopicsListActivity extends ItemListActivity {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                        sendAnalyticsParentOpenedFromKeyboard(parent.title);
                         setupParentDetailView();
                     }
                     return false;
@@ -203,6 +204,7 @@ public class TopicsListActivity extends ItemListActivity {
             llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    sendAnalyticsParentOpenedFromTouch(parent.title);
                     setupParentDetailView();
                 }
             });
@@ -215,6 +217,9 @@ public class TopicsListActivity extends ItemListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Topic topic = adapter.getItem(position);
+
+                sendAnalytics(topic.title);
+
                 Intent intent;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("admin", admin);
