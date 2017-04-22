@@ -117,7 +117,7 @@ public class CoursesListActivity extends ItemListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_admin_users);
+        //setContentView(R.layout.activity_course_admin_users);
         setTitle("");
         llParent.setVisibility(View.GONE);
         tvListViewHeader.setText(R.string.courses);

@@ -196,7 +196,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
         apiAi.send(text);
     }
     private void goToStateMainAction() {
-        Intent intent = new Intent(this, TypingActivity.class);
+        Intent intent = new Intent(this, KeyboardActivity.class);
         startActivity(intent);
     }
     private void goToStateViewingBotQuestions() {

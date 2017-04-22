@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -22,10 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.lists.AdminUsersActivity;
+import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
 import com.starsearth.one.activity.lists.CoursesListActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
-import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
@@ -39,6 +37,7 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
     public String ANALYTICS_MAINSE_CHANGE_PASSWORD = "mainse_change_password";
     public String ANALYTICS_MAINSE_ADMIN_MODE = "mainse_admin_mode";
+    public String ANALYTICS_KEYBOARD_TEST = "mainse_keyboard_test";
 
     private enum State {
         LOGGED_IN, LOGGED_OUT;
@@ -64,7 +63,7 @@ public class MainSEActivity extends AppCompatActivity {
             if (user.email.contains("hasijaadarsh")) {
                 //mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_god_mode)));
             }
-            if (user.admin) {
+            if (user.course_admin) {
                 mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_admin_list)));
             }
             mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
@@ -133,10 +132,10 @@ public class MainSEActivity extends AppCompatActivity {
                 }
 
                 else if (selected.contains("Admin Access")) {
-                    intent = new Intent(MainSEActivity.this, AdminUsersActivity.class);
+                    intent = new Intent(MainSEActivity.this, CourseAdminUsersActivity.class);
                     startActivity(intent);
                 }
-                else if(selected.contains("Admin Mode")) {
+                else if(selected.contains("Courses Admin")) {
                     sendAnalytics(ANALYTICS_MAINSE_ADMIN_MODE);
                     intent = new Intent(MainSEActivity.this, AdminModeActivity.class);
                     startActivity(intent);
@@ -144,6 +143,11 @@ public class MainSEActivity extends AppCompatActivity {
                 else if (selected.contains("Change Password")) {
                     sendAnalytics(ANALYTICS_MAINSE_CHANGE_PASSWORD);
                     intent = new Intent(MainSEActivity.this, ChangePasswordActivity.class);
+                    startActivity(intent);
+                }
+                else if (selected.contains("Keyboard Test")) {
+                    sendAnalytics(ANALYTICS_KEYBOARD_TEST);
+                    intent = new Intent(MainSEActivity.this, KeyboardActivity.class);
                     startActivity(intent);
                 }
                 else if (selected.contains("View Courses")) {

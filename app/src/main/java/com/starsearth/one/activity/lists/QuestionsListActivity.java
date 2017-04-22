@@ -17,7 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.starsearth.one.QuestionActivity;
+import com.starsearth.one.activity.QuestionActivity;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.LoginActivity;
 import com.starsearth.one.activity.SignupActivity;

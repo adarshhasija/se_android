@@ -57,9 +57,9 @@ public class Firebase {
         }
     }
 
-    public void writeNewUser(String uid, boolean admin, String email) {
+    public void writeNewUser(String uid, boolean courseAdmin, String email) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(uid, admin, email);
+        User user = new User(uid, courseAdmin, email);
         databaseReference.child(uid).setValue(user);
     }
 

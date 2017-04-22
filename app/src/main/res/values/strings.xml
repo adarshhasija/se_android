@@ -35,10 +35,13 @@
     <string name="login_signup_access_questions">You need to login or signup to do the questions</string>
 
 
+    <string name="starting_signup_please_wait">Starting signup please wait</string>
+    <string name="signup_failed">Signup failed: </string>
+
     <!-- Typing Activity -->
     <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
     <string name="keyboard_removed">Keyboard has been removed</string>
-    <string name="press_any_key">Keyboard detected.\nPress any key to know more about your keyboard</string>
+    <string name="press_any_key">Press any key to know more about your keyboard</string>
     <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
     <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
     <string name="continue_to_login_screen">Continue to login screen</string>
@@ -47,6 +50,7 @@
     <string name="main_menu">Main Menu</string>
     <array name="se_main_list">
         <item>View Courses</item>
+        <item>Keyboard Test</item>
     </array>
     <array name="se_login_list">
         <item>Login to your account</item>
@@ -56,7 +60,7 @@
         <item>Logout</item>
     </array>
     <array name="se_user_admin_list">
-        <item>Admin Mode</item>
+        <item>Courses Admin Mode</item>
     </array>
     <array name="se_user_god_mode">
         <item>Admin Access List</item>
@@ -179,5 +183,6 @@
     <string name="password_update_failed">Password update failed</string>
     <string name="logout">Logout</string>
     <string name="view_courses_selected">View Courses selected</string>
+    <string name="keyboard_test">Keyboard Test</string>
 
 </resources>
