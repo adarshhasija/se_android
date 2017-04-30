@@ -184,5 +184,7 @@
     <string name="logout">Logout</string>
     <string name="view_courses_selected">View Courses selected</string>
     <string name="keyboard_test">Keyboard Test</string>
+    <string name="escape_key_description">Screen has closed. Pressing this closes the screen that you are on</string>
+    <string name="print_screen_description">Image of the screen has been taken. Pressing this takes an image of the screen</string>
 
 </resources>
