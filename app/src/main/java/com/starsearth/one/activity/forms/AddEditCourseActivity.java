@@ -64,7 +64,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
                 String courseTitle;
                 String courseDifficultyString = "Basic";
-                if (courseDifficulty == 0) { courseDifficultyString = "Basic"; }
+                if (courseDifficulty == 1) { courseDifficultyString = "Advanced"; }
                 courseTitle = courseDifficultyString + " " + courseType;
                 if (UID != null) {
                     course.setType(courseType);

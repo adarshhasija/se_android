@@ -169,7 +169,6 @@ public class LessonsListActivity extends ItemListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_lessons_list);
-        setTitle(R.string.course_details);
         tvListViewHeader.setText(R.string.lessons);
         btnAddItem.setText(R.string.add_lesson);
         REFERENCE_PARENT = "/courses/";
@@ -182,22 +181,14 @@ public class LessonsListActivity extends ItemListActivity {
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
 
+        boolean parentPresent = false;
         if (parent != null) {
+            parentPresent = true;
             mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
             mParentDatabase.addValueEventListener(parentListener);
 
+            setTitle(parent.getTitle());
             tvParentLine1.setText(parent.getTitle());
-            llParent.setVisibility(View.VISIBLE);
-            llParent.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
-                        sendAnalyticsParentOpenedFromKeyboard(parent.title);
-                        setupParentDetailView();
-                    }
-                    return false;
-                }
-            });
             llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -205,6 +196,10 @@ public class LessonsListActivity extends ItemListActivity {
                     setupParentDetailView();
                 }
             });
+        }
+
+        if (admin && parentPresent) {
+            llParent.setVisibility(View.VISIBLE);
         }
         else {
             llParent.setVisibility(View.GONE);
@@ -223,6 +218,16 @@ public class LessonsListActivity extends ItemListActivity {
                 Intent intent = new Intent(LessonsListActivity.this, TopicsListActivity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, position);
+            }
+        });
+        listView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                    sendAnalyticsParentOpenedFromKeyboard(parent.title);
+                    setupParentDetailView();
+                }
+                return false;
             }
         });
         btnAddItem.setOnClickListener(new View.OnClickListener() {

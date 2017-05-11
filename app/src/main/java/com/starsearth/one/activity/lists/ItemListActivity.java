@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected LinearLayout llParent;
     protected TextView tvParentLine1;
     protected TextView tvParentLine2;
+    protected RelativeLayout rlListViewHeader;
     protected TextView tvListViewHeader;
     protected ListView listView;
     protected Button btnAddItem;
@@ -82,6 +84,7 @@ public class ItemListActivity extends AppCompatActivity {
         llParent = (LinearLayout) findViewById(R.id.ll_parent);
         tvParentLine1 = (TextView) findViewById(R.id.tv_parent_line_1);
         tvParentLine2 = (TextView) findViewById(R.id.tv_parent_line_2);
+        rlListViewHeader = (RelativeLayout) findViewById(R.id.rl_listview_header);
         tvListViewHeader = (TextView) findViewById(R.id.tv_listview_header);
         listView = (ListView) findViewById(R.id.listView);
         registerForContextMenu(listView);
@@ -97,8 +100,12 @@ public class ItemListActivity extends AppCompatActivity {
         }
 
         if (admin) {
+            rlListViewHeader.setVisibility(View.VISIBLE);
             btnAddItem.setVisibility(View.VISIBLE);
             listView.setEmptyView(btnAddItem);
+        }
+        else {
+            rlListViewHeader.setVisibility(View.GONE);
         }
 
     }

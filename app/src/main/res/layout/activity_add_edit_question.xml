@@ -11,63 +11,93 @@
     android:orientation="vertical"
     tools:context="com.starsearth.one.activity.forms.AddEditQuestionActivity">
 
-    <EditText
-        android:id="@+id/et_title"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/question_title" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/et_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/question_answer" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/question_hint" />
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_title" />
 
-    <EditText
-        android:id="@+id/et_positive_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:inputType="numberDecimal"
-        android:hint="@string/question_positive_weight" />
+            <EditText
+                android:id="@+id/et_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_answer" />
 
-    <EditText
-        android:id="@+id/et_negative_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:inputType="numberDecimal|numberSigned"
-        android:hint="@string/question_negative_weight" />
+            <EditText
+                android:id="@+id/et_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_hint" />
 
-    <EditText
-        android:id="@+id/et_feedback_correct_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/question_feedback_correct_answer" />
+            <EditText
+                android:id="@+id/et_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_instruction" />
 
-    <EditText
-        android:id="@+id/et_feedback_wrong_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/question_feedback_wrong_answer" />
+            <EditText
+                android:id="@+id/et_repeats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal"
+                android:hint="@string/question_repeats" />
 
-    <Button
-        android:id="@+id/btn_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/done"
-        android:textColor="#FFFFFF"
-        android:background="#000000" />
+            <EditText
+                android:id="@+id/et_positive_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal"
+                android:hint="@string/question_positive_weight" />
+
+            <EditText
+                android:id="@+id/et_negative_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal|numberSigned"
+                android:hint="@string/question_negative_weight" />
+
+            <EditText
+                android:id="@+id/et_feedback_correct_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_feedback_correct_answer" />
+
+            <EditText
+                android:id="@+id/et_feedback_wrong_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/question_feedback_wrong_answer" />
+
+            <Button
+                android:id="@+id/btn_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/done"
+                android:textColor="#FFFFFF"
+                android:background="#000000" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>

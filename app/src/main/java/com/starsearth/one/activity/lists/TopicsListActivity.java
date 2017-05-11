@@ -17,8 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.TopicActivity;
-import com.starsearth.one.activity.domaindetail.CourseDetailActivity;
+import com.starsearth.one.activity.domaindetail.TopicDetailActivity;
 import com.starsearth.one.activity.domaindetail.LessonDetailActivity;
 import com.starsearth.one.activity.forms.AddEditLessonActivity;
 import com.starsearth.one.activity.forms.AddEditTopicActivity;
@@ -36,6 +35,7 @@ public class TopicsListActivity extends ItemListActivity {
     private Lesson parent;
     private ArrayList<Topic> itemList;
     private TopicsAdapter adapter;
+    private int currentIndex = -1;
 
     private ValueEventListener parentListener = new ValueEventListener() {
         @Override
@@ -132,8 +132,8 @@ public class TopicsListActivity extends ItemListActivity {
 
     private void updateItemChildInParent(Topic newTopic) {
         String topicKey = newTopic.getUid();
-        Map<String, SENestedObject> exercises = newTopic.exercises;
-        parent.topics.get(topicKey).children = exercises;
+        Map<String, SENestedObject> questions = newTopic.questions;
+        parent.topics.get(topicKey).children = questions;
         mParentDatabase.setValue(parent);
     }
 
@@ -168,11 +168,22 @@ public class TopicsListActivity extends ItemListActivity {
         showParentDetailView(intent, bundle);
     }
 
+    private void openTopicDetailView(Topic topic, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("topic", topic);
+        if (position >= itemList.size() - 1) {
+            bundle.putBoolean("is_last_topic", true);
+        }
+        currentIndex = position;
+        Intent intent = new Intent(TopicsListActivity.this, TopicDetailActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_topics_list);
-        setTitle(R.string.lesson_details);
         tvListViewHeader.setText(R.string.topics);
         btnAddItem.setText(R.string.add_topic);
         REFERENCE_PARENT = "/lessons/";
@@ -184,23 +195,14 @@ public class TopicsListActivity extends ItemListActivity {
 
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
-
+        boolean parentPresent = false;
         if (parent != null) {
+            parentPresent = true;
             mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
             mParentDatabase.addValueEventListener(parentListener);
 
+            setTitle(parent.getTitle());
             tvParentLine1.setText(parent.getTitle());
-            llParent.setVisibility(View.VISIBLE);
-            llParent.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
-                        sendAnalyticsParentOpenedFromKeyboard(parent.title);
-                        setupParentDetailView();
-                    }
-                    return false;
-                }
-            });
             llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -208,6 +210,10 @@ public class TopicsListActivity extends ItemListActivity {
                     setupParentDetailView();
                 }
             });
+        }
+
+        if (admin && parentPresent) {
+            llParent.setVisibility(View.VISIBLE);
         }
         else {
             llParent.setVisibility(View.GONE);
@@ -225,17 +231,24 @@ public class TopicsListActivity extends ItemListActivity {
                 bundle.putBoolean("admin", admin);
                 if (admin) {
                     bundle.putParcelable("parent", topic);
-                    intent = new Intent(TopicsListActivity.this, ExercisesListActivity.class);
+                    intent = new Intent(TopicsListActivity.this, QuestionsListActivity.class);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, position);
                 }
                 else {
-                    bundle.putParcelable("topic", topic);
-                    intent = new Intent(TopicsListActivity.this, TopicActivity.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, position);
+                    openTopicDetailView(topic, position);
                 }
 
+            }
+        });
+        listView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                    sendAnalyticsParentOpenedFromKeyboard(parent.title);
+                    setupParentDetailView();
+                }
+                return false;
             }
         });
         btnAddItem.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +275,24 @@ public class TopicsListActivity extends ItemListActivity {
         super.onDestroy();
         mParentDatabase.removeEventListener(parentListener);
         mDatabase.removeEventListener(listener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (currentIndex > -1) {
+            if (resultCode == RESULT_OK && null != data) {
+                if (data.getBooleanExtra("go_to_next_topic", false)) {
+                    currentIndex++;
+                    Topic topic = itemList.get(currentIndex);
+                    openTopicDetailView(topic, currentIndex);
+                }
+            }
+            else {
+                currentIndex = -1;
+            }
+        }
     }
 
     @Override

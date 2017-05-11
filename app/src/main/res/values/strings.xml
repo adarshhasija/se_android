@@ -84,7 +84,7 @@
     <string name="view_data">View data</string>
 
     <!--Courses list screen -->
-    <string name="courses">COURSES</string>
+    <string name="courses">Courses</string>
     <string name="add_course">Add course</string>
 
     <!-- Add course screen -->
@@ -160,6 +160,8 @@
     <string name="question_title">Question</string>
     <string name="question_answer">Answer</string>
     <string name="question_hint">Hint</string>
+    <string name="question_instruction">Instruction</string>
+    <string name="question_repeats">Repeats</string>
     <string name="question_positive_weight">Positive weight</string>
     <string name="question_negative_weight">Negative weight</string>
     <string name="question_feedback_correct_answer">Feedback for correct answer</string>
@@ -170,7 +172,7 @@
     <string name="question_feedback_wrong_answer_hint">You need to provide feedback for the wrong answer</string>
 
     <string name="no_exercises_go_back">No exercises, go back</string>
-    <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_question">Question</string>
     <string name="current_password_hint">Current Password</string>
     <string name="new_password_hint">New Password</string>
     <string name="new_password_hint_repeat">Reenter new password</string>
@@ -186,5 +188,12 @@
     <string name="keyboard_test">Keyboard Test</string>
     <string name="escape_key_description">Screen has closed. Pressing this closes the screen that you are on</string>
     <string name="print_screen_description">Image of the screen has been taken. Pressing this takes an image of the screen</string>
+    <string name="go_to_questions">Go to questions</string>
+    <string name="go_to_next_topic">Go to next topic</string>
+    <string name="lesson_last_topic_no_questions">This is the last topic. It has no questions. Go back.</string>
+    <string name="press_spacebar">Press Spacebar</string>
+    <string name="now_press">Now press</string>
+    <string name="wrong_answer">Wrong answer</string>
+    <string name="next_question">Next Question</string>
 
 </resources>

@@ -15,8 +15,7 @@
         android:id="@+id/et_topic_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/topic_name"
-        android:maxLines="1" />
+        android:hint="@string/topic_name" />
 
     <EditText
         android:id="@+id/et_topic_description"

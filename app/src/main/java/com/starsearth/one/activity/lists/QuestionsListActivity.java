@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.starsearth.one.activity.QuestionActivity;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.LoginActivity;
 import com.starsearth.one.activity.SignupActivity;
+import com.starsearth.one.activity.domaindetail.LessonDetailActivity;
+import com.starsearth.one.activity.domaindetail.TopicDetailActivity;
 import com.starsearth.one.activity.forms.AddEditExerciseActivity;
 import com.starsearth.one.activity.forms.AddEditQuestionActivity;
 import com.starsearth.one.adapter.QuestionsAdapter;
@@ -28,21 +31,23 @@ import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Question;
 import com.starsearth.one.domain.SENestedObject;
+import com.starsearth.one.domain.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsListActivity extends ItemListActivity {
 
-    private Exercise parent;
+    private Topic parent;
     private ArrayList<Question> itemList;
     private QuestionsAdapter adapter;
+    private int currentIndex = -1;
 
     private ValueEventListener parentListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             parent = null;
-            parent = dataSnapshot.getValue(Exercise.class);
+            parent = dataSnapshot.getValue(Topic.class);
 
             if (parent != null) {
                 tvParentLine1.setText(parent.getTitle());
@@ -215,14 +220,21 @@ public class QuestionsListActivity extends ItemListActivity {
                 .show();
     }
 
+    private void setupParentDetailView() {
+        Intent intent = new Intent(QuestionsListActivity.this, TopicDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("item", parent);
+        bundle.putBoolean("f1_help_mode", true);
+        showParentDetailView(intent, bundle);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_questions_list);
-        setTitle(R.string.exercise_details);
         tvListViewHeader.setText(R.string.questions);
         btnAddItem.setText(R.string.add_question);
-        REFERENCE_PARENT = "/exercises/";
+        REFERENCE_PARENT = "/topics/";
         REFERENCE = "questions";
 
         itemList = new ArrayList<>();
@@ -231,12 +243,18 @@ public class QuestionsListActivity extends ItemListActivity {
 
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
-
+        boolean parentPresent = false;
         if (parent != null) {
+            parentPresent = true;
             mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
             mParentDatabase.addValueEventListener(parentListener);
 
+            setTitle(parent.getTitle());
             tvParentLine1.setText(parent.getTitle());
+            llParent.setVisibility(View.VISIBLE);
+        }
+
+        if (admin && parentPresent) {
             llParent.setVisibility(View.VISIBLE);
         }
         else {
@@ -258,15 +276,21 @@ public class QuestionsListActivity extends ItemListActivity {
                 Intent intent;
                 Bundle bundle;
                 if (user != null) {
-                    intent = new Intent(QuestionsListActivity.this, QuestionActivity.class);
-                    bundle = new Bundle();
-                    bundle.putParcelable("question", question);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, position);
+                    openQuestionView(question, position);
                 }
                 else {
                     showLoginSignup();
                 }
+            }
+        });
+        listView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_F1 && event.getAction() == KeyEvent.ACTION_UP) {
+                    sendAnalyticsParentOpenedFromKeyboard(parent.title);
+                    setupParentDetailView();
+                }
+                return false;
             }
         });
 
@@ -295,6 +319,34 @@ public class QuestionsListActivity extends ItemListActivity {
         super.onDestroy();
         mParentDatabase.removeEventListener(parentListener);
         mDatabase.removeEventListener(listener);
+    }
+
+    private void openQuestionView(Question question, int position) {
+        currentIndex = position;
+        Intent intent = new Intent(QuestionsListActivity.this, QuestionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("question", question);
+        bundle.putInt("total_questions", itemList.size());
+        intent.putExtras(bundle);
+        startActivityForResult(intent, position);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (currentIndex > -1) {
+            if (resultCode == RESULT_OK && null != data) {
+                if (data.getBooleanExtra("go_to_next_question", false)) {
+                    currentIndex++;
+                    Question question = itemList.get(currentIndex);
+                    openQuestionView(question, currentIndex);
+                }
+            }
+            else {
+                currentIndex = -1;
+            }
+        }
     }
 
     @Override

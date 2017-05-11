@@ -28,6 +28,8 @@ public class AddEditQuestionActivity extends AppCompatActivity {
     private EditText etTitle;
     private EditText etAnswer;
     private EditText etHint;
+    private EditText etInstruction;
+    private EditText etRepeats;
     private EditText etPositiveWeight;
     private EditText etNegativeWeight;
     private EditText etFeedbackCorrectAnswer;
@@ -57,6 +59,8 @@ public class AddEditQuestionActivity extends AppCompatActivity {
         etTitle = (EditText) findViewById(R.id.et_title);
         etAnswer = (EditText) findViewById(R.id.et_answer);
         etHint = (EditText) findViewById(R.id.et_hint);
+        etInstruction = (EditText) findViewById(R.id.et_instruction);
+        etRepeats = (EditText) findViewById(R.id.et_repeats);
         etPositiveWeight = (EditText) findViewById(R.id.et_positive_weight);
         etNegativeWeight = (EditText) findViewById(R.id.et_negative_weight);
         etFeedbackCorrectAnswer = (EditText) findViewById(R.id.et_feedback_correct_answer);
@@ -65,6 +69,8 @@ public class AddEditQuestionActivity extends AppCompatActivity {
             etTitle.setText(question.getTitle());
             etAnswer.setText(question.getAnswer());
             etHint.setText(question.getHint());
+            etInstruction.setText(question.instruction);
+            etRepeats.setText(Integer.toString(question.repeats));
             etPositiveWeight.setText(Float.toString(question.getPositiveWeight()));
             etNegativeWeight.setText(Float.toString(question.getNegativeWeight()));
             etFeedbackCorrectAnswer.setText(question.getFeedbackCorrectAnswer());
@@ -78,10 +84,18 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                 String title = etTitle.getText().toString();
                 String answer = etAnswer.getText().toString();
                 String hint = etHint.getText().toString();
+                String instruction = etInstruction.getText().toString();
+                int repeats = 0;
                 float positiveWeight = 0;
                 float negativeWeight = 0;
                 String feedbackCorrectAnswer = etFeedbackCorrectAnswer.getText().toString();
                 String feedbackWrongAnswer = etFeedbackWrongAnswer.getText().toString();
+
+                try {
+                    repeats = Integer.parseInt(etRepeats.getText().toString());
+                } catch (NumberFormatException e) {
+
+                }
 
                 try {
                     positiveWeight = Float.parseFloat(etPositiveWeight.getText().toString());
@@ -110,16 +124,18 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                     Toast.makeText(AddEditQuestionActivity.this, R.string.question_feedback_correct_answer_hint, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (feedbackWrongAnswer == null || feedbackWrongAnswer.length() < 1) {
+             /*   if (feedbackWrongAnswer == null || feedbackWrongAnswer.length() < 1) {
                     Toast.makeText(AddEditQuestionActivity.this, R.string.question_feedback_wrong_answer_hint, Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }   */
 
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
                 if (UID != null) {
                     question.setTitle(title);
                     question.setAnswer(answer);
                     question.setHint(hint);
+                    question.instruction = instruction;
+                    question.repeats = repeats;
                     question.setPositiveWeight(positiveWeight);
                     question.setNegativeWeight(negativeWeight);
                     question.setFeedbackCorrectAnswer(feedbackCorrectAnswer);
@@ -130,7 +146,7 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                 }
                 else {
                     UID = firebase.writeNewQuestion(selectedIndex, title, answer, hint, positiveWeight, negativeWeight,
-                            feedbackCorrectAnswer, feedbackWrongAnswer, parentId);
+                            feedbackCorrectAnswer, feedbackWrongAnswer, parentId, instruction, repeats);
                 }
 
                 finish();

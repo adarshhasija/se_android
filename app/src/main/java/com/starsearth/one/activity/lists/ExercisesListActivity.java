@@ -128,19 +128,19 @@ public class ExercisesListActivity extends ItemListActivity {
 
     private void addItemReferenceToParent(String exerciseKey) {
         SENestedObject nestedObject = new SENestedObject(exerciseKey, "exercises");
-        parent.addExercise(nestedObject);
+        //parent.addExercise(nestedObject);
         mParentDatabase.setValue(parent);
     }
 
     private void updateItemChildInParent(Exercise newExercise) {
         String exerciseKey = newExercise.getUid();
         Map<String, SENestedObject> questions = newExercise.questions;
-        parent.exercises.get(exerciseKey).children = questions;
+        //parent.exercises.get(exerciseKey).children = questions;
         mParentDatabase.setValue(parent);
     }
 
     private void removeItemFromParent(String exerciseKey) {
-        parent.removeExercise(exerciseKey);
+        //parent.removeExercise(exerciseKey);
         mParentDatabase.setValue(parent);
     }
 
@@ -167,7 +167,6 @@ public class ExercisesListActivity extends ItemListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_exercises_list);
-        setTitle(R.string.topic_details);
         tvListViewHeader.setText(R.string.exercises);
         btnAddItem.setText(R.string.add_exercise);
         REFERENCE_PARENT = "/topics/";
@@ -179,12 +178,17 @@ public class ExercisesListActivity extends ItemListActivity {
 
         Bundle bundle = getIntent().getExtras();
         parent = bundle.getParcelable("parent");
-
+        boolean parentPresent = false;
         if (parent != null) {
+            parentPresent = true;
             mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
             mParentDatabase.addValueEventListener(parentListener);
 
+            setTitle(parent.getTitle());
             tvParentLine1.setText(parent.getTitle());
+        }
+
+        if (admin && parentPresent) {
             llParent.setVisibility(View.VISIBLE);
         }
         else {

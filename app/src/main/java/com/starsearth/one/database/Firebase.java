@@ -146,8 +146,8 @@ public class Firebase {
 
     public void removeTopic(Topic topic) {
         if (topic == null) return;
-        Map<String, SENestedObject> exercises = topic.exercises;
-        Iterator it = exercises.entrySet().iterator();
+        Map<String, SENestedObject> questions = topic.questions;
+        Iterator it = questions.entrySet().iterator();
         removeChildren(it);
         databaseReference.child(topic.getUid()).removeValue();
     }
@@ -182,11 +182,11 @@ public class Firebase {
     }
 
     public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight,
-                                   String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent) {
+                                   String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent, String instruction, int repeats) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Question question = new Question(key, title, answer, hint, index, positiveWeight, negativeWeight,
-                                            feedbackCorrectAnswer, feedbackWrongAnswer, user.getUid(), parent);
+                                            feedbackCorrectAnswer, feedbackWrongAnswer, user.getUid(), parent, instruction, repeats);
         Map<String, Object> values = question.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

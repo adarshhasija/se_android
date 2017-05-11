@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.TopicActivity"
+            android:name=".activity.domaindetail.TopicDetailActivity"
             android:label="@string/topic_details" />
         <activity
             android:name=".activity.QuestionActivity"

@@ -121,6 +121,7 @@ public class CoursesListActivity extends ItemListActivity {
         setTitle("");
         llParent.setVisibility(View.GONE);
         tvListViewHeader.setText(R.string.courses);
+        setTitle(R.string.courses);
         btnAddItem.setText(R.string.add_course);
         REFERENCE_PARENT = null;
         REFERENCE = "courses";
