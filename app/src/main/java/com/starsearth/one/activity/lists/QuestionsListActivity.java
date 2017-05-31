@@ -2,6 +2,7 @@ package com.starsearth.one.activity.lists;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -228,6 +232,22 @@ public class QuestionsListActivity extends ItemListActivity {
         showParentDetailView(intent, bundle);
     }
 
+    private OnCompleteListener<AuthResult> guestLoginListener = new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            if (task.isSuccessful()) {
+
+            }
+            else {
+                
+            }
+        }
+    };
+
+    private void loginGuest() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,16 +290,9 @@ public class QuestionsListActivity extends ItemListActivity {
 
                 if (admin) {
                     showQuestionAdminMode(question, position);
-                    return;
-                }
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent intent;
-                Bundle bundle;
-                if (user != null) {
-                    openQuestionView(question, position);
                 }
                 else {
-                    showLoginSignup();
+                    openQuestionView(question, position);
                 }
             }
         });

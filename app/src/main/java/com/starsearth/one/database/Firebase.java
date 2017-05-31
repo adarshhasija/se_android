@@ -1,5 +1,7 @@
 package com.starsearth.one.database;
 
+import android.content.Context;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -18,6 +20,7 @@ import com.starsearth.one.domain.Question;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 import com.starsearth.one.domain.User;
+import com.starsearth.one.domain.UserAnswer;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,7 +41,12 @@ public class Firebase {
     public Firebase(String reference) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        this.databaseReference = database.getReference(reference);
+        if (reference != null) {
+            this.databaseReference = database.getReference(reference);
+        }
+        else {
+            this.databaseReference = database.getReference();
+        }
         this.storageReference = storage.getReferenceFromUrl(URL_STORAGE);
     }
 
@@ -207,6 +215,24 @@ public class Firebase {
     public void removeQuestion(Question question) {
         if (question == null) return;
         databaseReference.child(question.getUid()).removeValue();
+    }
+
+
+    //Returns key of the newly created course
+    public String writeNewUserAnswer(User firebaseUserValues, String questionId, String userAnswerString, long timeSpent, String topicId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databaseReference.push().getKey();
+        UserAnswer userAnswer = new UserAnswer(key, questionId, user.getUid(), userAnswerString, timeSpent, topicId);
+        Map<String, Object> userAnswerValues = userAnswer.toMap();
+        userAnswerValues.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/answers/"+key, userAnswerValues);
+
+        firebaseUserValues.addAnswer(new SENestedObject(key, "answers"));
+        childUpdates.put("/users/" + firebaseUserValues.uid, firebaseUserValues);
+
+        databaseReference.updateChildren(childUpdates);
+        return key;
     }
 
 

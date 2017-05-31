@@ -190,10 +190,12 @@
     <string name="print_screen_description">Image of the screen has been taken. Pressing this takes an image of the screen</string>
     <string name="go_to_questions">Go to questions</string>
     <string name="go_to_next_topic">Go to next topic</string>
+    <string name="go_back_to_lessons">Go back to lessons</string>
     <string name="lesson_last_topic_no_questions">This is the last topic. It has no questions. Go back.</string>
-    <string name="press_spacebar">Press Spacebar</string>
-    <string name="now_press">Now press</string>
-    <string name="wrong_answer">Wrong answer</string>
+    <string name="press_spacebar">Good, now press Spacebar</string>
+    <string name="now_press">Good, now press</string>
+    <string name="wrong_answer">No, type</string>
     <string name="next_question">Next Question</string>
+    <string name="guest_authentication_failed">Guest authentication failed</string>
 
 </resources>

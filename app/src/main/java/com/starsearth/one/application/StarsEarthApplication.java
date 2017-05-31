@@ -9,12 +9,15 @@ import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
 import com.starsearth.one.R;
+import com.starsearth.one.domain.User;
 
 /**
  * Created by faimac on 11/28/16.
  */
 
 public class StarsEarthApplication extends Application {
+
+    private User firebaseUser;
 
     public boolean isTalkbackOn() {
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
@@ -44,4 +47,11 @@ public class StarsEarthApplication extends Application {
         alertDialog.show();
     }
 
+    public User getFirebaseUser() {
+        return firebaseUser;
+    }
+
+    public void setFirebaseUser(User firebaseUser) {
+        this.firebaseUser = firebaseUser;
+    }
 }

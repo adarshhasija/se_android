@@ -24,6 +24,7 @@ import com.starsearth.one.R;
 import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
 import com.starsearth.one.activity.lists.CoursesListActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
+import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
@@ -178,6 +179,7 @@ public class MainSEActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User userDetails = dataSnapshot.getValue(User.class);
+                            ((StarsEarthApplication) getApplication()).setFirebaseUser(userDetails);
                             addToListOnUserSignIn(userDetails);
                         }
 
