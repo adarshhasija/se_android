@@ -54,6 +54,10 @@
     </array>
     <array name="se_login_list">
         <item>Login to your account</item>
+        <item>Signup for an account</item>
+    </array>
+    <array name="se_guest_user_list">
+        <item>Convert to full account</item>
     </array>
     <array name="se_user_account_list">
         <item>Change Password</item>
@@ -197,5 +201,11 @@
     <string name="wrong_answer">No, type</string>
     <string name="next_question">Next Question</string>
     <string name="guest_authentication_failed">Guest authentication failed</string>
+    <string name="i_have_account">I have an account</string>
+    <string name="i_do_not_have_account">I do not have an account</string>
+    <string name="sign_up_or_guest">You can sign up for continue as a guest</string>
+    <string name="guest_account_info">If you continue as a guest, you must signup later to save your data</string>
+    <string name="continue_as_guest">Continue as guest</string>
+    <string name="usb_keyboard">You need to connect a USB keyboard to the phone to use this app</string>
 
 </resources>

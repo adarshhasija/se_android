@@ -59,7 +59,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected void sendAnalyticsParentOpenedFromTouch(String parent) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, ANALYTICS_PARENT_TOUCH + parent);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     protected void sendAnalyticsParentOpenedFromKeyboard(String parent) {
@@ -71,7 +71,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected void sendAnalytics(String selected) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected+ANALYTICS_ADMIN);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         llParent = (LinearLayout) findViewById(R.id.ll_parent);
         tvParentLine1 = (TextView) findViewById(R.id.tv_parent_line_1);

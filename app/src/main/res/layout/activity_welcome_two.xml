@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.starsearth.one.activity.welcome.WelcomeTwoActivity">
+
+    <!-- Dummy TextView for accessibility -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/tv_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:focusable="true"
+        android:text="@string/sign_up_or_guest"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_one"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center"
+        android:focusable="true"
+        android:text="@string/guest_account_info" />
+
+    <Button
+        android:id="@+id/btn_continue_as_guest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/continue_as_guest"
+        android:focusable="true"
+        android:background="#FF0000"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue_as_guest"
+        android:text="@string/signup"
+        android:focusable="true"
+        android:background="#008000"
+        android:textColor="#FFFFFF" />
+
+    <ProgressBar
+        android:id="@id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

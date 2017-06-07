@@ -66,9 +66,19 @@ public class Firebase {
     }
 
     public void writeNewUser(String uid, boolean courseAdmin, String email) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         User user = new User(uid, courseAdmin, email);
         databaseReference.child(uid).setValue(user);
+    }
+
+    public void writeNewGuestUser(String uid) {
+        User user = new User(uid, true);
+        databaseReference.child(uid).setValue(user);
+    }
+
+    public void convertGuestUserToFullUser(String key, User user) {
+        Map<String, Object> values = user.toMap();
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        databaseReference.child(key).setValue(values);
     }
 
     //Returns key of the newly created course

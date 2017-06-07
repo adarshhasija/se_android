@@ -12,7 +12,7 @@
     <application
         android:name=".application.StarsEarthApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/typing"
+        android:icon="@mipmap/ic_computer"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -26,8 +26,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.KeyboardActivity"
-            android:label="@string/keyboard_test"
-            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|smallestScreenSize|navigation|locale|layoutDirection|fontScale" />
+            android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|smallestScreenSize|navigation|locale|layoutDirection|fontScale"
+            android:label="@string/keyboard_test" />
         <activity
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -44,21 +44,15 @@
         <activity android:name=".activity.lists.QuestionsListActivity" />
         <activity android:name=".activity.forms.AddEditQuestionActivity" />
         <activity android:name=".activity.SignupActivity" />
-        <activity android:name=".activity.MainSEActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.MainSEActivity"></activity>
         <activity
             android:name=".activity.domaindetail.TopicDetailActivity"
             android:label="@string/topic_details" />
         <activity
             android:name=".activity.QuestionActivity"
             android:label="@string/title_activity_question"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.ChangePasswordActivity" />
         <activity
             android:name=".activity.lists.CourseAdminUsersActivity"
@@ -67,8 +61,17 @@
         <activity
             android:name=".activity.domaindetail.CourseDetailActivity"
             android:label="@string/course_details" />
-        <activity android:name=".activity.domaindetail.LessonDetailActivity"
-                android:label="@string/lesson_details"></activity>
+        <activity
+            android:name=".activity.domaindetail.LessonDetailActivity"
+            android:label="@string/lesson_details" />
+        <activity android:name=".activity.welcome.WelcomeOneActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.welcome.WelcomeTwoActivity"></activity>
     </application>
 
 </manifest>

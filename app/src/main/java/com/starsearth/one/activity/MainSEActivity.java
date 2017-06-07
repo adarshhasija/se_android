@@ -33,6 +33,8 @@ import java.util.Arrays;
 public class MainSEActivity extends AppCompatActivity {
 
     public String ANALYTICS_MAINSE_LOGIN = "mainse_login";
+    public String ANALYTICS_MAINSE_SIGNUP = "mainse_signup";
+    public String ANALYTICS_CONVERT = "mainse_convert_full_account";
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN = "mainse_view_courses_loggin_in";
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT = "mainse_view_courses_logged_out";
     public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
@@ -45,8 +47,8 @@ public class MainSEActivity extends AppCompatActivity {
     }
 
     private FirebaseAuth mAuth;
-    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
     private State mCurrentState = State.LOGGED_OUT;
 
@@ -61,7 +63,7 @@ public class MainSEActivity extends AppCompatActivity {
         mAdapter.getObjectList().clear();
         mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
         if (user != null) {
-            if (user.email.contains("hasijaadarsh")) {
+            if (user.email != null && user.email.contains("hasijaadarsh")) {
                 //mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_god_mode)));
             }
             if (user.course_admin) {
@@ -73,6 +75,19 @@ public class MainSEActivity extends AppCompatActivity {
             listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
             changeState(State.LOGGED_IN);
         }
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void addToListOnGuestUserSignIn(User user) {
+        mAdapter.getObjectList().clear();
+        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
+        if (user != null && user.isGuest) {
+            mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_guest_user_list)));
+        }
+        mAdapter.notifyDataSetChanged();
+        listView.setSelection(0);
+        listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
+        changeState(State.LOGGED_IN);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -96,6 +111,35 @@ public class MainSEActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    private ValueEventListener userDetailsListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            User userDetails = dataSnapshot.getValue(User.class);
+            ((StarsEarthApplication) getApplication()).setFirebaseUser(userDetails);
+            if (userDetails != null) {
+                if (userDetails.isGuest) {
+                    addToListOnGuestUserSignIn(userDetails);
+                }
+                else {
+                    addToListOnUserSignIn(userDetails);
+                }
+            }
+            else {
+                FirebaseAuth.getInstance().signOut();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            addToListOnUserSignOut();
+        }
+    };
+
+    private void getUserDetails(FirebaseUser user) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+user.getUid());
+        ref.addListenerForSingleValueEvent(userDetailsListener);
     }
 
     @Override
@@ -126,12 +170,21 @@ public class MainSEActivity extends AppCompatActivity {
                     intent = new Intent(MainSEActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
+                else if (selected.contains("Signup")) {
+                    sendAnalytics(ANALYTICS_MAINSE_SIGNUP);
+                    intent = new Intent(MainSEActivity.this, SignupActivity.class);
+                    startActivity(intent);
+                }
+                else if (selected.contains("full account")) {
+                    sendAnalytics(ANALYTICS_CONVERT);
+                    intent = new Intent(MainSEActivity.this, SignupActivity.class);
+                    startActivity(intent);
+                }
                 else if (selected.contains("Logout")) {
                     sendAnalytics(ANALYTICS_MAINSE_LOGOUT);
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(MainSEActivity.this, R.string.logout_successful, Toast.LENGTH_SHORT).show();
                 }
-
                 else if (selected.contains("Admin Access")) {
                     intent = new Intent(MainSEActivity.this, CourseAdminUsersActivity.class);
                     startActivity(intent);
@@ -172,24 +225,12 @@ public class MainSEActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 listView.announceForAccessibility(getResources().getString(R.string.please_wait));
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+user.getUid());
-                    ref.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User userDetails = dataSnapshot.getValue(User.class);
-                            ((StarsEarthApplication) getApplication()).setFirebaseUser(userDetails);
-                            addToListOnUserSignIn(userDetails);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            addToListOnUserSignOut();
-                        }
-                    });
+                    getUserDetails(user);
                 }
                 else {
+                    ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
                     addToListOnUserSignOut();
                 }
             }
