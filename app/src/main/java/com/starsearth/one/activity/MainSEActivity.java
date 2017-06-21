@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
 import com.starsearth.one.activity.lists.CoursesListActivity;
+import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.User;
@@ -232,6 +233,11 @@ public class MainSEActivity extends AppCompatActivity {
                 else {
                     ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
                     addToListOnUserSignOut();
+
+                    //Redirecting to login scren
+                    Intent newIntent = new Intent(MainSEActivity.this, WelcomeOneActivity.class);
+                    startActivity(newIntent);
+                    finish();
                 }
             }
         };

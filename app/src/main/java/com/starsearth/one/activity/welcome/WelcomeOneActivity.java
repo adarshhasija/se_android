@@ -6,7 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +31,18 @@ public class WelcomeOneActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private EditText etUsername;
+    private EditText etPassword;
+    private ProgressBar mProgressBar;
+
+    OnFailureListener authFailureListener = new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Toast.makeText(WelcomeOneActivity.this, R.string.login_failed +e.getMessage(), Toast.LENGTH_SHORT).show();
+            if (mProgressBar != null) mProgressBar.setVisibility(View.GONE);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +55,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
                     startActivity(intent);
                     finish();
@@ -48,21 +65,31 @@ public class WelcomeOneActivity extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
-        Button btnKeyboardTest = (Button) findViewById(R.id.btn_keyboard_test);
-        Button btnAccount = (Button) findViewById(R.id.btn_account);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        etUsername = (EditText) findViewById(R.id.et_username);
+        etUsername.requestFocus();
+        etPassword = (EditText) findViewById(R.id.et_password);
+        Button btnLogin = (Button) findViewById(R.id.btn_login);
         Button btnNoAccount = (Button) findViewById(R.id.btn_no_account);
-        btnKeyboardTest.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WelcomeOneActivity.this, KeyboardActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WelcomeOneActivity.this, LoginActivity.class);
-                startActivity(intent);
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                if (username == null || username.length() < 1) {
+                    Toast.makeText(WelcomeOneActivity.this, R.string.email_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (password == null || password.length() < 1) {
+                    Toast.makeText(WelcomeOneActivity.this, R.string.password_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (username != null && password != null) {
+                    if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
+                    Toast.makeText(WelcomeOneActivity.this, R.string.login_started, Toast.LENGTH_SHORT).show();
+                    mAuth.signInWithEmailAndPassword(username, password)
+                            .addOnFailureListener(authFailureListener);
+                }
             }
         });
         btnNoAccount.setOnClickListener(new View.OnClickListener() {
