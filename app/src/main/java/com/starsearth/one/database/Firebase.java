@@ -82,10 +82,10 @@ public class Firebase {
     }
 
     //Returns key of the newly created course
-    public String writeNewCourse(String type, int difficulty, String name, String description) {
+    public String writeNewCourse(String type, int difficulty, String name, String description, boolean usbKeyboard) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Course course = new Course(key, type, difficulty, name, description, user.getUid());
+        Course course = new Course(key, type, difficulty, name, description, user.getUid(), usbKeyboard);
         Map<String, Object> courseValues = course.toMap();
         courseValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -200,11 +200,12 @@ public class Firebase {
     }
 
     public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight,
-                                   String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent, String instruction, int repeats) {
+                                   String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent, String instruction, int repeats,
+                                   String questionType) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Question question = new Question(key, title, answer, hint, index, positiveWeight, negativeWeight,
-                                            feedbackCorrectAnswer, feedbackWrongAnswer, user.getUid(), parent, instruction, repeats);
+                                            feedbackCorrectAnswer, feedbackWrongAnswer, user.getUid(), parent, instruction, repeats, questionType);
         Map<String, Object> values = question.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

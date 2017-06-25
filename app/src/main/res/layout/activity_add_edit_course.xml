@@ -48,6 +48,29 @@
         android:focusable="true"
         android:hint="@string/course_description" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:focusable="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/course_keyboard_required" />
+        <Switch
+            android:id="@+id/switch_usb_keyboard"
+            android:layout_width="wrap_content"
+            android:focusable="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="50dp" />
+
+    </RelativeLayout>
+
+
+
     <Button
         android:id="@+id/btn_done"
         android:layout_width="match_parent"

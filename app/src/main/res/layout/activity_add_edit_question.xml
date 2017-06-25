@@ -48,29 +48,46 @@
                 android:layout_marginTop="5dp"
                 android:hint="@string/question_instruction" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="@string/question_type"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+            <Spinner
+                android:id="@+id/spinner_question_type"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#D3D3D3"
+                android:focusable="true">
+
+                <requestFocus />
+            </Spinner>
+
             <EditText
                 android:id="@+id/et_repeats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:inputType="numberDecimal"
-                android:hint="@string/question_repeats" />
+                android:hint="@string/question_repeats"
+                android:inputType="numberDecimal" />
 
             <EditText
                 android:id="@+id/et_positive_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:inputType="numberDecimal"
-                android:hint="@string/question_positive_weight" />
+                android:hint="@string/question_positive_weight"
+                android:inputType="numberDecimal" />
 
             <EditText
                 android:id="@+id/et_negative_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:inputType="numberDecimal|numberSigned"
-                android:hint="@string/question_negative_weight" />
+                android:hint="@string/question_negative_weight"
+                android:inputType="numberDecimal|numberSigned" />
 
             <EditText
                 android:id="@+id/et_feedback_correct_answer"
@@ -90,14 +107,13 @@
                 android:id="@+id/btn_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#000000"
                 android:text="@string/done"
-                android:textColor="#FFFFFF"
-                android:background="#000000" />
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

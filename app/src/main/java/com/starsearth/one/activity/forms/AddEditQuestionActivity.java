@@ -3,8 +3,10 @@ package com.starsearth.one.activity.forms;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +31,7 @@ public class AddEditQuestionActivity extends AppCompatActivity {
     private EditText etAnswer;
     private EditText etHint;
     private EditText etInstruction;
+    private Spinner spinnerQuestionType;
     private EditText etRepeats;
     private EditText etPositiveWeight;
     private EditText etNegativeWeight;
@@ -60,6 +63,11 @@ public class AddEditQuestionActivity extends AppCompatActivity {
         etAnswer = (EditText) findViewById(R.id.et_answer);
         etHint = (EditText) findViewById(R.id.et_hint);
         etInstruction = (EditText) findViewById(R.id.et_instruction);
+        spinnerQuestionType = (Spinner) findViewById(R.id.spinner_question_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.question_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerQuestionType.setAdapter(adapter);
         etRepeats = (EditText) findViewById(R.id.et_repeats);
         etPositiveWeight = (EditText) findViewById(R.id.et_positive_weight);
         etNegativeWeight = (EditText) findViewById(R.id.et_negative_weight);
@@ -70,6 +78,9 @@ public class AddEditQuestionActivity extends AppCompatActivity {
             etAnswer.setText(question.getAnswer());
             etHint.setText(question.getHint());
             etInstruction.setText(question.instruction);
+            if (question.questionType != null && question.questionType.equalsIgnoreCase("trial")) {
+                spinnerQuestionType.setSelection(0);
+            }
             etRepeats.setText(Integer.toString(question.repeats));
             etPositiveWeight.setText(Float.toString(question.getPositiveWeight()));
             etNegativeWeight.setText(Float.toString(question.getNegativeWeight()));
@@ -85,6 +96,7 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                 String answer = etAnswer.getText().toString();
                 String hint = etHint.getText().toString();
                 String instruction = etInstruction.getText().toString();
+                String questionType = (String) spinnerQuestionType.getSelectedItem();
                 int repeats = 0;
                 float positiveWeight = 0;
                 float negativeWeight = 0;
@@ -135,6 +147,7 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                     question.setAnswer(answer);
                     question.setHint(hint);
                     question.instruction = instruction;
+                    question.questionType = questionType;
                     question.repeats = repeats;
                     question.setPositiveWeight(positiveWeight);
                     question.setNegativeWeight(negativeWeight);
@@ -146,7 +159,7 @@ public class AddEditQuestionActivity extends AppCompatActivity {
                 }
                 else {
                     UID = firebase.writeNewQuestion(selectedIndex, title, answer, hint, positiveWeight, negativeWeight,
-                            feedbackCorrectAnswer, feedbackWrongAnswer, parentId, instruction, repeats);
+                            feedbackCorrectAnswer, feedbackWrongAnswer, parentId, instruction, repeats, questionType);
                 }
 
                 finish();

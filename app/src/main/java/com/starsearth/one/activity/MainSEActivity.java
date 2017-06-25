@@ -2,6 +2,7 @@ package com.starsearth.one.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,7 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN = "mainse_view_courses_loggin_in";
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT = "mainse_view_courses_logged_out";
     public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
+    public String ANALYTICS_MAINSE_EMAIL = "mainse_email";
     public String ANALYTICS_MAINSE_CHANGE_PASSWORD = "mainse_change_password";
     public String ANALYTICS_MAINSE_ADMIN_MODE = "mainse_admin_mode";
     public String ANALYTICS_KEYBOARD_TEST = "mainse_keyboard_test";
@@ -111,7 +113,7 @@ public class MainSEActivity extends AppCompatActivity {
     private void sendAnalytics(String selected) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     private ValueEventListener userDetailsListener = new ValueEventListener() {
@@ -194,6 +196,14 @@ public class MainSEActivity extends AppCompatActivity {
                     sendAnalytics(ANALYTICS_MAINSE_ADMIN_MODE);
                     intent = new Intent(MainSEActivity.this, AdminModeActivity.class);
                     startActivity(intent);
+                }
+                else if (selected.contains("email")) {
+                    sendAnalytics(ANALYTICS_MAINSE_EMAIL);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainSEActivity.this);
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    alert.setTitle(getString(R.string.email));
+                    alert.setMessage(currentUser.getEmail());
+                    alert.show();
                 }
                 else if (selected.contains("Change Password")) {
                     sendAnalytics(ANALYTICS_MAINSE_CHANGE_PASSWORD);

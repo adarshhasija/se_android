@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
     private Spinner spinnerCourseType;
     private Spinner spinnerCourseDifficulty;
     private EditText etCourseDescription;
+    private Switch switchUSBKeyboard;
     private Button btnDone;
 
     @Override
@@ -49,6 +51,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
         spinnerCourseDifficulty.setAdapter(adapter);
 
         etCourseDescription = (EditText) findViewById(R.id.et_course_description);
+        switchUSBKeyboard = (Switch) findViewById(R.id.switch_usb_keyboard);
+
         btnDone = (Button) findViewById(R.id.btn_done);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
                     Toast.makeText(AddEditCourseActivity.this, R.string.course_description_blank, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                boolean usbKeyboard = switchUSBKeyboard.isChecked();
 
                 Firebase firebase = new Firebase(DATABASE_REFERENCE);
                 String courseTitle;
@@ -71,12 +76,13 @@ public class AddEditCourseActivity extends AppCompatActivity {
                     course.setDifficulty(courseDifficulty);
                     course.setTitle(courseTitle);
                     course.setDescription(courseDescription);
+                    course.usbKeyboard = usbKeyboard;
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     course.setUpdatedBy(currentUser.getUid());
                     firebase.updateExistingCourse(UID, course);
                 }
                 else {
-                    UID = firebase.writeNewCourse(courseType, courseDifficulty, courseTitle, courseDescription);
+                    UID = firebase.writeNewCourse(courseType, courseDifficulty, courseTitle, courseDescription, usbKeyboard);
                 }
 
                 Intent intent = new Intent();
@@ -98,6 +104,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
                 spinnerCourseType.setSelection(0);
             }
             etCourseDescription.setText(course.getDescription());
+            switchUSBKeyboard.setChecked(course.usbKeyboard);
             UID = course.getUid();
         }
     }
