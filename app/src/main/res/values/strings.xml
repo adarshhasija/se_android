@@ -41,7 +41,7 @@
     <!-- Typing Activity -->
     <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
     <string name="keyboard_removed">Keyboard has been removed</string>
-    <string name="press_any_key">Press any key to know more about your keyboard</string>
+    <string name="press_any_key">Connect a keyboard and press any key to know more about your keyboard</string>
     <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
     <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
     <string name="continue_to_login_screen">Continue to login screen</string>
@@ -213,5 +213,6 @@
         <item>Trial</item>
     </string-array>
     <string name="course_keyboard_required">USB Keyboard required</string>
+    <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
 
 </resources>

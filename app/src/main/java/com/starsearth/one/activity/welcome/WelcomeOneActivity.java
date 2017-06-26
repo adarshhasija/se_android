@@ -70,7 +70,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
         etUsername.requestFocus();
         etPassword = (EditText) findViewById(R.id.et_password);
         Button btnLogin = (Button) findViewById(R.id.btn_login);
-        Button btnNoAccount = (Button) findViewById(R.id.btn_no_account);
+        Button btnKeyboard = (Button) findViewById(R.id.btn_keyboard);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,10 +92,10 @@ public class WelcomeOneActivity extends AppCompatActivity {
                 }
             }
         });
-        btnNoAccount.setOnClickListener(new View.OnClickListener() {
+        btnKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WelcomeOneActivity.this, WelcomeTwoActivity.class);
+                Intent intent = new Intent(WelcomeOneActivity.this, KeyboardActivity.class);
                 startActivity(intent);
             }
         });

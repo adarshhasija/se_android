@@ -1,5 +1,6 @@
 package com.starsearth.one.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -199,10 +200,16 @@ public class MainSEActivity extends AppCompatActivity {
                 }
                 else if (selected.contains("email")) {
                     sendAnalytics(ANALYTICS_MAINSE_EMAIL);
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MainSEActivity.this);
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(MainSEActivity.this);
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     alert.setTitle(getString(R.string.email));
                     alert.setMessage(currentUser.getEmail());
+                    alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                     alert.show();
                 }
                 else if (selected.contains("Change Password")) {

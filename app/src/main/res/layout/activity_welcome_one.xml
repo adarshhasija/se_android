@@ -33,16 +33,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:text="@string/usb_keyboard"
+        android:text="@string/account_with_ngo"
         android:layout_below="@id/tv_one"
         android:layout_margin="10dp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 
     <Button
+        android:id="@+id/btn_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/keyboard_test"
+        android:focusable="true"
+        android:background="#008000"
+        android:textColor="#FFFFFF" />
+
+    <Button
         android:id="@+id/btn_no_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:text="@string/i_do_not_have_account"
         android:focusable="true"
@@ -53,7 +64,7 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_no_account"
+        android:layout_above="@id/btn_keyboard"
         android:text="@string/login"
         android:focusable="true"
         android:background="#0000FF"
