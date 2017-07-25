@@ -187,7 +187,7 @@ public class LessonsListActivity extends ItemListActivity {
             mParentDatabase = FirebaseDatabase.getInstance().getReference(REFERENCE_PARENT + parent.getUid());
             mParentDatabase.addValueEventListener(parentListener);
 
-            setTitle(parent.getTitle());
+            //setTitle(parent.getTitle());
             tvParentLine1.setText(parent.getTitle());
             llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
