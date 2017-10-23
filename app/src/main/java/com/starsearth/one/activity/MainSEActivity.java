@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -39,6 +41,7 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_MAINSE_SIGNUP = "mainse_signup";
     public String ANALYTICS_CONVERT = "mainse_convert_full_account";
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN = "mainse_view_courses_loggin_in";
+    public String ANALYTICS_MAINSE_TYPING_TEST_LOGGED_IN = "mainse_typing_test_loggin_in";
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT = "mainse_view_courses_logged_out";
     public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
     public String ANALYTICS_MAINSE_EMAIL = "mainse_email";
@@ -151,7 +154,7 @@ public class MainSEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_se);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
@@ -162,6 +165,7 @@ public class MainSEActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -233,6 +237,14 @@ public class MainSEActivity extends AppCompatActivity {
                     intent = new Intent(MainSEActivity.this, CoursesListActivity.class);
                     startActivity(intent);
                 }
+                else if (selected.contains("Start Typing Test")) {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                    }
+                    intent = new Intent(MainSEActivity.this, TypingTestActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -269,5 +281,27 @@ public class MainSEActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_main_se, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
+
+        return super.onOptionsItemSelected(item);
     }
 }

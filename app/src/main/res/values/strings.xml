@@ -49,8 +49,10 @@
     <!-- Main SE Activity -->
     <string name="main_menu">Main Menu</string>
     <array name="se_main_list">
-        <item>View Courses</item>
-        <item>Keyboard Test</item>
+        <item>Start Typing Test</item>
+        <item>My typing test highscore</item>
+        <!--<item>View Courses</item>-->
+        <!--<item>Keyboard Test</item>-->
     </array>
     <array name="se_login_list">
         <item>Login to your account</item>
@@ -216,5 +218,9 @@
     <string name="course_keyboard_required">USB Keyboard required</string>
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
+    <string name="help">Help</string>
+    <string name="first_prime_minister_of_india">The first Prime Minister of India was Jawaharlal Nehru</string>
+    <string name="test_complete">Test Complete</string>
+    <string name="your_score">Your score</string>
 
 </resources>

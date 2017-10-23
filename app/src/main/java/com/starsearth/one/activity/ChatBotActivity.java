@@ -99,7 +99,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
         });
 
         goToStateIdle();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
     @Override
     protected void onPause() {
@@ -113,7 +113,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
             ((StarsEarthApplication) getApplication()).showNoInternetDialog(this);
         }
         rlMainView.setOnTouchListener(this);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
     }
 
     @Override
@@ -442,7 +442,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.CHARACTER, Integer.toString(tvBotResponse.getText().toString().length()));
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "content-length");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
         else {
             //Vibration when there is nothing to respond

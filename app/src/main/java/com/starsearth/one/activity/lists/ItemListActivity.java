@@ -65,7 +65,7 @@ public class ItemListActivity extends AppCompatActivity {
     protected void sendAnalyticsParentOpenedFromKeyboard(String parent) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, ANALYTICS_PARENT_F1 + parent);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     protected void sendAnalytics(String selected) {

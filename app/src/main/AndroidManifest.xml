@@ -33,11 +33,13 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.lists.CoursesListActivity" />
         <activity android:name=".activity.forms.AddEditCourseActivity" />
-        <activity android:name=".activity.lists.LessonsListActivity"
-                    android:label="@string/lessons"/>
+        <activity
+            android:name=".activity.lists.LessonsListActivity"
+            android:label="@string/lessons" />
         <activity android:name=".activity.forms.AddEditLessonActivity" />
-        <activity android:name=".activity.lists.TopicsListActivity"
-                    android:label="@string/topics" />
+        <activity
+            android:name=".activity.lists.TopicsListActivity"
+            android:label="@string/topics" />
         <activity android:name=".activity.forms.AddEditTopicActivity" />
         <activity android:name=".activity.forms.AddEditExerciseActivity" />
         <activity android:name=".activity.lists.ItemListActivity" />
@@ -46,8 +48,9 @@
         <activity android:name=".activity.lists.QuestionsListActivity" />
         <activity android:name=".activity.forms.AddEditQuestionActivity" />
         <activity android:name=".activity.SignupActivity" />
-        <activity android:name=".activity.MainSEActivity"
-            android:label="@string/main_menu"></activity>
+        <activity
+            android:name=".activity.MainSEActivity"
+            android:label="@string/main_menu" />
         <activity
             android:name=".activity.domaindetail.TopicDetailActivity"
             android:label="@string/topic_details" />
@@ -68,13 +71,19 @@
             android:name=".activity.domaindetail.LessonDetailActivity"
             android:label="@string/lesson_details" />
         <activity android:name=".activity.welcome.WelcomeOneActivity">
+
+            <!-- Welcome intent goes here -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.welcome.WelcomeTwoActivity"></activity>
+        <activity android:name=".activity.welcome.WelcomeTwoActivity" />
+        <activity
+            android:name=".activity.TypingTestActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".activity.TypingTestResultActivity" />
     </application>
 
 </manifest>
