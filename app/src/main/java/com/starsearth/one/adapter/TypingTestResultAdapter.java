@@ -1,5 +1,6 @@
 package com.starsearth.one.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -18,9 +19,11 @@ import java.util.List;
 
 public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResultAdapter.ViewHolder> {
 
+    private Context mContext;
     private ArrayList<TypingTestResult> mDataset;
 
-    public TypingTestResultAdapter(ArrayList<TypingTestResult> myDataset) {
+    public TypingTestResultAdapter(Context context, ArrayList<TypingTestResult> myDataset) {
+        mContext = context;
         mDataset = myDataset;
     }
 
@@ -34,7 +37,10 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mScoreTextView.setText(Integer.toString(mDataset.get(position).score));
+        //Integer.toString(mDataset.get(position).score)
+        int score = mDataset.get(position).score;
+        int total = mDataset.get(position).total;
+        holder.mScoreTextView.setText(String.format(mContext.getString(R.string.your_score), score, total));
     }
 
     @Override

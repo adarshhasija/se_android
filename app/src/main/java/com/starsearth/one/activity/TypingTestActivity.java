@@ -157,7 +157,7 @@ public class TypingTestActivity extends AppCompatActivity {
         }
 
         builder
-                .setMessage("Score: " + correct + "/" + expectedAnswer.length())
+                .setMessage(String.format(getString(R.string.your_score), correct, expectedAnswer.length()))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         finish();

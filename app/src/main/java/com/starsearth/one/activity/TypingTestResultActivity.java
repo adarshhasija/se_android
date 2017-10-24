@@ -80,7 +80,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new TypingTestResultAdapter(list);
+        mAdapter = new TypingTestResultAdapter(getApplicationContext(), list);
         mRecyclerView.setAdapter(mAdapter);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
