@@ -47,28 +47,12 @@ public class TypingTestActivity extends AppCompatActivity {
     private long timeTakenMillis;
 
     private TextView mTimer;
+    private CountDownTimer mCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test);
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("typing_test_results");
-        Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                testResult = dataSnapshot.getValue(TypingTestResult.class);
-                if (testResult != null) UID = testResult.uid;
-                int i =0;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                int i = 0;
-            }
-        });
 
         String text = getResources().getString(R.string.first_prime_minister_of_india);
         final TextView tvMain = (TextView) findViewById(R.id.tv_main);
@@ -77,7 +61,7 @@ public class TypingTestActivity extends AppCompatActivity {
 
 
         mTimer = (TextView) findViewById(R.id.tv_timer);
-        new CountDownTimer(60000, 1000) {
+        mCountDownTimer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
@@ -96,7 +80,8 @@ public class TypingTestActivity extends AppCompatActivity {
             public void onFinish() {
                 testCompleted();
             }
-        }.start();
+        };
+        mCountDownTimer.start();
     }
 
     @Override
@@ -160,6 +145,7 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void testCompleted() {
+        mCountDownTimer.cancel();
         Firebase firebase = new Firebase("typing_test_results");
         firebase.writeNewTypingTestResult(correct, expectedAnswer.length(), timeTakenMillis);
 

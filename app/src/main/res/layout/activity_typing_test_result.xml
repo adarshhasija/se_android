@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="#008000"
         android:textColor="#FFFFFF"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="@string/play_typing_game"/>
 
     <android.support.v7.widget.RecyclerView

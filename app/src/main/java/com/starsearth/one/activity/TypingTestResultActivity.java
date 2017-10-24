@@ -38,7 +38,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             TypingTestResult result = dataSnapshot.getValue(TypingTestResult.class);
             if (mAdapter != null && list != null) {
-                list.add(result);
+                list.add(0,result);
                 mAdapter.notifyItemInserted(0);
             }
         }
