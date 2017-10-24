@@ -49,8 +49,7 @@
     <!-- Main SE Activity -->
     <string name="main_menu">Main Menu</string>
     <array name="se_main_list">
-        <item>Start Typing Test</item>
-        <item>My typing test highscore</item>
+        <item>Typing Game</item>
         <!--<item>View Courses</item>-->
         <!--<item>Keyboard Test</item>-->
     </array>
@@ -222,5 +221,7 @@
     <string name="first_prime_minister_of_india">The first Prime Minister of India was Jawaharlal Nehru</string>
     <string name="test_complete">Test Complete</string>
     <string name="your_score">Your score</string>
+    <string name="new_reocrd">New Record</string>
+    <string name="play_typing_game">Play Typing Game</string>
 
 </resources>

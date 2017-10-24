@@ -49,15 +49,10 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_MAINSE_ADMIN_MODE = "mainse_admin_mode";
     public String ANALYTICS_KEYBOARD_TEST = "mainse_keyboard_test";
 
-    private enum State {
-        LOGGED_IN, LOGGED_OUT;
-    }
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
-    private State mCurrentState = State.LOGGED_OUT;
 
     protected LinearLayout llAction;
     protected TextView tvActionLine1;
@@ -66,53 +61,6 @@ public class MainSEActivity extends AppCompatActivity {
     protected ListView listView;
     protected ProgressBar progressBar;
 
-    private void addToListOnUserSignIn(User user) {
-        mAdapter.getObjectList().clear();
-        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
-        if (user != null) {
-            if (user.email != null && user.email.contains("hasijaadarsh")) {
-                //mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_god_mode)));
-            }
-            if (user.course_admin) {
-                mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_admin_list)));
-            }
-            mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
-            mAdapter.notifyDataSetChanged();
-            listView.setSelection(0);
-            listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
-            changeState(State.LOGGED_IN);
-        }
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void addToListOnGuestUserSignIn(User user) {
-        mAdapter.getObjectList().clear();
-        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
-        if (user != null && user.isGuest) {
-            mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_guest_user_list)));
-        }
-        mAdapter.notifyDataSetChanged();
-        listView.setSelection(0);
-        listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
-        changeState(State.LOGGED_IN);
-        progressBar.setVisibility(View.GONE);
-    }
-
-
-    private void addToListOnUserSignOut() {
-        mAdapter.getObjectList().clear();
-        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
-        mAdapter.getObjectList().addAll(Arrays.asList(getResources().getStringArray(R.array.se_login_list)));
-        mAdapter.notifyDataSetChanged();
-        listView.setSelection(0);
-        listView.announceForAccessibility(getResources().getString(R.string.view_courses_selected));
-        changeState(State.LOGGED_OUT);
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void changeState(State state) {
-        mCurrentState = state;
-    }
 
     private void sendAnalytics(String selected) {
         Bundle bundle = new Bundle();
@@ -120,34 +68,6 @@ public class MainSEActivity extends AppCompatActivity {
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-    private ValueEventListener userDetailsListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            User userDetails = dataSnapshot.getValue(User.class);
-            ((StarsEarthApplication) getApplication()).setFirebaseUser(userDetails);
-            if (userDetails != null) {
-                if (userDetails.isGuest) {
-                    addToListOnGuestUserSignIn(userDetails);
-                }
-                else {
-                    addToListOnUserSignIn(userDetails);
-                }
-            }
-            else {
-                FirebaseAuth.getInstance().signOut();
-            }
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            addToListOnUserSignOut();
-        }
-    };
-
-    private void getUserDetails(FirebaseUser user) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users/"+user.getUid());
-        ref.addListenerForSingleValueEvent(userDetailsListener);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,11 +100,6 @@ public class MainSEActivity extends AppCompatActivity {
                 }
                 else if (selected.contains("Signup")) {
                     sendAnalytics(ANALYTICS_MAINSE_SIGNUP);
-                    intent = new Intent(MainSEActivity.this, SignupActivity.class);
-                    startActivity(intent);
-                }
-                else if (selected.contains("full account")) {
-                    sendAnalytics(ANALYTICS_CONVERT);
                     intent = new Intent(MainSEActivity.this, SignupActivity.class);
                     startActivity(intent);
                 }
@@ -237,12 +152,12 @@ public class MainSEActivity extends AppCompatActivity {
                     intent = new Intent(MainSEActivity.this, CoursesListActivity.class);
                     startActivity(intent);
                 }
-                else if (selected.contains("Start Typing Test")) {
+                else if (selected.contains("Typing Game")) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if (currentUser != null) {
                         sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
-                    intent = new Intent(MainSEActivity.this, TypingTestActivity.class);
+                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
                     startActivity(intent);
                 }
             }
@@ -252,16 +167,9 @@ public class MainSEActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                progressBar.setVisibility(View.VISIBLE);
-                listView.announceForAccessibility(getResources().getString(R.string.please_wait));
-
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    getUserDetails(user);
-                }
-                else {
+                if (user == null) {
                     ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
-                    addToListOnUserSignOut();
 
                     //Redirecting to login scren
                     Intent newIntent = new Intent(MainSEActivity.this, WelcomeOneActivity.class);

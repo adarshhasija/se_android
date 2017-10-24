@@ -24,13 +24,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
+import com.starsearth.one.database.Firebase;
+import com.starsearth.one.domain.TypingTestResult;
 
 public class TypingTestActivity extends AppCompatActivity {
+
+    private String UID=null;
+    private TypingTestResult testResult=null;
 
     private int index=0;
     private int correct=0;
     private String expectedAnswer;
+    private long timeTakenMillis;
 
     private TextView mTimer;
 
@@ -38,6 +52,23 @@ public class TypingTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("typing_test_results");
+        Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                testResult = dataSnapshot.getValue(TypingTestResult.class);
+                if (testResult != null) UID = testResult.uid;
+                int i =0;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                int i = 0;
+            }
+        });
 
         String text = getResources().getString(R.string.first_prime_minister_of_india);
         final TextView tvMain = (TextView) findViewById(R.id.tv_main);
@@ -50,6 +81,7 @@ public class TypingTestActivity extends AppCompatActivity {
 
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
+                    timeTakenMillis = 60000 - millisUntilFinished;
                     if (millisUntilFinished/1000 < 10) {
                         mTimer.setTextColor(Color.RED);
                         mTimer.setText((millisUntilFinished/1000)/60 + ":0" + millisUntilFinished / 1000);
@@ -65,6 +97,12 @@ public class TypingTestActivity extends AppCompatActivity {
                 testCompleted();
             }
         }.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        testCancelled();
     }
 
     @Override
@@ -122,6 +160,9 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void testCompleted() {
+        Firebase firebase = new Firebase("typing_test_results");
+        firebase.writeNewTypingTestResult(correct, expectedAnswer.length(), timeTakenMillis);
+
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(TypingTestActivity.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -137,5 +178,9 @@ public class TypingTestActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    private void testCancelled() {
+        finish();
     }
 }

@@ -19,6 +19,7 @@ import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Question;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
+import com.starsearth.one.domain.TypingTestResult;
 import com.starsearth.one.domain.User;
 import com.starsearth.one.domain.UserAnswer;
 
@@ -244,6 +245,29 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
+    }
+
+    public String writeNewTypingTestResult(int score, int total, long timeTakenMillis) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databaseReference.push().getKey();
+        TypingTestResult testResult = new TypingTestResult(key, user.getUid(), score, total, timeTakenMillis);
+        Map<String, Object> values = testResult.toMap();
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, values);
+
+        databaseReference.updateChildren(childUpdates);
+        return key;
+    }
+
+    public void updateExistingTypingTestResult(String key, TypingTestResult result) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Map<String, Object> values = result.toMap();
+        values.put("score", result.score);
+        values.put("total", result.total);
+        values.put("timeTakenMillis", result.timeTakenMillis);
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        databaseReference.child(key).setValue(values);
     }
 
 
