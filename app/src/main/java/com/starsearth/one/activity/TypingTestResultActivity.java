@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,10 +38,27 @@ public class TypingTestResultActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             TypingTestResult result = dataSnapshot.getValue(TypingTestResult.class);
-            if (mAdapter != null && list != null) {
-                list.add(0,result);
-                mAdapter.notifyItemInserted(0);
+            if (isInTopTen(result)) {
+                int index = indexToInsert(result);
+                if (mAdapter != null && list != null) {
+                    if (index == -1)  {
+                        //if -1, insert at the end of the list
+                        list.add(result);
+                    }
+                    else {
+                        list.add(index,result);
+                    }
+
+                    if (list.size() > 10) {
+                        //If the list is now more than 10 items, remove the lowest item
+                        TypingTestResult lastItem = list.get(list.size()-1);
+                        list.remove(lastItem);
+                    }
+                    //mAdapter.notifyItemInserted(0);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
+
         }
 
         @Override
@@ -64,6 +82,39 @@ public class TypingTestResultActivity extends AppCompatActivity {
         }
     };
 
+    private boolean isInTopTen(TypingTestResult result) {
+        if (list.size() < 10) {
+            return true;
+        }
+
+        int lowesstScore = list.get(list.size()-1).words_correct;
+        if (result.words_correct > lowesstScore) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     * @param result
+     * @return index of list. -1 if need to insert at the end of the list
+     */
+    private int indexToInsert(TypingTestResult result) {
+        if (list.isEmpty()) {
+            return 0;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            TypingTestResult listItem = list.get(i);
+            if (result.words_correct > listItem.words_correct) {
+                return i;
+            }
+        }
+        //If the score is smaller than all current scores, add it in the end
+        return -1;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +135,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference("typing_test_results");
+        mDatabase = FirebaseDatabase.getInstance().getReference("typing_game_results");
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(childEventListener);
 

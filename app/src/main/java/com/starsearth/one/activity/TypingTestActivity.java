@@ -19,6 +19,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -36,16 +37,26 @@ import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.TypingTestResult;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 public class TypingTestActivity extends AppCompatActivity {
 
-    private String UID=null;
-    private TypingTestResult testResult=null;
-
     private int index=0;
-    private int correct=0;
+    private int randomNumber;
+    List<String> sentencesList;
+    private int charactersCorrect=0;
+    private int wordsCorrect=0;
+    private int totalCharactersAttempted=0;
+    private int totalWordsAttempted=0;
+    private boolean wordIncorrect = false; //This is used to show that 1 mistake has been made when typing a word
     private String expectedAnswer;
     private long timeTakenMillis;
 
+    private TextView tvMain;
     private TextView mTimer;
     private CountDownTimer mCountDownTimer;
 
@@ -54,30 +65,35 @@ public class TypingTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test);
 
-        String text = getResources().getString(R.string.first_prime_minister_of_india);
-        final TextView tvMain = (TextView) findViewById(R.id.tv_main);
-        tvMain.setText(text);
-        expectedAnswer = text;
+
+        sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
+        tvMain = (TextView) findViewById(R.id.tv_main);
+        nextSentence();
 
 
         mTimer = (TextView) findViewById(R.id.tv_timer);
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
+        mCountDownTimer = new CountDownTimer(61000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
-                    timeTakenMillis = 60000 - millisUntilFinished;
-                    if (millisUntilFinished/1000 < 10) {
+                    timeTakenMillis = 61000 - millisUntilFinished;
+                    if (millisUntilFinished/1000 < 11) {
                         mTimer.setTextColor(Color.RED);
+                    }
+                    if (millisUntilFinished/1000 < 10) {
                         mTimer.setText((millisUntilFinished/1000)/60 + ":0" + millisUntilFinished / 1000);
                     }
                     else {
-                        mTimer.setText((millisUntilFinished/1000)/60 + ":" + millisUntilFinished / 1000);
+                        int mins = (int) (millisUntilFinished/1000)/60;
+                        int seconds = (int) (millisUntilFinished/1000) % 60;
+                        mTimer.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
                     }
                 }
 
             }
 
             public void onFinish() {
+                timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
                 testCompleted();
             }
         };
@@ -111,19 +127,29 @@ public class TypingTestActivity extends AppCompatActivity {
         char inputCharacter = (char) event.getUnicodeChar();
         char expectedCharacter = expectedAnswer.charAt(index);
 
+        totalCharactersAttempted++;
         if (inputCharacter == expectedCharacter) {
-            correct++;
+            charactersCorrect++;
             str2.setSpan(new BackgroundColorSpan(Color.GREEN), index, index+1, 0);
         }
         else {
+            wordIncorrect = true;
             str2.setSpan(new BackgroundColorSpan(Color.RED), index, index+1, 0);
         }
         builder.append(str2);
         tvMain.setText( builder, TextView.BufferType.SPANNABLE);
-        if (index == expectedAnswer.length() -1 ) {
-            testCompleted();
+
+        if (expectedCharacter == ' ') {
+            checkWordCorrect();
+            wordComplete(); //on spacebar, we have completed a word
         }
         index++;
+        if (index == expectedAnswer.length()) {
+            checkWordCorrect();
+            wordComplete(); //on end of sentence we have also completed a word
+            removeCompletedSentence();
+            nextSentence();
+        }
 
         return super.onKeyDown(keyCode, event);
     }
@@ -146,8 +172,8 @@ public class TypingTestActivity extends AppCompatActivity {
 
     private void testCompleted() {
         mCountDownTimer.cancel();
-        Firebase firebase = new Firebase("typing_test_results");
-        firebase.writeNewTypingTestResult(correct, expectedAnswer.length(), timeTakenMillis);
+        Firebase firebase = new Firebase("typing_game_results");
+        firebase.writeNewTypingTestResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsAttempted, timeTakenMillis);
 
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -157,13 +183,47 @@ public class TypingTestActivity extends AppCompatActivity {
         }
 
         builder
-                .setMessage(String.format(getString(R.string.your_score), correct, expectedAnswer.length()))
+                .setMessage(String.format(getString(R.string.your_score), wordsCorrect, totalWordsAttempted))
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
-                })
-                .show();
+                });
+                //builder.show();
+
+        finish();
+    }
+
+    private void checkWordCorrect() {
+        if (!wordIncorrect) {
+            //if the word was not declared incorrect, increment the words correct count
+            wordsCorrect++;
+        }
+        wordIncorrect = false; //reset the flag for the next word
+    }
+
+    private void wordComplete() {
+        totalWordsAttempted++;
+    }
+
+    /**
+     * This function generates the next sentence to be displayed
+     * Remove previous sentence from list so that we do not reuse it
+     * If it is the last sentence in the list retain it, so that we can keep displaying it
+     * Empty list not allowed
+     */
+    private void nextSentence() {
+        index = 0; //reset the cursor to the start of the sentence
+        randomNumber = (new Random()).nextInt(sentencesList.size());
+        String text = sentencesList.get(randomNumber);
+        expectedAnswer = text;
+        tvMain.setText(text);
+    }
+
+    private void removeCompletedSentence() {
+        if (sentencesList.size() > 1) {
+            sentencesList.remove(sentencesList.get(randomNumber));
+        }
     }
 
     private void testCancelled() {

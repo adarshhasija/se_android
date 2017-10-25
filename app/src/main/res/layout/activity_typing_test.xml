@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_centerHorizontal="true"
-        android:text="3:00" />
+        android:text="1:00" />
 
     <TextView
         android:id="@+id/tv_main"

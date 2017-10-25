@@ -218,10 +218,27 @@
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
     <string name="help">Help</string>
+    <string-array name="typing_test_sentences">
+        <item>The capital of India is New Delhi</item>
+        <item>The national sport of India is Hockey</item>
+        <item>The cows grazed in the meadows</item>
+        <item>The Earth is round</item>
+        <item>The cat looked out of the window</item>
+        <item>Mickey Mouse is a cartoon character</item>
+        <item>Walt Disney is the creator of Mickey Mouse</item>
+        <item>Beijing is the capital city of China</item>
+        <item>The President of India lives in Rashtrapati Bhavan</item>
+        <item>Dinosaurs once roamed the Earth</item>
+        <item>The grass is green</item>
+        <item>The sky is blue</item>
+        <item>The first Prime Minister of India was Jawaharlal Nehru</item>
+    </string-array>
     <string name="first_prime_minister_of_india">The first Prime Minister of India was Jawaharlal Nehru</string>
     <string name="test_complete">Test Complete</string>
-    <string name="your_score" formatted="false">Your score %d/%d</string>
+    <string name="your_score" formatted="false">You got %d words correct out of %d</string>
+    <string name="time_taken">Time taken</string>
     <string name="new_reocrd">New Record</string>
     <string name="play_typing_game">Play Typing Game</string>
+    <string name="typing_game_instructions">Type as much as you can within 1 minute.\nYour top 10 results will be displayed here</string>
 
 </resources>

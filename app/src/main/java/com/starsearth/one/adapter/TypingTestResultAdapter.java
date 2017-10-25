@@ -37,10 +37,23 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //Integer.toString(mDataset.get(position).score)
-        int score = mDataset.get(position).score;
-        int total = mDataset.get(position).total;
-        holder.mScoreTextView.setText(String.format(mContext.getString(R.string.your_score), score, total));
+        TypingTestResult result = mDataset.get(position);
+        int wordsCorrect = result.words_correct;
+        int wordsTotalAttempted = result.words_total_attempted;
+        double accuracy = (double) wordsCorrect/wordsTotalAttempted;
+        double accuracyPercentage = Math.ceil(accuracy*100);
+        long timeTakenMillis = result.timeTakenMillis;
+        holder.mScoreTextView.setText(wordsCorrect + "/" + wordsTotalAttempted + " words");
+        if (timeTakenMillis/1000 < 10) {
+            holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
+                                            ": " + (timeTakenMillis/1000)/60 + "m 0" + timeTakenMillis / 1000 +"s");
+        }
+        else {
+            int mins = (int) (timeTakenMillis/1000)/60;
+            int seconds = (int) (timeTakenMillis/1000) % 60;
+            //holder.mTimeTakenTextView.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
+        }
+        holder.mAccuracyRate.setText(wordsCorrect + " wpm");
     }
 
     @Override
@@ -52,10 +65,14 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         // each data item is just a string in this case
         public LinearLayout mLinearLayout;
         public TextView mScoreTextView;
+        public TextView mTimeTakenTextView;
+        public TextView mAccuracyRate;
         public ViewHolder(LinearLayout ll) {
             super(ll);
             mLinearLayout = ll;
             mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
+            mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
+            mAccuracyRate = (TextView) ll.findViewById(R.id.tv_accuracy_rate);
         }
     }
 }
