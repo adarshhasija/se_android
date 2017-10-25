@@ -26,6 +26,8 @@ import java.util.List;
 
 public class TypingTestResultActivity extends AppCompatActivity {
 
+    public static int MAX_NUMBER_IN_LIST = 1;
+
     private ArrayList<TypingTestResult> list = new ArrayList<>();
     private DatabaseReference mDatabase;
 
@@ -49,13 +51,13 @@ public class TypingTestResultActivity extends AppCompatActivity {
                         list.add(index,result);
                     }
 
-                    if (list.size() > 10) {
-                        //If the list is now more than 10 items, remove the lowest item
+                    if (list.size() > MAX_NUMBER_IN_LIST) {
+                        //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
                         TypingTestResult lastItem = list.get(list.size()-1);
+                        mDatabase.child(lastItem.uid).removeValue(); //delete from the database
                         list.remove(lastItem);
                     }
-                    if (index == -1) mAdapter.notifyItemInserted(list.size() - 1);
-                    else mAdapter.notifyItemInserted(index);
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 

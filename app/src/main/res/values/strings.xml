@@ -239,6 +239,7 @@
     <string name="time_taken">Time taken</string>
     <string name="new_reocrd">New Record</string>
     <string name="play_typing_game">Play Typing Game</string>
-    <string name="typing_game_instructions">Type as much as you can within 1 minute.\nYour top 10 results will be displayed here</string>
+    <string name="typing_game_instructions">Type as much as you can within 1 minute.\nYour best score will be displayed here</string>
+    <string name="words_per_minute">Words per Minute</string>
 
 </resources>

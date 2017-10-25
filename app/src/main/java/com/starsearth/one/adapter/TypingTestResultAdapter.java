@@ -43,7 +43,7 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         double accuracy = (double) wordsCorrect/wordsTotalAttempted;
         double accuracyPercentage = Math.ceil(accuracy*100);
         long timeTakenMillis = result.timeTakenMillis;
-        holder.mScoreTextView.setText(Integer.toString(position + 1) + ")");
+        holder.mScoreTextView.setText("Words correct: " + wordsCorrect + "/" + wordsTotalAttempted);
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
                                             ": " + (timeTakenMillis/1000)/60 + "m 0" + timeTakenMillis / 1000 +"s");
@@ -53,7 +53,7 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
             int seconds = (int) (timeTakenMillis/1000) % 60;
             //holder.mTimeTakenTextView.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
         }
-        holder.mWpm.setText(wordsCorrect + " wpm");
+        holder.mWpm.setText(Integer.toString(wordsCorrect));
     }
 
     @Override
