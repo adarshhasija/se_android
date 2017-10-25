@@ -43,7 +43,7 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         double accuracy = (double) wordsCorrect/wordsTotalAttempted;
         double accuracyPercentage = Math.ceil(accuracy*100);
         long timeTakenMillis = result.timeTakenMillis;
-        holder.mScoreTextView.setText(wordsCorrect + "/" + wordsTotalAttempted + " words");
+        holder.mScoreTextView.setText(Integer.toString(position + 1) + ")");
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
                                             ": " + (timeTakenMillis/1000)/60 + "m 0" + timeTakenMillis / 1000 +"s");
@@ -53,7 +53,7 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
             int seconds = (int) (timeTakenMillis/1000) % 60;
             //holder.mTimeTakenTextView.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
         }
-        holder.mAccuracyRate.setText(wordsCorrect + " wpm");
+        holder.mWpm.setText(wordsCorrect + " wpm");
     }
 
     @Override
@@ -66,13 +66,13 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         public LinearLayout mLinearLayout;
         public TextView mScoreTextView;
         public TextView mTimeTakenTextView;
-        public TextView mAccuracyRate;
+        public TextView mWpm;
         public ViewHolder(LinearLayout ll) {
             super(ll);
             mLinearLayout = ll;
             mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
             mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
-            mAccuracyRate = (TextView) ll.findViewById(R.id.tv_accuracy_rate);
+            mWpm = (TextView) ll.findViewById(R.id.tv_wpm);
         }
     }
 }

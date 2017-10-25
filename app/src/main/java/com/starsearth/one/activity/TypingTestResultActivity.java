@@ -54,8 +54,8 @@ public class TypingTestResultActivity extends AppCompatActivity {
                         TypingTestResult lastItem = list.get(list.size()-1);
                         list.remove(lastItem);
                     }
-                    //mAdapter.notifyItemInserted(0);
-                    mAdapter.notifyDataSetChanged();
+                    if (index == -1) mAdapter.notifyItemInserted(list.size() - 1);
+                    else mAdapter.notifyItemInserted(index);
                 }
             }
 
@@ -136,6 +136,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference("typing_game_results");
+        mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(childEventListener);
 

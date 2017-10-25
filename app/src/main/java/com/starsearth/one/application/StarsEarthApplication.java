@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.User;
 
@@ -18,6 +19,12 @@ import com.starsearth.one.domain.User;
 public class StarsEarthApplication extends Application {
 
     private User firebaseUser;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    }
 
     public boolean isTalkbackOn() {
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);

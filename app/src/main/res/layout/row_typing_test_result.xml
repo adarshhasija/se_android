@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp">
@@ -26,7 +27,8 @@
                 android:paddingBottom="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:visibility="gone"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             <TextView
                 android:id="@+id/tv_time_taken"
@@ -39,15 +41,17 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_accuracy_rate"
+            android:id="@+id/tv_wpm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_gravity="right"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="abc" />
+            android:paddingLeft="10dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="---" />
+
+
 
 
 
