@@ -247,10 +247,10 @@ public class Firebase {
         return key;
     }
 
-    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_attempted, long timeTakenMillis) {
+    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        TypingTestResult testResult = new TypingTestResult(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_attempted, timeTakenMillis);
+        TypingTestResult testResult = new TypingTestResult(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

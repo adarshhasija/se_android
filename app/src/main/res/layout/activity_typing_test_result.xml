@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/typing_game_instructions"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>

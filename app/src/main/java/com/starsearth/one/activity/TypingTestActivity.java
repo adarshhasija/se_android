@@ -3,6 +3,7 @@ package com.starsearth.one.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,13 +47,15 @@ import java.util.Random;
 
 public class TypingTestActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private int index=0;
     private int randomNumber;
     List<String> sentencesList;
     private int charactersCorrect=0;
     private int wordsCorrect=0;
     private int totalCharactersAttempted=0;
-    private int totalWordsAttempted=0;
+    private int totalWordsFinished=0;
     private boolean wordIncorrect = false; //This is used to show that 1 mistake has been made when typing a word
     private String expectedAnswer;
     private long timeTakenMillis;
@@ -65,6 +69,7 @@ public class TypingTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
         tvMain = (TextView) findViewById(R.id.tv_main);
@@ -173,25 +178,21 @@ public class TypingTestActivity extends AppCompatActivity {
     private void testCompleted() {
         mCountDownTimer.cancel();
         Firebase firebase = new Firebase("typing_game_results");
-        firebase.writeNewTypingTestResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsAttempted, timeTakenMillis);
+        firebase.writeNewTypingTestResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis);
 
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(TypingTestActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(TypingTestActivity.this);
-        }
-
-        builder
-                .setMessage(String.format(getString(R.string.your_score), wordsCorrect, totalWordsAttempted))
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                //builder.show();
-
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("words_correct", wordsCorrect);
+        intent.putExtras(bundle);
+        firebaseAnalyticsGameCompleted();
+        setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void firebaseAnalyticsGameCompleted() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "typing_game_complete");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
     }
 
     private void checkWordCorrect() {
@@ -203,7 +204,7 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void wordComplete() {
-        totalWordsAttempted++;
+        totalWordsFinished++;
     }
 
     /**
@@ -227,6 +228,7 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void testCancelled() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 }

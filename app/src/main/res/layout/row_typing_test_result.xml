@@ -25,6 +25,16 @@
                 android:layout_centerInParent="true">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/typing_game" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/high_score" />
+
+                <TextView
                     android:id="@+id/tv_wpm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -39,11 +39,11 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
     public void onBindViewHolder(ViewHolder holder, int position) {
         TypingTestResult result = mDataset.get(position);
         int wordsCorrect = result.words_correct;
-        int wordsTotalAttempted = result.words_total_attempted;
-        double accuracy = (double) wordsCorrect/wordsTotalAttempted;
+        int wordsTotalFinished = result.words_total_finished;
+        double accuracy = (double) wordsCorrect/wordsTotalFinished;
         double accuracyPercentage = Math.ceil(accuracy*100);
         long timeTakenMillis = result.timeTakenMillis;
-        holder.mScoreTextView.setText("Words correct: " + wordsCorrect + "/" + wordsTotalAttempted);
+        holder.mScoreTextView.setText("Words correct: " + wordsCorrect + "/" + wordsTotalFinished);
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
                                             ": " + (timeTakenMillis/1000)/60 + "m 0" + timeTakenMillis / 1000 +"s");

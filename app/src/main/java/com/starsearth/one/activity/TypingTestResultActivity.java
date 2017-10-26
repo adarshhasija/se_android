@@ -1,6 +1,9 @@
 package com.starsearth.one.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,6 +32,8 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
     public static int MAX_NUMBER_IN_LIST = 1;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private ArrayList<TypingTestResult> list = new ArrayList<>();
     private DatabaseReference mDatabase;
 
@@ -40,27 +46,25 @@ public class TypingTestResultActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             TypingTestResult result = dataSnapshot.getValue(TypingTestResult.class);
-            if (isInTopTen(result)) {
-                int index = indexToInsert(result);
-                if (mAdapter != null && list != null) {
-                    if (index == -1)  {
-                        //if -1, insert at the end of the list
-                        list.add(result);
-                    }
-                    else {
-                        list.add(index,result);
-                    }
-
-                    if (list.size() > MAX_NUMBER_IN_LIST) {
-                        //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
-                        TypingTestResult lastItem = list.get(list.size()-1);
-                        mDatabase.child(lastItem.uid).removeValue(); //delete from the database
-                        list.remove(lastItem);
-                    }
-                    mAdapter.notifyDataSetChanged();
+            int index = indexToInsert(result);
+            if (mAdapter != null && list != null) {
+                if (index == -1)  {
+                    //if -1, insert at the end of the list
+                    list.add(result);
                 }
-            }
+                else {
+                    list.add(index,result);
+                }
 
+                if (list.size() > MAX_NUMBER_IN_LIST) {
+                    //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
+                    TypingTestResult lastItem = list.get(list.size()-1);
+                    mDatabase.child(lastItem.uid).removeValue(); //delete from the database
+                    list.remove(lastItem);
+                }
+                //mAdapter.notifyItemChanged(index);
+                mAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -84,13 +88,13 @@ public class TypingTestResultActivity extends AppCompatActivity {
         }
     };
 
-    private boolean isInTopTen(TypingTestResult result) {
-        if (list.size() < 10) {
+    private boolean isTopResult(int words_correct) {
+        if (list.size() < MAX_NUMBER_IN_LIST) {
             return true;
         }
 
-        int lowesstScore = list.get(list.size()-1).words_correct;
-        if (result.words_correct > lowesstScore) {
+        int lowestScore = list.get(list.size()-1).words_correct;
+        if (words_correct > lowestScore) {
             return true;
         }
 
@@ -117,10 +121,39 @@ public class TypingTestResultActivity extends AppCompatActivity {
         return -1;
     }
 
+    private void alertScore(int words_correct, boolean highScore) {
+        AlertDialog.Builder builder = createAlertDialog();
+        builder.setMessage(String.format(getString(R.string.alert_typing_game), words_correct));
+        if (highScore) {
+            builder.setTitle(R.string.high_score);
+        }
+        builder.show();
+
+    }
+
+    private AlertDialog.Builder createAlertDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(TypingTestResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(TypingTestResultActivity.this);
+        }
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        return builder;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test_result);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
 
@@ -146,10 +179,38 @@ public class TypingTestResultActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button typing test start");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 Intent intent = new Intent(TypingTestResultActivity.this, TypingTestActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0 && resultCode == RESULT_CANCELED) {
+            AlertDialog.Builder builder = createAlertDialog();
+            builder.setMessage(R.string.typing_game_cancelled)
+                    .show();
+        }
+        else if (requestCode == 0 && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                int wordsCorrect = bundle.getInt("words_correct");
+                //This should not be in onChildAdded as it should only be shown once we return from completing a game
+                if (isTopResult(wordsCorrect)) {
+                    alertScore(wordsCorrect, true);
+                }
+                else {
+                    alertScore(wordsCorrect, false);
+                }
+            }
+        }
     }
 
     @Override

@@ -87,6 +87,7 @@
             android:windowSoftInputMode="stateVisible"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.TypingTestResultActivity"
+            android:label="@string/typing_game"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
     </application>

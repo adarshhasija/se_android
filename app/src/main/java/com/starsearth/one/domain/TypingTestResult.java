@@ -18,7 +18,7 @@ public class TypingTestResult {
     public int characters_correct;
     public int characters_total_attempted;
     public int words_correct;
-    public int words_total_attempted;
+    public int words_total_finished;
     public long timeTakenMillis;
 
     public TypingTestResult() {
@@ -26,13 +26,13 @@ public class TypingTestResult {
     }
 
     public TypingTestResult(String uid, String userId, int characters_correct, int characters_total_attempted,
-                                    int words_correct, int words_total_attempted, long timeTakenMillis) {
+                                    int words_correct, int words_total_finished, long timeTakenMillis) {
         this.uid = uid;
         this.userId = userId;
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
         this.words_correct = words_correct;
-        this.words_total_attempted = words_total_attempted;
+        this.words_total_finished = words_total_finished;
         this.timeTakenMillis = timeTakenMillis;
     }
 
@@ -44,7 +44,7 @@ public class TypingTestResult {
         result.put("characters_correct", characters_correct);
         result.put("characters_total_attempted", characters_total_attempted);
         result.put("words_correct", words_correct);
-        result.put("words_total_attempted", words_total_attempted);
+        result.put("words_total_finished", words_total_finished);
         result.put("timeTakenMillis", timeTakenMillis);
 
         return result;
