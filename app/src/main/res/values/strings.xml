@@ -60,7 +60,10 @@
     <array name="se_guest_user_list">
         <item>Convert to full account</item>
     </array>
-    <array name="se_user_account_list">
+    <array name="se_user_account_phone_number_list">
+        <item>Phone Number</item>
+    </array>
+    <array name="se_user_account_email_list">
         <item>My email address</item>
         <item>Change Password</item>
         <item>Logout</item>
@@ -244,5 +247,14 @@
     <string name="typing_game">Typing Game</string>
     <string name="high_score">High Score</string>
     <string name="typing_game_cancelled">The game was cancelled</string>
+
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="only_india_numbers">Only India mobile numbers are accepted at the moment</string>
+    <string name="enter_number_here">Enter number here</string>
+    <string name="otp_will_be_sent">A One Time Passcode will be sent to this number</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="not_entered_phone_number">You have not entered a phone number</string>
+    <string name="phone_number_10_digits">Your number should have 10 digits only</string>
+    <string name="correct_number_question">Correct Number?</string>
 
 </resources>

@@ -19,18 +19,15 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
+import com.starsearth.one.activity.auth.LoginActivity;
+import com.starsearth.one.activity.auth.SignupActivity;
 import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
 import com.starsearth.one.activity.lists.CoursesListActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
-import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +42,7 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_OUT = "mainse_view_courses_logged_out";
     public String ANALYTICS_MAINSE_LOGOUT = "mainse_logout";
     public String ANALYTICS_MAINSE_EMAIL = "mainse_email";
+    public String ANALYTICS_MAINSE_PHONE_NUMBER = "mainse_phone_number";
     public String ANALYTICS_MAINSE_CHANGE_PASSWORD = "mainse_change_password";
     public String ANALYTICS_MAINSE_ADMIN_MODE = "mainse_admin_mode";
     public String ANALYTICS_KEYBOARD_TEST = "mainse_keyboard_test";
@@ -85,7 +83,8 @@ public class MainSEActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
+        //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -130,6 +129,11 @@ public class MainSEActivity extends AppCompatActivity {
                         }
                     });
                     alert.show();
+                }
+                else if (selected.contains("Phone Number")) {
+                    sendAnalytics(ANALYTICS_MAINSE_PHONE_NUMBER);
+                    intent = new Intent(MainSEActivity.this, AddEditPhoneNumberActivity.class);
+                    startActivity(intent);
                 }
                 else if (selected.contains("Change Password")) {
                     sendAnalytics(ANALYTICS_MAINSE_CHANGE_PASSWORD);

@@ -11,8 +11,7 @@ import android.widget.ProgressBar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.MainSEActivity;
-import com.starsearth.one.activity.SignupActivity;
+import com.starsearth.one.activity.auth.SignupActivity;
 import com.starsearth.one.database.Firebase;
 
 public class WelcomeTwoActivity extends AppCompatActivity {

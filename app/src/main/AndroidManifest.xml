@@ -29,7 +29,7 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|smallestScreenSize|navigation|locale|layoutDirection|fontScale"
             android:label="@string/keyboard_test" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.auth.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.lists.CoursesListActivity" />
         <activity android:name=".activity.forms.AddEditCourseActivity" />
@@ -47,7 +47,7 @@
         <activity android:name=".activity.AdminModeActivity" />
         <activity android:name=".activity.lists.QuestionsListActivity" />
         <activity android:name=".activity.forms.AddEditQuestionActivity" />
-        <activity android:name=".activity.SignupActivity" />
+        <activity android:name=".activity.auth.SignupActivity" />
         <activity
             android:name=".activity.MainSEActivity"
             android:label="@string/main_menu" />
@@ -84,12 +84,16 @@
             android:name=".activity.TypingTestActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.TypingTestResultActivity"
-            android:label="@string/typing_game"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.TypingTestResultActivity"
             android:configChanges="orientation"
+            android:label="@string/typing_game"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.auth.AddEditPhoneNumberActivity"
+            android:label="@string/enter_phone_number"
+            android:windowSoftInputMode="stateVisible"></activity>
     </application>
 
 </manifest>

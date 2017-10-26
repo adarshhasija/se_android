@@ -21,22 +21,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.LoginActivity;
+import com.starsearth.one.activity.auth.LoginActivity;
 import com.starsearth.one.activity.QuestionActivity;
-import com.starsearth.one.activity.SignupActivity;
-import com.starsearth.one.activity.lists.ExercisesListActivity;
-import com.starsearth.one.activity.lists.QuestionsListActivity;
+import com.starsearth.one.activity.auth.SignupActivity;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Question;
-import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 import com.starsearth.one.domain.User;
 import com.starsearth.one.domain.UserAnswer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class TopicDetailActivity extends AppCompatActivity {
 

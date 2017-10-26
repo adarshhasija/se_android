@@ -11,20 +11,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.LoginActivity;
 import com.starsearth.one.activity.MainSEActivity;
-import com.starsearth.one.application.StarsEarthApplication;
-import com.starsearth.one.domain.User;
 
 public class WelcomeOneActivity extends AppCompatActivity {
 

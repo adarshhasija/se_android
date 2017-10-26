@@ -1,15 +1,9 @@
 package com.starsearth.one.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.hardware.input.InputManager;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,10 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.starsearth.one.R;
-import com.starsearth.one.ChatBot;
-
-import java.util.HashMap;
-import java.util.Iterator;
+import com.starsearth.one.activity.auth.LoginActivity;
 
 public class KeyboardActivity extends AppCompatActivity implements View.OnKeyListener, View.OnTouchListener {
 
