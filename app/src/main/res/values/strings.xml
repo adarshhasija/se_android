@@ -256,5 +256,11 @@
     <string name="not_entered_phone_number">You have not entered a phone number</string>
     <string name="phone_number_10_digits">Your number should have 10 digits only</string>
     <string name="correct_number_question">Correct Number?</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="did_not_receive_otp">Did not receive OTP?</string>
+    <string name="send_again">Send Again</string>
+    <string name="otp_not_entered">You have not entered an OTP</string>
+    <string name="otp_only_4_digits">Your OTP should only contain 4 digits</string>
+    <string name="otp_sent_again">An OTP has been sent to you</string>
 
 </resources>

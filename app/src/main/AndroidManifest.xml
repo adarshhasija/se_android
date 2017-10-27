@@ -91,9 +91,13 @@
             android:configChanges="orientation"
             android:label="@string/typing_game"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.auth.AddEditPhoneNumberActivity"
+        <activity
+            android:name=".activity.auth.AddEditPhoneNumberActivity"
             android:label="@string/enter_phone_number"
-            android:windowSoftInputMode="stateVisible"></activity>
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".SendOTPActivity"
+            android:windowSoftInputMode="stateVisible"
+                    android:label="@string/enter_otp"></activity>
     </application>
 
 </manifest>
