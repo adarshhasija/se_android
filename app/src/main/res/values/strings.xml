@@ -265,5 +265,8 @@
     <string name="otp_sent_again">An OTP has been sent to you</string>
     <string name="otp_allow_1_min">Please allow upto 1 min for SMS to arrive</string>
     <string name="continue_with_phone_number">Continue with Phone Number</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="change_phone_number">Change Phone Number</string>
+    <string name="phone_number_updated">Phone number updated successfully</string>
 
 </resources>

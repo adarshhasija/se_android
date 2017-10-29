@@ -25,6 +25,7 @@ import com.starsearth.one.activity.auth.LoginActivity;
 import com.starsearth.one.activity.auth.SignupActivity;
 import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
 import com.starsearth.one.activity.lists.CoursesListActivity;
+import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
@@ -132,7 +133,7 @@ public class MainSEActivity extends AppCompatActivity {
                 }
                 else if (selected.contains("Phone Number")) {
                     sendAnalytics(ANALYTICS_MAINSE_PHONE_NUMBER);
-                    intent = new Intent(MainSEActivity.this, AddEditPhoneNumberActivity.class);
+                    intent = new Intent(MainSEActivity.this, PhoneNumberActivity.class);
                     startActivity(intent);
                 }
                 else if (selected.contains("Change Password")) {

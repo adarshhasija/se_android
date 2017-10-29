@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -113,7 +114,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             //If OTP login was successful
-            finish()
+            phoneNumberVerificationSuccessful()
         }
     }
 
@@ -158,7 +159,43 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         return builder
     }
 
+    private fun phoneNumberVerificationSuccessful() {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            updateUserPhoneNumber(user, credential)
+        }
+        else {
+            signInNewUser(credential)
+        }
+
+    }
+
+    private fun updateUserPhoneNumber(user: FirebaseUser, credential: PhoneAuthCredential) {
+        user.updatePhoneNumber(credential)
+                .addOnCompleteListener(object : OnCompleteListener<Void> {
+                    override fun onComplete(task: Task<Void>) {
+                        mViewPleaseWait?.visibility = View.GONE
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Phone number updated.")
+                            phoneNumberVerificationSuccessful()
+                        }
+                        else {
+                            Log.d(TAG, "updatedWithPhoneNumber: failure", task.exception)
+                            val builder = createAlertDialog()
+                            builder.setMessage((task.exception as Exception).message)
+                                    .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
+                                    .show()
+                        }
+                    }
+                })
+    }
+
+    private fun signInNewUser(credential: PhoneAuthCredential) {
         mAuth!!.signInWithCredential(credential)
                 .addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
                     mViewPleaseWait?.visibility = View.GONE
@@ -167,7 +204,11 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         Log.d(TAG, "signInWithCredential:success")
 
                         val user = task.result.user
-                        finish()
+                        val builder = createAlertDialog()
+                        builder.setMessage(R.string.login_successful)
+                                .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
+                                .show()
+                        phoneNumberVerificationSuccessful()
                         // ...
                     } else {
                         // Sign in failed, display a message and update the UI
