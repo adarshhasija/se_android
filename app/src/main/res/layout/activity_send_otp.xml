@@ -11,6 +11,7 @@
         android:id="@+id/et_otp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/otp_6_digit_enter_here"
         android:inputType="number" />
 
     <Button
@@ -21,19 +22,72 @@
         android:textColor="#FFFFFF"
         android:text="@string/submit" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="@string/did_not_receive_otp" />
-
-    <Button
-        android:id="@+id/btn_send_otp_again"
+    <LinearLayout
+        android:id="@+id/view_otp_timer"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FF0000"
-        android:textColor="#FFFFFF"
-        android:text="@string/send_again" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/otp_allow_1_min" />
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_gravity="center"
+            android:text="1:00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_send_otp_again"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/did_not_receive_otp" />
+
+        <Button
+            android:id="@+id/btn_send_otp_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF0000"
+            android:textColor="#FFFFFF"
+            android:text="@string/send_again" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_please_wait"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_wait" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -10,6 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/only_india_numbers" />
 
     <EditText
@@ -22,6 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/otp_will_be_sent" />
 
     <Button
@@ -31,5 +33,28 @@
         android:background="#008000"
         android:textColor="#FFFFFF"
         android:text="@string/send_otp" />
+
+    <LinearLayout
+        android:id="@+id/view_please_wait"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_wait" />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

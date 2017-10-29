@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.MainSEActivity;
+import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 
 public class WelcomeOneActivity extends AppCompatActivity {
 
@@ -44,7 +45,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
@@ -58,14 +59,14 @@ public class WelcomeOneActivity extends AppCompatActivity {
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         etUsername = (EditText) findViewById(R.id.et_username);
-        etUsername.requestFocus();
+        if (etUsername != null) etUsername.requestFocus();
         etPassword = (EditText) findViewById(R.id.et_password);
         Button btnLogin = (Button) findViewById(R.id.btn_login);
         Button btnKeyboard = (Button) findViewById(R.id.btn_keyboard);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = etUsername.getText().toString();
+              /*  String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 if (username == null || username.length() < 1) {
                     Toast.makeText(WelcomeOneActivity.this, R.string.email_error, Toast.LENGTH_SHORT).show();
@@ -80,15 +81,20 @@ public class WelcomeOneActivity extends AppCompatActivity {
                     Toast.makeText(WelcomeOneActivity.this, R.string.login_started, Toast.LENGTH_SHORT).show();
                     mAuth.signInWithEmailAndPassword(username, password)
                             .addOnFailureListener(authFailureListener);
+                }   */
+              Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
+              startActivity(intent);
+            }
+        });
+        if (btnKeyboard != null) {
+            btnKeyboard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(WelcomeOneActivity.this, KeyboardActivity.class);
+                    startActivity(intent);
                 }
-            }
-        });
-        btnKeyboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WelcomeOneActivity.this, KeyboardActivity.class);
-                startActivity(intent);
-            }
-        });
+            });
+        }
+
     }
 }

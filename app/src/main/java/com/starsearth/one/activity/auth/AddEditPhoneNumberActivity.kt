@@ -1,5 +1,6 @@
 package com.starsearth.one.activity.auth
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
@@ -10,45 +11,110 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
 import com.starsearth.one.R
 import com.starsearth.one.SendOTPActivity
+import java.util.concurrent.TimeUnit
 
 class AddEditPhoneNumberActivity : AppCompatActivity() {
+
+    var TAG = "AddEditPhoneNumberActivity"
+
+    private var mAuth: FirebaseAuth? = null
+    private var phoneNumber: String? = null
+
+    private var mViewPleaseWait: LinearLayout? = null
+
+    private val mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            Log.d(TAG, "onVerificationCompleted:" + credential);
+
+            signInWithPhoneAuthCredential(credential);
+            //Please wait view will be made invisible in the sign in callback, not here
+        }
+
+        override fun onVerificationFailed(e: FirebaseException) {
+            Log.w(TAG, "onVerificationFailed", e)
+            mViewPleaseWait?.visibility = View.GONE
+
+            if (e is FirebaseAuthInvalidCredentialsException) {
+                // Invalid request
+                // ...
+            } else if (e is FirebaseTooManyRequestsException) {
+                // The SMS quota for the project has been exceeded
+                // ...
+            }
+            val builder = createAlertDialog()
+            builder.setTitle(R.string.error)
+                    .setMessage(e.message)
+                    .setNeutralButton(android.R.string.ok) { dialog, which ->
+                        dialog.dismiss()
+                        finish()
+                    }
+                    .show()
+        }
+
+        override fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken?) {
+            super.onCodeSent(verificationId, token)
+            mViewPleaseWait?.visibility = View.GONE
+            val intent = Intent(this@AddEditPhoneNumberActivity, SendOTPActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("phone_number", phoneNumber)
+            bundle.putString("verificationId", verificationId)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, 0)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_phone_number)
 
+        mAuth = FirebaseAuth.getInstance()
         val etPhoneNumber = findViewById(R.id.et_phone_number) as EditText
 
         val extras = intent.extras
         if (extras != null) {
-            val phoneNumber = extras.getString("phone_number")
+            phoneNumber = extras.getString("phone_number")
             etPhoneNumber.setText(phoneNumber)
         }
 
         val btnSendOTP = findViewById(R.id.btn_send_otp) as Button
         btnSendOTP.setOnClickListener(View.OnClickListener {
 
-            val phoneNumber = etPhoneNumber.text.toString()
-            if (!isFormatIncorrect(phoneNumber)) {
-                val finalPhoneNumber = "+91" + phoneNumber
+            var etText = etPhoneNumber.text.toString()
+            etText = etText.replace("+0", "")
+            etText = etText.replace("+91", "")
+            if (!isFormatIncorrect(etText)) {
+                phoneNumber = "+91" + etText
                 val builder = createAlertDialog()
                 builder.setTitle(R.string.correct_number_question)
-                        .setMessage(finalPhoneNumber)
+                        .setMessage(phoneNumber)
                         .setNegativeButton(android.R.string.no) { dialog, which -> dialog.dismiss() }
                         .setPositiveButton(android.R.string.yes) { dialog, which ->
-                            val intent = Intent(this, SendOTPActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putString("phone_number", finalPhoneNumber)
-                            intent.putExtras(bundle)
-                            startActivity(intent)
+                            sendOTP(phoneNumber)
+                            mViewPleaseWait?.visibility = View.VISIBLE
                         }
                         .show()
             }
 
 
         })
+
+        mViewPleaseWait = findViewById(R.id.view_please_wait) as LinearLayout
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            //If OTP login was successful
+            finish()
+        }
     }
 
     private fun isFormatIncorrect(phoneNumber: String): Boolean {
@@ -72,6 +138,15 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         return result
     }
 
+    private fun sendOTP(phoneNumber: String?) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber!!,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallbacks);        // OnVerificationStateChangedCallbacks
+    }
+
     private fun createAlertDialog(): AlertDialog.Builder {
         val builder: AlertDialog.Builder
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -81,5 +156,30 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         }
 
         return builder
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        mAuth!!.signInWithCredential(credential)
+                .addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
+                    mViewPleaseWait?.visibility = View.GONE
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success")
+
+                        val user = task.result.user
+                        finish()
+                        // ...
+                    } else {
+                        // Sign in failed, display a message and update the UI
+                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                            // The verification code entered was invalid
+                            val builder = createAlertDialog()
+                            builder.setMessage((task.exception as FirebaseAuthInvalidCredentialsException).message)
+                                    .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
+                                    .show()
+                        }
+                    }
+                })
     }
 }

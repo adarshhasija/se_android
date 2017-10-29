@@ -1,33 +1,77 @@
 package com.starsearth.one
 
+import android.app.Activity
+import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.FirebaseTooManyRequestsException
 import java.util.concurrent.TimeUnit
+//import jdk.nashorn.internal.runtime.ECMAException.getException
+//import org.junit.experimental.results.ResultMatchers.isSuccessful
+import com.google.android.gms.tasks.Task
+import android.support.annotation.NonNull
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.*
+
 
 class SendOTPActivity : AppCompatActivity() {
 
-    private val phoneNumber: String? = null
+    var TAG = "SendOTPActivity"
+
+    private var phoneNumber: String? = null
+    private var mVerificationId: String? = null
+    private var mToken: PhoneAuthProvider.ForceResendingToken? = null
+    private var mAuth: FirebaseAuth? = null
+
+
+    private var mCountDownTimer: CountDownTimer? = null
+    private var mTimer: TextView? = null
+    private var mViewSendOTPAgain: LinearLayout? = null
+    private var mViewOTPTimer: LinearLayout? = null
+    private var mViewPleaseWait: LinearLayout? = null
 
     private val mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-            var i = 0
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            Log.d(TAG, "onVerificationCompleted:" + credential);
+
+            signInWithPhoneAuthCredential(credential);
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
-            var i = 0
+            Log.w(TAG, "onVerificationFailed", e)
+
+            if (e is FirebaseAuthInvalidCredentialsException) {
+                // Invalid request
+                // ...
+            } else if (e is FirebaseTooManyRequestsException) {
+                // The SMS quota for the project has been exceeded
+                // ...
+            }
+            val builder = createAlertDialog()
+            builder.setTitle(R.string.error)
+                    .setMessage(e.message)
+                    .setNeutralButton(android.R.string.ok) { dialog, which ->
+                        dialog.dismiss()
+                        finish()
+                    }
+                    .show()
         }
 
-        override fun onCodeSent(p0: String?, p1: PhoneAuthProvider.ForceResendingToken?) {
-            super.onCodeSent(p0, p1)
-            var i = 0
+        override fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken?) {
+            super.onCodeSent(verificationId, token)
+            mVerificationId = verificationId
+            mToken = token
         }
     }
 
@@ -35,30 +79,98 @@ class SendOTPActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_otp)
 
+        mVerificationId = savedInstanceState?.getString("verificationId")
+        mAuth = FirebaseAuth.getInstance()
+
         val etOTP = findViewById(R.id.et_otp) as EditText
 
         val btnSubmit = findViewById(R.id.btn_submit) as Button
         btnSubmit.setOnClickListener { v: View? ->
             var otp = etOTP.text.toString()
             if (!isFormatIncorrect(otp)) {
-
+                val credential = PhoneAuthProvider.getCredential(this.mVerificationId!!, otp)
+                signInWithPhoneAuthCredential(credential)
             }
         }
 
         val btnSendOTPAgain = findViewById(R.id.btn_send_otp_again) as Button
         btnSendOTPAgain.setOnClickListener { v: View? ->
+            sendOTP(phoneNumber)
+            mCountDownTimer!!.start()
+            mViewOTPTimer!!.visibility = View.VISIBLE
+            mViewSendOTPAgain!!.visibility = View.GONE
 
+            val builder = createAlertDialog()
+            builder.setMessage(R.string.otp_sent_again)
+                    .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
+                    .show()
         }
 
         val extras = intent.extras
-        val phoneNumber = extras!!.getString("phone_number")
+        phoneNumber = extras!!.getString("phone_number")
+        if (mVerificationId == null) {
+            mVerificationId = extras!!.getString("verificationId")
+        }
 
+
+        sendOTP(phoneNumber)
+
+        mViewOTPTimer = findViewById(R.id.view_otp_timer) as LinearLayout
+        mViewSendOTPAgain = findViewById(R.id.view_send_otp_again) as LinearLayout
+        mViewPleaseWait = findViewById(R.id.view_please_wait) as LinearLayout
+
+        startCowntDownTimer()
+    }
+
+    private fun sendOTP(phoneNumber: String?) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
+                phoneNumber!!,        // Phone number to verify
                 60,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
                 this,               // Activity (for callback binding)
                 mCallbacks);        // OnVerificationStateChangedCallbacks
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        if (outState != null) {
+            outState.putString("verificationId", mVerificationId)
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        mVerificationId = savedInstanceState?.getString("verificationId")
+    }
+
+    private fun startCowntDownTimer() {
+        mTimer = findViewById(R.id.tv_timer) as TextView
+        mCountDownTimer = object : CountDownTimer(61000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                if (mTimer != null) {
+                    if (millisUntilFinished / 1000 < 10) {
+                        mTimer!!.setText((millisUntilFinished / 1000 / 60).toString() + ":0" + millisUntilFinished / 1000)
+                    } else {
+                        val mins = (millisUntilFinished / 1000).toInt() / 60
+                        val seconds = (millisUntilFinished / 1000).toInt() % 60
+                        mTimer!!.setText(mins.toString() + ":" + if (seconds == 0) "00" else seconds) //If seconds are 0, print double 0, else print seconds
+                    }
+                }
+
+            }
+
+            override fun onFinish() {
+                mViewOTPTimer!!.visibility = View.GONE
+                mViewSendOTPAgain!!.visibility = View.VISIBLE
+            }
+        }
+        (mCountDownTimer as CountDownTimer).start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCountDownTimer!!.cancel()
     }
 
     private fun isFormatIncorrect(phoneNumber: String): Boolean {
@@ -68,8 +180,8 @@ class SendOTPActivity : AppCompatActivity() {
             builder.setMessage(R.string.otp_not_entered)
             result = true
         }
-        else if (phoneNumber.length > 4) {
-            builder.setMessage(R.string.otp_only_4_digits)
+        else if (phoneNumber.length > 6) {
+            builder.setMessage(R.string.otp_only_6_digits)
             result = true
         }
 
@@ -91,5 +203,37 @@ class SendOTPActivity : AppCompatActivity() {
         }
 
         return builder
+    }
+
+    private fun loginSuccessful() {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        mViewPleaseWait?.visibility = View.VISIBLE
+
+        mAuth!!.signInWithCredential(credential)
+                .addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
+                    mViewPleaseWait?.visibility = View.GONE
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success")
+
+                        val user = task.result.user
+                        loginSuccessful()
+                        // ...
+                    } else {
+                        // Sign in failed, display a message and update the UI
+                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                            // The verification code entered was invalid
+                            val builder = createAlertDialog()
+                            builder.setMessage((task.exception as FirebaseAuthInvalidCredentialsException).message)
+                                    .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
+                                    .show()
+                        }
+                    }
+                })
     }
 }

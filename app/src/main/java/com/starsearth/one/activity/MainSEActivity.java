@@ -172,6 +172,9 @@ public class MainSEActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                String number = user.getPhoneNumber();
+                String username = user.getDisplayName();
+                String email = user.getEmail();
                 if (user == null) {
                     ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
 
