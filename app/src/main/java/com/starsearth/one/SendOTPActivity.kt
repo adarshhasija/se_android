@@ -218,7 +218,7 @@ class SendOTPActivity : AppCompatActivity() {
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         mViewPleaseWait?.visibility = View.VISIBLE
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null && user.phoneNumber != null) {
+        if (user != null) {
             updateUserPhoneNumber(user, credential)
         }
         else {
