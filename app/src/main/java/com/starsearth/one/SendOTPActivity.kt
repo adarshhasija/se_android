@@ -23,6 +23,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.AuthResult
+
+
 
 
 class SendOTPActivity : AppCompatActivity() {
@@ -213,7 +218,7 @@ class SendOTPActivity : AppCompatActivity() {
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         mViewPleaseWait?.visibility = View.VISIBLE
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
+        if (user != null && user.phoneNumber != null) {
             updateUserPhoneNumber(user, credential)
         }
         else {
@@ -240,6 +245,19 @@ class SendOTPActivity : AppCompatActivity() {
                         }
                     }
                 })
+    }
+
+    private fun linkPhoneNumber(credential: PhoneAuthCredential) {
+        mAuth?.currentUser?.linkWithCredential(credential)?.addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                Log.d(TAG, "linkWithCredential:success")
+                val user = task.result.user
+            } else {
+                Log.w(TAG, "linkWithCredential:failure", task.exception)
+                Toast.makeText(this@SendOTPActivity, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun signInNewUser(credential: PhoneAuthCredential) {

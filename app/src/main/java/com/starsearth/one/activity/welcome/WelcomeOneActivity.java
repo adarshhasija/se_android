@@ -81,7 +81,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
                     Toast.makeText(WelcomeOneActivity.this, R.string.login_started, Toast.LENGTH_SHORT).show();
                     mAuth.signInWithEmailAndPassword(username, password)
                             .addOnFailureListener(authFailureListener);
-                }   */
+                }*/
               Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
               startActivity(intent);
             }

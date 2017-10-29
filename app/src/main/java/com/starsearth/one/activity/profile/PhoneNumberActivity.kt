@@ -34,12 +34,16 @@ class PhoneNumberActivity : AppCompatActivity() {
 
 
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null && tvPhoneNumber != null) {
-            tvPhoneNumber!!.text = user.phoneNumber
-            if (user.phoneNumber == null) {
+        if (user != null) {
+            if (!user.phoneNumber.isNullOrBlank()) {
+                tvPhoneNumber!!.text = user.phoneNumber
+            }
+            else {
+                tvPhoneNumber!!.text = "---"
                 btnChange.text = "Add Phone Number"
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
