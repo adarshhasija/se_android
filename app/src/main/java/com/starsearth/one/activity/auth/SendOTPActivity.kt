@@ -261,10 +261,6 @@ class SendOTPActivity : AppCompatActivity() {
                         Log.d(TAG, "signInWithCredential:success")
 
                         val user = task.result.user
-                        val builder = createAlertDialog()
-                        builder.setMessage(R.string.login_successful)
-                                .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
-                                .show()
                         phoneNumberVerificationSuccessful()
                     } else {
                         // Sign in failed, display a message and update the UI

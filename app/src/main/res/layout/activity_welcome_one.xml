@@ -81,11 +81,11 @@
 
         <Button
             android:id="@+id/btn_keyboard"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/keyboard_test"
             android:focusable="true"
-            android:visibility="gone"
             android:background="#000080"
             android:textColor="#FFFFFF" />
 

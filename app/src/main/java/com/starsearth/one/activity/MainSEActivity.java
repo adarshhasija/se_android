@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.auth.ChangePasswordActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
@@ -32,6 +39,7 @@ import com.starsearth.one.application.StarsEarthApplication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainSEActivity extends AppCompatActivity {
 
