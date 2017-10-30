@@ -1,7 +1,6 @@
-package com.starsearth.one
+package com.starsearth.one.activity.auth
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,8 +16,6 @@ import java.util.concurrent.TimeUnit
 //import jdk.nashorn.internal.runtime.ECMAException.getException
 //import org.junit.experimental.results.ResultMatchers.isSuccessful
 import com.google.android.gms.tasks.Task
-import android.support.annotation.NonNull
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.gms.tasks.OnCompleteListener
@@ -26,8 +23,7 @@ import com.google.firebase.auth.*
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.AuthResult
-
-
+import com.starsearth.one.R
 
 
 class SendOTPActivity : AppCompatActivity() {
@@ -178,15 +174,11 @@ class SendOTPActivity : AppCompatActivity() {
         mCountDownTimer!!.cancel()
     }
 
-    private fun isFormatIncorrect(phoneNumber: String): Boolean {
+    private fun isFormatIncorrect(otp: String): Boolean {
         val builder = createAlertDialog()
         var result = false
-        if (phoneNumber.length < 1) {
+        if (otp.length < 1) {
             builder.setMessage(R.string.otp_not_entered)
-            result = true
-        }
-        else if (phoneNumber.length > 6) {
-            builder.setMessage(R.string.otp_only_6_digits)
             result = true
         }
 

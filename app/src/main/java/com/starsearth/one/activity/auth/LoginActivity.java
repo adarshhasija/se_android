@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     if (mProgressBar != null) mProgressBar.setVisibility(View.GONE);
-                    finish();
+                    loginSuccessful();
                 }
                 else {
                     //user is signed out
@@ -115,6 +115,11 @@ public class LoginActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    private void loginSuccessful() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override

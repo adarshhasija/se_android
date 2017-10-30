@@ -11,10 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.starsearth.one.R
-import com.starsearth.one.SendOTPActivity
-import com.starsearth.one.activity.MainSEActivity
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity
-import com.starsearth.one.activity.forms.AddEditCourseActivity
 
 class PhoneNumberActivity : AppCompatActivity() {
 

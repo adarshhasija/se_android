@@ -39,16 +39,7 @@
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />-->
 
-    <Button
-        android:id="@+id/btn_keyboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:text="@string/keyboard_test"
-        android:focusable="true"
-        android:background="#008000"
-        android:textColor="#FFFFFF" />
+
 
     <Button
         android:id="@+id/btn_no_account"
@@ -61,15 +52,44 @@
         android:background="#FF0000"
         android:textColor="#FFFFFF" />
 
-    <Button
-        android:id="@+id/btn_login"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/continue_with_phone_number"
-        android:focusable="true"
-        android:background="#008000"
-        android:textColor="#FFFFFF" />
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_login_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_with_phone_number"
+            android:focusable="true"
+            android:background="#008000"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_login_two"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_with_email_address"
+            android:focusable="true"
+            android:background="#000080"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/keyboard_test"
+            android:focusable="true"
+            android:visibility="gone"
+            android:background="#000080"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
 
     <!--<EditText
         android:id="@+id/et_password"

@@ -20,7 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
+import com.starsearth.one.activity.auth.ChangePasswordActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
 import com.starsearth.one.activity.auth.SignupActivity;
 import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
@@ -74,6 +74,7 @@ public class MainSEActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_se);
 
         //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        isPhoneNumberVerified();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
@@ -85,7 +86,7 @@ public class MainSEActivity extends AppCompatActivity {
 
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
-        //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,9 +174,6 @@ public class MainSEActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                String number = user.getPhoneNumber();
-                String username = user.getDisplayName();
-                String email = user.getEmail();
                 if (user == null) {
                     ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
 
@@ -189,6 +187,26 @@ public class MainSEActivity extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
+    }
+
+    /**
+     * Notify the user that their login via phone number verification was successful
+     */
+    private void isPhoneNumberVerified() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.getBoolean("verifiedPhoneNumber")) {
+                AlertDialog.Builder builder = ((StarsEarthApplication) getApplication()).createAlertDialog(this);
+                builder.setMessage(R.string.phone_number_verified);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        }
     }
 
     @Override

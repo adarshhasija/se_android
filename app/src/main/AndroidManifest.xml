@@ -59,7 +59,7 @@
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".activity.auth.ChangePasswordActivity" />
         <activity
             android:name=".activity.lists.CourseAdminUsersActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -96,7 +96,7 @@
             android:label="@string/enter_phone_number"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".SendOTPActivity"
+            android:name=".activity.auth.SendOTPActivity"
             android:configChanges="orientation"
             android:label="@string/enter_otp"
             android:screenOrientation="portrait"

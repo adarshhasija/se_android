@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
@@ -60,5 +61,15 @@ public class StarsEarthApplication extends Application {
 
     public void setFirebaseUser(User firebaseUser) {
         this.firebaseUser = firebaseUser;
+    }
+
+    public AlertDialog.Builder createAlertDialog(Context context) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        return builder;
     }
 }

@@ -17,11 +17,21 @@ import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
+import com.starsearth.one.activity.auth.LoginActivity;
 
 public class WelcomeOneActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
+                redirectToMainMenu(null);
+            }
+        }
+    };
 
     private EditText etUsername;
     private EditText etPassword;
@@ -42,28 +52,16 @@ public class WelcomeOneActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        };
-
-        mAuth.addAuthStateListener(mAuthListener);
+        //mAuth.addAuthStateListener(mAuthListener);
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         etUsername = (EditText) findViewById(R.id.et_username);
         if (etUsername != null) etUsername.requestFocus();
         etPassword = (EditText) findViewById(R.id.et_password);
-        Button btnLogin = (Button) findViewById(R.id.btn_login);
+        Button btnLoginOne = (Button) findViewById(R.id.btn_login_one);
+        Button btnLoginTwo = (Button) findViewById(R.id.btn_login_two);
         Button btnKeyboard = (Button) findViewById(R.id.btn_keyboard);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLoginOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               /*  String username = etUsername.getText().toString();
@@ -83,7 +81,14 @@ public class WelcomeOneActivity extends AppCompatActivity {
                             .addOnFailureListener(authFailureListener);
                 }*/
               Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
-              startActivity(intent);
+              startActivityForResult(intent, 0);
+            }
+        });
+        btnLoginTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeOneActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
         if (btnKeyboard != null) {
@@ -96,5 +101,43 @@ public class WelcomeOneActivity extends AppCompatActivity {
             });
         }
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            redirectToMainMenu(null);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAuth != null) {
+            //mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("verifiedPhoneNumber", true);
+            redirectToMainMenu(bundle);
+        }
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("verifiedEmailAddress", true);
+            redirectToMainMenu(bundle);
+        }
+    }
+
+    private void redirectToMainMenu(Bundle bundle) {
+        Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+        finish();
     }
 }

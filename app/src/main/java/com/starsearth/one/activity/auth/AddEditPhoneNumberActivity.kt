@@ -1,7 +1,6 @@
 package com.starsearth.one.activity.auth
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
@@ -18,7 +17,6 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.starsearth.one.R
-import com.starsearth.one.SendOTPActivity
 import java.util.concurrent.TimeUnit
 
 class AddEditPhoneNumberActivity : AppCompatActivity() {
