@@ -50,9 +50,8 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
             val builder = createAlertDialog()
             builder.setTitle(R.string.error)
                     .setMessage(e.message)
-                    .setNeutralButton(android.R.string.ok) { dialog, which ->
+                    .setPositiveButton(android.R.string.ok) { dialog, which ->
                         dialog.dismiss()
-                        finish()
                     }
                     .show()
         }

@@ -14,7 +14,7 @@
         android:background="#008000"
         android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="@string/play_typing_game"/>
+        android:text="@string/start_new_game"/>
 
     <RelativeLayout
         android:id="@+id/rl_empty_view"
