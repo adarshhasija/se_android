@@ -21,10 +21,17 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
 
     private Context mContext;
     private ArrayList<TypingTestResult> mDataset;
+    private String mType = null;
 
     public TypingTestResultAdapter(Context context, ArrayList<TypingTestResult> myDataset) {
         mContext = context;
         mDataset = myDataset;
+    }
+
+    public TypingTestResultAdapter(Context context, ArrayList<TypingTestResult> myDataset, String type) {
+        mContext = context;
+        mDataset = myDataset;
+        mType = type;
     }
 
     @Override
@@ -43,7 +50,8 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         double accuracy = (double) wordsCorrect/wordsTotalFinished;
         double accuracyPercentage = Math.ceil(accuracy*100);
         long timeTakenMillis = result.timeTakenMillis;
-        holder.mScoreTextView.setText("Words correct: " + wordsCorrect + "/" + wordsTotalFinished);
+        holder.mScoreTextView.setText(mContext.getResources().getString(R.string.words_correct) + ": " + wordsCorrect + "/" + wordsTotalFinished);
+
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
                                             ": " + (timeTakenMillis/1000)/60 + "m 0" + timeTakenMillis / 1000 +"s");

@@ -50,6 +50,8 @@
     <string name="main_menu">Main Menu</string>
     <array name="se_main_list">
         <item>Typing Game</item>
+        <!--<item>Typing Letters Game</item>-->
+        <!--<item>Typing Numbers Game</item>-->
         <!--<item>View Courses</item>-->
         <!--<item>Keyboard Test</item>-->
     </array>
@@ -284,5 +286,8 @@
     <string name="change_phone_number">Change Phone Number</string>
     <string name="phone_number_updated">Phone number updated successfully</string>
     <string name="phone_number_verified">Phone Number verified</string>
+    <string name="words_correct">Words Correct</string>
+    <string name="letters_correct">Letters Correct</string>
+    <string name="numbers_correct">Numbers Correct</string>
 
 </resources>

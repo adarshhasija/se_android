@@ -50,8 +50,7 @@ public class TypingTestActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private int index=0;
-    private int randomNumber;
-    List<String> sentencesList;
+    //List<String> sentencesList;
     private int charactersCorrect=0;
     private int wordsCorrect=0;
     private int totalCharactersAttempted=0;
@@ -71,7 +70,7 @@ public class TypingTestActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
+        //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextSentence();
 
@@ -152,8 +151,16 @@ public class TypingTestActivity extends AppCompatActivity {
         if (index == expectedAnswer.length()) {
             checkWordCorrect();
             wordComplete(); //on end of sentence we have also completed a word
-            removeCompletedSentence();
-            nextSentence();
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            nextSentence(); //One millis delay so user can see the result of last letter before sentence changes
+                        }
+                    },
+                    100);
+
+
         }
 
         return super.onKeyDown(keyCode, event);
@@ -207,6 +214,43 @@ public class TypingTestActivity extends AppCompatActivity {
         totalWordsFinished++;
     }
 
+    private String generateRandomSentence() {
+        int MAX_LENGTH = 3;
+        int MIN_LENGTH = 2;
+        StringBuilder randomStringBuilder = new StringBuilder();
+        Random generator = new Random();
+        int sentenceLength = generator.nextInt(MAX_LENGTH) + MIN_LENGTH;
+        for (int i = 0; i < sentenceLength; i++) {
+            if (i > 0) {
+                //we do not want to put a space before the first word
+                randomStringBuilder.append(" ");
+            }
+            randomStringBuilder.append(generateRandomWord());
+        }
+
+        return randomStringBuilder.toString();
+    }
+
+    public String generateRandomWord() {
+        int MAX_WORD_LENGTH = 3;
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(MAX_WORD_LENGTH) + 3; //word length of 3 - 6
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            int randomInt = generator.nextInt(25) + 97; //range of lowercase letters is 25
+            if (randomInt % 3 == 0) randomInt -= 32;  //Make it upper case if its modulo 3
+            tempChar = (char) randomInt; //only lower case
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
+
+    public String generateRandomNumber() {
+        Random generator = new Random();
+        return Integer.toString(generator.nextInt(999));
+    }
+
     /**
      * This function generates the next sentence to be displayed
      * Remove previous sentence from list so that we do not reuse it
@@ -215,16 +259,9 @@ public class TypingTestActivity extends AppCompatActivity {
      */
     private void nextSentence() {
         index = 0; //reset the cursor to the start of the sentence
-        randomNumber = (new Random()).nextInt(sentencesList.size());
-        String text = sentencesList.get(randomNumber);
+        String text = generateRandomSentence();
         expectedAnswer = text;
         tvMain.setText(text);
-    }
-
-    private void removeCompletedSentence() {
-        if (sentencesList.size() > 1) {
-            sentencesList.remove(sentencesList.get(randomNumber));
-        }
     }
 
     private void testCancelled() {
