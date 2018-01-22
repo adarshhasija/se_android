@@ -53,7 +53,7 @@
         <!--<item>Typing Letters Game</item>-->
         <!--<item>Typing Numbers Game</item>-->
         <!--<item>View Courses</item>-->
-        <!--<item>Keyboard Test</item>-->
+        <item>Keyboard Test</item>
     </array>
     <array name="se_login_list">
         <item>Login to your account</item>

@@ -62,6 +62,7 @@
 
         <Button
             android:id="@+id/btn_login_one"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/continue_with_phone_number"

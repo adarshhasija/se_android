@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,12 +123,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
     }
 
     private void alertScore(int words_correct, boolean highScore) {
-        AlertDialog.Builder builder = createAlertDialog();
-        builder.setMessage(String.format(getString(R.string.alert_typing_game), words_correct));
         if (highScore) {
-            builder.setTitle(R.string.high_score);
+            Toast.makeText(getApplicationContext(), R.string.high_score, Toast.LENGTH_LONG).show();
         }
-        builder.show();
 
     }
 

@@ -204,15 +204,7 @@ public class MainSEActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.getBoolean("verifiedPhoneNumber")) {
-                AlertDialog.Builder builder = ((StarsEarthApplication) getApplication()).createAlertDialog(this);
-                builder.setMessage(R.string.phone_number_verified);
-                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
+                Toast.makeText(getApplicationContext(), R.string.phone_number_verified, Toast.LENGTH_LONG).show();
             }
         }
     }

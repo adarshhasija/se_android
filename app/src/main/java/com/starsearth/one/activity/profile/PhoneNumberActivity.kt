@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.starsearth.one.R
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity
@@ -50,10 +51,7 @@ class PhoneNumberActivity : AppCompatActivity() {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
                 tvPhoneNumber?.text = user.phoneNumber
-                val builder = createAlertDialog()
-                builder.setMessage(R.string.phone_number_updated)
-                        .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
-                        .show()
+                Toast.makeText(applicationContext, R.string.phone_number_updated, Toast.LENGTH_LONG).show()
             }
         }
     }

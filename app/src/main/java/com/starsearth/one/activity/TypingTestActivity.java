@@ -259,9 +259,10 @@ public class TypingTestActivity extends AppCompatActivity {
      */
     private void nextSentence() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = generateRandomSentence();
+        String text = "Hello"; //generateRandomSentence();
         expectedAnswer = text;
         tvMain.setText(text);
+        tvMain.announceForAccessibility(text);
     }
 
     private void testCancelled() {
