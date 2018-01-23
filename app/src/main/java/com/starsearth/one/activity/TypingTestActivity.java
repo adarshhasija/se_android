@@ -162,6 +162,17 @@ public class TypingTestActivity extends AppCompatActivity {
 
 
         }
+        else {
+            //announce next character for accessibility, index has been incremented
+            char nextExpectedCharacter = expectedAnswer.charAt(index);
+            if (nextExpectedCharacter == ' ') {
+                tvMain.announceForAccessibility("space");
+            }
+            else {
+                tvMain.announceForAccessibility(String.valueOf(nextExpectedCharacter));
+            }
+
+        }
 
         return super.onKeyDown(keyCode, event);
     }
@@ -262,7 +273,7 @@ public class TypingTestActivity extends AppCompatActivity {
         String text = "Hello"; //generateRandomSentence();
         expectedAnswer = text;
         tvMain.setText(text);
-        tvMain.announceForAccessibility(text);
+        tvMain.announceForAccessibility(text.substring(0,1));
     }
 
     private void testCancelled() {

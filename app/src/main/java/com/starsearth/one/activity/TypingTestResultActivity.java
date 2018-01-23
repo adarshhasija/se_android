@@ -124,7 +124,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
     private void alertScore(int words_correct, boolean highScore) {
         if (highScore) {
-            Toast.makeText(getApplicationContext(), R.string.high_score, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.high_score) + " " + words_correct, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -192,9 +192,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 0 && resultCode == RESULT_CANCELED) {
-            AlertDialog.Builder builder = createAlertDialog();
-            builder.setMessage(R.string.typing_game_cancelled)
-                    .show();
+            Toast.makeText(getApplicationContext(), R.string.typing_game_cancelled, Toast.LENGTH_LONG).show();
         }
         else if (requestCode == 0 && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();

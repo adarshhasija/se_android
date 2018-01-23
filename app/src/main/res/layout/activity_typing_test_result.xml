@@ -7,10 +7,17 @@
     android:orientation="vertical"
     tools:context="com.starsearth.one.activity.TypingTestResultActivity">
 
+    <!-- Dummy view so that talkback focuses on "Start Game" button first -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"></RelativeLayout>
+
     <Button
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
         android:background="#008000"
         android:textColor="#FFFFFF"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -25,6 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/typing_game_instructions"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
@@ -39,6 +47,6 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp" />
 
-    <!--   -->
+
 
 </LinearLayout>
