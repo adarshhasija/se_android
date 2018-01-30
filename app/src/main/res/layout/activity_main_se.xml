@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.starsearth.one.activity.lists.ItemListActivity">
-
+    
     <LinearLayout
         android:id="@+id/ll_action"
         android:background="#D3D3D3"
@@ -22,6 +22,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp"
+            android:text="@string/se_dost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -32,7 +33,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="5dp"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:text="@string/se_dost_tap_here_to_begin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

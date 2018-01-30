@@ -92,6 +92,15 @@ public class MainSEActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
+
+        llAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainSEActivity.this, ChatBotActivity.class);
+                startActivity(intent);
+            }
+        });
+
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));

@@ -48,11 +48,13 @@
 
     <!-- Main SE Activity -->
     <string name="main_menu">Main Menu</string>
+    <string name="se_dost">StarsEarth Dost</string>
+    <string name="se_dost_tap_here_to_begin">Tap here to begin</string>
     <array name="se_main_list">
-        <item>Typing Game</item>
-        <!--<item>Typing Letters Game</item>-->
-        <!--<item>Typing Numbers Game</item>-->
-        <!--<item>View Courses</item>-->
+        <item>Typing 1 Word Game</item>
+        <item>Typing Many Words Game</item>
+        <item>Typing 1 Sentence Game</item>
+        <item>Typing Many Sentences Game</item>
         <item>Keyboard Test</item>
     </array>
     <array name="se_login_list">
