@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -23,11 +23,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
-import com.starsearth.one.adapter.TypingTestResultAdapter;
-import com.starsearth.one.domain.TypingTestResult;
+import com.starsearth.one.adapter.ResultAdapter;
+import com.starsearth.one.domain.TypingGame;
+import com.starsearth.one.domain.Result;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class TypingTestResultActivity extends AppCompatActivity {
 
@@ -35,18 +36,30 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private ArrayList<TypingTestResult> list = new ArrayList<>();
+    private ArrayList<Result> list = new ArrayList<>();
     private DatabaseReference mDatabase;
 
     private Button btnStart;
+    private TextView tvInstruction;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private ArrayList<String> content = new ArrayList<>();
+
     private ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            TypingTestResult result = dataSnapshot.getValue(TypingTestResult.class);
+            Result result = dataSnapshot.getValue(Result.class);
+
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                //is it the same game type?
+                if (!extras.getString("levelString").equals(result.level_string)) {
+                    return;
+                }
+            }
+
             int index = indexToInsert(result);
             if (mAdapter != null && list != null) {
                 if (index == -1)  {
@@ -59,7 +72,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
                 if (list.size() > MAX_NUMBER_IN_LIST) {
                     //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
-                    TypingTestResult lastItem = list.get(list.size()-1);
+                    Result lastItem = list.get(list.size()-1);
                     mDatabase.child(lastItem.uid).removeValue(); //delete from the database
                     list.remove(lastItem);
                 }
@@ -107,13 +120,13 @@ public class TypingTestResultActivity extends AppCompatActivity {
      * @param result
      * @return index of list. -1 if need to insert at the end of the list
      */
-    private int indexToInsert(TypingTestResult result) {
+    private int indexToInsert(Result result) {
         if (list.isEmpty()) {
             return 0;
         }
 
         for (int i = 0; i < list.size(); i++) {
-            TypingTestResult listItem = list.get(i);
+            Result listItem = list.get(i);
             if (result.words_correct > listItem.words_correct) {
                 return i;
             }
@@ -127,6 +140,42 @@ public class TypingTestResultActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.high_score) + " " + words_correct, Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void setInstructionTextAndContent() {
+        Bundle extras = getIntent().getExtras();
+        String levelString = null;
+        if (extras != null) {
+            levelString = extras.getString("levelString");
+        }
+        else {
+            return;
+        }
+        TypingGame game = new TypingGame();
+        if (levelString.equals("1 word")) {
+            //Random random = new Random();
+            //int result = random.nextInt(game.words.size());
+            content.add(game.words.get(0));
+            tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_word), content.get(0)));
+        }
+        if (levelString.equals("many words")) {
+            for (String word : game.words) {
+                content.add(word);
+            }
+            tvInstruction.setText(getString(R.string.typing_game_instructions_many_words));
+        }
+        if (levelString.equals("1 sentence")) {
+            //Random random = new Random();
+            //int result = random.nextInt(game.words.size());
+            content.add(game.sentences.get(0));
+            tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_sentence), content.get(0)));
+        }
+        if (levelString.equals("many sentences")) {
+            for (String sentence : game.sentences) {
+                content.add(sentence);
+            }
+            tvInstruction.setText(getString(R.string.typing_game_instructions_many_sentences));
+        }
     }
 
     private AlertDialog.Builder createAlertDialog() {
@@ -164,11 +213,15 @@ public class TypingTestResultActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new TypingTestResultAdapter(getApplicationContext(), list);
+        mAdapter = new ResultAdapter(getApplicationContext(), list);
         mRecyclerView.setAdapter(mAdapter);
 
+        tvInstruction = (TextView) findViewById(R.id.tv_instruction);
+        setInstructionTextAndContent();
+
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference("typing_game_results");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("results");
         mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(childEventListener);
@@ -182,9 +235,19 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                 Intent intent = new Intent(TypingTestResultActivity.this, TypingTestActivity.class);
+                bundle.putStringArrayList("content", content);
+                Bundle extras = getIntent().getExtras();
+                if (extras != null) {
+                    bundle.putString("subject", extras.getString("subject"));
+                    bundle.putString("levelString", extras.getString("levelString"));
+                    bundle.putInt("level", extras.getInt("level"));
+                }
+                intent.putExtras(bundle);
                 startActivityForResult(intent, 0);
             }
         });
+
+
     }
 
     @Override

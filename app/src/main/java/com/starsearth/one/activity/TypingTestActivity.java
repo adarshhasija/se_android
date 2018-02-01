@@ -1,47 +1,26 @@
 package com.starsearth.one.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
-import com.starsearth.one.domain.TypingTestResult;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -63,12 +42,25 @@ public class TypingTestActivity extends AppCompatActivity {
     private TextView mTimer;
     private CountDownTimer mCountDownTimer;
 
+    private String subject = null;
+    private int level;
+    private String levelString = null;
+    private ArrayList<String> content = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            subject = extras.getString("subject");
+            level = extras.getInt("level");
+            levelString = extras.getString("levelString");
+            content = extras.getStringArrayList("content");
+        }
 
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
         tvMain = (TextView) findViewById(R.id.tv_main);
@@ -195,8 +187,8 @@ public class TypingTestActivity extends AppCompatActivity {
 
     private void testCompleted() {
         mCountDownTimer.cancel();
-        Firebase firebase = new Firebase("typing_game_results");
-        firebase.writeNewTypingTestResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis);
+        Firebase firebase = new Firebase("results");
+        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, subject, level, levelString, timeTakenMillis);
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
@@ -262,6 +254,19 @@ public class TypingTestActivity extends AppCompatActivity {
         return Integer.toString(generator.nextInt(999));
     }
 
+    public String generateContent() {
+        if (content.isEmpty()) {
+            return null;
+        }
+        if (levelString.contains("1") && !content.isEmpty()) {
+            return content.get(0);
+        }
+
+        Random random = new Random();
+        int randomInt = random.nextInt(content.size());
+        return content.get(randomInt);
+    }
+
     /**
      * This function generates the next sentence to be displayed
      * Remove previous sentence from list so that we do not reuse it
@@ -270,7 +275,7 @@ public class TypingTestActivity extends AppCompatActivity {
      */
     private void nextSentence() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = "Hello"; //generateRandomSentence();
+        String text = generateContent(); //generateRandomSentence();
         expectedAnswer = text;
         tvMain.setText(text);
         tvMain.announceForAccessibility(text.substring(0,1));

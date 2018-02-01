@@ -23,22 +23,44 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:text="@string/start_new_game"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_empty_view"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_start">
 
         <TextView
+            android:id="@+id/tv_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:gravity="center"
-            android:text="@string/typing_game_instructions"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_centerInParent="true"/>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_target_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/target_speed"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/tv_target_accuracy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/target_accuracy"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_centerInParent="true"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"

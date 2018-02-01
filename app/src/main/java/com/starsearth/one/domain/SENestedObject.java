@@ -21,6 +21,7 @@ public class SENestedObject implements Parcelable {
 
     public String uid;
     public String typePlural;
+    public long timestamp;
     //public Map<String, Map<String, SENestedObject>> children = new HashMap<>();
     public Map<String, SENestedObject> children = new HashMap<>();
 
@@ -31,6 +32,12 @@ public class SENestedObject implements Parcelable {
     public SENestedObject(String uid, String typePlural) {
         this.uid = uid;
         this.typePlural = typePlural;
+    }
+
+    public SENestedObject(String uid, String typePlural, long timestamp) {
+        this.uid = uid;
+        this.typePlural = typePlural;
+        this.timestamp = timestamp;
     }
 
     protected SENestedObject(Parcel in) {

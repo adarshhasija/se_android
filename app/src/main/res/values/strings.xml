@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Typing Game</string>
+    <string name="app_name">Seekho Typing</string>
     <string name="done">DONE</string>
     <string name="submit">SUBMIT</string>
     <string name="edit">Edit</string>
@@ -48,13 +48,17 @@
 
     <!-- Main SE Activity -->
     <string name="main_menu">Main Menu</string>
-    <string name="se_dost">StarsEarth Dost</string>
-    <string name="se_dost_tap_here_to_begin">Tap here to begin</string>
+    <string name="se_assistant">StarsEarth Assistant</string>
+    <string name="se_assistant_tap_here_to_begin">Tap here to begin</string>
+    <string name="se_assistant_welcome_message">I am the StarsEarth Assistant. I will help you use this app.\nTap screen to continue</string>
+    <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
+    <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
+    <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time from the main menu.\nTap screen to continue</string>
     <array name="se_main_list">
-        <item>Typing 1 Word Game</item>
-        <item>Typing Many Words Game</item>
-        <item>Typing 1 Sentence Game</item>
-        <item>Typing Many Sentences Game</item>
+        <item>Typing 1 Word</item>
+        <item>Typing Many Words</item>
+        <item>Typing 1 Sentence</item>
+        <item>Typing Many Sentences</item>
         <item>Keyboard Test</item>
     </array>
     <array name="se_login_list">
@@ -260,7 +264,10 @@
     <string name="time_taken">Time taken</string>
     <string name="new_reocrd">New Record</string>
     <string name="start_new_game">Start New Game</string>
-    <string name="typing_game_instructions">Type the word hello as many times as you can within 1 minute.\nYour best score will be displayed here</string>
+    <string name="typing_game_instructions_1_word">Type the word %s as many times as you can within 1 minute.\nYour best score will be displayed here</string>
+    <string name="typing_game_instructions_many_words">You will be shown some words. Type as many of them as you can within 1 minute.\nYour best score will be displayed here</string>
+    <string name="typing_game_instructions_1_sentence">Type the sentence\n %s\n as many times as you can within 1 minute.\nYour best score will be displayed here</string>
+    <string name="typing_game_instructions_many_sentences">You will be shown some sentences. Type as many of them as you can within 1 minute.\nYour best score will be displayed here</string>
     <string name="words_per_minute">Words per Minute</string>
     <string name="typing_game">Typing Game</string>
     <string name="high_score">High Score</string>
@@ -291,5 +298,10 @@
     <string name="words_correct">Words Correct</string>
     <string name="letters_correct">Letters Correct</string>
     <string name="numbers_correct">Numbers Correct</string>
+    <string name="accuracy">Accuracy</string>
+    <string name="target_speed">Target speed: 30 words per minute</string>
+    <string name="target_accuracy">Target accuracy: 90%</string>
+
+    <string name="title_activity_assistant">AssistantActivity</string>
 
 </resources>

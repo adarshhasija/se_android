@@ -125,6 +125,8 @@ public class KeyboardActivity extends AppCompatActivity implements View.OnKeyLis
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        hardwareKeyboard = true;
+        setResult(RESULT_OK);
         switch (keyCode) {
             //letters
          /*   case KeyEvent.KEYCODE_A:
@@ -418,6 +420,17 @@ public class KeyboardActivity extends AppCompatActivity implements View.OnKeyLis
         }
 
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (hardwareKeyboard) {
+            setResult(RESULT_OK);
+        }
+        else {
+            setResult(RESULT_CANCELED);
+        }
     }
 
     @Override

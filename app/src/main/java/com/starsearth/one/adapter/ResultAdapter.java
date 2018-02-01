@@ -8,27 +8,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starsearth.one.R;
-import com.starsearth.one.domain.TypingTestResult;
+import com.starsearth.one.domain.Result;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by faimac on 10/24/17.
  */
 
-public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResultAdapter.ViewHolder> {
+public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<TypingTestResult> mDataset;
+    private ArrayList<Result> mDataset;
     private String mType = null;
 
-    public TypingTestResultAdapter(Context context, ArrayList<TypingTestResult> myDataset) {
+    public ResultAdapter(Context context, ArrayList<Result> myDataset) {
         mContext = context;
         mDataset = myDataset;
     }
 
-    public TypingTestResultAdapter(Context context, ArrayList<TypingTestResult> myDataset, String type) {
+    public ResultAdapter(Context context, ArrayList<Result> myDataset, String type) {
         mContext = context;
         mDataset = myDataset;
         mType = type;
@@ -44,13 +43,15 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TypingTestResult result = mDataset.get(position);
+        Result result = mDataset.get(position);
         int wordsCorrect = result.words_correct;
         int wordsTotalFinished = result.words_total_finished;
         double accuracy = (double) wordsCorrect/wordsTotalFinished;
         double accuracyPercentage = Math.ceil(accuracy*100);
+        int accuracyPercentageInt = (int) accuracyPercentage;
         long timeTakenMillis = result.timeTakenMillis;
         holder.mScoreTextView.setText(mContext.getResources().getString(R.string.words_correct) + ": " + wordsCorrect + " out of " + wordsTotalFinished);
+        holder.mAccuracyTextView.setText(mContext.getResources().getString(R.string.accuracy) + ": " + accuracyPercentageInt + "%");
 
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
@@ -75,12 +76,14 @@ public class TypingTestResultAdapter extends RecyclerView.Adapter<TypingTestResu
         public TextView mScoreTextView;
         public TextView mTimeTakenTextView;
         public TextView mWpm;
+        public TextView mAccuracyTextView;
         public ViewHolder(LinearLayout ll) {
             super(ll);
             mLinearLayout = ll;
             mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
             mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
             mWpm = (TextView) ll.findViewById(R.id.tv_wpm);
+            mAccuracyTextView = (TextView) ll.findViewById(R.id.tv_accuracy);
         }
     }
 }

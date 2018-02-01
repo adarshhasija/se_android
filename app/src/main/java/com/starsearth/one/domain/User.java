@@ -17,8 +17,8 @@ public class User  implements Parcelable {
     public String uid;
     public boolean course_admin;
     public String email;
-    public String firstName;
-    public String lastName;
+    //public String firstName;
+    //public String lastName;
     public boolean isGuest;
     public Map<String, SENestedObject> answers = new HashMap<>();
 
@@ -27,21 +27,21 @@ public class User  implements Parcelable {
     }
 
     public User(String uid, boolean course_admin, String email) {
-        this.uid = uid;
-        this.course_admin = course_admin;
-        this.email = email;
+        //this.uid = uid;
+        //this.course_admin = course_admin;
+        //this.email = email;
     }
 
     public User(String uid, boolean isGuest) {
-        this.uid = uid;
-        this.course_admin = false;
-        this.isGuest = isGuest;
+        //this.uid = uid;
+        //this.course_admin = false;
+        //this.isGuest = isGuest;
     }
 
     protected User(Parcel in) {
         uid = in.readString();
         //courseAdmin = in.readByte() != 0;
-        email = in.readString();
+        //email = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -63,18 +63,18 @@ public class User  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(uid);
-        dest.writeByte((byte) (course_admin ? 1 : 0));
-        dest.writeString(email);
+        //dest.writeString(uid);
+        //dest.writeByte((byte) (course_admin ? 1 : 0));
+        //dest.writeString(email);
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
-        result.put("course_admin", course_admin);
-        result.put("email", email);
-        result.put("isGuest", isGuest);
+      //  result.put("uid", uid);
+      //  result.put("course_admin", course_admin);
+      //  result.put("email", email);
+      //  result.put("isGuest", isGuest);
 
         return result;
     }

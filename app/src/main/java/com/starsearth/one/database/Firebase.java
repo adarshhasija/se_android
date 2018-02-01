@@ -1,12 +1,7 @@
 package com.starsearth.one.database;
 
-import android.content.Context;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -19,13 +14,12 @@ import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Question;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
-import com.starsearth.one.domain.TypingTestResult;
+import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.User;
 import com.starsearth.one.domain.UserAnswer;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -247,10 +241,10 @@ public class Firebase {
         return key;
     }
 
-    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis) {
+    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        TypingTestResult testResult = new TypingTestResult(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis);
+        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, timeTakenMillis);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -260,7 +254,30 @@ public class Firebase {
         return key;
     }
 
-    public void updateExistingTypingTestResult(String key, TypingTestResult result) {
+    public String writeNewResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databaseReference.push().getKey();
+        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, timeTakenMillis);
+        Map<String, Object> values = testResult.toMap();
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, values);
+
+        databaseReference.updateChildren(childUpdates);
+        return key;
+    }
+
+    public void updateExistingTypingTestResult(String key, Result result) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Map<String, Object> values = result.toMap();
+        values.put("characters_correct", result.characters_correct);
+        values.put("words_correct", result.words_correct);
+        values.put("timeTakenMillis", result.timeTakenMillis);
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        databaseReference.child(key).setValue(values);
+    }
+
+    public void updateExistingResult(String key, Result result) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = result.toMap();
         values.put("characters_correct", result.characters_correct);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Course;
+import com.starsearth.one.domain.Game;
 
 import java.util.ArrayList;
 import java.util.List;

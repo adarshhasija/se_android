@@ -11,7 +11,7 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class TypingTestResult {
+public class Result {
 
     public String uid;
     public String userId;
@@ -19,21 +19,28 @@ public class TypingTestResult {
     public int characters_total_attempted;
     public int words_correct;
     public int words_total_finished;
+    public String subject;
+    public int level;
+    public String level_string;
     public long timeTakenMillis;
 
-    public TypingTestResult() {
+    public Result() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public TypingTestResult(String uid, String userId, int characters_correct, int characters_total_attempted,
-                                    int words_correct, int words_total_finished, long timeTakenMillis) {
+    public Result(String uid, String userId, int characters_correct, int characters_total_attempted,
+                  int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {
         this.uid = uid;
         this.userId = userId;
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
         this.words_correct = words_correct;
         this.words_total_finished = words_total_finished;
+        this.subject = subject;
+        this.level = level;
+        this.level_string = levelString;
         this.timeTakenMillis = timeTakenMillis;
+
     }
 
     @Exclude
@@ -45,6 +52,9 @@ public class TypingTestResult {
         result.put("characters_total_attempted", characters_total_attempted);
         result.put("words_correct", words_correct);
         result.put("words_total_finished", words_total_finished);
+        result.put("subject", subject);
+        result.put("level", level);
+        result.put("level_string", level_string);
         result.put("timeTakenMillis", timeTakenMillis);
 
         return result;

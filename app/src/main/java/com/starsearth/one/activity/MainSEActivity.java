@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,15 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.auth.ChangePasswordActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
@@ -36,10 +35,10 @@ import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainSEActivity extends AppCompatActivity {
 
@@ -57,9 +56,12 @@ public class MainSEActivity extends AppCompatActivity {
     public String ANALYTICS_KEYBOARD_TEST = "mainse_keyboard_test";
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseUserReference;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
+
+    private User user;
 
     protected LinearLayout llAction;
     protected TextView tvActionLine1;
@@ -75,7 +77,6 @@ public class MainSEActivity extends AppCompatActivity {
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +86,7 @@ public class MainSEActivity extends AppCompatActivity {
         isPhoneNumberVerified();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
-        llAction.setVisibility(View.GONE);
+        //llAction.setVisibility(View.GONE);
         tvActionLine1 = (TextView) findViewById(R.id.tv_action_line_1);
         tvActionLine2 = (TextView) findViewById(R.id.tv_action_line_2);
         tvListViewHeader = (TextView) findViewById(R.id.tv_listview_header);
@@ -96,7 +97,7 @@ public class MainSEActivity extends AppCompatActivity {
         llAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainSEActivity.this, ChatBotActivity.class);
+                Intent intent = new Intent(MainSEActivity.this, AssistantActivity.class);
                 startActivity(intent);
             }
         });
@@ -175,12 +176,56 @@ public class MainSEActivity extends AppCompatActivity {
                     intent = new Intent(MainSEActivity.this, CoursesListActivity.class);
                     startActivity(intent);
                 }
-                else if (selected.contains("Typing Game")) {
+                else if (selected.contains("1 Word")) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     if (currentUser != null) {
-                        sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                        //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
                     intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("subject", "typing");
+                    //bundle.putInt("level", 1);
+                    bundle.putString("levelString", "1 word");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else if (selected.contains("Many Words")) {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                    }
+                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("subject", "typing");
+                    //bundle.putInt("level", 2);
+                    bundle.putString("levelString", "many words");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else if (selected.contains("1 Sentence")) {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                    }
+                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("subject", "typing");
+                    //bundle.putInt("level", 3);
+                    bundle.putString("levelString", "1 sentence");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+                else if (selected.contains("Many Sentences")) {
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (currentUser != null) {
+                        //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
+                    }
+                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("subject", "typing");
+                    //bundle.putInt("level", 4);
+                    bundle.putString("levelString", "many sentences");
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
