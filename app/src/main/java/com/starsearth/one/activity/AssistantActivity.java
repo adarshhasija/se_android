@@ -17,7 +17,7 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
     private RelativeLayout rl;
     private TextView tvLine1;
 
-    private Assistant.State currentState = Assistant.State.BEGIN;
+    private Assistant.State currentState = Assistant.State.WELCOME;
 
     private void onStateChanged() {
         Firebase firebase = new Firebase("assistants");
@@ -30,6 +30,11 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistant);
 
+        rl = (RelativeLayout) findViewById(R.id.rl);
+        rl.setOnClickListener(this);
+        rl.setOnLongClickListener(this);
+        tvLine1 = (TextView) findViewById(R.id.tv_line_1);
+
         Assistant mAssistant = null;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -39,36 +44,31 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-        rl = (RelativeLayout) findViewById(R.id.rl);
-        rl.setOnClickListener(this);
-        rl.setOnLongClickListener(this);
-        tvLine1 = (TextView) findViewById(R.id.tv_line_1);
-        if (mAssistant != null) {
-            changeState();
-        }
+        showText(currentState);
 
     }
 
-    private void changeState() {
-        switch (currentState) {
-            case BEGIN:
-                tvLine1.setText(getString(R.string.se_assistant_welcome_message));
-                tvLine1.announceForAccessibility(getString(R.string.se_assistant_welcome_message));
-                currentState = Assistant.State.WELCOME;
-                break;
+    private void changeState(Assistant.State mState) {
+        switch (mState) {
             case WELCOME:
-                tvLine1.setText(getString(R.string.se_assistant_keyboard_test_introduction));
-                tvLine1.announceForAccessibility(getString(R.string.se_assistant_keyboard_test_introduction));
                 currentState = Assistant.State.KEYBOARD_TEST_INTRO;
+                showText(currentState);
                 break;
             case KEYBOARD_TEST_INTRO:
-                tvLine1.setText(getString(R.string.se_assistant_keyboard_test_start));
-                tvLine1.announceForAccessibility(getString(R.string.se_assistant_keyboard_test_start));
                 currentState = Assistant.State.KEYBOARD_TEST_START;
+                showText(currentState);
                 break;
             case KEYBOARD_TEST_START:
-                Intent intent = new Intent(AssistantActivity.this, KeyboardActivity.class);
-                startActivityForResult(intent, 0);
+                currentState = Assistant.State.KEYBOARD_TEST_IN_PROGRESS;
+                showText(currentState);
+                break;
+            case KEYBOARD_TEST_IN_PROGRESS:
+                openNewIntent(currentState);
+                break;
+            case KEYBOARD_TEST_COMPLETED_SUCCESS:
+            case KEYBOARD_TEST_COMPLETED_FAIL:
+                currentState = Assistant.State.TYPING_GAMES_WELCOME;
+                showText(currentState);
                 break;
             default:
                 break;
@@ -76,9 +76,55 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
         onStateChanged();
     }
 
+    private void showText(Assistant.State mState) {
+        String formattedString;
+        switch (mState) {
+            case WELCOME:
+                tvLine1.setText(getString(R.string.se_assistant_welcome_message));
+                tvLine1.announceForAccessibility(getString(R.string.se_assistant_welcome_message));
+                break;
+            case KEYBOARD_TEST_INTRO:
+                tvLine1.setText(getString(R.string.se_assistant_keyboard_test_introduction));
+                tvLine1.announceForAccessibility(getString(R.string.se_assistant_keyboard_test_introduction));
+                break;
+            case KEYBOARD_TEST_START:
+            case KEYBOARD_TEST_IN_PROGRESS:
+                tvLine1.setText(getString(R.string.se_assistant_keyboard_test_start));
+                tvLine1.announceForAccessibility(getString(R.string.se_assistant_keyboard_test_start));
+                break;
+            case KEYBOARD_TEST_COMPLETED_SUCCESS:
+                formattedString = String.format(getString(R.string.se_assistant_keyboard_test_end), getString(R.string.good));
+                tvLine1.setText(formattedString);
+                tvLine1.announceForAccessibility(formattedString);
+                break;
+            case KEYBOARD_TEST_COMPLETED_FAIL:
+                formattedString = String.format(getString(R.string.se_assistant_keyboard_test_end), getString(R.string.not_good));
+                tvLine1.setText(formattedString);
+                tvLine1.announceForAccessibility(formattedString);
+                break;
+            case TYPING_GAMES_WELCOME:
+                tvLine1.setText(getString(R.string.se_assistant_typing_games_welcome));
+                tvLine1.announceForAccessibility(getString(R.string.se_assistant_typing_games_welcome));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void openNewIntent(Assistant.State mState) {
+        switch (mState) {
+            case KEYBOARD_TEST_IN_PROGRESS:
+                Intent intent = new Intent(AssistantActivity.this, KeyboardActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+            default:
+                break;
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        changeState();
+        changeState(currentState);
     }
 
 
@@ -93,19 +139,14 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0 && currentState == Assistant.State.KEYBOARD_TEST_START) {
+        if (requestCode == 0 && currentState == Assistant.State.KEYBOARD_TEST_IN_PROGRESS) {
             if (resultCode == RESULT_OK) {
-                String formattedString = String.format(getString(R.string.se_assistant_keyboard_test_end), "good");
-                tvLine1.setText(formattedString);
-                tvLine1.announceForAccessibility(formattedString);
-                currentState = Assistant.State.KEYBOARD_TEST_END;
+                currentState = Assistant.State.KEYBOARD_TEST_COMPLETED_SUCCESS;
             }
             else if (resultCode == RESULT_CANCELED) {
-                String formattedString = String.format(getString(R.string.se_assistant_keyboard_test_end), "not good");
-                tvLine1.setText(formattedString);
-                tvLine1.announceForAccessibility(formattedString);
-                currentState = Assistant.State.KEYBOARD_TEST_END;
+                currentState = Assistant.State.KEYBOARD_TEST_COMPLETED_FAIL;
             }
+            showText(currentState);
             onStateChanged();
         }
     }

@@ -17,7 +17,8 @@ import java.util.Map;
 public class Assistant implements Parcelable {
 
     public enum State {
-        BEGIN(0), WELCOME(1), KEYBOARD_TEST_INTRO(2), KEYBOARD_TEST_START(3), KEYBOARD_TEST_END(4);
+        WELCOME(0), KEYBOARD_TEST_INTRO(1), KEYBOARD_TEST_START(2), KEYBOARD_TEST_IN_PROGRESS(3),
+        KEYBOARD_TEST_COMPLETED_SUCCESS(4), KEYBOARD_TEST_COMPLETED_FAIL(5), TYPING_GAMES_WELCOME(6);
 
         private final long value;
 

@@ -90,7 +90,7 @@ public class MainSEActivity extends AppCompatActivity {
         if (mAssistant.state > 0 && mAssistant.state < 4) {
             tvActionLine2.setText(getString(R.string.se_assistant_tap_here_to_continue));
         }
-        else if (mAssistant.state == 4) {
+        else if (mAssistant.state > 3) {
             tvActionLine2.setText(getString(R.string.se_assistant_keyboard_test_completed));
         }
     }
@@ -115,6 +115,11 @@ public class MainSEActivity extends AppCompatActivity {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
+            Assistant assistant = dataSnapshot.getValue(Assistant.class);
+            if (assistant != null) {
+                mDatabaseAssistantReference.child(assistant.uid).removeValue(); //delete from the database
+                assistants.remove(assistant);
+            }
 
         }
 

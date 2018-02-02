@@ -52,6 +52,7 @@
     <string name="se_assistant_tap_here_to_begin">Tap here to begin</string>
     <string name="se_assistant_tap_here_to_continue">Tap here to continue</string>
     <string name="se_assistant_keyboard_test_completed">Keyboard test completed</string>
+    <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing game from the main menu</string>
     <string name="se_assistant_welcome_message">I am the StarsEarth Assistant. I will help you use this app.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
@@ -305,5 +306,8 @@
     <string name="target_accuracy">Target accuracy: 90%</string>
 
     <string name="title_activity_assistant">AssistantActivity</string>
+
+    <string name="good">good</string>
+    <string name="not_good">not good</string>
 
 </resources>
