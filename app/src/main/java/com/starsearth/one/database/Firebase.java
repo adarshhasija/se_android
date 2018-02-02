@@ -8,6 +8,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Lesson;
@@ -252,6 +253,27 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
+    }
+
+    public String writeNewAssistant(Assistant.State state) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = databaseReference.push().getKey();
+        Assistant assistant = new Assistant(key, user.getUid(), state);
+        Map<String, Object> values = assistant.toMap();
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, values);
+
+        databaseReference.updateChildren(childUpdates);
+        return key;
+    }
+
+    public void updateExistingAssistant(String key, Assistant assistant) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Map<String, Object> values = assistant.toMap();
+        values.put("state", assistant.state);
+        values.put("timestamp", ServerValue.TIMESTAMP);
+        databaseReference.child(key).setValue(values);
     }
 
     public String writeNewResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {

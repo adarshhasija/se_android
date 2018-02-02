@@ -54,7 +54,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                //is it the same game type?
+                //if it is not the same game type, return
                 if (!extras.getString("levelString").equals(result.level_string)) {
                     return;
                 }

@@ -23,6 +23,7 @@ public class Result {
     public int level;
     public String level_string;
     public long timeTakenMillis;
+    public long timestamp;
 
     public Result() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -56,6 +57,7 @@ public class Result {
         result.put("level", level);
         result.put("level_string", level_string);
         result.put("timeTakenMillis", timeTakenMillis);
+        result.put("timestamp", timestamp);
 
         return result;
     }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,10 +37,13 @@ import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.domain.Assistant;
+import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainSEActivity extends AppCompatActivity {
 
@@ -57,11 +62,12 @@ public class MainSEActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseUserReference;
+    private DatabaseReference mDatabaseAssistantReference;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
 
-    private User user;
+    private List<Assistant> assistants = new ArrayList<>();
 
     protected LinearLayout llAction;
     protected TextView tvActionLine1;
@@ -76,6 +82,52 @@ public class MainSEActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
+
+    private void assistantStateChangeded(Assistant mAssistant) {
+        if (mAssistant == null) {
+            return;
+        }
+        if (mAssistant.state > 0 && mAssistant.state < 4) {
+            tvActionLine2.setText(getString(R.string.se_assistant_tap_here_to_continue));
+        }
+        else if (mAssistant.state == 4) {
+            tvActionLine2.setText(getString(R.string.se_assistant_keyboard_test_completed));
+        }
+    }
+
+    private ChildEventListener mAssistantChildListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Assistant assistant = dataSnapshot.getValue(Assistant.class);
+            assistants.add(assistant); //add at end
+            if (assistants.size() > 1) {
+                Assistant firstItem = assistants.get(0);
+                mDatabaseAssistantReference.child(firstItem.uid).removeValue(); //delete from the database
+                assistants.remove(firstItem);
+            }
+            assistantStateChangeded(assistant);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +150,11 @@ public class MainSEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainSEActivity.this, AssistantActivity.class);
+                Bundle bundle = new Bundle();
+                if (!assistants.isEmpty()) {
+                    bundle.putParcelable("assistant", assistants.get(0));
+                }
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -249,6 +306,13 @@ public class MainSEActivity extends AppCompatActivity {
 
         mAuth.addAuthStateListener(mAuthListener);
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            mDatabaseAssistantReference = FirebaseDatabase.getInstance().getReference("assistants");
+            //mDatabaseAssistantReference.keepSynced(true);
+            Query query = mDatabaseAssistantReference.orderByChild("userId").equalTo(currentUser.getUid());
+            query.addChildEventListener(mAssistantChildListener);
+        }
     }
 
     /**
@@ -268,6 +332,9 @@ public class MainSEActivity extends AppCompatActivity {
         super.onDestroy();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+        if (mAssistantChildListener != null) {
+            mDatabaseAssistantReference.removeEventListener(mAssistantChildListener);
         }
     }
 
