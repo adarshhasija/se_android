@@ -87,11 +87,14 @@ public class MainSEActivity extends AppCompatActivity {
         if (mAssistant == null) {
             return;
         }
-        if (mAssistant.state > 0 && mAssistant.state < 4) {
+        if (mAssistant.state > 9 && mAssistant.state < 13) {
             tvActionLine2.setText(getString(R.string.se_assistant_tap_here_to_continue));
         }
-        else if (mAssistant.state > 3) {
+        else if (mAssistant.state == Assistant.State.TYPING_GAMES_WELCOME.getValue()) {
             tvActionLine2.setText(getString(R.string.se_assistant_keyboard_test_completed));
+        }
+        if (llAction != null) {
+            llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
         }
     }
 

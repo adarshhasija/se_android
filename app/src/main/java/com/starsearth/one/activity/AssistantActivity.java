@@ -12,7 +12,7 @@ import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Assistant;
 
-public class AssistantActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
+public class AssistantActivity extends AppCompatActivity implements View.OnClickListener/*, View.OnLongClickListener*/{
 
     private RelativeLayout rl;
     private TextView tvLine1;
@@ -32,7 +32,7 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
 
         rl = (RelativeLayout) findViewById(R.id.rl);
         rl.setOnClickListener(this);
-        rl.setOnLongClickListener(this);
+        //rl.setOnLongClickListener(this);
         tvLine1 = (TextView) findViewById(R.id.tv_line_1);
 
         Assistant mAssistant = null;
@@ -128,11 +128,11 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    @Override
+   /* @Override
     public boolean onLongClick(View v) {
         tvLine1.announceForAccessibility(tvLine1.getText());
         return true; //false;
-    }
+    }*/
 
 
     @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Seekho Typing</string>
+    <string name="app_name">Typing Games</string>
     <string name="done">DONE</string>
     <string name="submit">SUBMIT</string>
     <string name="edit">Edit</string>
@@ -41,7 +41,7 @@
     <!-- Typing Activity -->
     <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
     <string name="keyboard_removed">Keyboard has been removed</string>
-    <string name="press_any_key">Connect a usb keyboard and press any key to know if your keyboard works with this app</string>
+    <string name="press_any_key">Connect a usb keyboard and press any key to know if your keyboard works with this app.</string>
     <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
     <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
     <string name="continue_to_login_screen">Continue to login screen</string>
