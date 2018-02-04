@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,9 +43,13 @@ import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.User;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainSEActivity extends AppCompatActivity {
 
@@ -63,6 +69,7 @@ public class MainSEActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseUserReference;
     private DatabaseReference mDatabaseAssistantReference;
+    private DatabaseReference mDatabaseResultsReference;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
@@ -73,8 +80,9 @@ public class MainSEActivity extends AppCompatActivity {
     protected TextView tvActionLine1;
     protected TextView tvActionLine2;
     protected TextView tvListViewHeader;
-    protected ListView listView;
+    protected RecyclerView mRecyclerView;
     protected ProgressBar progressBar;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     private void sendAnalytics(String selected) {
@@ -137,6 +145,57 @@ public class MainSEActivity extends AppCompatActivity {
         }
     };
 
+    private ChildEventListener mResultsChildListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Result result = dataSnapshot.getValue(Result.class);
+            long timestamp = result.timestamp;
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date(timestamp));
+            int year = cal.get(Calendar.YEAR);
+
+          /*  Date date = cal.getTime();
+            TimeZone tz = cal.getTimeZone();
+            //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
+            long msFromEpochGmt = date.getTime();
+            //gives you the current offset in ms from GMT at the current date
+            int offsetFromUTC = tz.getOffset(msFromEpochGmt);
+            cal.add(Calendar.MILLISECOND, offsetFromUTC);
+            Date date1 = cal.getTime(); */
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = calendar.getTime();
+
+            String lastTriedTime =  Integer.toString(year);
+            for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                String data = mAdapter.getObjectList().get(i).toLowerCase();
+                if (data.contains(result.subject) && data.contains(result.level_string)) {
+                    mAdapter.removeAt(i);
+                    mAdapter.addItem(result.subject + " " + result.level_string, lastTriedTime);
+                }
+            }
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,8 +209,15 @@ public class MainSEActivity extends AppCompatActivity {
         tvActionLine1 = (TextView) findViewById(R.id.tv_action_line_1);
         tvActionLine2 = (TextView) findViewById(R.id.tv_action_line_2);
         tvListViewHeader = (TextView) findViewById(R.id.tv_listview_header);
-        listView = (ListView) findViewById(R.id.listView);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
 
         llAction.setOnClickListener(new View.OnClickListener() {
@@ -167,12 +233,13 @@ public class MainSEActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list)));
+        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mRecyclerView.setAdapter(mAdapter);
+      /*  recycleView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected = mAdapter.getItem(position);
@@ -294,7 +361,7 @@ public class MainSEActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
+        }); */
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -316,11 +383,24 @@ public class MainSEActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            mDatabaseAssistantReference = FirebaseDatabase.getInstance().getReference("assistants");
-            //mDatabaseAssistantReference.keepSynced(true);
-            Query query = mDatabaseAssistantReference.orderByChild("userId").equalTo(currentUser.getUid());
-            query.addChildEventListener(mAssistantChildListener);
+            setupAssistantListener(currentUser);
+            setupResultsListener(currentUser);
+
         }
+    }
+
+    private void setupAssistantListener(FirebaseUser currentUser) {
+        mDatabaseAssistantReference = FirebaseDatabase.getInstance().getReference("assistants");
+        //mDatabaseAssistantReference.keepSynced(true);
+        Query query = mDatabaseAssistantReference.orderByChild("userId").equalTo(currentUser.getUid());
+        query.addChildEventListener(mAssistantChildListener);
+    }
+
+    private void setupResultsListener(FirebaseUser currentUser) {
+        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results");
+        //mDatabaseResultsReference.keepSynced(true);
+        Query query = mDatabaseResultsReference.orderByChild("userId").equalTo(currentUser.getUid());
+        query.addChildEventListener(mResultsChildListener);
     }
 
     /**
@@ -343,6 +423,9 @@ public class MainSEActivity extends AppCompatActivity {
         }
         if (mAssistantChildListener != null) {
             mDatabaseAssistantReference.removeEventListener(mAssistantChildListener);
+        }
+        if (mResultsChildListener != null) {
+            mDatabaseResultsReference.removeEventListener(mResultsChildListener);
         }
     }
 
