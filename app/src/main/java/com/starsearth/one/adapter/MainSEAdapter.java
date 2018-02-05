@@ -16,9 +16,14 @@ import android.widget.TextView;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Game;
+import com.starsearth.one.domain.MainMenuItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by faimac on 4/6/17.
@@ -28,7 +33,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
     private Context context;
     private ArrayList<String> mDataset;
-    private ArrayList<String> mTimes = new ArrayList<>();
+    //private ArrayList<String> mTimes = new ArrayList<>();
 
     public MainSEAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<String> mDataset) {
         //super(context, resource, objects);
@@ -101,11 +106,54 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         notifyItemRangeChanged(position, mDataset.size());
     }
 
-    public void addItem(String textLine1, String textLine2) {
-        mDataset.add(0, textLine1);
-        mTimes.add(0, textLine2);
+    public void addItem(MainMenuItem mainMenuItem) {
+        mDataset.add(0, formatStringFirstLetterCapital(mainMenuItem.subject) + " - " + mainMenuItem.levelString);
+        mTimes.add(0, formatDateTime(mainMenuItem.lastTriedMillis));
         notifyItemInserted(0);
         notifyItemRangeChanged(0, mDataset.size());
+    }
+
+  /*  private int indexToInsert(long timestamp) {
+        if (mTimes.isEmpty()) {
+            return 0;
+        }
+        else if (timestamp > mTimes.get(mTimes.size() - 1))
+    }   */
+
+ /*   private int binarySearch(long timestamp, int startIndex, int endIndex) {
+
+    }   */
+
+    /*
+        Returns date in local time zone
+     */
+    private String formatDateTime(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date(timestamp));
+        int offsetFromUTC = getOffsetFromUTC(cal);
+        cal.add(Calendar.MILLISECOND, offsetFromUTC);
+        String monthString = String.format(Locale.US,"%tB",cal);
+        monthString = formatStringFirstLetterCapital(monthString);
+        String finalString = cal.get(Calendar.DATE) + " " + monthString + " " + cal.get(Calendar.YEAR);
+        return finalString;
+    }
+
+    private String formatStringFirstLetterCapital(String s) {
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    /*
+        This function returns the offset from GMT for the current timezone
+        Returns: offset in millis
+     */
+    private int getOffsetFromUTC(Calendar cal) {
+        Date date = cal.getTime();
+        TimeZone tz = cal.getTimeZone();
+        //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
+        long msFromEpochGmt = date.getTime();
+        //gives you the current offset in ms from GMT at the current date
+        int offsetFromUTC = tz.getOffset(msFromEpochGmt);
+        return offsetFromUTC;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -40,6 +40,7 @@ import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
+import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.User;
 
@@ -149,30 +150,21 @@ public class MainSEActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Result result = dataSnapshot.getValue(Result.class);
-            long timestamp = result.timestamp;
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date(timestamp));
-            int year = cal.get(Calendar.YEAR);
+            if (result != null) {
+                MainMenuItem mainMenuItem = new MainMenuItem();
+                mainMenuItem.subject = result.subject;
+                mainMenuItem.levelString = result.level_string;
+                mainMenuItem.lastTriedMillis = result.timestamp;
 
-          /*  Date date = cal.getTime();
-            TimeZone tz = cal.getTimeZone();
-            //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
-            long msFromEpochGmt = date.getTime();
-            //gives you the current offset in ms from GMT at the current date
-            int offsetFromUTC = tz.getOffset(msFromEpochGmt);
-            cal.add(Calendar.MILLISECOND, offsetFromUTC);
-            Date date1 = cal.getTime(); */
-            Calendar calendar = Calendar.getInstance();
-            Date currentDate = calendar.getTime();
-
-            String lastTriedTime =  Integer.toString(year);
-            for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                String data = mAdapter.getObjectList().get(i).toLowerCase();
-                if (data.contains(result.subject) && data.contains(result.level_string)) {
-                    mAdapter.removeAt(i);
-                    mAdapter.addItem(result.subject + " " + result.level_string, lastTriedTime);
+                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                    String data = mAdapter.getObjectList().get(i).toLowerCase();
+                    if (data.contains(result.subject) && data.contains(result.level_string)) {
+                        mAdapter.removeAt(i);
+                        mAdapter.addItem(mainMenuItem);
+                    }
                 }
             }
+
         }
 
         @Override
