@@ -9,6 +9,7 @@ public class MainMenuItem {
     public String subject;
     public String levelString;
     public long lastTriedMillis;
+    public String other; //Phone number/email etc
 
     public MainMenuItem() {
 

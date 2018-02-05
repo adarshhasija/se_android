@@ -32,10 +32,9 @@ import java.util.TimeZone;
 public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder> /*ArrayAdapter<String>*/ {
 
     private Context context;
-    private ArrayList<String> mDataset;
-    //private ArrayList<String> mTimes = new ArrayList<>();
+    private ArrayList<MainMenuItem> mDataset;
 
-    public MainSEAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<String> mDataset) {
+    public MainSEAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<MainMenuItem> mDataset) {
         //super(context, resource, objects);
         this.context = context;
         this.mDataset = mDataset;
@@ -52,7 +51,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return objectList.get(position);
     }   */
 
-    public ArrayList<String> getObjectList() {
+    public ArrayList<MainMenuItem> getObjectList() {
         return mDataset;
     }
 
@@ -82,11 +81,17 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(MainSEAdapter.ViewHolder holder, int position) {
-        String object = null;
+        MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
-        holder.mTextView1.setText(object);
+        if (object.subject != null) {
+            holder.mTextView1.setText(formatStringFirstLetterCapital(object.subject) + " - " + object.levelString);
+        }
+        else {
+            holder.mTextView1.setText(formatStringFirstLetterCapital(object.other));
+        }
         String lastTriedTime = null;
-        if (position < mTimes.size()) lastTriedTime = mTimes.get(position);
+        long lastTriedMillis = mDataset.get(position).lastTriedMillis;
+        if (position < mDataset.size() && lastTriedMillis > 0) lastTriedTime = formatDateTime(mDataset.get(position).lastTriedMillis);
         if (lastTriedTime != null) {
             String lastTried = String.format(context.getString(R.string.last_tried), lastTriedTime);
             holder.mTextView2.setText(lastTried);
@@ -107,22 +112,27 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
     }
 
     public void addItem(MainMenuItem mainMenuItem) {
-        mDataset.add(0, formatStringFirstLetterCapital(mainMenuItem.subject) + " - " + mainMenuItem.levelString);
-        mTimes.add(0, formatDateTime(mainMenuItem.lastTriedMillis));
-        notifyItemInserted(0);
-        notifyItemRangeChanged(0, mDataset.size());
+        int index = indexToInsert(mainMenuItem.lastTriedMillis);
+        mDataset.add(index, mainMenuItem);
+        notifyItemInserted(index);
+        notifyItemRangeChanged(index, mDataset.size());
     }
 
-  /*  private int indexToInsert(long timestamp) {
-        if (mTimes.isEmpty()) {
+    private int indexToInsert(long timestamp) {
+        if (mDataset.isEmpty()) {
             return 0;
         }
-        else if (timestamp > mTimes.get(mTimes.size() - 1))
-    }   */
 
- /*   private int binarySearch(long timestamp, int startIndex, int endIndex) {
+        for (int i = 0; i < mDataset.size(); i++) {
+            long timestampAtIndex = mDataset.get(i).lastTriedMillis;
+            if (timestamp >= timestampAtIndex) {
+                return i;
+            }
+        }
 
-    }   */
+        //It is less than all the existing time values. Put it at the end
+        return mDataset.size();
+    }
 
     /*
         Returns date in local time zone

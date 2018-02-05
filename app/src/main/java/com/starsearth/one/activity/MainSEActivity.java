@@ -157,8 +157,10 @@ public class MainSEActivity extends AppCompatActivity {
                 mainMenuItem.lastTriedMillis = result.timestamp;
 
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                    String data = mAdapter.getObjectList().get(i).toLowerCase();
-                    if (data.contains(result.subject) && data.contains(result.level_string)) {
+                    MainMenuItem data = mAdapter.getObjectList().get(i);
+                    if (data.subject != null &&
+                            data.subject.equalsIgnoreCase(result.subject) &&
+                            data.levelString.equalsIgnoreCase(result.level_string)) {
                         mAdapter.removeAt(i);
                         mAdapter.addItem(mainMenuItem);
                     }
@@ -225,11 +227,25 @@ public class MainSEActivity extends AppCompatActivity {
             }
         });
 
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
-        mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainList);
+        for (String s : mainList) {
+            String[] tmp = s.split(" - ");
+            MainMenuItem mainMenuItem = new MainMenuItem();
+            if (tmp.length == 1) {
+                //other item
+                mainMenuItem.other = tmp[0];
+            }
+            else {
+                mainMenuItem.subject = tmp[0];
+                mainMenuItem.levelString = tmp[1];
+            }
+            mainMenuItems.add(mainMenuItem);
+        }
+        mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainMenuItems);
         mRecyclerView.setAdapter(mAdapter);
       /*  recycleView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
