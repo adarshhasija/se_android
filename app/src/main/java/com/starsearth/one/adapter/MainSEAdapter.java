@@ -1,6 +1,8 @@
 package com.starsearth.one.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.starsearth.one.R;
+import com.starsearth.one.activity.KeyboardActivity;
+import com.starsearth.one.activity.TypingTestResultActivity;
+import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.MainMenuItem;
@@ -80,7 +85,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MainSEAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MainSEAdapter.ViewHolder holder, final int position) {
         MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
         if (object.subject != null) {
@@ -97,6 +102,35 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
             holder.mTextView2.setText(lastTried);
             holder.setContentDescription(object + " " + lastTried);
         }
+
+        holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainMenuItem mainMenuItem = mDataset.get(position);
+                Intent intent=null;
+                Bundle bundle;
+                if (mainMenuItem.other != null) {
+                    if (mainMenuItem.other.equalsIgnoreCase("Keyboard Test")) {
+                        intent = new Intent(context, KeyboardActivity.class);
+                        context.startActivity(intent);
+                    }
+                    if (mainMenuItem.other.equalsIgnoreCase("Phone Number")) {
+                        intent = new Intent(context, PhoneNumberActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+                else if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
+                    intent = new Intent(context, TypingTestResultActivity.class);
+                    bundle = new Bundle();
+                    bundle.putString("subject", mainMenuItem.subject);
+                    bundle.putString("levelString", mainMenuItem.levelString);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
+
 
     }
 
@@ -142,6 +176,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         cal.setTime(new Date(timestamp));
         int offsetFromUTC = getOffsetFromUTC(cal);
         cal.add(Calendar.MILLISECOND, offsetFromUTC);
+        Date date = cal.getTime(); //For debugging
         String monthString = String.format(Locale.US,"%tB",cal);
         monthString = formatStringFirstLetterCapital(monthString);
         String finalString = cal.get(Calendar.DATE) + " " + monthString + " " + cal.get(Calendar.YEAR);
@@ -166,7 +201,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return offsetFromUTC;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public RelativeLayout mRelativeLayout;
         public LinearLayout mLinearLayout;
@@ -182,12 +217,6 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
         public void setContentDescription(String text) {
             mRelativeLayout.setContentDescription(text);
-        }
-
-
-        @Override
-        public void onClick(View view) {
-
         }
 
     }
