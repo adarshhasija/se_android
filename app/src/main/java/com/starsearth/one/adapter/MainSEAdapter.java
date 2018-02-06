@@ -158,15 +158,35 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
             return 0;
         }
 
-        for (int i = 0; i < mDataset.size(); i++) {
+        int index = binarySearh(timestamp, 0, mDataset.size() - 1);
+        if (index > -1) {
+            return index;
+        }
+
+      /*  for (int i = 0; i < mDataset.size(); i++) {
             long timestampAtIndex = mDataset.get(i).lastTriedMillis;
             if (timestamp >= timestampAtIndex) {
                 return i;
             }
-        }
+        }   */
 
         //It is less than all the existing time values. Put it at the end
         return mDataset.size();
+    }
+
+    private int binarySearh(long value, int startIndex, int endIndex) {
+        if (startIndex <= endIndex) {
+            return startIndex;
+        }
+        int result=-1;
+        int middleIndex = (startIndex + endIndex)/2;
+        if (mDataset.get(middleIndex).lastTriedMillis < value) {
+            result = binarySearh(value, middleIndex + 1, endIndex);
+        }
+        else if (mDataset.get(middleIndex).lastTriedMillis > value) {
+            result = binarySearh(value, startIndex, middleIndex);
+        }
+        return result;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

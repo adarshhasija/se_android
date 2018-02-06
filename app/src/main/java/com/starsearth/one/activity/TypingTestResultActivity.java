@@ -74,8 +74,10 @@ public class TypingTestResultActivity extends AppCompatActivity {
                     }
                     list.add(result);
                     if (isTopResult(result.words_correct)) {
-                        list.remove(0);
-                        list.add(0, result);
+                        Result highScore = list.get(0);
+                        mDatabase.child(highScore.uid).removeValue();
+                        list.remove(highScore);
+                        list.add(0, result); //this is the new highscore
                     }
                 } else {
                     //if list is empty, add it twice
@@ -134,7 +136,8 @@ public class TypingTestResultActivity extends AppCompatActivity {
         //    return true;
         //}
 
-        int highScore = list.get(0).words_correct;
+        int highScore = 0;
+        if (list.size() > 0) highScore = list.get(0).words_correct;
         if (words_correct > highScore) {
             return true;
         }
@@ -257,7 +260,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("results");
-        //mDatabase.keepSynced(true);
+        mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(childEventListener);
 
