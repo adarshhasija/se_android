@@ -99,9 +99,14 @@ public class MainSEActivity extends AppCompatActivity {
         if (mAssistant.state > 9 && mAssistant.state < 13) {
             tvActionLine2.setText(getString(R.string.se_assistant_tap_here_to_continue));
         }
-        else if (mAssistant.state == Assistant.State.TYPING_GAMES_WELCOME.getValue()) {
+        else if (mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_SUCCESS.getValue() ||
+                    mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_FAIL.getValue()) {
             tvActionLine2.setText(getString(R.string.se_assistant_keyboard_test_completed));
         }
+        else {
+            tvActionLine2.setText(getString(R.string.se_assistant_no_update));
+        }
+
         if (llAction != null) {
             llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
         }
@@ -407,7 +412,7 @@ public class MainSEActivity extends AppCompatActivity {
 
     private void setupResultsListener(FirebaseUser currentUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results");
-        //mDatabaseResultsReference.keepSynced(true);
+        mDatabaseResultsReference.keepSynced(true);
         Query query = mDatabaseResultsReference.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(mResultsChildListener);
     }
