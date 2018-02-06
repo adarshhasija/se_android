@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.starsearth.one.R;
+import com.starsearth.one.Utils;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.TypingTestResultActivity;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
@@ -89,18 +90,18 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
         if (object.subject != null) {
-            holder.mTextView1.setText(formatStringFirstLetterCapital(object.subject) + " - " + object.levelString);
+            holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(object.subject) + " - " + object.levelString);
         }
         else {
-            holder.mTextView1.setText(formatStringFirstLetterCapital(object.other));
+            holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(object.other));
         }
         String lastTriedTime = null;
         long lastTriedMillis = mDataset.get(position).lastTriedMillis;
-        if (position < mDataset.size() && lastTriedMillis > 0) lastTriedTime = formatDateTime(mDataset.get(position).lastTriedMillis);
+        if (position < mDataset.size() && lastTriedMillis > 0) lastTriedTime = Utils.formatDateTime(mDataset.get(position).lastTriedMillis);
         if (lastTriedTime != null) {
             String lastTried = String.format(context.getString(R.string.last_tried), lastTriedTime);
             holder.mTextView2.setText(lastTried);
-            holder.setContentDescription(object + " " + lastTried);
+            //holder.setContentDescription(object + " " + lastTried);
         }
 
         holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -166,39 +167,6 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
         //It is less than all the existing time values. Put it at the end
         return mDataset.size();
-    }
-
-    /*
-        Returns date in local time zone
-     */
-    private String formatDateTime(long timestamp) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date(timestamp));
-        int offsetFromUTC = getOffsetFromUTC(cal);
-        cal.add(Calendar.MILLISECOND, offsetFromUTC);
-        Date date = cal.getTime(); //For debugging
-        String monthString = String.format(Locale.US,"%tB",cal);
-        monthString = formatStringFirstLetterCapital(monthString);
-        String finalString = cal.get(Calendar.DATE) + " " + monthString + " " + cal.get(Calendar.YEAR);
-        return finalString;
-    }
-
-    private String formatStringFirstLetterCapital(String s) {
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
-    }
-
-    /*
-        This function returns the offset from GMT for the current timezone
-        Returns: offset in millis
-     */
-    private int getOffsetFromUTC(Calendar cal) {
-        Date date = cal.getTime();
-        TimeZone tz = cal.getTimeZone();
-        //Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
-        long msFromEpochGmt = date.getTime();
-        //gives you the current offset in ms from GMT at the current date
-        int offsetFromUTC = tz.getOffset(msFromEpochGmt);
-        return offsetFromUTC;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

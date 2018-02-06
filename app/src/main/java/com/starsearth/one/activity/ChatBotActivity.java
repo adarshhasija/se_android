@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.starsearth.one.ExtendedEditText;
-import com.starsearth.one.StateMachine;
+import com.starsearth.one.BotStateMachine;
 import com.starsearth.one.ChatBot;
 import com.starsearth.one.ai.ApiAi;
 import com.starsearth.one.application.StarsEarthApplication;
@@ -36,7 +36,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     private FirebaseAnalytics mFirebaseAnalytics;
     private ApiAi apiAi;
     private ChatBot chatBot;
-    private StateMachine stateMachine = new StateMachine();
+    private BotStateMachine botStateMachine = new BotStateMachine();
 
     private RelativeLayout rlMainView;
     private LinearLayout llMainAction;
@@ -130,8 +130,8 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     private void goToStateIdle() {
         showMainActionUI();
 
-        String userInput = stateMachine.getCurrentUserInput();
-        String botResponse = stateMachine.getCurrentBotTextResponse();
+        String userInput = botStateMachine.getCurrentUserInput();
+        String botResponse = botStateMachine.getCurrentBotTextResponse();
         if (userInput != null && !userInput.isEmpty()) {
             setLabel(tvUserInput, userInput);
             showUserInputUI();
@@ -149,7 +149,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
         else {
             hideBotResponseUI();
         }
-        stateMachine.setState(StateMachine.State.IDLE);
+        botStateMachine.setState(BotStateMachine.State.IDLE);
     }
     private void goToStateTalking() {
         chatBot.stopTalking();
@@ -164,7 +164,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
         else {
             ((StarsEarthApplication) getApplication()).showNoInternetDialog(this);
         }
-        stateMachine.setState(StateMachine.State.TALKING);
+        botStateMachine.setState(BotStateMachine.State.TALKING);
     }
     private void goToStateTyping() {
         chatBot.stopTalking();
@@ -172,17 +172,17 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
         hideUserInputUI();
         hideBotResponseUI();
         showTypingUI();
-        stateMachine.setState(StateMachine.State.TYPING);
+        botStateMachine.setState(BotStateMachine.State.TYPING);
     }
     private void goToStateInputProcessingTalking(String text) {
         stateTypingTalking(text);
-        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TALKING);
+        botStateMachine.setState(BotStateMachine.State.INPUT_PROCESSING_TALKING);
     }
     private void goToStateInputProcessingTyping() {
         String text = etUserInput.getText().toString();
         hideTypingUI();
         stateTypingTalking(text);
-        stateMachine.setState(StateMachine.State.INPUT_PROCESSING_TYPING);
+        botStateMachine.setState(BotStateMachine.State.INPUT_PROCESSING_TYPING);
     }
     private void stateTypingTalking(String text) {
         hideMainActionUI();
@@ -323,11 +323,11 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     @Override
     public void processBotResponse(String text) {
         //If the state is not processing(user is typing/talking), do not process input
-        if (stateMachine.getState() == StateMachine.State.INPUT_PROCESSING_TALKING
-                || stateMachine.getState() == StateMachine.State.INPUT_PROCESSING_TYPING) {
+        if (botStateMachine.getState() == BotStateMachine.State.INPUT_PROCESSING_TALKING
+                || botStateMachine.getState() == BotStateMachine.State.INPUT_PROCESSING_TYPING) {
             //Set the state machine
-            stateMachine.setCurrentUserInput(tvUserInput.getText().toString());
-            stateMachine.setCurrentBotTextResponse(text);
+            botStateMachine.setCurrentUserInput(tvUserInput.getText().toString());
+            botStateMachine.setCurrentBotTextResponse(text);
             sayText(chatBot, text);
             goToStateIdle();
         }
@@ -396,21 +396,21 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     }
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        if (stateMachine.getState() == StateMachine.State.TYPING) {
+        if (botStateMachine.getState() == BotStateMachine.State.TYPING) {
             cancelTyping();
             goToStateIdle();
         }
-        else if (stateMachine.getState() == StateMachine.State.TALKING) {
+        else if (botStateMachine.getState() == BotStateMachine.State.TALKING) {
             cancelListening();
             goToStateIdle();
         }
-        else if (stateMachine.getState() == StateMachine.State.INPUT_PROCESSING_TALKING) {
+        else if (botStateMachine.getState() == BotStateMachine.State.INPUT_PROCESSING_TALKING) {
             if (apiAi != null) {
                 apiAi.cancel();
             }
             goToStateIdle();
         }
-        else if (stateMachine.getState() == StateMachine.State.INPUT_PROCESSING_TYPING) {
+        else if (botStateMachine.getState() == BotStateMachine.State.INPUT_PROCESSING_TYPING) {
             //If we are in the middle of processing, cancel the process
             if (apiAi != null) {
                 apiAi.cancel();
@@ -432,8 +432,8 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     @Override
     public void onLongPress(MotionEvent e) {
         //If the user is giving an input, do not say response
-        if (stateMachine.getState() == StateMachine.State.TALKING ||
-                stateMachine.getState() == StateMachine.State.TYPING) {
+        if (botStateMachine.getState() == BotStateMachine.State.TALKING ||
+                botStateMachine.getState() == BotStateMachine.State.TYPING) {
             return;
         }
         if (tvBotResponse.getText().toString() != null && !tvBotResponse.getText().toString().isEmpty()) {
@@ -495,8 +495,8 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
 
     }
     private void onBottomToTopFling() {
-        if (stateMachine.getState() != StateMachine.State.TALKING &&
-                stateMachine.getState() != StateMachine.State.TYPING) {
+        if (botStateMachine.getState() != BotStateMachine.State.TALKING &&
+                botStateMachine.getState() != BotStateMachine.State.TYPING) {
             //If user is not currently talking, allow this
             if (apiAi != null) {
                 apiAi.cancel();
@@ -507,7 +507,7 @@ public class ChatBotActivity extends AppCompatActivity  implements BotResponseLi
     }
     private void onTopToBottomFling() {
         //If user is currently typing, close typing
-        if (stateMachine.getState() == StateMachine.State.TYPING) {
+        if (botStateMachine.getState() == BotStateMachine.State.TYPING) {
             goToStateIdle();
         }
     }

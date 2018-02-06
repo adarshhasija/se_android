@@ -4,7 +4,7 @@ package com.starsearth.one;
  * Created by faimac on 11/28/16.
  */
 
-public class StateMachine {
+public class BotStateMachine {
 
     public enum State {
         IDLE, //Nothing happening
@@ -19,7 +19,7 @@ public class StateMachine {
     String currentUserInput;
     String currentBotTextResponse;
 
-    public StateMachine() {
+    public BotStateMachine() {
         this.state = State.IDLE;
         this.currentUserInput = null;
         this.currentBotTextResponse = null;

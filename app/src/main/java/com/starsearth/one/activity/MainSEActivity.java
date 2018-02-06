@@ -168,7 +168,7 @@ public class MainSEActivity extends AppCompatActivity {
                             data.levelString.equalsIgnoreCase(result.level_string)) {
                         mAdapter.removeAt(i);
                         mAdapter.addItem(mainMenuItem);
-                        //mRecyclerView.getLayoutManager().scrollToPosition(0);
+                        mRecyclerView.getLayoutManager().scrollToPosition(0);
                     }
                 }
             }

@@ -277,6 +277,7 @@
     <string name="words_per_minute">Words per Minute</string>
     <string name="typing_game">Typing Game</string>
     <string name="high_score">High Score</string>
+    <string name="your_score">Your Score</string>
     <string name="typing_game_cancelled">The game was cancelled</string>
 
     <string name="enter_phone_number">Enter Phone Number</string>

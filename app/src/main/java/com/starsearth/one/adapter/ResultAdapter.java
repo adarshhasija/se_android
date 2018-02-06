@@ -3,14 +3,20 @@ package com.starsearth.one.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starsearth.one.R;
+import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Result;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by faimac on 10/24/17.
@@ -62,7 +68,17 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             int seconds = (int) (timeTakenMillis/1000) % 60;
             //holder.mTimeTakenTextView.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
         }
-        holder.mWpm.setText(Integer.toString(wordsCorrect));
+
+        if (position == 0) {
+            holder.mWpmHighScore.setText(Integer.toString(wordsCorrect));
+            holder.mWpmHighScore.setVisibility(View.VISIBLE);
+            holder.mMainLabel.setText(R.string.high_score);
+        } else if (position == 1) {
+            holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
+            holder.mWpmLastScore.setVisibility(View.VISIBLE);
+            holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
+        }
+
     }
 
     @Override
@@ -75,14 +91,18 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         public LinearLayout mLinearLayout;
         public TextView mScoreTextView;
         public TextView mTimeTakenTextView;
-        public TextView mWpm;
+        public TextView mMainLabel;
+        public TextView mWpmHighScore;
+        public TextView mWpmLastScore;
         public TextView mAccuracyTextView;
         public ViewHolder(LinearLayout ll) {
             super(ll);
             mLinearLayout = ll;
+            mMainLabel = (TextView) ll.findViewById(R.id.tv_label_main);
             mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
             mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
-            mWpm = (TextView) ll.findViewById(R.id.tv_wpm);
+            mWpmHighScore = (TextView) ll.findViewById(R.id.tv_wpm_high_score);
+            mWpmLastScore = (TextView) ll.findViewById(R.id.tv_wpm_last_score);
             mAccuracyTextView = (TextView) ll.findViewById(R.id.tv_accuracy);
         }
     }

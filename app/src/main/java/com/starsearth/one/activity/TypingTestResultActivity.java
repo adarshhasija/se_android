@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
+import com.starsearth.one.Utils;
 import com.starsearth.one.adapter.ResultAdapter;
 import com.starsearth.one.domain.TypingGame;
 import com.starsearth.one.domain.Result;
@@ -60,7 +61,33 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 }
             }
 
-            int index = indexToInsert(result);
+            if (mAdapter != null && list != null) {
+                if (!list.isEmpty()) {
+                    if (list.size() > 1) {
+                        //last tried row is there
+                        //remove last tried
+                        //replace with new value
+                        Result lastItem = list.get(list.size()-1);
+                        mDatabase.child(lastItem.uid).removeValue(); //delete from the database
+                        list.remove(lastItem);
+
+                    }
+                    list.add(result);
+                    if (isTopResult(result.words_correct)) {
+                        list.remove(0);
+                        list.add(0, result);
+                    }
+                } else {
+                    //if list is empty, add it twice
+                    //once as highscore
+                    //once as last attempt
+                    list.add(result);
+                    list.add(result);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+          /*  int index = indexToInsert(result);
             if (mAdapter != null && list != null) {
                 if (index == -1)  {
                     //if -1, insert at the end of the list
@@ -78,7 +105,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 }
                 //mAdapter.notifyItemChanged(index);
                 mAdapter.notifyDataSetChanged();
-            }
+            }   */
         }
 
         @Override
@@ -103,12 +130,12 @@ public class TypingTestResultActivity extends AppCompatActivity {
     };
 
     private boolean isTopResult(int words_correct) {
-        if (list.size() < MAX_NUMBER_IN_LIST) {
-            return true;
-        }
+        //if (list.size() < MAX_NUMBER_IN_LIST) {
+        //    return true;
+        //}
 
-        int lowestScore = list.get(list.size()-1).words_correct;
-        if (words_correct > lowestScore) {
+        int highScore = list.get(0).words_correct;
+        if (words_correct > highScore) {
             return true;
         }
 
@@ -138,6 +165,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
     private void alertScore(int words_correct, boolean highScore) {
         if (highScore) {
             Toast.makeText(getApplicationContext(), getString(R.string.high_score) + " " + words_correct, Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -200,6 +230,11 @@ public class TypingTestResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test_result);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            setTitle(Utils.formatStringFirstLetterCapital(extras.getString("subject")) + " - " + extras.getString("levelString"));
+        }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
@@ -222,7 +257,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("results");
-        mDatabase.keepSynced(true);
+        //mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
         query.addChildEventListener(childEventListener);
 
