@@ -135,17 +135,19 @@ public class TypingTestResultActivity extends AppCompatActivity {
         //if (list.size() < MAX_NUMBER_IN_LIST) {
         //    return true;
         //}
-
-        Result highScore = null;
-        if (list.size() > 0) {
-            highScore = list.get(0);
+        boolean result = false;
+        if (!list.isEmpty()) {
+            Result highScore = list.get(0);
+            if (correct > highScore.words_correct &&
+                    mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)) {
+                result = true;
+            }
         }
-        if (correct > highScore.words_correct &&
-                mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)) {
-            return true;
+        else {
+            result = true;
         }
 
-        return false;
+        return result;
     }
 
     /**
