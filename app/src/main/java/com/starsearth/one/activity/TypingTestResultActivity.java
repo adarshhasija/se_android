@@ -63,22 +63,27 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
             if (mAdapter != null && list != null) {
                 if (!list.isEmpty()) {
-                    if (list.size() > 1) {
-                        //last tried row is there
-                        //remove last tried
-                        //replace with new value
-                        Result lastItem = list.get(list.size()-1);
-                        mDatabase.child(lastItem.uid).removeValue(); //delete from the database
-                        list.remove(lastItem);
-
-                    }
-                    list.add(result);
+                    Result highScore = list.get(0);
                     if (isTopResult(result.words_correct, result.words_total_finished)) {
-                        Result highScore = list.get(0);
+                        highScore = list.get(0);
                         mDatabase.child(highScore.uid).removeValue();
                         list.remove(highScore);
                         list.add(0, result); //this is the new highscore
                     }
+                    if (list.size() > 1) {
+                        //last tried row exists
+                        //remove last tried
+                        //replace with new value
+                        Result lastItem = list.get(list.size()-1);
+                        list.remove(lastItem);
+                        if (!highScore.uid.equals(lastItem.uid)) {
+                            //delete it from the cloud ONLY if it is not the highscore
+                            mDatabase.child(lastItem.uid).removeValue();
+                        }
+
+                    }
+                    list.add(result);
+
                 } else {
                     //if list is empty, add it twice
                     //once as highscore
