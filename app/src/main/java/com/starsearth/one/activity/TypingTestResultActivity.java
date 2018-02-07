@@ -43,7 +43,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
     private Button btnStart;
     private TextView tvInstruction;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ResultAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<String> content = new ArrayList<>();
@@ -73,7 +73,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
 
                     }
                     list.add(result);
-                    if (isTopResult(result.words_correct)) {
+                    if (isTopResult(result.words_correct, result.words_total_finished)) {
                         Result highScore = list.get(0);
                         mDatabase.child(highScore.uid).removeValue();
                         list.remove(highScore);
@@ -131,14 +131,17 @@ public class TypingTestResultActivity extends AppCompatActivity {
         }
     };
 
-    private boolean isTopResult(int words_correct) {
+    private boolean isTopResult(int correct, int totalFinished) {
         //if (list.size() < MAX_NUMBER_IN_LIST) {
         //    return true;
         //}
 
-        int highScore = 0;
-        if (list.size() > 0) highScore = list.get(0).words_correct;
-        if (words_correct > highScore) {
+        Result highScore = null;
+        if (list.size() > 0) {
+            highScore = list.get(0);
+        }
+        if (correct > highScore.words_correct &&
+                mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)) {
             return true;
         }
 
@@ -299,8 +302,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
             Bundle bundle = data.getExtras();
             if (bundle != null) {
                 int wordsCorrect = bundle.getInt("words_correct");
+                int wordsTotalFinished = bundle.getInt("words_total_finished");
                 //This should not be in onChildAdded as it should only be shown once we return from completing a game
-                if (isTopResult(wordsCorrect)) {
+                if (isTopResult(wordsCorrect, wordsTotalFinished)) {
                     alertScore(wordsCorrect, true);
                 }
                 else {

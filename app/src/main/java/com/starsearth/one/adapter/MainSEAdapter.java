@@ -180,11 +180,11 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         }
         int result=-1;
         int middleIndex = (startIndex + endIndex)/2;
-        if (mDataset.get(middleIndex).lastTriedMillis < value) {
-            result = binarySearh(value, middleIndex + 1, endIndex);
-        }
-        else if (mDataset.get(middleIndex).lastTriedMillis > value) {
+        if (value > mDataset.get(middleIndex).lastTriedMillis) {
             result = binarySearh(value, startIndex, middleIndex);
+        }
+        else if (value <= mDataset.get(middleIndex).lastTriedMillis) {
+            result = binarySearh(value, middleIndex+1, endIndex);
         }
         return result;
     }

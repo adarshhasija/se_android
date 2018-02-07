@@ -193,6 +193,7 @@ public class TypingTestActivity extends AppCompatActivity {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putInt("words_correct", wordsCorrect);
+        bundle.putInt("words_total_finished", totalWordsFinished);
         intent.putExtras(bundle);
         firebaseAnalyticsGameCompleted();
         setResult(RESULT_OK, intent);

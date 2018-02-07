@@ -47,14 +47,19 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         return vh;
     }
 
+    public int getAccuracy(int wordsCorrect, int wordsTotalFinished) {
+        double accuracy = (double) wordsCorrect/wordsTotalFinished;
+        double accuracyPercentage = Math.ceil(accuracy*100);
+        int accuracyPercentageInt = (int) accuracyPercentage;
+        return accuracyPercentageInt;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Result result = mDataset.get(position);
         int wordsCorrect = result.words_correct;
         int wordsTotalFinished = result.words_total_finished;
-        double accuracy = (double) wordsCorrect/wordsTotalFinished;
-        double accuracyPercentage = Math.ceil(accuracy*100);
-        int accuracyPercentageInt = (int) accuracyPercentage;
+        int accuracyPercentageInt = getAccuracy(wordsCorrect, wordsTotalFinished);
         long timeTakenMillis = result.timeTakenMillis;
         holder.mScoreTextView.setText(mContext.getResources().getString(R.string.words_correct) + ": " + wordsCorrect + " out of " + wordsTotalFinished);
         holder.mAccuracyTextView.setText(mContext.getResources().getString(R.string.accuracy) + ": " + accuracyPercentageInt + "%");
