@@ -74,7 +74,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             //holder.mTimeTakenTextView.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
         }
 
-        if (position == 0) {
+       /* if (position == 0) {
             holder.mWpmHighScore.setText(Integer.toString(wordsCorrect));
             holder.mWpmHighScore.setVisibility(View.VISIBLE);
             holder.mMainLabel.setText(R.string.high_score);
@@ -82,7 +82,10 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
             holder.mWpmLastScore.setVisibility(View.VISIBLE);
             holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
-        }
+        }   */
+        holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
+        holder.mWpmLastScore.setVisibility(View.VISIBLE);
+        holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
 
     }
 

@@ -165,6 +165,7 @@ public class MainSEActivity extends AppCompatActivity {
                     MainMenuItem data = mAdapter.getObjectList().get(i);
                     if (data.subject != null &&
                             data.subject.equalsIgnoreCase(result.subject) &&
+                            data.levelString != null &&
                             data.levelString.equalsIgnoreCase(result.level_string)) {
                         mAdapter.removeAt(i);
                         mAdapter.addItem(mainMenuItem);

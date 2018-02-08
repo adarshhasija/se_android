@@ -61,7 +61,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 }
             }
 
-            if (mAdapter != null && list != null) {
+          /*  if (mAdapter != null && list != null) {
                 if (!list.isEmpty()) {
                     Result highScore = list.get(0);
                     if (isTopResult(result.words_correct, result.words_total_finished)) {
@@ -92,9 +92,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
                     list.add(result);
                 }
                 mAdapter.notifyDataSetChanged();
-            }
+            }   */
 
-          /*  int index = indexToInsert(result);
+            int index = 0; //indexToInsert(result);
             if (mAdapter != null && list != null) {
                 if (index == -1)  {
                     //if -1, insert at the end of the list
@@ -112,7 +112,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 }
                 //mAdapter.notifyItemChanged(index);
                 mAdapter.notifyDataSetChanged();
-            }   */
+            }
         }
 
         @Override
@@ -143,8 +143,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
         boolean result = false;
         if (!list.isEmpty()) {
             Result highScore = list.get(0);
-            if (correct > highScore.words_correct &&
-                    mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)) {
+            if (correct > highScore.words_correct
+                    //&& mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)
+                    ) {
                 result = true;
             }
         }
@@ -175,13 +176,14 @@ public class TypingTestResultActivity extends AppCompatActivity {
         return -1;
     }
 
-    private void alertScore(int words_correct, boolean highScore) {
-        if (highScore) {
+    private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
+      /*  if (highScore) {
             Toast.makeText(getApplicationContext(), getString(R.string.high_score) + " " + words_correct, Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
-        }
+        }   */
+        Toast.makeText(getApplicationContext(), words_correct + " " + getString(R.string.words_per_minute) + " " + getString(R.string.accuracy) + " " + mAdapter.getAccuracy(words_correct, words_total_finished) + "%", Toast.LENGTH_LONG).show();
 
     }
 
@@ -311,12 +313,13 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 int wordsCorrect = bundle.getInt("words_correct");
                 int wordsTotalFinished = bundle.getInt("words_total_finished");
                 //This should not be in onChildAdded as it should only be shown once we return from completing a game
-                if (isTopResult(wordsCorrect, wordsTotalFinished)) {
-                    alertScore(wordsCorrect, true);
+              /*  if (isTopResult(wordsCorrect, wordsTotalFinished)) {
+                    alertScore(wordsCorrect, wordsTotalFinished, true);
                 }
                 else {
-                    alertScore(wordsCorrect, false);
-                }
+                    alertScore(wordsCorrect, wordsTotalFinished, false);
+                }   */
+              alertScore(wordsCorrect, wordsTotalFinished, true);
             }
         }
     }

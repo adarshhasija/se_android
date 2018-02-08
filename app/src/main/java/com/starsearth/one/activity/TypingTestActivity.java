@@ -207,6 +207,7 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void checkWordCorrect() {
+        //You must also tap the spacebar after the word to get the word correct
         if (!wordIncorrect) {
             //if the word was not declared incorrect, increment the words correct count
             wordsCorrect++;
