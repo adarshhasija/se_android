@@ -234,6 +234,7 @@
     <string name="course_keyboard_required">USB Keyboard required</string>
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
+    <string name="full_stop">Full stop</string>
     <string name="help">Help</string>
     <string-array name="typing_test_sentences">
         <item>Roses are red</item>

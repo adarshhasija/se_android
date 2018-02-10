@@ -102,7 +102,6 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         if (lastTriedTime != null) {
             String lastTried = String.format(context.getString(R.string.last_tried), lastTriedTime);
             holder.mTextView2.setText(lastTried);
-            //holder.setContentDescription(object + " " + lastTried);
         }
 
         holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {

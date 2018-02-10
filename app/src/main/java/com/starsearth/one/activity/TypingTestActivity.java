@@ -158,7 +158,10 @@ public class TypingTestActivity extends AppCompatActivity {
             //announce next character for accessibility, index has been incremented
             char nextExpectedCharacter = expectedAnswer.charAt(index);
             if (nextExpectedCharacter == ' ') {
-                tvMain.announceForAccessibility("space");
+                tvMain.announceForAccessibility(getString(R.string.space));
+            }
+            else if (nextExpectedCharacter == '.') {
+                tvMain.announceForAccessibility(getString(R.string.full_stop));
             }
             else {
                 tvMain.announceForAccessibility(String.valueOf(nextExpectedCharacter));
@@ -278,9 +281,18 @@ public class TypingTestActivity extends AppCompatActivity {
     private void nextSentence() {
         index = 0; //reset the cursor to the start of the sentence
         String text = generateContent(); //generateRandomSentence();
+        text = addFullStop(text);
         expectedAnswer = text;
         tvMain.setText(text);
         tvMain.announceForAccessibility(text.substring(0,1));
+    }
+
+    private String addFullStop(String text) {
+        if (text.charAt(text.length() - 1) != '.') {
+            //All strings must end in full stop
+            text = text.concat(".");
+        }
+        return text;
     }
 
     private void testCancelled() {
