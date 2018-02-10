@@ -149,8 +149,9 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
     public void addItem(MainMenuItem mainMenuItem) {
         int index = indexToInsert(mainMenuItem.lastTriedMillis);
         mDataset.add(index, mainMenuItem);
-        notifyItemInserted(index);
-        notifyItemRangeChanged(index, mDataset.size());
+        notifyDataSetChanged();
+        //notifyItemInserted(index);
+        //notifyItemRangeChanged(0, 1); //notifyItemRangeChanged(index, mDataset.size());
     }
 
     private int indexToInsert(long timestamp) {
