@@ -14,6 +14,8 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -38,6 +40,7 @@ public class TypingTestActivity extends AppCompatActivity {
     private String expectedAnswer;
     private long timeTakenMillis;
 
+    private RelativeLayout rl;
     private TextView tvMain;
     private TextView mTimer;
     private CountDownTimer mCountDownTimer;
@@ -65,6 +68,16 @@ public class TypingTestActivity extends AppCompatActivity {
         }
 
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
+        rl = (RelativeLayout) findViewById(R.id.rl);
+        rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expectedAnswer != null) {
+                    //On screen tap, announce the next expected character
+                    rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
+                }
+            }
+        });
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextSentence();
 
