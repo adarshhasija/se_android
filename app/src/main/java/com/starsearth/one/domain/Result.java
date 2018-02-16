@@ -21,7 +21,7 @@ public class Result {
     public int words_total_finished;
     public String subject;
     public int level;
-    public int game_type;
+    public int game_id;
     public String level_string;
     public long timeTakenMillis;
     public long timestamp;
@@ -31,7 +31,7 @@ public class Result {
     }
 
     public Result(String uid, String userId, int characters_correct, int characters_total_attempted,
-                  int words_correct, int words_total_finished, String subject, int level, String levelString, int gameType, long timeTakenMillis) {
+                  int words_correct, int words_total_finished, String subject, int level, String levelString, int gameId, long timeTakenMillis) {
         this.uid = uid;
         this.userId = userId;
         this.characters_correct = characters_correct;
@@ -40,7 +40,7 @@ public class Result {
         this.words_total_finished = words_total_finished;
         this.subject = subject;
         this.level = level;
-        this.game_type = gameType;
+        this.game_id = gameId;
         this.level_string = levelString;
         this.timeTakenMillis = timeTakenMillis;
 
@@ -58,7 +58,7 @@ public class Result {
         result.put("subject", subject);
         result.put("level", level);
         result.put("level_string", level_string);
-        result.put("game_type", game_type);
+        result.put("game_id", game_id);
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
 

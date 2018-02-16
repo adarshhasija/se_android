@@ -56,7 +56,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 //if it is not the same game type, return
-                if (extras.getInt("game_type") != result.game_type) {
+                if (extras.getInt("game_id") != result.game_id) {
                     return;
                 }
             }
@@ -290,7 +290,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 if (extras != null) {
                     bundle.putString("subject", extras.getString("subject"));
                     bundle.putString("levelString", extras.getString("levelString"));
-                    bundle.putInt("game_type", extras.getInt("game_type"));
+                    bundle.putInt("game_id", extras.getInt("game_id"));
                     bundle.putInt("level", extras.getInt("level"));
                 }
                 intent.putExtras(bundle);

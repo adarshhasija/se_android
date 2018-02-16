@@ -10,12 +10,12 @@ import java.util.List;
 
 public class TypingGame extends Game {
 
-    public enum Type {
+    public enum Id {
         ONE_WORD(1), MANY_WORDS(2), ONE_SENTENCE(3), MANY_SENTENCES(4);
 
         private final long value;
 
-        Type(long value) {
+        Id(long value) {
             this.value = value;
         }
 
@@ -23,8 +23,8 @@ public class TypingGame extends Game {
             return value;
         }
 
-        public static TypingGame.Type fromInt(long i) {
-            for (TypingGame.Type type : TypingGame.Type.values()) {
+        public static TypingGame.Id fromInt(long i) {
+            for (TypingGame.Id type : TypingGame.Id.values()) {
                 if (type.getValue() == i) { return type; }
             }
             return null;
@@ -35,18 +35,18 @@ public class TypingGame extends Game {
     Assign a unique id based on type.
     If wording changes, change text here
      */
-    public static TypingGame.Type assignType(String levelString) {
+    public static TypingGame.Id assignType(String levelString) {
         if (levelString.contains("1 word")) {
-            return Type.ONE_WORD;
+            return Id.ONE_WORD;
         }
         else if (levelString.contains("many words")) {
-            return Type.MANY_WORDS;
+            return Id.MANY_WORDS;
         }
         else if (levelString.contains("1 sentence")) {
-            return Type.ONE_SENTENCE;
+            return Id.ONE_SENTENCE;
         }
         else if (levelString.contains("many sentences")) {
-            return Type.MANY_SENTENCES;
+            return Id.MANY_SENTENCES;
         }
         return null;
     }
@@ -67,5 +67,5 @@ public class TypingGame extends Game {
                 "The spider spun a web",
                 "Birds fly in the air"
             ));
-    public Type type;
+    public Id id;
 }

@@ -160,16 +160,16 @@ public class MainSEActivity extends AppCompatActivity {
                 MainMenuItem mainMenuItem = new MainMenuItem();
                 mainMenuItem.subject = result.subject;
                 mainMenuItem.levelString = result.level_string;
-                mainMenuItem.gameType = TypingGame.Type.fromInt(result.game_type);
+                mainMenuItem.gameId = TypingGame.Id.fromInt(result.game_id);
                 mainMenuItem.lastTriedMillis = result.timestamp;
 
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                    MainMenuItem data = mAdapter.getObjectList().get(i);
+                    MainMenuItem menuItem = mAdapter.getObjectList().get(i);
                     /*if (data.subject != null &&
                             data.subject.equalsIgnoreCase(result.subject) &&
                             data.levelString != null &&
                             data.levelString.equalsIgnoreCase(result.level_string)) {   */
-                    if (data.gameType != null && data.gameType.getValue() == result.game_type) {
+                    if (menuItem.gameId != null && menuItem.gameId.getValue() == result.game_id) {
                         mAdapter.removeAt(i);
                         mAdapter.addItem(mainMenuItem);
                         mRecyclerView.getLayoutManager().scrollToPosition(0);
@@ -256,7 +256,7 @@ public class MainSEActivity extends AppCompatActivity {
                 mainMenuItem.subject = tmp[0];
                 mainMenuItem.levelString = tmp[1];
                 if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
-                    mainMenuItem.gameType = TypingGame.assignType(mainMenuItem.levelString);
+                    mainMenuItem.gameId = TypingGame.assignType(mainMenuItem.levelString);
                 }
             }
             mainMenuItems.add(mainMenuItem);

@@ -8,7 +8,7 @@ public class MainMenuItem {
 
     public String subject;
     public String levelString;
-    public TypingGame.Type gameType;
+    public TypingGame.Id gameId;
     public long lastTriedMillis;
     public String other; //Phone number/email etc
 
