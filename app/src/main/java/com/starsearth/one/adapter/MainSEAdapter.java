@@ -125,6 +125,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
                     bundle = new Bundle();
                     bundle.putString("subject", mainMenuItem.subject);
                     bundle.putString("levelString", mainMenuItem.levelString);
+                    bundle.putInt("game_type", (int) mainMenuItem.gameType.getValue());
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }

@@ -11,8 +11,45 @@ import java.util.List;
 public class TypingGame extends Game {
 
     public enum Type {
-        ONE_WORD, MULTIPLE_WORDS, ONE_SENTENCE, MULTIPLE_SENTENCES
+        ONE_WORD(1), MANY_WORDS(2), ONE_SENTENCE(3), MANY_SENTENCES(4);
+
+        private final long value;
+
+        Type(long value) {
+            this.value = value;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        public static TypingGame.Type fromInt(long i) {
+            for (TypingGame.Type type : TypingGame.Type.values()) {
+                if (type.getValue() == i) { return type; }
+            }
+            return null;
+        }
     };
+
+    /*
+    Assign a unique id based on type.
+    If wording changes, change text here
+     */
+    public static TypingGame.Type assignType(String levelString) {
+        if (levelString.contains("1 word")) {
+            return Type.ONE_WORD;
+        }
+        else if (levelString.contains("many words")) {
+            return Type.MANY_WORDS;
+        }
+        else if (levelString.contains("1 sentence")) {
+            return Type.ONE_SENTENCE;
+        }
+        else if (levelString.contains("many sentences")) {
+            return Type.MANY_SENTENCES;
+        }
+        return null;
+    }
 
     public List<String> words = new ArrayList<>(Arrays.asList("World", "Car", "Train", "Water", "Rain"));
     public List<String> sentences = new ArrayList<>(Arrays.asList(

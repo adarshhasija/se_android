@@ -42,6 +42,7 @@ import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
+import com.starsearth.one.domain.TypingGame;
 import com.starsearth.one.domain.User;
 
 import java.security.Timestamp;
@@ -86,7 +87,7 @@ public class MainSEActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    private void sendAnalytics(String selected) {
+    public void sendAnalytics(String selected) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
@@ -159,14 +160,16 @@ public class MainSEActivity extends AppCompatActivity {
                 MainMenuItem mainMenuItem = new MainMenuItem();
                 mainMenuItem.subject = result.subject;
                 mainMenuItem.levelString = result.level_string;
+                mainMenuItem.gameType = TypingGame.Type.fromInt(result.game_type);
                 mainMenuItem.lastTriedMillis = result.timestamp;
 
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
                     MainMenuItem data = mAdapter.getObjectList().get(i);
-                    if (data.subject != null &&
+                    /*if (data.subject != null &&
                             data.subject.equalsIgnoreCase(result.subject) &&
                             data.levelString != null &&
-                            data.levelString.equalsIgnoreCase(result.level_string)) {
+                            data.levelString.equalsIgnoreCase(result.level_string)) {   */
+                    if (data.gameType != null && data.gameType.getValue() == result.game_type) {
                         mAdapter.removeAt(i);
                         mAdapter.addItem(mainMenuItem);
                         mRecyclerView.getLayoutManager().scrollToPosition(0);
@@ -252,6 +255,9 @@ public class MainSEActivity extends AppCompatActivity {
             else {
                 mainMenuItem.subject = tmp[0];
                 mainMenuItem.levelString = tmp[1];
+                if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
+                    mainMenuItem.gameType = TypingGame.assignType(mainMenuItem.levelString);
+                }
             }
             mainMenuItems.add(mainMenuItem);
         }

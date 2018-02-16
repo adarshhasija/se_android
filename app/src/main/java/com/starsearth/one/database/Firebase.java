@@ -242,10 +242,10 @@ public class Firebase {
         return key;
     }
 
-    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {
+    public String writeNewTypingTestResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, int gameType, long timeTakenMillis) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, timeTakenMillis);
+        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, gameType, timeTakenMillis);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -276,10 +276,10 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public String writeNewResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, long timeTakenMillis) {
+    public String writeNewResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, String subject, int level, String levelString, int gameType, long timeTakenMillis) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, timeTakenMillis);
+        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, subject, level, levelString, gameType, timeTakenMillis);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

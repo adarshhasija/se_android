@@ -45,6 +45,7 @@ public class TypingTestActivity extends AppCompatActivity {
     private String subject = null;
     private int level;
     private String levelString = null;
+    private int gameType;
     private ArrayList<String> content = new ArrayList<>();
 
     @Override
@@ -59,6 +60,7 @@ public class TypingTestActivity extends AppCompatActivity {
             subject = extras.getString("subject");
             level = extras.getInt("level");
             levelString = extras.getString("levelString");
+            gameType = extras.getInt("game_type");
             content = extras.getStringArrayList("content");
         }
 
@@ -191,7 +193,7 @@ public class TypingTestActivity extends AppCompatActivity {
     private void testCompleted() {
         mCountDownTimer.cancel();
         Firebase firebase = new Firebase("results");
-        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, subject, level, levelString, timeTakenMillis);
+        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, subject, level, levelString, gameType, timeTakenMillis);
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
