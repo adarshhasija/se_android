@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.activity.KeyboardActivity;
@@ -40,6 +41,16 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
     private Context context;
     private ArrayList<MainMenuItem> mDataset;
+
+    private FirebaseAnalytics firebaseAnalytics;
+
+    public FirebaseAnalytics getFirebaseAnalytics() {
+        return firebaseAnalytics;
+    }
+
+    public void setFirebaseAnalytics(FirebaseAnalytics firebaseAnalytics) {
+        this.firebaseAnalytics = firebaseAnalytics;
+    }
 
     public MainSEAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<MainMenuItem> mDataset) {
         //super(context, resource, objects);
@@ -112,15 +123,18 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
                 Bundle bundle;
                 if (mainMenuItem.other != null) {
                     if (mainMenuItem.other.equalsIgnoreCase("Keyboard Test")) {
+                        sendAnalytics(mainMenuItem.other);
                         intent = new Intent(context, KeyboardActivity.class);
                         context.startActivity(intent);
                     }
                     if (mainMenuItem.other.equalsIgnoreCase("Phone Number")) {
+                        sendAnalytics(mainMenuItem.other);
                         intent = new Intent(context, PhoneNumberActivity.class);
                         context.startActivity(intent);
                     }
                 }
                 else if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
+                    sendAnalytics((int) mainMenuItem.gameId.getValue(), mainMenuItem.subject + " " + mainMenuItem.levelString);
                     intent = new Intent(context, TypingTestResultActivity.class);
                     bundle = new Bundle();
                     bundle.putString("subject", mainMenuItem.subject);
@@ -134,6 +148,25 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         });
 
 
+    }
+
+    public void sendAnalytics(int id, String name) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
+    }
+
+    public void sendAnalytics(String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
     }
 
     @Override

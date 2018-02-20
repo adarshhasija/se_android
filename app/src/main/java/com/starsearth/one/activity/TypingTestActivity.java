@@ -44,6 +44,7 @@ public class TypingTestActivity extends AppCompatActivity {
     private TextView tvMain;
     private TextView mTimer;
     private CountDownTimer mCountDownTimer;
+    private boolean isBackPressed = false; //This flag is change on onBackPressed and used in onPause
 
     private String subject = null;
     private int level;
@@ -115,6 +116,12 @@ public class TypingTestActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         testCancelled();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackPressed = true;
     }
 
     @Override
@@ -220,8 +227,20 @@ public class TypingTestActivity extends AppCompatActivity {
 
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "typing_game_complete");
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
+        //bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
+        //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Game complete: " + subject + " " + levelString);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
+    }
+
+    private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putBoolean("back_button_pressed", backButtonPressed);
+        mFirebaseAnalytics.logEvent("game_cancelled", bundle);
     }
 
     private void checkWordCorrect() {
@@ -311,6 +330,7 @@ public class TypingTestActivity extends AppCompatActivity {
     }
 
     private void testCancelled() {
+        firebaseAnalyticsGameCancelled(isBackPressed);
         setResult(RESULT_CANCELED);
         finish();
     }

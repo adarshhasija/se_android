@@ -245,7 +245,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_typing_test_result);
 
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             setTitle(Utils.formatStringFirstLetterCapital(extras.getString("subject")) + " - " + extras.getString("levelString"));
         }
@@ -281,7 +281,13 @@ public class TypingTestResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button typing test start");
+                String subject = extras.getString("subject");
+                String levelString = extras.getString("levelString");
+                int id = extras.getInt("game_id");
+                bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, id);
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
+                //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button start game: " + subject + " " + levelString);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                 Intent intent = new Intent(TypingTestResultActivity.this, TypingTestActivity.class);
