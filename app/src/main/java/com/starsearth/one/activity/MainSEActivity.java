@@ -224,7 +224,7 @@ public class MainSEActivity extends AppCompatActivity {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_phone_number_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
         for (String s : mainList) {
             String[] tmp = s.split("-");

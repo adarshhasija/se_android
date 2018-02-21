@@ -74,8 +74,9 @@
     <array name="se_guest_user_list">
         <item>Convert to full account</item>
     </array>
-    <array name="se_user_account_phone_number_list">
+    <array name="se_user_account_list">
         <item>Phone Number</item>
+        <!--<item>Name</item>-->
     </array>
     <array name="se_user_account_email_list">
         <!--<item>My email address</item>
@@ -315,5 +316,6 @@
     <string name="good">good</string>
     <string name="not_good">not good</string>
     <string name="last_tried">Last tried: %s</string>
+    <string name="title_activity_full_name">FullNameActivity</string>
 
 </resources>

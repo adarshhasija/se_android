@@ -103,9 +103,14 @@
         <activity
             android:name=".activity.profile.PhoneNumberActivity"
             android:label="@string/phone_number" />
-        <activity android:name=".activity.AssistantActivity"
-                    android:label="@string/se_assistant"
-                    android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.AssistantActivity"
+            android:label="@string/se_assistant"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.profile.FullNameActivity"
+            android:label="@string/title_activity_full_name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
