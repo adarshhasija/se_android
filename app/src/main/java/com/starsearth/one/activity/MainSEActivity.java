@@ -1,20 +1,15 @@
 package com.starsearth.one.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,14 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.auth.ChangePasswordActivity;
-import com.starsearth.one.activity.auth.LoginActivity;
-import com.starsearth.one.activity.auth.SignupActivity;
-import com.starsearth.one.activity.lists.CourseAdminUsersActivity;
-import com.starsearth.one.activity.lists.CoursesListActivity;
-import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
@@ -43,15 +31,10 @@ import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.TypingGame;
-import com.starsearth.one.domain.User;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class MainSEActivity extends AppCompatActivity {
 
@@ -90,7 +73,7 @@ public class MainSEActivity extends AppCompatActivity {
     public void sendAnalytics(String selected) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
-        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     private void assistantStateChangeded(Assistant mAssistant) {
@@ -205,7 +188,7 @@ public class MainSEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_se);
 
-        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         isPhoneNumberVerified();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
@@ -227,6 +210,7 @@ public class MainSEActivity extends AppCompatActivity {
         llAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sendAnalytics("assistant");
                 Intent intent = new Intent(MainSEActivity.this, AssistantActivity.class);
                 Bundle bundle = new Bundle();
                 if (!assistants.isEmpty()) {

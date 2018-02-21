@@ -3,23 +3,33 @@ package com.starsearth.one.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Assistant;
 
 public class AssistantActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private RelativeLayout rl;
     private TextView tvLine1;
 
     private Assistant.State currentState = Assistant.State.WELCOME;
 
+    public void sendAnalytics() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "assistant");
+        bundle.putInt("state", (int) currentState.getValue());
+        mFirebaseAnalytics.logEvent("assistant_state_new", bundle);
+    }
+
     private void onStateChanged() {
+        sendAnalytics();
         Firebase firebase = new Firebase("assistants");
         firebase.writeNewAssistant(currentState);
 
@@ -29,6 +39,8 @@ public class AssistantActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistant);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         rl = (RelativeLayout) findViewById(R.id.rl);
         rl.setOnClickListener(this);
