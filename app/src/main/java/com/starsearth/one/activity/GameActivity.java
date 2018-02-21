@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TypingTestActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 

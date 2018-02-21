@@ -29,9 +29,8 @@ import com.starsearth.one.domain.TypingGame;
 import com.starsearth.one.domain.Result;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-public class TypingTestResultActivity extends AppCompatActivity {
+public class GameResultActivity extends AppCompatActivity {
 
     public static int MAX_NUMBER_IN_LIST = 1;
 
@@ -226,9 +225,9 @@ public class TypingTestResultActivity extends AppCompatActivity {
     private AlertDialog.Builder createAlertDialog() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(TypingTestResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(GameResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         } else {
-            builder = new AlertDialog.Builder(TypingTestResultActivity.this);
+            builder = new AlertDialog.Builder(GameResultActivity.this);
         }
 
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -290,7 +289,7 @@ public class TypingTestResultActivity extends AppCompatActivity {
                 //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button start game: " + subject + " " + levelString);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-                Intent intent = new Intent(TypingTestResultActivity.this, TypingTestActivity.class);
+                Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
                 bundle.putStringArrayList("content", content);
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {

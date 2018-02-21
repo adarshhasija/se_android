@@ -337,7 +337,7 @@ public class MainSEActivity extends AppCompatActivity {
                     if (currentUser != null) {
                         //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
-                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    intent = new Intent(MainSEActivity.this, GameResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("subject", "typing");
                     //bundle.putInt("level", 1);
@@ -350,7 +350,7 @@ public class MainSEActivity extends AppCompatActivity {
                     if (currentUser != null) {
                         //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
-                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    intent = new Intent(MainSEActivity.this, GameResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("subject", "typing");
                     //bundle.putInt("level", 2);
@@ -363,7 +363,7 @@ public class MainSEActivity extends AppCompatActivity {
                     if (currentUser != null) {
                         //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
-                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    intent = new Intent(MainSEActivity.this, GameResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("subject", "typing");
                     //bundle.putInt("level", 3);
@@ -376,7 +376,7 @@ public class MainSEActivity extends AppCompatActivity {
                     if (currentUser != null) {
                         //sendAnalytics(ANALYTICS_MAINSE_VIEW_COURSES_LOGGED_IN);
                     }
-                    intent = new Intent(MainSEActivity.this, TypingTestResultActivity.class);
+                    intent = new Intent(MainSEActivity.this, GameResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("subject", "typing");
                     //bundle.putInt("level", 4);

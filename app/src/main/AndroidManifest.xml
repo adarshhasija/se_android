@@ -80,13 +80,13 @@
         </activity>
         <activity android:name=".activity.welcome.WelcomeTwoActivity" />
         <activity
-            android:name=".activity.TypingTestActivity"
+            android:name=".activity.GameActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.TypingTestResultActivity"
+            android:name=".activity.GameResultActivity"
             android:configChanges="orientation"
             android:label="@string/typing_game"
             android:screenOrientation="portrait" />

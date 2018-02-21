@@ -21,6 +21,7 @@ import android.widget.TextView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
 import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.AuthResult
 import com.starsearth.one.R
@@ -29,6 +30,7 @@ import com.starsearth.one.R
 class SendOTPActivity : AppCompatActivity() {
 
     var TAG = "SendOTPActivity"
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     private var phoneNumber: String? = null
     private var mVerificationId: String? = null
@@ -80,6 +82,8 @@ class SendOTPActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_otp)
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         mVerificationId = savedInstanceState?.getString("verificationId")
         mAuth = FirebaseAuth.getInstance()
 
@@ -96,6 +100,7 @@ class SendOTPActivity : AppCompatActivity() {
 
         val btnSendOTPAgain = findViewById(R.id.btn_send_otp_again) as Button
         btnSendOTPAgain.setOnClickListener { v: View? ->
+            sendOTPAgainAnalytics()
             sendOTP(phoneNumber)
             mCountDownTimer!!.start()
             mViewOTPTimer!!.visibility = View.VISIBLE
@@ -121,6 +126,13 @@ class SendOTPActivity : AppCompatActivity() {
         mViewPleaseWait = findViewById(R.id.view_please_wait) as LinearLayout
 
         startCowntDownTimer()
+    }
+
+    private fun sendOTPAgainAnalytics() {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "send_otp_again")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button")
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private fun sendOTP(phoneNumber: String?) {

@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.*
 import com.starsearth.one.R
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit
 class AddEditPhoneNumberActivity : AppCompatActivity() {
 
     var TAG = "AddEditPhoneNumberActivity"
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     private var mAuth: FirebaseAuth? = null
     private var phoneNumber: String? = null
@@ -71,6 +73,8 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_phone_number)
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuth = FirebaseAuth.getInstance()
         val etPhoneNumber = findViewById(R.id.et_phone_number) as EditText

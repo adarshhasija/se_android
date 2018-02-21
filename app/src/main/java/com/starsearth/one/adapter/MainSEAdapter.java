@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,18 +17,11 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.TypingTestResultActivity;
+import com.starsearth.one.activity.GameResultActivity;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
-import com.starsearth.one.domain.Course;
-import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.MainMenuItem;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by faimac on 4/6/17.
@@ -135,7 +125,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
                 }
                 else if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
                     sendAnalytics((int) mainMenuItem.gameId.getValue(), mainMenuItem.subject + " " + mainMenuItem.levelString);
-                    intent = new Intent(context, TypingTestResultActivity.class);
+                    intent = new Intent(context, GameResultActivity.class);
                     bundle = new Bundle();
                     bundle.putString("subject", mainMenuItem.subject);
                     bundle.putString("levelString", mainMenuItem.levelString);
