@@ -15,6 +15,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -212,23 +213,32 @@ public class GameActivity extends AppCompatActivity {
 
     private void testCompleted() {
         mCountDownTimer.cancel();
+        AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+        boolean isAccessibilityEnabled = am.isEnabled();
         Firebase firebase = new Firebase("results");
         firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, subject, level, levelString, gameId, timeTakenMillis);
 
+        firebaseAnalyticsGameCompleted();
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putInt("words_correct", wordsCorrect);
         bundle.putInt("words_total_finished", totalWordsFinished);
         intent.putExtras(bundle);
-        firebaseAnalyticsGameCompleted();
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private boolean isTalkbackEnabled() {
+        AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+        boolean isAccessibilityEnabled = am.isEnabled();
+        return isAccessibilityEnabled;
     }
 
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
         //bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
         //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Game complete: " + subject + " " + levelString);
@@ -239,6 +249,7 @@ public class GameActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putBoolean("back_button_pressed", backButtonPressed);
         mFirebaseAnalytics.logEvent("game_cancelled", bundle);
     }
