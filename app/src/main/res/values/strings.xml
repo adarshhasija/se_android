@@ -65,7 +65,7 @@
         <item>Typing - many sentences</item>
     </array>
     <array name="se_keyboard_test_list">
-        <item>Keyboard Test</item>
+        <!--<item>Keyboard Test</item>-->
     </array>
     <array name="se_login_list">
         <item>Login to your account</item>
@@ -75,7 +75,7 @@
         <item>Convert to full account</item>
     </array>
     <array name="se_user_account_list">
-        <item>Phone Number</item>
+        <!--<item>Phone Number</item>-->
         <!--<item>Name</item>-->
     </array>
     <array name="se_user_account_email_list">

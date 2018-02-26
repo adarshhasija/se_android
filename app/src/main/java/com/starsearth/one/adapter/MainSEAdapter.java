@@ -30,9 +30,8 @@ import java.util.ArrayList;
 public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder> /*ArrayAdapter<String>*/ {
 
     private Context context;
-    private ArrayList<MainMenuItem> mDataset;
-
     private FirebaseAnalytics firebaseAnalytics;
+    private ArrayList<MainMenuItem> mDataset;
 
     public FirebaseAnalytics getFirebaseAnalytics() {
         return firebaseAnalytics;
@@ -226,10 +225,6 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
             mLinearLayout = (LinearLayout) rl.findViewById(R.id.ll);
             mTextView1 = (TextView) mLinearLayout.findViewById(R.id.text1);
             mTextView2 = (TextView) mLinearLayout.findViewById(R.id.text2);
-        }
-
-        public void setContentDescription(String text) {
-            mRelativeLayout.setContentDescription(text);
         }
 
     }

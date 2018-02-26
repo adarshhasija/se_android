@@ -26,6 +26,7 @@ import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
+import com.starsearth.one.adapter.TopMenuAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.MainMenuItem;
@@ -58,6 +59,7 @@ public class MainSEActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MainSEAdapter mAdapter;
+    private TopMenuAdapter mAdapterTopMenu;
 
     private List<Assistant> assistants = new ArrayList<>();
 
@@ -65,9 +67,11 @@ public class MainSEActivity extends AppCompatActivity {
     protected TextView tvActionLine1;
     protected TextView tvActionLine2;
     protected TextView tvListViewHeader;
+    protected RecyclerView mRecyclerViewTopMenu;
     protected RecyclerView mRecyclerView;
     protected ProgressBar progressBar;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManagerHorizontal;
 
 
     public void sendAnalytics(String selected) {
@@ -80,16 +84,21 @@ public class MainSEActivity extends AppCompatActivity {
         if (mAssistant == null) {
             return;
         }
+
+        String assistantStatus = null;
         if (mAssistant.state > 9 && mAssistant.state < 13) {
-            tvActionLine2.setText(getString(R.string.se_assistant_tap_here_to_continue));
+            assistantStatus = getString(R.string.se_assistant_tap_here_to_continue);
         }
         else if (mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_SUCCESS.getValue() ||
                     mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_FAIL.getValue()) {
-            tvActionLine2.setText(getString(R.string.se_assistant_keyboard_test_completed));
+            assistantStatus = getString(R.string.se_assistant_keyboard_test_completed);
         }
         else {
-            tvActionLine2.setText(getString(R.string.se_assistant_no_update));
+            assistantStatus = getString(R.string.se_assistant_no_update);
         }
+
+        if (mAdapterTopMenu != null) mAdapterTopMenu.setSEAssistantStatus(assistantStatus);
+        //tvActionLine2.setText(assistantStatus);
 
         if (llAction != null) {
             llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
@@ -183,6 +192,28 @@ public class MainSEActivity extends AppCompatActivity {
         }
     };
 
+    private void setupTopMenu() {
+        mRecyclerViewTopMenu = (RecyclerView) findViewById(R.id.rv_top_menu);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerViewTopMenu.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManagerHorizontal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerViewTopMenu.setLayoutManager(mLayoutManagerHorizontal);
+    }
+
+    private void setupMainList() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,19 +223,15 @@ public class MainSEActivity extends AppCompatActivity {
         isPhoneNumberVerified();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
-        //llAction.setVisibility(View.GONE);
+        llAction.setVisibility(View.GONE);
         tvActionLine1 = (TextView) findViewById(R.id.tv_action_line_1);
         tvActionLine2 = (TextView) findViewById(R.id.tv_action_line_2);
         tvListViewHeader = (TextView) findViewById(R.id.tv_listview_header);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        setupTopMenu();
+        setupMainList();
+        mAdapterTopMenu = new TopMenuAdapter(MainSEActivity.this);
+        mRecyclerViewTopMenu.setAdapter(mAdapterTopMenu);
 
 
         llAction.setOnClickListener(new View.OnClickListener() {
