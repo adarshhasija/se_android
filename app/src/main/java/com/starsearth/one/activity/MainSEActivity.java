@@ -31,6 +31,7 @@ import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
+import com.starsearth.one.domain.TopMenuItem;
 import com.starsearth.one.domain.TypingGame;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class MainSEActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-    private void assistantStateChangeded(Assistant mAssistant) {
+  /*  private void assistantStateChangeded(Assistant mAssistant) {
         if (mAssistant == null) {
             return;
         }
@@ -103,19 +104,21 @@ public class MainSEActivity extends AppCompatActivity {
         if (llAction != null) {
             llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
         }
-    }
+    }   */
 
     private ChildEventListener mAssistantChildListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Assistant assistant = dataSnapshot.getValue(Assistant.class);
-            assistants.add(assistant); //add at end
-            if (assistants.size() > 1) {
+            mAdapterTopMenu.addAssistant(assistant);
+            mAdapterTopMenu.assistantStateChanged(assistant);
+            mAdapterTopMenu.removeOldAssistantRecord(mDatabaseAssistantReference);
+            /*if (assistants.size() > 1) {
+                //delete old entry from the db
                 Assistant firstItem = assistants.get(0);
-                mDatabaseAssistantReference.child(firstItem.uid).removeValue(); //delete from the database
+                mDatabaseAssistantReference.child(firstItem.uid).removeValue();
                 assistants.remove(firstItem);
-            }
-            assistantStateChangeded(assistant);
+            }   */
         }
 
         @Override
@@ -125,11 +128,6 @@ public class MainSEActivity extends AppCompatActivity {
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Assistant assistant = dataSnapshot.getValue(Assistant.class);
-            if (assistant != null) {
-                mDatabaseAssistantReference.child(assistant.uid).removeValue(); //delete from the database
-                assistants.remove(assistant);
-            }
 
         }
 
@@ -201,6 +199,21 @@ public class MainSEActivity extends AppCompatActivity {
         // use a linear layout manager
         mLayoutManagerHorizontal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerViewTopMenu.setLayoutManager(mLayoutManagerHorizontal);
+
+        ArrayList<TopMenuItem> items = new ArrayList<>();
+        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_assistant_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
+        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
+        for (int i = 0; i < mainList.size(); i++) {
+            TopMenuItem item = new TopMenuItem(mainList.get(i));
+            if (i == 0) {
+                item.setText2(getString(R.string.se_assistant_tap_here_to_begin));
+            }
+            items.add(item);
+        }
+
+        mAdapterTopMenu = new TopMenuAdapter(MainSEActivity.this, items);
+        mRecyclerViewTopMenu.setAdapter(mAdapterTopMenu);
     }
 
     private void setupMainList() {
@@ -219,9 +232,6 @@ public class MainSEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_se);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        isPhoneNumberVerified();
-
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
         tvActionLine1 = (TextView) findViewById(R.id.tv_action_line_1);
@@ -230,9 +240,10 @@ public class MainSEActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         setupTopMenu();
         setupMainList();
-        mAdapterTopMenu = new TopMenuAdapter(MainSEActivity.this);
-        mRecyclerViewTopMenu.setAdapter(mAdapterTopMenu);
 
+        isPhoneNumberVerified();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mAdapterTopMenu.setFirebaseAnalytics(mFirebaseAnalytics);
 
         llAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,10 +260,10 @@ public class MainSEActivity extends AppCompatActivity {
         });
 
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
-        mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
+        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
+        //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
+        //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
+        //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
         for (String s : mainList) {
             String[] tmp = s.split("-");
             for (int i = 0; i < tmp.length; i++) {

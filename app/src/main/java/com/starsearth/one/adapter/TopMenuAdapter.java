@@ -13,9 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.AssistantActivity;
 import com.starsearth.one.activity.KeyboardActivity;
+import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
+import com.starsearth.one.domain.Assistant;
+import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.TopMenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by faimac on 2/26/18.
@@ -23,21 +32,31 @@ import com.starsearth.one.activity.profile.PhoneNumberActivity;
 
 public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHolder> {
 
-    private Context context;
-    private FirebaseAnalytics firebaseAnalytics;
+    public int TOTAL_ITEM_COUNT = 3; //Change this to add more items
 
-    private TextView seAssistantStatus;
+    private Context context;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private ArrayList<TopMenuItem> mDataset;
+
+    private List<Assistant> assistants = new ArrayList<>();
 
     public FirebaseAnalytics getFirebaseAnalytics() {
-        return firebaseAnalytics;
+        return mFirebaseAnalytics;
     }
 
     public void setFirebaseAnalytics(FirebaseAnalytics firebaseAnalytics) {
-        this.firebaseAnalytics = firebaseAnalytics;
+        this.mFirebaseAnalytics = firebaseAnalytics;
     }
 
-    public TopMenuAdapter(Context context) {
+    public void sendAnalytics(String selected) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    public TopMenuAdapter(Context context, ArrayList<TopMenuItem> list) {
         this.context = context;
+        this.mDataset = list;
     }
 
 
@@ -51,29 +70,24 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        String text1=null;
-        String text2=null;
-        if (position == 0) {
-            text1 = context.getResources().getString(R.string.se_assistant);
-            text2 = context.getResources().getString(R.string.se_assistant_tap_here_to_begin);
-            seAssistantStatus = holder.mTextView2; //This needs to be saved so we can keep updating the status
-        }
-        else if (position == 1) {
-            text1 = context.getResources().getString(R.string.keyboard_test);
-        }
-        else if (position == 2) {
-            text1 = context.getResources().getString(R.string.phone_number);
-        }
-        holder.mTextView1.setText(text1);
-        holder.mTextView2.setText(text2);
+        final TopMenuItem item = mDataset.get(position);
+        holder.mTextView1.setText(item.getText1());
+        holder.mTextView2.setText(item.getText2());
 
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=null;
+                sendAnalytics(item.getText1());
+                Intent intent;
                 Bundle bundle;
                 if (position == 0) {
-
+                    intent = new Intent(context, AssistantActivity.class);
+                    bundle = new Bundle();
+                    if (!assistants.isEmpty()) {
+                        bundle.putParcelable("assistant", assistants.get(0));
+                    }
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
                 else if (position == 1) {
                     intent = new Intent(context, KeyboardActivity.class);
@@ -87,15 +101,58 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
         });
     }
 
-    public void setSEAssistantStatus(String status) {
-        if (seAssistantStatus != null) {
-            seAssistantStatus.setText(status);
+    //add assistant at the end of the array list
+    public void addAssistant(Assistant assistant) {
+        if (assistants != null) {
+            assistants.add(assistant);
         }
+    }
+
+    public void removeAssistant(Assistant assistant) {
+        if (assistants != null) {
+            assistants.remove(assistant);
+        }
+    }
+
+    public void removeOldAssistantRecord(DatabaseReference assistantReference) {
+        if (assistants != null && assistants.size() > 1) {
+            Assistant firstItem = assistants.get(0);
+            assistantReference.child(firstItem.uid).removeValue();
+            assistants.remove(firstItem);
+        }
+    }
+
+    private void setSEAssistantStatus(String status) {
+        mDataset.get(0).setText2(status);
+        notifyItemChanged(0);
+    }
+
+    /*
+    This function updates the text based on the state
+     */
+    public void assistantStateChanged(Assistant mAssistant) {
+        if (mAssistant == null) {
+            return;
+        }
+
+        String assistantStatus;
+        if (mAssistant.state > 9 && mAssistant.state < 13) {
+            assistantStatus = context.getString(R.string.se_assistant_tap_here_to_continue);
+        }
+        else if (mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_SUCCESS.getValue() ||
+                mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_FAIL.getValue()) {
+            assistantStatus = context.getString(R.string.se_assistant_keyboard_test_completed);
+        }
+        else {
+            assistantStatus = context.getString(R.string.se_assistant_no_update);
+        }
+
+        setSEAssistantStatus(assistantStatus);
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return TOTAL_ITEM_COUNT;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
