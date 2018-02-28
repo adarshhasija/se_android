@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
+import com.starsearth.one.domain.TypingGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,7 +217,7 @@ public class GameActivity extends AppCompatActivity {
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         boolean isAccessibilityEnabled = am.isEnabled();
         Firebase firebase = new Firebase("results");
-        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, subject, level, levelString, gameId, timeTakenMillis);
+        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, gameId); //subject, level, levelString, , );
 
         firebaseAnalyticsGameCompleted();
         Intent intent = new Intent();
@@ -299,22 +300,62 @@ public class GameActivity extends AppCompatActivity {
         return randomStringBuilder.toString();
     }
 
+    public enum LetterCase {
+        LOWER, UPPER
+    }
+
+    /*
+        Returns a random letter as a string
+     */
+    public String getRandomLetterString(LetterCase letterCase) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(generateRandomLetterChar(letterCase));
+        return stringBuilder.toString();
+    }
+
+    /*
+        Returns a random letter as a char
+     */
+    public char generateRandomLetterChar(LetterCase letterCase) {
+        Random generator = new Random();
+        int randomInt = letterCase == LetterCase.UPPER?
+                generator.nextInt(25) + 65 : //range of uppercase letters is 25
+                generator.nextInt(25) + 97; //range of lowercase letters is 25
+        return (char) randomInt;
+    }
+
     public String generateRandomNumber() {
         Random generator = new Random();
         return Integer.toString(generator.nextInt(999));
     }
 
     public String generateContent() {
-        if (content.isEmpty()) {
-            return null;
-        }
-        if (levelString.contains("1") && !content.isEmpty()) {
-            return content.get(0);
-        }
+        TypingGame.Id id = TypingGame.Id.fromInt(gameId);
+        String result = null;
+        if (id == TypingGame.Id.ONE_WORD ||
+                id == TypingGame.Id.ONE_SENTENCE) {
+            if (!content.isEmpty()) {
+                result =  content.get(0);
+            }
 
-        Random random = new Random();
-        int randomInt = random.nextInt(content.size());
-        return content.get(randomInt);
+        }
+        else if (id == TypingGame.Id.MANY_WORDS ||
+                    id == TypingGame.Id.MANY_SENTENCES) {
+            if (!content.isEmpty()) {
+                Random random = new Random();
+                int randomInt = random.nextInt(content.size());
+                result = content.get(randomInt);
+            }
+
+        }
+        else if (id == TypingGame.Id.LETTERS_LOWER_CASE) {
+            result = getRandomLetterString(LetterCase.LOWER);
+        }
+        else if (id == TypingGame.Id.LETTERS_UPPER_CASE) {
+            result = getRandomLetterString(LetterCase.UPPER);
+        }
+        return result;
+
     }
 
     /**
@@ -326,7 +367,7 @@ public class GameActivity extends AppCompatActivity {
     private void nextSentence() {
         index = 0; //reset the cursor to the start of the sentence
         String text = generateContent(); //generateRandomSentence();
-        text = addFullStop(text);
+        //text = addFullStop(text);
         expectedAnswer = text;
         tvMain.setText(text);
         tvMain.announceForAccessibility(text.substring(0,1));

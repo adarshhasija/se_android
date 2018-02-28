@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Game extends SEBaseObject {
 
-    public String description;
+    public int id;
+    public String title;
+
 
 }

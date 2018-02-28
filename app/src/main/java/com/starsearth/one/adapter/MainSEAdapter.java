@@ -22,6 +22,7 @@ import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.domain.MainMenuItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by faimac on 4/6/17.
@@ -86,29 +87,38 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return vh;
     }
 
+    private String formatLatTriedTime(MainMenuItem object) {
+        String result = null;
+        if (object.lastResult != null) {
+            long time = object.lastResult.timestamp;
+            String timeFormatted = Utils.formatDateTime(time);
+            result = String.format(context.getString(R.string.last_tried), timeFormatted);
+        }
+        return result;
+    }
+
+    private String getGameTItle(MainMenuItem object) {
+        String result = null;
+        if (object.game != null) {
+            result = object.game.title;
+        }
+        return result;
+    }
+
+
     @Override
     public void onBindViewHolder(MainSEAdapter.ViewHolder holder, final int position) {
         MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
-        if (object.subject != null) {
-            holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(object.subject) + " - " + object.levelString);
-        }
-        else {
-            holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(object.other));
-        }
-        String lastTriedTime = null;
-        long lastTriedMillis = mDataset.get(position).lastTriedMillis;
-        if (position < mDataset.size() && lastTriedMillis > 0) lastTriedTime = Utils.formatDateTime(mDataset.get(position).lastTriedMillis);
-        if (lastTriedTime != null) {
-            String lastTried = String.format(context.getString(R.string.last_tried), lastTriedTime);
-            holder.mTextView2.setText(lastTried);
-        }
+
+        holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(getGameTItle(object)));
+        holder.mTextView2.setText(formatLatTriedTime(object));
 
         holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainMenuItem mainMenuItem = mDataset.get(position);
-                Intent intent=null;
+                Intent intent;
                 Bundle bundle;
                 if (mainMenuItem.other != null) {
                     if (mainMenuItem.other.equalsIgnoreCase("Keyboard Test")) {
@@ -165,14 +175,14 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
     public void removeAt(int position) {
         mDataset.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, mDataset.size());
+        //notifyItemRemoved(position);
+        //notifyItemRangeChanged(position, mDataset.size());
     }
 
     public void addItem(MainMenuItem mainMenuItem) {
         int index = indexToInsert(mainMenuItem.lastTriedMillis);
         mDataset.add(index, mainMenuItem);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
         //notifyItemInserted(index);
         //notifyItemRangeChanged(0, 1); //notifyItemRangeChanged(index, mDataset.size());
     }

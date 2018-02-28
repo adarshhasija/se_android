@@ -12,6 +12,9 @@ public class MainMenuItem {
     public long lastTriedMillis;
     public String other; //Phone number/email etc
 
+    public Game game;
+    public Result lastResult;
+
     public MainMenuItem() {
 
     }

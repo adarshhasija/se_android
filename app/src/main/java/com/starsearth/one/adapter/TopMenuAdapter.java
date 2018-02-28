@@ -32,8 +32,6 @@ import java.util.List;
 
 public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHolder> {
 
-    public int TOTAL_ITEM_COUNT = 3; //Change this to add more items
-
     private Context context;
     private FirebaseAnalytics mFirebaseAnalytics;
     private ArrayList<TopMenuItem> mDataset;
@@ -152,7 +150,7 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return TOTAL_ITEM_COUNT;
+        return mDataset.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

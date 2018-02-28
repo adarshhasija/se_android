@@ -188,37 +188,47 @@ public class GameResultActivity extends AppCompatActivity {
 
     private void setInstructionTextAndContent() {
         Bundle extras = getIntent().getExtras();
-        String levelString = null;
+        String levelString;
+        int game_id=0;
         if (extras != null) {
             levelString = extras.getString("levelString");
+            game_id = extras.getInt("game_id");
         }
         else {
             return;
         }
         TypingGame game = new TypingGame();
-        if (levelString.equals("1 word")) {
-            //Random random = new Random();
-            //int result = random.nextInt(game.words.size());
-            content.add(game.words.get(0));
-            tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_word), content.get(0)));
-        }
-        if (levelString.equals("many words")) {
-            for (String word : game.words) {
-                content.add(word);
-            }
-            tvInstruction.setText(getString(R.string.typing_game_instructions_many_words));
-        }
-        if (levelString.equals("1 sentence")) {
-            //Random random = new Random();
-            //int result = random.nextInt(game.words.size());
-            content.add(game.sentences.get(0));
-            tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_sentence), content.get(0)));
-        }
-        if (levelString.equals("many sentences")) {
-            for (String sentence : game.sentences) {
-                content.add(sentence);
-            }
-            tvInstruction.setText(getString(R.string.typing_game_instructions_many_sentences));
+        TypingGame.Id id = TypingGame.Id.fromInt(game_id);
+        switch (id) {
+            case ONE_WORD:
+                content.add(game.words.get(0));
+                tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_word), content.get(0)));
+                break;
+            case MANY_WORDS:
+                for (String word : game.words) {
+                    content.add(word);
+                }
+                tvInstruction.setText(getString(R.string.typing_game_instructions_many_words));
+                break;
+            case ONE_SENTENCE:
+                content.add(game.sentences.get(0));
+                tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_sentence), content.get(0)));
+                break;
+            case MANY_SENTENCES:
+                for (String sentence : game.sentences) {
+                    content.add(sentence);
+                }
+                tvInstruction.setText(getString(R.string.typing_game_instructions_many_sentences));
+                break;
+            case LETTERS_LOWER_CASE:
+                tvInstruction.setText(getString(R.string.typing_game_instructions_letters_small));
+                break;
+            case LETTERS_UPPER_CASE:
+                tvInstruction.setText(getString(R.string.typing_game_instructions_letters_capital));
+                break;
+            default:
+                break;
+
         }
     }
 

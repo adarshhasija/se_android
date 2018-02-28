@@ -11,7 +11,7 @@ import java.util.List;
 public class TypingGame extends Game {
 
     public enum Id {
-        ONE_WORD(1), MANY_WORDS(2), ONE_SENTENCE(3), MANY_SENTENCES(4);
+        ONE_WORD(1), MANY_WORDS(2), ONE_SENTENCE(3), MANY_SENTENCES(4), LETTERS_LOWER_CASE(5), LETTERS_UPPER_CASE(6);
 
         private final long value;
 
@@ -36,19 +36,26 @@ public class TypingGame extends Game {
     If wording changes, change text here
      */
     public static TypingGame.Id assignType(String levelString) {
+        TypingGame.Id id = null;
         if (levelString.contains("1 word")) {
-            return Id.ONE_WORD;
+            id =  Id.ONE_WORD;
         }
         else if (levelString.contains("many words")) {
-            return Id.MANY_WORDS;
+            id =  Id.MANY_WORDS;
         }
         else if (levelString.contains("1 sentence")) {
-            return Id.ONE_SENTENCE;
+            id =  Id.ONE_SENTENCE;
         }
         else if (levelString.contains("many sentences")) {
-            return Id.MANY_SENTENCES;
+            id =  Id.MANY_SENTENCES;
         }
-        return null;
+        else if (levelString.contains("small letters")) {
+            id =  Id.LETTERS_LOWER_CASE;
+        }
+        else if (levelString.contains("capital letters")) {
+            id = Id.LETTERS_UPPER_CASE;
+        }
+        return id;
     }
 
     public List<String> words = new ArrayList<>(Arrays.asList("World", "Car", "Train", "Water", "Rain"));

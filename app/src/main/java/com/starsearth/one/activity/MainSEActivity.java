@@ -1,6 +1,7 @@
 package com.starsearth.one.activity;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,14 +30,22 @@ import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.adapter.TopMenuAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
+import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.TopMenuItem;
 import com.starsearth.one.domain.TypingGame;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 public class MainSEActivity extends AppCompatActivity {
 
@@ -147,21 +156,22 @@ public class MainSEActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Result result = dataSnapshot.getValue(Result.class);
             if (result != null) {
-                MainMenuItem mainMenuItem = new MainMenuItem();
-                mainMenuItem.subject = result.subject;
-                mainMenuItem.levelString = result.level_string;
-                mainMenuItem.gameId = TypingGame.Id.fromInt(result.game_id);
-                mainMenuItem.lastTriedMillis = result.timestamp;
+                //MainMenuItem mainMenuItem = new MainMenuItem();
+                //mainMenuItem.subject = result.subject;
+                //mainMenuItem.levelString = result.level_string;
+                //mainMenuItem.gameId = TypingGame.Id.fromInt(result.game_id);
+                //mainMenuItem.lastTriedMillis = result.timestamp;
 
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
                     MainMenuItem menuItem = mAdapter.getObjectList().get(i);
-                    /*if (data.subject != null &&
-                            data.subject.equalsIgnoreCase(result.subject) &&
-                            data.levelString != null &&
-                            data.levelString.equalsIgnoreCase(result.level_string)) {   */
-                    if (menuItem.gameId != null && menuItem.gameId.getValue() == result.game_id) {
+                    if (menuItem.game.id  == result.game_id) {
+                        MainMenuItem mainMenuItem = mAdapter.getObjectList().get(i);
                         mAdapter.removeAt(i);
+
+                        mainMenuItem.lastResult = null;
+                        mainMenuItem.lastResult = result;
                         mAdapter.addItem(mainMenuItem);
+                        mAdapter.notifyDataSetChanged();
                         mRecyclerView.getLayoutManager().scrollToPosition(0);
                     }
                 }
@@ -226,6 +236,69 @@ public class MainSEActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
+    
+    private int getDataId(String line) {
+        String result = null;
+        String[] tmp = line.split(":");
+        if (tmp.length > 1) {
+            result = tmp[1].trim();
+        }
+        return Integer.valueOf(result);
+    }
+
+    private String getDataTitle(String line) {
+        String result = null;
+        String[] tmp = line.split(":");
+        if (tmp.length > 1) {
+            result = tmp[1].trim();
+        }
+        return result;
+    }
+
+    private Game newGame(Vector<String> input) {
+        if (input.size() == 0) {
+            return null;
+        }
+        Game game = new Game();
+        game.id = getDataId(input.get(0));
+        game.title = getDataTitle(input.get(1));
+        return game;
+    }
+
+    private ArrayList<Game> openFile() {
+        final AssetManager assetManager = getResources().getAssets();
+        Vector<String> vector = new Vector<String>();
+
+        ArrayList<Game> games = new ArrayList<>();
+        BufferedReader br;
+        try {
+            final InputStream inputStream = assetManager.open("games.txt");
+            br = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.contains("{")) {
+                    vector.clear();
+                }
+                else if (line.contains("}")) {
+                    Game game = newGame(vector);
+                    if (game != null) {
+                        games.add(newGame(vector));
+                    }
+                }
+                else {
+                    vector.add(line);
+                }
+            }
+            br.close();
+
+
+        } catch (IOException e) {
+            throw new RuntimeException("error reading labels file!", e);
+        }
+
+        return games;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +313,7 @@ public class MainSEActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         setupTopMenu();
         setupMainList();
+
 
         isPhoneNumberVerified();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -259,13 +333,14 @@ public class MainSEActivity extends AppCompatActivity {
             }
         });
 
+        ArrayList<Game> games = openFile();
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
+        //ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
         //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_main_list_practice)));
         //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
         //mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_email_list)));
-        for (String s : mainList) {
-            String[] tmp = s.split("-");
+        for (Game game : games) {
+         /*   String[] tmp = s.split("-");
             for (int i = 0; i < tmp.length; i++) {
                 tmp[i] = tmp[i].trim();
             }
@@ -280,7 +355,9 @@ public class MainSEActivity extends AppCompatActivity {
                 if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
                     mainMenuItem.gameId = TypingGame.assignType(mainMenuItem.levelString);
                 }
-            }
+            }   */
+            MainMenuItem mainMenuItem = new MainMenuItem();
+            mainMenuItem.game = game;
             mainMenuItems.add(mainMenuItem);
         }
         mAdapter = new MainSEAdapter(MainSEActivity.this, 0, mainMenuItems);
