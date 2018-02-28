@@ -19,7 +19,9 @@ import com.starsearth.one.Utils;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.GameResultActivity;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
+import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,20 +89,21 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return vh;
     }
 
-    private String formatLatTriedTime(MainMenuItem object) {
+    private String formatLatTriedTime(List<Result> inputs) {
         String result = null;
-        if (object.lastResult != null) {
-            long time = object.lastResult.timestamp;
+        if (inputs != null && !inputs.isEmpty()) {
+            Result input = inputs.get(0);
+            long time = input.timestamp;
             String timeFormatted = Utils.formatDateTime(time);
             result = String.format(context.getString(R.string.last_tried), timeFormatted);
         }
         return result;
     }
 
-    private String getGameTItle(MainMenuItem object) {
+    private String getGameTitle(Game game) {
         String result = null;
-        if (object.game != null) {
-            result = object.game.title;
+        if (game != null) {
+            result = game.title;
         }
         return result;
     }
@@ -111,38 +114,24 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
 
-        holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(getGameTItle(object)));
-        holder.mTextView2.setText(formatLatTriedTime(object));
+        holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(getGameTitle(object.game)));
+        holder.mTextView2.setText(formatLatTriedTime(object.results));
 
         holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainMenuItem mainMenuItem = mDataset.get(position);
-                Intent intent;
-                Bundle bundle;
-                if (mainMenuItem.other != null) {
-                    if (mainMenuItem.other.equalsIgnoreCase("Keyboard Test")) {
-                        sendAnalytics(mainMenuItem.other);
-                        intent = new Intent(context, KeyboardActivity.class);
-                        context.startActivity(intent);
-                    }
-                    if (mainMenuItem.other.equalsIgnoreCase("Phone Number")) {
-                        sendAnalytics(mainMenuItem.other);
-                        intent = new Intent(context, PhoneNumberActivity.class);
-                        context.startActivity(intent);
-                    }
-                }
-                else if (mainMenuItem.subject.equalsIgnoreCase("typing")) {
-                    sendAnalytics((int) mainMenuItem.gameId.getValue(), mainMenuItem.subject + " " + mainMenuItem.levelString);
-                    intent = new Intent(context, GameResultActivity.class);
-                    bundle = new Bundle();
-                    bundle.putString("subject", mainMenuItem.subject);
-                    bundle.putString("levelString", mainMenuItem.levelString);
-                    bundle.putInt("game_id", (int) mainMenuItem.gameId.getValue());
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                }
+                Game game = mainMenuItem.game;
 
+                if (game != null) sendAnalytics(game.id, game.title);
+                Intent intent = new Intent(context, GameResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("game", game);
+                //bundle.putString("subject", mainMenuItem.subject);
+                //bundle.putString("levelString", mainMenuItem.levelString);
+                //bundle.putInt("game_id", (int) mainMenuItem.gameId.getValue());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
 

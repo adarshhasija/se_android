@@ -168,8 +168,8 @@ public class MainSEActivity extends AppCompatActivity {
                         MainMenuItem mainMenuItem = mAdapter.getObjectList().get(i);
                         mAdapter.removeAt(i);
 
-                        mainMenuItem.lastResult = null;
-                        mainMenuItem.lastResult = result;
+                        mainMenuItem.results.add(result); //add at the end
+                        mainMenuItem.results.remove(0); //remove the first(older) entry
                         mAdapter.addItem(mainMenuItem);
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.getLayoutManager().scrollToPosition(0);
@@ -237,7 +237,7 @@ public class MainSEActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
     
-    private int getDataId(String line) {
+    private int getDataInt(String line) {
         String result = null;
         String[] tmp = line.split(":");
         if (tmp.length > 1) {
@@ -246,7 +246,7 @@ public class MainSEActivity extends AppCompatActivity {
         return Integer.valueOf(result);
     }
 
-    private String getDataTitle(String line) {
+    private String getDataString(String line) {
         String result = null;
         String[] tmp = line.split(":");
         if (tmp.length > 1) {
@@ -260,8 +260,9 @@ public class MainSEActivity extends AppCompatActivity {
             return null;
         }
         Game game = new Game();
-        game.id = getDataId(input.get(0));
-        game.title = getDataTitle(input.get(1));
+        game.id = getDataInt(input.get(0));
+        game.title = getDataString(input.get(1));
+        game.instructions = getDataString(input.get(2));
         return game;
     }
 

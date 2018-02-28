@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
+import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.TypingGame;
 
 import java.util.ArrayList;
@@ -48,10 +49,12 @@ public class GameActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private boolean isBackPressed = false; //This flag is change on onBackPressed and used in onPause
 
-    private String subject = null;
+    private String subject;
     private int level;
-    private String levelString = null;
+    private String levelString;
     private int gameId;
+
+    private Game game;
     private ArrayList<String> content = new ArrayList<>();
 
     @Override
@@ -63,11 +66,12 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            subject = extras.getString("subject");
-            level = extras.getInt("level");
-            levelString = extras.getString("levelString");
-            gameId = extras.getInt("game_id");
-            content = extras.getStringArrayList("content");
+            //subject = extras.getString("subject");
+            //level = extras.getInt("level");
+            //levelString = extras.getString("levelString");
+            //gameId = extras.getInt("game_id");
+            //content = extras.getStringArrayList("content");
+            game = extras.getParcelable("game");
         }
 
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
@@ -217,7 +221,7 @@ public class GameActivity extends AppCompatActivity {
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         boolean isAccessibilityEnabled = am.isEnabled();
         Firebase firebase = new Firebase("results");
-        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, gameId); //subject, level, levelString, , );
+        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, game.id); //subject, level, levelString, , );
 
         firebaseAnalyticsGameCompleted();
         Intent intent = new Intent();
@@ -330,9 +334,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public String generateContent() {
-        TypingGame.Id id = TypingGame.Id.fromInt(gameId);
+        //TypingGame.Id id = TypingGame.Id.fromInt(gameId);
         String result = null;
-        if (id == TypingGame.Id.ONE_WORD ||
+        int id=-1;
+        if (game != null) {
+            id = game.id;
+        }
+
+        if (id == 5) {
+            result = getRandomLetterString(LetterCase.LOWER);
+        }
+        else if (id == 6) {
+            result = getRandomLetterString(LetterCase.UPPER);
+        }
+
+     /*   if (id == TypingGame.Id.ONE_WORD ||
                 id == TypingGame.Id.ONE_SENTENCE) {
             if (!content.isEmpty()) {
                 result =  content.get(0);
@@ -347,13 +363,7 @@ public class GameActivity extends AppCompatActivity {
                 result = content.get(randomInt);
             }
 
-        }
-        else if (id == TypingGame.Id.LETTERS_LOWER_CASE) {
-            result = getRandomLetterString(LetterCase.LOWER);
-        }
-        else if (id == TypingGame.Id.LETTERS_UPPER_CASE) {
-            result = getRandomLetterString(LetterCase.UPPER);
-        }
+        } */
         return result;
 
     }

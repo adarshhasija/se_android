@@ -25,6 +25,7 @@ import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.adapter.ResultAdapter;
+import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.TypingGame;
 import com.starsearth.one.domain.Result;
 
@@ -38,6 +39,8 @@ public class GameResultActivity extends AppCompatActivity {
 
     private ArrayList<Result> list = new ArrayList<>();
     private DatabaseReference mDatabase;
+
+    Game game = null;
 
     private Button btnStart;
     private TextView tvInstruction;
@@ -55,9 +58,12 @@ public class GameResultActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 //if it is not the same game type, return
-                if (extras.getInt("game_id") != result.game_id) {
-                    return;
+                if (game != null) {
+                    if (game.id != result.game_id) {
+                        return;
+                    }
                 }
+
             }
 
           /*  if (mAdapter != null && list != null) {
@@ -188,15 +194,19 @@ public class GameResultActivity extends AppCompatActivity {
 
     private void setInstructionTextAndContent() {
         Bundle extras = getIntent().getExtras();
-        String levelString;
-        int game_id=0;
+
         if (extras != null) {
-            levelString = extras.getString("levelString");
-            game_id = extras.getInt("game_id");
+            if (game != null) {
+                String instructions = game.instructions;
+                tvInstruction.setText(instructions);
+            }
+
         }
         else {
             return;
         }
+     /*   String title;
+        int game_id=0;
         TypingGame game = new TypingGame();
         TypingGame.Id id = TypingGame.Id.fromInt(game_id);
         switch (id) {
@@ -229,7 +239,7 @@ public class GameResultActivity extends AppCompatActivity {
             default:
                 break;
 
-        }
+        }   */
     }
 
     private AlertDialog.Builder createAlertDialog() {
@@ -255,8 +265,12 @@ public class GameResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_typing_test_result);
 
         final Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
-            setTitle(Utils.formatStringFirstLetterCapital(extras.getString("subject")) + " - " + extras.getString("levelString"));
+            game = extras.getParcelable("game");
+            if (game != null) {
+                setTitle(Utils.formatStringFirstLetterCapital(game.title));
+            }
         }
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -289,8 +303,21 @@ public class GameResultActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                String subject = extras.getString("subject");
+
+                if (game != null) {
+                    Bundle analyticsBundle = new Bundle();
+                    analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
+                    analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.instructions);
+                    analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+
+                    Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("game", game);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 0);
+                }
+            /*    String subject = extras.getString("subject");
                 String levelString = extras.getString("levelString");
                 int id = extras.getInt("game_id");
                 bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, id);
@@ -299,7 +326,7 @@ public class GameResultActivity extends AppCompatActivity {
                 //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button start game: " + subject + " " + levelString);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-                Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
+
                 bundle.putStringArrayList("content", content);
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {
@@ -307,9 +334,8 @@ public class GameResultActivity extends AppCompatActivity {
                     bundle.putString("levelString", extras.getString("levelString"));
                     bundle.putInt("game_id", extras.getInt("game_id"));
                     bundle.putInt("level", extras.getInt("level"));
-                }
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
+                }   */
+
             }
         });
 
