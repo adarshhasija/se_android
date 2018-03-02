@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Game extends SEBaseObject {
 
-    public int id;
+    public int id; //local id...text file
     public String instructions;
 
     public Game() {

@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.starsearth.one.activity.lists.ItemListActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
     
     <LinearLayout
         android:id="@+id/ll_action"
         android:background="#D3D3D3"
         android:orientation="vertical"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -58,12 +66,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_top_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"

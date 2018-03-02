@@ -20,7 +20,7 @@ public class Result {
     public int words_correct;
     public int words_total_finished;
     public String subject;
-    public int level;
+    //public int level;
     public int game_id;
     public String level_string;
     public long timeTakenMillis;
@@ -56,7 +56,7 @@ public class Result {
         result.put("words_correct", words_correct);
         result.put("words_total_finished", words_total_finished);
         result.put("subject", subject);
-        result.put("level", level);
+        //result.put("level", level);
         result.put("level_string", level_string);
         result.put("game_id", game_id);
         result.put("timeTakenMillis", timeTakenMillis);

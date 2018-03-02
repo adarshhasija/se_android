@@ -90,7 +90,7 @@ public class MainSEActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-  /*  private void assistantStateChangeded(Assistant mAssistant) {
+    private void assistantStateChangeded(Assistant mAssistant) {
         if (mAssistant == null) {
             return;
         }
@@ -107,27 +107,29 @@ public class MainSEActivity extends AppCompatActivity {
             assistantStatus = getString(R.string.se_assistant_no_update);
         }
 
-        if (mAdapterTopMenu != null) mAdapterTopMenu.setSEAssistantStatus(assistantStatus);
-        //tvActionLine2.setText(assistantStatus);
+        //if (mAdapterTopMenu != null) mAdapterTopMenu.setSEAssistantStatus(assistantStatus);
+        tvActionLine2.setText(assistantStatus);
 
         if (llAction != null) {
             llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
         }
-    }   */
+    }
 
     private ChildEventListener mAssistantChildListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Assistant assistant = dataSnapshot.getValue(Assistant.class);
-            mAdapterTopMenu.addAssistant(assistant);
-            mAdapterTopMenu.assistantStateChanged(assistant);
-            mAdapterTopMenu.removeOldAssistantRecord(mDatabaseAssistantReference);
-            /*if (assistants.size() > 1) {
+            assistants.add(assistant);
+            //mAdapterTopMenu.addAssistant(assistant);
+            //mAdapterTopMenu.assistantStateChanged(assistant);
+            // mAdapterTopMenu.removeOldAssistantRecord(mDatabaseAssistantReference);
+            if (assistants.size() > 1) {
                 //delete old entry from the db
                 Assistant firstItem = assistants.get(0);
                 mDatabaseAssistantReference.child(firstItem.uid).removeValue();
                 assistants.remove(firstItem);
-            }   */
+            }
+            assistantStateChangeded(assistant);
         }
 
         @Override
@@ -156,12 +158,6 @@ public class MainSEActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Result result = dataSnapshot.getValue(Result.class);
             if (result != null) {
-                //MainMenuItem mainMenuItem = new MainMenuItem();
-                //mainMenuItem.subject = result.subject;
-                //mainMenuItem.levelString = result.level_string;
-                //mainMenuItem.gameId = TypingGame.Id.fromInt(result.game_id);
-                //mainMenuItem.lastTriedMillis = result.timestamp;
-
                 for (int i = 0; i < mAdapter.getItemCount(); i++) {
                     MainMenuItem menuItem = mAdapter.getObjectList().get(i);
                     if (menuItem.game.id  == result.game_id) {
@@ -169,7 +165,9 @@ public class MainSEActivity extends AppCompatActivity {
                         mAdapter.removeAt(i);
 
                         mainMenuItem.results.add(result); //add at the end
-                        mainMenuItem.results.remove(0); //remove the first(older) entry
+                        if (mainMenuItem.results.size() > 1) {
+                            mainMenuItem.results.remove(0); //remove the first(older) entry
+                        }
                         mAdapter.addItem(mainMenuItem);
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.getLayoutManager().scrollToPosition(0);
@@ -217,7 +215,7 @@ public class MainSEActivity extends AppCompatActivity {
         for (int i = 0; i < mainList.size(); i++) {
             TopMenuItem item = new TopMenuItem(mainList.get(i));
             if (i == 0) {
-                item.setText2(getString(R.string.se_assistant_tap_here_to_begin));
+                //item.setText2(getString(R.string.se_assistant_tap_here_to_begin));
             }
             items.add(item);
         }

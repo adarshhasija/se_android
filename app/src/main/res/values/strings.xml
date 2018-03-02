@@ -67,7 +67,7 @@
         <item>Typing - many sentences</item>
     </array>
     <array name="se_assistant_list">
-        <item>StarsEarth Teacher</item>
+        <!--<item>StarsEarth Teacher</item>-->
     </array>
     <array name="se_keyboard_test_list">
         <item>Keyboard Test</item>

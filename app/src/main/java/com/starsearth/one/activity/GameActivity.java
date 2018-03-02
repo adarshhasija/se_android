@@ -218,8 +218,6 @@ public class GameActivity extends AppCompatActivity {
 
     private void testCompleted() {
         mCountDownTimer.cancel();
-        AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
-        boolean isAccessibilityEnabled = am.isEnabled();
         Firebase firebase = new Firebase("results");
         firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, game.id); //subject, level, levelString, , );
 
@@ -393,6 +391,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void testCancelled() {
         firebaseAnalyticsGameCancelled(isBackPressed);
+        if (mCountDownTimer != null) mCountDownTimer.cancel();
         setResult(RESULT_CANCELED);
         finish();
     }
