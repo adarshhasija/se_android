@@ -10,11 +10,22 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+import com.starsearth.one.FileGames
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
+import com.starsearth.one.domain.Game
+import com.starsearth.one.domain.MainMenuItem
+import com.starsearth.one.domain.Result
 import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.util.*
 
 /**
  * A fragment representing a list of Items.
@@ -31,6 +42,51 @@ class MainMenuItemFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var mListener: OnListFragmentInteractionListener? = null
+    private var mDatabaseResultsReference: DatabaseReference? = null
+    private val mResultsChildListener = object : ChildEventListener {
+        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+            val result = dataSnapshot.getValue(Result::class.java)
+
+            val adapter = (view as RecyclerView).adapter
+            val itemCount = adapter.itemCount
+            for (i in 0 until itemCount) {
+                val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
+                if (menuItem.game.id == result?.game_id) {
+                    adapter.removeAt(i) //remove the entry from the list
+
+                    menuItem.results.add(result) //add at the end
+                    if (menuItem.results.size > 1) {
+                        menuItem.results.removeAt(0) //remove the first(older) result
+                    }
+                    adapter.addItem(menuItem)
+                    adapter.notifyDataSetChanged()
+                    (view as RecyclerView).layoutManager.scrollToPosition(0)
+                }
+            }
+
+
+            if (result != null) {
+
+            }
+
+        }
+
+        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+
+        }
+
+        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+
+        }
+
+        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +108,33 @@ class MainMenuItemFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            view.adapter = MyMainMenuItemRecyclerViewAdapter(DummyContent.ITEMS, mListener)
+            val mainMenuItems = getData()
+            view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener)
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if (currentUser != null) {
+                setupResultsListener(currentUser)
+
+            }
         }
         return view
+    }
+
+    fun getData(): ArrayList<MainMenuItem> {
+        val games = FileGames.openFile(getContext())
+        val mainMenuItems = ArrayList<MainMenuItem>()
+        for (game in games) {
+            val mainMenuItem = MainMenuItem()
+            mainMenuItem.game = game
+            mainMenuItems.add(mainMenuItem)
+        }
+        return mainMenuItems
+    }
+
+    private fun setupResultsListener(currentUser: FirebaseUser) {
+        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
+        mDatabaseResultsReference?.keepSynced(true)
+        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
+        query?.addChildEventListener(mResultsChildListener)
     }
 
 
@@ -70,6 +150,7 @@ class MainMenuItemFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
+        mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
     }
 
     /**

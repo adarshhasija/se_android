@@ -65,6 +65,10 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return mDataset;
     }
 
+    public MainMenuItem getItem(int index) {
+        return mDataset.get(index);
+    }
+
   /*  @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

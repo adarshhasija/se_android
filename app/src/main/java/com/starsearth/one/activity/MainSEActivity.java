@@ -35,6 +35,10 @@ import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.TopMenuItem;
 import com.starsearth.one.domain.TypingGame;
+import com.starsearth.one.fragments.MainMenuItemFragment;
+import com.starsearth.one.fragments.dummy.DummyContent;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -47,7 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-public class MainSEActivity extends AppCompatActivity {
+public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener {
 
     public String ANALYTICS_MAINSE_LOGIN = "mainse_login";
     public String ANALYTICS_MAINSE_SIGNUP = "mainse_signup";
@@ -303,6 +307,10 @@ public class MainSEActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_se);
+
+        MainMenuItemFragment mainMenuItemFragment = new MainMenuItemFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
@@ -571,5 +579,10 @@ public class MainSEActivity extends AppCompatActivity {
         //}
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(@NotNull DummyContent.DummyItem item) {
+
     }
 }
