@@ -1,10 +1,22 @@
 {
-id: 5
-title: small letters
+id:5
+title:small letters
 instructions: You will be shown some letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 }
 {
-id: 6
-title: capital letters
+id:6
+title:capital letters
 instructions: You will be shown some capital letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+}
+{
+id:1
+title:months - in order
+instructions: You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+content:January,February,March,April,May,June,July,August,September,October,November,December
+}
+{
+id:2
+title:months - not in order
+instructions:You will be shown the months of the year in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+content:January,February,March,April,May,June,July,August,September,October,November,December
 }

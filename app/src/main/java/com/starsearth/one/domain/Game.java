@@ -17,6 +17,7 @@ public class Game extends SEBaseObject {
 
     public int id; //local id...text file
     public String instructions;
+    public String[] content;
 
     public Game() {
         super();
@@ -26,6 +27,7 @@ public class Game extends SEBaseObject {
         super(in);
         id = in.readInt();
         instructions = in.readString();
+        content = in.createStringArray();
     }
 
     public static final Creator<Game> CREATOR = new Creator<Game>() {
@@ -45,6 +47,7 @@ public class Game extends SEBaseObject {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();
         result.put("id", id);
         result.put("instructions", instructions);
+        result.put("content", content);
 
         return result;
     }
@@ -59,6 +62,7 @@ public class Game extends SEBaseObject {
         super.writeToParcel(dest, flags);
         dest.writeInt(id);
         dest.writeString(instructions);
+        dest.writeStringArray(content);
     }
 
 }

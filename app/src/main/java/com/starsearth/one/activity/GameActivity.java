@@ -339,7 +339,15 @@ public class GameActivity extends AppCompatActivity {
             id = game.id;
         }
 
-        if (id == 5) {
+        if (id == 1) {
+            result = game.content[totalWordsFinished % 12];
+        }
+        else if (id == 2) {
+            Random random = new Random();
+            int i = random.nextInt(12);
+            result = game.content[i];
+        }
+        else if (id == 5) {
             result = getRandomLetterString(LetterCase.LOWER);
         }
         else if (id == 6) {

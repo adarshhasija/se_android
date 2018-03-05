@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -29,27 +31,40 @@ public class FileGames {
 
     private static String getDataString(String line) {
         String result = null;
-        String[] tmp = line.split(":");
-        if (tmp.length > 1) {
-            result = tmp[1].trim();
+        if (line != null) {
+            String[] tmp = line.split(":");
+            if (tmp.length > 1) {
+                result = tmp[1].trim();
+            }
         }
         return result;
     }
 
-    private static Game newGame(Vector<String> input) {
+    private static String[] getDataArray(String line) {
+        String[] result = null;
+        if (line != null) {
+            result = line.split(",");
+        }
+        return result;
+    }
+
+    private static Game newGame(HashMap<String, String> input) {
         if (input.size() == 0) {
             return null;
         }
         Game game = new Game();
-        game.id = getDataInt(input.get(0));
-        game.title = getDataString(input.get(1));
-        game.instructions = getDataString(input.get(2));
+        game.id = Integer.valueOf(input.get("id"));
+        game.title = input.get("title");
+        game.instructions = input.get("instructions");
+        game.content = getDataArray(input.get("content"));
+
         return game;
     }
 
     public static ArrayList<Game> openFile(Context context) {
         final AssetManager assetManager = context.getResources().getAssets();
         Vector<String> vector = new Vector<String>();
+        HashMap<String, String> map = new HashMap<>();
 
         ArrayList<Game> games = new ArrayList<>();
         BufferedReader br;
@@ -60,16 +75,19 @@ public class FileGames {
 
             while ((line = br.readLine()) != null) {
                 if (line.contains("{")) {
-                    vector.clear();
+                    //vector.clear();
+                    map.clear();
                 }
                 else if (line.contains("}")) {
-                    Game game = newGame(vector);
+                    Game game = newGame(map);
                     if (game != null) {
-                        games.add(newGame(vector));
+                        games.add(game);
                     }
                 }
                 else {
-                    vector.add(line);
+                    //vector.add(line);
+                    String[] tmp = line.split(":");
+                    map.put(tmp[0], tmp[1]);
                 }
             }
             br.close();
