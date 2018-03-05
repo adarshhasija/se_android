@@ -44,7 +44,7 @@ class MainMenuItemFragment : Fragment() {
     private var mListener: OnListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
-        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String) {
+        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
             val result = dataSnapshot.getValue(Result::class.java)
 
             val adapter = (view as RecyclerView).adapter
@@ -62,11 +62,6 @@ class MainMenuItemFragment : Fragment() {
                     adapter.notifyDataSetChanged()
                     (view as RecyclerView).layoutManager.scrollToPosition(0)
                 }
-            }
-
-
-            if (result != null) {
-
             }
 
         }
