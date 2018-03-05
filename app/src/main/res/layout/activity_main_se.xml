@@ -9,6 +9,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_top_menu"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -66,12 +67,19 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/fragment_container_top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/fragment_container_main_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"

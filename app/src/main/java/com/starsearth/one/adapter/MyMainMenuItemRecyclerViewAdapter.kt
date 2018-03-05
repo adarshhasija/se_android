@@ -45,7 +45,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         holder.mText2View.text = formatLatTriedTime(result)
 
         holder.mView.setOnClickListener {
-            //holder.mItem?.let { mListener?.onListFragmentInteraction(it) } //mListener?.onListFragmentInteraction(holder.mItem)
+            holder.mItem?.let { mListener?.onListFragmentInteraction(it) } //mListener?.onListFragmentInteraction(holder.mItem)
         }
     }
 

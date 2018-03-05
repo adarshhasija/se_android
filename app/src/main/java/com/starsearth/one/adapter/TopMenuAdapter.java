@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -17,11 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.AssistantActivity;
 import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.domain.Assistant;
-import com.starsearth.one.domain.MainMenuItem;
-import com.starsearth.one.domain.TopMenuItem;
+import com.starsearth.one.domain.MoreOptionsMenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +31,7 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
 
     private Context context;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private ArrayList<TopMenuItem> mDataset;
+    private ArrayList<MoreOptionsMenuItem> mDataset;
 
     private List<Assistant> assistants = new ArrayList<>();
 
@@ -52,7 +49,7 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-    public TopMenuAdapter(Context context, ArrayList<TopMenuItem> list) {
+    public TopMenuAdapter(Context context, ArrayList<MoreOptionsMenuItem> list) {
         this.context = context;
         this.mDataset = list;
     }
@@ -61,14 +58,14 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
     @Override
     public TopMenuAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_top_menu, parent, false);
+                .inflate(R.layout.list_item_more_options, parent, false);
         TopMenuAdapter.ViewHolder vh = new TopMenuAdapter.ViewHolder(cardView);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final TopMenuItem item = mDataset.get(position);
+        final MoreOptionsMenuItem item = mDataset.get(position);
         holder.mTextView1.setText(item.getText1());
         holder.mTextView2.setText(item.getText2());
 

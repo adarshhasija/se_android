@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.adapter.MainSEAdapter;
 import com.starsearth.one.adapter.TopMenuAdapter;
@@ -33,16 +34,14 @@ import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.Game;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
-import com.starsearth.one.domain.TopMenuItem;
-import com.starsearth.one.domain.TypingGame;
+import com.starsearth.one.domain.MoreOptionsMenuItem;
 import com.starsearth.one.fragments.MainMenuItemFragment;
+import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
 import com.starsearth.one.fragments.dummy.DummyContent;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,7 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener {
+public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
     public String ANALYTICS_MAINSE_LOGIN = "mainse_login";
     public String ANALYTICS_MAINSE_SIGNUP = "mainse_signup";
@@ -88,11 +87,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     private RecyclerView.LayoutManager mLayoutManagerHorizontal;
 
 
-    public void sendAnalytics(String selected) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-    }
+
 
     private void assistantStateChangeded(Assistant mAssistant) {
         if (mAssistant == null) {
@@ -212,12 +207,12 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         mLayoutManagerHorizontal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerViewTopMenu.setLayoutManager(mLayoutManagerHorizontal);
 
-        ArrayList<TopMenuItem> items = new ArrayList<>();
+        ArrayList<MoreOptionsMenuItem> items = new ArrayList<>();
         ArrayList<String> mainList = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.se_assistant_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_keyboard_test_list)));
         mainList.addAll(Arrays.asList(getResources().getStringArray(R.array.se_user_account_list)));
         for (int i = 0; i < mainList.size(); i++) {
-            TopMenuItem item = new TopMenuItem(mainList.get(i));
+            MoreOptionsMenuItem item = new MoreOptionsMenuItem(mainList.get(i));
             if (i == 0) {
                 //item.setText2(getString(R.string.se_assistant_tap_here_to_begin));
             }
@@ -311,6 +306,10 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         MainMenuItemFragment mainMenuItemFragment = new MainMenuItemFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
+
+        MoreOptionsMenuItemFragment moreOptionsMenuItemFragment = new MoreOptionsMenuItemFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container_top_menu, moreOptionsMenuItemFragment).commit();
 
         llAction = (LinearLayout) findViewById(R.id.ll_action);
         llAction.setVisibility(View.GONE);
@@ -581,8 +580,48 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onListFragmentInteraction(@NotNull DummyContent.DummyItem item) {
+    public void sendAnalytics(Game game) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
+        if (mFirebaseAnalytics != null) {
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
+    }
 
+    public void sendAnalytics(String selected) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected);
+        if (mFirebaseAnalytics != null) {
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        }
+    }
+
+    @Override
+    public void onListFragmentInteraction(@NotNull MainMenuItem item) {
+        Game game = item.game;
+        sendAnalytics(game);
+        Intent intent = new Intent(this, GameResultActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("game", game);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+        sendAnalytics(item.getText1());
+        Intent intent;
+        Bundle bundle;
+        String title = item.getText1();
+        if (title != null && title.contains("Keyboard")) {
+            intent = new Intent(this, KeyboardActivity.class);
+            startActivity(intent);
+        }
+        else if (title != null && title.contains("Phone")) {
+            intent = new Intent(this, PhoneNumberActivity.class);
+            startActivity(intent);
+        }
     }
 }

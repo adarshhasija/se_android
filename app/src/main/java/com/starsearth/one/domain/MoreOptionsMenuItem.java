@@ -4,12 +4,12 @@ package com.starsearth.one.domain;
  * Created by faimac on 2/27/18.
  */
 
-public class TopMenuItem {
+public class MoreOptionsMenuItem {
 
     private String text1;
     private String text2;
 
-    public TopMenuItem(String text1) {
+    public MoreOptionsMenuItem(String text1) {
         this.text1 = text1;
     }
 
