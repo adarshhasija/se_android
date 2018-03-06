@@ -240,7 +240,7 @@ public class GameActivity extends AppCompatActivity {
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
         //bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
@@ -251,7 +251,7 @@ public class GameActivity extends AppCompatActivity {
     private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putBoolean("back_button_pressed", backButtonPressed);
         mFirebaseAnalytics.logEvent("game_cancelled", bundle);
@@ -332,7 +332,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public String generateContent() {
-        //TypingGame.Id id = TypingGame.Id.fromInt(gameId);
         String result = null;
         int id=-1;
         if (game != null) {
