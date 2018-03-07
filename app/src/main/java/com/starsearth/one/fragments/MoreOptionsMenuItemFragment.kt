@@ -48,7 +48,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
         if (view is RecyclerView) {
             val context = view.getContext()
             if (mColumnCount <= 1) {
-                view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }

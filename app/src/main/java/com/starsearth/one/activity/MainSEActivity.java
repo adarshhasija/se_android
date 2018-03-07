@@ -1,5 +1,6 @@
 package com.starsearth.one.activity;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;

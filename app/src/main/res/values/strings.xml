@@ -324,5 +324,7 @@
     <string name="not_good">not good</string>
     <string name="last_tried">Last tried: %s</string>
     <string name="title_activity_full_name">FullNameActivity</string>
+    <string name="title_activity_tabbed">One</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

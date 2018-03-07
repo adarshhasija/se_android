@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.MainSEActivity;
+import com.starsearth.one.activity.TabbedActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
 
@@ -133,7 +134,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
     }
 
     private void redirectToMainMenu(Bundle bundle) {
-        Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
+        Intent intent = new Intent(WelcomeOneActivity.this, TabbedActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
