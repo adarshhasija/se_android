@@ -66,7 +66,7 @@ class MainMenuItemFragment : Fragment() {
 
         }
 
-        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String) {
+        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
 
         }
 
@@ -74,7 +74,7 @@ class MainMenuItemFragment : Fragment() {
 
         }
 
-        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String) {
+        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
 
         }
 
