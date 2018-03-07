@@ -127,7 +127,7 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
                 MainMenuItem mainMenuItem = mDataset.get(position);
                 Game game = mainMenuItem.game;
 
-                if (game != null) sendAnalytics(game.id, game.title);
+                if (game != null) sendAnalytics(game.uid, game.title);
                 Intent intent = new Intent(context, GameResultActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("game", game);
@@ -142,9 +142,9 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
 
     }
 
-    public void sendAnalytics(int id, String name) {
+    public void sendAnalytics(String id, String name) {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
         if (firebaseAnalytics != null) {

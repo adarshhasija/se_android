@@ -38,9 +38,8 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         holder.mItem = mValues[position]
         val game = holder.mItem?.game
         val results = holder.mItem?.results
-        //holder.mText1View.text = mValues[position].id
-        //holder.mContentView.text = mValues[position].content
-        holder.mText1View.text = game?.title
+
+         game?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
         val result = results?.getOrNull(0)
         holder.mText2View.text = formatLatTriedTime(result)
 

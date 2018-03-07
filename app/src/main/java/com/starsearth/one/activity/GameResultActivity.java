@@ -182,14 +182,8 @@ public class GameResultActivity extends AppCompatActivity {
     }
 
     private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
-      /*  if (highScore) {
-            Toast.makeText(getApplicationContext(), getString(R.string.high_score) + " " + words_correct, Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
-        }   */
-        Toast.makeText(getApplicationContext(), words_correct + " " + getString(R.string.words_per_minute) + " " + getString(R.string.accuracy) + " " + mAdapter.getAccuracy(words_correct, words_total_finished) + "%", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), words_correct + " " + getString(R.string.words_per_minute) + " " + getString(R.string.accuracy) + " " + mAdapter.getAccuracy(words_correct, words_total_finished) + "%", Toast.LENGTH_LONG).show();
     }
 
     private void setInstructionTextAndContent() {
@@ -205,41 +199,6 @@ public class GameResultActivity extends AppCompatActivity {
         else {
             return;
         }
-     /*   String title;
-        int game_id=0;
-        TypingGame game = new TypingGame();
-        TypingGame.Id id = TypingGame.Id.fromInt(game_id);
-        switch (id) {
-            case ONE_WORD:
-                content.add(game.words.get(0));
-                tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_word), content.get(0)));
-                break;
-            case MANY_WORDS:
-                for (String word : game.words) {
-                    content.add(word);
-                }
-                tvInstruction.setText(getString(R.string.typing_game_instructions_many_words));
-                break;
-            case ONE_SENTENCE:
-                content.add(game.sentences.get(0));
-                tvInstruction.setText(String.format(getString(R.string.typing_game_instructions_1_sentence), content.get(0)));
-                break;
-            case MANY_SENTENCES:
-                for (String sentence : game.sentences) {
-                    content.add(sentence);
-                }
-                tvInstruction.setText(getString(R.string.typing_game_instructions_many_sentences));
-                break;
-            case LETTERS_LOWER_CASE:
-                tvInstruction.setText(getString(R.string.typing_game_instructions_letters_small));
-                break;
-            case LETTERS_UPPER_CASE:
-                tvInstruction.setText(getString(R.string.typing_game_instructions_letters_capital));
-                break;
-            default:
-                break;
-
-        }   */
     }
 
     private AlertDialog.Builder createAlertDialog() {

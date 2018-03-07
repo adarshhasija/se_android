@@ -21,7 +21,7 @@ public class Result {
     public int words_total_finished;
     public String subject;
     //public int level;
-    public int game_id;
+    public int game_id; //id for game as INT
     public String level_string;
     public long timeTakenMillis;
     public long timestamp;

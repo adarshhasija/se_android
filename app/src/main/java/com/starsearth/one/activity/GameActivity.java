@@ -335,40 +335,27 @@ public class GameActivity extends AppCompatActivity {
         String result = null;
         int id=-1;
         if (game != null) {
-            id = game.id;
+            id = Integer.valueOf(game.id);
         }
 
-        if (id == 1) {
-            result = game.content[totalWordsFinished % 12];
-        }
-        else if (id == 2) {
-            Random random = new Random();
-            int i = random.nextInt(12);
-            result = game.content[i];
-        }
-        else if (id == 5) {
-            result = getRandomLetterString(LetterCase.LOWER);
-        }
-        else if (id == 6) {
-            result = getRandomLetterString(LetterCase.UPPER);
-        }
-
-     /*   if (id == TypingGame.Id.ONE_WORD ||
-                id == TypingGame.Id.ONE_SENTENCE) {
-            if (!content.isEmpty()) {
-                result =  content.get(0);
-            }
-
-        }
-        else if (id == TypingGame.Id.MANY_WORDS ||
-                    id == TypingGame.Id.MANY_SENTENCES) {
-            if (!content.isEmpty()) {
+        switch (id) {
+            case 1:
+                result = game.content[totalWordsFinished % 12];
+                break;
+            case 2:
                 Random random = new Random();
-                int randomInt = random.nextInt(content.size());
-                result = content.get(randomInt);
-            }
+                int i = random.nextInt(12);
+                result = game.content[i];
+                break;
+            case 5:
+                result = getRandomLetterString(LetterCase.LOWER);
+                break;
+            case 6:
+                result = getRandomLetterString(LetterCase.UPPER);
+                break;
+            default: break;
 
-        } */
+        }
         return result;
 
     }
