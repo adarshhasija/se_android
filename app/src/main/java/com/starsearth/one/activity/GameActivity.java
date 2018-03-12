@@ -23,10 +23,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Game;
-import com.starsearth.one.domain.TypingGame;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {

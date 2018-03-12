@@ -13,6 +13,7 @@ import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Question;
+import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 import com.starsearth.one.domain.Result;
@@ -266,7 +267,7 @@ public class Firebase {
     public String writeNewResult(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Result testResult = new Result(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId);
+        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -276,21 +277,21 @@ public class Firebase {
         return key;
     }
 
-    public void updateExistingTypingTestResult(String key, Result result) {
+    public void updateExistingTypingTestResult(String key, ResultTyping result) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = result.toMap();
-        values.put("characters_correct", result.characters_correct);
-        values.put("words_correct", result.words_correct);
+        values.put("characters_correct", result.getCharacters_correct());
+        values.put("words_correct", result.getWords_correct());
         values.put("timeTakenMillis", result.timeTakenMillis);
         values.put("timestamp", ServerValue.TIMESTAMP);
         databaseReference.child(key).setValue(values);
     }
 
-    public void updateExistingResult(String key, Result result) {
+    public void updateExistingResult(String key, ResultTyping result) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Map<String, Object> values = result.toMap();
-        values.put("characters_correct", result.characters_correct);
-        values.put("words_correct", result.words_correct);
+        values.put("characters_correct", result.getCharacters_correct());
+        values.put("words_correct", result.getWords_correct());
         values.put("timeTakenMillis", result.timeTakenMillis);
         values.put("timestamp", ServerValue.TIMESTAMP);
         databaseReference.child(key).setValue(values);

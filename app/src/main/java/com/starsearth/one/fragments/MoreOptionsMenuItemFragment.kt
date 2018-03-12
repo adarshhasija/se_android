@@ -15,6 +15,9 @@ import com.starsearth.one.adapter.MyMoreOptionsMenuItemRecyclerViewAdapter
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import java.util.*
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 /**
  * A fragment representing a list of Items.
@@ -49,6 +52,8 @@ class MoreOptionsMenuItemFragment : Fragment() {
             val context = view.getContext()
             if (mColumnCount <= 1) {
                 view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                view.addItemDecoration(DividerItemDecoration(context,
+                        DividerItemDecoration.VERTICAL))
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }

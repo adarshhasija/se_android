@@ -57,6 +57,7 @@ public class FileGames {
         game.title = input.get("title");
         game.instructions = input.get("instructions");
         game.content = getDataArray(input.get("content"));
+        game.type = Game.Type.fromInt(Integer.valueOf(input.get("type")));
 
         return game;
     }

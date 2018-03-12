@@ -1,5 +1,6 @@
 package com.starsearth.one.activity
 
+import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -13,8 +14,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.profile.PhoneNumberActivity
+import com.starsearth.one.domain.Game
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.MainMenuItemFragment
@@ -24,12 +28,43 @@ import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
+    fun sendAnalytics(game: Game) {
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
+    fun sendAnalytics(selected: String) {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
     override fun onListFragmentInteraction(item: MoreOptionsMenuItem) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sendAnalytics(item.text1)
+        val intent: Intent
+        val title = item.text1
+        if (title != null && title.contains("Keyboard")) {
+            intent = Intent(this, KeyboardActivity::class.java)
+            startActivity(intent)
+        } else if (title != null && title.contains("Phone")) {
+            intent = Intent(this, PhoneNumberActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onListFragmentInteraction(item: MainMenuItem) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val game = item.game
+        sendAnalytics(game)
+        val intent = Intent(this, GameResultActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("game", game)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
 
@@ -44,9 +79,11 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tabbed)
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
@@ -110,7 +147,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
             var title : CharSequence = "More"
             when (position) {
                 0 -> {
-                    title = "Games"
+                    title = "Main"
                 }
                 else -> {
                 }

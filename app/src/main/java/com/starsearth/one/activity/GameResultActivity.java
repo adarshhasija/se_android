@@ -2,6 +2,7 @@ package com.starsearth.one.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,13 +26,18 @@ import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.adapter.ResultAdapter;
+import com.starsearth.one.adapter.ResultTypingAdapter;
 import com.starsearth.one.domain.Game;
-import com.starsearth.one.domain.TypingGame;
 import com.starsearth.one.domain.Result;
+import com.starsearth.one.domain.ResultTyping;
+import com.starsearth.one.fragments.ResultFragment;
+import com.starsearth.one.fragments.ResultTypingFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class GameResultActivity extends AppCompatActivity {
+public class GameResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
 
     public static int MAX_NUMBER_IN_LIST = 1;
 
@@ -48,18 +54,16 @@ public class GameResultActivity extends AppCompatActivity {
     private ResultAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private ArrayList<String> content = new ArrayList<>();
-
     private ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            Result result = dataSnapshot.getValue(Result.class);
+            Result result = null; dataSnapshot.getValue(Result.class);
 
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 //if it is not the same game type, return
                 if (game != null) {
-                    if (game.id != result.game_id) {
+                    if (game.id != result.getTask_id()) {
                         return;
                     }
                 }
@@ -101,13 +105,21 @@ public class GameResultActivity extends AppCompatActivity {
 
             int index = 0; //indexToInsert(result);
             if (mAdapter != null && list != null) {
-                if (index == -1)  {
+                switch (game.type) {
+                    case TYPING_TIMED:
+                        ResultTyping resultTyping = null; dataSnapshot.getValue(ResultTyping.class);
+                        list.add(index,resultTyping);
+                        break;
+                    default:
+                        break;
+                }
+              /*  if (index == -1)  {
                     //if -1, insert at the end of the list
                     list.add(result);
                 }
                 else {
                     list.add(index,result);
-                }
+                }   */
 
                 if (list.size() > MAX_NUMBER_IN_LIST) {
                     //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
@@ -148,7 +160,8 @@ public class GameResultActivity extends AppCompatActivity {
         boolean result = false;
         if (!list.isEmpty()) {
             Result highScore = list.get(0);
-            if (correct > highScore.words_correct
+            if (true
+                    //correct > highScore.words_correct
                     //&& mAdapter.getAccuracy(correct, totalFinished) > mAdapter.getAccuracy(highScore.words_correct, highScore.words_total_finished)
                     ) {
                 result = true;
@@ -171,12 +184,12 @@ public class GameResultActivity extends AppCompatActivity {
             return 0;
         }
 
-        for (int i = 0; i < list.size(); i++) {
+       /* for (int i = 0; i < list.size(); i++) {
             Result listItem = list.get(i);
             if (result.words_correct > listItem.words_correct) {
                 return i;
             }
-        }
+        }   */
         //If the score is smaller than all current scores, add it in the end
         return -1;
     }
@@ -227,10 +240,8 @@ public class GameResultActivity extends AppCompatActivity {
 
         if (extras != null) {
             game = extras.getParcelable("game");
-            if (game != null) {
-                setTitle(Utils.formatStringFirstLetterCapital(game.title));
-            }
         }
+
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -245,7 +256,16 @@ public class GameResultActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ResultAdapter(getApplicationContext(), list);
+        if (game != null) {
+            switch (game.type) {
+                case TYPING_TIMED:
+                    ArrayList<ResultTyping> list = new ArrayList<>();
+                    mAdapter = new ResultTypingAdapter(getApplicationContext(), list);
+                    break;
+                default:break;
+            }
+        }
+
         mRecyclerView.setAdapter(mAdapter);
 
         tvInstruction = (TextView) findViewById(R.id.tv_instruction);
@@ -256,7 +276,7 @@ public class GameResultActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("results");
         mDatabase.keepSynced(true);
         Query query = mDatabase.orderByChild("userId").equalTo(currentUser.getUid());
-        query.addChildEventListener(childEventListener);
+        //query.addChildEventListener(childEventListener);
 
         btnStart = (Button) findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -276,29 +296,33 @@ public class GameResultActivity extends AppCompatActivity {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, 0);
                 }
-            /*    String subject = extras.getString("subject");
-                String levelString = extras.getString("levelString");
-                int id = extras.getInt("game_id");
-                bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, id);
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, subject + " " + levelString);
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
-                //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Button start game: " + subject + " " + levelString);
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-
-                bundle.putStringArrayList("content", content);
-                Bundle extras = getIntent().getExtras();
-                if (extras != null) {
-                    bundle.putString("subject", extras.getString("subject"));
-                    bundle.putString("levelString", extras.getString("levelString"));
-                    bundle.putInt("game_id", extras.getInt("game_id"));
-                    bundle.putInt("level", extras.getInt("level"));
-                }   */
 
             }
         });
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (game != null) {
+            setTitle(Utils.formatStringFirstLetterCapital(game.title));
+            ResultFragment fragment = ResultFragment.Companion.newInstance(game);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container_main, fragment).commit();
+
+            switch (game.type) {
+                case TYPING_TIMED:
+                    ResultTypingFragment fragment2 = ResultTypingFragment.Companion.newInstance(game);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container_list, fragment2).commit();
+                    break;
+                default: break;
+            }
+
+        }
     }
 
     @Override
@@ -329,5 +353,32 @@ public class GameResultActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.removeEventListener(childEventListener);
+    }
+
+    private void sendAnalytics(Game game) {
+        Bundle analyticsBundle = new Bundle();
+        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.instructions);
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+    }
+
+    private void startGame(Game game) {
+        Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("game", game);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onFragmentInteraction(@NotNull Game game) {
+        sendAnalytics(game);
+        startGame(game);
+    }
+
+    @Override
+    public void onListFragmentInteraction(@NotNull ResultTyping item) {
+
     }
 }

@@ -1,6 +1,5 @@
 package com.starsearth.one.fragments
 
-//import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,25 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.starsearth.one.FileGames
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
+import com.starsearth.one.adapter.MyResultTypingRecyclerViewAdapter
 import com.starsearth.one.domain.Game
-import com.starsearth.one.domain.MainMenuItem
-import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
-import com.starsearth.one.fragments.dummy.DummyContent
-import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.util.*
-import android.support.v7.widget.DividerItemDecoration
-
-
 
 /**
  * A fragment representing a list of Items.
@@ -42,32 +29,29 @@ import android.support.v7.widget.DividerItemDecoration
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class MainMenuItemFragment : Fragment() {
+class ResultTypingFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
+    private var mGame: Game? = null
+    private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
-    private var mDatabaseResultsReference: DatabaseReference? = null
-    private val mResultsChildListener = object : ChildEventListener {
+
+    private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val result = dataSnapshot.getValue(Result::class.java)
-
-            val adapter = (view as RecyclerView).adapter
-            val itemCount = adapter.itemCount
-            for (i in 0 until itemCount) {
-                val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
-                if (menuItem.game.id == result?.task_id) {
-                    adapter.removeAt(i) //remove the entry from the list
-
-                    menuItem.results.add(result) //add at the end
-                    if (menuItem.results.size > 1) {
-                        menuItem.results.removeAt(0) //remove the first(older) result
-                    }
-                    adapter.addItem(menuItem)
-                    adapter.notifyDataSetChanged()
-                    (view as RecyclerView).layoutManager.scrollToPosition(0)
-                }
+            val resultTyping = dataSnapshot.getValue(ResultTyping::class.java)
+            if (mGame?.id != resultTyping!!.task_id) {
+                return
             }
+            val adapter = (view as RecyclerView).adapter
+            (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
 
+            if (adapter.itemCount > 1) {
+                //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
+                val lastItem = adapter.getItem(adapter.itemCount - 1)
+                mDatabase?.child(lastItem.uid)?.removeValue() //delete from the database
+                adapter.removeItem(lastItem)
+            }
+            adapter.notifyDataSetChanged()
         }
 
         override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
@@ -91,47 +75,32 @@ class MainMenuItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mColumnCount = arguments.getInt(ARG_COLUMN_COUNT)
+            mGame = arguments.getParcelable(ARG_GAME)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_mainmenuitem_list, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_resulttyping_list, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
             val context = view.getContext()
             if (mColumnCount <= 1) {
                 view.layoutManager = LinearLayoutManager(context)
-                view.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val mainMenuItems = getData()
-            view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener)
-            FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+            val items = ArrayList<ResultTyping>()
+            view.adapter = MyResultTypingRecyclerViewAdapter(items, mListener)
+
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            mDatabase = FirebaseDatabase.getInstance().getReference("results")
+            mDatabase?.keepSynced(true)
+            val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
+            query?.addChildEventListener(mChildEventListener);
         }
         return view
-    }
-
-    fun getData(): ArrayList<MainMenuItem> {
-        val games = FileGames.openFile(getContext())
-        val mainMenuItems = ArrayList<MainMenuItem>()
-        for (game in games) {
-            val mainMenuItem = MainMenuItem()
-            mainMenuItem.game = game
-            mainMenuItems.add(mainMenuItem)
-        }
-        return mainMenuItems
-    }
-
-    private fun setupResultsListener(currentUser: FirebaseUser) {
-        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
-        mDatabaseResultsReference?.keepSynced(true)
-        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
-        query?.addChildEventListener(mResultsChildListener)
     }
 
 
@@ -147,7 +116,7 @@ class MainMenuItemFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
-        mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
+        mDatabase?.removeEventListener(mChildEventListener)
     }
 
     /**
@@ -161,19 +130,19 @@ class MainMenuItemFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: MainMenuItem)
+        fun onListFragmentInteraction(item: ResultTyping)
     }
 
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_COLUMN_COUNT = "column-count"
+        private val ARG_GAME = "game"
 
         // TODO: Customize parameter initialization
-        fun newInstance(columnCount: Int): MainMenuItemFragment {
-            val fragment = MainMenuItemFragment()
+        fun newInstance(game: Game): ResultTypingFragment {
+            val fragment = ResultTypingFragment()
             val args = Bundle()
-            args.putInt(ARG_COLUMN_COUNT, columnCount)
+            args.putParcelable(ARG_GAME, game)
             fragment.arguments = args
             return fragment
         }

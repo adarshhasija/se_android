@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Result;
+import com.starsearth.one.domain.ResultTyping;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,19 +25,10 @@ import java.util.TimeZone;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
 
-    private Context mContext;
-    private ArrayList<Result> mDataset;
-    private String mType = null;
+    protected Context mContext;
 
-    public ResultAdapter(Context context, ArrayList<Result> myDataset) {
+    public ResultAdapter(Context context) {
         mContext = context;
-        mDataset = myDataset;
-    }
-
-    public ResultAdapter(Context context, ArrayList<Result> myDataset, String type) {
-        mContext = context;
-        mDataset = myDataset;
-        mType = type;
     }
 
     @Override
@@ -47,22 +39,14 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         return vh;
     }
 
-    public int getAccuracy(int wordsCorrect, int wordsTotalFinished) {
-        double accuracy = (double) wordsCorrect/wordsTotalFinished;
-        double accuracyPercentage = Math.ceil(accuracy*100);
-        int accuracyPercentageInt = (int) accuracyPercentage;
-        return accuracyPercentageInt;
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Result result = mDataset.get(position);
-        int wordsCorrect = result.words_correct;
-        int wordsTotalFinished = result.words_total_finished;
-        int accuracyPercentageInt = getAccuracy(wordsCorrect, wordsTotalFinished);
+     /*   Result result = mDataset.get(position);
+        //int wordsCorrect = result.words_correct;
+        //int wordsTotalFinished = result.words_total_finished;
         long timeTakenMillis = result.timeTakenMillis;
-        holder.mScoreTextView.setText(mContext.getResources().getString(R.string.words_correct) + ": " + wordsCorrect + " out of " + wordsTotalFinished);
-        holder.mAccuracyTextView.setText(mContext.getResources().getString(R.string.accuracy) + ": " + accuracyPercentageInt + "%");
+        //holder.mScoreTextView.setText(mContext.getResources().getString(R.string.words_correct) + ": " + wordsCorrect + " out of " + wordsTotalFinished);
+        //holder.mAccuracyTextView.setText(mContext.getResources().getString(R.string.accuracy) + ": " + result.getAccuracy() + "%");
 
         if (timeTakenMillis/1000 < 10) {
             holder.mTimeTakenTextView.setText(mContext.getResources().getString(R.string.time_taken) +
@@ -82,16 +66,16 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
             holder.mWpmLastScore.setVisibility(View.VISIBLE);
             holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
-        }   */
-        holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
+        }
+        holder.mWpmLastScore.setText(Integer.toString(result.getScore()));
         holder.mWpmLastScore.setVisibility(View.VISIBLE);
-        holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
+        holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));  */
 
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return 0; //mDataset.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,8 +93,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             mMainLabel = (TextView) ll.findViewById(R.id.tv_label_main);
             mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
             mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
-            mWpmHighScore = (TextView) ll.findViewById(R.id.tv_wpm_high_score);
-            mWpmLastScore = (TextView) ll.findViewById(R.id.tv_wpm_last_score);
+            mWpmHighScore = (TextView) ll.findViewById(R.id.tv_high_score);
+            mWpmLastScore = (TextView) ll.findViewById(R.id.tv_last_score);
             mAccuracyTextView = (TextView) ll.findViewById(R.id.tv_accuracy);
         }
     }

@@ -9,12 +9,7 @@ import java.util.List;
 
 public class MainMenuItem {
 
-    public String subject;
-    public String levelString;
-    public TypingGame.Id gameId;
     public long lastTriedMillis;
-    public String other; //Phone number/email etc
-
     public Game game;
     public List<Result> results = new ArrayList<>(); //This should only contain the most recent result
 

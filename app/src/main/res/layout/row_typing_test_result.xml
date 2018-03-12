@@ -32,7 +32,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_wpm_high_score"
+                    android:id="@+id/tv_high_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -42,12 +42,11 @@
                     android:text="---" />
 
                 <TextView
-                    android:id="@+id/tv_wpm_last_score"
+                    android:id="@+id/tv_last_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:visibility="gone"
                     android:textSize="30sp"
                     android:text="---" />
 

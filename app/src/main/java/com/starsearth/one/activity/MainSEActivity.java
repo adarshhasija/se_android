@@ -246,7 +246,6 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     public void onListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
         sendAnalytics(item.getText1());
         Intent intent;
-        Bundle bundle;
         String title = item.getText1();
         if (title != null && title.contains("Keyboard")) {
             intent = new Intent(this, KeyboardActivity.class);

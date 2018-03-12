@@ -18,6 +18,38 @@ public class Game extends SEBaseObject {
     public int id; //local id...text file
     public String instructions;
     public String[] content;
+    public Type type;
+    public boolean timed;
+    public int durationMillis;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public enum Type {
+        TYPING_TIMED(1);
+
+        private final long value;
+
+        Type(long value) {
+            this.value = value;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        public static Type fromInt(long i) {
+            for (Type type : Type.values()) {
+                if (type.getValue() == i) { return type; }
+            }
+            return null;
+        }
+    };
 
     public Game() {
         super();
@@ -28,6 +60,7 @@ public class Game extends SEBaseObject {
         id = in.readInt();
         instructions = in.readString();
         content = in.createStringArray();
+        type = Type.fromInt(in.readInt());
     }
 
     public static final Creator<Game> CREATOR = new Creator<Game>() {
@@ -63,6 +96,7 @@ public class Game extends SEBaseObject {
         dest.writeInt(id);
         dest.writeString(instructions);
         dest.writeStringArray(content);
+        dest.writeInt((int) type.getValue());
     }
 
 }
