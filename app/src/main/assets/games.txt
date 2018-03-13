@@ -1,34 +1,50 @@
 {
 id:5
 type:1
-timed:1
+timed:true
 durationMillis:61000
 title:small letters
 instructions: You will be shown some letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+content:a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
+ordered:false
 }
 {
 id:6
 type:1
-timed:1
+timed:true
 durationMillis:61000
 title:capital letters
 instructions: You will be shown some capital letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+content:A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+ordered:false
 }
 {
 id:1
 type:1
-timed:1
+timed:true
 durationMillis:61000
 title:months - in order
 instructions: You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:January,February,March,April,May,June,July,August,September,October,November,December
+ordered:true
 }
 {
 id:2
 type:1
-timed:1
-duration:61000
+timed:true
+durationMillis:61000
 title:months - not in order
 instructions:You will be shown the months of the year in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:January,February,March,April,May,June,July,August,September,October,November,December
+ordered:false
+}
+{
+id:7
+type:1
+timed:true
+durationMillis:61000
+title:most common English words
+instructions:You will be shown the most common English words in random order. Type as many as you can within 1 minute. Your most recent score will be displayed here
+content:the,be,to,of,and,a,in,that,have,it,for,not,on,with,he,as,you,do,at,this,but,his,by,from,they,we,say,her,she,or,an,will,my,one,all,would,their,there,what,so,up,out,if,about,who
+ordered:false
 }

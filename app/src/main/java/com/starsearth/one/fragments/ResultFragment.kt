@@ -46,6 +46,17 @@ class ResultFragment : Fragment() {
         val tv = v.findViewById(R.id.tv_instruction)
         (tv as TextView).text = mGame?.instructions
 
+
+        when (mGame?.type) {
+            Game.Type.TYPING_TIMED -> {
+                val listFragment = ResultTypingFragment.newInstance(mGame!!)
+                val transaction = childFragmentManager.beginTransaction()
+                transaction.add(R.id.fragment_container_list, listFragment).commit()
+            }
+            else -> {
+            }
+        }
+
         return v
     }
 

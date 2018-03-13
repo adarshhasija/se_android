@@ -57,7 +57,10 @@ public class FileGames {
         game.title = input.get("title");
         game.instructions = input.get("instructions");
         game.content = getDataArray(input.get("content"));
-        game.type = Game.Type.fromInt(Integer.valueOf(input.get("type")));
+        if (input.get("type") != null) game.type = Game.Type.fromInt(Integer.valueOf(input.get("type")));
+        game.ordered = Boolean.parseBoolean(input.get("ordered"));
+        game.timed = Boolean.parseBoolean(input.get("timed"));
+        if (input.get("durationMillis") != null) game.durationMillis = Integer.valueOf(input.get("durationMillis"));
 
         return game;
     }

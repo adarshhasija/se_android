@@ -313,14 +313,6 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit();
 
-            switch (game.type) {
-                case TYPING_TIMED:
-                    ResultTypingFragment fragment2 = ResultTypingFragment.Companion.newInstance(game);
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragment_container_list, fragment2).commit();
-                    break;
-                default: break;
-            }
 
         }
     }

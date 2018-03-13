@@ -24,7 +24,8 @@ import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Game;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
@@ -47,13 +48,7 @@ public class GameActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private boolean isBackPressed = false; //This flag is change on onBackPressed and used in onPause
 
-    private String subject;
-    private int level;
-    private String levelString;
-    private int gameId;
-
     private Game game;
-    private ArrayList<String> content = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +59,6 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            //subject = extras.getString("subject");
-            //level = extras.getInt("level");
-            //levelString = extras.getString("levelString");
-            //gameId = extras.getInt("game_id");
-            //content = extras.getStringArrayList("content");
             game = extras.getParcelable("game");
         }
 
@@ -84,11 +74,11 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         tvMain = (TextView) findViewById(R.id.tv_main);
-        nextSentence();
+        nextItem();
 
 
         mTimer = (TextView) findViewById(R.id.tv_timer);
-        mCountDownTimer = new CountDownTimer(61000, 1000) {
+        mCountDownTimer = new CountDownTimer(game.durationMillis, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
@@ -173,7 +163,7 @@ public class GameActivity extends AppCompatActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            nextSentence(); //One millis delay so user can see the result of last letter before sentence changes
+                            nextItem(); //One millis delay so user can see the result of last letter before sentence changes
                         }
                     },
                     100);
@@ -237,18 +227,17 @@ public class GameActivity extends AppCompatActivity {
 
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
-        //bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
-        //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Game complete: " + subject + " " + levelString);
+
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
     }
 
     private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, gameId);
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putBoolean("back_button_pressed", backButtonPressed);
@@ -364,9 +353,9 @@ public class GameActivity extends AppCompatActivity {
      * If it is the last sentence in the list retain it, so that we can keep displaying it
      * Empty list not allowed
      */
-    private void nextSentence() {
+    private void nextItem() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = generateContent(); //generateRandomSentence();
+        String text = game.ordered ? game.getNextItem(totalWordsFinished) : game.getNextItem();
         //text = addFullStop(text);
         expectedAnswer = text;
         tvMain.setText(text);
