@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.starsearth.one.activity.GameResultActivity">
+    tools:context="com.starsearth.one.activity.TaskResultActivity">
 
     <RelativeLayout
         android:id="@+id/fragment_container_main"
@@ -21,7 +21,7 @@
 
     </RelativeLayout>
 
-    <!-- Dummy view so that talkback focuses on "Start Game" button first -->
+    <!-- Dummy view so that talkback focuses on "StTaskGame" button first -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

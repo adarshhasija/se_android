@@ -13,19 +13,12 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.starsearth.one.FileGames
+import com.starsearth.one.FileTasks
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
-import com.starsearth.one.domain.Game
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultTyping
-import com.starsearth.one.fragments.dummy.DummyContent
-import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 
@@ -55,7 +48,7 @@ class MainMenuItemFragment : Fragment() {
             val itemCount = adapter.itemCount
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
-                if (menuItem.game.id == result?.task_id) {
+                if (menuItem.task.id == result?.task_id) {
                     adapter.removeAt(i) //remove the entry from the list
 
                     menuItem.results.add(result) //add at the end
@@ -117,11 +110,11 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MainMenuItem> {
-        val games = FileGames.openFile(getContext())
+        val games = FileTasks.openFile(getContext())
         val mainMenuItems = ArrayList<MainMenuItem>()
         for (game in games) {
             val mainMenuItem = MainMenuItem()
-            mainMenuItem.game = game
+            mainMenuItem.task = game
             mainMenuItems.add(mainMenuItem)
         }
         return mainMenuItems

@@ -1,18 +1,15 @@
 package com.starsearth.one.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 
 import com.starsearth.one.R
-import com.starsearth.one.domain.Game
+import com.starsearth.one.domain.Task
 
 /**
  * A simple [Fragment] subclass.
@@ -25,14 +22,14 @@ import com.starsearth.one.domain.Game
 class ResultFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
-    private var mGame: Game? = null
+    private var mTask: Task? = null
 
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mGame = arguments.getParcelable(ARG_PARAM1)
+            mTask = arguments.getParcelable(ARG_PARAM1)
         }
     }
 
@@ -41,15 +38,15 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
         v.findViewById(R.id.btn_start).setOnClickListener(View.OnClickListener {
-            onButtonPressed(mGame)
+            onButtonPressed(mTask)
         })
         val tv = v.findViewById(R.id.tv_instruction)
-        (tv as TextView).text = mGame?.instructions
+        (tv as TextView).text = mTask?.instructions?.let { String.format(it, mTask?.trials) }
 
 
-        when (mGame?.type) {
-            Game.Type.TYPING_TIMED -> {
-                val listFragment = ResultTypingFragment.newInstance(mGame!!)
+        when (mTask?.type) {
+            Task.Type.TYPING_TIMED -> {
+                val listFragment = ResultTypingFragment.newInstance(mTask!!)
                 val transaction = childFragmentManager.beginTransaction()
                 transaction.add(R.id.fragment_container_list, listFragment).commit()
             }
@@ -61,9 +58,9 @@ class ResultFragment : Fragment() {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(game: Game?) {
+    fun onButtonPressed(task: Task?) {
         if (mListener != null) {
-            mListener!!.onFragmentInteraction(game)
+            mListener!!.onFragmentInteraction(task)
         }
     }
 
@@ -92,13 +89,13 @@ class ResultFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(game: Game?)
+        fun onFragmentInteraction(task: Task?)
     }
 
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private val ARG_PARAM1 = "game"
+        private val ARG_PARAM1 = "task"
 
         /**
          * Use this factory method to create a new instance of
@@ -109,7 +106,7 @@ class ResultFragment : Fragment() {
          * @return A new instance of fragment ResultFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: Game): ResultFragment {
+        fun newInstance(param1: Task): ResultFragment {
             val fragment = ResultFragment()
             val args = Bundle()
             args.putParcelable(ARG_PARAM1, param1)

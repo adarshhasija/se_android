@@ -53,7 +53,7 @@
     <string name="se_assistant_tap_here_to_continue">Tap here to continue</string>
     <string name="se_assistant_keyboard_test_completed">Keyboard test completed</string>
     <string name="se_assistant_no_update">No Update</string>
-    <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing game from the main menu</string>
+    <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing task from the main menu</string>
     <string name="se_assistant_welcome_message">I am the StarsEarth Teacher. I will help you use this app.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
@@ -276,7 +276,7 @@
     <string name="alert_typing_game" formatted="false">%d words per minute</string>
     <string name="time_taken">Time taken</string>
     <string name="new_reocrd">New Record</string>
-    <string name="start_new_game">Start New Game</string>
+    <string name="start_new_game">Start</string>
     <string name="typing_game_instructions_letters_small">You will be shown some letters. Type as many of them as you can within 1 minute.\nYour most recent score will be displayed here</string>
     <string name="typing_game_instructions_letters_capital">You will be shown some letters. Type as many of them as you can within 1 minute.\nYour most recent score will be displayed here</string>
     <string name="typing_game_instructions_1_word">Type the word %s as many times as you can within 1 minute.\nYour most recent score will be displayed here</string>
@@ -287,7 +287,7 @@
     <string name="typing_game">Typing Game</string>
     <string name="high_score">High Score</string>
     <string name="your_score">Your Score</string>
-    <string name="typing_game_cancelled">The game was cancelled</string>
+    <string name="typing_game_cancelled">The task was cancelled</string>
 
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="only_india_numbers">Only India mobile numbers are accepted at the moment</string>
@@ -315,6 +315,7 @@
     <string name="letters_correct">Letters Correct</string>
     <string name="numbers_correct">Numbers Correct</string>
     <string name="accuracy">Accuracy</string>
+    <string name="speed">Speed</string>
     <string name="target_speed">Target speed: 30 words per minute</string>
     <string name="target_accuracy">Target accuracy: 90%</string>
 

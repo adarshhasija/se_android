@@ -1,6 +1,9 @@
 package com.starsearth.one.domain;
 
+import android.content.Context;
+
 import com.google.firebase.database.Exclude;
+import com.starsearth.one.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,19 +56,33 @@ public class ResultTyping extends Result {
         this.words_total_finished = words_total_finished;
     }
 
-    public int getScore() {
-        return words_correct;
+    private int getTimeMins() {
+        int timeMins = (int) timeTakenMillis/60000;
+        if (timeMins < 1) {
+            //If time taken was less than 1 min
+            timeMins = 1;
+        }
+
+        return timeMins;
     }
 
-    public long getSpeed() {
-        return (int) (words_correct/timeTakenMillis);
+    private int getSpeedWPM() {
+        int x = words_correct;
+        int y = getTimeMins();
+        return (x*y > 0) ? (words_correct/getTimeMins()) : 0;
     }
 
-    public int getAccuracy() {
+    private int getAccuracy() {
         double accuracy = (double) words_correct/words_total_finished;
         double accuracyPercentage = Math.ceil(accuracy*100);
         int accuracyPercentageInt = (int) accuracyPercentage;
         return accuracyPercentageInt;
+    }
+
+    public String getScoreSummary(Context context) {
+        String result = context.getString(R.string.accuracy) + " " + getAccuracy() + "%" +
+                "\n" + context.getString(R.string.speed) + " " + getSpeedWPM() + " " + "wpm";
+        return result;
     }
 
     @Exclude

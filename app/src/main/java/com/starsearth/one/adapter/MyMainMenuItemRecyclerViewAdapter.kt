@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.domain.Game
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 
@@ -36,7 +35,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        val game = holder.mItem?.game
+        val game = holder.mItem?.task
         val results = holder.mItem?.results
 
          game?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }

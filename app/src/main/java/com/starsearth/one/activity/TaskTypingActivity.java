@@ -22,13 +22,11 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
-import com.starsearth.one.domain.Game;
-
-import org.jetbrains.annotations.NotNull;
+import com.starsearth.one.domain.Task;
 
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity {
+public class TaskTypingActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -48,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private boolean isBackPressed = false; //This flag is change on onBackPressed and used in onPause
 
-    private Game game;
+    private Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +57,11 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            game = extras.getParcelable("game");
+            task = extras.getParcelable("task");
         }
 
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
+        mTimer = (TextView) findViewById(R.id.tv_timer);
         rl = (RelativeLayout) findViewById(R.id.rl);
         rl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,9 +75,18 @@ public class GameActivity extends AppCompatActivity {
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
+        if (task.timed) {
+            mTimer.setVisibility(View.VISIBLE);
+            setupTimer();
+        }
+        else {
+            mTimer.setVisibility(View.GONE);
+        }
 
-        mTimer = (TextView) findViewById(R.id.tv_timer);
-        mCountDownTimer = new CountDownTimer(game.durationMillis, 1000) {
+    }
+
+    private void setupTimer() {
+        mCountDownTimer = new CountDownTimer(task.durationMillis, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
@@ -100,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
 
             public void onFinish() {
                 timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
-                testCompleted();
+                taskCompleted();
             }
         };
         mCountDownTimer.start();
@@ -109,7 +117,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        testCancelled();
+        taskCancelled();
     }
 
     @Override
@@ -117,6 +125,7 @@ public class GameActivity extends AppCompatActivity {
         super.onBackPressed();
         isBackPressed = true;
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -163,7 +172,14 @@ public class GameActivity extends AppCompatActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            nextItem(); //One millis delay so user can see the result of last letter before sentence changes
+                            //One millis delay so user can see the result of last letter before sentence changes
+                            if (task.timed) {
+                                nextItem();
+                            }
+                            else {
+                                taskCompleted();
+                            }
+
                         }
                     },
                     100);
@@ -204,10 +220,10 @@ public class GameActivity extends AppCompatActivity {
         v.vibrate(100);
     }
 
-    private void testCompleted() {
-        mCountDownTimer.cancel();
+    private void taskCompleted() {
+        if (mCountDownTimer != null) mCountDownTimer.cancel();
         Firebase firebase = new Firebase("results");
-        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, game.id); //subject, level, levelString, , );
+        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
 
         firebaseAnalyticsGameCompleted();
         Intent intent = new Intent();
@@ -227,8 +243,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        bundle.putInt("game_type", (int) task.type.getValue());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
 
@@ -237,8 +254,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putBoolean("back_button_pressed", backButtonPressed);
         mFirebaseAnalytics.logEvent("game_cancelled", bundle);
@@ -321,18 +338,18 @@ public class GameActivity extends AppCompatActivity {
     public String generateContent() {
         String result = null;
         int id=-1;
-        if (game != null) {
-            id = Integer.valueOf(game.id);
+        if (task != null) {
+            id = Integer.valueOf(task.id);
         }
 
         switch (id) {
             case 1:
-                result = game.content[totalWordsFinished % 12];
+                result = task.content[totalWordsFinished % 12];
                 break;
             case 2:
                 Random random = new Random();
                 int i = random.nextInt(12);
-                result = game.content[i];
+                result = task.content[i];
                 break;
             case 5:
                 result = getRandomLetterString(LetterCase.LOWER);
@@ -355,7 +372,7 @@ public class GameActivity extends AppCompatActivity {
      */
     private void nextItem() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = game.ordered ? game.getNextItem(totalWordsFinished) : game.getNextItem();
+        String text = task.ordered ? task.getNextItem(totalWordsFinished) : task.getNextItem();
         //text = addFullStop(text);
         expectedAnswer = text;
         tvMain.setText(text);
@@ -370,7 +387,7 @@ public class GameActivity extends AppCompatActivity {
         return text;
     }
 
-    private void testCancelled() {
+    private void taskCancelled() {
         firebaseAnalyticsGameCancelled(isBackPressed);
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         setResult(RESULT_CANCELED);

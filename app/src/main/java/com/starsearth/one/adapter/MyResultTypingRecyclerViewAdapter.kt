@@ -29,7 +29,7 @@ class MyResultTypingRecyclerViewAdapter(private val mValues: ArrayList<ResultTyp
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
         holder.mMainLabelView.text = Utils.formatDateTime(mValues[position].timestamp)
-        holder.mLastScoreView.text = mValues[position].words_correct.toString()
+        holder.mLastScoreView.text = mValues[position].getScoreSummary(holder.mView.context)
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }

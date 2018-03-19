@@ -16,10 +16,8 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
-import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.GameResultActivity;
-import com.starsearth.one.activity.profile.PhoneNumberActivity;
-import com.starsearth.one.domain.Game;
+import com.starsearth.one.activity.TaskResultActivity;
+import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Result;
 
@@ -104,10 +102,10 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         return result;
     }
 
-    private String getGameTitle(Game game) {
+    private String getGameTitle(Task task) {
         String result = null;
-        if (game != null) {
-            result = game.title;
+        if (task != null) {
+            result = task.title;
         }
         return result;
     }
@@ -118,19 +116,19 @@ public class MainSEAdapter extends RecyclerView.Adapter<MainSEAdapter.ViewHolder
         MainMenuItem object = null;
         if (position < mDataset.size()) object = mDataset.get(position);
 
-        holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(getGameTitle(object.game)));
+        holder.mTextView1.setText(Utils.formatStringFirstLetterCapital(getGameTitle(object.task)));
         holder.mTextView2.setText(formatLatTriedTime(object.results));
 
         holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainMenuItem mainMenuItem = mDataset.get(position);
-                Game game = mainMenuItem.game;
+                Task task = mainMenuItem.task;
 
-                if (game != null) sendAnalytics(game.uid, game.title);
-                Intent intent = new Intent(context, GameResultActivity.class);
+                if (task != null) sendAnalytics(task.uid, task.title);
+                Intent intent = new Intent(context, TaskResultActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("game", game);
+                bundle.putParcelable("task", task);
                 //bundle.putString("subject", mainMenuItem.subject);
                 //bundle.putString("levelString", mainMenuItem.levelString);
                 //bundle.putInt("game_id", (int) mainMenuItem.gameId.getValue());

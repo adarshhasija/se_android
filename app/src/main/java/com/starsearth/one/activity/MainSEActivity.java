@@ -1,18 +1,12 @@
 package com.starsearth.one.activity;
 
-import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,33 +17,21 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
-import com.starsearth.one.adapter.MainSEAdapter;
-import com.starsearth.one.adapter.TopMenuAdapter;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Assistant;
-import com.starsearth.one.domain.Game;
+import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.MainMenuItem;
-import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.MoreOptionsMenuItem;
 import com.starsearth.one.fragments.MainMenuItemFragment;
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
-import com.starsearth.one.fragments.dummy.DummyContent;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
@@ -213,10 +195,10 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendAnalytics(Game game) {
+    public void sendAnalytics(Task task) {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title);
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
         if (mFirebaseAnalytics != null) {
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
@@ -233,11 +215,11 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
 
     @Override
     public void onListFragmentInteraction(@NotNull MainMenuItem item) {
-        Game game = item.game;
-        sendAnalytics(game);
-        Intent intent = new Intent(this, GameResultActivity.class);
+        Task task = item.task;
+        sendAnalytics(task);
+        Intent intent = new Intent(this, TaskResultActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("game", game);
+        bundle.putParcelable("task", task);
         intent.putExtras(bundle);
         startActivity(intent);
     }

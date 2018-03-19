@@ -8,7 +8,7 @@ import java.util.List;
  * Created by faimac on 1/30/18.
  */
 
-public class TypingGame extends Game {
+public class TypingTask extends Task {
 
     public enum Id {
         ONE_WORD(1), MANY_WORDS(2), ONE_SENTENCE(3), MANY_SENTENCES(4), LETTERS_LOWER_CASE(5), LETTERS_UPPER_CASE(6);
@@ -23,8 +23,8 @@ public class TypingGame extends Game {
             return value;
         }
 
-        public static TypingGame.Id fromInt(long i) {
-            for (TypingGame.Id type : TypingGame.Id.values()) {
+        public static TypingTask.Id fromInt(long i) {
+            for (TypingTask.Id type : TypingTask.Id.values()) {
                 if (type.getValue() == i) { return type; }
             }
             return null;
@@ -35,8 +35,8 @@ public class TypingGame extends Game {
     Assign a unique id based on type.
     If wording changes, change text here
      */
-    public static TypingGame.Id assignType(String levelString) {
-        TypingGame.Id id = null;
+    public static TypingTask.Id assignType(String levelString) {
+        TypingTask.Id id = null;
         if (levelString.contains("1 word")) {
             id =  Id.ONE_WORD;
         }

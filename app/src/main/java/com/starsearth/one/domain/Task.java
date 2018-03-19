@@ -4,9 +4,7 @@ import android.os.Parcel;
 
 import com.google.firebase.database.Exclude;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -14,7 +12,7 @@ import java.util.Random;
  * Created by faimac on 1/30/18.
  */
 
-public class Game extends SEBaseObject {
+public class Task extends SEBaseObject {
 
     public int id; //local id...text file
     public String instructions;
@@ -23,6 +21,7 @@ public class Game extends SEBaseObject {
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed;
     public int durationMillis;
+    public int trials;  //number of trials, if instruction must be repeated
 
     public Type getType() {
         return type;
@@ -53,11 +52,11 @@ public class Game extends SEBaseObject {
         }
     };
 
-    public Game() {
+    public Task() {
         super();
     }
 
-    protected Game(Parcel in) {
+    protected Task(Parcel in) {
         super(in);
         id = in.readInt();
         instructions = in.readString();
@@ -66,17 +65,18 @@ public class Game extends SEBaseObject {
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
+        trials = in.readInt();
     }
 
-    public static final Creator<Game> CREATOR = new Creator<Game>() {
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
         @Override
-        public Game createFromParcel(Parcel in) {
-            return new Game(in);
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
         }
 
         @Override
-        public Game[] newArray(int size) {
-            return new Game[size];
+        public Task[] newArray(int size) {
+            return new Task[size];
         }
     };
 
@@ -90,6 +90,7 @@ public class Game extends SEBaseObject {
         result.put("ordered", ordered);
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
+        result.put("trials", trials);
 
         return result;
     }
@@ -109,6 +110,7 @@ public class Game extends SEBaseObject {
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
+        dest.writeInt(trials);
     }
 
     /*

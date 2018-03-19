@@ -2,7 +2,6 @@ package com.starsearth.one.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +26,7 @@ import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.adapter.ResultAdapter;
 import com.starsearth.one.adapter.ResultTypingAdapter;
-import com.starsearth.one.domain.Game;
+import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.fragments.ResultFragment;
@@ -37,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class GameResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
+public class TaskResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
 
     public static int MAX_NUMBER_IN_LIST = 1;
 
@@ -46,7 +45,7 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
     private ArrayList<Result> list = new ArrayList<>();
     private DatabaseReference mDatabase;
 
-    Game game = null;
+    Task task = null;
 
     private Button btnStart;
     private TextView tvInstruction;
@@ -61,9 +60,9 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
 
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                //if it is not the same game type, return
-                if (game != null) {
-                    if (game.id != result.getTask_id()) {
+                //if it is not the same task type, return
+                if (task != null) {
+                    if (task.id != result.getTask_id()) {
                         return;
                     }
                 }
@@ -105,7 +104,7 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
 
             int index = 0; //indexToInsert(result);
             if (mAdapter != null && list != null) {
-                switch (game.type) {
+                switch (task.type) {
                     case TYPING_TIMED:
                         ResultTyping resultTyping = null; dataSnapshot.getValue(ResultTyping.class);
                         list.add(index,resultTyping);
@@ -203,8 +202,8 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            if (game != null) {
-                String instructions = game.instructions;
+            if (task != null) {
+                String instructions = task.instructions;
                 tvInstruction.setText(instructions);
             }
 
@@ -217,9 +216,9 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
     private AlertDialog.Builder createAlertDialog() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(GameResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(TaskResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         } else {
-            builder = new AlertDialog.Builder(GameResultActivity.this);
+            builder = new AlertDialog.Builder(TaskResultActivity.this);
         }
 
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -239,7 +238,7 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            game = extras.getParcelable("game");
+            task = extras.getParcelable("task");
         }
 
 
@@ -256,8 +255,8 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        if (game != null) {
-            switch (game.type) {
+        if (task != null) {
+            switch (task.type) {
                 case TYPING_TIMED:
                     ArrayList<ResultTyping> list = new ArrayList<>();
                     mAdapter = new ResultTypingAdapter(getApplicationContext(), list);
@@ -283,16 +282,16 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
             @Override
             public void onClick(View v) {
 
-                if (game != null) {
+                if (task != null) {
                     Bundle analyticsBundle = new Bundle();
-                    analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
-                    analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.instructions);
-                    analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
+                    analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+                    analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions);
+                    analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task");
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
 
-                    Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
+                    Intent intent = new Intent(TaskResultActivity.this, TaskTypingActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("game", game);
+                    bundle.putParcelable("task", task);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, 0);
                 }
@@ -307,9 +306,9 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
     protected void onStart() {
         super.onStart();
 
-        if (game != null) {
-            setTitle(Utils.formatStringFirstLetterCapital(game.title));
-            ResultFragment fragment = ResultFragment.Companion.newInstance(game);
+        if (task != null) {
+            setTitle(Utils.formatStringFirstLetterCapital(task.title));
+            ResultFragment fragment = ResultFragment.Companion.newInstance(task);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit();
 
@@ -329,7 +328,7 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
             if (bundle != null) {
                 int wordsCorrect = bundle.getInt("words_correct");
                 int wordsTotalFinished = bundle.getInt("words_total_finished");
-                //This should not be in onChildAdded as it should only be shown once we return from completing a game
+                //This should not be in onChildAdded as it should only be shown once we return from completing a task
               /*  if (isTopResult(wordsCorrect, wordsTotalFinished)) {
                     alertScore(wordsCorrect, wordsTotalFinished, true);
                 }
@@ -347,26 +346,26 @@ public class GameResultActivity extends AppCompatActivity implements ResultFragm
         mDatabase.removeEventListener(childEventListener);
     }
 
-    private void sendAnalytics(Game game) {
+    private void sendAnalytics(Task task) {
         Bundle analyticsBundle = new Bundle();
-        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id);
-        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.instructions);
-        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start game");
+        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions);
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
     }
 
-    private void startGame(Game game) {
-        Intent intent = new Intent(GameResultActivity.this, GameActivity.class);
+    private void startTask(Task task) {
+        Intent intent = new Intent(TaskResultActivity.this, TaskTypingActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("game", game);
+        bundle.putParcelable("task", task);
         intent.putExtras(bundle);
         startActivityForResult(intent, 0);
     }
 
     @Override
-    public void onFragmentInteraction(@NotNull Game game) {
-        sendAnalytics(game);
-        startGame(game);
+    public void onFragmentInteraction(@NotNull Task task) {
+        sendAnalytics(task);
+        startTask(task);
     }
 
     @Override

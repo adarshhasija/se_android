@@ -13,9 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
 import com.starsearth.one.adapter.MyResultTypingRecyclerViewAdapter
-import com.starsearth.one.domain.Game
+import com.starsearth.one.domain.Task
 import com.starsearth.one.domain.ResultTyping
 
 /**
@@ -32,14 +31,14 @@ import com.starsearth.one.domain.ResultTyping
 class ResultTypingFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
-    private var mGame: Game? = null
+    private var mTask: Task? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
             val resultTyping = dataSnapshot.getValue(ResultTyping::class.java)
-            if (mGame?.id != resultTyping!!.task_id) {
+            if (mTask?.id != resultTyping!!.task_id) {
                 return
             }
             val adapter = (view as RecyclerView).adapter
@@ -75,7 +74,7 @@ class ResultTypingFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mGame = arguments.getParcelable(ARG_GAME)
+            mTask = arguments.getParcelable(ARG_GAME)
         }
     }
 
@@ -136,13 +135,13 @@ class ResultTypingFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_GAME = "game"
+        private val ARG_GAME = "task"
 
         // TODO: Customize parameter initialization
-        fun newInstance(game: Game): ResultTypingFragment {
+        fun newInstance(task: Task): ResultTypingFragment {
             val fragment = ResultTypingFragment()
             val args = Bundle()
-            args.putParcelable(ARG_GAME, game)
+            args.putParcelable(ARG_GAME, task)
             fragment.arguments = args
             return fragment
         }

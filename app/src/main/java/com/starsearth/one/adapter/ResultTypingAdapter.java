@@ -26,7 +26,7 @@ public class ResultTypingAdapter extends ResultAdapter {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ResultTyping result = mDataset.get(position);
-        holder.mWpmLastScore.setText(Integer.toString(result.getScore()));
+        //holder.mWpmLastScore.setText(Integer.toString(result.getScore()));
         holder.mWpmLastScore.setVisibility(View.VISIBLE);
         holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
     }

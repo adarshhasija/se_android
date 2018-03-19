@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -18,7 +17,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.domain.Game
+import com.starsearth.one.domain.Task
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.MainMenuItemFragment
@@ -28,10 +27,10 @@ import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
-    fun sendAnalytics(game: Game) {
+    fun sendAnalytics(task: Task) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, game.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, game.title)
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
         mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
@@ -58,11 +57,11 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
 
     override fun onListFragmentInteraction(item: MainMenuItem) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        val game = item.game
+        val game = item.task
         sendAnalytics(game)
-        val intent = Intent(this, GameResultActivity::class.java)
+        val intent = Intent(this, TaskResultActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelable("game", game)
+        bundle.putParcelable("task", game)
         intent.putExtras(bundle)
         startActivity(intent)
     }

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:id="@+id/rl"
-    tools:context="com.starsearth.one.activity.GameActivity">
+    tools:context="com.starsearth.one.activity.TaskTypingActivity">
 
     <TextView
         android:id="@+id/tv_timer"

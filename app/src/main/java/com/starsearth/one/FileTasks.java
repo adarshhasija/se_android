@@ -3,7 +3,7 @@ package com.starsearth.one;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.starsearth.one.domain.Game;
+import com.starsearth.one.domain.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,14 +11,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Vector;
 
 /**
  * Created by faimac on 3/2/18.
  */
 
-public class FileGames {
+public class FileTasks {
 
     private static int getDataInt(String line) {
         String result = null;
@@ -40,40 +39,42 @@ public class FileGames {
         return result;
     }
 
-    private static String[] getDataArray(String line) {
+    private static String[] getContent(String line) {
         String[] result = null;
         if (line != null) {
+            line = line.replaceAll("\"","");
             result = line.split(",");
         }
         return result;
     }
 
-    private static Game newGame(HashMap<String, String> input) {
+    private static Task newTask(HashMap<String, String> input) {
         if (input.size() == 0) {
             return null;
         }
-        Game game = new Game();
-        game.id = Integer.valueOf(input.get("id"));
-        game.title = input.get("title");
-        game.instructions = input.get("instructions");
-        game.content = getDataArray(input.get("content"));
-        if (input.get("type") != null) game.type = Game.Type.fromInt(Integer.valueOf(input.get("type")));
-        game.ordered = Boolean.parseBoolean(input.get("ordered"));
-        game.timed = Boolean.parseBoolean(input.get("timed"));
-        if (input.get("durationMillis") != null) game.durationMillis = Integer.valueOf(input.get("durationMillis"));
+        Task task = new Task();
+        task.id = Integer.valueOf(input.get("id"));
+        task.title = input.get("title");
+        task.instructions = input.get("instructions");
+        task.content = getContent(input.get("content"));
+        if (input.get("type") != null) task.type = Task.Type.fromInt(Integer.valueOf(input.get("type")));
+        task.ordered = Boolean.parseBoolean(input.get("ordered"));
+        task.timed = Boolean.parseBoolean(input.get("timed"));
+        if (input.get("durationMillis") != null) task.durationMillis = Integer.valueOf(input.get("durationMillis"));
+        if (input.get("trials") != null) task.trials = Integer.valueOf(input.get("trials"));
 
-        return game;
+        return task;
     }
 
-    public static ArrayList<Game> openFile(Context context) {
+    public static ArrayList<Task> openFile(Context context) {
         final AssetManager assetManager = context.getResources().getAssets();
         Vector<String> vector = new Vector<String>();
         HashMap<String, String> map = new HashMap<>();
 
-        ArrayList<Game> games = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<>();
         BufferedReader br;
         try {
-            final InputStream inputStream = assetManager.open("games.txt");
+            final InputStream inputStream = assetManager.open("tasks.txt");
             br = new BufferedReader(new InputStreamReader(inputStream));
             String line;
 
@@ -83,9 +84,9 @@ public class FileGames {
                     map.clear();
                 }
                 else if (line.contains("}")) {
-                    Game game = newGame(map);
-                    if (game != null) {
-                        games.add(game);
+                    Task task = newTask(map);
+                    if (task != null) {
+                        tasks.add(task);
                     }
                 }
                 else {
@@ -101,6 +102,6 @@ public class FileGames {
             throw new RuntimeException("error reading labels file!", e);
         }
 
-        return games;
+        return tasks;
     }
 }

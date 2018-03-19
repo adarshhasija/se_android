@@ -15,7 +15,7 @@ public class Result {
 
     public String uid;
     public String userId;
-    public int game_id; //id for game as INT old
+    public int game_id; //id for task as INT old
     public int task_id;
     public long timeTakenMillis;
     public long timestamp;

@@ -1,10 +1,28 @@
 {
+id:3
+type:1
+timed:false
+title:Type f and press spacebar
+instructions:Type f and press spacebar. Do this %s times.
+trials:4
+content:"f f f f "
+}
+{
+id:4
+type:1
+timed:false
+title:Type j and press spacebar
+instructions:Type j and press spacebar. Do this %s times.
+trials:4
+content:"j j j j "
+}
+{
 id:5
 type:1
 timed:true
 durationMillis:61000
 title:small letters
-instructions: You will be shown some letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+instructions:You will be shown some letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 ordered:false
 }
@@ -14,7 +32,7 @@ type:1
 timed:true
 durationMillis:61000
 title:capital letters
-instructions: You will be shown some capital letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+instructions:You will be shown some capital letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
 ordered:false
 }
@@ -24,7 +42,7 @@ type:1
 timed:true
 durationMillis:61000
 title:months - in order
-instructions: You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+instructions:You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:January,February,March,April,May,June,July,August,September,October,November,December
 ordered:true
 }
