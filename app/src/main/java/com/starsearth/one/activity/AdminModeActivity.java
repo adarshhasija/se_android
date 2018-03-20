@@ -24,6 +24,7 @@ public class AdminModeActivity extends AppCompatActivity {
         btnViewData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Open admin mode
                 Intent intent = new Intent(AdminModeActivity.this, CoursesListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("admin", true);
