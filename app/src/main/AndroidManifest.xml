@@ -32,7 +32,7 @@
             android:name=".activity.MainSEActivity"
             android:label="@string/main_menu" />
         <activity
-            android:name=".activity.QuestionActivity"
+            android:name=".activity.tasks.QuestionActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -48,7 +48,7 @@
         </activity>
         <activity android:name=".activity.welcome.WelcomeTwoActivity" />
         <activity
-            android:name=".activity.TaskTypingActivity"
+            android:name=".activity.tasks.TaskTypingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"

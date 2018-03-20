@@ -1,4 +1,4 @@
-package com.starsearth.one.activity;
+package com.starsearth.one.activity.tasks;
 
 import android.content.Intent;
 import android.graphics.Color;

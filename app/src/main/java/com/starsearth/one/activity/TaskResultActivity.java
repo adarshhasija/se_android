@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
+import com.starsearth.one.activity.tasks.TaskTypingActivity;
 import com.starsearth.one.adapter.ResultAdapter;
 import com.starsearth.one.adapter.ResultTypingAdapter;
 import com.starsearth.one.domain.Task;
