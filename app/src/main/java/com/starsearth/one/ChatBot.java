@@ -48,6 +48,7 @@ public class ChatBot {
                     }
                 });
     }
+    //Play the audio
     public void playAudio(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "0");
