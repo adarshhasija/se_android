@@ -26,45 +26,17 @@
         <activity
             android:name=".activity.auth.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.lists.CoursesListActivity" />
-        <activity android:name=".activity.forms.AddEditCourseActivity" />
-        <activity
-            android:name=".activity.lists.LessonsListActivity"
-            android:label="@string/lessons" />
-        <activity android:name=".activity.forms.AddEditLessonActivity" />
-        <activity
-            android:name=".activity.lists.TopicsListActivity"
-            android:label="@string/topics" />
-        <activity android:name=".activity.forms.AddEditTopicActivity" />
-        <activity android:name=".activity.forms.AddEditExerciseActivity" />
-        <activity android:name=".activity.lists.ItemListActivity" />
-        <activity android:name=".activity.lists.ExercisesListActivity" />
         <activity android:name=".activity.AdminModeActivity" />
-        <activity android:name=".activity.lists.QuestionsListActivity" />
-        <activity android:name=".activity.forms.AddEditQuestionActivity" />
         <activity android:name=".activity.auth.SignupActivity" />
         <activity
             android:name=".activity.MainSEActivity"
             android:label="@string/main_menu" />
-        <activity
-            android:name=".activity.domaindetail.TopicDetailActivity"
-            android:label="@string/topic_details" />
         <activity
             android:name=".activity.QuestionActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.auth.ChangePasswordActivity" />
-        <activity
-            android:name=".activity.lists.CourseAdminUsersActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.domaindetail.ItemDetailActivity" />
-        <activity
-            android:name=".activity.domaindetail.CourseDetailActivity"
-            android:label="@string/course_details" />
-        <activity
-            android:name=".activity.domaindetail.LessonDetailActivity"
-            android:label="@string/lesson_details" />
         <activity android:name=".activity.welcome.WelcomeOneActivity">
 
             <!-- Welcome intent goes here -->
