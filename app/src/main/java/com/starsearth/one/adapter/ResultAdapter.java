@@ -91,11 +91,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             super(ll);
             mLinearLayout = ll;
             mMainLabel = (TextView) ll.findViewById(R.id.tv_label_main);
-            mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
-            mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
-            mWpmHighScore = (TextView) ll.findViewById(R.id.tv_high_score);
-            mWpmLastScore = (TextView) ll.findViewById(R.id.tv_last_score);
-            mAccuracyTextView = (TextView) ll.findViewById(R.id.tv_accuracy);
+            //mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
+            //mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
+            //mWpmHighScore = (TextView) ll.findViewById(R.id.tv_high_score);
+            //mWpmLastScore = (TextView) ll.findViewById(R.id.tv_last_score);
+            //mAccuracyTextView = (TextView) ll.findViewById(R.id.tv_accuracy);
         }
     }
 }

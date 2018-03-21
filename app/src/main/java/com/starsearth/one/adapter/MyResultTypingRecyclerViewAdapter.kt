@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.ResultTyping
+import com.starsearth.one.domain.Task
 
 import com.starsearth.one.fragments.ResultTypingFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -17,7 +18,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyResultTypingRecyclerViewAdapter(private val mValues: ArrayList<ResultTyping>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
+class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mValues: ArrayList<ResultTyping>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,8 +29,8 @@ class MyResultTypingRecyclerViewAdapter(private val mValues: ArrayList<ResultTyp
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.mMainLabelView.text = Utils.formatDateTime(mValues[position].timestamp)
-        holder.mLastScoreView.text = mValues[position].getScoreSummary(holder.mView.context)
+        holder.mDateCompletedView.text = Utils.formatDateTime(mValues[position].timestamp)
+        holder.mMainLabelView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
@@ -53,17 +54,17 @@ class MyResultTypingRecyclerViewAdapter(private val mValues: ArrayList<ResultTyp
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mLastScoreView: TextView
+        val mDateCompletedView: TextView
         val mMainLabelView: TextView
         var mItem: ResultTyping? = null
 
         init {
-            mLastScoreView = mView.findViewById(R.id.tv_last_score) as TextView
+            mDateCompletedView = mView.findViewById(R.id.tv_date_completed) as TextView
             mMainLabelView = mView.findViewById(R.id.tv_label_main) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mLastScoreView.text + "'"
+            return super.toString() + " '" + mMainLabelView.text + "'"
         }
     }
 }

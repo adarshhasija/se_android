@@ -1,5 +1,6 @@
 package com.starsearth.one.adapter
 
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -91,15 +92,13 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mllView: LinearLayout
         val mText1View: TextView
         val mText2View: TextView
         var mItem: MainMenuItem? = null
 
         init {
-            mllView = mView.findViewById(R.id.ll) as LinearLayout
-            mText1View = mllView.findViewById(R.id.text1) as TextView
-            mText2View = mllView.findViewById(R.id.text2) as TextView
+            mText1View = mView.findViewById(R.id.text1) as TextView
+            mText2View = mView.findViewById(R.id.text2) as TextView
         }
 
         override fun toString(): String {

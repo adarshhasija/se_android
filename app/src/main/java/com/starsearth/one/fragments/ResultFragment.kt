@@ -45,7 +45,8 @@ class ResultFragment : Fragment() {
 
 
         when (mTask?.type) {
-            Task.Type.TYPING_TIMED -> {
+            Task.Type.TYPING_TIMED,
+            Task.Type.TYPING_UNTIMED -> {
                 val listFragment = ResultTypingFragment.newInstance(mTask!!)
                 val transaction = childFragmentManager.beginTransaction()
                 transaction.add(R.id.fragment_container_list, listFragment).commit()

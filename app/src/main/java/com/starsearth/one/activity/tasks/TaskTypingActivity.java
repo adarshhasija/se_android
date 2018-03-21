@@ -75,7 +75,7 @@ public class TaskTypingActivity extends AppCompatActivity {
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
-        if (task.timed) {
+        if (task.type == Task.Type.TYPING_TIMED) {
             mTimer.setVisibility(View.VISIBLE);
             setupTimer();
         }

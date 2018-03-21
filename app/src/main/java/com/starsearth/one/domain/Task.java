@@ -19,7 +19,7 @@ public class Task extends SEBaseObject {
     public String[] content;
     public Type type;
     public boolean ordered; //should the content be shown in same order to the user
-    public boolean timed;
+    public boolean timed; //currently not used
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
 
@@ -32,7 +32,7 @@ public class Task extends SEBaseObject {
     }
 
     public enum Type {
-        TYPING_TIMED(1);
+        TYPING_TIMED(1), TYPING_UNTIMED(2);
 
         private final long value;
 

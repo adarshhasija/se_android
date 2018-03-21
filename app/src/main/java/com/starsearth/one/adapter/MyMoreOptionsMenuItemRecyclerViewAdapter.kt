@@ -41,13 +41,11 @@ class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOpt
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mLlView: LinearLayout
         val mText1View: TextView
         val mText2View: TextView
         var mItem: MoreOptionsMenuItem? = null
 
         init {
-            mLlView = mView.findViewById(R.id.ll) as LinearLayout
             mText1View = mView.findViewById(R.id.text1) as TextView
             mText2View = mView.findViewById(R.id.text2) as TextView
         }

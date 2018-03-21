@@ -91,7 +91,7 @@ class ResultTypingFragment : Fragment() {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
             val items = ArrayList<ResultTyping>()
-            view.adapter = MyResultTypingRecyclerViewAdapter(items, mListener)
+            mTask?.let { view.adapter = MyResultTypingRecyclerViewAdapter(it, items, mListener) }
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             mDatabase = FirebaseDatabase.getInstance().getReference("results")
