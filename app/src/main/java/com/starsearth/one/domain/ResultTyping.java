@@ -95,6 +95,14 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
+    public String getExplanationSummary(Context context, Task.Type taskType) {
+        StringBuffer result = new StringBuffer();
+        if (taskType == Task.Type.TYPING_UNTIMED) {
+            result.append(context.getString(R.string.accuracy) + " " + getAccuracy() +"%");
+        }
+        return result.toString();
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();

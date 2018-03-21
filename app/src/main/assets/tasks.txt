@@ -3,7 +3,7 @@ id:3
 type:2
 timed:false
 title:Type f and press spacebar
-instructions:Type f and press spacebar. Do this %s times.
+instructions:Type f and press spacebar. Do this %s times. Target Accuracy 90%%
 trials:4
 content:"f f f f "
 }
@@ -12,7 +12,7 @@ id:4
 type:2
 timed:false
 title:Type j and press spacebar
-instructions:Type j and press spacebar. Do this %s times.
+instructions:Type j and press spacebar. Do this %s times. Target Accuracy 90%%
 trials:4
 content:"j j j j "
 }

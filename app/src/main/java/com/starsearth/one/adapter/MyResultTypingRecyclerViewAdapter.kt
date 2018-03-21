@@ -31,6 +31,7 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
         holder.mItem = mValues[position]
         holder.mDateCompletedView.text = Utils.formatDateTime(mValues[position].timestamp)
         holder.mMainLabelView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
+        holder.mExplanationSummaryView.text = mValues[position].getExplanationSummary(holder.mView.context, mTask.type)
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
@@ -56,11 +57,13 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mDateCompletedView: TextView
         val mMainLabelView: TextView
+        val mExplanationSummaryView: TextView
         var mItem: ResultTyping? = null
 
         init {
             mDateCompletedView = mView.findViewById(R.id.tv_date_completed) as TextView
             mMainLabelView = mView.findViewById(R.id.tv_label_main) as TextView
+            mExplanationSummaryView = mView.findViewById(R.id.tv_explanation_summary) as TextView
         }
 
         override fun toString(): String {
