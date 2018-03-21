@@ -40,75 +40,6 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private List<Assistant> assistants = new ArrayList<>();
-
-    protected LinearLayout llAction;
-    protected TextView tvActionLine1;
-    protected TextView tvActionLine2;
-
-    private void assistantStateChangeded(Assistant mAssistant) {
-        if (mAssistant == null) {
-            return;
-        }
-
-        String assistantStatus = null;
-        if (mAssistant.state > 9 && mAssistant.state < 13) {
-            assistantStatus = getString(R.string.se_assistant_tap_here_to_continue);
-        }
-        else if (mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_SUCCESS.getValue() ||
-                    mAssistant.state == Assistant.State.KEYBOARD_TEST_COMPLETED_FAIL.getValue()) {
-            assistantStatus = getString(R.string.se_assistant_keyboard_test_completed);
-        }
-        else {
-            assistantStatus = getString(R.string.se_assistant_no_update);
-        }
-
-        //if (mAdapterTopMenu != null) mAdapterTopMenu.setSEAssistantStatus(assistantStatus);
-        tvActionLine2.setText(assistantStatus);
-
-        if (llAction != null) {
-            llAction.setContentDescription(tvActionLine1.getText() + " " + tvActionLine2.getText());
-        }
-    }
-
-    private ChildEventListener mAssistantChildListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            Assistant assistant = dataSnapshot.getValue(Assistant.class);
-            assistants.add(assistant);
-            //mAdapterTopMenu.addAssistant(assistant);
-            //mAdapterTopMenu.assistantStateChanged(assistant);
-            // mAdapterTopMenu.removeOldAssistantRecord(mDatabaseAssistantReference);
-            if (assistants.size() > 1) {
-                //delete old entry from the db
-                Assistant firstItem = assistants.get(0);
-                mDatabaseAssistantReference.child(firstItem.uid).removeValue();
-                assistants.remove(firstItem);
-            }
-            assistantStateChangeded(assistant);
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,13 +74,6 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-    private void setupAssistantListener(FirebaseUser currentUser) {
-        //mDatabaseAssistantReference = FirebaseDatabase.getInstance().getReference("assistants");
-        //mDatabaseAssistantReference.keepSynced(true);
-        //Query query = mDatabaseAssistantReference.orderByChild("userId").equalTo(currentUser.getUid());
-        //query.addChildEventListener(mAssistantChildListener);
-    }
-
     /**
      * Notify the user that their login via phone number verification was successful
      */
@@ -167,9 +91,6 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         super.onDestroy();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
-        }
-        if (mAssistantChildListener != null) {
-            mDatabaseAssistantReference.removeEventListener(mAssistantChildListener);
         }
     }
 
