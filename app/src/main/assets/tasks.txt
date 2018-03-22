@@ -61,13 +61,23 @@ id:7
 type:1
 timed:true
 durationMillis:61000
+title:vowels
+instructions:You will be shown the vowels as small letters in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+content:a,e,i,o,u
+ordered:false
+}
+{
+id:8
+type:1
+timed:true
+durationMillis:61000
 title:planets - in order
 instructions:You will be shown the names of planets, in order of how far they are from the Sun. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:Mercury,Venus,Earth,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto
 ordered:true
 }
 {
-id:8
+id:9
 type:1
 timed:true
 durationMillis:61000
