@@ -13,6 +13,7 @@ public class Utils {
 
     /*
         Returns date in local time zone
+        Used for formatting timestamp
      */
     public static String formatDateTime(long timestamp) {
         Calendar cal = Calendar.getInstance();

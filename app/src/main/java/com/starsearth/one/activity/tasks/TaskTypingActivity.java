@@ -373,10 +373,17 @@ public class TaskTypingActivity extends AppCompatActivity {
     private void nextItem() {
         index = 0; //reset the cursor to the start of the sentence
         String text = task.ordered ? task.getNextItem(totalWordsFinished) : task.getNextItem();
-        //text = addFullStop(text);
-        expectedAnswer = text;
         tvMain.setText(text);
         tvMain.announceForAccessibility(text.substring(0,1));
+        expectedAnswer = formatSpaceCharacter(text);
+    }
+
+    /*
+    Some string input might use special characters to represent spacebar
+    In this case, return a normal space so that expectedAnswer can be compared to keyboard input
+     */
+    private String formatSpaceCharacter(String s) {
+        return s.replaceAll("␣", " ");
     }
 
     private String addFullStop(String text) {

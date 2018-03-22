@@ -29,7 +29,7 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.mDateCompletedView.text = Utils.formatDateTime(mValues[position].timestamp)
+        holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(mTask.title)
         holder.mMainLabelView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
         holder.mExplanationSummaryView.text = mValues[position].getExplanationSummary(holder.mView.context, mTask.type)
 
@@ -55,13 +55,13 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mDateCompletedView: TextView
+        val mTaskTitleView: TextView
         val mMainLabelView: TextView
         val mExplanationSummaryView: TextView
         var mItem: ResultTyping? = null
 
         init {
-            mDateCompletedView = mView.findViewById(R.id.tv_date_completed) as TextView
+            mTaskTitleView = mView.findViewById(R.id.tv_task_title) as TextView
             mMainLabelView = mView.findViewById(R.id.tv_label_main) as TextView
             mExplanationSummaryView = mView.findViewById(R.id.tv_explanation_summary) as TextView
         }
