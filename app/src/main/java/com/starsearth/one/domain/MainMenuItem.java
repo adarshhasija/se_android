@@ -8,8 +8,7 @@ import java.util.List;
  */
 
 public class MainMenuItem {
-
-    public long lastTriedMillis;
+    
     public Task task;
     public List<Result> results = new ArrayList<>(); //This should only contain the most recent result
 

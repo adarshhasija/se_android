@@ -3,21 +3,11 @@ package com.starsearth.one.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starsearth.one.R;
-import com.starsearth.one.Utils;
-import com.starsearth.one.domain.Result;
-import com.starsearth.one.domain.ResultTyping;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by faimac on 10/24/17.
@@ -34,7 +24,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LinearLayout ll = (LinearLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_typing_test_result, parent, false);
+                .inflate(R.layout.row_result_tasks_single, parent, false);
         ViewHolder vh = new ViewHolder(ll);
         return vh;
     }
@@ -90,7 +80,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         public ViewHolder(LinearLayout ll) {
             super(ll);
             mLinearLayout = ll;
-            mMainLabel = (TextView) ll.findViewById(R.id.tv_label_main);
+            //mMainLabel = (TextView) ll.findViewById(R.id.tv_label_main);
             //mScoreTextView = (TextView) ll.findViewById(R.id.tv_score);
             //mTimeTakenTextView = (TextView) ll.findViewById(R.id.tv_time_taken);
             //mWpmHighScore = (TextView) ll.findViewById(R.id.tv_high_score);

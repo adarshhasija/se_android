@@ -21,17 +21,25 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mValues: ArrayList<ResultTyping>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        var layoutId = 0
+        if (mValues.size > 1) {
+            layoutId = R.layout.row_result_tasks_multiple
+        }
+        else {
+            layoutId = R.layout.row_result_tasks_single
+        }
+
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.row_typing_test_result, parent, false)
+                .inflate(layoutId, parent, false)
                 //.inflate(R.layout.fragment_resulttyping, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(mTask.title)
-        holder.mMainLabelView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
-        holder.mExplanationSummaryView.text = mValues[position].getExplanationSummary(holder.mView.context, mTask.type)
+        holder.mTitleView.text = Utils.formatStringFirstLetterCapital(mTask.title)
+        holder.mResultView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
+        holder.mResultSummaryView.text = mValues[position].getExplanationSummary(holder.mView.context, mTask.type)
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
@@ -55,19 +63,19 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mTaskTitleView: TextView
-        val mMainLabelView: TextView
-        val mExplanationSummaryView: TextView
+        val mTitleView: TextView
+        val mResultView: TextView
+        val mResultSummaryView: TextView
         var mItem: ResultTyping? = null
 
         init {
-            mTaskTitleView = mView.findViewById(R.id.tv_task_title) as TextView
-            mMainLabelView = mView.findViewById(R.id.tv_label_main) as TextView
-            mExplanationSummaryView = mView.findViewById(R.id.tv_explanation_summary) as TextView
+            mTitleView = mView.findViewById(R.id.tv_title) as TextView
+            mResultView = mView.findViewById(R.id.tv_result) as TextView
+            mResultSummaryView = mView.findViewById(R.id.tv_result_summary) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mMainLabelView.text + "'"
+            return super.toString() + " '" + mResultView.text + "'"
         }
     }
 }

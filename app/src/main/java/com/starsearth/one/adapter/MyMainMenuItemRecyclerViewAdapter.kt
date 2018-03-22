@@ -61,7 +61,8 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
     }
 
     fun addItem(mainMenuItem: MainMenuItem) {
-        val index = indexToInsert(mainMenuItem.lastTriedMillis)
+        val lastTriedMillis = mainMenuItem.results.get(0).timestamp
+        val index = indexToInsert(lastTriedMillis)
         mValues.add(index, mainMenuItem)
     }
 
@@ -83,12 +84,20 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         }
         var result = -1
         val middleIndex = (startIndex + endIndex) / 2
-        if (value > mValues.get(middleIndex).lastTriedMillis) {
+        if (value > getLastTriedMillis(middleIndex)) {
             result = binarySearh(value, startIndex, middleIndex)
-        } else if (value <= mValues.get(middleIndex).lastTriedMillis) {
+        } else if (value <= getLastTriedMillis(middleIndex)) {
             result = binarySearh(value, middleIndex + 1, endIndex)
         }
         return result
+    }
+
+    private fun getLastTriedMillis(index: Int): Long {
+        var timestamp: Long = 0
+        val mainMenuItem = mValues.get(index)
+        val lastTried = mainMenuItem.results.getOrNull(0)
+        lastTried?.let { timestamp = it.timestamp }
+        return timestamp
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
