@@ -34,7 +34,6 @@ public class TaskResultActivity extends AppCompatActivity implements ResultFragm
 
     private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
         Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
-        //Toast.makeText(getApplicationContext(), words_correct + " " + getString(R.string.words_per_minute) + " " + getString(R.string.accuracy) + " " + mAdapter.getAccuracy(words_correct, words_total_finished) + "%", Toast.LENGTH_LONG).show();
     }
 
     private AlertDialog.Builder createAlertDialog() {
@@ -96,13 +95,7 @@ public class TaskResultActivity extends AppCompatActivity implements ResultFragm
                 int wordsCorrect = bundle.getInt("words_correct");
                 int wordsTotalFinished = bundle.getInt("words_total_finished");
                 //This should not be in onChildAdded as it should only be shown once we return from completing a task
-              /*  if (isTopResult(wordsCorrect, wordsTotalFinished)) {
-                    alertScore(wordsCorrect, wordsTotalFinished, true);
-                }
-                else {
-                    alertScore(wordsCorrect, wordsTotalFinished, false);
-                }   */
-              alertScore(wordsCorrect, wordsTotalFinished, true);
+                alertScore(wordsCorrect, wordsTotalFinished, true);
             }
         }
     }

@@ -103,6 +103,23 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
+    public String getResultToast(Context context, Task.Type tastType) {
+        StringBuffer result = new StringBuffer();
+        switch (tastType) {
+            case TYPING_TIMED:
+                result.append(context.getString(R.string.your_score) + " " + words_correct);
+                break;
+            case TYPING_UNTIMED:
+                int accuracy = getAccuracy();
+                if (accuracy > 90) result.append(context.getString(R.string.passed));
+                else result.append(context.getString(R.string.failed));
+                break;
+            default:
+                break;
+        }
+        return result.toString();
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();
