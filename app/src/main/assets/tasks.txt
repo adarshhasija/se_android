@@ -46,7 +46,7 @@ type:1
 timed:true
 durationMillis:61000
 title:months - in order
-instructions:You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
+instructions:You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute.
 content:January,February,March,April,May,June,July,August,September,October,November,December
 ordered:true
 tags:english,general knowledge

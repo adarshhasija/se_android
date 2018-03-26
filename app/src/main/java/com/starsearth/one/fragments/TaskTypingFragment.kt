@@ -1,8 +1,10 @@
 package com.starsearth.one.fragments
 
 import android.content.Context
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Vibrator
 import android.support.v4.app.Fragment
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -38,7 +40,35 @@ class TaskTypingFragment : Fragment(), android.view.KeyEvent.Callback {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return false
+        var result = true;
+        if (keyCode == KeyEvent.KEYCODE_SHIFT_LEFT ||
+                keyCode == KeyEvent.KEYCODE_SHIFT_RIGHT ||
+                keyCode == KeyEvent.KEYCODE_CAPS_LOCK) {
+            //allow Caps Lock, ignore
+        }
+        else if (keyCode == KeyEvent.KEYCODE_DEL) {
+            //If backspace is pressed, signal error. This is not allowed
+            beep()
+            vibrate()
+        }
+        return result
+    }
+
+    private fun beep() {
+        try {
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(context, notification)
+            r.play()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun vibrate() {
+        val v = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
+        // Vibrate for 100 milliseconds
+        v!!.vibrate(100)
     }
 
     // TODO: Rename and change types of parameters
