@@ -6,6 +6,7 @@ title:Type f and press spacebar
 instructions:Type f and press spacebar. Do this %s times. Target Accuracy 90%%
 trials:4
 content:"f␣f␣f␣f␣"
+tags:typing
 }
 {
 id:4
@@ -15,6 +16,7 @@ title:Type j and press spacebar
 instructions:Type j and press spacebar. Do this %s times. Target Accuracy 90%%
 trials:4
 content:"j␣j␣j␣j␣"
+tags:typing
 }
 {
 id:5
@@ -25,6 +27,7 @@ title:small letters
 instructions:You will be shown some letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 ordered:false
+tags:english,alphabet
 }
 {
 id:6
@@ -35,6 +38,7 @@ title:capital letters
 instructions:You will be shown some capital letters. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
 ordered:false
+tags:english,alphabet
 }
 {
 id:1
@@ -45,6 +49,7 @@ title:months - in order
 instructions:You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:January,February,March,April,May,June,July,August,September,October,November,December
 ordered:true
+tags:english,general knowledge
 }
 {
 id:2
@@ -55,6 +60,7 @@ title:months - not in order
 instructions:You will be shown the months of the year in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:January,February,March,April,May,June,July,August,September,October,November,December
 ordered:false
+tags:english,general knowledge
 }
 {
 id:7
@@ -65,6 +71,7 @@ title:vowels
 instructions:You will be shown the vowels as small letters in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:a,e,i,o,u
 ordered:false
+tags:english
 }
 {
 id:8
@@ -75,6 +82,7 @@ title:planets - in order
 instructions:You will be shown the names of planets, in order of how far they are from the Sun. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:Mercury,Venus,Earth,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto
 ordered:true
+tags:science,physics,solar system,general knowledge
 }
 {
 id:9
@@ -85,4 +93,5 @@ title:planets - not in order
 instructions:You will be shown the names of planets, in random order. Type as many of them as you can within 1 minute. Your most recent score will be displayed here
 content:Mercury,Venus,Earth,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto
 ordered:false
+tags:science,physics,solar system,general knowledge
 }

@@ -160,15 +160,12 @@ public class TaskTypingActivity extends AppCompatActivity {
         builder.append(str2);
         tvMain.setText( builder, TextView.BufferType.SPANNABLE);
 
-        if (expectedCharacter == ' ') {
+        if (expectedCharacter == ' ' || index == (expectedAnswer.length() - 1)) {
             checkWordCorrect();
-            wordComplete(); //on spacebar, we have completed a word
+            wordComplete(); //on spacebar, or on end of string, we have completed a word
         }
         index++;
         if (index == expectedAnswer.length()) {
-            checkWordCorrect();
-            wordComplete(); //on end of sentence we have also completed a word
-
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
