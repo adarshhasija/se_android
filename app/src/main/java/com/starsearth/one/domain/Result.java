@@ -3,6 +3,7 @@ package com.starsearth.one.domain;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,20 @@ public class Result {
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
 
+        return result;
+    }
+
+    /**
+     *
+     * @return Returns true if the result was created within 5 seconds of current time
+     */
+    public boolean isJustCompleted() {
+        boolean result = false;
+        Calendar c = Calendar.getInstance();
+        long currentTime = c.getTimeInMillis();
+        if (Math.abs(currentTime - timestamp) < 5000) {
+            result = true;
+        }
         return result;
     }
 

@@ -6,22 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.application.StarsEarthApplication;
-import com.starsearth.one.domain.Assistant;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.MoreOptionsMenuItem;
@@ -29,9 +23,6 @@ import com.starsearth.one.fragments.MainMenuItemFragment;
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
@@ -138,7 +129,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     public void onListFragmentInteraction(@NotNull MainMenuItem item) {
         Task task = item.task;
         sendAnalytics(task);
-        Intent intent = new Intent(this, TaskResultActivity.class);
+        Intent intent = new Intent(this, ResultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("task", task);
         intent.putExtras(bundle);

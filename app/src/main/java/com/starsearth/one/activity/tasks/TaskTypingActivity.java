@@ -223,12 +223,7 @@ public class TaskTypingActivity extends AppCompatActivity {
         firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
 
         firebaseAnalyticsGameCompleted();
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putInt("words_correct", wordsCorrect);
-        bundle.putInt("words_total_finished", totalWordsFinished);
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK);
         finish();
     }
 

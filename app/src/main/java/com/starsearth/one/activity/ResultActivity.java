@@ -6,17 +6,12 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.activity.tasks.TaskTypingActivity;
-import com.starsearth.one.adapter.ResultAdapter;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.fragments.ResultFragment;
@@ -24,11 +19,7 @@ import com.starsearth.one.fragments.ResultTypingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-public class TaskResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
-
-    private FirebaseAnalytics mFirebaseAnalytics;
+public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
 
     Task task = null;
 
@@ -39,9 +30,9 @@ public class TaskResultActivity extends AppCompatActivity implements ResultFragm
     private AlertDialog.Builder createAlertDialog() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(TaskResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(ResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         } else {
-            builder = new AlertDialog.Builder(TaskResultActivity.this);
+            builder = new AlertDialog.Builder(ResultActivity.this);
         }
 
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -63,9 +54,6 @@ public class TaskResultActivity extends AppCompatActivity implements ResultFragm
         if (extras != null) {
             task = extras.getParcelable("task");
         }
-
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     @Override
@@ -83,43 +71,10 @@ public class TaskResultActivity extends AppCompatActivity implements ResultFragm
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 0 && resultCode == RESULT_CANCELED) {
-            Toast.makeText(getApplicationContext(), R.string.typing_game_cancelled, Toast.LENGTH_LONG).show();
-        }
-        else if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                int wordsCorrect = bundle.getInt("words_correct");
-                int wordsTotalFinished = bundle.getInt("words_total_finished");
-                //This should not be in onChildAdded as it should only be shown once we return from completing a task
-                alertScore(wordsCorrect, wordsTotalFinished, true);
-            }
-        }
-    }
-
-    private void sendAnalytics(Task task) {
-        Bundle analyticsBundle = new Bundle();
-        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
-        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions);
-        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
-    }
-
-    private void startTask(Task task) {
-        Intent intent = new Intent(TaskResultActivity.this, TaskTypingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("task", task);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, 0);
-    }
-
-    @Override
     public void onFragmentInteraction(@NotNull Task task) {
-        sendAnalytics(task);
-        startTask(task);
+        //business logic removed: March 26 2018
+        //call to startTask
+        //call to sendAnalytics
     }
 
     @Override

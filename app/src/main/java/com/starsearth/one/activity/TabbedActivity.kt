@@ -59,7 +59,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val game = item.task
         sendAnalytics(game)
-        val intent = Intent(this, TaskResultActivity::class.java)
+        val intent = Intent(this, ResultActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("task", game)
         intent.putExtras(bundle)

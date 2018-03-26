@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -41,6 +42,9 @@ class ResultTypingFragment : Fragment() {
             if (mTask?.id != resultTyping!!.task_id) {
                 return
             }
+            if (resultTyping!!.isJustCompleted) {
+                alertScore(resultTyping)
+            }
             val adapter = (view as RecyclerView).adapter
             (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
 
@@ -68,6 +72,10 @@ class ResultTypingFragment : Fragment() {
         override fun onCancelled(databaseError: DatabaseError) {
 
         }
+    }
+
+    private fun alertScore(result: ResultTyping) {
+        Toast.makeText(context, getString(R.string.your_score) + " " + result.words_correct, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

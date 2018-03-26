@@ -1,14 +1,19 @@
 package com.starsearth.one.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.tasks.TaskTypingActivity
 import com.starsearth.one.domain.Task
 
 /**
@@ -23,6 +28,7 @@ class ResultFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var mTask: Task? = null
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -38,7 +44,9 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
         v.findViewById(R.id.btn_start).setOnClickListener(View.OnClickListener {
-            onButtonPressed(mTask)
+            //onButtonPressed(mTask)
+            startTask(mTask!!)
+            sendAnalytics(mTask!!)
         })
         val tv = v.findViewById(R.id.tv_instruction)
         (tv as TextView).text = mTask?.instructions?.let { String.format(it, mTask?.trials) }
@@ -54,8 +62,33 @@ class ResultFragment : Fragment() {
             else -> {
             }
         }
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         return v
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_CANCELED) {
+            Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun sendAnalytics(task: Task) {
+        val analyticsBundle = Bundle()
+        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions)
+        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
+    }
+
+    private fun startTask(task: Task) {
+        val intent = Intent(context, TaskTypingActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("task", task)
+        intent.putExtras(bundle)
+        startActivityForResult(intent, 0)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
