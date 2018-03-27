@@ -36,10 +36,13 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        val game = holder.mItem?.task
+        val course = holder.mItem?.course
+        val task = holder.mItem?.task
         val results = holder.mItem?.results
 
-         game?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
+        task?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
+        course?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) } //If course exists, set its title as main title
+
         val result = results?.getOrNull(0)
         holder.mText2View.text = formatLatTriedTime(result)
 

@@ -49,8 +49,19 @@ class ResultFragment : Fragment() {
             sendAnalytics(mTask!!)
         })
         val tv = v.findViewById(R.id.tv_instruction)
-        val instructions = mTask?.instructions + " " + context.resources.getString(R.string.your_most_recent_score)
-        (tv as TextView).text = instructions?.let { String.format(it, mTask?.trials) }
+
+        (tv as TextView).text = mTask?.trials?.let {
+            val instructions = mTask?.instructions + " " +
+                    context.resources.getString(R.string.do_this_number_times) + " " +
+                    context.resources.getString(R.string.your_most_recent_score)
+            String.format(instructions, it)
+        }
+        tv.text = mTask?.durationMillis?.let {
+            val instructions = mTask?.instructions + " " +
+                    context.resources.getString(R.string.type_as_many_as) + " " +
+                    context.resources.getString(R.string.your_most_recent_score)
+            String.format(instructions, mTask?.getTimeLimitAsString(context))
+        }
 
 
         when (mTask?.type) {

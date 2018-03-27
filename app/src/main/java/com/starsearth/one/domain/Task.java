@@ -1,8 +1,10 @@
 package com.starsearth.one.domain;
 
+import android.content.Context;
 import android.os.Parcel;
 
 import com.google.firebase.database.Exclude;
+import com.starsearth.one.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,13 +24,10 @@ public class Task extends SEBaseObject {
     public boolean timed; //currently not used
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
+    public boolean visible=true; //visible to user
 
     public Type getType() {
         return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public enum Type {
@@ -66,6 +65,7 @@ public class Task extends SEBaseObject {
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
         trials = in.readInt();
+        visible = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -91,6 +91,7 @@ public class Task extends SEBaseObject {
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
         result.put("trials", trials);
+        result.put("visible", visible);
 
         return result;
     }
@@ -111,6 +112,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
         dest.writeInt(trials);
+        dest.writeByte((byte) (timed ? 1 : 0));
     }
 
     /*
@@ -133,5 +135,18 @@ public class Task extends SEBaseObject {
     }
 
 
+    public String getTimeLimitAsString(Context context) {
+        StringBuffer buf = new StringBuffer();
+        if (durationMillis >= 120000) {
+            //2 mins or more
+            int mins = durationMillis/60000;
+            buf.append(mins + " " + context.getResources().getString(R.string.minutes) + ".");
+        }
+        else {
+            int mins = 1;
+            buf.append(mins + " " + context.getResources().getString(R.string.minute) + ".");
+        }
+        return buf.toString();
+    }
 
 }

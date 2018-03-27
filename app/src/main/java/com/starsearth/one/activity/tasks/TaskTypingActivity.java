@@ -75,7 +75,7 @@ public class TaskTypingActivity extends AppCompatActivity {
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
-        if (task.type == Task.Type.TYPING_TIMED) {
+        if (task.getType() == Task.Type.TYPING_TIMED) {
             mTimer.setVisibility(View.VISIBLE);
             setupTimer();
         }
@@ -236,7 +236,7 @@ public class TaskTypingActivity extends AppCompatActivity {
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
-        bundle.putInt("game_type", (int) task.type.getValue());
+        bundle.putInt("game_type", (int) task.getType().getValue());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);

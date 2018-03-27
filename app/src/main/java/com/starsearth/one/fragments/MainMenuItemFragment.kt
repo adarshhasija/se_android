@@ -48,7 +48,7 @@ class MainMenuItemFragment : Fragment() {
             val itemCount = adapter.itemCount
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
-                if (menuItem.task.id == result?.task_id) {
+                if (menuItem.isTaskIdExists(result?.task_id!!)) {
                     adapter.removeAt(i) //remove the entry from the list
 
                     menuItem.results.add(result) //add at the end
@@ -110,13 +110,13 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MainMenuItem> {
-        val games = FileTasks.openFile(getContext())
-        val mainMenuItems = ArrayList<MainMenuItem>()
+        val mainMenuItems = FileTasks.getMainMenuItems(getContext())
+      /*  val mainMenuItems = ArrayList<MainMenuItem>()
         for (game in games) {
             val mainMenuItem = MainMenuItem()
             mainMenuItem.task = game
             mainMenuItems.add(mainMenuItem)
-        }
+        }   */
         return mainMenuItems
     }
 

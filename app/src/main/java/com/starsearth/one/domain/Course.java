@@ -19,13 +19,15 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Course extends SEBaseObject {
 
+    public int id; //local id
     public String type;
     public int difficulty;
-    public String title;
     public String description;
     public boolean usbKeyboard;
     //public Map<String, Boolean> lessons = new HashMap<>();
     public Map<String, SENestedObject> lessons = new HashMap<>();
+    public List<Task> tasks;
+    public boolean visible = true;
 
     public Course() {
         super();
@@ -40,13 +42,40 @@ public class Course extends SEBaseObject {
         this.usbKeyboard = usbKeyboard;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     protected Course(Parcel in) {
         super(in);
+        id = in.readInt();
         type = in.readString();
         difficulty = in.readInt();
         description = in.readString();
         usbKeyboard = in.readByte() != 0;
         lessons = in.readHashMap(getClass().getClassLoader());
+        tasks = in.readArrayList(getClass().getClassLoader());
+        visible = in.readByte() != 0;
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -94,11 +123,14 @@ public class Course extends SEBaseObject {
     @Exclude
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
+        result.put("id", id);
         result.put("type", type);
         result.put("difficulty", difficulty);
         result.put("description", description);
         result.put("usbKeyboard", usbKeyboard);
         result.put("lessons", lessons);
+        result.put("tasks", tasks);
+        result.put("visible", visible);
 
         return result;
     }
@@ -111,10 +143,24 @@ public class Course extends SEBaseObject {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeInt(id);
         dest.writeString(type);
         dest.writeInt(difficulty);
         dest.writeString(description);
         dest.writeByte((byte) (usbKeyboard ? 1 : 0));
         dest.writeMap(lessons);
+        dest.writeList(tasks);
+        dest.writeByte((byte) (visible ? 1 : 0));
+    }
+
+    public boolean isTaskExists(int taskId) {
+        boolean result = false;
+        for (Task t : tasks) {
+            if (t.id == taskId) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }

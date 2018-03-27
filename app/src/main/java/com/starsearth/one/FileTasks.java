@@ -2,8 +2,23 @@ package com.starsearth.one;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import com.starsearth.one.domain.Course;
+import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.Task;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +26,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
+import java.lang.reflect.Type;
 
 /**
  * Created by faimac on 3/2/18.
@@ -57,7 +74,7 @@ public class FileTasks {
         task.title = input.get("title");
         task.instructions = input.get("instructions");
         task.content = getContent(input.get("content"));
-        if (input.get("type") != null) task.type = Task.Type.fromInt(Integer.valueOf(input.get("type")));
+        //if (input.get("type") != null) task.type = Task.Type.fromInt(Integer.valueOf(input.get("type")));
         task.ordered = Boolean.parseBoolean(input.get("ordered"));
         task.timed = Boolean.parseBoolean(input.get("timed"));
         if (input.get("durationMillis") != null) task.durationMillis = Integer.valueOf(input.get("durationMillis"));
@@ -66,15 +83,15 @@ public class FileTasks {
         return task;
     }
 
-    public static ArrayList<Task> openFile(Context context) {
+  /*  public static ArrayList<Task> openTextFile(Context context) {
         final AssetManager assetManager = context.getResources().getAssets();
         Vector<String> vector = new Vector<String>();
         HashMap<String, String> map = new HashMap<>();
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = null;
         BufferedReader br;
         try {
-            final InputStream inputStream = assetManager.open("tasks.txt");
+            final InputStream inputStream = assetManager.open("tasks.json");
             br = new BufferedReader(new InputStreamReader(inputStream));
             String line;
 
@@ -96,12 +113,95 @@ public class FileTasks {
                 }
             }
             br.close();
-
-
         } catch (IOException e) {
-            throw new RuntimeException("error reading labels file!", e);
+            e.printStackTrace();
+        }
+        return tasks;
+    }   */
+
+    private static String loadJSONFromAsset(Context context) {
+        String json;
+        try {
+            InputStream is = context.getResources().getAssets().open("tasks.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+    
+
+
+    private static List<Course> getCourses(JSONArray json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Course>>(){}.getType();
+        List<Course> list = gson.fromJson(json.toString(), type);
+        return list;
+    }
+
+    private static List<Task> getTasks(JSONArray json) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
+        Gson gson = gsonBuilder.create();
+        Type type = new TypeToken<List<Task>>(){}.getType();
+        List<Task> list = gson.fromJson(json.toString(), type);
+        return list;
+    }
+
+    public static ArrayList<MainMenuItem> getMainMenuItems(Context context) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        try {
+
+            JSONObject root = new JSONObject(loadJSONFromAsset(context));
+            JSONArray coursesJSON = root.getJSONArray("courses");
+            JSONArray tasksJSON = root.getJSONArray("tasks");
+            List<Course> courses = getCourses(coursesJSON);
+            List<Task> tasks = getTasks(tasksJSON);
+            for (Course c : courses) {
+                if (c.visible) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.course = c;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+            for (Task t : tasks) {
+                if (t.visible) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.task = t;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+          /*  Gson gson = new Gson();
+            Type typeCourse = new TypeToken<List<Course>>(){}.getType();
+            Type typeTask = new TypeToken<List<Task>>(){}.getType();
+            List<Course> coursesList = gson.fromJson(coursesJSON.toString(), typeCourse);
+
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
+            Gson gson2 = gsonBuilder.create();
+            tasksList = gson2.fromJson(tasksJSON.toString(), typeTask);
+            */
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return tasks;
+        return mainMenuItems;
+    }
+
+    private static class TypeDeserializer implements
+            JsonDeserializer<Task.Type>
+    {
+
+        @Override
+        public Task.Type deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            int typeInt = jsonElement.getAsInt();
+            return Task.Type.fromInt(typeInt);
+        }
     }
 }
