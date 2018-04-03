@@ -17,6 +17,7 @@ public class SEBaseObject implements Parcelable {
     public int id; //local id
     public String uid;
     public String title;
+    public boolean visible = true; //visible to the user
     public String createdBy;
     public String updatedBy;
     public String parentType;
@@ -46,6 +47,7 @@ public class SEBaseObject implements Parcelable {
     protected SEBaseObject(Parcel in) {
         uid = in.readString();
         title = in.readString();
+        visible = in.readByte() != 0;
         createdBy = in.readString();
         updatedBy = in.readString();
         parentType = in.readString();
@@ -94,6 +96,7 @@ public class SEBaseObject implements Parcelable {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("title", title);
+        result.put("visible", visible);
         result.put("createdBy", createdBy);
         result.put("updatedBy", updatedBy);
         result.put("parentType", parentType);
@@ -112,6 +115,7 @@ public class SEBaseObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(uid);
         dest.writeString(title);
+        dest.writeByte((byte) (visible ? 1 : 0));
         dest.writeString(createdBy);
         dest.writeString(updatedBy);
         dest.writeString(parentType);

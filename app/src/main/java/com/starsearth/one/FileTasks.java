@@ -14,6 +14,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 
 import org.json.JSONArray;
@@ -166,9 +167,11 @@ public class FileTasks {
             List<Object> teachingContentList = getCourses(coursesJSON);
             teachingContentList.addAll(getTasks(tasksJSON));
             for (Object o : teachingContentList) {
-                MainMenuItem mainMenuItem = new MainMenuItem();
-                mainMenuItem.teachingContent = o;
-                mainMenuItems.add(mainMenuItem);
+                if (((SEBaseObject) o).visible) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.teachingContent = o;
+                    mainMenuItems.add(mainMenuItem);
+                }
             }
           /*  Gson gson = new Gson();
             Type typeCourse = new TypeToken<List<Course>>(){}.getType();

@@ -1,7 +1,7 @@
 {
   "courses": [
     {
-      "visible": false,
+      "visible": true,
       "id": 10,
       "title": "Typing Course",
       "tasks" : [
@@ -94,6 +94,7 @@
     },
     {
       "id": 8,
+      "visible": false,
       "type": 1,
       "timed": true,
       "durationMillis": 61000,
@@ -105,6 +106,7 @@
     },
     {
       "id": 9,
+      "visible": false,
       "type": 1,
       "timed": true,
       "durationMillis": 61000,

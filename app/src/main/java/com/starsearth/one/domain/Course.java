@@ -26,7 +26,6 @@ public class Course extends SEBaseObject {
     //public Map<String, Boolean> lessons = new HashMap<>();
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
-    public boolean visible = true;
 
     public Course() {
         super();
@@ -74,7 +73,6 @@ public class Course extends SEBaseObject {
         usbKeyboard = in.readByte() != 0;
         lessons = in.readHashMap(getClass().getClassLoader());
         tasks = in.readArrayList(getClass().getClassLoader());
-        visible = in.readByte() != 0;
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -129,7 +127,6 @@ public class Course extends SEBaseObject {
         result.put("usbKeyboard", usbKeyboard);
         result.put("lessons", lessons);
         result.put("tasks", tasks);
-        result.put("visible", visible);
 
         return result;
     }
@@ -149,7 +146,6 @@ public class Course extends SEBaseObject {
         dest.writeByte((byte) (usbKeyboard ? 1 : 0));
         dest.writeMap(lessons);
         dest.writeList(tasks);
-        dest.writeByte((byte) (visible ? 1 : 0));
     }
 
     public boolean isTaskExists(int taskId) {

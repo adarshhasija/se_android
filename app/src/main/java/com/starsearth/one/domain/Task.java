@@ -25,7 +25,6 @@ public class Task extends SEBaseObject {
     public boolean timed; //currently not used
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
-    public boolean visible=true; //visible to user
     public String[] tags;
 
     public Type getType() {
@@ -73,7 +72,6 @@ public class Task extends SEBaseObject {
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
         trials = in.readInt();
-        visible = in.readByte() != 0;
         tags = in.createStringArray();
     }
 
@@ -102,7 +100,6 @@ public class Task extends SEBaseObject {
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
         result.put("trials", trials);
-        result.put("visible", visible);
         result.put("tags", tags);
 
         return result;
