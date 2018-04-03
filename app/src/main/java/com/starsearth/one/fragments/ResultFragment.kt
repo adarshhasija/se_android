@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,7 @@ import com.starsearth.one.domain.Task
 class ResultFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
-    private var mCourse: Course? = null
-    private var mTask: Task? = null
+    private var mTeachingContent: Any? = null
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     private var mListener: OnFragmentInteractionListener? = null
@@ -37,8 +37,7 @@ class ResultFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mCourse = arguments.getParcelable(ARG_COURSE)
-            mTask = arguments.getParcelable(ARG_TASK)
+            mTeachingContent = arguments.getParcelable(ARG_TEACHING_CONTENT)
         }
     }
 
@@ -47,36 +46,34 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
         v.findViewById(R.id.btn_start).setOnClickListener(View.OnClickListener {
-            //onButtonPressed(mTask)
-            startTaskTyping(mTask!!)
-            sendAnalytics(mTask!!)
+            //onButtonPressed(mTeachingContent)
+
+            startTaskTyping((mTeachingContent as Task))
+            sendAnalytics((mTeachingContent as Task))
         })
         val tv = v.findViewById(R.id.tv_instruction)
 
-        (tv as TextView).text = mTask?.trials?.let {
-            val instructions = mTask?.instructions + " " +
-                    context.resources.getString(R.string.do_this_number_times) + " " +
-                    context.resources.getString(R.string.your_most_recent_score)
-            String.format(instructions, it)
-        }
-        tv.text = mTask?.durationMillis?.let {
-            val instructions = mTask?.instructions + " " +
-                    context.resources.getString(R.string.complete_as_many_as) + " " +
-                    context.resources.getString(R.string.your_most_recent_score)
-            String.format(instructions, mTask?.getTimeLimitAsString(context))
-        }
+        (tv as TextView).text =
+                (if (mTeachingContent is Task) {
+                    String.format((mTeachingContent as Task)?.instructions + " " +
+                            context.resources.getString(R.string.do_this_number_times) + " " +
+                            context.resources.getString(R.string.your_most_recent_score), (mTeachingContent as Task)?.trials)
+                } else {
+                    ""
+                }).toString()
+        tv.text =
+                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
+                    String.format((mTeachingContent as Task)?.instructions + " " +
+                            context.resources.getString(R.string.complete_as_many_as) + " " +
+                            context.resources.getString(R.string.your_most_recent_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                } else {
+                    ""
+                }).toString()
 
-        when (mTask?.type) {
-            Task.Type.TYPING_TIMED,
-            Task.Type.TYPING_UNTIMED,
-            Task.Type.TAP_SWIPE_TIMED -> {
-                val listFragment = ResultTypingFragment.newInstance(mCourse, mTask)
-                val transaction = childFragmentManager.beginTransaction()
-                transaction.add(R.id.fragment_container_list, listFragment).commit()
-            }
-            else -> {
-            }
-        }
+        val listFragment = ResultTypingFragment.newInstance((mTeachingContent as Parcelable))
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.add(R.id.fragment_container_list, listFragment).commit()
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         return v
@@ -145,7 +142,7 @@ class ResultFragment : Fragment() {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_COURSE = "course"
-        private val ARG_TASK = "task"
+        private val ARG_TEACHING_CONTENT = "task"
 
         /**
          * Use this factory method to create a new instance of
@@ -156,11 +153,10 @@ class ResultFragment : Fragment() {
          * @return A new instance of fragment ResultFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param0: Course?, param1: Task?): ResultFragment {
+        fun newInstance(param0: Parcelable?): ResultFragment {
             val fragment = ResultFragment()
             val args = Bundle()
-            args.putParcelable(ARG_COURSE, param0)
-            args.putParcelable(ARG_TASK, param1)
+            args.putParcelable(ARG_TEACHING_CONTENT, param0)
             fragment.arguments = args
             return fragment
         }

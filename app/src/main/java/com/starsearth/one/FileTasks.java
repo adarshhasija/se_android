@@ -137,22 +137,22 @@ public class FileTasks {
     
 
 
-    private static List<Course> getCourses(JSONArray json) {
+    private static List<Object> getCourses(JSONArray json) {
         //Gson gson = new Gson();
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
         Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Course>>(){}.getType();
-        List<Course> list = gson.fromJson(json.toString(), type);
+        List<Object> list = gson.fromJson(json.toString(), type);
         return list;
     }
 
-    private static List<Task> getTasks(JSONArray json) {
+    private static List<Object> getTasks(JSONArray json) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
         Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Task>>(){}.getType();
-        List<Task> list = gson.fromJson(json.toString(), type);
+        List<Object> list = gson.fromJson(json.toString(), type);
         return list;
     }
 
@@ -163,21 +163,12 @@ public class FileTasks {
             JSONObject root = new JSONObject(loadJSONFromAsset(context));
             JSONArray coursesJSON = root.getJSONArray("courses");
             JSONArray tasksJSON = root.getJSONArray("tasks");
-            List<Course> courses = getCourses(coursesJSON);
-            List<Task> tasks = getTasks(tasksJSON);
-            for (Course c : courses) {
-                if (c.visible) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.course = c;
-                    mainMenuItems.add(mainMenuItem);
-                }
-            }
-            for (Task t : tasks) {
-                if (t.visible) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.task = t;
-                    mainMenuItems.add(mainMenuItem);
-                }
+            List<Object> teachingContentList = getCourses(coursesJSON);
+            teachingContentList.addAll(getTasks(tasksJSON));
+            for (Object o : teachingContentList) {
+                MainMenuItem mainMenuItem = new MainMenuItem();
+                mainMenuItem.teachingContent = o;
+                mainMenuItems.add(mainMenuItem);
             }
           /*  Gson gson = new Gson();
             Type typeCourse = new TypeToken<List<Course>>(){}.getType();

@@ -58,14 +58,11 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
 
     override fun onListFragmentInteraction(item: MainMenuItem) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        val course = item.course
-        val task = item.task
-        if (course != null) sendAnalytics(course)
-        else sendAnalytics(task)
+        val teachingContent = item.teachingContent
+        sendAnalytics((teachingContent as SEBaseObject))
         val intent = Intent(this, ResultActivity::class.java)
         val bundle = Bundle()
-        course?.let { bundle.putParcelable("course", it) }
-        task?.let { bundle.putParcelable("task", it) }
+        bundle.putParcelable("teachingContent", teachingContent)
         intent.putExtras(bundle)
         startActivity(intent)
     }

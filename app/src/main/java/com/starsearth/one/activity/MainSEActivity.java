@@ -127,7 +127,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
 
     @Override
     public void onListFragmentInteraction(@NotNull MainMenuItem item) {
-        Task task = item.task;
+        Task task = (Task) item.teachingContent;
         sendAnalytics(task);
         Intent intent = new Intent(this, ResultActivity.class);
         Bundle bundle = new Bundle();

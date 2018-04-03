@@ -11,6 +11,7 @@ import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
+import com.starsearth.one.domain.SEBaseObject
 
 import com.starsearth.one.fragments.MainMenuItemFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -36,12 +37,11 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        val course = holder.mItem?.course
-        val task = holder.mItem?.task
+        //val course = holder.mItem?.course
+        val teachingContent = holder.mItem?.teachingContent
         val results = holder.mItem?.results
 
-        task?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
-        course?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) } //If course exists, set its title as main title
+        (teachingContent as SEBaseObject)?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
 
         val result = results?.getOrNull(0)
         holder.mText2View.text = formatLatTriedTime(result)

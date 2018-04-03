@@ -10,9 +10,7 @@ import java.util.List;
 public class MainMenuItem {
 
     //Either a course or a task
-    public Course course;
-    public Task task;
-
+    public Object teachingContent;
     public List<Result> results = new ArrayList<>(); //This should only contain the most recent result
 
     public MainMenuItem() {
@@ -21,11 +19,13 @@ public class MainMenuItem {
 
     public boolean isTaskIdExists(int taskId) {
         boolean result = false;
-        if (course != null) {
-            result = course.isTaskExists(taskId);
+        if (teachingContent instanceof Course) {
+            result = ((Course) teachingContent).isTaskExists(taskId);
         }
-        else if (taskId == task.id) {
-            result = true;
+        else if (teachingContent instanceof Task) {
+            if (taskId == ((Task) teachingContent).id) {
+                result = true;
+            }
         }
         return result;
     }

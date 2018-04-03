@@ -2,6 +2,7 @@ package com.starsearth.one.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -32,20 +33,20 @@ import java.util.*
 class ResultTypingFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
-    private var mCourse: Course? = null
-    private var mTask: Task? = null
+    private var mTeachingContent: Any? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val resultTyping = if (mTask?.type == Task.Type.TYPING_TIMED || mTask?.type == Task.Type.TYPING_UNTIMED) {
+            val resultTyping = if ((mTeachingContent as Task)?.type == Task.Type.TYPING_TIMED || (mTeachingContent as Task)?.type == Task.Type.TYPING_UNTIMED) {
                 dataSnapshot.getValue(ResultTyping::class.java)
             } else {
                 dataSnapshot.getValue(ResultGestures::class.java)
             }
-            mCourse?.let { if (!it.isTaskExists(resultTyping!!.task_id)) { return } }
-            mTask?.let { if (mTask?.id != resultTyping!!.task_id) { return } }
+            if ((mTeachingContent as SEBaseObject)?.id != resultTyping!!.task_id) {
+                return;
+            }
 
             if (resultTyping!!.isJustCompleted) {
                 justCompletedTask(resultTyping)
@@ -87,7 +88,7 @@ class ResultTypingFragment : Fragment() {
 
     private fun justCompletedTask(result: Any?) {
         if (result is ResultTyping) {
-            Toast.makeText(context, result.getResultToast(context, mTask?.type), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type), Toast.LENGTH_SHORT).show()
         }
         else if (result is ResultGestures) {
             Toast.makeText(context, result.getResultToast(context), Toast.LENGTH_SHORT).show()
@@ -102,8 +103,7 @@ class ResultTypingFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mCourse = arguments.getParcelable(ARG_COURSE)
-            mTask = arguments.getParcelable(ARG_TASK)
+            mTeachingContent = arguments.getParcelable(ARG_TEACHING_CONTENT)
         }
     }
 
@@ -119,10 +119,10 @@ class ResultTypingFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val tasks = if (mCourse != null) {
-                mCourse!!.getTasks()
+            val tasks = if (mTeachingContent is Course) {
+                (mTeachingContent as Course)!!.getTasks()
             } else {
-                ArrayList(Arrays.asList(mTask))
+                ArrayList(Arrays.asList(mTeachingContent))
             }
             val results = ArrayList<Any>()
             view.adapter = MyResultTypingRecyclerViewAdapter(tasks as List<Task>, results, mListener)
@@ -169,15 +169,13 @@ class ResultTypingFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_COURSE = "course"
-        private val ARG_TASK = "task"
+        private val ARG_TEACHING_CONTENT = "teaching_content"
 
         // TODO: Customize parameter initialization
-        fun newInstance(course: Course?, task: Task?): ResultTypingFragment {
+        fun newInstance(teachingContent: Parcelable?): ResultTypingFragment {
             val fragment = ResultTypingFragment()
             val args = Bundle()
-            args.putParcelable(ARG_COURSE, course)
-            args.putParcelable(ARG_TASK, task)
+            args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
             fragment.arguments = args
             return fragment
         }

@@ -3,6 +3,7 @@ package com.starsearth.one.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.activity.tasks.TaskTypingActivity;
 import com.starsearth.one.domain.Course;
+import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.fragments.ResultFragment;
@@ -22,8 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
 
-    Course course = null;
-    Task task = null;
+    Object teachingContent = null;
 
     private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
         Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
@@ -54,8 +55,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            course = extras.getParcelable("course");
-            task = extras.getParcelable("task");
+            teachingContent = extras.getParcelable("teachingContent");
         }
     }
 
@@ -63,9 +63,9 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     protected void onStart() {
         super.onStart();
 
-        if (course != null || task != null) {
-            setTitle(Utils.formatStringFirstLetterCapital(course != null? course.title : task.title));
-            ResultFragment fragment = ResultFragment.Companion.newInstance(course, task);
+        if (teachingContent != null) {
+            setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
+            ResultFragment fragment = ResultFragment.Companion.newInstance((Parcelable) teachingContent);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit();
 
