@@ -14,6 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.tasks.TaskTypingActivity
+import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Task
 
 /**
@@ -27,6 +28,7 @@ import com.starsearth.one.domain.Task
 class ResultFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
+    private var mCourse: Course? = null
     private var mTask: Task? = null
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
@@ -35,7 +37,8 @@ class ResultFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mTask = arguments.getParcelable(ARG_PARAM1)
+            mCourse = arguments.getParcelable(ARG_COURSE)
+            mTask = arguments.getParcelable(ARG_TASK)
         }
     }
 
@@ -45,7 +48,7 @@ class ResultFragment : Fragment() {
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
         v.findViewById(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTask)
-            startTask(mTask!!)
+            startTaskTyping(mTask!!)
             sendAnalytics(mTask!!)
         })
         val tv = v.findViewById(R.id.tv_instruction)
@@ -58,16 +61,16 @@ class ResultFragment : Fragment() {
         }
         tv.text = mTask?.durationMillis?.let {
             val instructions = mTask?.instructions + " " +
-                    context.resources.getString(R.string.type_as_many_as) + " " +
+                    context.resources.getString(R.string.complete_as_many_as) + " " +
                     context.resources.getString(R.string.your_most_recent_score)
             String.format(instructions, mTask?.getTimeLimitAsString(context))
         }
 
-
         when (mTask?.type) {
             Task.Type.TYPING_TIMED,
-            Task.Type.TYPING_UNTIMED -> {
-                val listFragment = ResultTypingFragment.newInstance(mTask!!)
+            Task.Type.TYPING_UNTIMED,
+            Task.Type.TAP_SWIPE_TIMED -> {
+                val listFragment = ResultTypingFragment.newInstance(mCourse, mTask)
                 val transaction = childFragmentManager.beginTransaction()
                 transaction.add(R.id.fragment_container_list, listFragment).commit()
             }
@@ -95,7 +98,7 @@ class ResultFragment : Fragment() {
         mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
     }
 
-    private fun startTask(task: Task) {
+    private fun startTaskTyping(task: Task) {
         val intent = Intent(context, TaskTypingActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("task", task)
@@ -141,7 +144,8 @@ class ResultFragment : Fragment() {
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private val ARG_PARAM1 = "task"
+        private val ARG_COURSE = "course"
+        private val ARG_TASK = "task"
 
         /**
          * Use this factory method to create a new instance of
@@ -152,10 +156,11 @@ class ResultFragment : Fragment() {
          * @return A new instance of fragment ResultFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: Task): ResultFragment {
+        fun newInstance(param0: Course?, param1: Task?): ResultFragment {
             val fragment = ResultFragment()
             val args = Bundle()
-            args.putParcelable(ARG_PARAM1, param1)
+            args.putParcelable(ARG_COURSE, param0)
+            args.putParcelable(ARG_TASK, param1)
             fragment.arguments = args
             return fragment
         }

@@ -51,8 +51,7 @@
             android:name=".activity.tasks.TaskTypingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ResultActivity"
             android:configChanges="orientation"
@@ -78,7 +77,12 @@
         <activity
             android:name=".activity.TabbedActivity"
             android:label="@string/title_activity_tabbed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.tasks.TaskGestureActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_task_gesture"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

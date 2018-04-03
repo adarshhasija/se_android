@@ -16,22 +16,28 @@ import java.util.Random;
 
 public class Task extends SEBaseObject {
 
-    public int id; //local id...text file
     public String instructions;
     public String[] content;
+    public String[] tap;
+    public String[] swipe;
     public Type type;
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed; //currently not used
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
     public boolean visible=true; //visible to user
+    public String[] tags;
 
     public Type getType() {
         return type;
     }
 
     public enum Type {
-        TYPING_TIMED(1), TYPING_UNTIMED(2);
+        TYPING_TIMED(1),
+        TYPING_UNTIMED(2),
+        KEYBOARD_TEST(3),
+        TAP_SWIPE_TIMED(4)
+        ;
 
         private final long value;
 
@@ -60,12 +66,15 @@ public class Task extends SEBaseObject {
         id = in.readInt();
         instructions = in.readString();
         content = in.createStringArray();
+        tap = in.createStringArray();
+        swipe = in.createStringArray();
         type = Type.fromInt(in.readInt());
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
         trials = in.readInt();
         visible = in.readByte() != 0;
+        tags = in.createStringArray();
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -86,12 +95,15 @@ public class Task extends SEBaseObject {
         result.put("id", id);
         result.put("instructions", instructions);
         result.put("content", content);
+        result.put("tap", tap);
+        result.put("swipe", swipe);
         result.put("type", type.getValue());
         result.put("ordered", ordered);
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
         result.put("trials", trials);
         result.put("visible", visible);
+        result.put("tags", tags);
 
         return result;
     }
@@ -107,21 +119,44 @@ public class Task extends SEBaseObject {
         dest.writeInt(id);
         dest.writeString(instructions);
         dest.writeStringArray(content);
+        dest.writeStringArray(tap);
+        dest.writeStringArray(swipe);
         dest.writeInt((int) type.getValue());
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
         dest.writeInt(trials);
         dest.writeByte((byte) (timed ? 1 : 0));
+        dest.writeStringArray(tags);
     }
 
     /*
     If content should be returned in any order
+    Type: typing
      */
-    public String getNextItem() {
+    public String getNextItemTyping() {
         Random random = new Random();
         int i = random.nextInt(content.length);
         return content[i];
+    }
+
+
+    /*
+    If content should be returned in any order
+    Type: gesture
+     */
+    public Map<String, Boolean> getNextItemGesture() {
+        Map<String, Boolean> map = new HashMap<>();
+        Random random = new Random();
+        int i = random.nextInt(2);
+        if (i % 2 == 0) {
+            map.put(tap[random.nextInt(tap.length)], true);
+            return map;
+        }
+        else {
+            map.put(swipe[random.nextInt(swipe.length)], false);
+            return map;
+        }
     }
 
     /*
@@ -130,7 +165,7 @@ public class Task extends SEBaseObject {
         Function takes modulo and returns the exact item
         Return content at index
      */
-    public String getNextItem(int index) {
+    public String getNextItemTyping(int index) {
         return content[index % content.length];
     }
 

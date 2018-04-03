@@ -5,8 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:focusableInTouchMode="true"
     android:id="@+id/rl"
     tools:context="com.starsearth.one.activity.tasks.TaskTypingActivity">
+
+    <ImageView
+        android:id="@+id/img_red"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#FF0000" />
+
+    <ImageView
+        android:id="@+id/img_green"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#00FF00" />
 
     <TextView
         android:id="@+id/tv_timer"

@@ -12,6 +12,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.activity.tasks.TaskTypingActivity;
+import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.fragments.ResultFragment;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
 
+    Course course = null;
     Task task = null;
 
     private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
@@ -52,6 +54,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
+            course = extras.getParcelable("course");
             task = extras.getParcelable("task");
         }
     }
@@ -60,9 +63,9 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     protected void onStart() {
         super.onStart();
 
-        if (task != null) {
-            setTitle(Utils.formatStringFirstLetterCapital(task.title));
-            ResultFragment fragment = ResultFragment.Companion.newInstance(task);
+        if (course != null || task != null) {
+            setTitle(Utils.formatStringFirstLetterCapital(course != null? course.title : task.title));
+            ResultFragment fragment = ResultFragment.Companion.newInstance(course, task);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit();
 

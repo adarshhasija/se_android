@@ -15,8 +15,8 @@ import com.google.firebase.database.*
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyResultTypingRecyclerViewAdapter
-import com.starsearth.one.domain.Task
-import com.starsearth.one.domain.ResultTyping
+import com.starsearth.one.domain.*
+import java.util.*
 
 /**
  * A fragment representing a list of Items.
@@ -32,26 +32,37 @@ import com.starsearth.one.domain.ResultTyping
 class ResultTypingFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
+    private var mCourse: Course? = null
     private var mTask: Task? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val resultTyping = dataSnapshot.getValue(ResultTyping::class.java)
-            if (mTask?.id != resultTyping!!.task_id) {
-                return
+            val resultTyping = if (mTask?.type == Task.Type.TYPING_TIMED || mTask?.type == Task.Type.TYPING_UNTIMED) {
+                dataSnapshot.getValue(ResultTyping::class.java)
+            } else {
+                dataSnapshot.getValue(ResultGestures::class.java)
             }
+            mCourse?.let { if (!it.isTaskExists(resultTyping!!.task_id)) { return } }
+            mTask?.let { if (mTask?.id != resultTyping!!.task_id) { return } }
+
             if (resultTyping!!.isJustCompleted) {
-                alertScore(resultTyping)
+                justCompletedTask(resultTyping)
             }
             val adapter = (view as RecyclerView).adapter
-            (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
+            if (resultTyping is ResultTyping) {
+                (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
+            }
+            else if (resultTyping is ResultGestures) {
+                (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
+            }
+
 
             if (adapter.itemCount > 1) {
                 //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
-                val lastItem = adapter.getItem(adapter.itemCount - 1)
-                mDatabase?.child(lastItem.uid)?.removeValue() //delete from the database
+                val lastItem = (adapter as MyResultTypingRecyclerViewAdapter).getItem(adapter.itemCount - 1)
+                mDatabase?.child((lastItem as Result).uid)?.removeValue() //delete from the database
                 adapter.removeItem(lastItem)
             }
             adapter.notifyDataSetChanged()
@@ -74,7 +85,16 @@ class ResultTypingFragment : Fragment() {
         }
     }
 
-    private fun alertScore(result: ResultTyping) {
+    private fun justCompletedTask(result: Any?) {
+        if (result is ResultTyping) {
+            Toast.makeText(context, result.getResultToast(context, mTask?.type), Toast.LENGTH_SHORT).show()
+        }
+        else if (result is ResultGestures) {
+            Toast.makeText(context, result.getResultToast(context), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun alertScoreTyping(result: ResultTyping) {
         Toast.makeText(context, getString(R.string.your_score) + " " + result.words_correct, Toast.LENGTH_SHORT).show()
     }
 
@@ -82,7 +102,8 @@ class ResultTypingFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mTask = arguments.getParcelable(ARG_GAME)
+            mCourse = arguments.getParcelable(ARG_COURSE)
+            mTask = arguments.getParcelable(ARG_TASK)
         }
     }
 
@@ -98,8 +119,13 @@ class ResultTypingFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val items = ArrayList<ResultTyping>()
-            mTask?.let { view.adapter = MyResultTypingRecyclerViewAdapter(it, items, mListener) }
+            val tasks = if (mCourse != null) {
+                mCourse!!.getTasks()
+            } else {
+                ArrayList(Arrays.asList(mTask))
+            }
+            val results = ArrayList<Any>()
+            view.adapter = MyResultTypingRecyclerViewAdapter(tasks as List<Task>, results, mListener)
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             mDatabase = FirebaseDatabase.getInstance().getReference("results")
@@ -143,13 +169,15 @@ class ResultTypingFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_GAME = "task"
+        private val ARG_COURSE = "course"
+        private val ARG_TASK = "task"
 
         // TODO: Customize parameter initialization
-        fun newInstance(task: Task): ResultTypingFragment {
+        fun newInstance(course: Course?, task: Task?): ResultTypingFragment {
             val fragment = ResultTypingFragment()
             val args = Bundle()
-            args.putParcelable(ARG_GAME, task)
+            args.putParcelable(ARG_COURSE, course)
+            args.putParcelable(ARG_TASK, task)
             fragment.arguments = args
             return fragment
         }

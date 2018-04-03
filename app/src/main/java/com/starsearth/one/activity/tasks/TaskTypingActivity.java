@@ -1,7 +1,8 @@
 package com.starsearth.one.activity.tasks;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,8 +15,13 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,21 +30,31 @@ import com.starsearth.one.R;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 public class TaskTypingActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
 
-    private int index=0;
     //List<String> sentencesList;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private long timeTakenMillis;
+
+    //typing activity
+    private int index=0;
     private int charactersCorrect=0;
     private int wordsCorrect=0;
     private int totalCharactersAttempted=0;
     private int totalWordsFinished=0;
     private boolean wordIncorrect = false; //This is used to show that 1 mistake has been made when typing a word
-    private String expectedAnswer;
-    private long timeTakenMillis;
+    private String expectedAnswer; //for typing tasks
+
+    //gesture activity
+    private boolean expectedAnswerGesture;
+    private int itemsAttempted =0;
+    private int itemsCorrect =0;
 
     private RelativeLayout rl;
     private TextView tvMain;
@@ -51,7 +67,7 @@ public class TaskTypingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_typing_test);
+        setContentView(R.layout.activity_task);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -63,7 +79,7 @@ public class TaskTypingActivity extends AppCompatActivity {
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
         mTimer = (TextView) findViewById(R.id.tv_timer);
         rl = (RelativeLayout) findViewById(R.id.rl);
-        rl.setOnClickListener(new View.OnClickListener() {
+      /*  rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (expectedAnswer != null) {
@@ -71,11 +87,12 @@ public class TaskTypingActivity extends AppCompatActivity {
                     rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
                 }
             }
-        });
+        }); */
+
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
-        if (task.getType() == Task.Type.TYPING_TIMED) {
+        if (task.getType() == Task.Type.TYPING_TIMED || task.getType() == Task.Type.TAP_SWIPE_TIMED) {
             mTimer.setVisibility(View.VISIBLE);
             setupTimer();
         }
@@ -83,6 +100,28 @@ public class TaskTypingActivity extends AppCompatActivity {
             mTimer.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        //Show keyboard only if it is a typing task
+        rl.requestFocus();
+        Runnable runnable = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                InputMethodManager keyboard = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(rl, 0);
+            }
+        };
+        if (task.type == Task.Type.TYPING_UNTIMED || task.type == Task.Type.TYPING_TIMED) {
+            rl.postDelayed(runnable,200); //use 300 to make it run when coming back from lock screen
+        }
     }
 
     private void setupTimer() {
@@ -139,6 +178,11 @@ public class TaskTypingActivity extends AppCompatActivity {
             //If backspace is pressed, signal error. This is not allowed
             beep();
             vibrate();
+            return super.onKeyDown(keyCode, event);
+        }
+        if (expectedAnswer == null) {
+            //If there is no expected answer, we cannot proceed.
+            //Likely a non-typing activity
             return super.onKeyDown(keyCode, event);
         }
         final TextView tvMain = (TextView) findViewById(R.id.tv_main);
@@ -201,6 +245,84 @@ public class TaskTypingActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    private float x1,x2,y1,y2;
+    static final int MIN_DISTANCE = 150;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float deltaX = x2 - x1;
+                float deltaY = y2 - y1;
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                        //left -> right
+                        //swipe means false
+                        itemsAttempted++;
+                        if (!expectedAnswerGesture) {
+                            flashRightAnswer();
+                            itemsCorrect++;
+                        }
+                        else {
+                            flashWrongAnswer();
+                            vibrate();
+                        }
+                        nextItemGesture();
+                    }
+                }
+                if (Math.abs(deltaY) > MIN_DISTANCE)
+                {
+                    if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                        //top -> bottom
+                        //swipe means false
+                        itemsAttempted++;
+                        if (!expectedAnswerGesture) {
+                            flashRightAnswer();
+                            itemsCorrect++;
+                        }
+                        else {
+                            flashWrongAnswer();
+                            vibrate();
+                        }
+                        nextItemGesture();
+                    }
+                }
+                else
+                {
+                    // consider as something else - a screen tap for example
+                    if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+                        if (expectedAnswer != null) {
+                            //On screen tap, announce the next expected character
+                            rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
+                        }
+                    }
+                    else if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                        //tap
+                        //tap means true
+                        itemsAttempted++;
+                        if (expectedAnswerGesture) {
+                            flashRightAnswer();
+                            itemsCorrect++;
+                        }
+                        else {
+                            flashWrongAnswer();
+                            vibrate();
+                        }
+                        nextItemGesture();
+                    }
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
     private void beep() {
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -220,7 +342,12 @@ public class TaskTypingActivity extends AppCompatActivity {
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         Firebase firebase = new Firebase("results");
-        firebase.writeNewResult(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
+        if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+            firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
+        }
+        else {
+            firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
+        }
 
         firebaseAnalyticsGameCompleted();
         setResult(RESULT_OK);
@@ -363,11 +490,32 @@ public class TaskTypingActivity extends AppCompatActivity {
      * Empty list not allowed
      */
     private void nextItem() {
+        if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+            nextItemTyping();
+        }
+        else {
+            nextItemGesture();
+        }
+    }
+
+    private void nextItemTyping() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = task.ordered ? task.getNextItem(totalWordsFinished) : task.getNextItem();
+        String text = task.ordered ? task.getNextItemTyping(totalWordsFinished) : task.getNextItemTyping();
         tvMain.setText(text);
         tvMain.announceForAccessibility(text.substring(0,1));
         expectedAnswer = formatSpaceCharacter(text);
+    }
+
+    private void nextItemGesture() {
+        Map<String, Boolean> map = task.getNextItemGesture();
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            tvMain.setText(pair.getKey().toString());
+            expectedAnswerGesture = (boolean) pair.getValue();
+            //it.remove(); // avoids a ConcurrentModificationException
+        }
+        tvMain.announceForAccessibility(tvMain.getText());
     }
 
     /*
@@ -392,4 +540,37 @@ public class TaskTypingActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
         finish();
     }
+
+    private void flashWrongAnswer() {
+        final ImageView mContentView = (ImageView) findViewById(R.id.img_red);
+        mContentView.setAlpha(0f);
+        mContentView.setVisibility(View.VISIBLE);
+
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(150)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mContentView.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void flashRightAnswer() {
+        final ImageView mContentView = (ImageView) findViewById(R.id.img_green);
+        mContentView.setAlpha(0f);
+        mContentView.setVisibility(View.VISIBLE);
+
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(150)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mContentView.setVisibility(View.GONE);
+                    }
+                });
+    }
+
 }

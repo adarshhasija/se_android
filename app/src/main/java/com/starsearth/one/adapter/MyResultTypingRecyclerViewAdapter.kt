@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 
@@ -18,7 +19,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mValues: ArrayList<ResultTyping>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
+class MyResultTypingRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: ArrayList<Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = 0
@@ -36,10 +37,17 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val task = mTasks.getOrNull(position)
         holder.mItem = mValues[position]
-        holder.mTitleView.text = Utils.formatStringFirstLetterCapital(mTask.title)
-        holder.mResultView.text = mValues[position].getScoreSummary(holder.mView.context, mTask.type)
-        holder.mResultSummaryView.text = mValues[position].getExplanationSummary(holder.mView.context, mTask.type)
+        holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
+        if (holder.mItem is ResultTyping) {
+            holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.type)
+            holder.mResultSummaryView.text = (holder.mItem as ResultTyping).getExplanationSummary(holder.mView.context, task?.type)
+        }
+        else if (holder.mItem is ResultGestures) {
+            holder.mResultView.text = (holder.mItem as ResultGestures).getScoreSummary(holder.mView.context, task?.type)
+            holder.mResultSummaryView.text = (holder.mItem as ResultGestures).getExplanationSummary(holder.mView.context, task?.type)
+        }
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
@@ -50,15 +58,15 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
         return mValues.size
     }
 
-    fun getItem(index: Int): ResultTyping {
+    fun getItem(index: Int): Any {
         return mValues.get(index)
     }
 
-    fun addItem(index: Int, item: ResultTyping) {
+    fun addItem(index: Int, item: Any) {
         mValues.add(index, item)
     }
 
-    fun removeItem(item: ResultTyping) {
+    fun removeItem(item: Any) {
         mValues.remove(item)
     }
 
@@ -66,7 +74,7 @@ class MyResultTypingRecyclerViewAdapter(private val mTask : Task, private val mV
         val mTitleView: TextView
         val mResultView: TextView
         val mResultSummaryView: TextView
-        var mItem: ResultTyping? = null
+        var mItem: Any? = null
 
         init {
             mTitleView = mView.findViewById(R.id.tv_title) as TextView

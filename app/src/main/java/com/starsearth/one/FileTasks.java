@@ -138,7 +138,10 @@ public class FileTasks {
 
 
     private static List<Course> getCourses(JSONArray json) {
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
+        Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Course>>(){}.getType();
         List<Course> list = gson.fromJson(json.toString(), type);
         return list;

@@ -1,10 +1,17 @@
 {
   "courses": [
     {
-      "visible": true,
+      "visible": false,
       "id": 10,
       "title": "Typing Course",
       "tasks" : [
+        {
+          "id": 11,
+          "type": 3,
+          "title": "Keyboard Test",
+          "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",
+          "tags": ["typing"]
+        },
         {
           "id": 3,
           "type": 2,
@@ -13,7 +20,7 @@
           "instructions": "Type f and press spacebar. Do this %s times. Target Accuracy 90%%",
           "trials": 4,
           "content": ["f␣f␣f␣f␣"],
-          "tags": "typing"
+          "tags": ["typing"]
         },
         {
           "id": 4,
@@ -23,7 +30,7 @@
           "instructions": "Type j and press spacebar. Do this %s times. Target Accuracy 90%%",
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
-          "tags": "typing"
+          "tags": ["typing"]
         }
       ]
     }
@@ -46,7 +53,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "capital letters",
-      "instructions": "You will be shown some capital letters. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown some capital letters.",
       "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
       "ordered": false,
       "tags": ["english","alphabet"]
@@ -57,7 +64,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "months - in order",
-      "instructions": "You will be shown the months of the year in the right order. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown the months of the year in the right order.",
       "content": ["January","February","March","April","May","June","July","August","September","October","November","December"],
       "ordered": true,
       "tags": ["english","general knowledge"]
@@ -68,7 +75,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "months - not in order",
-      "instructions": "You will be shown the months of the year in random order. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown the months of the year in random order.",
       "content": ["January","February","March","April","May","June","July","August","September","October","November","December"],
       "ordered": false,
       "tags": ["english","general knowledge"]
@@ -80,7 +87,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "vowels",
-      "instructions": "You will be shown the vowels as small letters in random order. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown the vowels as small letters in random order.",
       "content": ["a","e","i","o","u"],
       "ordered": false,
       "tags": ["english"]
@@ -91,7 +98,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "planets - in order",
-      "instructions": "You will be shown the names of planets, in order of how far they are from the Sun. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown the names of planets, in order of how far they are from the Sun.",
       "content": ["Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"],
       "ordered": true,
       "tags": ["science","physics","solar system","general knowledge"]
@@ -102,10 +109,22 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "planets - not in order",
-      "instructions": "You will be shown the names of planets, in random order. Type as many of them as you can within 1 minute.",
+      "instructions": "You will be shown the names of planets, in random order.",
       "content": ["Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"],
       "ordered": false,
       "tags": ["science","physics","solar system","general knowledge"]
+    },
+    {
+      "id": 11,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "title": "Tap and swipe",
+      "instructions": "You will be shown 2 words. Tap when you see the word tap. Swipe when you see the word swipe.",
+      "tap": ["Tap"],
+      "swipe": ["Swipe"],
+      "ordered": false,
+      "tags": ["attention","concentration","reflexes"]
     }
   ]
 }

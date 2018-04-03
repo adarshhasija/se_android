@@ -20,6 +20,7 @@ import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.domain.Task
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
+import com.starsearth.one.domain.SEBaseObject
 import com.starsearth.one.fragments.MainMenuItemFragment
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
@@ -27,10 +28,10 @@ import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
-    fun sendAnalytics(task: Task) {
+    fun sendAnalytics(item: SEBaseObject) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
         mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
@@ -57,11 +58,14 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
 
     override fun onListFragmentInteraction(item: MainMenuItem) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        val game = item.task
-        sendAnalytics(game)
+        val course = item.course
+        val task = item.task
+        if (course != null) sendAnalytics(course)
+        else sendAnalytics(task)
         val intent = Intent(this, ResultActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelable("task", game)
+        course?.let { bundle.putParcelable("course", it) }
+        task?.let { bundle.putParcelable("task", it) }
         intent.putExtras(bundle)
         startActivity(intent)
     }

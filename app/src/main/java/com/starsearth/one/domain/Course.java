@@ -19,7 +19,6 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Course extends SEBaseObject {
 
-    public int id; //local id
     public String type;
     public int difficulty;
     public String description;

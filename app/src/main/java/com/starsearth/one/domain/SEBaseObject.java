@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class SEBaseObject implements Parcelable {
 
+    public int id; //local id
     public String uid;
     public String title;
     public String createdBy;
