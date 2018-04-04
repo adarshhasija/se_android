@@ -14,8 +14,7 @@ import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.tasks.TaskTypingActivity
-import com.starsearth.one.domain.Course
+import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.domain.Task
 
 /**
@@ -70,7 +69,7 @@ class ResultFragment : Fragment() {
                     ""
                 }).toString()
 
-        val listFragment = ResultTypingFragment.newInstance((mTeachingContent as Parcelable))
+        val listFragment = ResultListFragment.newInstance((mTeachingContent as Parcelable))
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container_list, listFragment).commit()
 
@@ -96,7 +95,7 @@ class ResultFragment : Fragment() {
     }
 
     private fun startTaskTyping(task: Task) {
-        val intent = Intent(context, TaskTypingActivity::class.java)
+        val intent = Intent(context, TaskActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("task", task)
         intent.putExtras(bundle)

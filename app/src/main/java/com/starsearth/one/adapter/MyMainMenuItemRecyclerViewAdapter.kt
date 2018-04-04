@@ -43,7 +43,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
         (teachingContent as SEBaseObject)?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
 
-        val result = results?.getOrNull(0)
+        val result = results?.peek()
         holder.mText2View.text = formatLatTriedTime(result)
 
         holder.mView.setOnClickListener {
@@ -64,7 +64,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
     }
 
     fun addItem(mainMenuItem: MainMenuItem) {
-        val lastTriedMillis = mainMenuItem.results.get(0).timestamp
+        val lastTriedMillis = mainMenuItem.results.peek().timestamp
         val index = indexToInsert(lastTriedMillis)
         mValues.add(index, mainMenuItem)
     }
@@ -98,7 +98,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
     private fun getLastTriedMillis(index: Int): Long {
         var timestamp: Long = 0
         val mainMenuItem = mValues.get(index)
-        val lastTried = mainMenuItem.results.getOrNull(0)
+        val lastTried = mainMenuItem.results.peek()
         lastTried?.let { timestamp = it.timestamp }
         return timestamp
     }

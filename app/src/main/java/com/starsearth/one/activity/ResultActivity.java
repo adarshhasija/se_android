@@ -1,7 +1,6 @@
 package com.starsearth.one.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
@@ -9,20 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
-import com.starsearth.one.activity.tasks.TaskTypingActivity;
-import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.fragments.ResultFragment;
-import com.starsearth.one.fragments.ResultTypingFragment;
+import com.starsearth.one.fragments.ResultListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultTypingFragment.OnListFragmentInteractionListener {
+public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultListFragment.OnListFragmentInteractionListener {
 
     Object teachingContent = null;
 

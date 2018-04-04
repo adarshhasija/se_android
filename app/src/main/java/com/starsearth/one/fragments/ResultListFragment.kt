@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MyResultTypingRecyclerViewAdapter
+import com.starsearth.one.adapter.MyResultRecyclerViewAdapter
 import com.starsearth.one.domain.*
 import java.util.*
 
@@ -30,7 +30,7 @@ import java.util.*
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class ResultTypingFragment : Fragment() {
+class ResultListFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var mTeachingContent: Any? = null
@@ -39,30 +39,30 @@ class ResultTypingFragment : Fragment() {
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val resultTyping = if ((mTeachingContent as Task)?.type == Task.Type.TYPING_TIMED || (mTeachingContent as Task)?.type == Task.Type.TYPING_UNTIMED) {
+            val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING_TIMED || (mTeachingContent as Task)?.type == Task.Type.TYPING_UNTIMED) {
                 dataSnapshot.getValue(ResultTyping::class.java)
             } else {
                 dataSnapshot.getValue(ResultGestures::class.java)
             }
-            if ((mTeachingContent as SEBaseObject)?.id != resultTyping!!.task_id) {
+            if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
             }
 
-            if (resultTyping!!.isJustCompleted) {
-                justCompletedTask(resultTyping)
+            if (result!!.isJustCompleted) {
+                justCompletedTask(result)
             }
             val adapter = (view as RecyclerView).adapter
-            if (resultTyping is ResultTyping) {
-                (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
+            if (result is ResultTyping) {
+                (adapter as MyResultRecyclerViewAdapter).addItem(0, result)
             }
-            else if (resultTyping is ResultGestures) {
-                (adapter as MyResultTypingRecyclerViewAdapter).addItem(0, resultTyping)
+            else if (result is ResultGestures) {
+                (adapter as MyResultRecyclerViewAdapter).addItem(0, result)
             }
 
 
             if (adapter.itemCount > 1) {
                 //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
-                val lastItem = (adapter as MyResultTypingRecyclerViewAdapter).getItem(adapter.itemCount - 1)
+                val lastItem = (adapter as MyResultRecyclerViewAdapter).getItem(adapter.itemCount - 1)
                 mDatabase?.child((lastItem as Result).uid)?.removeValue() //delete from the database
                 adapter.removeItem(lastItem)
             }
@@ -125,7 +125,7 @@ class ResultTypingFragment : Fragment() {
                 ArrayList(Arrays.asList(mTeachingContent))
             }
             val results = ArrayList<Any>()
-            view.adapter = MyResultTypingRecyclerViewAdapter(tasks as List<Task>, results, mListener)
+            view.adapter = MyResultRecyclerViewAdapter(tasks as List<Task>, results, mListener)
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             mDatabase = FirebaseDatabase.getInstance().getReference("results")
@@ -172,8 +172,8 @@ class ResultTypingFragment : Fragment() {
         private val ARG_TEACHING_CONTENT = "teaching_content"
 
         // TODO: Customize parameter initialization
-        fun newInstance(teachingContent: Parcelable?): ResultTypingFragment {
-            val fragment = ResultTypingFragment()
+        fun newInstance(teachingContent: Parcelable?): ResultListFragment {
+            val fragment = ResultListFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
             fragment.arguments = args

@@ -1,7 +1,7 @@
 {
   "courses": [
     {
-      "visible": true,
+      "visible": false,
       "id": 10,
       "title": "Typing Course",
       "tasks" : [

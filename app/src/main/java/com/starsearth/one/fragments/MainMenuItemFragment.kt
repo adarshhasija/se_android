@@ -53,7 +53,7 @@ class MainMenuItemFragment : Fragment() {
 
                     menuItem.results.add(result) //add at the end
                     if (menuItem.results.size > 1) {
-                        menuItem.results.removeAt(0) //remove the first(older) result
+                        menuItem.results.remove(); //remove the first(older) result
                     }
                     adapter.addItem(menuItem)
                     adapter.notifyDataSetChanged()

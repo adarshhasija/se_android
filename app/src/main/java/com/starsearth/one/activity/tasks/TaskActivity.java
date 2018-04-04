@@ -36,7 +36,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-public class TaskTypingActivity extends AppCompatActivity {
+public class TaskActivity extends AppCompatActivity {
 
 
     //List<String> sentencesList;

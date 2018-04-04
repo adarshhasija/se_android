@@ -11,7 +11,7 @@ import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 
-import com.starsearth.one.fragments.ResultTypingFragment.OnListFragmentInteractionListener
+import com.starsearth.one.fragments.ResultListFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
@@ -19,7 +19,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyResultTypingRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: ArrayList<Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultTypingRecyclerViewAdapter.ViewHolder>() {
+class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: ArrayList<Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = 0

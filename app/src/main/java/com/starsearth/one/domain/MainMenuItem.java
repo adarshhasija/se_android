@@ -1,7 +1,9 @@
 package com.starsearth.one.domain;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by faimac on 2/5/18.
@@ -11,7 +13,7 @@ public class MainMenuItem {
 
     //Either a course or a task
     public Object teachingContent;
-    public List<Result> results = new ArrayList<>(); //This should only contain the most recent result
+    public Queue<Result> results = new LinkedList<>(); //This should only contain the most recent result
 
     public MainMenuItem() {
 
