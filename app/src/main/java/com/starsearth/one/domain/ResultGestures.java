@@ -27,6 +27,11 @@ public class ResultGestures extends Result {
         this.items_correct = correct;
     }
 
+    public ResultGestures(Map<String, Object> map) {
+        this.items_correct = (Integer) map.get("items_correct");
+        this.items_attempted = (Integer) map.get("items_attempted");
+    }
+
     /*
     String should be shown as Toast when user has just finished task
      */

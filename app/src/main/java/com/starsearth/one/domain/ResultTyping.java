@@ -56,6 +56,14 @@ public class ResultTyping extends Result {
         this.words_total_finished = words_total_finished;
     }
 
+    public ResultTyping(Map<String, Object> map) {
+        super(map);
+        this.characters_correct = (Integer) map.get("characters_correct");
+        this.characters_total_attempted = (Integer) map.get("characters_total_attempted");
+        this.words_correct = (Integer) map.get("words_correct");
+        this.words_total_finished = (Integer) map.get("words_total_finished");
+    }
+
     private int getTimeMins() {
         int timeMins = (int) timeTakenMillis/60000;
         if (timeMins < 1) {

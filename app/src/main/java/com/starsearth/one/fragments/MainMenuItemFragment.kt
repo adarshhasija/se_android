@@ -21,7 +21,7 @@ import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-
+import kotlin.collections.HashMap
 
 
 /**
@@ -80,6 +80,38 @@ class MainMenuItemFragment : Fragment() {
         }
     }
 
+    private val mResultsValueListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val map = dataSnapshot?.value
+            for (entry in (map as HashMap<*, *>).entries) {
+                val result = Result((entry.value as Map<String, Any>))
+                val adapter = (view as RecyclerView).adapter
+                val itemCount = adapter.itemCount
+                for (i in 0 until itemCount) {
+                    val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
+                    if (menuItem.isTaskIdExists(result?.task_id!!)) {
+                        adapter.removeAt(i) //remove the entry from the list
+
+                        menuItem.results.add(result) //add at the end
+                        if (menuItem.results.size > 1) {
+                            menuItem.results.remove(); //remove the first(older) result
+                        }
+                        adapter.addItem(menuItem)
+                        adapter.notifyDataSetChanged()
+                        (view as RecyclerView).layoutManager.scrollToPosition(0)
+                    }
+                }
+            }
+
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -111,12 +143,7 @@ class MainMenuItemFragment : Fragment() {
 
     fun getData(): ArrayList<MainMenuItem> {
         val mainMenuItems = FileTasks.getMainMenuItems(getContext())
-      /*  val mainMenuItems = ArrayList<MainMenuItem>()
-        for (game in games) {
-            val mainMenuItem = MainMenuItem()
-            mainMenuItem.task = game
-            mainMenuItems.add(mainMenuItem)
-        }   */
+
         return mainMenuItems
     }
 
@@ -124,7 +151,8 @@ class MainMenuItemFragment : Fragment() {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
-        query?.addChildEventListener(mResultsChildListener)
+        //query?.addChildEventListener(mResultsChildListener)
+        query?.addListenerForSingleValueEvent(mResultsValueListener)
     }
 
 
