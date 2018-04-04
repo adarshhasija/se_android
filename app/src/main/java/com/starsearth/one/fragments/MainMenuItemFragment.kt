@@ -21,6 +21,7 @@ import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import com.starsearth.one.comparator.ComparatorMainMenuItem
 import kotlin.collections.HashMap
 
 
@@ -84,10 +85,16 @@ class MainMenuItemFragment : Fragment() {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             val map = dataSnapshot?.value
+            if (map == null) { return; }
+            val results = ArrayList<Result>()
             for (entry in (map as HashMap<*, *>).entries) {
-                val result = Result((entry.value as Map<String, Any>))
-                val adapter = (view as RecyclerView).adapter
-                val itemCount = adapter.itemCount
+                val newResult = Result((entry.value as Map<String, Any>))
+                results.add(newResult)
+            }
+            Collections.sort(results, ComparatorMainMenuItem())
+            val adapter = (view as RecyclerView).adapter
+            val itemCount = adapter.itemCount
+            for (result in results) {
                 for (i in 0 until itemCount) {
                     val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
                     if (menuItem.isTaskIdExists(result?.task_id!!)) {
@@ -103,6 +110,7 @@ class MainMenuItemFragment : Fragment() {
                     }
                 }
             }
+
 
         }
 

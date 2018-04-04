@@ -65,7 +65,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
     fun addItem(mainMenuItem: MainMenuItem) {
         val lastTriedMillis = mainMenuItem.results.peek().timestamp
-        val index = indexToInsert(lastTriedMillis)
+        val index = 0; //indexToInsert(lastTriedMillis)
         mValues.add(index, mainMenuItem)
     }
 
