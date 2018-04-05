@@ -12,6 +12,7 @@ import com.starsearth.one.Utils
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.SEBaseObject
+import com.starsearth.one.fragments.MainMenuItemFragment
 
 import com.starsearth.one.fragments.MainMenuItemFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -21,7 +22,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuItem>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuItem>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -47,7 +48,8 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         holder.mText2View.text = formatLatTriedTime(result)
 
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mListener?.onListFragmentInteraction(it) } //mListener?.onListFragmentInteraction(holder.mItem)
+            holder.mItem?.let { mFragment.listItemSelected(it) }
+            //holder.mItem?.let { mListener?.onListFragmentInteraction(it) } //mListener?.onListFragmentInteraction(holder.mItem)
         }
     }
 

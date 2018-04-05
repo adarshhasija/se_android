@@ -72,12 +72,8 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val teachingContent = item.teachingContent
         sendAnalytics((teachingContent as SEBaseObject))
-        val intent = Intent(this, ResultActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("teachingContent", teachingContent)
-        intent.putExtras(bundle)
-        startActivity(intent)
     }
+
 
 
 

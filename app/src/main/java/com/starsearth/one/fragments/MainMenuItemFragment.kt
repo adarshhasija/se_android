@@ -1,8 +1,11 @@
 package com.starsearth.one.fragments
 
 //import android.app.Fragment
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -21,7 +24,7 @@ import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import com.starsearth.one.BuildConfig
+import com.starsearth.one.activity.ResultActivity
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import kotlin.collections.HashMap
 
@@ -82,7 +85,7 @@ class MainMenuItemFragment : Fragment() {
         }
     }
 
-    private val mResultsValueListener = object : ValueEventListener {
+    private val mResultsMultipleValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             mTimer?.cancel()
@@ -94,23 +97,8 @@ class MainMenuItemFragment : Fragment() {
                 results.add(newResult)
             }
             Collections.sort(results, ComparatorMainMenuItem())
-            val adapter = (view as RecyclerView).adapter
-            val itemCount = adapter.itemCount
             for (result in results) {
-                for (i in 0 until itemCount) {
-                    val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
-                    if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                        adapter.removeAt(i) //remove the entry from the list
-
-                        menuItem.results.add(result) //add at the end
-                        if (menuItem.results.size > 1) {
-                            menuItem.results.remove(); //remove the first(older) result
-                        }
-                        adapter.addItem(menuItem)
-                        adapter.notifyDataSetChanged()
-                        (view as RecyclerView).layoutManager.scrollToPosition(0)
-                    }
-                }
+                insertResult(result)
             }
             mListener?.setListFragmentProgressBarVisibility(View.GONE)
         }
@@ -119,6 +107,52 @@ class MainMenuItemFragment : Fragment() {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
+    }
+
+    private val mResultsSingleValueListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            mTimer?.cancel()
+            val map = dataSnapshot?.value
+            if (map == null) { return; }
+            val result = Result((map as Map<String, Any>))
+            insertResult(result)
+            mListener?.setListFragmentProgressBarVisibility(View.GONE)
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
+
+    fun insertResult(result: Result) {
+        val adapter = (view as RecyclerView).adapter
+        val itemCount = adapter.itemCount
+        for (i in 0 until itemCount) {
+            val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
+            if (menuItem.isTaskIdExists(result?.task_id!!)) {
+                adapter.removeAt(i) //remove the entry from the list
+
+                menuItem.results.add(result) //add at the end
+                if (menuItem.results.size > 1) {
+                    menuItem.results.remove(); //remove the first(older) result
+                }
+                adapter.addItem(menuItem)
+                adapter.notifyDataSetChanged()
+                (view as RecyclerView).layoutManager.scrollToPosition(0)
+            }
+        }
+    }
+
+    fun listItemSelected(item: MainMenuItem) {
+        mListener?.onListFragmentInteraction(item);
+        val teachingContent = item.teachingContent
+        val intent = Intent(context, ResultActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
+        intent.putExtras(bundle)
+        startActivityForResult(intent,0)
     }
 
     internal inner class isLoadingData : TimerTask() {
@@ -150,10 +184,20 @@ class MainMenuItemFragment : Fragment() {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
             val mainMenuItems = getData()
-            view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener)
+            view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener, this)
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            val extras = data?.extras
+            val uid = extras?.getString("uid")
+            FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it, uid) }
+        }
     }
 
     fun getData(): ArrayList<MainMenuItem> {
@@ -168,8 +212,16 @@ class MainMenuItemFragment : Fragment() {
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
-        query?.addListenerForSingleValueEvent(mResultsValueListener)
+        query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
         mListener?.setListFragmentProgressBarVisibility(View.VISIBLE)
+        //mTimer = Timer()
+        //mTimer.schedule(isLoadingData(), 0, 1000)
+    }
+    private fun setupResultsListener(currentUser: FirebaseUser, uid: String?) {
+        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
+        mDatabaseResultsReference?.keepSynced(true)
+        val query = mDatabaseResultsReference?.child(uid)
+        query?.addListenerForSingleValueEvent(mResultsSingleValueListener)
         //mTimer = Timer()
         //mTimer.schedule(isLoadingData(), 0, 1000)
     }

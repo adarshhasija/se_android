@@ -1,6 +1,8 @@
 package com.starsearth.one.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
@@ -50,6 +52,7 @@ class ResultListFragment : Fragment() {
 
             if (result!!.isJustCompleted) {
                 justCompletedTask(result)
+                setReturnResult(result)
             }
             val adapter = (view as RecyclerView).adapter
             if (result is ResultTyping) {
@@ -58,7 +61,6 @@ class ResultListFragment : Fragment() {
             else if (result is ResultGestures) {
                 (adapter as MyResultRecyclerViewAdapter).addItem(0, result)
             }
-
 
             if (adapter.itemCount > 1) {
                 //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
@@ -93,6 +95,14 @@ class ResultListFragment : Fragment() {
         else if (result is ResultGestures) {
             Toast.makeText(context, result.getResultToast(context), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun setReturnResult(result: Any?) {
+        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putString("uid", (result as Result)?.uid)
+        intent.putExtras(bundle)
+        activity.setResult(Activity.RESULT_OK, intent)
     }
 
     private fun alertScoreTyping(result: ResultTyping) {
