@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
 import com.starsearth.one.activity.MainSEActivity;
@@ -92,6 +93,12 @@ public class WelcomeOneActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        if (BuildConfig.DEBUG) {
+            btnLoginTwo.setVisibility(View.VISIBLE);
+        }
+        else {
+            btnLoginTwo.setVisibility(View.GONE);
+        }
         if (btnKeyboard != null) {
             btnKeyboard.setOnClickListener(new View.OnClickListener() {
                 @Override

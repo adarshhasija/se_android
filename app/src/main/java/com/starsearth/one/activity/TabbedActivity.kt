@@ -28,6 +28,18 @@ import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
+    override fun setListFragmentProgressBarVisibility(visibility: Int) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val progressBar = findViewById(R.id.progress_bar)
+        progressBar.visibility = visibility
+        if (visibility == View.VISIBLE) {
+            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait))
+        }
+        else {
+            progressBar.announceForAccessibility(getString(R.string.loading_complete))
+        }
+    }
+
     fun sendAnalytics(item: SEBaseObject) {
         val bundle = Bundle()
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)

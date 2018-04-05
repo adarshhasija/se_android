@@ -150,4 +150,9 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
             startActivity(intent);
         }
     }
+
+    @Override
+    public void setListFragmentProgressBarVisibility(int visibility) {
+        findViewById(R.id.progress_bar).setVisibility(visibility);
+    }
 }

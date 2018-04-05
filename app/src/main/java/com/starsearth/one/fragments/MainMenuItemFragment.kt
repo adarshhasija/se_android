@@ -21,6 +21,7 @@ import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import com.starsearth.one.BuildConfig
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import kotlin.collections.HashMap
 
@@ -84,6 +85,7 @@ class MainMenuItemFragment : Fragment() {
     private val mResultsValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            mTimer?.cancel()
             val map = dataSnapshot?.value
             if (map == null) { return; }
             val results = ArrayList<Result>()
@@ -110,14 +112,19 @@ class MainMenuItemFragment : Fragment() {
                     }
                 }
             }
-
-
+            mListener?.setListFragmentProgressBarVisibility(View.GONE)
         }
 
         override fun onCancelled(p0: DatabaseError?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
+    }
+
+    internal inner class isLoadingData : TimerTask() {
+        override fun run() {
+            mListener?.setListFragmentProgressBarVisibility(View.VISIBLE)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,12 +162,16 @@ class MainMenuItemFragment : Fragment() {
         return mainMenuItems
     }
 
+    val mTimer : Timer? = null
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
         query?.addListenerForSingleValueEvent(mResultsValueListener)
+        mListener?.setListFragmentProgressBarVisibility(View.VISIBLE)
+        //mTimer = Timer()
+        //mTimer.schedule(isLoadingData(), 0, 1000)
     }
 
 
@@ -175,6 +186,7 @@ class MainMenuItemFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        mTimer?.cancel()
         mListener = null
         mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
     }
@@ -191,6 +203,7 @@ class MainMenuItemFragment : Fragment() {
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: MainMenuItem)
+        fun setListFragmentProgressBarVisibility(visibility: Int)
     }
 
     companion object {
