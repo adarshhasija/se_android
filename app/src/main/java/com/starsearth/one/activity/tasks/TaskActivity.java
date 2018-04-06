@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -267,27 +268,10 @@ public class TaskActivity extends AppCompatActivity {
                 y2 = event.getY();
                 float deltaX = x2 - x1;
                 float deltaY = y2 - y1;
-                if (Math.abs(deltaX) > MIN_DISTANCE)
+                if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE)
                 {
                     if (task.type == Task.Type.TAP_SWIPE_TIMED) {
-                        //left -> right
-                        //swipe means false
-                        itemsAttempted++;
-                        if (!expectedAnswerGesture) {
-                            flashRightAnswer();
-                            itemsCorrect++;
-                        }
-                        else {
-                            flashWrongAnswer();
-                            vibrate();
-                        }
-                        nextItemGesture();
-                    }
-                }
-                if (Math.abs(deltaY) > MIN_DISTANCE)
-                {
-                    if (task.type == Task.Type.TAP_SWIPE_TIMED) {
-                        //top -> bottom
+                        //left -> right or top ->bottom
                         //swipe means false
                         itemsAttempted++;
                         if (!expectedAnswerGesture) {
@@ -520,6 +504,7 @@ public class TaskActivity extends AppCompatActivity {
             Map.Entry pair = (Map.Entry)it.next();
             tvMain.setText(pair.getKey().toString());
             expectedAnswerGesture = (boolean) pair.getValue();
+            Log.d("TAG", "**********ONE************"+expectedAnswerGesture+"***********"+pair.getKey().toString()+"******"+(boolean)pair.getValue()+"*********"+tvMain.getText());
             //it.remove(); // avoids a ConcurrentModificationException
         }
         tvMain.announceForAccessibility(tvMain.getText());
