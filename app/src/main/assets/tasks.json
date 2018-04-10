@@ -31,32 +31,56 @@
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
           "tags": ["typing"]
+        },
+        {
+          "id": 5,
+          "type": 1,
+          "timed": true,
+          "durationMillis": 61000,
+          "title": "small letters",
+          "instructions": "You will be shown some letters.",
+          "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+          "ordered": false,
+          "tags": ["english","alphabet"]
+        },
+        {
+          "id": 6,
+          "type": 1,
+          "timed": true,
+          "durationMillis": 61000,
+          "title": "capital letters",
+          "instructions": "You will be shown some capital letters.",
+          "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
+          "ordered": false,
+          "tags": ["english","alphabet"]
         }
       ]
     }
   ],
   "tasks": [
     {
-      "id": 5,
-      "type": 1,
+      "id": 11,
+      "type": 4,
       "timed": true,
       "durationMillis": 61000,
-      "title": "small letters",
-      "instructions": "You will be shown some letters.",
-      "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+      "title": "Tap and swipe",
+      "instructions": "You will be shown 2 words. Tap when you see the word tap. Swipe when you see the word swipe.",
+      "tap": ["Tap"],
+      "swipe": ["Swipe"],
       "ordered": false,
-      "tags": ["english","alphabet"]
+      "tags": ["attention","concentration","reflexes"]
     },
     {
-      "id": 6,
-      "type": 1,
+      "id": 13,
+      "type": 4,
       "timed": true,
       "durationMillis": 61000,
-      "title": "capital letters",
-      "instructions": "You will be shown some capital letters.",
-      "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
+      "title": "Numbers: Greater than/less than",
+      "instructions": "You will be shown some statements. Tap if it is true. Swipe if it is false.",
+      "tap": ["1 > 2", "2 > 4", "1 < 5", "10 > 9", "5 < 6", "8 > 4", "1 < 9", "7 > 3", "9 > 6"],
+      "swipe": ["1 > 4", "0 > 1", "5 > 6", "2 < 4", "1 > 5", "8 < 4", "1 > 9", "6 < 9"],
       "ordered": false,
-      "tags": ["english","alphabet"]
+      "tags": ["attention","concentration","reflexes"]
     },
     {
       "id": 1,
@@ -70,6 +94,7 @@
       "tags": ["english","general knowledge"]
     },
     {
+      "visible": false,
       "id": 2,
       "type": 1,
       "timed": true,
@@ -115,18 +140,6 @@
       "content": ["Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune","Pluto"],
       "ordered": false,
       "tags": ["science","physics","solar system","general knowledge"]
-    },
-    {
-      "id": 11,
-      "type": 4,
-      "timed": true,
-      "durationMillis": 61000,
-      "title": "Tap and swipe",
-      "instructions": "You will be shown 2 words. Tap when you see the word tap. Swipe when you see the word swipe.",
-      "tap": ["Tap"],
-      "swipe": ["Swipe"],
-      "ordered": false,
-      "tags": ["attention","concentration","reflexes"]
     }
   ]
 }

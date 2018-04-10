@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
 
     defaultConfig {
         applicationId "com.starsearth.one"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 11
         versionName "1.0.11"
     }
