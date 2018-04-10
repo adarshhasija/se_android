@@ -121,6 +121,7 @@ class MainMenuItemFragment : Fragment() {
                 setReturnResult(result)
             }
             insertResult(result)
+
             mListener?.setListFragmentProgressBarVisibility(View.GONE)
         }
 

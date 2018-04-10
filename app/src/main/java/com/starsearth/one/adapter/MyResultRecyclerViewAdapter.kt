@@ -77,9 +77,9 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         var mItem: Any? = null
 
         init {
-            mTitleView = mView.findViewById(R.id.tv_title) as TextView
-            mResultView = mView.findViewById(R.id.tv_result) as TextView
-            mResultSummaryView = mView.findViewById(R.id.tv_result_summary) as TextView
+            mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
+            mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
+            mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView
         }
 
         override fun toString(): String {

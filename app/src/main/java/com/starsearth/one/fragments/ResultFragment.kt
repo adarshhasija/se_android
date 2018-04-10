@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -44,13 +45,13 @@ class ResultFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
-        v.findViewById(R.id.btn_start).setOnClickListener(View.OnClickListener {
+        v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
 
             startTaskTyping((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task))
         })
-        val tv = v.findViewById(R.id.tv_instruction)
+        val tv = v.findViewById<TextView>(R.id.tv_instruction)
 
         (tv as TextView).text =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {

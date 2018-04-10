@@ -127,8 +127,8 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         var mItem: MainMenuItem? = null
 
         init {
-            mText1View = mView.findViewById(R.id.text1) as TextView
-            mText2View = mView.findViewById(R.id.text2) as TextView
+            mText1View = mView.findViewById<TextView>(R.id.text1) as TextView
+            mText2View = mView.findViewById<TextView>(R.id.text2) as TextView
         }
 
         override fun toString(): String {

@@ -87,9 +87,9 @@ class SendOTPActivity : AppCompatActivity() {
         mVerificationId = savedInstanceState?.getString("verificationId")
         mAuth = FirebaseAuth.getInstance()
 
-        val etOTP = findViewById(R.id.et_otp) as EditText
+        val etOTP = findViewById<EditText>(R.id.et_otp) as EditText
 
-        val btnSubmit = findViewById(R.id.btn_submit) as Button
+        val btnSubmit = findViewById<Button>(R.id.btn_submit) as Button
         btnSubmit.setOnClickListener { v: View? ->
             var otp = etOTP.text.toString()
             if (!isFormatIncorrect(otp)) {
@@ -98,7 +98,7 @@ class SendOTPActivity : AppCompatActivity() {
             }
         }
 
-        val btnSendOTPAgain = findViewById(R.id.btn_send_otp_again) as Button
+        val btnSendOTPAgain = findViewById<Button>(R.id.btn_send_otp_again) as Button
         btnSendOTPAgain.setOnClickListener { v: View? ->
             sendOTPAgainAnalytics()
             sendOTP(phoneNumber)
@@ -121,9 +121,9 @@ class SendOTPActivity : AppCompatActivity() {
 
         sendOTP(phoneNumber)
 
-        mViewOTPTimer = findViewById(R.id.view_otp_timer) as LinearLayout
-        mViewSendOTPAgain = findViewById(R.id.view_send_otp_again) as LinearLayout
-        mViewPleaseWait = findViewById(R.id.view_please_wait) as LinearLayout
+        mViewOTPTimer = findViewById<LinearLayout>(R.id.view_otp_timer) as LinearLayout
+        mViewSendOTPAgain = findViewById<LinearLayout>(R.id.view_send_otp_again) as LinearLayout
+        mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
 
         startCowntDownTimer()
     }
@@ -157,7 +157,7 @@ class SendOTPActivity : AppCompatActivity() {
     }
 
     private fun startCowntDownTimer() {
-        mTimer = findViewById(R.id.tv_timer) as TextView
+        mTimer = findViewById<TextView>(R.id.tv_timer) as TextView
         mCountDownTimer = object : CountDownTimer(61000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {

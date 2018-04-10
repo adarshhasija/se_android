@@ -77,7 +77,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuth = FirebaseAuth.getInstance()
-        val etPhoneNumber = findViewById(R.id.et_phone_number) as EditText
+        val etPhoneNumber = findViewById<EditText>(R.id.et_phone_number) as EditText
 
         val extras = intent.extras
         if (extras != null) {
@@ -85,7 +85,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
             etPhoneNumber.setText(phoneNumber)
         }
 
-        val btnSendOTP = findViewById(R.id.btn_send_otp) as Button
+        val btnSendOTP = findViewById<Button>(R.id.btn_send_otp) as Button
         btnSendOTP.setOnClickListener(View.OnClickListener {
 
             var etText = etPhoneNumber.text.toString()
@@ -107,7 +107,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         })
 
-        mViewPleaseWait = findViewById(R.id.view_please_wait) as LinearLayout
+        mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

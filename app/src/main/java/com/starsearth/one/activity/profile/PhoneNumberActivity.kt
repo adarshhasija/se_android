@@ -23,8 +23,8 @@ class PhoneNumberActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_number)
 
-        tvPhoneNumber = findViewById(R.id.tv_phone_number) as TextView
-        val btnChange = findViewById(R.id.btn_change_phone_number) as Button
+        tvPhoneNumber = findViewById<TextView>(R.id.tv_phone_number) as TextView
+        val btnChange = findViewById<Button>(R.id.btn_change_phone_number) as Button
         btnChange.setOnClickListener { v: View? ->
             val intent = Intent(this@PhoneNumberActivity, AddEditPhoneNumberActivity::class.java)
             startActivityForResult(intent, 0)

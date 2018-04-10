@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
@@ -30,7 +31,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
 
     override fun setListFragmentProgressBarVisibility(visibility: Int) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        val progressBar = findViewById(R.id.progress_bar)
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.visibility = visibility
         if (visibility == View.VISIBLE) {
             progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait))
