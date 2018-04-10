@@ -66,13 +66,12 @@ public class Course extends SEBaseObject {
 
     protected Course(Parcel in) {
         super(in);
-        id = in.readInt();
         type = in.readString();
         difficulty = in.readInt();
         description = in.readString();
         usbKeyboard = in.readByte() != 0;
         lessons = in.readHashMap(getClass().getClassLoader());
-        tasks = in.readArrayList(getClass().getClassLoader());
+        tasks = in.readArrayList(Task.class.getClassLoader());
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -120,7 +119,6 @@ public class Course extends SEBaseObject {
     @Exclude
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
-        result.put("id", id);
         result.put("type", type);
         result.put("difficulty", difficulty);
         result.put("description", description);
@@ -139,7 +137,6 @@ public class Course extends SEBaseObject {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(id);
         dest.writeString(type);
         dest.writeInt(difficulty);
         dest.writeString(description);

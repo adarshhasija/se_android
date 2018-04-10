@@ -48,7 +48,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         holder.mText2View.text = formatLatTriedTime(result)
 
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mFragment.listItemSelected(it) }
+            holder.mItem?.let { mFragment.listItemSelected(it, position) }
             //holder.mItem?.let { mListener?.onListFragmentInteraction(it) } //mListener?.onListFragmentInteraction(holder.mItem)
         }
     }
@@ -65,10 +65,26 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         mValues.removeAt(position)
     }
 
+    fun removeAtRange(startIndex: Int, endIndex: Int) {
+        mValues.subList(startIndex, endIndex).clear()
+    }
+
     fun addItem(mainMenuItem: MainMenuItem) {
         val lastTriedMillis = mainMenuItem.results.peek().timestamp
         val index = 0; //indexToInsert(lastTriedMillis)
         mValues.add(index, mainMenuItem)
+    }
+
+    fun addItem(mainMenuItem: MainMenuItem, index: Int) {
+        if (index <= mValues.size) {
+            mValues.add(index, mainMenuItem)
+        }
+    }
+
+    fun addItems(mainMenuItems: List<MainMenuItem>, index: Int) {
+        if (index <= mValues.size) {
+            mValues.addAll(index, mainMenuItems)
+        }
     }
 
     private fun indexToInsert(timestamp: Long): Int {

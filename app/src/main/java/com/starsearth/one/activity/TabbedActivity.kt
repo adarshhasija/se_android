@@ -142,7 +142,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
             var fragment : Fragment = MoreOptionsMenuItemFragment.newInstance(1)
             when (position) {
                 0 -> {
-                    fragment = MainMenuItemFragment.newInstance(1)
+                    fragment = MainMenuItemFragment.newInstance()
                 }
                 else -> {
 

@@ -62,7 +62,6 @@ public class Task extends SEBaseObject {
 
     protected Task(Parcel in) {
         super(in);
-        id = in.readInt();
         instructions = in.readString();
         content = in.createStringArray();
         tap = in.createStringArray();
@@ -90,7 +89,6 @@ public class Task extends SEBaseObject {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();
-        result.put("id", id);
         result.put("instructions", instructions);
         result.put("content", content);
         result.put("tap", tap);
@@ -113,7 +111,6 @@ public class Task extends SEBaseObject {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(id);
         dest.writeString(instructions);
         dest.writeStringArray(content);
         dest.writeStringArray(tap);
@@ -123,7 +120,6 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
         dest.writeInt(trials);
-        dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeStringArray(tags);
     }
 

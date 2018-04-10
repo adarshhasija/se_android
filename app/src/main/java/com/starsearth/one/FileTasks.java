@@ -191,6 +191,18 @@ public class FileTasks {
         return mainMenuItems;
     }
 
+    public static ArrayList<MainMenuItem> getMainMenuItemsFromCourse(Course course) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        for (Object o : course.tasks) {
+            if (((SEBaseObject) o).visible) {
+                MainMenuItem mainMenuItem = new MainMenuItem();
+                mainMenuItem.teachingContent = o;
+                mainMenuItems.add(mainMenuItem);
+            }
+        }
+        return mainMenuItems;
+    }
+
     private static class TypeDeserializer implements
             JsonDeserializer<Task.Type>
     {

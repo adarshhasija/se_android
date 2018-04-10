@@ -1,12 +1,12 @@
 {
   "courses": [
     {
-      "visible": false,
+      "visible": true,
       "id": 10,
-      "title": "Typing Course",
+      "title": "Keyboard Typing Exercises",
       "tasks" : [
         {
-          "id": 11,
+          "id": 12,
           "type": 3,
           "title": "Keyboard Test",
           "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",
@@ -17,7 +17,7 @@
           "type": 2,
           "timed": false,
           "title": "Type f and press spacebar",
-          "instructions": "Type f and press spacebar. Do this %s times. Target Accuracy 90%%",
+          "instructions": "Type f and press spacebar.",
           "trials": 4,
           "content": ["f␣f␣f␣f␣"],
           "tags": ["typing"]
@@ -27,7 +27,7 @@
           "type": 2,
           "timed": false,
           "title": "Type j and press spacebar",
-          "instructions": "Type j and press spacebar. Do this %s times. Target Accuracy 90%%",
+          "instructions": "Type j and press spacebar.",
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
           "tags": ["typing"]
