@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -152,7 +153,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     }
 
     @Override
-    public void setListFragmentProgressBarVisibility(int visibility) {
+    public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
         findViewById(R.id.progress_bar).setVisibility(visibility);
     }
 }

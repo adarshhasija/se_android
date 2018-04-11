@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.starsearth.one.R;
@@ -99,7 +100,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void setListFragmentProgressBarVisibility(int visibility) {
+    public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
 
     }
 }

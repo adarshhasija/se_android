@@ -99,7 +99,7 @@ class MainMenuItemFragment : Fragment() {
             for (result in results) {
                 insertResult(result)
             }
-            mListener?.setListFragmentProgressBarVisibility(View.GONE)
+            mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -122,7 +122,7 @@ class MainMenuItemFragment : Fragment() {
             }
             insertResult(result)
 
-            mListener?.setListFragmentProgressBarVisibility(View.GONE)
+            mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -203,7 +203,7 @@ class MainMenuItemFragment : Fragment() {
 
     internal inner class isLoadingData : TimerTask() {
         override fun run() {
-            mListener?.setListFragmentProgressBarVisibility(View.VISIBLE)
+            mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
         }
     }
 
@@ -234,9 +234,15 @@ class MainMenuItemFragment : Fragment() {
                     DividerItemDecoration.VERTICAL))
             val mainMenuItems = getData()
             view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener, this)
-            FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //view has to exist by the time this is called
+        FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -266,7 +272,7 @@ class MainMenuItemFragment : Fragment() {
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
-        mListener?.setListFragmentProgressBarVisibility(View.VISIBLE)
+        mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
         //mTimer = Timer()
         //mTimer.schedule(isLoadingData(), 0, 1000)
     }
@@ -308,7 +314,7 @@ class MainMenuItemFragment : Fragment() {
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: MainMenuItem)
-        fun setListFragmentProgressBarVisibility(visibility: Int)
+        fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView)
     }
 
     companion object {

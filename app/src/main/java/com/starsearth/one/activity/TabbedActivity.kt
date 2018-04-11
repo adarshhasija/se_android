@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -29,10 +30,18 @@ import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
 
-    override fun setListFragmentProgressBarVisibility(visibility: Int) {
+    /*
+    @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
+     */
+    override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.visibility = visibility
+        view.visibility = if (visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
         if (visibility == View.VISIBLE) {
             progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait))
         }
