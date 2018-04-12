@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.Menu
@@ -37,11 +39,14 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.visibility = visibility
-        view.visibility = if (visibility == View.VISIBLE) {
-            View.GONE
+        if (visibility == View.VISIBLE) {
+            (findViewById<ViewPager>(R.id.container)).visibility = View.GONE
+            view.visibility = View.GONE
         } else {
-            View.VISIBLE
+            (findViewById<ViewPager>(R.id.container)).visibility = View.VISIBLE
+            view.visibility = View.VISIBLE
         }
+
         if (visibility == View.VISIBLE) {
             progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait))
         }

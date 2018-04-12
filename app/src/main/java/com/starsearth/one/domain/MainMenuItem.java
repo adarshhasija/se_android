@@ -14,10 +14,10 @@ public class MainMenuItem {
 
     //Either a course or a task
     public Object teachingContent;
-    public Stack<Result> results = new Stack<>();
+    public Stack<Result> results;
 
     public MainMenuItem() {
-
+        results = new Stack<>();
     }
 
     public boolean isTaskIdExists(int taskId) {
