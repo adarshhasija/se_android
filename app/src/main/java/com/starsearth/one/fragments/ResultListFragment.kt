@@ -50,24 +50,41 @@ class ResultListFragment : Fragment() {
                 return;
             }
 
-            if (result!!.isJustCompleted) {
-                justCompletedTask(result)
-                setReturnResult(result)
-            }
+            var isHighScore = false
             val adapter = (view as RecyclerView).adapter
-            if (result is ResultTyping) {
-                (adapter as MyResultRecyclerViewAdapter).addItem(0, result)
+            val high_score = (adapter as MyResultRecyclerViewAdapter).getItem("high_score")
+            val last_tried = adapter.getItem("last_tried")
+
+            adapter.putItem("last_tried", result)
+
+            if (high_score == null) {
+                isHighScore = true
+                adapter.putItem("high_score", result)
             }
-            else if (result is ResultGestures) {
-                (adapter as MyResultRecyclerViewAdapter).addItem(0, result)
+            else if (adapter.isHigScore(result)) {
+                isHighScore = true
+                adapter.putItem("high_score", result)
+                mDatabase?.child((high_score as Result).uid)?.removeValue() //delete from the database
             }
 
-            if (adapter.itemCount > 1) {
-                //If the list is now more than MAX_NUMBER_IN_LIST items, remove the lowest item
-                val lastItem = (adapter as MyResultRecyclerViewAdapter).getItem(adapter.itemCount - 1)
-                mDatabase?.child((lastItem as Result).uid)?.removeValue() //delete from the database
-                adapter.removeItem(lastItem)
+            if (result!!.isJustCompleted) {
+                justCompletedTask(result, isHighScore)
+                setReturnResult(result)
             }
+
+            //make sure last_tried is not the current(new) high_score
+            last_tried?.let { if ((it as Result)?.uid != (adapter.getItem("high_score") as Result).uid) {
+                mDatabase?.child(it.uid)?.removeValue() //delete from the database
+                }
+            }
+
+
+         /*   if (adapter.itemCount > 1) {
+                (adapter as MyResultRecyclerViewAdapter).removeOldestItem()
+                //adapter.removeItem(lastItem) //not needed for Queue
+                //mDatabase?.child((lastItem as Result).uid)?.removeValue() //delete from the database
+            }   */
+
             adapter.notifyDataSetChanged()
         }
 
@@ -88,12 +105,12 @@ class ResultListFragment : Fragment() {
         }
     }
 
-    private fun justCompletedTask(result: Any?) {
+    private fun justCompletedTask(result: Any?, isHighScore: Boolean) {
         if (result is ResultTyping) {
-            Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()
         }
         else if (result is ResultGestures) {
-            Toast.makeText(context, result.getResultToast(context), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -103,10 +120,6 @@ class ResultListFragment : Fragment() {
         bundle.putString("uid", (result as Result)?.uid)
         intent.putExtras(bundle)
         activity.setResult(Activity.RESULT_OK, intent)
-    }
-
-    private fun alertScoreTyping(result: ResultTyping) {
-        Toast.makeText(context, getString(R.string.your_score) + " " + result.words_correct, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,7 +147,7 @@ class ResultListFragment : Fragment() {
             } else {
                 ArrayList(Arrays.asList(mTeachingContent))
             }
-            val results = ArrayList<Any>()
+            val results = LinkedHashMap<String, Any>()
             view.adapter = MyResultRecyclerViewAdapter(tasks as List<Task>, results, mListener)
 
             val currentUser = FirebaseAuth.getInstance().currentUser

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by faimac on 2/5/18.
@@ -13,7 +14,7 @@ public class MainMenuItem {
 
     //Either a course or a task
     public Object teachingContent;
-    public Queue<Result> results = new LinkedList<>(); //This should only contain the most recent result
+    public Stack<Result> results = new Stack<>();
 
     public MainMenuItem() {
 

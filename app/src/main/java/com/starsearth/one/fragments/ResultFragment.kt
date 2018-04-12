@@ -57,11 +57,11 @@ class ResultFragment : Fragment() {
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
                             context.resources.getString(R.string.complete_as_many_as) + " " +
-                            context.resources.getString(R.string.your_most_recent_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                            context.resources.getString(R.string.your_best_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
                 } else if (mTeachingContent is Task) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
                             context.resources.getString(R.string.do_this_number_times) + " " +
-                            context.resources.getString(R.string.your_most_recent_score) + " " +
+                            context.resources.getString(R.string.your_best_score) + " " +
                             context.resources.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials)
                 } else {
                     ""

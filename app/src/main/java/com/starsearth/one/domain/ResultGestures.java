@@ -35,9 +35,10 @@ public class ResultGestures extends Result {
     /*
     String should be shown as Toast when user has just finished task
      */
-    public String getResultToast(Context context) {
+    public String getResultToast(Context context, Boolean isHighScore) {
         StringBuffer result = new StringBuffer();
-        result.append(context.getString(R.string.your_score) + " " + items_correct);
+        if (!isHighScore) result.append(context.getString(R.string.your_score) + " " + items_correct);
+        else result.append(context.getResources().getString(R.string.high_score) + " " + items_correct);
         return result.toString();
     }
 
@@ -54,9 +55,7 @@ public class ResultGestures extends Result {
 
     public String getExplanationSummary(Context context, Task.Type taskType) {
         StringBuffer result = new StringBuffer();
-        if (taskType == Task.Type.TAP_SWIPE_TIMED) {
-
-        }
+        result.append(context.getResources().getString(R.string.high_score));
         return result.toString();
     }
 

@@ -504,7 +504,6 @@ public class TaskActivity extends AppCompatActivity {
             Map.Entry pair = (Map.Entry)it.next();
             tvMain.setText(pair.getKey().toString());
             expectedAnswerGesture = (boolean) pair.getValue();
-            Log.d("TAG", "**********ONE************"+expectedAnswerGesture+"***********"+pair.getKey().toString()+"******"+(boolean)pair.getValue()+"*********"+tvMain.getText());
             //it.remove(); // avoids a ConcurrentModificationException
         }
         tvMain.announceForAccessibility(tvMain.getText());

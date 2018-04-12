@@ -1,34 +1,37 @@
 package com.starsearth.one.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 
 import com.starsearth.one.fragments.ResultListFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: ArrayList<Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
+class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = 0
-        if (mValues.size > 1) {
-            layoutId = R.layout.row_result_tasks_multiple
-        }
-        else {
-            layoutId = R.layout.row_result_tasks_single
-        }
+        //if (mValues.size > 1) { layoutId = R.layout.row_result_tasks_multiple }
+        //else { layoutId = R.layout.row_result_tasks_single }
+        layoutId = R.layout.row_result_tasks_single
 
         val view = LayoutInflater.from(parent.context)
                 .inflate(layoutId, parent, false)
@@ -38,7 +41,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = mTasks.getOrNull(position)
-        holder.mItem = mValues[position]
+        holder.mItem = mValues.get("high_score")
         holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
         if (holder.mItem is ResultTyping) {
             holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.type)
@@ -54,16 +57,58 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         }
     }
 
+    private fun flashHighScore(mContentView: ImageView) {
+        mContentView.alpha = 0f
+        mContentView.visibility = View.VISIBLE
+
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        mContentView.visibility = View.GONE
+                    }
+                })
+    }
+
     override fun getItemCount(): Int {
-        return mValues.size
+        return if (mValues.containsKey("high_score")) {
+            1
+        } else {
+            0
+        } //mValues.size
     }
 
-    fun getItem(index: Int): Any {
-        return mValues.get(index)
+    fun isHigScore(result: Result) : Boolean {
+        var res = false
+        val high_score = mValues.get("high_score")
+        if (high_score == null) {
+            res = true
+        }
+        else if (result is ResultTyping && high_score is ResultTyping) {
+            if (result.words_correct > high_score.words_correct) {
+                res = true
+            }
+        }
+        else if (result is ResultGestures && high_score is ResultGestures) {
+            if (result.items_correct > high_score.items_correct) {
+                res = true
+            }
+        }
+
+        return res
     }
 
-    fun addItem(index: Int, item: Any) {
-        mValues.add(index, item)
+    fun getItem(key: String): Any? {
+        return if (mValues.containsKey(key)) {
+            mValues.get(key)
+        } else {
+            null
+        }
+    }
+
+    fun putItem(key: String, value: Any) {
+        mValues.put(key, value)
     }
 
     fun removeItem(item: Any) {
@@ -71,12 +116,14 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val mImageView: ImageView
         val mTitleView: TextView
         val mResultView: TextView
         val mResultSummaryView: TextView
         var mItem: Any? = null
 
         init {
+            mImageView = mView.findViewById<ImageView>(R.id.img_green) as ImageView
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
             mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView

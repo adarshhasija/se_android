@@ -44,7 +44,11 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
         (teachingContent as SEBaseObject)?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
 
-        val result = results?.peek()
+        val result = if (results?.isNotEmpty()!!) {
+            results?.peek()
+        } else {
+            null
+        }
         holder.mText2View.text = formatLatTriedTime(result)
 
         holder.mView.setOnClickListener {

@@ -56,9 +56,9 @@ class MainMenuItemFragment : Fragment() {
                     adapter.removeAt(i) //remove the entry from the list
 
                     menuItem.results.add(result) //add at the end
-                    if (menuItem.results.size > 1) {
-                        menuItem.results.remove(); //remove the first(older) result
-                    }
+                    //if (menuItem.results.size > 1) {
+                    //    menuItem.results.remove(); //remove the first(older) result
+                    //}
                     adapter.addItem(menuItem)
                     adapter.notifyDataSetChanged()
                     (view as RecyclerView).layoutManager.scrollToPosition(0)
@@ -150,10 +150,10 @@ class MainMenuItemFragment : Fragment() {
             if (menuItem.isTaskIdExists(result?.task_id!!)) {
                 adapter.removeAt(i) //remove the entry from the list
 
-                menuItem.results.add(result) //add at the end
-                if (menuItem.results.size > 1) {
-                    menuItem.results.remove(); //remove the first(older) result
-                }
+                menuItem.results.push(result)
+                //if (menuItem.results.size > 1) {
+                //    menuItem.results.remove(); //remove the first(older) result
+                //}
                 adapter.addItem(menuItem)
                 adapter.notifyDataSetChanged()
                 (view as RecyclerView).layoutManager.scrollToPosition(0)

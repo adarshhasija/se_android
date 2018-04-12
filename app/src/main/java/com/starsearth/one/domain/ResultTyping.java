@@ -108,14 +108,18 @@ public class ResultTyping extends Result {
         if (taskType == Task.Type.TYPING_UNTIMED) {
             result.append(context.getString(R.string.accuracy) + " " + getAccuracy() +"%");
         }
+        else {
+            result.append(context.getResources().getString(R.string.high_score));
+        }
         return result.toString();
     }
 
-    public String getResultToast(Context context, Task.Type tastType) {
+    public String getResultToast(Context context, Task.Type tastType, Boolean isHighScore) {
         StringBuffer result = new StringBuffer();
         switch (tastType) {
             case TYPING_TIMED:
-                result.append(context.getString(R.string.your_score) + " " + words_correct);
+                if (!isHighScore) result.append(context.getString(R.string.your_score) + " " + words_correct);
+                else result.append(context.getResources().getString(R.string.high_score) + " " + words_correct);
                 break;
             case TYPING_UNTIMED:
                 int accuracy = getAccuracy();
