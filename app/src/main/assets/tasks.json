@@ -132,11 +132,11 @@
     {
       "visible": true,
       "id": 7,
-      "type": 1,
+      "type": 4,
       "timed": true,
       "durationMillis": 61000,
       "title": "vowels",
-      "instructions": "You will be shown the vowels as small letters in random order.",
+      "instructions": "You will be shown some letters. Tap if it is a vowel. Swipe if it is not a vowel.",
       "tap": ["a","e","i","o","u"],
       "swipe": ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z"],
       "ordered": false,
