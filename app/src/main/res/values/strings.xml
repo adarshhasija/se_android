@@ -342,5 +342,6 @@
     <string name="title_activity_task_gesture">TaskGestureActivity</string>
     <string name="loading">Loading</string>
     <string name="loading_complete">Loading Complete</string>
+    <string name="yay">YAYY!!!!!</string>
 
 </resources>

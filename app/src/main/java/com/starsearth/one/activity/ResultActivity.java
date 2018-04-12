@@ -1,7 +1,6 @@
 package com.starsearth.one.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
@@ -51,7 +50,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_typing_test_result);
+        setContentView(R.layout.activity_results);
 
         final Bundle extras = getIntent().getExtras();
 

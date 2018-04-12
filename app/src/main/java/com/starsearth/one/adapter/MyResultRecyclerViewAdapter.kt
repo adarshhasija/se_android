@@ -57,20 +57,6 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         }
     }
 
-    private fun flashHighScore(mContentView: ImageView) {
-        mContentView.alpha = 0f
-        mContentView.visibility = View.VISIBLE
-
-        mContentView.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        mContentView.visibility = View.GONE
-                    }
-                })
-    }
-
     override fun getItemCount(): Int {
         return if (mValues.containsKey("high_score")) {
             1
@@ -116,14 +102,12 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mImageView: ImageView
         val mTitleView: TextView
         val mResultView: TextView
         val mResultSummaryView: TextView
         var mItem: Any? = null
 
         init {
-            mImageView = mView.findViewById<ImageView>(R.id.img_green) as ImageView
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
             mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView
