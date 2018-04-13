@@ -85,6 +85,12 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         }
     }
 
+    fun replaceItem(index: Int, mainMenuItem: MainMenuItem) {
+        if (index <= mValues.size) {
+            mValues.set(index, mainMenuItem)
+        }
+    }
+
     fun addItems(mainMenuItems: List<MainMenuItem>, index: Int) {
         if (index <= mValues.size) {
             mValues.addAll(index, mainMenuItems)

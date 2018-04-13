@@ -53,15 +53,20 @@ class MainMenuItemFragment : Fragment() {
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
                 if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                    adapter.removeAt(i) //remove the entry from the list
+                    if (mCourse != null) {
+                        //If it is a course, do not re arrange the order
+                        menuItem.results.add(result)
+                        adapter.replaceItem(i, menuItem)
+                        adapter.notifyItemChanged(i)
+                    }
+                    else {
+                        adapter.removeAt(i) //remove the entry from the list
+                        menuItem.results.add(result) //add at the end
+                        adapter.addItem(menuItem)
+                        adapter.notifyDataSetChanged()
+                        (view as RecyclerView).layoutManager.scrollToPosition(0)
+                    }
 
-                    menuItem.results.add(result) //add at the end
-                    //if (menuItem.results.size > 1) {
-                    //    menuItem.results.remove(); //remove the first(older) result
-                    //}
-                    adapter.addItem(menuItem)
-                    adapter.notifyDataSetChanged()
-                    (view as RecyclerView).layoutManager.scrollToPosition(0)
                 }
             }
 
@@ -148,15 +153,19 @@ class MainMenuItemFragment : Fragment() {
         for (i in 0 until itemCount) {
             val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
             if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                adapter.removeAt(i) //remove the entry from the list
-
-                menuItem.results.push(result)
-                //if (menuItem.results.size > 1) {
-                //    menuItem.results.remove(); //remove the first(older) result
-                //}
-                adapter.addItem(menuItem)
-                adapter.notifyDataSetChanged()
-                (view as RecyclerView).layoutManager.scrollToPosition(0)
+                if (mCourse != null) {
+                    //If it is a course, do not re arrange the order
+                    menuItem.results.add(result)
+                    adapter.replaceItem(i, menuItem)
+                    adapter.notifyItemChanged(i)
+                }
+                else {
+                    adapter.removeAt(i) //remove the entry from the list
+                    menuItem.results.push(result)
+                    adapter.addItem(menuItem)
+                    adapter.notifyDataSetChanged()
+                    (view as RecyclerView).layoutManager.scrollToPosition(0)
+                }
             }
         }
     }
