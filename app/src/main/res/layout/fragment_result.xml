@@ -33,5 +33,15 @@
 
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/tv_high_score"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/high_score"
+        android:textColor="#0000FF"
+        android:textStyle="bold"
+        android:textSize="40sp" />
+
 
 </LinearLayout>

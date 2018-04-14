@@ -1,5 +1,7 @@
 package com.starsearth.one.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -119,6 +122,21 @@ class ResultFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
+    }
+
+    fun flashHighScore() {
+        val mContentView = view?.findViewById<TextView>(R.id.tv_high_score) as TextView
+        mContentView.alpha = 0f
+        mContentView.visibility = View.VISIBLE
+
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(150)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        mContentView.visibility = View.GONE
+                    }
+                })
     }
 
     /**

@@ -53,7 +53,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         }
 
         holder.mView.setOnClickListener {
-            //holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
+            //holder.mItem?.let { mListener?.onNewHighScore(it) }
         }
     }
 

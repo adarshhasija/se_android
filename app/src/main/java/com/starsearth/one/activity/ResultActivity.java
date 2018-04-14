@@ -3,6 +3,7 @@ package com.starsearth.one.activity;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.starsearth.one.fragments.ResultFragment;
 import com.starsearth.one.fragments.ResultListFragment;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultListFragment.OnListFragmentInteractionListener, MainMenuItemFragment.OnListFragmentInteractionListener {
 
@@ -89,8 +92,8 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(@NotNull ResultTyping item) {
-        //list items are not clickable: March 21 2018
+    public void onNewHighScore(@NotNull Object item) {
+        //Not implemented: Trigger flashing high score to indicate user has got a high score
     }
 
     @Override

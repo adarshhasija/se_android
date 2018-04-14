@@ -112,6 +112,10 @@ class ResultListFragment : Fragment() {
         else if (result is ResultGestures) {
             Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
         }
+
+        if (isHighScore) {
+            mListener?.onNewHighScore(result)
+        }
     }
 
     private fun setReturnResult(result: Any?) {
@@ -186,7 +190,7 @@ class ResultListFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: ResultTyping)
+        fun onNewHighScore(item: Any?)
     }
 
     companion object {
