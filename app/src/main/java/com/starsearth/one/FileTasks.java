@@ -27,7 +27,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.lang.reflect.Type;
 
@@ -189,6 +191,32 @@ public class FileTasks {
         }
 
         return mainMenuItems;
+    }
+
+    /*
+    Check if all json input have unique ids
+     */
+    public static boolean areIdsUnique(List<Object> teachingContentList) {
+        boolean result = true;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (Object o : teachingContentList) {
+            if (!map.containsKey(((SEBaseObject) o).id)) {
+                map.put(((SEBaseObject) o).id, 1);
+            }
+            else {
+                map.put(((SEBaseObject) o).id, map.get(((SEBaseObject) o).id) + 1);
+            }
+        }
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            int x = (int) pair.getValue();
+            if (x > 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     public static ArrayList<MainMenuItem> getMainMenuItemsFromCourse(Course course) {
