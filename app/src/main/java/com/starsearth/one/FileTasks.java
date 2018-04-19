@@ -219,6 +219,16 @@ public class FileTasks {
         return result;
     }
 
+    public static int getHighestId(List<Object> teachingContentList) {
+        int result = 0;
+        for (Object o : teachingContentList) {
+            if (((SEBaseObject) o).id > result) {
+                result = ((SEBaseObject) o).id;
+            }
+        }
+        return result;
+    }
+
     public static ArrayList<MainMenuItem> getMainMenuItemsFromCourse(Course course) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         for (Object o : course.tasks) {

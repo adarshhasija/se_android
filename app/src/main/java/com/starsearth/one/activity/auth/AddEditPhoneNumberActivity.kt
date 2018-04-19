@@ -11,6 +11,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
@@ -87,22 +89,29 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         val btnSendOTP = findViewById<Button>(R.id.btn_send_otp) as Button
         btnSendOTP.setOnClickListener(View.OnClickListener {
-
-            var etText = etPhoneNumber.text.toString()
-            etText = etText.replace("+0", "")
-            etText = etText.replace("+91", "")
-            if (!isFormatIncorrect(etText)) {
-                phoneNumber = "+91" + etText
-                val builder = createAlertDialog()
-                builder.setTitle(R.string.correct_number_question)
-                        .setMessage(phoneNumber)
-                        .setNegativeButton(android.R.string.no) { dialog, which -> dialog.dismiss() }
-                        .setPositiveButton(android.R.string.yes) { dialog, which ->
-                            sendOTP(phoneNumber)
-                            mViewPleaseWait?.visibility = View.VISIBLE
-                        }
-                        .show()
+            val availability = GoogleApiAvailability.getInstance()
+            val available = availability.isGooglePlayServicesAvailable(applicationContext)
+            if (available == ConnectionResult.SUCCESS) {
+                var etText = etPhoneNumber.text.toString()
+                etText = etText.replace("+0", "")
+                etText = etText.replace("+91", "")
+                if (!isFormatIncorrect(etText)) {
+                    phoneNumber = "+91" + etText
+                    val builder = createAlertDialog()
+                    builder.setTitle(R.string.correct_number_question)
+                            .setMessage(phoneNumber)
+                            .setNegativeButton(android.R.string.no) { dialog, which -> dialog.dismiss() }
+                            .setPositiveButton(android.R.string.yes) { dialog, which ->
+                                sendOTP(phoneNumber)
+                                mViewPleaseWait?.visibility = View.VISIBLE
+                            }
+                            .show()
+                }
+            } else {
+                availability.showErrorDialogFragment(this@AddEditPhoneNumberActivity, available, 1)
             }
+
+
 
 
         })

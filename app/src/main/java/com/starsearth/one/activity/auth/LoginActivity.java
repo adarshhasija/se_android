@@ -10,12 +10,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
+import com.starsearth.one.application.StarsEarthApplication;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,8 +92,15 @@ public class LoginActivity extends AppCompatActivity {
         btnDone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    login();
+                GoogleApiAvailability availability = GoogleApiAvailability.getInstance();
+                int available = availability.isGooglePlayServicesAvailable(getApplicationContext());
+                if (available == ConnectionResult.SUCCESS) {
+                    if (hasFocus) {
+                        login();
+                    }
+                }
+                else {
+                    availability.showErrorDialogFragment(LoginActivity.this, available, 1);
                 }
             }
         });

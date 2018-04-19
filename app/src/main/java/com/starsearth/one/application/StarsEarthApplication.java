@@ -1,5 +1,6 @@
 package com.starsearth.one.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -9,6 +10,8 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.User;
@@ -72,4 +75,5 @@ public class StarsEarthApplication extends Application {
         }
         return builder;
     }
+
 }

@@ -227,7 +227,7 @@
       "type": 4,
       "timed": true,
       "durationMillis": 61000,
-      "title": "months - spelling",
+      "title": "months of the year",
       "instructions": "You will be shown the months of the year. Tap if the spelling is correct. Swipe if the spelling is incorrect",
       "tap": ["January","February","March","April","May","June","July","August","September","October","November","December"],
       "swipe": ["Janaury","Jaunary","Jauanry","Jaanury","Jaaunry",

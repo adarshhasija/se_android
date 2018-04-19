@@ -17,6 +17,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
@@ -119,6 +121,12 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+        }
+
+        val availability = GoogleApiAvailability.getInstance()
+        val available = availability.isGooglePlayServicesAvailable(applicationContext)
+        if (available != ConnectionResult.SUCCESS) {
+            availability.showErrorDialogFragment(this@TabbedActivity, available, 1)
         }
 
     }
