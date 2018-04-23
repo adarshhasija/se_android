@@ -7,6 +7,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -147,12 +148,16 @@ public class Course extends SEBaseObject {
 
     public boolean isTaskExists(int taskId) {
         boolean result = false;
-        for (Task t : tasks) {
+        for (Task t : safe(tasks)) {
             if (t.id == taskId) {
                 result = true;
                 break;
             }
         }
         return result;
+    }
+
+    private List<Task> safe( List<Task> other ) {
+        return other == null ? Collections.EMPTY_LIST : other;
     }
 }

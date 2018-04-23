@@ -357,7 +357,12 @@ public class TaskActivity extends AppCompatActivity {
         bundle.putInt("game_type", (int) task.getType().getValue());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
-        bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
+        if (task.getType() == Task.Type.TAP_SWIPE_TIMED) {
+            bundle.putInt(FirebaseAnalytics.Param.SCORE, itemsCorrect);
+        }
+        else {
+            bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
+        }
 
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
     }
