@@ -94,17 +94,19 @@ class MainMenuItemFragment : Fragment() {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             mTimer?.cancel()
             val map = dataSnapshot?.value
-            if (map == null) { return; }
-            val results = ArrayList<Result>()
-            for (entry in (map as HashMap<*, *>).entries) {
-                val value = entry.value as Map<String, Any>
-                val newResult = Result(value)
-                results.add(newResult)
+            if (map != null) {
+                val results = ArrayList<Result>()
+                for (entry in (map as HashMap<*, *>).entries) {
+                    val value = entry.value as Map<String, Any>
+                    val newResult = Result(value)
+                    results.add(newResult)
+                }
+                Collections.sort(results, ComparatorMainMenuItem())
+                for (result in results) {
+                    insertResult(result)
+                }
             }
-            Collections.sort(results, ComparatorMainMenuItem())
-            for (result in results) {
-                insertResult(result)
-            }
+
             mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
         }
 
