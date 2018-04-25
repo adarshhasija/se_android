@@ -36,7 +36,8 @@ public class Result {
     public Result(Map<String, Object> map) {
         this.uid = (String) map.get("uid");
         this.userId = (String) map.get("userId");
-        this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() : ((Long) map.get("task_id")).intValue();
+        this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() :
+                        map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = (Long) map.get("timestamp");
     }

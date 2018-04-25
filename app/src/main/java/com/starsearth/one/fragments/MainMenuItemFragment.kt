@@ -97,7 +97,8 @@ class MainMenuItemFragment : Fragment() {
             if (map == null) { return; }
             val results = ArrayList<Result>()
             for (entry in (map as HashMap<*, *>).entries) {
-                val newResult = Result((entry.value as Map<String, Any>))
+                val value = entry.value as Map<String, Any>
+                val newResult = Result(value)
                 results.add(newResult)
             }
             Collections.sort(results, ComparatorMainMenuItem())
@@ -278,7 +279,7 @@ class MainMenuItemFragment : Fragment() {
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
-        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
+        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(/*currentUser.uid*/ "w8adRCHrFKapheCXCE5ic8WAIel2")
         //query?.addChildEventListener(mResultsChildListener)
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
         mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
