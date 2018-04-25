@@ -279,7 +279,7 @@ class MainMenuItemFragment : Fragment() {
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
-        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(/*currentUser.uid*/ "w8adRCHrFKapheCXCE5ic8WAIel2")
+        val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
         mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
