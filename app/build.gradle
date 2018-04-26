@@ -8,8 +8,8 @@ android {
         applicationId "com.starsearth.one"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 17
-        versionName "1.0.17"
+        versionCode 18
+        versionName "1.0.18"
     }
     buildTypes {
         debug {
@@ -19,8 +19,8 @@ android {
                     'proguard-rules.pro'
         }
         release {
-            shrinkResources true
-            minifyEnabled true
+            //shrinkResources true
+            //minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
