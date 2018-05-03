@@ -20,6 +20,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyResultRecyclerViewAdapter
 import com.starsearth.one.domain.*
 import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * A fragment representing a list of Items.
@@ -35,6 +36,8 @@ import java.util.*
 class ResultListFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
+    private var isActivityPaused = true
+    private var mJustCompletedResultsSet: MutableSet<Result> = HashSet<Result>()
     private var mTeachingContent: Any? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
@@ -68,6 +71,7 @@ class ResultListFragment : Fragment() {
             }
 
             if (result!!.isJustCompleted) {
+                mJustCompletedResultsSet.add(result)
                 justCompletedTask(result, isHighScore)
                 setReturnResult(result)
             }
@@ -105,11 +109,42 @@ class ResultListFragment : Fragment() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        mJustCompletedResultsSet.clear() //clear the queue before proceeding
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isActivityPaused = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        isActivityPaused = false
+
+        //If we are returning from an ad,
+        //Take the result out of the set and display
+        if (mJustCompletedResultsSet.size > 0) {
+            mJustCompletedResultsSet.forEach {
+
+                justCompletedTask(it, isHighScore())
+            }
+            mJustCompletedResultsSet.clear()
+        }
+    }
+
+    private fun isHighScore() : Boolean {
+        val adapter = (view as RecyclerView).adapter as MyResultRecyclerViewAdapter
+        return (adapter.getItem("high_score") as Result).uid == (adapter.getItem("last_tried") as Result).uid
+    }
+
     private fun justCompletedTask(result: Any?, isHighScore: Boolean) {
-        if (result is ResultTyping) {
+        if (result is ResultTyping && !isActivityPaused) {
             Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()
         }
-        else if (result is ResultGestures) {
+        else if (result is ResultGestures && !isActivityPaused) {
             Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
         }
 

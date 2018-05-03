@@ -76,4 +76,8 @@ public class Result {
         return result;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.uid.equals(((Result) obj).uid);
+    }
 }

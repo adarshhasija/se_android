@@ -3,6 +3,7 @@ package com.starsearth.one.activity.tasks;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
+import com.starsearth.one.activity.ads.GoogleAdActivity;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
 
@@ -332,17 +334,30 @@ public class TaskActivity extends AppCompatActivity {
 
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
+        firebaseAnalyticsGameCompleted();
+        setResult(RESULT_OK);
+
         Firebase firebase = new Firebase("results");
         if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
             firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
         }
         else {
             firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
+            openAdvertisement();
         }
-
-        firebaseAnalyticsGameCompleted();
-        setResult(RESULT_OK);
         finish();
+    }
+
+    /*
+    Open a full screen Google Ad
+     */
+    private void openAdvertisement() {
+        Random random = new Random();
+        int i = random.nextInt(3);
+        //if (i % 3 == 0) {
+            Intent intent = new Intent(TaskActivity.this, GoogleAdActivity.class);
+            //startActivity(intent);
+        //}
     }
 
     private boolean isTalkbackEnabled() {

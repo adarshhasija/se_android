@@ -344,4 +344,6 @@
     <string name="loading_complete">Loading Complete</string>
     <string name="yay">YAYY!!!!!</string>
 
+    <string name="title_activity_google_ad">Advertisement</string>
+
 </resources>
