@@ -21,6 +21,12 @@ import com.starsearth.one.adapter.MyResultRecyclerViewAdapter
 import com.starsearth.one.domain.*
 import java.util.*
 import kotlin.collections.HashSet
+import android.widget.TextView
+import android.view.Gravity
+
+
+
+
 
 /**
  * A fragment representing a list of Items.
@@ -141,12 +147,29 @@ class ResultListFragment : Fragment() {
     }
 
     private fun justCompletedTask(result: Any?, isHighScore: Boolean) {
-        if (result is ResultTyping && !isActivityPaused) {
-            Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_new_result,null)
+        val tvResult = layout.findViewById<TextView>(R.id.tv_result)
+        if (isHighScore && !isActivityPaused) {
+            tvResult.setText(R.string.high_score)
+        }
+        else if (result is ResultTyping && !isActivityPaused){
+            tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.type))
         }
         else if (result is ResultGestures && !isActivityPaused) {
-            Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
+            tvResult.setText(result.resultToast)
         }
+
+        val toast = Toast(context)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+
+        //if (result is ResultTyping && !isActivityPaused) {
+        //    Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()
+       //}
+
 
         if (isHighScore) {
             mListener?.onNewHighScore(result)

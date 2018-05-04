@@ -114,12 +114,11 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
-    public String getResultToast(Context context, Task.Type tastType, Boolean isHighScore) {
+    public String getResultToast(Context context, Task.Type tastType) {
         StringBuffer result = new StringBuffer();
         switch (tastType) {
             case TYPING_TIMED:
-                if (!isHighScore) result.append(context.getString(R.string.your_score) + " " + words_correct);
-                else result.append(context.getResources().getString(R.string.high_score) + " " + words_correct);
+                result.append(words_correct);
                 break;
             case TYPING_UNTIMED:
                 int accuracy = getAccuracy();

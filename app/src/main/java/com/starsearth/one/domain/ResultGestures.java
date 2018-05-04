@@ -35,10 +35,9 @@ public class ResultGestures extends Result {
     /*
     String should be shown as Toast when user has just finished task
      */
-    public String getResultToast(Context context, Boolean isHighScore) {
+    public String getResultToast() {
         StringBuffer result = new StringBuffer();
-        if (!isHighScore) result.append(context.getString(R.string.your_score) + " " + items_correct);
-        else result.append(context.getResources().getString(R.string.high_score) + " " + items_correct);
+        result.append(items_correct);
         return result.toString();
     }
 
