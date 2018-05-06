@@ -168,6 +168,7 @@ public class FileTasks {
             JSONArray tasksJSON = root.getJSONArray("tasks");
             List<Object> teachingContentList = getCourses(coursesJSON);
             teachingContentList.addAll(getTasks(tasksJSON));
+            //int highestId = getHighestId(teachingContentList);
             for (Object o : teachingContentList) {
                 if (((SEBaseObject) o).visible) {
                     MainMenuItem mainMenuItem = new MainMenuItem();
