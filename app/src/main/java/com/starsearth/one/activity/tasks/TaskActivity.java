@@ -343,7 +343,7 @@ public class TaskActivity extends AppCompatActivity {
         }
         else {
             firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
-            openAdvertisement();
+            //openAdvertisement();
         }
         finish();
     }
@@ -354,10 +354,13 @@ public class TaskActivity extends AppCompatActivity {
     private void openAdvertisement() {
         Random random = new Random();
         int i = random.nextInt(3);
-        //if (i % 3 == 0) {
+        if (i % 3 == 0 && !isTalkbackEnabled()) {
             Intent intent = new Intent(TaskActivity.this, GoogleAdActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putStringArray("tags", task.tags);
+            intent.putExtras(bundle);
             //startActivity(intent);
-        //}
+        }
     }
 
     private boolean isTalkbackEnabled() {

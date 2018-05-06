@@ -75,7 +75,7 @@ class ResultListFragment : Fragment() {
                 adapter.putItem("high_score", result)
                 mDatabase?.child((high_score as Result).uid)?.removeValue() //delete from the database
             }
-
+            
             if (result!!.isJustCompleted) {
                 mJustCompletedResultsSet.add(result)
                 justCompletedTask(result, isHighScore)
@@ -150,21 +150,24 @@ class ResultListFragment : Fragment() {
         val inflater = layoutInflater
         val layout = inflater.inflate(R.layout.toast_new_result,null)
         val tvResult = layout.findViewById<TextView>(R.id.tv_result)
-        if (isHighScore && !isActivityPaused) {
-            tvResult.setText(R.string.high_score)
-        }
-        else if (result is ResultTyping && !isActivityPaused){
-            tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.type))
-        }
-        else if (result is ResultGestures && !isActivityPaused) {
-            //Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
-            tvResult.setText(result.resultToast)
+        if (!isActivityPaused) {
+            if (isHighScore) {
+                tvResult.setText(R.string.high_score)
+            }
+            else if (result is ResultTyping){
+                tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.type))
+            }
+            else if (result is ResultGestures) {
+                //Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
+                tvResult.setText(result.resultToast)
+            }
+
+            val toast = Toast(context)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
         }
 
-        val toast = Toast(context)
-        toast.duration = Toast.LENGTH_LONG
-        toast.view = layout
-        toast.show()
 
         //if (result is ResultTyping && !isActivityPaused) {
         //    Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()

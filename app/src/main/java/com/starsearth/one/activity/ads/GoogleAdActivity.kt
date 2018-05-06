@@ -9,6 +9,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+import com.starsearth.one.BuildConfig
 import com.starsearth.one.R
 import com.starsearth.one.R.id.dummy_button
 import com.starsearth.one.R.id.fullscreen_content
@@ -54,6 +55,7 @@ class GoogleAdActivity : AppCompatActivity() {
     }
 
     private lateinit var mInterstitialAd: InterstitialAd
+    private var isAdLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,16 +73,24 @@ class GoogleAdActivity : AppCompatActivity() {
         // while interacting with the UI.
         dummy_button.setOnTouchListener(mDelayHideTouchListener)
 
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
 
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+
+        if (BuildConfig.DEBUG) {
+            // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+            MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+            mInterstitialAd = InterstitialAd(this)
+            mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        } else {
+            MobileAds.initialize(this, "ca-app-pub-1378964097701084~9829207692")
+            mInterstitialAd = InterstitialAd(this)
+            mInterstitialAd.adUnitId = "ca-app-pub-1378964097701084/1268191394"
+        }
 
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 super.onAdLoaded()
                 findViewById<ProgressBar>(R.id.progress_bar).visibility = View.GONE
+                isAdLoaded = true
                 mInterstitialAd.show()
             }
 
@@ -105,10 +115,24 @@ class GoogleAdActivity : AppCompatActivity() {
 
         }
         val adRequest = AdRequest.Builder()
-        adRequest.addKeyword("maths")
+        val extras = intent.extras
+        extras?.get("tags")?.let {
+            val tags = it as Array<String>
+            for (tag in tags) {
+                adRequest.addKeyword(tag)
+            }
+        }
         mInterstitialAd.loadAd(adRequest.build())
 
-
+        //If the ad has not loaded in 4 seconds, exit
+        android.os.Handler().postDelayed(
+                {
+                    if (!isAdLoaded) {
+                        mInterstitialAd.adListener = null
+                        finish()
+                    }
+                },
+                4000)
 
 
     }
