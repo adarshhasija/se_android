@@ -22,10 +22,8 @@ import com.starsearth.one.domain.*
 import java.util.*
 import kotlin.collections.HashSet
 import android.widget.TextView
-import android.view.Gravity
-
-
-
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.starsearth.one.application.StarsEarthApplication
 
 
 /**
@@ -79,6 +77,7 @@ class ResultListFragment : Fragment() {
             if (result!!.isJustCompleted) {
                 mJustCompletedResultsSet.add(result)
                 justCompletedTask(result, isHighScore)
+                mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
                 setReturnResult(result)
             }
 
@@ -238,6 +237,37 @@ class ResultListFragment : Fragment() {
         super.onDetach()
         mListener = null
         mDatabase?.removeEventListener(mChildEventListener)
+    }
+
+    private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+        val application = (activity.application as StarsEarthApplication)
+        val isTalkbackEnabled = if (application.isTalkbackOn) {
+            true
+        } else {
+            false
+        }
+        val isMagnificationEnabled = if (application.isMagnificationOn) {
+            true
+        } else {
+            false
+        }
+        bundle.putBoolean("talkback_enabled", isTalkbackEnabled)
+        bundle.putBoolean("magnification_enabled", isMagnificationEnabled)
+        if (task is Task) {
+            bundle.putInt("task_type", task.getType().getValue().toInt())
+            if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
+            } else {
+                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
+            }
+        }
+
+        parentFragment?.let { (it as ResultFragment).firebaseAnalyticsTaskCompleted(bundle) }
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.starsearth.one.activity.tasks;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
@@ -36,6 +37,7 @@ import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -334,17 +336,20 @@ public class TaskActivity extends AppCompatActivity {
 
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
-        firebaseAnalyticsGameCompleted();
-        setResult(RESULT_OK);
+        new Thread(new Runnable() {
+            public void run() {
+                Firebase firebase = new Firebase("results");
+                if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+                    firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
+                }
+                else {
+                    firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
+                }
+            }
+        }).start();
 
-        Firebase firebase = new Firebase("results");
-        if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
-            firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
-        }
-        else {
-            firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
-            //openAdvertisement();
-        }
+        //firebaseAnalyticsGameCompleted();
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -365,7 +370,9 @@ public class TaskActivity extends AppCompatActivity {
 
     private boolean isTalkbackEnabled() {
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+        List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
         boolean isAccessibilityEnabled = am.isEnabled();
+
         return isAccessibilityEnabled;
     }
 

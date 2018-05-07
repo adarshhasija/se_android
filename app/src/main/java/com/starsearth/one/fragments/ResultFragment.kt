@@ -37,6 +37,10 @@ class ResultFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
+    fun firebaseAnalyticsTaskCompleted(bundle: Bundle) {
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {

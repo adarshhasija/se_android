@@ -21,6 +21,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import android.view.accessibility.AccessibilityManager
 import com.starsearth.one.activity.KeyboardActivity
 import com.starsearth.one.activity.ResultActivity
 import com.starsearth.one.comparator.ComparatorMainMenuItem

@@ -1,8 +1,11 @@
 package com.starsearth.one.application;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ResolveInfo;
+import android.content.pm.ServiceInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -15,6 +18,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.User;
+
+import java.util.List;
 
 /**
  * Created by faimac on 11/28/16.
@@ -30,11 +35,50 @@ public class StarsEarthApplication extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
-    public boolean isTalkbackOn() {
+    public List<String> getAccessibilityServiceName() {
+        List<String> result = null;
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
-        //Log.d(LOG_TAG, "************ACCESSIBILITY ENABLED: "+am.isEnabled());
-        //Log.d(LOG_TAG, "*************TOUCH EXPLORATION ENABLED :"+am.isTouchExplorationEnabled());
-        return false;
+        List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
+        if (list != null) {
+            for (AccessibilityServiceInfo info : list) {
+                ResolveInfo resolveInfo = info.getResolveInfo();
+                if (resolveInfo != null) {
+                    ServiceInfo serviceInfo = resolveInfo.serviceInfo;
+                    if (serviceInfo != null) {
+                        result.add(serviceInfo.name);
+                    }
+                }
+
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isTalkbackOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityServiceName();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("TalkBack")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isMagnificationOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityServiceName();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("Magnification")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
     public boolean isNetworkAvailable() {

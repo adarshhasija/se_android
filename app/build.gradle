@@ -9,6 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 18
+        
         versionName "1.0.18"
     }
     buildTypes {
@@ -17,11 +18,12 @@ android {
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
+
         }
         release {
             //shrinkResources true
             //minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     buildToolsVersion '27.0.3'

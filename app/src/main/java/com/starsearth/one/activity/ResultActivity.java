@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Course;
@@ -105,4 +106,5 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
 
     }
+
 }
