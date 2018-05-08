@@ -22,8 +22,10 @@ import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import android.view.accessibility.AccessibilityManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.KeyboardActivity
 import com.starsearth.one.activity.ResultActivity
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlin.collections.HashMap
@@ -175,7 +177,8 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun listItemSelected(item: MainMenuItem, position: Int) {
-        mListener?.onListFragmentInteraction(item);
+        //mListener?.onListFragmentInteraction(item);
+        sendAnalytics((item.teachingContent as SEBaseObject))
 
         val teachingContent = item.teachingContent
         if (teachingContent is Task && teachingContent.type == Task.Type.KEYBOARD_TEST) {
@@ -190,7 +193,15 @@ class MainMenuItemFragment : Fragment() {
             startActivityForResult(intent,0)
         }
 
+    }
 
+    fun sendAnalytics(item: SEBaseObject) {
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
 
@@ -258,6 +269,12 @@ class MainMenuItemFragment : Fragment() {
         FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
+        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -312,7 +329,7 @@ class MainMenuItemFragment : Fragment() {
         super.onDetach()
         mTimer?.cancel()
         mListener = null
-        mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
+        //mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
     }
 
     /**

@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.MoreOptionsMenuItem
+import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
 
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -17,7 +18,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOptionsMenuItem>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyMoreOptionsMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOptionsMenuItem>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: MoreOptionsMenuItemFragment) : RecyclerView.Adapter<MyMoreOptionsMenuItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -31,7 +32,9 @@ class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOpt
         //holder.mContentView.text = mValues[position].content
 
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mListener?.onListFragmentInteraction(it) }
+            holder.mItem?.let { //mListener?.onListFragmentInteraction(it)
+                mFragment.listItemSelected(it)
+            }
 
         }
     }

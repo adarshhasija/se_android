@@ -19,6 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.tasks.TaskActivity
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Task
 
 /**
@@ -33,11 +34,11 @@ class ResultFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     private var mListener: OnFragmentInteractionListener? = null
 
     fun firebaseAnalyticsTaskCompleted(bundle: Bundle) {
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
         mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
     }
 
@@ -78,7 +79,6 @@ class ResultFragment : Fragment() {
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container_list, listFragment).commit()
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
         return v
     }
@@ -96,7 +96,14 @@ class ResultFragment : Fragment() {
         analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions)
         analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
         mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
+        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.name, null /* class override */);
     }
 
     private fun startTaskTyping(task: Task) {

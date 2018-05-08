@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
-
     /*
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */

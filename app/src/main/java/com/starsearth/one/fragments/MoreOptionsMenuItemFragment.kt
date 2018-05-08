@@ -1,6 +1,7 @@
 package com.starsearth.one.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -16,7 +17,10 @@ import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.starsearth.one.activity.KeyboardActivity
+import com.starsearth.one.activity.profile.PhoneNumberActivity
+import com.starsearth.one.application.StarsEarthApplication
 
 
 /**
@@ -34,6 +38,26 @@ class MoreOptionsMenuItemFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var mListener: OnListFragmentInteractionListener? = null
+
+    fun sendAnalytics(selected: String) {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
+        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
+    fun listItemSelected(item: MoreOptionsMenuItem) {
+        sendAnalytics(item.text1)
+        val intent: Intent
+        val title = item.text1
+        if (title != null && title.contains("Keyboard")) {
+            intent = Intent(context, KeyboardActivity::class.java)
+            startActivity(intent)
+        } else if (title != null && title.contains("Phone")) {
+            intent = Intent(context, PhoneNumberActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +82,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
             val menuItems = getData()
-            view.adapter = MyMoreOptionsMenuItemRecyclerViewAdapter(menuItems, mListener)
+            view.adapter = MyMoreOptionsMenuItemRecyclerViewAdapter(menuItems, mListener, this)
         }
         return view
     }
@@ -82,6 +106,12 @@ class MoreOptionsMenuItemFragment : Fragment() {
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnListFragmentInteractionListener")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
+        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
     }
 
     override fun onDetach() {
