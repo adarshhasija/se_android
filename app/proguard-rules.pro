@@ -16,3 +16,6 @@
 #   public *;
 #}
 
+-keepnames class com.starsearth.one.fragments.*
+-keepclassmembers class com.starsearth.one.domain.* { <fields>; }
+
