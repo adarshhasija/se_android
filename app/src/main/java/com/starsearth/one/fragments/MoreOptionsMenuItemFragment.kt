@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMoreOptionsMenuItemRecyclerViewAdapter
 import com.starsearth.one.domain.MoreOptionsMenuItem
-import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -40,10 +39,10 @@ class MoreOptionsMenuItemFragment : Fragment() {
     private var mListener: OnListFragmentInteractionListener? = null
 
     fun sendAnalytics(selected: String) {
-        val bundle = Bundle()
+        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     fun listItemSelected(item: MoreOptionsMenuItem) {
@@ -63,12 +62,11 @@ class MoreOptionsMenuItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mColumnCount = arguments.getInt(ARG_COLUMN_COUNT)
+            mColumnCount = arguments!!.getInt(ARG_COLUMN_COUNT)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_moreoptionsmenuitem_list, container, false)
 
         // Set the adapter
@@ -110,8 +108,9 @@ class MoreOptionsMenuItemFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
     }
 
     override fun onDetach() {

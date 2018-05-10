@@ -183,19 +183,18 @@ class ResultListFragment : Fragment() {
         val bundle = Bundle()
         bundle.putString("uid", (result as Result)?.uid)
         intent.putExtras(bundle)
-        activity.setResult(Activity.RESULT_OK, intent)
+        activity?.setResult(Activity.RESULT_OK, intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mTeachingContent = arguments.getParcelable(ARG_TEACHING_CONTENT)
+            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_resulttyping_list, container, false)
 
         // Set the adapter
@@ -240,23 +239,11 @@ class ResultListFragment : Fragment() {
     }
 
     private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {
-        val bundle = Bundle()
+        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
 
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
-        val application = (activity.application as StarsEarthApplication)
-        val isTalkbackEnabled = if (application.isTalkbackOn) {
-            true
-        } else {
-            false
-        }
-        val isMagnificationEnabled = if (application.isMagnificationOn) {
-            true
-        } else {
-            false
-        }
-        bundle.putBoolean("talkback_enabled", isTalkbackEnabled)
-        bundle.putBoolean("magnification_enabled", isMagnificationEnabled)
+        val application = (activity?.application as StarsEarthApplication)
         if (task is Task) {
             bundle.putInt("task_type", task.getType().getValue().toInt())
             if (task.type == Task.Type.TAP_SWIPE_TIMED) {

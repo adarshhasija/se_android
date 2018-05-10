@@ -346,4 +346,8 @@
 
     <string name="title_activity_google_ad">Advertisement</string>
 
+
+    <string name="facebook_app_id">2064355667218856</string>
+    <string name="fb_login_protocol_scheme">fb2064355667218856</string>
+
 </resources>

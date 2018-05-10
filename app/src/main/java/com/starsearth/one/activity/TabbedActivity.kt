@@ -31,6 +31,8 @@ import com.starsearth.one.fragments.MainMenuItemFragment
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
     /*
@@ -108,6 +110,10 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tabbed)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+
+        val logger = AppEventsLogger.newLogger(this)
+        logger.logEvent("sentFriendRequest");
 
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
@@ -199,7 +205,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
             val rootView = inflater.inflate(R.layout.fragment_tabbed, container, false)
-            rootView.section_label.text = getString(R.string.section_format, arguments.getInt(ARG_SECTION_NUMBER))
+            rootView.section_label.text = getString(R.string.section_format, arguments?.getInt(ARG_SECTION_NUMBER))
             return rootView
         }
 

@@ -21,7 +21,6 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyMainMenuItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import android.view.accessibility.AccessibilityManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.KeyboardActivity
 import com.starsearth.one.activity.ResultActivity
@@ -150,7 +149,7 @@ class MainMenuItemFragment : Fragment() {
         val bundle = Bundle()
         bundle.putString("uid", (result as Result)?.uid)
         intent.putExtras(bundle)
-        activity.setResult(Activity.RESULT_OK, intent)
+        activity?.setResult(Activity.RESULT_OK, intent)
     }
 
     fun insertResult(result: Result) {
@@ -196,12 +195,12 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun sendAnalytics(item: SEBaseObject) {
-        val bundle = Bundle()
+        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
 
@@ -235,12 +234,11 @@ class MainMenuItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mCourse = arguments.getParcelable(ARG_COURSE)
+            mCourse = arguments!!.getParcelable(ARG_COURSE)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_mainmenuitem_list, container, false)
 
         // Set the adapter
@@ -262,7 +260,7 @@ class MainMenuItemFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //view has to exist by the time this is called
@@ -271,8 +269,10 @@ class MainMenuItemFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

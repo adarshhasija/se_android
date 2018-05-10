@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.ads.GoogleAdActivity;
+import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
 
@@ -46,7 +47,6 @@ public class TaskActivity extends AppCompatActivity {
 
     //List<String> sentencesList;
 
-    private FirebaseAnalytics mFirebaseAnalytics;
     private long timeTakenMillis;
 
     //typing activity
@@ -80,8 +80,6 @@ public class TaskActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_task);
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -163,6 +161,13 @@ public class TaskActivity extends AppCompatActivity {
             }
         };
         mCountDownTimer.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StarsEarthApplication application = (StarsEarthApplication) getApplication();
+        application.logFragmentViewEvent(this.getClass().getSimpleName(), this);
     }
 
     @Override
@@ -389,16 +394,16 @@ public class TaskActivity extends AppCompatActivity {
             bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
         }
 
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
     }
 
     private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
-        Bundle bundle = new Bundle();
+        Bundle bundle = ((StarsEarthApplication) this.getApplication()).getUserPropertiesAccessibility();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
-        bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         bundle.putBoolean("back_button_pressed", backButtonPressed);
-        mFirebaseAnalytics.logEvent("game_cancelled", bundle);
+        StarsEarthApplication application = (StarsEarthApplication) getApplication();
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     private void checkWordCorrect() {

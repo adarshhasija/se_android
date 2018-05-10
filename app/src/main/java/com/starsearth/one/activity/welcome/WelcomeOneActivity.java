@@ -20,6 +20,7 @@ import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.TabbedActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
+import com.starsearth.one.application.StarsEarthApplication;
 
 public class WelcomeOneActivity extends AppCompatActivity {
 
@@ -140,7 +141,17 @@ public class WelcomeOneActivity extends AppCompatActivity {
         }
     }
 
+    private void updateFacebookUserProperties() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            StarsEarthApplication application = (StarsEarthApplication) getApplication();
+            application.updateFacebookUserProperties(currentUser.getUid());
+        }
+
+    }
+
     private void redirectToMainMenu(Bundle bundle) {
+        updateFacebookUserProperties();
         Intent intent = new Intent(WelcomeOneActivity.this, TabbedActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);

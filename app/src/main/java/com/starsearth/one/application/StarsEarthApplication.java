@@ -9,12 +9,14 @@ import android.content.pm.ServiceInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
@@ -30,16 +32,79 @@ public class StarsEarthApplication extends Application {
 
     private User firebaseUser;
     private FirebaseAnalytics firebaseAnalytics;
+    private AppEventsLogger facebookAnalytics; //Facebook analytics
 
     public FirebaseAnalytics getFirebaseAnalytics() {
         return firebaseAnalytics;
     }
 
+    public AppEventsLogger getFacebookAnalytics() {
+        return facebookAnalytics;
+    }
+
+    public Bundle getUserPropertiesAccessibility() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("talkback_enabled", isTalkbackOn());
+        bundle.putBoolean("magnification_enabled", isMagnificationOn());
+        return bundle;
+    }
+
+    public void logActionEvent(String eventName, Bundle bundle) {
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.logEvent(eventName, bundle);
+        }
+        if (facebookAnalytics != null) {
+            facebookAnalytics.logEvent(eventName, bundle);
+        }
+    }
+
+    public void logActionEvent(String eventName, Bundle bundle, int score) {
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.logEvent(eventName, bundle);
+        }
+        if (facebookAnalytics != null) {
+            facebookAnalytics.logEvent(eventName, score, bundle);
+        }
+    }
+
+    public void logFragmentViewEvent(String fragmentName, Activity activity) {
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.setCurrentScreen(activity, fragmentName, null);
+        }
+        if (facebookAnalytics != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("content", fragmentName);
+            facebookAnalytics.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, bundle);
+        }
+    }
+
+    public void updateFacebookUserProperties(String userId) {
+        AppEventsLogger.setUserID(userId);
+
+        Bundle user_props = new Bundle();
+        user_props.putBoolean("talkback_enabled", isTalkbackOn());
+        user_props.putBoolean("magnification_enabled", isMagnificationOn());
+        AppEventsLogger.updateUserProperties(user_props, null);
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        initializeFirebaseAnalytics();
+        initializeFacebookAnalytics();
+    }
+
+    private void initializeFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
+
+    private void initializeFacebookAnalytics() {
+        FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        facebookAnalytics = AppEventsLogger.newLogger(this);
     }
 
     public List<String> getAccessibilityServiceName() {

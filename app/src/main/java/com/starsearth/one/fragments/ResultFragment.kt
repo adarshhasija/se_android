@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -38,19 +37,19 @@ class ResultFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
 
     fun firebaseAnalyticsTaskCompleted(bundle: Bundle) {
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
+        val application = (activity?.application as StarsEarthApplication)
+        val score = bundle?.getInt(FirebaseAnalytics.Param.SCORE)
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle, score)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mTeachingContent = arguments.getParcelable(ARG_TEACHING_CONTENT)
+            mTeachingContent = arguments?.getParcelable(ARG_TEACHING_CONTENT)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
@@ -64,13 +63,13 @@ class ResultFragment : Fragment() {
         (tv as TextView).text =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
-                            context.resources.getString(R.string.complete_as_many_as) + " " +
-                            context.resources.getString(R.string.your_best_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                            context?.resources?.getString(R.string.complete_as_many_as) + " " +
+                            context?.resources?.getString(R.string.your_best_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
                 } else if (mTeachingContent is Task) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
-                            context.resources.getString(R.string.do_this_number_times) + " " +
-                            context.resources.getString(R.string.your_best_score) + " " +
-                            context.resources.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials)
+                            context?.resources?.getString(R.string.do_this_number_times) + " " +
+                            context?.resources?.getString(R.string.your_best_score) + " " +
+                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials)
                 } else {
                     ""
                 }).toString()
@@ -92,18 +91,20 @@ class ResultFragment : Fragment() {
     }
 
     private fun sendAnalytics(task: Task) {
-        val analyticsBundle = Bundle()
+        val analyticsBundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
         analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.instructions)
         analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
+        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
     }
 
     override fun onResume() {
         super.onResume()
-        val mFirebaseAnalytics = (activity.application as StarsEarthApplication).firebaseAnalytics
-        mFirebaseAnalytics?.setCurrentScreen(activity, this.javaClass.name, null /* class override */);
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.name, null /* class override */);
     }
 
     private fun startTaskTyping(task: Task) {
