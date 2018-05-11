@@ -39,7 +39,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
     private var mListener: OnListFragmentInteractionListener? = null
 
     fun sendAnalytics(selected: String) {
-        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
+        val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)

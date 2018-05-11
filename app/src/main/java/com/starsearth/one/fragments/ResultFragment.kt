@@ -91,7 +91,7 @@ class ResultFragment : Fragment() {
     }
 
     private fun sendAnalytics(task: Task) {
-        val analyticsBundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
+        val analyticsBundle = Bundle()
         analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))

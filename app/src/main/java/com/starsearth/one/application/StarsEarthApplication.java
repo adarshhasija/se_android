@@ -79,10 +79,20 @@ public class StarsEarthApplication extends Application {
     }
 
     public void updateFacebookUserProperties(String userId) {
-        AppEventsLogger.setUserID(userId);
-
         Bundle user_props = getUserPropertiesAccessibility();
-        AppEventsLogger.updateUserProperties(user_props, null);
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics.setUserId(userId);
+            if (user_props != null) {
+                for (String key : user_props.keySet()) {
+                    firebaseAnalytics.setUserProperty(key, user_props.get(key).toString()); //must be a string
+                }
+            }
+        }
+        if (facebookAnalytics != null) {
+            AppEventsLogger.setUserID(userId);
+            AppEventsLogger.updateUserProperties(user_props, null);
+        }
+
     }
 
 

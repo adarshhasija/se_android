@@ -239,7 +239,7 @@ class ResultListFragment : Fragment() {
     }
 
     private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {
-        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
+        val bundle = Bundle()
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
 
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)

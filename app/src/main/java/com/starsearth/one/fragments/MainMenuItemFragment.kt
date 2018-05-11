@@ -195,7 +195,7 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun sendAnalytics(item: SEBaseObject) {
-        val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
+        val bundle = Bundle()
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
         if (item is Task) {

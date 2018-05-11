@@ -384,9 +384,8 @@ public class TaskActivity extends AppCompatActivity {
     private void firebaseAnalyticsGameCompleted() {
         Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
-        bundle.putInt("game_type", (int) task.getType().getValue());
+        bundle.putInt("task_type", (int) task.getType().getValue());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
-        bundle.putBoolean("talkback_enabled", isTalkbackEnabled());
         if (task.getType() == Task.Type.TAP_SWIPE_TIMED) {
             bundle.putInt(FirebaseAnalytics.Param.SCORE, itemsCorrect);
         }
@@ -398,7 +397,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
-        Bundle bundle = ((StarsEarthApplication) this.getApplication()).getUserPropertiesAccessibility();
+        Bundle bundle = new Bundle();
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("back_button_pressed", backButtonPressed);
