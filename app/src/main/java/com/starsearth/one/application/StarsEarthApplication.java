@@ -44,8 +44,8 @@ public class StarsEarthApplication extends Application {
 
     public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
-        bundle.putBoolean("talkback_enabled", isTalkbackOn());
-        bundle.putBoolean("magnification_enabled", isMagnificationOn());
+        bundle.putInt("talkback_enabled", isTalkbackOn()? 1 : 0);
+        bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
         return bundle;
     }
 
@@ -81,9 +81,7 @@ public class StarsEarthApplication extends Application {
     public void updateFacebookUserProperties(String userId) {
         AppEventsLogger.setUserID(userId);
 
-        Bundle user_props = new Bundle();
-        user_props.putBoolean("talkback_enabled", isTalkbackOn());
-        user_props.putBoolean("magnification_enabled", isMagnificationOn());
+        Bundle user_props = getUserPropertiesAccessibility();
         AppEventsLogger.updateUserProperties(user_props, null);
     }
 

@@ -403,7 +403,7 @@ public class TaskActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putBoolean("back_button_pressed", backButtonPressed);
         StarsEarthApplication application = (StarsEarthApplication) getApplication();
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        application.logActionEvent("task_cancelled", bundle);
     }
 
     private void checkWordCorrect() {

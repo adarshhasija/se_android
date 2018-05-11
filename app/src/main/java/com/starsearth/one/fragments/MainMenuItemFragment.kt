@@ -198,6 +198,9 @@ class MainMenuItemFragment : Fragment() {
         val bundle = (activity?.application as StarsEarthApplication).userPropertiesAccessibility
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
+        if (item is Task) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, item.type?.toString()?.replace("_", " "))
+        }
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
@@ -270,7 +273,11 @@ class MainMenuItemFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+        application.logFragmentViewEvent(if (mCourse != null) {
+            "CourseItemsList"
+        } else {
+            this.javaClass.simpleName
+        }, activity!!)
         //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
 
     }

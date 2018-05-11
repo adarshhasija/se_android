@@ -109,11 +109,6 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tabbed)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
-
-        val logger = AppEventsLogger.newLogger(this)
-        logger.logEvent("sentFriendRequest");
 
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
