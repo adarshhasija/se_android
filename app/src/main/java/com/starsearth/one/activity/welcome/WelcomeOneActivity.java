@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.TabbedActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
@@ -141,17 +140,22 @@ public class WelcomeOneActivity extends AppCompatActivity {
         }
     }
 
-    private void updateFacebookUserProperties() {
+    private void updateUserProperties() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             StarsEarthApplication application = (StarsEarthApplication) getApplication();
-            application.updateFacebookUserProperties(currentUser.getUid());
+            application.updateUserAnalyticsInfo(currentUser.getUid());
         }
 
     }
 
     private void redirectToMainMenu(Bundle bundle) {
-        updateFacebookUserProperties();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateUserProperties();
+            }
+        }).start();
         Intent intent = new Intent(WelcomeOneActivity.this, TabbedActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);

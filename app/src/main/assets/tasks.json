@@ -14,7 +14,7 @@
         },
         {
           "id": 3,
-          "type": 2,
+          "type": 1,
           "timed": false,
           "title": "Type f and press spacebar",
           "instructions": "Type f and press spacebar.",
@@ -24,7 +24,7 @@
         },
         {
           "id": 4,
-          "type": 2,
+          "type": 1,
           "timed": false,
           "title": "Type j and press spacebar",
           "instructions": "Type j and press spacebar.",

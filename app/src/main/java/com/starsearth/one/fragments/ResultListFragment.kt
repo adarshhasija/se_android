@@ -48,7 +48,7 @@ class ResultListFragment : Fragment() {
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING_TIMED || (mTeachingContent as Task)?.type == Task.Type.TYPING_UNTIMED) {
+            val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
                 dataSnapshot.getValue(ResultTyping::class.java)
             } else {
                 dataSnapshot.getValue(ResultGestures::class.java)
@@ -154,7 +154,7 @@ class ResultListFragment : Fragment() {
                 tvResult.setText(R.string.high_score)
             }
             else if (result is ResultTyping){
-                tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.type))
+                tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.timed))
             }
             else if (result is ResultGestures) {
                 //Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
@@ -245,15 +245,16 @@ class ResultListFragment : Fragment() {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         val application = (activity?.application as StarsEarthApplication)
         if (task is Task) {
-            bundle.putInt("task_type", task.getType().getValue().toInt())
-            if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+            bundle.putInt("item_type", task.getType().getValue().toInt())
+            bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
+            if (task.type == Task.Type.TAP_SWIPE) {
                 bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
             } else {
                 bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
             }
         }
 
-        parentFragment?.let { (it as ResultFragment).firebaseAnalyticsTaskCompleted(bundle) }
+        parentFragment?.let { (it as ResultFragment).firebaseAnalyticsTaskCompleted(FirebaseAnalytics.Event.POST_SCORE, bundle) }
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
     }
 

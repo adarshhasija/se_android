@@ -36,10 +36,10 @@ class ResultFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    fun firebaseAnalyticsTaskCompleted(bundle: Bundle) {
+    fun firebaseAnalyticsTaskCompleted(eventName: String, bundle: Bundle) {
         val application = (activity?.application as StarsEarthApplication)
         val score = bundle?.getInt(FirebaseAnalytics.Param.SCORE)
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle, score)
+        application.logActionEvent(eventName, bundle, score)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,14 +91,15 @@ class ResultFragment : Fragment() {
     }
 
     private fun sendAnalytics(task: Task) {
-        val analyticsBundle = Bundle()
-        analyticsBundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
-        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
-        analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
-        analyticsBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
+        bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
         val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
-        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle)
+        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     override fun onResume() {

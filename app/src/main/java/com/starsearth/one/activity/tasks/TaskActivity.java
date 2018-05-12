@@ -1,10 +1,8 @@
 package com.starsearth.one.activity.tasks;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -21,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,14 +26,11 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.ads.GoogleAdActivity;
 import com.starsearth.one.application.StarsEarthApplication;
-import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.runnable.ResultSaveRunnable;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -99,7 +93,7 @@ public class TaskActivity extends AppCompatActivity {
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
-        if (task.getType() == Task.Type.TYPING_TIMED || task.getType() == Task.Type.TAP_SWIPE_TIMED) {
+        if (task.timed) {
             mTimer.setVisibility(View.VISIBLE);
             setupTimer();
         }
@@ -126,7 +120,7 @@ public class TaskActivity extends AppCompatActivity {
                 keyboard.showSoftInput(rl, 0);
             }
         };
-        if (task.type == Task.Type.TYPING_UNTIMED || task.type == Task.Type.TYPING_TIMED) {
+        if (task.type == Task.Type.TYPING) {
             rl.postDelayed(runnable,200); //use 300 to make it run when coming back from lock screen
         }
     }
@@ -270,7 +264,7 @@ public class TaskActivity extends AppCompatActivity {
                 float deltaY = y2 - y1;
                 if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE)
                 {
-                    if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                    if (task.type == Task.Type.TAP_SWIPE) {
                         //left -> right or top ->bottom
                         //swipe means false
                         itemsAttempted++;
@@ -288,13 +282,13 @@ public class TaskActivity extends AppCompatActivity {
                 else
                 {
                     // consider as something else - a screen tap for example
-                    if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+                    if (task.type == Task.Type.TYPING) {
                         if (expectedAnswer != null) {
                             //On screen tap, announce the next expected character
                             rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
                         }
                     }
-                    else if (task.type == Task.Type.TAP_SWIPE_TIMED) {
+                    else if (task.type == Task.Type.TAP_SWIPE) {
                         //tap
                         //tap means true
                         itemsAttempted++;
@@ -334,7 +328,7 @@ public class TaskActivity extends AppCompatActivity {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         Bundle bundle = new Bundle();
         bundle.putInt("taskId", task.id);
-        bundle.putInt("taskTypeInt", (int) task.type.getValue());
+        bundle.putLong("taskTypeLong", task.type.getValue());
         bundle.putLong("timeTakenMillis", timeTakenMillis);
         bundle.putInt("itemsCorrect", itemsCorrect);
         bundle.putInt("itemsAttempted", itemsAttempted);
@@ -345,7 +339,7 @@ public class TaskActivity extends AppCompatActivity {
         new Thread(new ResultSaveRunnable(bundle)/*new Runnable() {
             public void run() {
                 Firebase firebase = new Firebase("results");
-                if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+                if (task.type == Task.Type.TYPING) {
                     firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
                 }
                 else {
@@ -374,21 +368,6 @@ public class TaskActivity extends AppCompatActivity {
         }   */
     }
 
-    private void firebaseAnalyticsGameCompleted() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
-        bundle.putInt("task_type", (int) task.getType().getValue());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
-        if (task.getType() == Task.Type.TAP_SWIPE_TIMED) {
-            bundle.putInt(FirebaseAnalytics.Param.SCORE, itemsCorrect);
-        }
-        else {
-            bundle.putInt(FirebaseAnalytics.Param.SCORE, wordsCorrect);
-        }
-
-        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
-    }
-
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
@@ -408,6 +387,7 @@ public class TaskActivity extends AppCompatActivity {
     private void logAnalytics(Bundle bundle) {
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
+        bundle.putInt("item_timed", task.timed? 1 : 0);
         StarsEarthApplication application = (StarsEarthApplication) getApplication();
         application.logActionEvent("task_cancelled", bundle);
     }
@@ -522,7 +502,7 @@ public class TaskActivity extends AppCompatActivity {
      * Empty list not allowed
      */
     private void nextItem() {
-        if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
+        if (task.type == Task.Type.TYPING) {
             nextItemTyping();
         }
         else {

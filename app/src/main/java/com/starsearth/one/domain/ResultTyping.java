@@ -87,25 +87,22 @@ public class ResultTyping extends Result {
         return accuracyPercentageInt;
     }
 
-    public String getScoreSummary(Context context, Task.Type taskType) {
+    public String getScoreSummary(Context context, boolean isTimed) {
         StringBuffer result = new StringBuffer();
-        switch (taskType) {
-            case TYPING_TIMED:
-                result.append(Integer.valueOf(words_correct));
-                break;
-            case TYPING_UNTIMED:
-                int accuracy = getAccuracy();
-                if (accuracy >= 90) result.append(context.getString(R.string.passed));
-                else result.append(context.getString(R.string.failed));
-                break;
-            default: break;
+        if (isTimed) {
+            result.append(Integer.valueOf(words_correct));
+        }
+        else {
+            int accuracy = getAccuracy();
+            if (accuracy >= 90) result.append(context.getString(R.string.passed));
+            else result.append(context.getString(R.string.failed));
         }
         return result.toString();
     }
 
-    public String getExplanationSummary(Context context, Task.Type taskType) {
+    public String getExplanationSummary(Context context, boolean isTimed) {
         StringBuffer result = new StringBuffer();
-        if (taskType == Task.Type.TYPING_UNTIMED) {
+        if (!isTimed) {
             result.append(context.getString(R.string.accuracy) + " " + getAccuracy() +"%");
         }
         else {
@@ -114,20 +111,17 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
-    public String getResultToast(Context context, Task.Type tastType) {
+    public String getResultToast(Context context, boolean isTimed) {
         StringBuffer result = new StringBuffer();
-        switch (tastType) {
-            case TYPING_TIMED:
-                result.append(words_correct);
-                break;
-            case TYPING_UNTIMED:
-                int accuracy = getAccuracy();
-                if (accuracy > 90) result.append(context.getString(R.string.passed));
-                else result.append(context.getString(R.string.failed));
-                break;
-            default:
-                break;
+        if (isTimed) {
+            result.append(words_correct);
         }
+        else {
+            int accuracy = getAccuracy();
+            if (accuracy > 90) result.append(context.getString(R.string.passed));
+            else result.append(context.getString(R.string.failed));
+        }
+
         return result.toString();
     }
 

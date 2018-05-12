@@ -22,7 +22,7 @@ public class Task extends SEBaseObject {
     public String[] swipe;
     public Type type;
     public boolean ordered; //should the content be shown in same order to the user
-    public boolean timed; //currently not used
+    public boolean timed = false;
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
     public String[] tags;
@@ -32,10 +32,9 @@ public class Task extends SEBaseObject {
     }
 
     public enum Type {
-        TYPING_TIMED(1),
-        TYPING_UNTIMED(2),
+        TYPING(1),
         KEYBOARD_TEST(3),
-        TAP_SWIPE_TIMED(4)
+        TAP_SWIPE(4)
         ;
 
         private final long value;

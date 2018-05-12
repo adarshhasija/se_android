@@ -32,15 +32,7 @@ public class StarsEarthApplication extends Application {
 
     private User firebaseUser;
     private FirebaseAnalytics firebaseAnalytics;
-    private AppEventsLogger facebookAnalytics; //Facebook analytics
-
-    public FirebaseAnalytics getFirebaseAnalytics() {
-        return firebaseAnalytics;
-    }
-
-    public AppEventsLogger getFacebookAnalytics() {
-        return facebookAnalytics;
-    }
+    private AppEventsLogger facebookAnalytics;
 
     public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
@@ -78,21 +70,30 @@ public class StarsEarthApplication extends Application {
         }
     }
 
-    public void updateFacebookUserProperties(String userId) {
-        Bundle user_props = getUserPropertiesAccessibility();
+    public void updateUserAnalyticsInfo(String userId) {
+        updateAnalyticsUserId(userId);
+        updateUserProperties();
+    }
+
+    private void updateAnalyticsUserId(String userId) {
         if (firebaseAnalytics != null) {
             firebaseAnalytics.setUserId(userId);
-            if (user_props != null) {
-                for (String key : user_props.keySet()) {
-                    firebaseAnalytics.setUserProperty(key, user_props.get(key).toString()); //must be a string
-                }
-            }
         }
         if (facebookAnalytics != null) {
             AppEventsLogger.setUserID(userId);
+        }
+    }
+
+    private void updateUserProperties() {
+        Bundle user_props = getUserPropertiesAccessibility();
+        if (firebaseAnalytics != null && user_props != null) {
+            for (String key : user_props.keySet()) {
+                firebaseAnalytics.setUserProperty(key, user_props.get(key).toString()); //must be a string
+            }
+        }
+        if (facebookAnalytics != null) {
             AppEventsLogger.updateUserProperties(user_props, null);
         }
-
     }
 
 
@@ -199,5 +200,4 @@ public class StarsEarthApplication extends Application {
         }
         return builder;
     }
-
 }

@@ -44,7 +44,7 @@ public class ResultGestures extends Result {
     public String getScoreSummary(Context context, Task.Type taskType) {
         StringBuffer result = new StringBuffer();
         switch (taskType) {
-            case TAP_SWIPE_TIMED:
+            case TAP_SWIPE:
                 result.append(Integer.valueOf(items_correct));
                 break;
             default: break;

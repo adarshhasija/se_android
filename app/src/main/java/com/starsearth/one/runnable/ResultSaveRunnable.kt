@@ -7,7 +7,7 @@ import com.starsearth.one.domain.Task
 class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
 
     private var taskId: Int
-    private var taskTypeInt: Int
+    private var taskTypeLong: Long
     private var timeTakenMillis: Long
 
     private var itemsAttempted: Int
@@ -20,7 +20,7 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
 
     init {
         taskId = bundle?.getInt("taskId", -1)!!
-        taskTypeInt = bundle?.getInt("taskTypeInt", 0)!!
+        taskTypeLong = bundle?.getLong("taskTypeLong", 0)!!
         timeTakenMillis = bundle?.getLong("timeTakenMillis", 0)
         itemsCorrect = bundle?.getInt("itemsCorrect", 0)
         itemsAttempted = bundle?.getInt("itemsAttempted", 0)
@@ -32,8 +32,8 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
 
     override fun run() {
         val firebase = Firebase("results")
-        val type = Task.Type.fromInt((taskTypeInt as Long))
-        if (type == Task.Type.TYPING_TIMED || type == Task.Type.TYPING_UNTIMED) {
+        val type = Task.Type.fromInt(taskTypeLong)
+        if (type == Task.Type.TYPING) {
             firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, taskId)
         } else {
             firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, taskId)
