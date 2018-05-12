@@ -16,15 +16,12 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -36,6 +33,7 @@ import com.starsearth.one.activity.ads.GoogleAdActivity;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.database.Firebase;
 import com.starsearth.one.domain.Task;
+import com.starsearth.one.runnable.ResultSaveRunnable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +65,6 @@ public class TaskActivity extends AppCompatActivity {
     private TextView tvMain;
     private TextView mTimer;
     private CountDownTimer mCountDownTimer;
-    private boolean isBackPressed = false; //This flag is change on onBackPressed and used in onPause
 
     private Task task;
 
@@ -171,15 +168,9 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        taskCancelled();
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        isBackPressed = true;
+        taskCancelled(true);
     }
 
 
@@ -341,7 +332,17 @@ public class TaskActivity extends AppCompatActivity {
 
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
-        new Thread(new Runnable() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("taskId", task.id);
+        bundle.putInt("taskTypeInt", (int) task.type.getValue());
+        bundle.putLong("timeTakenMillis", timeTakenMillis);
+        bundle.putInt("itemsCorrect", itemsCorrect);
+        bundle.putInt("itemsAttempted", itemsAttempted);
+        bundle.putInt("charactersCorrect", charactersCorrect);
+        bundle.putInt("totalCharactersCorrect", totalCharactersAttempted);
+        bundle.putInt("wordsCorrect", wordsCorrect);
+        bundle.putInt("totalWordsFinished", totalWordsFinished);
+        new Thread(new ResultSaveRunnable(bundle)/*new Runnable() {
             public void run() {
                 Firebase firebase = new Firebase("results");
                 if (task.type == Task.Type.TYPING_TIMED || task.type == Task.Type.TYPING_UNTIMED) {
@@ -351,7 +352,7 @@ public class TaskActivity extends AppCompatActivity {
                     firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
                 }
             }
-        }).start();
+        }*/).start();
 
         //firebaseAnalyticsGameCompleted();
         setResult(RESULT_OK);
@@ -364,21 +365,13 @@ public class TaskActivity extends AppCompatActivity {
     private void openAdvertisement() {
         Random random = new Random();
         int i = random.nextInt(3);
-        if (i % 3 == 0 && !isTalkbackEnabled()) {
+      /*  if (i % 3 == 0 && !isTalkbackEnabled()) {
             Intent intent = new Intent(TaskActivity.this, GoogleAdActivity.class);
             Bundle bundle = new Bundle();
             bundle.putStringArray("tags", task.tags);
             intent.putExtras(bundle);
             //startActivity(intent);
-        }
-    }
-
-    private boolean isTalkbackEnabled() {
-        AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
-        List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
-        boolean isAccessibilityEnabled = am.isEnabled();
-
-        return isAccessibilityEnabled;
+        }   */
     }
 
     private void firebaseAnalyticsGameCompleted() {
@@ -396,11 +389,25 @@ public class TaskActivity extends AppCompatActivity {
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle);
     }
 
-    private void firebaseAnalyticsGameCancelled(boolean backButtonPressed) {
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        taskCancelled();
+    }
+
+    private void analyticsTaskCancelled() {
+        logAnalytics(new Bundle());
+    }
+
+    private void analyticsTaskCancelled(boolean isBackPressed) {
         Bundle bundle = new Bundle();
+        bundle.putInt("back_button_pressed", isBackPressed? 1 : 0);
+        logAnalytics(bundle);
+    }
+
+    private void logAnalytics(Bundle bundle) {
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
-        bundle.putBoolean("back_button_pressed", backButtonPressed);
         StarsEarthApplication application = (StarsEarthApplication) getApplication();
         application.logActionEvent("task_cancelled", bundle);
     }
@@ -559,8 +566,17 @@ public class TaskActivity extends AppCompatActivity {
         return text;
     }
 
+    private void taskCancelled(boolean isBackPressed) {
+        analyticsTaskCancelled(isBackPressed);
+        endTask();
+    }
+
     private void taskCancelled() {
-        firebaseAnalyticsGameCancelled(isBackPressed);
+        analyticsTaskCancelled();
+        endTask();
+    }
+
+    private void endTask() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         setResult(RESULT_CANCELED);
         finish();
