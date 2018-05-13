@@ -30,27 +30,6 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
 
     Object teachingContent = null;
 
-    private void alertScore(int words_correct, int words_total_finished, boolean highScore) {
-        Toast.makeText(getApplicationContext(), getString(R.string.your_score) + " " + words_correct, Toast.LENGTH_LONG).show();
-    }
-
-    private AlertDialog.Builder createAlertDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(ResultActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(ResultActivity.this);
-        }
-
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-        return builder;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,17 +64,6 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
 
     }
 
-    @Override
-    public void onFragmentInteraction(@NotNull Task task) {
-        //business logic removed: March 26 2018
-        //call to startTask
-        //call to sendAnalytics
-    }
-
-    @Override
-    public void onNewHighScore(@NotNull Object item) {
-        //Not implemented: Trigger flashing high score to indicate user has got a high score
-    }
 
     @Override
     public void onListFragmentInteraction(@NotNull MainMenuItem item) {
@@ -103,8 +71,12 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
+    public void setListFragmentProgressBarVisibility(int visibility, @NotNull RecyclerView view) {
 
     }
 
+    @Override
+    public void onFragmentInteraction() {
+
+    }
 }

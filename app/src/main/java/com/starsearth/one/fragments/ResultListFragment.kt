@@ -167,15 +167,6 @@ class ResultListFragment : Fragment() {
             toast.show()
         }
 
-
-        //if (result is ResultTyping && !isActivityPaused) {
-        //    Toast.makeText(context, result.getResultToast(context, (mTeachingContent as Task)?.type, isHighScore), Toast.LENGTH_SHORT).show()
-       //}
-
-
-        if (isHighScore) {
-            mListener?.onNewHighScore(result)
-        }
     }
 
     private fun setReturnResult(result: Any?) {
@@ -269,7 +260,7 @@ class ResultListFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onNewHighScore(item: Any?)
+        fun onFragmentInteraction()
     }
 
     companion object {

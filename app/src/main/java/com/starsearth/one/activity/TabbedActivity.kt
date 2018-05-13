@@ -58,38 +58,12 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         }
     }
 
-    fun sendAnalytics(item: SEBaseObject) {
-        val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
-    fun sendAnalytics(selected: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
-        mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
     override fun onListFragmentInteraction(item: MoreOptionsMenuItem) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        sendAnalytics(item.text1)
-        val intent: Intent
-        val title = item.text1
-        if (title != null && title.contains("Keyboard")) {
-            intent = Intent(this, KeyboardActivity::class.java)
-            startActivity(intent)
-        } else if (title != null && title.contains("Phone")) {
-            intent = Intent(this, PhoneNumberActivity::class.java)
-            startActivity(intent)
-        }
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onListFragmentInteraction(item: MainMenuItem) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        val teachingContent = item.teachingContent
-        sendAnalytics((teachingContent as SEBaseObject))
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -105,7 +79,6 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tabbed)

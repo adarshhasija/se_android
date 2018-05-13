@@ -117,13 +117,6 @@ class ResultFragment : Fragment() {
         startActivityForResult(intent, 0)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(task: Task?) {
-        if (mListener != null) {
-            mListener!!.onFragmentInteraction(task)
-        }
-    }
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
@@ -164,7 +157,7 @@ class ResultFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(task: Task?)
+        fun onFragmentInteraction()
     }
 
     companion object {
