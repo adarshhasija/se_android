@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.starsearth.one.R.id.toolbar
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
     /*
