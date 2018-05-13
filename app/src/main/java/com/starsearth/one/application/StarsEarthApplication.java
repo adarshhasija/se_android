@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -117,7 +118,7 @@ public class StarsEarthApplication extends Application {
     }
 
     public List<String> getAccessibilityServiceName() {
-        List<String> result = null;
+        List<String> result = new ArrayList<>();
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
         if (list != null) {

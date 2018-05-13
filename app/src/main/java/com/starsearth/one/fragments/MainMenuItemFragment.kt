@@ -199,8 +199,12 @@ class MainMenuItemFragment : Fragment() {
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
         if (item is Task) {
-            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, item.type?.toString()?.replace("_", " "))
+            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "task")
+            bundle.putString("item_interaction_type", item.type?.toString()?.replace("_", " "))
             bundle.putInt("item_timed", if (item.timed) { 1} else { 0 })
+        }
+        else {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "course")
         }
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item")
         val application = (activity?.application as StarsEarthApplication)
