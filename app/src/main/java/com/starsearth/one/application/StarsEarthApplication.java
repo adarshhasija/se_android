@@ -117,7 +117,7 @@ public class StarsEarthApplication extends Application {
         facebookAnalytics = AppEventsLogger.newLogger(this);
     }
 
-    public List<String> getAccessibilityServiceName() {
+    public List<String> getAccessibilityServiceNames() {
         List<String> result = new ArrayList<>();
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
@@ -139,7 +139,7 @@ public class StarsEarthApplication extends Application {
 
     public boolean isTalkbackOn() {
         boolean result = false;
-        List<String> names = getAccessibilityServiceName();
+        List<String> names = getAccessibilityServiceNames();
         if (names != null) {
             for (String name : names) {
                 if (name.contains("TalkBack")) {
@@ -152,7 +152,7 @@ public class StarsEarthApplication extends Application {
 
     public boolean isMagnificationOn() {
         boolean result = false;
-        List<String> names = getAccessibilityServiceName();
+        List<String> names = getAccessibilityServiceNames();
         if (names != null) {
             for (String name : names) {
                 if (name.contains("Magnification")) {
