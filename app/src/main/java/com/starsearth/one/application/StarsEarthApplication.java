@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.net.ConnectivityManager;
@@ -11,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.view.accessibility.AccessibilityManager;
 
@@ -34,6 +36,15 @@ public class StarsEarthApplication extends Application {
     private User firebaseUser;
     private FirebaseAnalytics firebaseAnalytics;
     private AppEventsLogger facebookAnalytics;
+
+    private SharedPreferences preferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener spChanged =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+
+                }
+            };
 
     public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
@@ -104,6 +115,10 @@ public class StarsEarthApplication extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         initializeFirebaseAnalytics();
         initializeFacebookAnalytics();
+        preferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(spChanged);
+
     }
 
     private void initializeFirebaseAnalytics() {

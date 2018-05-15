@@ -350,4 +350,6 @@
     <string name="facebook_app_id">2064355667218856</string>
     <string name="fb_login_protocol_scheme">fb2064355667218856</string>
 
+    <string name="tap_for_full_screen">Tap for full screen view</string>
+
 </resources>
