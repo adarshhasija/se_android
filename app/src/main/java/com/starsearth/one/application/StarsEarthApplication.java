@@ -21,6 +21,7 @@ import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.User;
 
@@ -50,6 +51,8 @@ public class StarsEarthApplication extends Application {
         Bundle bundle = new Bundle();
         bundle.putInt("talkback_enabled", isTalkbackOn()? 1 : 0);
         bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
+        bundle.putInt("select_to_speak_enabled", isSelectToSpeakOn()? 1 : 0);
+        bundle.putInt("switch_access_enabled", isSwitchAccessOn()? 1 : 0);
         return bundle;
     }
 
@@ -113,12 +116,14 @@ public class StarsEarthApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        initializeFirebaseAnalytics();
-        initializeFacebookAnalytics();
         preferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(spChanged);
 
+        if (!BuildConfig.DEBUG) {
+            initializeFirebaseAnalytics();
+            initializeFacebookAnalytics();
+        }
     }
 
     private void initializeFirebaseAnalytics() {
@@ -132,7 +137,7 @@ public class StarsEarthApplication extends Application {
         facebookAnalytics = AppEventsLogger.newLogger(this);
     }
 
-    public List<String> getAccessibilityServiceNames() {
+    public List<String> getAccessibilityEnabledServiceNames() {
         List<String> result = new ArrayList<>();
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
@@ -154,7 +159,7 @@ public class StarsEarthApplication extends Application {
 
     public boolean isTalkbackOn() {
         boolean result = false;
-        List<String> names = getAccessibilityServiceNames();
+        List<String> names = getAccessibilityEnabledServiceNames();
         if (names != null) {
             for (String name : names) {
                 if (name.contains("TalkBack")) {
@@ -167,10 +172,36 @@ public class StarsEarthApplication extends Application {
 
     public boolean isMagnificationOn() {
         boolean result = false;
-        List<String> names = getAccessibilityServiceNames();
+        List<String> names = getAccessibilityEnabledServiceNames();
         if (names != null) {
             for (String name : names) {
                 if (name.contains("Magnification")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isSelectToSpeakOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityEnabledServiceNames();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("SelectToSpeak")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isSwitchAccessOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityEnabledServiceNames();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("SwitchAccess")) {
                     result = true;
                 }
             }
