@@ -19,6 +19,8 @@ import android.view.accessibility.AccessibilityManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.BuildConfig;
@@ -37,6 +39,17 @@ public class StarsEarthApplication extends Application {
     private User firebaseUser;
     private FirebaseAnalytics firebaseAnalytics;
     private AppEventsLogger facebookAnalytics;
+
+    private InterstitialAd mGoogleInterstitialAd;
+    private com.facebook.ads.InterstitialAd mFacebookInterstitalAd;
+
+    public InterstitialAd getGoogleInterstitialAd() {
+        return mGoogleInterstitialAd;
+    }
+
+    public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
+        return mFacebookInterstitalAd;
+    }
 
     private SharedPreferences preferences;
     private SharedPreferences.OnSharedPreferenceChangeListener spChanged =
@@ -126,6 +139,8 @@ public class StarsEarthApplication extends Application {
             initializeFirebaseAnalytics();
             initializeFacebookAnalytics();
         }
+        initializeGoogleAds();
+        initializeFacebookAds();
     }
 
     private void initializeFirebaseAnalytics() {
@@ -137,6 +152,23 @@ public class StarsEarthApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         facebookAnalytics = AppEventsLogger.newLogger(this);
+    }
+
+    private void initializeGoogleAds() {
+        if (BuildConfig.DEBUG) {
+            // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+            MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+            mGoogleInterstitialAd = new InterstitialAd(this);
+            mGoogleInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        } else {
+            MobileAds.initialize(this, "ca-app-pub-1378964097701084~9829207692");
+            mGoogleInterstitialAd = new InterstitialAd(this);
+            mGoogleInterstitialAd.setAdUnitId("ca-app-pub-1378964097701084/1268191394");
+        }
+    }
+
+    private void initializeFacebookAds() {
+        mFacebookInterstitalAd = new com.facebook.ads.InterstitialAd(this, "2064355667218856_2069620790025677");
     }
 
     public List<String> getAccessibilityEnabledServiceNames() {

@@ -14,6 +14,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.facebook.ads.AdSettings
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
@@ -52,9 +54,20 @@ class ResultFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
+
+        val adRequest = AdRequest.Builder()
+        if (mTeachingContent is Task) {
+            val tags = (mTeachingContent as Task).tags
+            for (tag in tags) {
+                adRequest.addKeyword(tag)
+            }
+        }
+
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
-
+            //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest.build())
+            AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01");
+            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
             startTaskTyping((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task))
         })

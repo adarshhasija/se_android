@@ -22,8 +22,14 @@ import com.starsearth.one.domain.*
 import java.util.*
 import kotlin.collections.HashSet
 import android.widget.TextView
+import com.google.android.gms.ads.AdListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.application.StarsEarthApplication
+import com.facebook.ads.Ad
+import com.facebook.ads.AdError
+import com.facebook.ads.InterstitialAdListener
+
+
 
 
 /**
@@ -45,6 +51,59 @@ class ResultListFragment : Fragment() {
     private var mTeachingContent: Any? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
+    private var isAdAvailable = false
+
+    private val mGoogleAdListener = object : AdListener() {
+        override fun onAdLoaded() {
+            super.onAdLoaded()
+            isAdAvailable = true
+        }
+
+        override fun onAdClicked() {
+            super.onAdClicked()
+        }
+
+        override fun onAdFailedToLoad(p0: Int) {
+            super.onAdFailedToLoad(p0)
+        }
+
+        override fun onAdClosed() {
+            super.onAdClosed()
+        }
+
+        override fun onAdOpened() {
+            super.onAdOpened()
+        }
+
+    }
+
+    private val mFacebookAdListener = object : InterstitialAdListener {
+        override fun onInterstitialDisplayed(ad: Ad) {
+            // Interstitial displayed callback
+        }
+
+        override fun onInterstitialDismissed(ad: Ad) {
+            // Interstitial dismissed callback
+        }
+
+        override fun onError(ad: Ad, adError: AdError) {
+            // Ad error callback
+            //Toast.makeText(this@MainActivity, "Error: " + adError.errorMessage,Toast.LENGTH_LONG).show()
+        }
+
+        override fun onAdLoaded(ad: Ad) {
+            // Show the ad when it's done loading.
+            isAdAvailable = true
+        }
+
+        override fun onAdClicked(ad: Ad) {
+            // Ad clicked callback
+        }
+
+        override fun onLoggingImpression(ad: Ad) {
+            // Ad impression logged callback
+        }
+    }
 
     private val mChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
@@ -76,9 +135,17 @@ class ResultListFragment : Fragment() {
             
             if (result!!.isJustCompleted) {
                 mJustCompletedResultsSet.add(result)
-                justCompletedTask(result, isHighScore)
-                mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
-                setReturnResult(result)
+                if (isAdAvailable) {
+                    //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
+                    (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
+                    isAdAvailable = false
+                }
+                else {
+                    justCompletedTask(result, isHighScore)
+                    mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
+                    setReturnResult(result)
+                }
+
             }
 
             //make sure last_tried is not the current(new) high_score
@@ -210,7 +277,13 @@ class ResultListFragment : Fragment() {
             val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
             query?.addChildEventListener(mChildEventListener);
         }
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
     }
 
 

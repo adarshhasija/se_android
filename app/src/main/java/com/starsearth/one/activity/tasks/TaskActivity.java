@@ -336,19 +336,8 @@ public class TaskActivity extends AppCompatActivity {
         bundle.putInt("totalCharactersCorrect", totalCharactersAttempted);
         bundle.putInt("wordsCorrect", wordsCorrect);
         bundle.putInt("totalWordsFinished", totalWordsFinished);
-        new Thread(new ResultSaveRunnable(bundle)/*new Runnable() {
-            public void run() {
-                Firebase firebase = new Firebase("results");
-                if (task.type == Task.Type.TYPING) {
-                    firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect, totalWordsFinished, timeTakenMillis, task.id); //subject, level, levelString, , );
-                }
-                else {
-                    firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, task.id);
-                }
-            }
-        }*/).start();
+        new Thread(new ResultSaveRunnable(bundle)).start();
 
-        //firebaseAnalyticsGameCompleted();
         setResult(RESULT_OK);
         finish();
     }
