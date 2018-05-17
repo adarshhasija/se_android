@@ -53,6 +53,8 @@ public class StarsEarthApplication extends Application {
         bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
         bundle.putInt("select_to_speak_enabled", isSelectToSpeakOn()? 1 : 0);
         bundle.putInt("switch_access_enabled", isSwitchAccessOn()? 1 : 0);
+        bundle.putInt("voice_access_enabled", isVoiceAccessOn()? 1 : 0);
+        bundle.putInt("braille_back_enabled", isBrailleBackOn()? 1 : 0);
         return bundle;
     }
 
@@ -202,6 +204,32 @@ public class StarsEarthApplication extends Application {
         if (names != null) {
             for (String name : names) {
                 if (name.contains("SwitchAccess")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isVoiceAccessOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityEnabledServiceNames();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("VoiceAccess")) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isBrailleBackOn() {
+        boolean result = false;
+        List<String> names = getAccessibilityEnabledServiceNames();
+        if (names != null) {
+            for (String name : names) {
+                if (name.contains("BrailleBack")) {
                     result = true;
                 }
             }
