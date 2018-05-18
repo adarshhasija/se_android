@@ -25,6 +25,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
+import com.starsearth.one.domain.Accessibility;
+import com.starsearth.one.domain.Ads;
+import com.starsearth.one.domain.Analytics;
 import com.starsearth.one.domain.User;
 
 import java.util.ArrayList;
@@ -35,6 +38,10 @@ import java.util.List;
  */
 
 public class StarsEarthApplication extends Application {
+
+    private Analytics mAnalytics;
+    private Accessibility mAccessibility;
+    private Ads mAds;
 
     private User firebaseUser;
     private FirebaseAnalytics firebaseAnalytics;
@@ -51,6 +58,14 @@ public class StarsEarthApplication extends Application {
         return mFacebookInterstitalAd;
     }
 
+    public Analytics getAnalytics() {
+        return mAnalytics;
+    }
+
+    public Accessibility getAccessibility() {
+        return mAccessibility;
+    }
+
     private SharedPreferences preferences;
     private SharedPreferences.OnSharedPreferenceChangeListener spChanged =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -60,7 +75,7 @@ public class StarsEarthApplication extends Application {
                 }
             };
 
-    public Bundle getUserPropertiesAccessibility() {
+/*    public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
         bundle.putInt("talkback_enabled", isTalkbackOn()? 1 : 0);
         bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
@@ -69,52 +84,68 @@ public class StarsEarthApplication extends Application {
         bundle.putInt("voice_access_enabled", isVoiceAccessOn()? 1 : 0);
         bundle.putInt("braille_back_enabled", isBrailleBackOn()? 1 : 0);
         return bundle;
-    }
+    }   */
 
     public void logActionEvent(String eventName, Bundle bundle) {
-        if (firebaseAnalytics != null) {
+        if (mAnalytics != null) {
+            mAnalytics.logActionEvent(eventName, bundle);
+        }
+
+      /*  if (firebaseAnalytics != null) {
             firebaseAnalytics.logEvent(eventName, bundle);
         }
         if (facebookAnalytics != null) {
             facebookAnalytics.logEvent(eventName, bundle);
-        }
+        }   */
     }
 
     public void logActionEvent(String eventName, Bundle bundle, int score) {
-        if (firebaseAnalytics != null) {
+        if (mAnalytics != null) {
+            mAnalytics.logActionEvent(eventName, bundle, score);
+        }
+      /*  if (firebaseAnalytics != null) {
             firebaseAnalytics.logEvent(eventName, bundle);
         }
         if (facebookAnalytics != null) {
             facebookAnalytics.logEvent(eventName, score, bundle);
-        }
+        }   */
     }
 
     public void logFragmentViewEvent(String fragmentName, Activity activity) {
-        if (firebaseAnalytics != null) {
+        if (mAnalytics != null) {
+            mAnalytics.logFragmentViewEvent(fragmentName, activity);
+        }
+      /*  if (firebaseAnalytics != null) {
             firebaseAnalytics.setCurrentScreen(activity, fragmentName, null);
         }
         if (facebookAnalytics != null) {
             Bundle bundle = new Bundle();
             bundle.putString("content", fragmentName);
             facebookAnalytics.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, bundle);
-        }
+        }   */
     }
 
     public void updateUserAnalyticsInfo(String userId) {
-        updateAnalyticsUserId(userId);
-        updateUserProperties();
+        if (mAnalytics != null) {
+            mAnalytics.updateUserAnalyticsInfo(userId);
+        }
+        //updateAnalyticsUserId(userId);
+        //updateUserProperties();
     }
 
     private void updateAnalyticsUserId(String userId) {
-        if (firebaseAnalytics != null) {
+        if (mAnalytics != null) {
+            mAnalytics.updateAnalyticsUserId(userId);
+        }
+      /*  if (firebaseAnalytics != null) {
             firebaseAnalytics.setUserId(userId);
         }
         if (facebookAnalytics != null) {
             AppEventsLogger.setUserID(userId);
-        }
+        }   */
     }
 
-    private void updateUserProperties() {
+  /*  private void updateUserProperties() {
         Bundle user_props = getUserPropertiesAccessibility();
         if (firebaseAnalytics != null && user_props != null) {
             for (String key : user_props.keySet()) {
@@ -124,7 +155,7 @@ public class StarsEarthApplication extends Application {
         if (facebookAnalytics != null) {
             AppEventsLogger.updateUserProperties(user_props, null);
         }
-    }
+    }   */
 
 
     @Override
@@ -135,15 +166,18 @@ public class StarsEarthApplication extends Application {
                 .getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(spChanged);
 
-        if (!BuildConfig.DEBUG) {
+        /*if (!BuildConfig.DEBUG) {
             initializeFirebaseAnalytics();
             initializeFacebookAnalytics();
-        }
-        initializeGoogleAds();
-        initializeFacebookAds();
+        }   */
+        mAnalytics = new Analytics(getApplicationContext());
+        mAccessibility = new Accessibility(getApplicationContext());
+        mAds = new Ads(getApplicationContext());
+        //initializeGoogleAds();
+        //initializeFacebookAds();
     }
 
-    private void initializeFirebaseAnalytics() {
+  /*  private void initializeFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
@@ -152,9 +186,9 @@ public class StarsEarthApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         facebookAnalytics = AppEventsLogger.newLogger(this);
-    }
+    }   */
 
-    private void initializeGoogleAds() {
+ /*   private void initializeGoogleAds() {
         if (BuildConfig.DEBUG) {
             // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
             MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
@@ -169,9 +203,9 @@ public class StarsEarthApplication extends Application {
 
     private void initializeFacebookAds() {
         mFacebookInterstitalAd = new com.facebook.ads.InterstitialAd(this, "2064355667218856_2069620790025677");
-    }
+    }   */
 
-    public List<String> getAccessibilityEnabledServiceNames() {
+/*    public List<String> getAccessibilityEnabledServiceNames() {
         List<String> result = new ArrayList<>();
         AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(-1);
@@ -267,7 +301,7 @@ public class StarsEarthApplication extends Application {
             }
         }
         return result;
-    }
+    }   */
 
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

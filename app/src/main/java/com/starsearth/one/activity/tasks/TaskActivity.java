@@ -342,21 +342,6 @@ public class TaskActivity extends AppCompatActivity {
         finish();
     }
 
-    /*
-    Open a full screen Google Ad
-     */
-    private void openAdvertisement() {
-        Random random = new Random();
-        int i = random.nextInt(3);
-      /*  if (i % 3 == 0 && !isTalkbackEnabled()) {
-            Intent intent = new Intent(TaskActivity.this, GoogleAdActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putStringArray("tags", task.tags);
-            intent.putExtras(bundle);
-            //startActivity(intent);
-        }   */
-    }
-
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();

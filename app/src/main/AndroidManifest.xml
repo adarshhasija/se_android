@@ -81,7 +81,7 @@
             android:label="@string/title_activity_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ads.GoogleAdActivity"
+            android:name=".activity.FullScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_google_ad"
             android:theme="@style/FullscreenTheme" />

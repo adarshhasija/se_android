@@ -283,7 +283,8 @@ class ResultListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
+        //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
+        (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
     }
 
 

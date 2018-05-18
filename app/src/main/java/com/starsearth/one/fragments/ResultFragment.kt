@@ -66,7 +66,8 @@ class ResultFragment : Fragment() {
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
             //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest.build())
-            AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01");
+            AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
+            //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
             (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
             startTaskTyping((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task))
