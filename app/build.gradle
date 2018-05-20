@@ -9,14 +9,14 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 19
-        
+
         versionName "1.0.19"
     }
     buildTypes {
         debug {
             minifyEnabled true
             useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
         release {
@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:15.0.0'
     implementation 'com.google.firebase:firebase-storage:15.0.0'
     implementation 'com.google.firebase:firebase-auth:15.0.0'
+    implementation 'com.google.firebase:firebase-config:15.0.2'
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
     implementation 'ai.api:sdk:1.10.0@aar'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'

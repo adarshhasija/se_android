@@ -1,44 +1,38 @@
 package com.starsearth.one.application;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ResolveInfo;
-import android.content.pm.ServiceInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.view.accessibility.AccessibilityManager;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
-import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
 import com.starsearth.one.domain.Ads;
 import com.starsearth.one.domain.Analytics;
+import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by faimac on 11/28/16.
  */
 
-public class StarsEarthApplication extends Application {
+public class StarsEarthApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
+    private FirebaseRemoteConfigWrapper mFirebaseRemoteConfigWrapper;
     private Analytics mAnalytics;
     private Accessibility mAccessibility;
     private Ads mAds;
@@ -161,20 +155,35 @@ public class StarsEarthApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //registerActivityLifecycleCallbacks(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        preferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        preferences.registerOnSharedPreferenceChangeListener(spChanged);
+        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //preferences.registerOnSharedPreferenceChangeListener(spChanged);
+
 
         /*if (!BuildConfig.DEBUG) {
             initializeFirebaseAnalytics();
             initializeFacebookAnalytics();
         }   */
+        mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper();
         mAnalytics = new Analytics(getApplicationContext());
         mAccessibility = new Accessibility(getApplicationContext());
         mAds = new Ads(getApplicationContext());
+        //mFirebaseRemoteConfigWrapper.updateRemoteConfigs();
         //initializeGoogleAds();
         //initializeFacebookAds();
+    }
+
+    public String getRemoteConfigAnalytics() {
+        return mFirebaseRemoteConfigWrapper.get("analytics");
+    }
+
+    public String getRemoteConfigAds() {
+        return mFirebaseRemoteConfigWrapper.get("ads");
+    }
+
+    public String getRemoteConfigAdsFrequencyModulo() {
+        return mFirebaseRemoteConfigWrapper.get("ads_frequency_modulo");
     }
 
   /*  private void initializeFirebaseAnalytics() {
@@ -340,5 +349,40 @@ public class StarsEarthApplication extends Application {
             builder = new AlertDialog.Builder(context);
         }
         return builder;
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        //mFirebaseRemoteConfigWrapper.updateRemoteConfigs();
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
     }
 }

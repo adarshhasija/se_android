@@ -22,8 +22,17 @@ public class Analytics {
     public Analytics(Context context) {
         this.mContext = context;
         if (!BuildConfig.DEBUG) {
-            initializeFirebaseAnalytics();
-            initializeFacebookAnalytics();
+            String remoteConfigAnalytics = ((StarsEarthApplication) context).getRemoteConfigAnalytics();
+            if (remoteConfigAnalytics.equalsIgnoreCase("all")) {
+                initializeFirebaseAnalytics();
+                initializeFacebookAnalytics();
+            }
+            else if (remoteConfigAnalytics.equalsIgnoreCase("firebase")) {
+                initializeFirebaseAnalytics();
+            }
+            else if (remoteConfigAnalytics.equalsIgnoreCase("facebook")) {
+                initializeFacebookAnalytics();
+            }
         }
     }
 

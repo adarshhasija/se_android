@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>ads</key>
+        <value>Google</value>
+    </entry>
+    <entry>
+        <key>analytics</key>
+        <value>both</value>
+    </entry>
+    <entry>
+        <key>ads_frequency_modulo</key> <!-- This decides how often ads should be displayed after completion of task -->
+        <value>2</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->

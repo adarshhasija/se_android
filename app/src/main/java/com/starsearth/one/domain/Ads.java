@@ -32,4 +32,10 @@ public class Ads {
     private void initializeFacebookAds(Context context) {
         mFacebookInterstitalAd = new com.facebook.ads.InterstitialAd(context, "2064355667218856_2069620790025677");
     }
+
+    public void onDestroy() {
+        if (mFacebookInterstitalAd != null) {
+            mFacebookInterstitalAd.destroy();
+        }
+    }
 }
