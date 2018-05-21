@@ -2,6 +2,8 @@ package com.starsearth.one.adapter
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
+import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.activity.FullScreenActivity
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
+import com.starsearth.one.fragments.ResultListFragment
 
 import com.starsearth.one.fragments.ResultListFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -25,7 +29,7 @@ import kotlin.collections.LinkedHashMap
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
+class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: ResultListFragment) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = 0
@@ -54,6 +58,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
 
         holder.mView.setOnClickListener {
             //holder.mItem?.let { mListener?.onFragmentInteraction(it) }
+            holder.mItem?.let { mFragment?.onItemClicked(task, (it as Parcelable), 0) }
         }
     }
 

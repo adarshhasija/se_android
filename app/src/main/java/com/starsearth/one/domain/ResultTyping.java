@@ -1,6 +1,7 @@
 package com.starsearth.one.domain;
 
 import android.content.Context;
+import android.os.Parcel;
 
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
@@ -134,5 +135,39 @@ public class ResultTyping extends Result {
         result.put("words_total_finished", words_total_finished);
 
         return result;
+    }
+
+    protected ResultTyping(Parcel in) {
+        super(in);
+        characters_correct = in.readInt();
+        characters_total_attempted = in.readInt();
+        words_correct = in.readInt();
+        words_total_finished = in.readInt();
+    }
+
+    public static final Creator<ResultTyping> CREATOR = new Creator<ResultTyping>() {
+        @Override
+        public ResultTyping createFromParcel(Parcel in) {
+            return new ResultTyping(in);
+        }
+
+        @Override
+        public ResultTyping[] newArray(int size) {
+            return new ResultTyping[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(characters_correct);
+        dest.writeInt(characters_total_attempted);
+        dest.writeInt(words_correct);
+        dest.writeInt(words_total_finished);
     }
 }

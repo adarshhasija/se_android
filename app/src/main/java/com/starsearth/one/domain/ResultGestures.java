@@ -1,6 +1,7 @@
 package com.starsearth.one.domain;
 
 import android.content.Context;
+import android.os.Parcel;
 
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
@@ -58,12 +59,42 @@ public class ResultGestures extends Result {
         return result.toString();
     }
 
+    protected ResultGestures(Parcel in) {
+        super(in);
+        items_attempted = in.readInt();
+        items_correct = in.readInt();
+    }
+
+    public static final Creator<ResultGestures> CREATOR = new Creator<ResultGestures>() {
+        @Override
+        public ResultGestures createFromParcel(Parcel in) {
+            return new ResultGestures(in);
+        }
+
+        @Override
+        public ResultGestures[] newArray(int size) {
+            return new ResultGestures[size];
+        }
+    };
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();
-        result.put("items_correct", items_correct);
         result.put("items_attempted", items_attempted);
+        result.put("items_correct", items_correct);
 
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(items_attempted);
+        dest.writeInt(items_correct);
     }
 }

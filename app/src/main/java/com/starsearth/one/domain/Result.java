@@ -1,5 +1,8 @@
 package com.starsearth.one.domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -12,7 +15,7 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class Result {
+public class Result implements Parcelable {
 
     public String uid;
     public String userId;
@@ -42,6 +45,27 @@ public class Result {
         this.timestamp = (Long) map.get("timestamp");
     }
 
+    protected Result(Parcel in) {
+        uid = in.readString();
+        userId = in.readString();
+        game_id = in.readInt();
+        task_id = in.readInt();
+        timeTakenMillis = in.readLong();
+        timestamp = in.readLong();
+    }
+
+    public static final Creator<Result> CREATOR = new Creator<Result>() {
+        @Override
+        public Result createFromParcel(Parcel in) {
+            return new Result(in);
+        }
+
+        @Override
+        public Result[] newArray(int size) {
+            return new Result[size];
+        }
+    };
+
     public int getTask_id() {
         return task_id;
     }
@@ -55,6 +79,7 @@ public class Result {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("userId", userId);
+        result.put("game_id", game_id);
         result.put("task_id", task_id);
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
@@ -79,5 +104,20 @@ public class Result {
     @Override
     public boolean equals(Object obj) {
         return this.uid.equals(((Result) obj).uid);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeString(uid);
+        dest.writeString(userId);
+        dest.writeInt(game_id);
+        dest.writeInt(task_id);
+        dest.writeLong(timeTakenMillis);
+        dest.writeLong(timestamp);
     }
 }

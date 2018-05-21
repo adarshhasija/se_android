@@ -3,17 +3,24 @@ package com.starsearth.one.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 import com.starsearth.one.R
+import com.starsearth.one.Utils
+import com.starsearth.one.domain.Result
+import com.starsearth.one.domain.ResultGestures
+import com.starsearth.one.domain.ResultTyping
+import com.starsearth.one.domain.Task
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "task"
+private const val ARG_PARAM2 = "result"
 
 /**
  * A simple [Fragment] subclass.
@@ -26,15 +33,15 @@ private const val ARG_PARAM2 = "param2"
  */
 class HighScoreFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var param1: Task? = null
+    private var param2: Result? = null
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param1 = it.getParcelable(ARG_PARAM1)
+            param2 = it.getParcelable(ARG_PARAM2)
         }
     }
 
@@ -42,6 +49,23 @@ class HighScoreFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_high_score, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val tvTaskName = view.findViewById<TextView>(R.id.tv_task_name)
+        val tvHighScore = view.findViewById<TextView>(R.id.tv_high_score)
+        val tvTimeStamp = view.findViewById<TextView>(R.id.tv_timestamp)
+        tvTaskName.text = param1?.title
+        val timestamp = param2?.timestamp
+        timestamp?.let { tvTimeStamp.text = Utils.formatDateTime(it)  }
+        if (param2 is ResultTyping) {
+            tvHighScore.text = (param2 as ResultTyping).getScoreSummary(context, param1?.timed!!)
+        }
+        else if (param2 is ResultGestures) {
+            tvHighScore.text = (param2 as ResultGestures).getScoreSummary(context, param1?.type)
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,11 +114,11 @@ class HighScoreFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Parcelable?, param2: Parcelable?) =
                 HighScoreFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putParcelable(ARG_PARAM1, param1)
+                        putParcelable(ARG_PARAM2, param2)
                     }
                 }
     }

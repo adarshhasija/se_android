@@ -28,8 +28,7 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
-
-
+import com.starsearth.one.activity.FullScreenActivity
 
 
 /**
@@ -269,7 +268,7 @@ class ResultListFragment : Fragment() {
                 ArrayList(Arrays.asList(mTeachingContent))
             }
             val results = LinkedHashMap<String, Any>()
-            view.adapter = MyResultRecyclerViewAdapter(tasks as List<Task>, results, mListener)
+            view.adapter = MyResultRecyclerViewAdapter(tasks as List<Task>, results, mListener, this)
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             mDatabase = FirebaseDatabase.getInstance().getReference("results")
@@ -281,10 +280,22 @@ class ResultListFragment : Fragment() {
         return view
     }
 
+    fun onItemClicked(mTask: Task?, mResult: Parcelable, position: Int) {
+        if (position == 0) {
+            val intent = Intent(context, FullScreenActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable("task", mTask)
+            bundle.putParcelable("result", mResult)
+            bundle.putString("view_type", "high_score")
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
-        (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
+        //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
     }
 
 
