@@ -352,4 +352,6 @@
 
     <string name="tap_for_full_screen">Tap for full screen view</string>
 
+    <string name="cancelled_no_attempt">Cancelled: You did not answer any questions</string>
+
 </resources>

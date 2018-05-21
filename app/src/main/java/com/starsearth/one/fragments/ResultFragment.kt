@@ -68,7 +68,7 @@ class ResultFragment : Fragment() {
             //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest.build())
             AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
             //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
-            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
+            //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
             startTaskTyping((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task))
         })
@@ -100,7 +100,20 @@ class ResultFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+            val extras = data?.extras
+            val reason = extras?.get("reason")
+            if (reason != null) {
+                if (reason == "no attempt") {
+                    Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
+                }
+                else if (reason == "gesture spam") {
+
+                }
+            }
+            else {
+                Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+            }
+
         }
     }
 

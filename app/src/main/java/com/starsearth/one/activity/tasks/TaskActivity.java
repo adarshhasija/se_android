@@ -3,6 +3,7 @@ package com.starsearth.one.activity.tasks;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -148,7 +149,13 @@ public class TaskActivity extends AppCompatActivity {
 
             public void onFinish() {
                 timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
-                taskCompleted();
+                if ((task.getType() == Task.Type.TYPING && totalCharactersAttempted == 0) ||
+                        (task.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0)) {
+                    taskCancelled("no attempt");
+                }
+                else {
+                    taskCompleted();
+                }
             }
         };
         mCountDownTimer.start();
@@ -164,7 +171,7 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        taskCancelled(true);
+        taskCancelled("back pressed");
     }
 
 
@@ -352,9 +359,9 @@ public class TaskActivity extends AppCompatActivity {
         logAnalytics(new Bundle());
     }
 
-    private void analyticsTaskCancelled(boolean isBackPressed) {
+    private void analyticsTaskCancelled(String reason) {
         Bundle bundle = new Bundle();
-        bundle.putInt("back_button_pressed", isBackPressed? 1 : 0);
+        bundle.putString("reason", reason);
         logAnalytics(bundle);
     }
 
@@ -488,8 +495,8 @@ public class TaskActivity extends AppCompatActivity {
         index = 0; //reset the cursor to the start of the sentence
         String text = task.ordered ? task.getNextItemTyping(totalWordsFinished) : task.getNextItemTyping();
         tvMain.setText(text);
-        tvMain.announceForAccessibility(text.substring(0,1));
         expectedAnswer = formatSpaceCharacter(text);
+        tvMain.announceForAccessibility(text.substring(0,1));
     }
 
     private void nextItemGesture() {
@@ -520,9 +527,9 @@ public class TaskActivity extends AppCompatActivity {
         return text;
     }
 
-    private void taskCancelled(boolean isBackPressed) {
-        analyticsTaskCancelled(isBackPressed);
-        endTask();
+    private void taskCancelled(String reason) {
+        analyticsTaskCancelled(reason);
+        endTask(reason);
     }
 
     private void taskCancelled() {
@@ -530,9 +537,23 @@ public class TaskActivity extends AppCompatActivity {
         endTask();
     }
 
-    private void endTask() {
+    private void stopTimer() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
+    }
+
+    private void endTask() {
+        stopTimer();
         setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void endTask(String reason) {
+        stopTimer();
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent();
+        bundle.putString("reason", reason);
+        intent.putExtras(bundle);
+        setResult(RESULT_CANCELED, intent);
         finish();
     }
 
