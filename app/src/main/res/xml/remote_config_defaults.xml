@@ -6,12 +6,21 @@
         <value>Google</value>
     </entry>
     <entry>
-        <key>analytics</key>
-        <value>both</value>
+        <key>firebase_analytics</key>
+        <value>yes</value>
+    </entry>
+    <entry>
+        <key>facebook_analytics</key>
+        <value>yes</value>
     </entry>
     <entry>
         <key>ads_frequency_modulo</key> <!-- This decides how often ads should be displayed after completion of task -->
         <value>2</value>
     </entry>
+    <entry>
+        <key>gesture_spam_message</key>
+        <value>Gesture spam is the act of doing one gesture repeatly without following the content. This is not allowed. You should read the content carefully and respond accordingly.</value>
+    </entry>
+
 </defaultsMap>
     <!-- END xml_defaults -->

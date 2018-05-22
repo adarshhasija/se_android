@@ -107,7 +107,11 @@ class ResultFragment : Fragment() {
                     Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
                 }
                 else if (reason == "gesture spam") {
-
+                    val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
+                    alertDialog.setTitle(getString(R.string.gesture_spam_detected))
+                    alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message"))
+                    alertDialog.setNeutralButton(getString(android.R.string.ok), null)
+                    alertDialog.show()
                 }
             }
             else {

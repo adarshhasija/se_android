@@ -353,5 +353,6 @@
     <string name="tap_for_full_screen">Tap for full screen view</string>
 
     <string name="cancelled_no_attempt">Cancelled: You did not answer any questions</string>
+    <string name="gesture_spam_detected">Gesture Spam Detected</string>
 
 </resources>

@@ -44,6 +44,10 @@ public class StarsEarthApplication extends Application implements Application.Ac
     private InterstitialAd mGoogleInterstitialAd;
     private com.facebook.ads.InterstitialAd mFacebookInterstitalAd;
 
+    public FirebaseRemoteConfigWrapper getFirebaseRemoteConfigWrapper() {
+        return mFirebaseRemoteConfigWrapper;
+    }
+
     public InterstitialAd getGoogleInterstitialAd() {
         return mGoogleInterstitialAd;
     }

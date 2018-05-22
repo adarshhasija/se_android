@@ -55,6 +55,7 @@ public class TaskActivity extends AppCompatActivity {
     private boolean expectedAnswerGesture;
     private int itemsAttempted =0;
     private int itemsCorrect =0;
+    private int gestureSpamItemCounter=0;
 
     private RelativeLayout rl;
     private TextView tvMain;
@@ -132,6 +133,13 @@ public class TaskActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (mTimer != null) {
                     timeTakenMillis = 61000 - millisUntilFinished;
+                    if ((millisUntilFinished/1000) % 10 == 0) {
+                        if (gestureSpamItemCounter > 30) {
+                            taskCancelled("gesture spam");
+                        }
+                        gestureSpamItemCounter=0;
+                    }
+
                     if (millisUntilFinished/1000 < 11) {
                         mTimer.setTextColor(Color.RED);
                     }
@@ -144,6 +152,7 @@ public class TaskActivity extends AppCompatActivity {
                         mTimer.setText(mins + ":" + ((seconds == 0)? "00" : seconds)); //If seconds are 0, print double 0, else print seconds
                     }
                 }
+
 
             }
 
@@ -275,6 +284,7 @@ public class TaskActivity extends AppCompatActivity {
                         //left -> right or top ->bottom
                         //swipe means false
                         itemsAttempted++;
+                        gestureSpamItemCounter++;
                         if (!expectedAnswerGesture) {
                             flashRightAnswer();
                             itemsCorrect++;
@@ -299,6 +309,7 @@ public class TaskActivity extends AppCompatActivity {
                         //tap
                         //tap means true
                         itemsAttempted++;
+                        gestureSpamItemCounter++;
                         if (expectedAnswerGesture) {
                             flashRightAnswer();
                             itemsCorrect++;
