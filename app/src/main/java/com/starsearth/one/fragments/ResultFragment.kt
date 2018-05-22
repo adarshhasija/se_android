@@ -119,11 +119,14 @@ class ResultFragment : Fragment() {
 
     private fun sendAnalytics(task: Task) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
+        //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+        //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+        //bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "start button")
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "button")
         bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "button start task")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
+        bundle.putString("content_name", task.title)
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)

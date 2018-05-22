@@ -20,6 +20,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.*
 import com.starsearth.one.R
+import com.starsearth.one.application.StarsEarthApplication
 import java.util.concurrent.TimeUnit
 
 class AddEditPhoneNumberActivity : AppCompatActivity() {
@@ -89,6 +90,11 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         val btnSendOTP = findViewById<Button>(R.id.btn_send_otp) as Button
         btnSendOTP.setOnClickListener(View.OnClickListener {
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (it as Button).text.toString())
+            val application = application as StarsEarthApplication
+            application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+
             val availability = GoogleApiAvailability.getInstance()
             val available = availability.isGooglePlayServicesAvailable(applicationContext)
             if (available == ConnectionResult.SUCCESS) {

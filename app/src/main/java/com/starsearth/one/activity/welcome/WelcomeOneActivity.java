@@ -1,5 +1,6 @@
 package com.starsearth.one.activity.welcome;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.BuildConfig;
@@ -82,6 +84,11 @@ public class WelcomeOneActivity extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(username, password)
                             .addOnFailureListener(authFailureListener);
                 }*/
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (((Button) v).getText()).toString());
+                StarsEarthApplication application = (StarsEarthApplication) getApplication();
+                application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                
               Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
               startActivityForResult(intent, 0);
             }
@@ -89,6 +96,11 @@ public class WelcomeOneActivity extends AppCompatActivity {
         btnLoginTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (((Button) v).getText()).toString());
+                StarsEarthApplication application = (StarsEarthApplication) getApplication();
+                application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 Intent intent = new Intent(WelcomeOneActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 1);
             }
