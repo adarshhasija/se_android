@@ -22,6 +22,7 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Task
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -37,6 +38,8 @@ class ResultFragment : Fragment() {
     private var mTeachingContent: Any? = null
 
     private var mListener: OnFragmentInteractionListener? = null
+
+    private var adRequest: AdRequest.Builder? = null
 
     fun firebaseAnalyticsTaskCompleted(eventName: String, bundle: Bundle) {
         val application = (activity?.application as StarsEarthApplication)
@@ -55,22 +58,23 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
 
-        val adRequest = AdRequest.Builder()
-        if (mTeachingContent is Task) {
-            val tags = (mTeachingContent as Task).tags
-            for (tag in tags) {
-                adRequest.addKeyword(tag)
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        if (ads == "Google") {
+            adRequest = AdRequest.Builder()
+            if (mTeachingContent is Task) {
+                val tags = (mTeachingContent as Task).tags
+                for (tag in tags) {
+                    adRequest?.addKeyword(tag)
+                }
             }
         }
 
+
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
-            //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest.build())
-            AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
-            //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
-            //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
+            generateAd()
             startTaskTyping((mTeachingContent as Task))
-            sendAnalytics((mTeachingContent as Task))
+            sendAnalytics((mTeachingContent as Task), it)
         })
         val tv = v.findViewById<TextView>(R.id.tv_instruction)
 
@@ -94,6 +98,31 @@ class ResultFragment : Fragment() {
 
 
         return v
+    }
+
+    fun generateAd() {
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        if (ads != "None") {
+            val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads_frequency_modulo")
+            val moduloInt = Integer.parseInt(moduloString)
+            val random = Random()
+            val shouldGenerateAd = if (moduloInt > 0 && random.nextInt(moduloInt) % moduloInt == 0) {
+                true
+            }
+            else {
+                false
+            }
+            if (shouldGenerateAd) {
+                if (ads == "Google" && adRequest != null) {
+                    (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
+                }
+                else if (ads == "Facebook") {
+                    AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
+                    //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
+                    (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -121,16 +150,16 @@ class ResultFragment : Fragment() {
         }
     }
 
-    private fun sendAnalytics(task: Task) {
+    private fun sendAnalytics(task: Task, view: View) {
         val bundle = Bundle()
         //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "start button")
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "button")
-        bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (view as Button).text.toString())
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Button")
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
         bundle.putString("content_name", task.title)
+        bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)

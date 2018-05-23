@@ -49,11 +49,19 @@ public class StarsEarthApplication extends Application implements Application.Ac
     }
 
     public InterstitialAd getGoogleInterstitialAd() {
-        return mGoogleInterstitialAd;
+        InterstitialAd result = null;
+        if (mAds != null) {
+            result = mAds.getGoogleInterstitialAd();
+        }
+        return result;
     }
 
     public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
-        return mFacebookInterstitalAd;
+        com.facebook.ads.InterstitialAd result = null;
+        if (mAds != null) {
+            result = mAds.getFacebookInterstitalAd();
+        }
+        return result;
     }
 
     public Analytics getAnalytics() {

@@ -134,9 +134,14 @@ class ResultListFragment : Fragment() {
             
             if (result!!.isJustCompleted) {
                 mJustCompletedResultsSet.add(result)
+                val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
                 if (isAdAvailable) {
-                    //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
-                    (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
+                    if (ads == "Google") {
+                        (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
+                    }
+                    else if (ads == "Facebook") {
+                        (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
+                    }
                     isAdAvailable = false
                 }
                 else {
@@ -294,8 +299,13 @@ class ResultListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //(activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
-        //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        if (ads == "Google") {
+            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
+        }
+        else if (ads == "Facebook") {
+            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
+        }
     }
 
 

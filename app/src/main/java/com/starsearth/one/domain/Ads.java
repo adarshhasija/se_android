@@ -17,6 +17,14 @@ public class Ads {
         initializeFacebookAds(context);
     }
 
+    public InterstitialAd getGoogleInterstitialAd() {
+        return mGoogleInterstitialAd;
+    }
+
+    public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
+        return mFacebookInterstitalAd;
+    }
+
     private void initializeGoogleAds(Context context) {
         if (BuildConfig.DEBUG) {
             // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713

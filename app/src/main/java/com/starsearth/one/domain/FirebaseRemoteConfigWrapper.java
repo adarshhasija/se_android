@@ -21,6 +21,7 @@ public class FirebaseRemoteConfigWrapper {
         FirebaseRemoteConfigSettings configSettings = configSettingsBuilder.build();
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        updateRemoteConfigs();
     }
 
     public void updateRemoteConfigs() {
