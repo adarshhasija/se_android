@@ -41,6 +41,7 @@ class ResultFragment : Fragment() {
 
     private var adRequest: AdRequest.Builder? = null
 
+
     fun firebaseAnalyticsTaskCompleted(eventName: String, bundle: Bundle) {
         val application = (activity?.application as StarsEarthApplication)
         val score = bundle?.getInt(FirebaseAnalytics.Param.SCORE)
@@ -101,8 +102,10 @@ class ResultFragment : Fragment() {
     }
 
     fun generateAd() {
+        val accessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
-        if (ads != "None") {
+        //only generate ads for non-accessibility users
+        if (ads != "None" && !accessibilityUser) {
             val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads_frequency_modulo")
             val moduloInt = Integer.parseInt(moduloString)
             val random = Random()

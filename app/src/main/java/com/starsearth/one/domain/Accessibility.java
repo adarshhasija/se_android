@@ -51,6 +51,15 @@ public class Accessibility {
         return result;
     }
 
+    public boolean isAccessibilityUser() {
+        boolean result = false;
+        List<String> names = getAccessibilityEnabledServiceNames();
+        if (names.size() > 0) {
+            result = true;
+        }
+        return result;
+    }
+
     public boolean isTalkbackOn() {
         boolean result = false;
         List<String> names = getAccessibilityEnabledServiceNames();

@@ -3,11 +3,11 @@
 <defaultsMap>
     <entry>
         <key>ads</key>
-        <value>Google</value>
+        <value>None</value>
     </entry>
     <entry>
         <key>ads_frequency_modulo</key> <!-- This decides how often ads should be displayed after completion of task -->
-        <value>1</value>
+        <value>0</value>
     </entry>
     <entry>
         <key>firebase_analytics</key>
