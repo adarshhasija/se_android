@@ -41,6 +41,8 @@ class ResultFragment : Fragment() {
 
     private var adRequest: AdRequest.Builder? = null
 
+    private var listFragment : ResultListFragment? = null
+
 
     fun firebaseAnalyticsTaskCompleted(eventName: String, bundle: Bundle) {
         val application = (activity?.application as StarsEarthApplication)
@@ -73,6 +75,7 @@ class ResultFragment : Fragment() {
 
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
+            listFragment?.clearJustCompleteResultsSet()
             generateAd()
             startTaskTyping((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task), it)
@@ -93,7 +96,7 @@ class ResultFragment : Fragment() {
                     ""
                 }).toString()
 
-        val listFragment = ResultListFragment.newInstance((mTeachingContent as Parcelable))
+        listFragment = ResultListFragment.newInstance((mTeachingContent as Parcelable))
         val transaction = childFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container_list, listFragment).commit()
 
@@ -150,6 +153,13 @@ class ResultFragment : Fragment() {
                 Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
             }
 
+        }
+        else if (requestCode == 0) {
+            val isAdAvailable = listFragment?.getIsAdAvailable()
+            if (isAdAvailable == true) {
+                listFragment?.showAd()
+                //listFragment?.setIsAdAvailable(false)
+            }
         }
     }
 

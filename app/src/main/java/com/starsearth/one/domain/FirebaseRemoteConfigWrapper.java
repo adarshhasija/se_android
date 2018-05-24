@@ -27,7 +27,7 @@ public class FirebaseRemoteConfigWrapper {
     public void updateRemoteConfigs() {
         Task<Void> task;
         if (BuildConfig.DEBUG) {
-            task = mFirebaseRemoteConfig.fetch(1800);
+            task = mFirebaseRemoteConfig.fetch(300);
         }
         else {
            task = mFirebaseRemoteConfig.fetch();

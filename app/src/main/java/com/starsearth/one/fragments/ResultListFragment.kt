@@ -46,7 +46,7 @@ class ResultListFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var isActivityPaused = true
-    private var mJustCompletedResultsSet: MutableSet<Result> = HashSet<Result>()
+    private var mJustCompletedResultsSet: MutableSet<Result> = HashSet()
     private var mTeachingContent: Any? = null
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnListFragmentInteractionListener? = null
@@ -55,7 +55,7 @@ class ResultListFragment : Fragment() {
     private val mGoogleAdListener = object : AdListener() {
         override fun onAdLoaded() {
             super.onAdLoaded()
-            isAdAvailable = true
+            setIsAdAvailable(true)
         }
 
         override fun onAdClicked() {
@@ -68,6 +68,7 @@ class ResultListFragment : Fragment() {
 
         override fun onAdClosed() {
             super.onAdClosed()
+            setIsAdAvailable(false)
         }
 
         override fun onAdOpened() {
@@ -83,6 +84,7 @@ class ResultListFragment : Fragment() {
 
         override fun onInterstitialDismissed(ad: Ad) {
             // Interstitial dismissed callback
+            setIsAdAvailable(false)
         }
 
         override fun onError(ad: Ad, adError: AdError) {
@@ -92,7 +94,7 @@ class ResultListFragment : Fragment() {
 
         override fun onAdLoaded(ad: Ad) {
             // Show the ad when it's done loading.
-            isAdAvailable = true
+            setIsAdAvailable(true)
         }
 
         override fun onAdClicked(ad: Ad) {
@@ -134,8 +136,8 @@ class ResultListFragment : Fragment() {
             
             if (result!!.isJustCompleted) {
                 mJustCompletedResultsSet.add(result)
-                val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
-                if (isAdAvailable) {
+             /*   val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+                if (getIsAdAvailable()) {
                     if (ads == "Google") {
                         (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
                     }
@@ -143,8 +145,15 @@ class ResultListFragment : Fragment() {
                         (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
                     }
                     isAdAvailable = false
+                    showAd()
+                    setIsAdAvailable(false)
                 }
                 else {
+                    justCompletedTask(result, isHighScore)
+                    mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
+                    setReturnResult(result)
+                }   */
+                if (!getIsAdAvailable()) {
                     justCompletedTask(result, isHighScore)
                     mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
                     setReturnResult(result)
@@ -185,9 +194,26 @@ class ResultListFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        mJustCompletedResultsSet.clear() //clear the queue before proceeding
+    fun getIsAdAvailable() : Boolean {
+        return isAdAvailable
+    }
+
+    fun setIsAdAvailable(adAvailable : Boolean) {
+        this.isAdAvailable = adAvailable
+    }
+
+    fun showAd() {
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        if (ads == "Google") {
+            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
+        }
+        else if (ads == "Facebook") {
+            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
+        }
+    }
+
+    fun clearJustCompleteResultsSet() {
+        mJustCompletedResultsSet?.clear() //clear the queue before starting a new game
     }
 
     override fun onPause() {
