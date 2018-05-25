@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,11 +74,11 @@ class ResultFragment : Fragment() {
         }
 
 
-        v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
+        v.findViewById<CardView>(R.id.card_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
             listFragment?.clearJustCompleteResultsSet()
             generateAd()
-            startTaskTyping((mTeachingContent as Task))
+            startTask((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task), it)
         })
         val tv = v.findViewById<TextView>(R.id.tv_instruction)
@@ -163,12 +164,16 @@ class ResultFragment : Fragment() {
         }
     }
 
+    private fun getCTAText() : String {
+        return view?.findViewById<TextView>(R.id.tv_start)?.text.toString()
+    }
+
     private fun sendAnalytics(task: Task, view: View) {
         val bundle = Bundle()
         //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (view as Button).text.toString())
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getCTAText())
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Button")
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
         bundle.putString("content_name", task.title)
@@ -185,7 +190,7 @@ class ResultFragment : Fragment() {
         //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.name, null /* class override */);
     }
 
-    private fun startTaskTyping(task: Task) {
+    private fun startTask(task: Task) {
         val intent = Intent(context, TaskActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable("task", task)

@@ -5,7 +5,7 @@
     android:elevation="10dp"
     android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp" >
 
@@ -13,7 +13,9 @@
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" android:id="@+id/layout_main">
+
+        <!-- Row 0 START -->
 
         <TextView
             android:id="@+id/tv_app_name"
@@ -40,8 +42,11 @@
 
         <TextView
             android:id="@+id/tv_result"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
             android:text="---"
             android:textAlignment="center"
             android:textSize="50sp"
@@ -55,6 +60,7 @@
 
         <TextView
             android:id="@+id/tv_result_summary"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -65,7 +71,8 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
-            android:id="@+id/tv_tap_full_screen"
+            android:id="@+id/tv_cta"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -75,9 +82,25 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+        <!-- Row 0 END -->
 
+        <!-- Row 1 START -->
+        <TextView
+            android:id="@+id/tv_full_screen"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/screenshot"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <!-- Row 1 END -->
 
     </android.support.constraint.ConstraintLayout>
+
 
 </android.support.v7.widget.CardView>
 

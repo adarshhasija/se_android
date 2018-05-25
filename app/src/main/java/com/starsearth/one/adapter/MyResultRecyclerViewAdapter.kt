@@ -46,20 +46,26 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = mTasks.getOrNull(position)
         holder.mItem = mValues.get("high_score")
-        holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
-        if (holder.mItem is ResultTyping) {
-            holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.timed!!)
-            holder.mResultSummaryView.text = (holder.mItem as ResultTyping).getExplanationSummary(holder.mView.context, task?.timed)
-        }
-        else if (holder.mItem is ResultGestures) {
-            holder.mResultView.text = (holder.mItem as ResultGestures).getScoreSummary(holder.mView.context, task?.type)
-            holder.mResultSummaryView.text = (holder.mItem as ResultGestures).getExplanationSummary(holder.mView.context, task?.type)
+        if (position == 0) {
+            holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
+            if (holder.mItem is ResultTyping) {
+                holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.timed!!)
+                holder.mResultSummaryView.text = (holder.mItem as ResultTyping).getExplanationSummary(holder.mView.context, task?.timed)
+            }
+            else if (holder.mItem is ResultGestures) {
+                holder.mResultView.text = (holder.mItem as ResultGestures).getScoreSummary(holder.mView.context, task?.type)
+                holder.mResultSummaryView.text = (holder.mItem as ResultGestures).getExplanationSummary(holder.mView.context, task?.type)
+            }
+            holder.mResultView.visibility = View.VISIBLE
+            holder.mResultSummaryView.visibility = View.VISIBLE
+            holder.mCta.visibility = View.VISIBLE
+
+            holder.mView.setOnClickListener {
+                //holder.mItem?.let { mListener?.onFragmentInteraction(it) }
+                holder.mItem?.let { mFragment?.onItemClicked(task, (it as Parcelable), 0) }
+            }
         }
 
-        holder.mView.setOnClickListener {
-            //holder.mItem?.let { mListener?.onFragmentInteraction(it) }
-            holder.mItem?.let { mFragment?.onItemClicked(task, (it as Parcelable), 0) }
-        }
     }
 
     override fun getItemCount(): Int {
@@ -110,12 +116,16 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         val mTitleView: TextView
         val mResultView: TextView
         val mResultSummaryView: TextView
+        val mCta: TextView
+        val mFullScreen: TextView
         var mItem: Any? = null
 
         init {
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
             mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView
+            mCta = mView.findViewById<TextView>(R.id.tv_cta) as TextView
+            mFullScreen = mView.findViewById<TextView>(R.id.tv_full_screen) as TextView
         }
 
         override fun toString(): String {
