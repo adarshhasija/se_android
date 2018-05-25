@@ -74,7 +74,7 @@ class ResultFragment : Fragment() {
         }
 
 
-        v.findViewById<CardView>(R.id.card_start).setOnClickListener(View.OnClickListener {
+        v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
             listFragment?.clearJustCompleteResultsSet()
             generateAd()
@@ -165,7 +165,7 @@ class ResultFragment : Fragment() {
     }
 
     private fun getCTAText() : String {
-        return view?.findViewById<TextView>(R.id.tv_start)?.text.toString()
+        return view?.findViewById<Button>(R.id.btn_start)?.text.toString()
     }
 
     private fun sendAnalytics(task: Task, view: View) {
