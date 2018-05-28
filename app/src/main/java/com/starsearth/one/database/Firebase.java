@@ -80,7 +80,7 @@ public class Firebase {
     }
 
     //Returns key of the newly created course
-    public String writeNewCourse(String type, int difficulty, String name, String description, boolean usbKeyboard) {
+ /*   public String writeNewCourse(String type, int difficulty, String name, String description, boolean usbKeyboard) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Course course = new Course(key, type, difficulty, name, description, user.getUid(), usbKeyboard);
@@ -91,7 +91,7 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }
+    }   */
 
     public void updateExistingCourse(String key, Course course) {
         //databasereference.child(key).setValue(course);
@@ -110,7 +110,7 @@ public class Firebase {
         databaseReference.child(course.getUid()).removeValue();
     }
 
-    public String writeNewLesson(int index, String name, String parent) {
+ /*   public String writeNewLesson(int index, String name, String parent) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Lesson lesson = new Lesson(key, name, index, user.getUid(), parent);
@@ -121,7 +121,7 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }
+    }   */
 
     public void updateExistingLesson(String key, Lesson lesson) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -139,7 +139,7 @@ public class Firebase {
         databaseReference.child(lesson.getUid()).removeValue();
     }
 
-    public String writeNewTopic(int index, String name, String description, String parent) {
+ /*   public String writeNewTopic(int index, String name, String description, String parent) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Topic topic = new Topic(key, name, description, index, user.getUid(), parent);
@@ -150,7 +150,7 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }
+    }   */
 
     public void updateExistingTopic(String key, Topic topic) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -168,10 +168,10 @@ public class Firebase {
         databaseReference.child(topic.getUid()).removeValue();
     }
 
-    public String writeNewExercise(int index, String title, String description, String parent) {
+    public String writeNewExercise(int index, String title, String instructions, String description, String parent) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Exercise exercise = new Exercise(key, title, description, index, user.getUid(), parent);
+        Exercise exercise = new Exercise(key, title, instructions, description, index, user.getUid(), parent);
         Map<String, Object> topicValues = exercise.toMap();
         topicValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -197,7 +197,7 @@ public class Firebase {
         databaseReference.child(exercise.getUid()).removeValue();
     }
 
-    public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight,
+ /*   public String writeNewQuestion(int index, String title, String answer, String hint, float positiveWeight, float negativeWeight,
                                    String feedbackCorrectAnswer, String feedbackWrongAnswer, String parent, String instruction, int repeats,
                                    String questionType) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -211,7 +211,7 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }
+    }   */
 
     public void updateExistingQuestion(String key, Question question) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

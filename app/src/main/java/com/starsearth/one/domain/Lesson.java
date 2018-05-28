@@ -24,8 +24,8 @@ public class Lesson extends SEBaseObject {
         // Default constructor required for calls to DataSnapshot.getValue(Lesson.class)
     }
 
-    public Lesson(String uid, String title, int index, String createdBy, String parentId) {
-        super(uid, title, createdBy, "course", parentId);
+    public Lesson(String uid, String title, String instructions, int index, String createdBy, String parentId) {
+        super(uid, title, instructions, createdBy, "course", parentId);
         this.index = index;
     }
 

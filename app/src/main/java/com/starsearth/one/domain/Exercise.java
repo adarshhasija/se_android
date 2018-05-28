@@ -22,8 +22,8 @@ public class Exercise extends SEBaseObject implements Parcelable{
 
     }
 
-    public Exercise(String uid, String title, String description, int index, String createdBy, String parentId) {
-        super(uid, title, createdBy, "topic", parentId);
+    public Exercise(String uid, String title, String instructions, String description, int index, String createdBy, String parentId) {
+        super(uid, title, instructions, createdBy, "topic", parentId);
         this.description = description;
         this.index = index;
     }

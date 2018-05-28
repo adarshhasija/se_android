@@ -24,11 +24,13 @@ import com.starsearth.one.fragments.ResultListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultListFragment.OnListFragmentInteractionListener, MainMenuItemFragment.OnListFragmentInteractionListener {
 
     Object teachingContent = null;
+    Serializable results = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +41,12 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
 
         if (extras != null) {
             teachingContent = extras.getParcelable("teachingContent");
+            results = extras.getSerializable("results");
         }
 
         if (teachingContent != null) {
             setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
-            if (teachingContent instanceof Course) {
+         /*   if (teachingContent instanceof Course) {
                 MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
@@ -53,7 +56,10 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
 
-            }
+            }   */
+            ResultFragment fragment = ResultFragment.Companion.newInstance((Parcelable) teachingContent, results);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container_main, fragment).commit();
         }
     }
 
@@ -73,6 +79,15 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     @Override
     public void setListFragmentProgressBarVisibility(int visibility, @NotNull RecyclerView view) {
 
+    }
+
+    @Override
+    public void onResultFragmentInteraction(Object teachingContent) {
+        ResultListFragment fragment = ResultListFragment.Companion.newInstance((Parcelable) teachingContent);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

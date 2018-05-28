@@ -7,12 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
-import android.support.v7.widget.CardView
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.facebook.ads.AdSettings
@@ -20,9 +22,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
+import com.starsearth.one.Utils
 import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.*
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -33,10 +37,48 @@ import java.util.*
  * Use the [ResultFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ResultFragment : Fragment() {
+class ResultFragment : Fragment(), View.OnTouchListener {
+
+    private var x1: Float = 0.toFloat()
+    private var x2:Float = 0.toFloat()
+    private var y1:Float = 0.toFloat()
+    private var y2:Float = 0.toFloat()
+    internal val MIN_DISTANCE = 150
+    override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
+        when (event?.getAction()) {
+            MotionEvent.ACTION_DOWN -> {
+                x1 = event?.getX()
+                y1 = event?.getY()
+            }
+            MotionEvent.ACTION_UP -> {
+                x2 = event?.getX()
+                y2 = event?.getY()
+                val deltaX = x2 - x1
+                val deltaY = y2 - y1
+                if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
+                    gestureSwipe()
+                } else {
+                    gestureTap()
+                }
+            }
+        }
+        return true
+    }
+
+    private fun gestureTap() {
+        listFragment?.clearJustCompleteResultsSet()
+        generateAd()
+        startTask((mTeachingContent as Task))
+        sendAnalytics((mTeachingContent as Task))
+    }
+
+    private fun gestureSwipe() {
+        mListener?.onResultFragmentInteraction(mTeachingContent)
+    }
 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
+    private var mResults: Any? = null
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -55,6 +97,7 @@ class ResultFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mTeachingContent = arguments?.getParcelable(ARG_TEACHING_CONTENT)
+            mResults = arguments?.getSerializable(ARG_RESULTS)
         }
     }
 
@@ -76,10 +119,11 @@ class ResultFragment : Fragment() {
 
         v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
-            listFragment?.clearJustCompleteResultsSet()
+          /*  listFragment?.clearJustCompleteResultsSet()
             generateAd()
             startTask((mTeachingContent as Task))
-            sendAnalytics((mTeachingContent as Task), it)
+            sendAnalytics((mTeachingContent as Task), it)   */
+            gestureTap()
         })
         val tv = v.findViewById<TextView>(R.id.tv_instruction)
 
@@ -87,22 +131,65 @@ class ResultFragment : Fragment() {
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
                             context?.resources?.getString(R.string.complete_as_many_as) + " " +
-                            context?.resources?.getString(R.string.your_best_score), (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                            appendScoreType(), (mTeachingContent as Task)?.getTimeLimitAsString(context)) +
+                            "\n\n" +
+                            appendCTAText()
                 } else if (mTeachingContent is Task) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
                             context?.resources?.getString(R.string.do_this_number_times) + " " +
-                            context?.resources?.getString(R.string.your_best_score) + " " +
-                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials)
+                            appendScoreType() + " " +
+                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +
+                            "\n\n" +
+                            appendCTAText()
+                } else if (mTeachingContent is Course){
+                    (mTeachingContent as Course).instructions + " " +
+                            "\n\n" +
+                            appendCTAText()
                 } else {
                     ""
                 }).toString()
 
+        v.findViewById<ConstraintLayout>(R.id.layout_last_tried).visibility =
+                if (!((mResults as List<Result>)?.isEmpty())) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+        setLastTriedUI((mTeachingContent as Course).tasks[0], (mResults as List<Result>)[(mResults as List<Result>).lastIndex])
+
         listFragment = ResultListFragment.newInstance((mTeachingContent as Parcelable))
         val transaction = childFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container_list, listFragment).commit()
+        //transaction.add(R.id.fragment_container_list, listFragment).commit()
 
 
         return v
+    }
+
+    private fun setLastTriedUI(task: Task, result: Result) {
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime(result.timestamp)
+        view?.findViewById<TextView>(R.id.tv_result)?.text =
+                if (result is ResultTyping) {
+                    result.getScoreSummary(context, task.timed)
+                } else if (result is ResultGestures) {
+                    result.getScoreSummary(context, task.type)
+                } else {
+                    ""
+                }
+    }
+
+    private fun appendScoreType() : String {
+        return "" + context?.resources?.getString(R.string.your_most_recent_score)
+    }
+
+    private fun appendCTAText() : String {
+        return context?.resources?.getString(R.string.tap_screen_to_start) +
+                "\n" +
+                context?.resources?.getString(R.string.swipe_for_more_options)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
     }
 
     fun generateAd() {
@@ -168,13 +255,17 @@ class ResultFragment : Fragment() {
         return view?.findViewById<Button>(R.id.btn_start)?.text.toString()
     }
 
-    private fun sendAnalytics(task: Task, view: View) {
+    private fun getScreenName() : String {
+        return this.javaClass.simpleName
+    }
+
+    private fun sendAnalytics(task: Task) {
         val bundle = Bundle()
         //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getCTAText())
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Button")
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getScreenName())
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
         bundle.putString("content_name", task.title)
         bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
@@ -238,14 +329,15 @@ class ResultFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction()
+        fun onResultFragmentInteraction(teachingContent: Any?)
     }
 
     companion object {
         // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_COURSE = "course"
-        private val ARG_TEACHING_CONTENT = "task"
+        private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
+        private val ARG_RESULTS = "RESULTS"
 
         /**
          * Use this factory method to create a new instance of
@@ -256,10 +348,11 @@ class ResultFragment : Fragment() {
          * @return A new instance of fragment ResultFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param0: Parcelable?): ResultFragment {
+        fun newInstance(param0: Parcelable?, param1: Serializable?): ResultFragment {
             val fragment = ResultFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, param0)
+            args.putSerializable(ARG_RESULTS, param1)
             fragment.arguments = args
             return fragment
         }

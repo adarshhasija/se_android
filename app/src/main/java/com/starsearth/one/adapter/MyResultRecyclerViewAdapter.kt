@@ -61,7 +61,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
             holder.mCta.visibility = View.VISIBLE
 
             holder.mView.setOnClickListener {
-                //holder.mItem?.let { mListener?.onFragmentInteraction(it) }
+                //holder.mItem?.let { mListener?.onResultFragmentInteraction(it) }
                 holder.mItem?.let { mFragment?.onItemClicked(task, (it as Parcelable), 0) }
             }
         }

@@ -180,6 +180,7 @@ class MainMenuItemFragment : Fragment() {
         sendAnalytics((item.teachingContent as SEBaseObject))
 
         val teachingContent = item.teachingContent
+        val results = item.results
         if (teachingContent is Task && teachingContent.type == Task.Type.KEYBOARD_TEST) {
             val intent = Intent(context, KeyboardActivity::class.java)
             startActivity(intent)
@@ -188,6 +189,7 @@ class MainMenuItemFragment : Fragment() {
             val intent = Intent(context, ResultActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
+            bundle.putSerializable("results", results)
             intent.putExtras(bundle)
             startActivityForResult(intent,0)
         }

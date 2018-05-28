@@ -4,6 +4,7 @@
       "visible": true,
       "id": 10,
       "title": "Keyboard Typing Exercises",
+      "instructions": "Improve your keyboard typing skills with these exercises",
       "tasks" : [
         {
           "id": 12,
@@ -60,6 +61,7 @@
       "id": 24,
       "visible": true,
       "title": "Numbers",
+      "instructions": "Test your number skills with these games",
       "tasks": [
         {
           "id": 13,
@@ -99,6 +101,7 @@
       "id": 25,
       "visible": true,
       "title": "Addition and Subtraction",
+      "instructions": "Test your addition and subtraction skills with these exercises.",
       "tasks" : [
         {
           "id": 22,
@@ -138,6 +141,7 @@
       "id": 23,
       "visible": true,
       "title": "Clock face",
+      "instructions": "Test your geometry skills with these clock face exercises.",
       "tasks" : [
         {
           "id": 17,

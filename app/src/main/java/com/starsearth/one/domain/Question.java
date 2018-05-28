@@ -28,10 +28,10 @@ public class Question extends SEBaseObject {
         super();
     }
 
-    public Question(String uid, String title, String answer, String hint, int index, float positiveWeight, float negativeWeight,
+    public Question(String uid, String title, String instructions, String answer, String hint, int index, float positiveWeight, float negativeWeight,
                         String feedbackCorrectAnswer, String feedbackWrongAnswer, String createdBy, String parentId,
                             String instruction, int repeats, String questionType) {
-        super(uid, title, createdBy, "exercise", parentId);
+        super(uid, title, instructions, createdBy, "exercise", parentId);
         this.answer = answer;
         this.hint = hint;
         this.index = index;

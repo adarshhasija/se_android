@@ -33,8 +33,8 @@ public class Course extends SEBaseObject {
         // Default constructor required for calls to DataSnapshot.getValue(Course.class)
     }
 
-    public Course(String uid, String type, int difficulty, String title, String description, String createdBy, boolean usbKeyboard) {
-        super(uid, title, createdBy);
+    public Course(String uid, String type, int difficulty, String title, String instructions, String description, String createdBy, boolean usbKeyboard) {
+        super(uid, title, instructions, createdBy);
         this.type = type;
         this.difficulty = difficulty;
         this.description = description;

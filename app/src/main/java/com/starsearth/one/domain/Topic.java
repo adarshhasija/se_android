@@ -22,8 +22,8 @@ public class Topic extends SEBaseObject implements Parcelable {
         super();
     }
 
-    public Topic(String uid, String title, String description, int index, String createdBy, String parentId) {
-        super(uid, title, createdBy, "lesson", parentId);
+    public Topic(String uid, String title, String instructions, String description, int index, String createdBy, String parentId) {
+        super(uid, title, instructions, createdBy, "lesson", parentId);
         this.description = description;
         this.index = index;
     }

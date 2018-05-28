@@ -16,7 +16,6 @@ import java.util.Random;
 
 public class Task extends SEBaseObject {
 
-    public String instructions;
     public String[] content;
     public String[] tap;
     public String[] swipe;
@@ -61,7 +60,6 @@ public class Task extends SEBaseObject {
 
     protected Task(Parcel in) {
         super(in);
-        instructions = in.readString();
         content = in.createStringArray();
         tap = in.createStringArray();
         swipe = in.createStringArray();
@@ -88,7 +86,6 @@ public class Task extends SEBaseObject {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = (HashMap<String, Object>) super.toMap();
-        result.put("instructions", instructions);
         result.put("content", content);
         result.put("tap", tap);
         result.put("swipe", swipe);
@@ -110,7 +107,6 @@ public class Task extends SEBaseObject {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(instructions);
         dest.writeStringArray(content);
         dest.writeStringArray(tap);
         dest.writeStringArray(swipe);

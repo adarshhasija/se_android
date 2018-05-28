@@ -17,6 +17,7 @@ public class SEBaseObject implements Parcelable {
     public int id; //local id
     public String uid;
     public String title;
+    public String instructions;
     public boolean visible = true; //visible to the user
     public String createdBy;
     public String updatedBy;
@@ -28,16 +29,18 @@ public class SEBaseObject implements Parcelable {
 
     }
 
-    public SEBaseObject(String uid, String title, String createdBy) {
+    public SEBaseObject(String uid, String title, String instructions, String createdBy) {
         this.uid = uid;
         this.title = title;
+        this.instructions = instructions;
         this.createdBy = createdBy;
         this.updatedBy = createdBy;
     }
 
-    public SEBaseObject(String uid, String title, String createdBy, String parentType, String parentId) {
+    public SEBaseObject(String uid, String title, String instructions, String createdBy, String parentType, String parentId) {
         this.uid = uid;
         this.title = title;
+        this.instructions = instructions;
         this.createdBy = createdBy;
         this.updatedBy = createdBy;
         this.parentType = parentType;
@@ -48,6 +51,7 @@ public class SEBaseObject implements Parcelable {
         id = in.readInt();
         uid = in.readString();
         title = in.readString();
+        instructions = in.readString();
         visible = in.readByte() != 0;
         createdBy = in.readString();
         updatedBy = in.readString();
@@ -98,6 +102,7 @@ public class SEBaseObject implements Parcelable {
         result.put("id", id);
         result.put("uid", uid);
         result.put("title", title);
+        result.put("instructions", instructions);
         result.put("visible", visible);
         result.put("createdBy", createdBy);
         result.put("updatedBy", updatedBy);
@@ -118,6 +123,7 @@ public class SEBaseObject implements Parcelable {
         dest.writeInt(id);
         dest.writeString(uid);
         dest.writeString(title);
+        dest.writeString(instructions);
         dest.writeByte((byte) (visible ? 1 : 0));
         dest.writeString(createdBy);
         dest.writeString(updatedBy);
