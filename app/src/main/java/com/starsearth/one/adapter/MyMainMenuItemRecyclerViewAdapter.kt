@@ -53,7 +53,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
 
         holder.mView.setOnClickListener {
             holder.mItem?.let { mFragment.listItemSelected(it, position) }
-            //holder.mItem?.let { mListener?.onResultFragmentInteraction(it) } //mListener?.onResultFragmentInteraction(holder.mItem)
+            //holder.mItem?.let { mListener?.onResultFragmentSwipeInteraction(it) } //mListener?.onResultFragmentSwipeInteraction(holder.mItem)
         }
     }
 

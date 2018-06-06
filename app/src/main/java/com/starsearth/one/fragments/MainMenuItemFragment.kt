@@ -93,7 +93,6 @@ class MainMenuItemFragment : Fragment() {
 
     private val mResultsMultipleValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             mTimer?.cancel()
             val map = dataSnapshot?.value
             if (map != null) {
@@ -120,7 +119,6 @@ class MainMenuItemFragment : Fragment() {
 
     private val mResultsSingleValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             mTimer?.cancel()
             val map = dataSnapshot?.value
             if (map == null) { return; }
@@ -188,8 +186,8 @@ class MainMenuItemFragment : Fragment() {
         else {
             val intent = Intent(context, ResultActivity::class.java)
             val bundle = Bundle()
+            //bundle.putParcelable("MAIN_MENU_ITEM", item)
             bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
-            bundle.putSerializable("results", results)
             intent.putExtras(bundle)
             startActivityForResult(intent,0)
         }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.starsearth.one.listener.BotResponseListener;
+import com.starsearth.one.listeners.BotResponseListener;
 import com.starsearth.one.domain.SignLanguage;
 import com.google.gson.JsonElement;
 

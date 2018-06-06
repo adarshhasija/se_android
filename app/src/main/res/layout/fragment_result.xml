@@ -18,7 +18,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_centerInParent="true"/>
 
-    <include layout="@layout/content_last_tried" />
+    <include layout="@layout/fragment_last_tried" />
 
     <Button
         android:id="@+id/btn_start"
@@ -48,6 +48,27 @@
         android:textColor="#0000FF"
         android:textStyle="bold"
         android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tv_tap_screen_to_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:text="@string/tap_screen_to_start"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/tv_swipe_for_more_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:text="@string/swipe_for_more_options"
+        android:textAlignment="center" />
 
 
 </LinearLayout>

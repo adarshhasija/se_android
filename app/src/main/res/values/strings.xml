@@ -350,12 +350,14 @@
     <string name="facebook_app_id">2064355667218856</string>
     <string name="fb_login_protocol_scheme">fb2064355667218856</string>
 
-    <string name="tap_for_full_screen">Tap for full screen view</string>
+    <string name="screenshot_tap_for_full_screen">Want screenshot?\nTap for full screen view</string>
 
     <string name="cancelled_no_attempt">Cancelled: You did not answer any questions</string>
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
     <string name="screenshot">Want sceenshot?\nTap for full screen view</string>
     <string name="tap_screen_to_start">Tap screen to start</string>
     <string name="swipe_for_more_options">Swipe for more options</string>
+    <string name="tap_to_close_this_screen">Tap to close this screen</string>
+    <string name="result">Result</string>
 
 </resources>

@@ -3,16 +3,16 @@
     android:id="@+id/layout_last_tried"
     android:visibility="gone"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/tv_label_last_tried"
+        android:id="@+id/tv_label_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/last_tried"
-        android:textSize="15sp"
+        android:text="@string/result"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,23 +20,35 @@
         android:id="@+id/tv_last_tried"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:textSize="15sp"
+        android:textColor="#000000"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_last_tried" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_top" />
 
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
         android:text="---"
         android:textAlignment="center"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tap_close_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tap_to_close_this_screen"
+        android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

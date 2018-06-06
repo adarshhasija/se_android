@@ -117,62 +117,17 @@ class ResultListFragment : Fragment() {
                 return;
             }
 
-            var isHighScore = false
             val adapter = (view as RecyclerView).adapter
             val high_score = (adapter as MyResultRecyclerViewAdapter).getItem("high_score")
-            val last_tried = adapter.getItem("last_tried")
 
             adapter.putItem("last_tried", result)
 
             if (high_score == null) {
-                isHighScore = true
                 adapter.putItem("high_score", result)
             }
             else if (adapter.isHigScore(result)) {
-                isHighScore = true
                 adapter.putItem("high_score", result)
-                mDatabase?.child((high_score as Result).uid)?.removeValue() //delete from the database
             }
-            
-            if (result!!.isJustCompleted) {
-                mJustCompletedResultsSet.add(result)
-             /*   val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
-                if (getIsAdAvailable()) {
-                    if (ads == "Google") {
-                        (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
-                    }
-                    else if (ads == "Facebook") {
-                        (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
-                    }
-                    isAdAvailable = false
-                    showAd()
-                    setIsAdAvailable(false)
-                }
-                else {
-                    justCompletedTask(result, isHighScore)
-                    mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
-                    setReturnResult(result)
-                }   */
-                if (!getIsAdAvailable()) {
-                    justCompletedTask(result, isHighScore)
-                    mTeachingContent?.let { firebaseAnalyticsTaskCompleted((it as SEBaseObject),result) }
-                    setReturnResult(result)
-                }
-
-            }
-
-            //make sure last_tried is not the current(new) high_score
-            last_tried?.let { if ((it as Result)?.uid != (adapter.getItem("high_score") as Result).uid) {
-                mDatabase?.child(it.uid)?.removeValue() //delete from the database
-                }
-            }
-
-
-         /*   if (adapter.itemCount > 1) {
-                (adapter as MyResultRecyclerViewAdapter).removeOldestItem()
-                //adapter.removeItem(lastItem) //not needed for Queue
-                //mDatabase?.child((lastItem as Result).uid)?.removeValue() //delete from the database
-            }   */
 
             adapter.notifyDataSetChanged()
         }
@@ -325,13 +280,13 @@ class ResultListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+      /*  val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
         }
         else if (ads == "Facebook") {
             (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
-        }
+        }   */
     }
 
 
@@ -366,7 +321,7 @@ class ResultListFragment : Fragment() {
             }
         }
 
-        parentFragment?.let { (it as ResultFragment).firebaseAnalyticsTaskCompleted(FirebaseAnalytics.Event.POST_SCORE, bundle) }
+        parentFragment?.let { (it as ResultFragment).analyticsTaskCompleted(FirebaseAnalytics.Event.POST_SCORE, bundle) }
         //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
     }
 
