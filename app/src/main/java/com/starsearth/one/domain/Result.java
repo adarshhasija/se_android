@@ -95,7 +95,7 @@ public class Result implements Parcelable {
         boolean result = false;
         Calendar c = Calendar.getInstance();
         long currentTime = c.getTimeInMillis();
-        if (Math.abs(currentTime - timestamp) < 5000) {
+        if (Math.abs(currentTime - timestamp) < 500) {
             result = true;
         }
         return result;

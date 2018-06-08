@@ -222,13 +222,15 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             }
             setReturnResult(result)
             view?.findViewById<TextView>(R.id.tv_swipe_for_more_options)?.visibility = View.VISIBLE
+
             if (mResults.empty() || !isResultExistsInStack(result)) {
                 mResults.push(result)
+                //evaluateList((mResults as MutableList<Result>))
+                if (result.isJustCompleted) {
+                    mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)
+                }
             }
-            evaluateList((mResults as MutableList<Result>))
-            if (result.isJustCompleted) {
-                mListener?.onResultFragmentShowLastTried(mTeachingContent, result)
-            }
+
             //setLastTriedUI(mTeachingContent, result)
         }
 
@@ -271,12 +273,13 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
     /*
-    If list size > 2, remove items that are not last_tired and not highscore
+    If list size > 2, remove items that are not last_tired and not highscore. NOT WORKING AS EXPECTED
      */
     fun evaluateList(list: MutableList<Result>) {
         var lowestScoreIndex: Int = 0
         var lowestScore: Int = -1
         var lowestScoreId: String? = null
+
         if (list.size > 2) {
             //last item in the array is last_tried
             //do not want to iterate till that
@@ -402,18 +405,24 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             val reason = extras?.get("reason")
             if (reason != null) {
                 if (reason == "no attempt") {
-                    Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
+                    mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
                 }
                 else if (reason == "gesture spam") {
+                    val message = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message")
+
                     val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
                     alertDialog.setTitle(getString(R.string.gesture_spam_detected))
                     alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message"))
                     alertDialog.setNeutralButton(getString(android.R.string.ok), null)
-                    alertDialog.show()
+                    //alertDialog.show()
+
+                    mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
                 }
             }
             else {
-                Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+                mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
             }
 
         }
@@ -493,7 +502,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onResultFragmentSwipeInteraction(teachingContent: Any?)
-        fun onResultFragmentShowLastTried(teachingContent: Any?, result: Any?)
+        fun onResultFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
     companion object {

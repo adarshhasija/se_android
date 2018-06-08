@@ -81,8 +81,8 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onResultFragmentShowLastTried(Object teachingContent, @Nullable Object result) {
-        LastTriedFragment fragment = LastTriedFragment.Companion.newInstance((Parcelable) teachingContent, (Parcelable) result);
+    public void onResultFragmentShowLastTried(Object teachingContent, @Nullable Object result, String errorTitle, String errorMessage) {
+        LastTriedFragment fragment = LastTriedFragment.Companion.newInstance((Parcelable) teachingContent, (Parcelable) result, errorTitle, errorMessage);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 .addToBackStack(null)

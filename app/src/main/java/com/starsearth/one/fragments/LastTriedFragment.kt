@@ -20,6 +20,8 @@ import com.starsearth.one.domain.Task
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "TEACHING_CONTENT"
 private const val ARG_PARAM2 = "RESULT"
+private const val ARG_PARAM3 = "ERROR_TITLE"
+private const val ARG_PARAM4 = "ERROR_MESSAGE"
 
 /**
  * A simple [Fragment] subclass.
@@ -31,12 +33,16 @@ class LastTriedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
     private var mResult: Any? = null
+    private var mErrorTitle: String? = null
+    private var mErrorMessage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mTeachingContent = it.getParcelable(ARG_PARAM1)
             mResult = it.getParcelable(ARG_PARAM2)
+            mErrorTitle = it.getString(ARG_PARAM3)
+            mErrorMessage = it.getString(ARG_PARAM4)
         }
     }
 
@@ -47,7 +53,22 @@ class LastTriedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setLastTriedUI(mTeachingContent, mResult)
+        if (mErrorTitle != null && mErrorMessage != null) {
+            setErrorUI(mErrorTitle, mErrorMessage)
+        }
+        else {
+            setLastTriedUI(mTeachingContent, mResult)
+        }
+        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.visibility = View.VISIBLE
+        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.setOnClickListener(View.OnClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+        })
+    }
+
+    private fun setErrorUI(errorTitle: String?, errorMessage: String?) {
+        view?.findViewById<TextView>(R.id.tv_label_top)?.text = errorTitle
+        view?.findViewById<TextView>(R.id.tv_error_message)?.text = errorMessage
+        view?.findViewById<TextView>(R.id.tv_error_message)?.visibility = View.VISIBLE
     }
 
     private fun setLastTriedUI(teachingContent: Any?, result: Any?) {
@@ -60,13 +81,11 @@ class LastTriedFragment : Fragment() {
                     } else {
                         ""
                     }
+
+            view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
         }
 
         view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime((result as Result).timestamp)
-        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.visibility = View.VISIBLE
-        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.setOnClickListener(View.OnClickListener {
-            activity?.supportFragmentManager?.popBackStack()
-        })
     }
 
 
@@ -81,11 +100,13 @@ class LastTriedFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(teachingContent: Parcelable?, result: Parcelable?) =
+        fun newInstance(teachingContent: Parcelable?, result: Parcelable?, errorTitle: String?, errorMessage: String?) =
                 LastTriedFragment().apply {
                     arguments = Bundle().apply {
                         putParcelable(ARG_PARAM1, teachingContent)
                         putParcelable(ARG_PARAM2, result)
+                        putString(ARG_PARAM3, errorTitle)
+                        putString(ARG_PARAM4, errorMessage)
                     }
                 }
     }
