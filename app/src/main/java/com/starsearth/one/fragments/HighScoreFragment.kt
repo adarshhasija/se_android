@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
@@ -45,6 +47,12 @@ class HighScoreFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -66,6 +74,16 @@ class HighScoreFragment : Fragment() {
         else if (param2 is ResultGestures) {
             tvHighScore.text = (param2 as ResultGestures).getScoreSummary(context, param1?.type)
         }
+
+        view.findViewById<LinearLayout>(R.id.layout_last_tried).contentDescription =
+                getString(R.string.screenshot_view) + " " + view.findViewById<TextView>(R.id.tv_timestamp).text.toString() + " " + getString(R.string.high_score) + " " + view.findViewById<TextView>(R.id.tv_high_score).text.toString()
+
+        view.announceForAccessibility(
+                getString(R.string.screenshot_view)
+                        + " " + view.findViewById<TextView>(R.id.tv_timestamp).text.toString()
+                        + " " + getString(R.string.high_score)
+                        + " " + view.findViewById<TextView>(R.id.tv_high_score).text.toString()
+        )
     }
 
     // TODO: Rename method, update argument and hook method into UI event

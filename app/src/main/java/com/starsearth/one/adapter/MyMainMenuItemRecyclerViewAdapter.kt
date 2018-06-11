@@ -1,5 +1,6 @@
 package com.starsearth.one.adapter
 
+import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.starsearth.one.Utils
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.SEBaseObject
+import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.MainMenuItemFragment
 
 import com.starsearth.one.fragments.MainMenuItemFragment.OnListFragmentInteractionListener
@@ -22,7 +24,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuItem>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<MainMenuItem>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -43,13 +45,17 @@ class MyMainMenuItemRecyclerViewAdapter(private val mValues: ArrayList<MainMenuI
         val results = holder.mItem?.results
 
         (teachingContent as SEBaseObject)?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
-
-        val result = if (results?.isNotEmpty()!!) {
-            results?.peek()
-        } else {
-            null
+        if (teachingContent is Task && teachingContent.timed) {
+            holder.mText2View.text = mContext?.getText(R.string.timed)
         }
-        holder.mText2View.text = formatLatTriedTime(result)
+
+        holder.mText2View.text = if (results?.isNotEmpty()!!) {
+            formatLatTriedTime(results?.peek())
+        } else if (teachingContent is Task && teachingContent.timed) {
+            mContext?.getText(R.string.timed)
+        } else {
+            ""
+        }
 
         holder.mView.setOnClickListener {
             holder.mItem?.let { mFragment.listItemSelected(it, position) }

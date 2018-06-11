@@ -33,7 +33,7 @@ public class FirebaseRemoteConfigWrapper {
            task = mFirebaseRemoteConfig.fetch();
         }
 
-        //mFirebaseRemoteConfig.fetch()
+        //mFirebaseRemoteConfig.fetch();
         task
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

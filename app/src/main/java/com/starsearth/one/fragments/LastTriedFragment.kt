@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
@@ -63,6 +65,27 @@ class LastTriedFragment : Fragment() {
         view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         })
+
+        if (mErrorTitle != null && mErrorMessage != null) {
+            view.findViewById<ConstraintLayout>(R.id.layout_last_tried).contentDescription =
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+
+            view.announceForAccessibility(
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+            )
+        } else {
+            view.findViewById<ConstraintLayout>(R.id.layout_last_tried).contentDescription =
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_result).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+
+            view.announceForAccessibility(
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_result).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+            )
+        }
+
     }
 
     private fun setErrorUI(errorTitle: String?, errorMessage: String?) {
@@ -86,6 +109,12 @@ class LastTriedFragment : Fragment() {
         }
 
         view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime((result as Result).timestamp)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
     }
 
 

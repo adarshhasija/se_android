@@ -263,7 +263,7 @@ class MainMenuItemFragment : Fragment() {
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             val mainMenuItems = getData()
-            view.adapter = MyMainMenuItemRecyclerViewAdapter(mainMenuItems, mListener, this)
+            view.adapter = MyMainMenuItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view
     }

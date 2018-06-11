@@ -179,7 +179,10 @@ class ResultListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        isActivityPaused = false
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+
+     /*   isActivityPaused = false
 
         //If we are returning from an ad,
         //Take the result out of the set and display
@@ -189,7 +192,7 @@ class ResultListFragment : Fragment() {
                 justCompletedTask(it, isHighScore())
             }
             mJustCompletedResultsSet.clear()
-        }
+        }   */
     }
 
     private fun isHighScore() : Boolean {
@@ -280,6 +283,7 @@ class ResultListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.announceForAccessibility(getString(R.string.more_options_screen_opened))
       /*  val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
@@ -306,7 +310,7 @@ class ResultListFragment : Fragment() {
     }
 
     private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {
-        val bundle = Bundle()
+      /*  val bundle = Bundle()
         bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
 
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
@@ -322,7 +326,7 @@ class ResultListFragment : Fragment() {
         }
 
         parentFragment?.let { (it as ResultFragment).analyticsTaskCompleted(FirebaseAnalytics.Event.POST_SCORE, bundle) }
-        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)
+        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)   */
     }
 
     /**

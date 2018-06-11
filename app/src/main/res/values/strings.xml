@@ -279,7 +279,7 @@
     <string name="start_new_game">Start</string>
     <string name="your_most_recent_score">Your most recent score will be displayed here.</string>
     <string name="your_best_score">Your best score will be displayed here.</string>
-    <string name="complete_as_many_as">Complete as many as your can within %s</string>
+    <string name="complete_as_many_as">Complete as many as you can within %s</string>
     <string name="do_this_number_times">Do this %d times.</string>
     <string name="typing_game_instructions_letters_small">You will be shown some letters. Type as many of them as you can within 1 minute.\nYour most recent score will be displayed here</string>
     <string name="typing_game_instructions_letters_capital">You will be shown some letters. Type as many of them as you can within 1 minute.\nYour most recent score will be displayed here</string>
@@ -361,5 +361,8 @@
     <string name="swipe_for_more_options">Swipe for more options</string>
     <string name="tap_to_close_this_screen">Tap to close this screen</string>
     <string name="result">Result</string>
+    <string name="screenshot_view">Screen shot view</string>
+    <string name="more_options_screen_opened">More options screen opened</string>
+    <string name="timed">Timed</string>
 
 </resources>

@@ -220,6 +220,9 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
             }
+            if (mTeachingContent is Task) {
+                analyticsTaskCompleted((mTeachingContent as Task), result)
+            }
             setReturnResult(result)
             view?.findViewById<TextView>(R.id.tv_swipe_for_more_options)?.visibility = View.VISIBLE
 
@@ -259,10 +262,25 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
 
-    fun analyticsTaskCompleted(eventName: String, bundle: Bundle) {
+    fun analyticsTaskCompleted(task: Task, result: Any?) {
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+
+        if (task is Task) {
+            bundle.putInt("item_type", task.getType().getValue().toInt())
+            bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
+            if (task.type == Task.Type.TAP_SWIPE) {
+                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
+            } else {
+                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
+            }
+        }
+
         val application = (activity?.application as StarsEarthApplication)
         val score = bundle?.getInt(FirebaseAnalytics.Param.SCORE)
-        application.logActionEvent(eventName, bundle, score)
+        application.logActionEvent(FirebaseAnalytics.Event.POST_SCORE, bundle, score)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -393,6 +411,14 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         super.onViewCreated(view, savedInstanceState)
         setupAdListener()
         view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
+        view.findViewById<LinearLayout>(R.id.ll_main).contentDescription =
+                view.findViewById<TextView>(R.id.tv_instruction).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString() + " " + view.findViewById<TextView>(R.id.tv_swipe_for_more_options).text.toString()
+
+        view.announceForAccessibility(
+                view.findViewById<TextView>(R.id.tv_instruction).text.toString()
+                        + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_swipe_for_more_options).text.toString()
+        )
     }
 
 
@@ -414,10 +440,11 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                     val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
                     alertDialog.setTitle(getString(R.string.gesture_spam_detected))
                     alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message"))
-                    alertDialog.setNeutralButton(getString(android.R.string.ok), null)
-                    //alertDialog.show()
+                    alertDialog.setCancelable(false)
+                    alertDialog.setPositiveButton(getString(android.R.string.ok), null)
+                    alertDialog.show()
 
-                    mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
+                    //mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
                 }
             }
             else {
