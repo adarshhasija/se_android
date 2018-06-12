@@ -265,7 +265,7 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public String writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
+    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId);
@@ -275,10 +275,10 @@ public class Firebase {
         childUpdates.put(key, values);
 
         databaseReference.updateChildren(childUpdates);
-        return key;
+        return testResult;
     }
 
-    public String writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
+    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, gameId);
@@ -288,7 +288,7 @@ public class Firebase {
         childUpdates.put(key, values);
 
         databaseReference.updateChildren(childUpdates);
-        return key;
+        return testResult;
     }
 
     public void updateExistingTypingTestResult(String key, ResultTyping result) {

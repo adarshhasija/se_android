@@ -31,6 +31,7 @@ import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
 import java.util.*
 
@@ -223,18 +224,14 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if (mTeachingContent is Task) {
                 analyticsTaskCompleted((mTeachingContent as Task), result)
             }
-            setReturnResult(result)
             view?.findViewById<TextView>(R.id.tv_swipe_for_more_options)?.visibility = View.VISIBLE
+            //setReturnResult(result)
 
             if (mResults.empty() || !isResultExistsInStack(result)) {
                 mResults.push(result)
                 //evaluateList((mResults as MutableList<Result>))
-                if (result.isJustCompleted) {
-                    mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)
-                }
+                //if (result.isJustCompleted) {mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)}
             }
-
-            //setLastTriedUI(mTeachingContent, result)
         }
 
         override fun onChildRemoved(p0: DataSnapshot?) {
@@ -453,9 +450,39 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             }
 
         }
-        else if (requestCode == 0 && isAdAvailable == true) {
-            showAd()
+        else if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                saveResult(data.extras)
+            }
+            if (isAdAvailable == true) {
+                showAd()
+            }
         }
+    }
+
+    private fun saveResult(bundle: Bundle) {
+        val firebase = Firebase("results")
+        val type = Task.Type.fromInt(bundle.getLong("taskTypeLong"))
+        val result =
+                if (type == Task.Type.TYPING) {
+                    firebase.writeNewResultTyping(
+                            bundle.getInt("charactersCorrect"),
+                            bundle.getInt("totalCharactersAttempted"),
+                            bundle.getInt("wordsCorrect"),
+                            bundle.getInt("totalWordsFinished"),
+                            bundle.getLong("timeTakenMillis"),
+                            bundle.getInt("taskId")
+                    )
+                } else {
+                    firebase.writeNewResultGestures(
+                            bundle.getInt("itemsAttempted"),
+                            bundle.getInt("itemsCorrect"),
+                            bundle.getLong("timeTakenMillis"),
+                            bundle.getInt("taskId")
+                    )
+                }
+        setReturnResult(result)
+        mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 
     private fun sendAnalytics(task: Task, view: View?) {
