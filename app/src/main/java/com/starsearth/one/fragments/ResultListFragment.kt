@@ -158,7 +158,7 @@ class ResultListFragment : Fragment() {
     }
 
     fun showAd() {
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
         }
@@ -271,6 +271,7 @@ class ResultListFragment : Fragment() {
 
     fun onItemClicked(mTask: Task?, mResult: Parcelable, position: Int) {
         if (position == 0) {
+            sendAnalytics(mTask!!, FirebaseAnalytics.Event.SELECT_CONTENT)
             val intent = Intent(context, FullScreenActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("task", mTask)
@@ -307,6 +308,18 @@ class ResultListFragment : Fragment() {
         super.onDetach()
         mListener = null
         mDatabase?.removeEventListener(mChildEventListener)
+    }
+
+    private fun sendAnalytics(task: Task, action: String) {
+        val bundle = Bundle()
+        bundle.putInt("CONTENT_ID", task.id)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "CARD_HIGHSCORE")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
+        bundle.putString("content_name", task.title)
+        bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(action, bundle)
+        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {

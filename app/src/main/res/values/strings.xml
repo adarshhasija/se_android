@@ -358,7 +358,8 @@
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
     <string name="screenshot">Want sceenshot?\nTap for full screen view</string>
     <string name="tap_screen_to_start">Tap screen to start</string>
-    <string name="swipe_for_more_options">Swipe for more options</string>
+    <string name="swipe_continue_next">Swipe to continue to the next item</string>
+    <string name="long_press_for_more_options">Long press for more options</string>
     <string name="tap_to_close_this_screen">Tap to close this screen</string>
     <string name="result">Result</string>
     <string name="screenshot_view">Screen shot view</string>

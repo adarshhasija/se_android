@@ -278,10 +278,10 @@ public class Firebase {
         return testResult;
     }
 
-    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
+    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, gameId);
+        ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, taskId);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

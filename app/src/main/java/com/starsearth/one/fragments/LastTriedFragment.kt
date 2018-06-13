@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
@@ -61,13 +60,13 @@ class LastTriedFragment : Fragment() {
         else {
             setLastTriedUI(mTeachingContent, mResult)
         }
-        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.visibility = View.VISIBLE
-        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.setOnClickListener(View.OnClickListener {
+        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
+        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.setOnClickListener(View.OnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         })
 
         if (mErrorTitle != null && mErrorMessage != null) {
-            view.findViewById<ConstraintLayout>(R.id.layout_last_tried).contentDescription =
+            view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
 
             view.announceForAccessibility(
@@ -76,8 +75,10 @@ class LastTriedFragment : Fragment() {
                             + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
             )
         } else {
-            view.findViewById<ConstraintLayout>(R.id.layout_last_tried).contentDescription =
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_result).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+            view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " +
+                    view.findViewById<TextView>(R.id.tv_result).text.toString() + " " +
+                    view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
 
             view.announceForAccessibility(
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString()

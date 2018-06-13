@@ -22,12 +22,12 @@ public class Accessibility {
 
     public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
-        bundle.putInt("talkback_enabled", isTalkbackOn()? 1 : 0);
-        bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
-        bundle.putInt("select_to_speak_enabled", isSelectToSpeakOn()? 1 : 0);
-        bundle.putInt("switch_access_enabled", isSwitchAccessOn()? 1 : 0);
-        bundle.putInt("voice_access_enabled", isVoiceAccessOn()? 1 : 0);
-        bundle.putInt("braille_back_enabled", isBrailleBackOn()? 1 : 0);
+        bundle.putInt("talkback_service_enabled", isTalkbackOn()? 1 : 0);
+        bundle.putInt("magnification_service_enabled", isMagnificationServiceOn()? 1 : 0);
+        bundle.putInt("select_to_speak_service_enabled", isSelectToSpeakOn()? 1 : 0);
+        bundle.putInt("switch_access_service_enabled", isSwitchAccessOn()? 1 : 0);
+        bundle.putInt("voice_access_service_enabled", isVoiceAccessOn()? 1 : 0);
+        bundle.putInt("braille_back_service_enabled", isBrailleBackOn()? 1 : 0);
         return bundle;
     }
 
@@ -73,7 +73,7 @@ public class Accessibility {
         return result;
     }
 
-    public boolean isMagnificationOn() {
+    public boolean isMagnificationServiceOn() {
         boolean result = false;
         List<String> names = getAccessibilityEnabledServiceNames();
         if (names != null) {

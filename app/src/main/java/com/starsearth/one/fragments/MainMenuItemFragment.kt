@@ -27,6 +27,7 @@ import com.starsearth.one.activity.ResultActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -42,7 +43,7 @@ import kotlin.collections.HashMap
  * fragment (e.g. upon screen orientation changes).
  */
 class MainMenuItemFragment : Fragment() {
-    // TODO: Customize parameters
+    private var mReturnBundle = Bundle()
     private var mCourse : Any? = null
     private var mListener: OnListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
@@ -121,14 +122,16 @@ class MainMenuItemFragment : Fragment() {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
             val map = dataSnapshot?.value
-            if (map == null) { return; }
-            val result = Result((map as Map<String, Any>))
-            if (result!!.isJustCompleted && mCourse != null) {
+            if (map != null) {
+                val result = Result((map as Map<String, Any>))
+                //if (result!!.isJustCompleted && mCourse != null) {
                 //If it was just completed as this fragment is part of a course,
                 //Set return result for parent Main Menu
-                setReturnResult(result)
+                //setReturnResult(result)
+                //}
+                insertResult(result)
             }
-            insertResult(result)
+
 
             mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
         }
@@ -142,11 +145,18 @@ class MainMenuItemFragment : Fragment() {
     /*
     If it is a task as part of a course, set return result for parent
      */
-    private fun setReturnResult(result: Any?) {
-        val intent = Intent()
+    private fun setReturnResult(results: ArrayList<Parcelable>) {
+      /*  val intent = Intent()
         val bundle = Bundle()
         bundle.putString("uid", (result as Result)?.uid)
         intent.putExtras(bundle)
+        activity?.setResult(Activity.RESULT_OK, intent) */
+        val intent = Intent()
+        if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {
+            mReturnBundle.putParcelableArrayList("RESULTS", ArrayList())
+        }
+        mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS")?.addAll(results)
+        intent.putExtras(mReturnBundle)
         activity?.setResult(Activity.RESULT_OK, intent)
     }
 
@@ -292,8 +302,15 @@ class MainMenuItemFragment : Fragment() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             val extras = data?.extras
-            val uid = extras?.getString("uid")
-            FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it, uid) }
+            //val uid = extras?.getString("uid")
+            //FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it, uid) }
+            val results : ArrayList<Parcelable>? = extras?.getParcelableArrayList("RESULTS");
+            if (results != null) {
+                setReturnResult(results)
+                for (result in results) {
+                    insertResult((result as Result))
+                }
+            }
         }
     }
 

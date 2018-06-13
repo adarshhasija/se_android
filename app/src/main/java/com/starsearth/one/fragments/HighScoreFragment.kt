@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.starsearth.one.R
@@ -75,8 +75,11 @@ class HighScoreFragment : Fragment() {
             tvHighScore.text = (param2 as ResultGestures).getScoreSummary(context, param1?.type)
         }
 
-        view.findViewById<LinearLayout>(R.id.layout_last_tried).contentDescription =
-                getString(R.string.screenshot_view) + " " + view.findViewById<TextView>(R.id.tv_timestamp).text.toString() + " " + getString(R.string.high_score) + " " + view.findViewById<TextView>(R.id.tv_high_score).text.toString()
+        view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
+                getString(R.string.screenshot_view) + " " +
+                view.findViewById<TextView>(R.id.tv_timestamp).text.toString() + " " +
+                getString(R.string.high_score) + " " +
+                view.findViewById<TextView>(R.id.tv_high_score).text.toString()
 
         view.announceForAccessibility(
                 getString(R.string.screenshot_view)

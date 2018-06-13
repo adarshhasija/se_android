@@ -52,4 +52,16 @@ public class FirebaseRemoteConfigWrapper {
     public String get(String key) {
         return mFirebaseRemoteConfig.getString(key);
     }
+
+    public String getAdsFrequencyModulo() {
+        return mFirebaseRemoteConfig.getString("ads_frequency_modulo");
+    }
+
+    public String getAds() {
+        return mFirebaseRemoteConfig.getString("ads");
+    }
+
+    public String getGestureSpamMessage() {
+        return mFirebaseRemoteConfig.getString("gesture_spam_message");
+    }
 }

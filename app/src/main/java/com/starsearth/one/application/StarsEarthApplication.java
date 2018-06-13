@@ -18,6 +18,8 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
@@ -84,7 +86,7 @@ public class StarsEarthApplication extends Application implements Application.Ac
 /*    public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
         bundle.putInt("talkback_enabled", isTalkbackOn()? 1 : 0);
-        bundle.putInt("magnification_enabled", isMagnificationOn()? 1 : 0);
+        bundle.putInt("magnification_enabled", isMagnificationServiceOn()? 1 : 0);
         bundle.putInt("select_to_speak_enabled", isSelectToSpeakOn()? 1 : 0);
         bundle.putInt("switch_access_enabled", isSwitchAccessOn()? 1 : 0);
         bundle.putInt("voice_access_enabled", isVoiceAccessOn()? 1 : 0);
@@ -181,21 +183,10 @@ public class StarsEarthApplication extends Application implements Application.Ac
         mAnalytics = new Analytics(getApplicationContext());
         mAccessibility = new Accessibility(getApplicationContext());
         mAds = new Ads(getApplicationContext());
-        //mFirebaseRemoteConfigWrapper.updateRemoteConfigs();
-        //initializeGoogleAds();
-        //initializeFacebookAds();
     }
 
     public String getRemoteConfigAnalytics() {
         return mFirebaseRemoteConfigWrapper.get("analytics");
-    }
-
-    public String getRemoteConfigAds() {
-        return mFirebaseRemoteConfigWrapper.get("ads");
-    }
-
-    public String getRemoteConfigAdsFrequencyModulo() {
-        return mFirebaseRemoteConfigWrapper.get("ads_frequency_modulo");
     }
 
   /*  private void initializeFirebaseAnalytics() {
@@ -259,7 +250,7 @@ public class StarsEarthApplication extends Application implements Application.Ac
         return result;
     }
 
-    public boolean isMagnificationOn() {
+    public boolean isMagnificationServiceOn() {
         boolean result = false;
         List<String> names = getAccessibilityEnabledServiceNames();
         if (names != null) {

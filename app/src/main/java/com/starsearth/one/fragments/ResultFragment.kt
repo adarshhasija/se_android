@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.AdSettings
@@ -34,6 +33,7 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -49,20 +49,25 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     private var x2:Float = 0.toFloat()
     private var y1:Float = 0.toFloat()
     private var y2:Float = 0.toFloat()
+    private var actionDownTimestamp : Long = 0
     internal val MIN_DISTANCE = 150
     override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
         when (event?.getAction()) {
             MotionEvent.ACTION_DOWN -> {
                 x1 = event?.getX()
                 y1 = event?.getY()
+                actionDownTimestamp = Calendar.getInstance().timeInMillis
             }
             MotionEvent.ACTION_UP -> {
+                val actionUpTimestamp = Calendar.getInstance().timeInMillis
                 x2 = event?.getX()
                 y2 = event?.getY()
                 val deltaX = x2 - x1
                 val deltaY = y2 - y1
                 if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
                     gestureSwipe(p0)
+                } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
+                    gestureLongPress(p0)
                 } else {
                     gestureTap(p0)
                 }
@@ -71,20 +76,28 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         return true
     }
 
+
+
     private fun gestureTap(view: View?) {
         listFragment?.clearJustCompleteResultsSet()
         generateAd()
         startTask((mTeachingContent as Task))
-        sendAnalytics((mTeachingContent as Task), view)
+        sendAnalytics((mTeachingContent as Task), view, FirebaseAnalytics.Event.SELECT_CONTENT)
+    }
+
+    private fun gestureLongPress(view: View?) {
+        mListener?.onResultFragmentSwipeInteraction(mTeachingContent)
+        sendAnalytics((mTeachingContent as Task), view, "LONG_PRESS")
     }
 
     private fun gestureSwipe(view: View?) {
-        mListener?.onResultFragmentSwipeInteraction(mTeachingContent)
+
     }
 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
     private var mResults: Stack<Result> = Stack()
+    private var mReturnBundle = Bundle()
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -153,7 +166,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
     fun showAd() {
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
         }
@@ -163,7 +176,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
     fun setupAdListener() {
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
         }
@@ -174,10 +187,10 @@ class ResultFragment : Fragment(), View.OnTouchListener {
 
     fun generateAd() {
         val accessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         //only generate ads for non-accessibility users
         if (ads != "None" && !accessibilityUser) {
-            val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads_frequency_modulo")
+            val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().adsFrequencyModulo
             val moduloInt = Integer.parseInt(moduloString)
             val random = Random()
             val shouldGenerateAd = if (moduloInt > 0 && random.nextInt(moduloInt) % moduloInt == 0) {
@@ -221,10 +234,10 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
             }
-            if (mTeachingContent is Task) {
-                analyticsTaskCompleted((mTeachingContent as Task), result)
-            }
-            view?.findViewById<TextView>(R.id.tv_swipe_for_more_options)?.visibility = View.VISIBLE
+            //if (mTeachingContent is Task) {
+            //    analyticsTaskCompleted((mTeachingContent as Task), result)
+            //}
+            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
             //setReturnResult(result)
 
             if (mResults.empty() || !isResultExistsInStack(result)) {
@@ -250,11 +263,14 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         return ret
     }
 
-    private fun setReturnResult(result: Any?) {
+    private fun setReturnResult(result: Parcelable) {
         val intent = Intent()
-        val bundle = Bundle()
-        bundle.putString("uid", (result as Result)?.uid)
-        intent.putExtras(bundle)
+        //bundle.putString("uid", (result as Result)?.uid)
+        if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {
+            mReturnBundle.putParcelableArrayList("RESULTS", ArrayList())
+        }
+        mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS")?.add(result)
+        intent.putExtras(mReturnBundle)
         activity?.setResult(Activity.RESULT_OK, intent)
     }
 
@@ -321,7 +337,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         // Inflate the layout for this fragment
         val v = inflater!!.inflate(R.layout.fragment_result, container, false)
 
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
             adRequest = AdRequest.Builder()
             if (mTeachingContent is Task) {
@@ -360,8 +376,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                             context?.resources?.getString(R.string.do_this_number_times) + " " +
                             //appendScoreType() + " " +
                             context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +
-                            "\n\n" +
-                            appendCTAText()
+                            "\n\n" //+ appendCTAText()
                 } else if (mTeachingContent is Course){
                     (mTeachingContent as Course).instructions + " " +
                             "\n\n" //+ appendCTAText()
@@ -391,7 +406,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         }
 
         view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime((result as Result).timestamp)
-        view?.findViewById<ConstraintLayout>(R.id.layout_last_tried)?.visibility = View.VISIBLE
+        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
     }
 
     private fun appendScoreType() : String {
@@ -401,7 +416,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     private fun appendCTAText() : String {
         return context?.resources?.getString(R.string.tap_screen_to_start) +
                 "\n" +
-                context?.resources?.getString(R.string.swipe_for_more_options)
+                context?.resources?.getString(R.string.long_press_for_more_options)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -409,12 +424,12 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         setupAdListener()
         view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
         view.findViewById<LinearLayout>(R.id.ll_main).contentDescription =
-                view.findViewById<TextView>(R.id.tv_instruction).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString() + " " + view.findViewById<TextView>(R.id.tv_swipe_for_more_options).text.toString()
+                view.findViewById<TextView>(R.id.tv_instruction).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString() + " " + view.findViewById<TextView>(R.id.tv_long_press_for_more_options).text.toString()
 
         view.announceForAccessibility(
                 view.findViewById<TextView>(R.id.tv_instruction).text.toString()
                         + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_swipe_for_more_options).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_long_press_for_more_options).text.toString()
         )
     }
 
@@ -432,11 +447,9 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                     mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
                 }
                 else if (reason == "gesture spam") {
-                    val message = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message")
-
                     val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
                     alertDialog.setTitle(getString(R.string.gesture_spam_detected))
-                    alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("gesture_spam_message"))
+                    alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().gestureSpamMessage)
                     alertDialog.setCancelable(false)
                     alertDialog.setPositiveButton(getString(android.R.string.ok), null)
                     alertDialog.show()
@@ -452,7 +465,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         }
         else if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                saveResult(data.extras)
+                taskComplete(data.extras)
             }
             if (isAdAvailable == true) {
                 showAd()
@@ -460,7 +473,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         }
     }
 
-    private fun saveResult(bundle: Bundle) {
+    private fun taskComplete(bundle: Bundle) {
         val firebase = Firebase("results")
         val type = Task.Type.fromInt(bundle.getLong("taskTypeLong"))
         val result =
@@ -481,11 +494,15 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                             bundle.getInt("taskId")
                     )
                 }
+        //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER//
+        result.timestamp = Calendar.getInstance().timeInMillis
+        //////////
+        analyticsTaskCompleted((mTeachingContent as Task), result)
         setReturnResult(result)
         mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 
-    private fun sendAnalytics(task: Task, view: View?) {
+    private fun sendAnalytics(task: Task, view: View?, action: String) {
         val bundle = Bundle()
         //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
         //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
@@ -496,7 +513,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         bundle.putString("content_name", task.title)
         bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
         val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        application.logActionEvent(action, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 

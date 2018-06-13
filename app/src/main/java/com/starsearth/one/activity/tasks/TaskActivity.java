@@ -351,7 +351,7 @@ public class TaskActivity extends AppCompatActivity {
         bundle.putInt("itemsCorrect", itemsCorrect);
         bundle.putInt("itemsAttempted", itemsAttempted);
         bundle.putInt("charactersCorrect", charactersCorrect);
-        bundle.putInt("totalCharactersCorrect", totalCharactersAttempted);
+        bundle.putInt("totalCharactersAttempted", totalCharactersAttempted);
         bundle.putInt("wordsCorrect", wordsCorrect);
         bundle.putInt("totalWordsFinished", totalWordsFinished);
         //new Thread(new ResultSaveRunnable(bundle)).start();
