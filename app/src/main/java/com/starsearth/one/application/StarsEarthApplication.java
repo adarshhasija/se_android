@@ -20,12 +20,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
 import com.starsearth.one.domain.Ads;
 import com.starsearth.one.domain.Analytics;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
+import com.starsearth.one.domain.Skill;
 import com.starsearth.one.domain.User;
 
 /**
@@ -183,6 +185,11 @@ public class StarsEarthApplication extends Application implements Application.Ac
         mAnalytics = new Analytics(getApplicationContext());
         mAccessibility = new Accessibility(getApplicationContext());
         mAds = new Ads(getApplicationContext());
+
+        //Skill skill = new Skill("Niharika", "Bora", "sample_email@gmail.com", "HR");
+        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        //String key = mDatabase.push().getKey();
+        //mDatabase.child("skills").child(key).setValue(skill);
     }
 
     public String getRemoteConfigAnalytics() {
