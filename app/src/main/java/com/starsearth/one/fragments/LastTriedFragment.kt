@@ -61,29 +61,29 @@ class LastTriedFragment : Fragment() {
             setLastTriedUI(mTeachingContent, mResult)
         }
         view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
-        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.setOnClickListener(View.OnClickListener {
-            activity?.supportFragmentManager?.popBackStack()
+        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.setOnLongClickListener(View.OnLongClickListener {
+            activity?.supportFragmentManager?.popBackStackImmediate()!!
         })
 
         if (mErrorTitle != null && mErrorMessage != null) {
             view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
 
             view.announceForAccessibility(
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString()
                             + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
             )
         } else {
             view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " +
                     view.findViewById<TextView>(R.id.tv_result).text.toString() + " " +
-                    view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+                    view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
 
             view.announceForAccessibility(
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString()
                             + " " + view.findViewById<TextView>(R.id.tv_result).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_tap_close_screen).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
             )
         }
 

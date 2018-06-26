@@ -56,10 +56,10 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/tv_tap_close_screen"
+        android:id="@+id/tv_long_press_close_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tap_to_close_this_screen"
+        android:text="@string/long_press_to_close_this_screen"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
