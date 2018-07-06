@@ -361,6 +361,10 @@
     <string name="swipe_continue_next">Swipe to continue to the next item</string>
     <string name="long_press_for_more_options">Long press for more options</string>
     <string name="long_press_to_close_this_screen">Long press to close this screen</string>
+    <string name="tap_screen_to_hear_text_again">Tap screen to hear text again</string>
+    <string name="double_tap_screen_to_start">Double tap screen to start</string>
+    <string name="tap_and_long_press_for_more_options">Tap and long press for more options</string>
+    <string name="swipe_with_2_fingers_continue_next">Swipe with 2 fingers to continue to the next item</string>
     <string name="result">Result</string>
     <string name="screenshot_view">Screen shot view</string>
     <string name="more_options_screen_opened">More options screen opened</string>

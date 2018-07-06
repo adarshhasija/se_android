@@ -238,6 +238,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             //    analyticsTaskCompleted((mTeachingContent as Task), result)
             //}
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
+            setupScreenAccessibility()
             //setReturnResult(result)
 
             if (mResults.empty() || !isResultExistsInStack(result)) {
@@ -423,14 +424,40 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         super.onViewCreated(view, savedInstanceState)
         setupAdListener()
         view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
-        view.findViewById<LinearLayout>(R.id.ll_main).contentDescription =
-                view.findViewById<TextView>(R.id.tv_instruction).text.toString() + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString() + " " + view.findViewById<TextView>(R.id.tv_long_press_for_more_options).text.toString()
+        setupScreenAccessibility()
+    }
 
-        view.announceForAccessibility(
-                view.findViewById<TextView>(R.id.tv_instruction).text.toString()
-                        + " " + view.findViewById<TextView>(R.id.tv_tap_screen_to_start).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_long_press_for_more_options).text.toString()
-        )
+    fun setupScreenAccessibility() {
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+
+        if (isTalkbackOn) {
+            view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.VISIBLE
+            view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
+            view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_continue_next)
+            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
+        }
+
+        var contentDescription = getContentDescriptionForAccessibility()
+        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
+        view?.announceForAccessibility(contentDescription)
+    }
+
+    fun getContentDescriptionForAccessibility() : String {
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+
+        var contentDescription = view?.findViewById<TextView>(R.id.tv_instruction)?.text.toString() +
+                " " + view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text.toString()
+        if (isTalkbackOn) {
+            contentDescription = view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.text.toString()
+        }
+        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
+            contentDescription + " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
+        }
+        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
+            contentDescription + " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
+        }
+
+        return contentDescription
     }
 
 
