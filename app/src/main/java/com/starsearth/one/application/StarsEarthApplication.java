@@ -186,7 +186,7 @@ public class StarsEarthApplication extends Application implements Application.Ac
         mAccessibility = new Accessibility(getApplicationContext());
         mAds = new Ads(getApplicationContext());
 
-        //Skill skill = new Skill("Niharika", "Bora", "sample_email@gmail.com", "HR");
+        //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility");
         //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         //String key = mDatabase.push().getKey();
         //mDatabase.child("skills").child(key).setValue(skill);

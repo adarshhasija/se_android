@@ -5,6 +5,7 @@ public class Skill {
     public String firstName;
     public String lastName;
     public String email;
+    public String phoneNumber;
     public String skill;
 
     public Skill() {
@@ -18,4 +19,7 @@ public class Skill {
         this.skill = skill;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

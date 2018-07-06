@@ -57,7 +57,7 @@
         android:layout_marginTop="10dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        android:text="@string/tap_screen_to_start"
+        android:text="@string/tap_screen_to_hear_text_again"
         android:textAlignment="center" />
 
     <TextView

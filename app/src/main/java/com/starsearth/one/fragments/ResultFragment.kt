@@ -234,12 +234,9 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
             }
-            //if (mTeachingContent is Task) {
-            //    analyticsTaskCompleted((mTeachingContent as Task), result)
-            //}
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
-            setupScreenAccessibility()
-            //setReturnResult(result)
+            //do not want to call announce for accessibility here. Only set content description
+            view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
 
             if (mResults.empty() || !isResultExistsInStack(result)) {
                 mResults.push(result)
@@ -435,6 +432,12 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
             view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_continue_next)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
+        }
+        else {
+            view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.GONE
+            view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text = context?.resources?.getString(R.string.tap_screen_to_start)
+            view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_continue_next)
+            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.long_press_for_more_options)
         }
 
         var contentDescription = getContentDescriptionForAccessibility()

@@ -65,6 +65,12 @@ class LastTriedFragment : Fragment() {
             activity?.supportFragmentManager?.popBackStackImmediate()!!
         })
 
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+
+        if (isTalkbackOn) {
+            view.findViewById<TextView>(R.id.tv_long_press_close_screen)?.text = context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
+        }
+
         if (mErrorTitle != null && mErrorMessage != null) {
             view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
                     view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
