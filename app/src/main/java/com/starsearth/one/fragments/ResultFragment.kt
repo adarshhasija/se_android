@@ -370,10 +370,11 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                             , (mTeachingContent as Task)?.getTimeLimitAsString(context)) +
                             "\n\n" //+ appendCTAText()
                 } else if (mTeachingContent is Task) {
-                    String.format((mTeachingContent as Task)?.instructions + " " +
+                  /*  String.format((mTeachingContent as Task)?.instructions + " " +
                             context?.resources?.getString(R.string.do_this_number_times) + " " +
                             //appendScoreType() + " " +
-                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +
+                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +  */
+                    (mTeachingContent as Task)?.instructions +
                             "\n\n" //+ appendCTAText()
                 } else if (mTeachingContent is Course){
                     (mTeachingContent as Course).instructions + " " +

@@ -39,7 +39,7 @@ public class TaskActivity extends AppCompatActivity {
 
 
     //List<String> sentencesList;
-
+    private long startingTime;
     private long timeTakenMillis;
 
     //typing activity
@@ -93,6 +93,9 @@ public class TaskActivity extends AppCompatActivity {
         }); */
 
         tvMain = (TextView) findViewById(R.id.tv_main);
+        if (!task.isTextVisibleOnStart) {
+            tvMain.setTextColor(Color.rgb(255, 255, 255));
+        }
         nextItem();
 
         if (task.timed) {
@@ -101,6 +104,7 @@ public class TaskActivity extends AppCompatActivity {
         }
         else {
             mTimer.setVisibility(View.GONE);
+            startingTime = System.currentTimeMillis();
         }
 
     }
@@ -116,7 +120,6 @@ public class TaskActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 InputMethodManager keyboard = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.showSoftInput(rl, 0);
@@ -232,7 +235,7 @@ public class TaskActivity extends AppCompatActivity {
                     new Runnable() {
                         public void run() {
                             //One millis delay so user can see the result of last letter before sentence changes
-                            if (task.timed) {
+                            if (task.timed || !task.isTaskCompleted(totalWordsFinished)) {
                                 nextItem();
                             }
                             else {
@@ -342,12 +345,21 @@ public class TaskActivity extends AppCompatActivity {
         v.vibrate(100);
     }
 
+    //If timed activity, return timeTakenMillis
+    //If untimed activity, calculate the time taken
+    private long calculateTimeTaken() {
+        if (!task.timed) {
+            timeTakenMillis = System.currentTimeMillis() - startingTime;
+        }
+        return timeTakenMillis;
+    }
+
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         Bundle bundle = new Bundle();
         bundle.putInt("taskId", task.id);
         bundle.putLong("taskTypeLong", task.type.getValue());
-        bundle.putLong("timeTakenMillis", timeTakenMillis);
+        bundle.putLong("timeTakenMillis", calculateTimeTaken());
         bundle.putInt("itemsCorrect", itemsCorrect);
         bundle.putInt("itemsAttempted", itemsAttempted);
         bundle.putInt("charactersCorrect", charactersCorrect);

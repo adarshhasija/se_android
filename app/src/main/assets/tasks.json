@@ -18,7 +18,7 @@
           "type": 1,
           "timed": false,
           "title": "Type f and press spacebar",
-          "instructions": "Type f and press spacebar.",
+          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
           "trials": 4,
           "content": ["f␣f␣f␣f␣"],
           "tags": ["typing"]
@@ -28,7 +28,7 @@
           "type": 1,
           "timed": false,
           "title": "Type j and press spacebar",
-          "instructions": "Type j and press spacebar.",
+          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
           "tags": ["typing"]
@@ -192,6 +192,52 @@
           "tags": ["mathematics","geometry","angles"]
         }
       ]
+    },
+    {
+      "id": 27,
+      "visible": true,
+      "title": "Spellings",
+      "instructions": "See if you can spell these words.",
+      "tasks" : [
+        {
+          "id": 28,
+          "type": 1,
+          "timed": false,
+          "isTextVisibleOnStart": false,
+          "submitOnReturnTapped": true,
+          "ordered": true,
+          "title": "Months of the year",
+          "instructions": "Type each month of the year and press enter. Tap the screen at any time to hear the word.",
+          "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          "tags": ["spelling"]
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "visible": true,
+      "title": "Spelling mistakes",
+      "instructions": "See if you can find the spelling mistakes.",
+      "tasks" :[
+        {
+          "id": 16,
+          "type": 4,
+          "timed": true,
+          "durationMillis": 61000,
+          "title": "months of the year",
+          "instructions": "You will be shown the months of the year. Tap if the spelling is correct. Swipe if the spelling is incorrect.",
+          "tap": ["January","February","March","April","May","June","July","August","September","October","November","December"],
+          "swipe": ["Janaury","Jaunary","Jauanry","Jaanury","Jaaunry",
+            "Febraury","Feburary","Febuarry","Febarury","Febaurry",
+            "Macrh","Mrach","Mrcah","Mcarh","Mcrah",
+            "Apirl", "Jnue","Jluy","Augsut","Septmeber","Spetember","Spetmeber","Octoebr","Ocotber",
+            "Novmeber","Noevmber","Noemvber","Nomveber","Nomevber","Nvoember","Nvomeber","Nveomber","Nvemober","Nvmoeber","Nvmeober","Neovmber","Neomvber","Nevomber","Nevmober","Nemovber","Nemvober","Nmoveber","Nmoevber","Nmvoeber","Nmveober","Nmeovber","Nmevober",
+            "Decmeber","Deecmber","Deemcber","Demceber","Demecber","Dceember","Dcemeber","Dceember","Dcemeber","Dcmeeber","Dcmeeber","Deecmber","Deemcber","December","Decmeber","Demecber","Demceber","Dmeceber","Dmeecber","Dmceeber","Dmceeber","Dmeecber","Dmeceber"
+          ],
+          "ordered": true,
+          "tags": ["english","spelling"]
+        }
+      ]
     }
   ],
   "tasks": [
@@ -260,24 +306,6 @@
       "tags": ["mathematics", "properties of numbers"]
     },
     {
-      "id": 16,
-      "type": 4,
-      "timed": true,
-      "durationMillis": 61000,
-      "title": "months of the year",
-      "instructions": "You will be shown the months of the year. Tap if the spelling is correct. Swipe if the spelling is incorrect.",
-      "tap": ["January","February","March","April","May","June","July","August","September","October","November","December"],
-      "swipe": ["Janaury","Jaunary","Jauanry","Jaanury","Jaaunry",
-        "Febraury","Feburary","Febuarry","Febarury","Febaurry",
-        "Macrh","Mrach","Mrcah","Mcarh","Mcrah",
-        "Apirl", "Jnue","Jluy","Augsut","Septmeber","Spetember","Spetmeber","Octoebr","Ocotber",
-        "Novmeber","Noevmber","Noemvber","Nomveber","Nomevber","Nvoember","Nvomeber","Nveomber","Nvemober","Nvmoeber","Nvmeober","Neovmber","Neomvber","Nevomber","Nevmober","Nemovber","Nemvober","Nmoveber","Nmoevber","Nmvoeber","Nmveober","Nmeovber","Nmevober",
-        "Decmeber","Deecmber","Deemcber","Demceber","Demecber","Dceember","Dcemeber","Dceember","Dcemeber","Dcmeeber","Dcmeeber","Deecmber","Deemcber","December","Decmeber","Demecber","Demceber","Dmeceber","Dmeecber","Dmceeber","Dmceeber","Dmeecber","Dmeceber"
-      ],
-      "ordered": true,
-      "tags": ["english","spelling"]
-    },
-    {
       "visible": false,
       "id": 1,
       "type": 1,
@@ -287,7 +315,7 @@
       "instructions": "You will be shown the months of the year in the right order.",
       "content": ["January","February","March","April","May","June","July","August","September","October","November","December"],
       "ordered": true,
-      "tags": ["english","spelling","typing_speed"]
+      "tags": ["english","spelling","typing"]
     },
     {
       "visible": false,
@@ -299,7 +327,7 @@
       "instructions": "You will be shown the months of the year in random order.",
       "content": ["January","February","March","April","May","June","July","August","September","October","November","December"],
       "ordered": false,
-      "tags": ["english","spelling","typing speed"]
+      "tags": ["english","spelling","typing"]
     },
     {
       "visible": true,

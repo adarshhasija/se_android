@@ -25,6 +25,8 @@ public class Task extends SEBaseObject {
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
     public String[] tags;
+    public boolean isTextVisibleOnStart = true;
+    public boolean submitOnReturnTapped = false;
 
     public Type getType() {
         return type;
@@ -69,6 +71,8 @@ public class Task extends SEBaseObject {
         durationMillis = in.readInt();
         trials = in.readInt();
         tags = in.createStringArray();
+        isTextVisibleOnStart = in.readByte() != 0;
+        submitOnReturnTapped = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -95,6 +99,8 @@ public class Task extends SEBaseObject {
         result.put("durationMillis", durationMillis);
         result.put("trials", trials);
         result.put("tags", tags);
+        result.put("isTextVisibleOnStart", isTextVisibleOnStart);
+        result.put("submitOnReturnTapped", submitOnReturnTapped);
 
         return result;
     }
@@ -116,6 +122,8 @@ public class Task extends SEBaseObject {
         dest.writeInt(durationMillis);
         dest.writeInt(trials);
         dest.writeStringArray(tags);
+        dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
+        dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
     }
 
     /*
@@ -170,6 +178,16 @@ public class Task extends SEBaseObject {
             buf.append(mins + " " + context.getResources().getString(R.string.minute) + ".");
         }
         return buf.toString();
+    }
+
+    //Applies only to typing tasks right now
+    //Swiping tasks will return false
+    public boolean isTaskCompleted(int wordsCompleted) {
+        boolean result = false;
+        if (type == Type.TYPING && wordsCompleted >= content.length) {
+            result = true;
+        }
+        return result;
     }
 
 }
