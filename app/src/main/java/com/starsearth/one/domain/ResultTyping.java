@@ -88,9 +88,9 @@ public class ResultTyping extends Result {
         return accuracyPercentageInt;
     }
 
-    public String getScoreSummary(Context context, boolean isTimed) {
+    public String getScoreSummary(Context context, boolean isPassFail) {
         StringBuffer result = new StringBuffer();
-        if (isTimed) {
+        if (!isPassFail) {
             result.append(Integer.valueOf(words_correct));
         }
         else {
@@ -112,9 +112,9 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
-    public String getResultToast(Context context, boolean isTimed) {
+    public String getResultToast(Context context, boolean isPassFail) {
         StringBuffer result = new StringBuffer();
-        if (isTimed) {
+        if (!isPassFail) {
             result.append(words_correct);
         }
         else {

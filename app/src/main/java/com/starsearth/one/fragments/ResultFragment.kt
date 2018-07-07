@@ -449,16 +449,17 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     fun getContentDescriptionForAccessibility() : String {
         val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
 
-        var contentDescription = view?.findViewById<TextView>(R.id.tv_instruction)?.text.toString() +
-                " " + view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text.toString()
+        var contentDescription = view?.findViewById<TextView>(R.id.tv_instruction)?.text.toString()
         if (isTalkbackOn) {
-            contentDescription = view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.text.toString()
+            contentDescription += view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.text.toString()
+        }
+
+        contentDescription += " " + view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text.toString()
+        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
+            contentDescription += " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
         }
         if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
-            contentDescription + " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
-        }
-        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
-            contentDescription + " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
+            contentDescription += " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
         }
 
         return contentDescription

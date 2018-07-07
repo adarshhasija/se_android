@@ -27,6 +27,7 @@ public class Task extends SEBaseObject {
     public String[] tags;
     public boolean isTextVisibleOnStart = true;
     public boolean submitOnReturnTapped = false;
+    public boolean isPassFail           = false;
 
     public Type getType() {
         return type;
@@ -73,6 +74,7 @@ public class Task extends SEBaseObject {
         tags = in.createStringArray();
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
+        isPassFail = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -101,6 +103,7 @@ public class Task extends SEBaseObject {
         result.put("tags", tags);
         result.put("isTextVisibleOnStart", isTextVisibleOnStart);
         result.put("submitOnReturnTapped", submitOnReturnTapped);
+        result.put("isPassFail", isPassFail);
 
         return result;
     }
@@ -124,6 +127,7 @@ public class Task extends SEBaseObject {
         dest.writeStringArray(tags);
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
+        dest.writeByte((byte) (isPassFail ? 1 : 0));
     }
 
     /*

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -93,9 +94,6 @@ public class TaskActivity extends AppCompatActivity {
         }); */
 
         tvMain = (TextView) findViewById(R.id.tv_main);
-        if (!task.isTextVisibleOnStart) {
-            tvMain.setTextColor(Color.rgb(255, 255, 255));
-        }
         nextItem();
 
         if (task.timed) {
@@ -201,6 +199,33 @@ public class TaskActivity extends AppCompatActivity {
             vibrate();
             return super.onKeyDown(keyCode, event);
         }
+        if (keyCode == KeyEvent.KEYCODE_ENTER && task.submitOnReturnTapped) {
+            wordComplete();
+            String userAnswer = tvMain.getText().toString();
+            if (userAnswer.equals(expectedAnswer)) {
+                flashRightAnswer();
+                wordsCorrect++;
+            }
+            else {
+                flashWrongAnswer();
+                vibrate();
+            }
+
+            if (!task.isTaskCompleted(totalWordsFinished)) {
+                nextItem();
+            }
+            else {
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                //One millis delay so user can see the result of last letter before finishing
+                                taskCompleted();
+                            }
+                        },
+                        100);
+            }
+            return super.onKeyDown(keyCode, event);
+        }
         if (expectedAnswer == null) {
             //If there is no expected answer, we cannot proceed.
             //Likely a non-typing activity
@@ -211,26 +236,40 @@ public class TaskActivity extends AppCompatActivity {
         SpannableString str2= new SpannableString(tvMain.getText().toString());
 
         char inputCharacter = (char) event.getUnicodeChar();
-        char expectedCharacter = expectedAnswer.charAt(index);
 
         totalCharactersAttempted++;
-        if (inputCharacter == expectedCharacter) {
-            charactersCorrect++;
-            str2.setSpan(new BackgroundColorSpan(Color.GREEN), index, index+1, 0);
+        if (!task.isTextVisibleOnStart) {
+            //If its of type not-visible on start
+            //Then reveal characters as BLACK text WITHOUT background when typing
+            tvMain.setText(
+                    tvMain.getText().toString() + inputCharacter
+            );
         }
         else {
-            wordIncorrect = true;
-            str2.setSpan(new BackgroundColorSpan(Color.RED), index, index+1, 0);
-        }
-        builder.append(str2);
-        tvMain.setText( builder, TextView.BufferType.SPANNABLE);
+            char expectedCharacter = expectedAnswer.charAt(index);
+            if (inputCharacter == expectedCharacter) {
+                charactersCorrect++;
+                str2.setSpan(new BackgroundColorSpan(Color.GREEN), index, index+1, 0);
+            }
+            else {
+                wordIncorrect = true;
+                str2.setSpan(new BackgroundColorSpan(Color.RED), index, index+1, 0);
+            }
+            builder.append(str2);
+            tvMain.setText( builder, TextView.BufferType.SPANNABLE);
 
-        if (expectedCharacter == ' ' || index == (expectedAnswer.length() - 1)) {
-            checkWordCorrect();
-            wordComplete(); //on spacebar, or on end of string, we have completed a word
+            if ((expectedCharacter == ' ' || index == (expectedAnswer.length() - 1))
+                    && !task.submitOnReturnTapped) {
+                //only consider this when submit on enter is not selected
+                checkWordCorrect();
+                wordComplete(); //on spacebar, or on end of string, we have completed a word
+            }
         }
+
+
+
         index++;
-        if (index == expectedAnswer.length()) {
+        if (index == expectedAnswer.length() && !task.submitOnReturnTapped) {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
@@ -248,8 +287,9 @@ public class TaskActivity extends AppCompatActivity {
 
 
         }
-        else {
+        else if (task.isTextVisibleOnStart){
             //announce next character for accessibility, index has been incremented
+            //do it only if text is visible on start
             char nextExpectedCharacter = expectedAnswer.charAt(index);
             if (nextExpectedCharacter == ' ') {
                 tvMain.announceForAccessibility(getString(R.string.space));
@@ -517,7 +557,8 @@ public class TaskActivity extends AppCompatActivity {
     private void nextItemTyping() {
         index = 0; //reset the cursor to the start of the sentence
         String text = task.ordered ? task.getNextItemTyping(totalWordsFinished) : task.getNextItemTyping();
-        tvMain.setText(text);
+        if (task.isTextVisibleOnStart) { tvMain.setText(text); }
+        else { tvMain.setText(""); }
         expectedAnswer = formatSpaceCharacter(text);
         tvMain.announceForAccessibility(text.substring(0,1));
     }

@@ -21,7 +21,8 @@
           "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
           "trials": 4,
           "content": ["f␣f␣f␣f␣"],
-          "tags": ["typing"]
+          "tags": ["typing"],
+          "isPassFail": true
         },
         {
           "id": 4,
@@ -31,7 +32,8 @@
           "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
-          "tags": ["typing"]
+          "tags": ["typing"],
+          "isPassFail": true
         },
         {
           "id": 5,

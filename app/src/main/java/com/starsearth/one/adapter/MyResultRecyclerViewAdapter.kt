@@ -49,7 +49,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         if (position == 0) {
             holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
             if (holder.mItem is ResultTyping) {
-                holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.timed!!)
+                holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
                 holder.mResultSummaryView.text = (holder.mItem as ResultTyping).getExplanationSummary(holder.mView.context, task?.timed)
             }
             else if (holder.mItem is ResultGestures) {
