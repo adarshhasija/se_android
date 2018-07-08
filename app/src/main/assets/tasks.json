@@ -22,7 +22,8 @@
           "trials": 4,
           "content": ["f␣f␣f␣f␣"],
           "tags": ["typing"],
-          "isPassFail": true
+          "isPassFail": true,
+          "showUserAnswerWithBackground": true
         },
         {
           "id": 4,
@@ -33,7 +34,8 @@
           "trials": 4,
           "content": ["j␣j␣j␣j␣"],
           "tags": ["typing"],
-          "isPassFail": true
+          "isPassFail": true,
+          "showUserAnswerWithBackground": true
         },
         {
           "id": 5,
@@ -44,7 +46,8 @@
           "instructions": "You will be shown some letters.",
           "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
           "ordered": false,
-          "tags": ["english","alphabet"]
+          "tags": ["english","alphabet"],
+          "showUserAnswerWithBackground": true
         },
         {
           "id": 6,
@@ -55,7 +58,8 @@
           "instructions": "You will be shown some capital letters.",
           "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
           "ordered": false,
-          "tags": ["english","alphabet"]
+          "tags": ["english","alphabet"],
+          "showUserAnswerWithBackground": true
         }
       ]
     },
@@ -209,7 +213,7 @@
           "submitOnReturnTapped": true,
           "ordered": true,
           "title": "Months of the year",
-          "instructions": "Type each month of the year and press enter. Tap the screen at any time to hear the word.",
+          "instructions": "You will be shown the months of the year. type each month and press enter. Tap the screen at any time to hear the word.",
           "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
           "tags": ["spelling"]
         }

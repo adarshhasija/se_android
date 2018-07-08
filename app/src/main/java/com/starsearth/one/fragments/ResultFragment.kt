@@ -282,6 +282,8 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         if (task is Task) {
             bundle.putInt("item_type", task.getType().getValue().toInt())
             bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
+            bundle.putInt("item_submit_on_enter_tapped", if (task.submitOnReturnTapped) { 1 } else { 0 })
+            bundle.putInt("item_is_text_visible_on_start", if (task.isTextVisibleOnStart) { 1 } else { 0 })
             if (task.type == Task.Type.TAP_SWIPE) {
                 bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
             } else {

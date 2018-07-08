@@ -10,12 +10,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,9 +30,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Task;
-import com.starsearth.one.runnable.ResultSaveRunnable;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -54,14 +54,18 @@ public class TaskActivity extends AppCompatActivity {
 
     //gesture activity
     private boolean expectedAnswerGesture;
-    private int itemsAttempted =0;
+    private int itemsAttempted =0;              //In TYPING, only used to see how many have been completed
     private int itemsCorrect =0;
     private int gestureSpamItemCounter=0;
 
     private RelativeLayout rl;
     private TextView tvMain;
     private TextView mTimer;
+    private TextView tvCompletedTotal;
+    private TextView tvTapScreenToHearContent;
+
     private CountDownTimer mCountDownTimer;
+    TextToSpeech tts;
 
     private Task task;
 
@@ -83,6 +87,8 @@ public class TaskActivity extends AppCompatActivity {
         //sentencesList = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.typing_test_sentences)));
         mTimer = (TextView) findViewById(R.id.tv_timer);
         rl = (RelativeLayout) findViewById(R.id.rl);
+        tvCompletedTotal = (TextView) findViewById(R.id.tv_completed_total);
+        tvTapScreenToHearContent = (TextView) findViewById(R.id.tv_tap_screen_to_hear_content);
       /*  rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +109,15 @@ public class TaskActivity extends AppCompatActivity {
         else {
             mTimer.setVisibility(View.GONE);
             startingTime = System.currentTimeMillis();
+            if (task.content != null && task.content.length > 1) {
+                tvCompletedTotal.setVisibility(View.VISIBLE);
+                tvCompletedTotal.setText("1" + "/" + task.content.length);
+                tvTapScreenToHearContent.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (!task.isTextVisibleOnStart) {
+            tvTapScreenToHearContent.setVisibility(View.VISIBLE);
         }
 
     }
@@ -111,6 +126,8 @@ public class TaskActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        tts = new TextToSpeech(this, null);
+        tts.setLanguage(Locale.US);
 
         //Show keyboard only if it is a typing task
         rl.requestFocus();
@@ -201,6 +218,7 @@ public class TaskActivity extends AppCompatActivity {
         }
         if (keyCode == KeyEvent.KEYCODE_ENTER && task.submitOnReturnTapped) {
             wordComplete();
+            tvCompletedTotal.setText((totalWordsFinished + 1) + "/" + task.content.length);
             String userAnswer = tvMain.getText().toString();
             if (userAnswer.equals(expectedAnswer)) {
                 flashRightAnswer();
@@ -238,9 +256,7 @@ public class TaskActivity extends AppCompatActivity {
         char inputCharacter = (char) event.getUnicodeChar();
 
         totalCharactersAttempted++;
-        if (!task.isTextVisibleOnStart) {
-            //If its of type not-visible on start
-            //Then reveal characters as BLACK text WITHOUT background when typing
+        if (!task.showUserAnswerWithBackground) {
             tvMain.setText(
                     tvMain.getText().toString() + inputCharacter
             );
@@ -345,7 +361,14 @@ public class TaskActivity extends AppCompatActivity {
                     if (task.type == Task.Type.TYPING) {
                         if (expectedAnswer != null) {
                             //On screen tap, announce the next expected character
-                            rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
+                            //If text is not visible to user, use normal TTS
+                            //If text is visible, use only talkback
+                            if (!task.isTextVisibleOnStart) {
+                                tts.speak(expectedAnswer, TextToSpeech.QUEUE_ADD, null);
+                            }
+                            else {
+                                rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));
+                            }
                         }
                     }
                     else if (task.type == Task.Type.TAP_SWIPE) {

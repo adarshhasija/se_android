@@ -26,14 +26,38 @@
         android:layout_centerInParent="true"
         android:background="#00FF00" />
 
+    <!-- COMPLETED TOTAL IS USED AS TOP ITEM IF UNTIMED TASK AND MULTIPLE ITEMS -->
+    <TextView
+        android:id="@+id/tv_completed_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/tv_tap_screen_to_hear_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/tap_screen_to_hear_text_again"
+        android:layout_below="@id/tv_completed_total"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_centerHorizontal="true" />
+    <!-- END -->
+
     <TextView
         android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_below="@id/tv_tap_screen_to_hear_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="1:00" />
+
+
 
     <TextView
         android:id="@+id/tv_main"

@@ -25,9 +25,10 @@ public class Task extends SEBaseObject {
     public int durationMillis;
     public int trials;  //number of trials, if instruction must be repeated
     public String[] tags;
-    public boolean isTextVisibleOnStart = true;
-    public boolean submitOnReturnTapped = false;
-    public boolean isPassFail           = false;
+    public boolean isTextVisibleOnStart         = true;
+    public boolean submitOnReturnTapped         = false;
+    public boolean isPassFail                   = false;
+    public boolean showUserAnswerWithBackground = false;
 
     public Type getType() {
         return type;
@@ -75,6 +76,7 @@ public class Task extends SEBaseObject {
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
         isPassFail = in.readByte() != 0;
+        showUserAnswerWithBackground = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -104,6 +106,7 @@ public class Task extends SEBaseObject {
         result.put("isTextVisibleOnStart", isTextVisibleOnStart);
         result.put("submitOnReturnTapped", submitOnReturnTapped);
         result.put("isPassFail", isPassFail);
+        result.put("showUserAnswerWithBackground", showUserAnswerWithBackground);
 
         return result;
     }
@@ -128,6 +131,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
         dest.writeByte((byte) (isPassFail ? 1 : 0));
+        dest.writeByte((byte) (showUserAnswerWithBackground ? 1 : 0));
     }
 
     /*
