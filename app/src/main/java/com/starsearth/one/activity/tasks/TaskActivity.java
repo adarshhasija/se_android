@@ -223,10 +223,21 @@ public class TaskActivity extends AppCompatActivity {
             if (userAnswer.equals(expectedAnswer)) {
                 flashRightAnswer();
                 wordsCorrect++;
+
+                if (!task.isTextVisibleOnStart) {
+                    //announce correct/not correct this as, in this mode, app does not say the next word
+                    //user has to tap for the next wod
+                    tvMain.announceForAccessibility(getString(R.string.correct));
+                }
+
             }
             else {
                 flashWrongAnswer();
                 vibrate();
+
+                if (!task.isTextVisibleOnStart) {
+                    tvMain.announceForAccessibility(getString(R.string.not_correct));
+                }
             }
 
             if (!task.isTaskCompleted(totalWordsFinished)) {

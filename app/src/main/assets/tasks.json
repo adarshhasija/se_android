@@ -64,6 +64,26 @@
       ]
     },
     {
+      "id": 27,
+      "visible": true,
+      "title": "Spelling Exercises",
+      "instructions": "See if you can spell these words.",
+      "tasks" : [
+        {
+          "id": 28,
+          "type": 1,
+          "timed": false,
+          "isTextVisibleOnStart": false,
+          "submitOnReturnTapped": true,
+          "ordered": true,
+          "title": "Months of the year",
+          "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all 12 words to finish the exercise.",
+          "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          "tags": ["spelling"]
+        }
+      ]
+    },
+    {
       "id": 24,
       "visible": true,
       "title": "Comparing numbers",
@@ -200,29 +220,9 @@
       ]
     },
     {
-      "id": 27,
-      "visible": true,
-      "title": "Spellings",
-      "instructions": "See if you can spell these words.",
-      "tasks" : [
-        {
-          "id": 28,
-          "type": 1,
-          "timed": false,
-          "isTextVisibleOnStart": false,
-          "submitOnReturnTapped": true,
-          "ordered": true,
-          "title": "Months of the year",
-          "instructions": "You will be shown the months of the year. type each month and press enter. Tap the screen at any time to hear the word.",
-          "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-          "tags": ["spelling"]
-        }
-      ]
-    },
-    {
       "id": 26,
       "visible": true,
-      "title": "Spelling mistakes",
+      "title": "Spot the spelling mistakes",
       "instructions": "See if you can find the spelling mistakes.",
       "tasks" :[
         {

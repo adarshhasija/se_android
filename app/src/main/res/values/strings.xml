@@ -338,6 +338,8 @@
     <string name="failed">Failed</string>
     <string name="minute">minute</string>
     <string name="minutes">minutes</string>
+    <string name="correct">Correct</string>
+    <string name="not_correct">Not Correct</string>
 
     <string name="title_activity_task_gesture">TaskGestureActivity</string>
     <string name="loading">Loading</string>
