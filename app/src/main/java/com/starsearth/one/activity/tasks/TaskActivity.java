@@ -3,14 +3,17 @@ package com.starsearth.one.activity.tasks;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -113,6 +116,9 @@ public class TaskActivity extends AppCompatActivity {
                 tvCompletedTotal.setVisibility(View.VISIBLE);
                 tvCompletedTotal.setText("1" + "/" + task.content.length);
                 tvTapScreenToHearContent.setVisibility(View.VISIBLE);
+                if (((StarsEarthApplication) getApplication()).getAccessibility().isTalkbackOn()) {
+                    tvTapScreenToHearContent.setText(getResources().getString(R.string.double_tap_screen_to_hear_text_again));
+                }
             }
         }
 
@@ -211,16 +217,23 @@ public class TaskActivity extends AppCompatActivity {
             return super.onKeyDown(keyCode, event);
         }
         if(keyCode == KeyEvent.KEYCODE_DEL) {
-            //If backspace is pressed, signal error. This is not allowed
-            beep();
-            vibrate();
+            if (task.isBackspaceAllowed) {
+                CharSequence text = tvMain.getText().subSequence(0, tvMain.getText().length() - 1);
+                tvMain.setText(text);
+            }
+            else {
+                //Backspace not allowed, signal error.
+                beep();
+                vibrate();
+            }
+
             return super.onKeyDown(keyCode, event);
         }
         if (keyCode == KeyEvent.KEYCODE_ENTER && task.submitOnReturnTapped) {
             wordComplete();
             tvCompletedTotal.setText((totalWordsFinished + 1) + "/" + task.content.length);
             String userAnswer = tvMain.getText().toString();
-            if (userAnswer.equals(expectedAnswer)) {
+            if (userAnswer.equalsIgnoreCase(expectedAnswer)) {
                 flashRightAnswer();
                 wordsCorrect++;
 
@@ -375,7 +388,23 @@ public class TaskActivity extends AppCompatActivity {
                             //If text is not visible to user, use normal TTS
                             //If text is visible, use only talkback
                             if (!task.isTextVisibleOnStart) {
-                                tts.speak(expectedAnswer, TextToSpeech.QUEUE_ADD, null);
+                                AudioManager mgr = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                                int volume = mgr.getStreamVolume(AudioManager.STREAM_SYSTEM);
+                                if (volume > 0) {
+                                    tts.speak(expectedAnswer, TextToSpeech.QUEUE_ADD, null);
+                                }
+                                else {
+                                    AlertDialog.Builder builder = ((StarsEarthApplication) getApplication()).createAlertDialog(this);
+                                    builder.setTitle(getResources().getString(R.string.alert));
+                                    builder.setMessage(getResources().getString(R.string.volume_is_mute));
+                                    builder.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    builder.show();
+                                }
                             }
                             else {
                                 rl.announceForAccessibility(String.valueOf(expectedAnswer.charAt(index)));

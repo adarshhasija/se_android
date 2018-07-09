@@ -29,6 +29,7 @@ public class Task extends SEBaseObject {
     public boolean submitOnReturnTapped         = false;
     public boolean isPassFail                   = false;
     public boolean showUserAnswerWithBackground = false;
+    public boolean isBackspaceAllowed           = true;
 
     public Type getType() {
         return type;
@@ -77,6 +78,7 @@ public class Task extends SEBaseObject {
         submitOnReturnTapped = in.readByte() != 0;
         isPassFail = in.readByte() != 0;
         showUserAnswerWithBackground = in.readByte() != 0;
+        isBackspaceAllowed = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -107,6 +109,7 @@ public class Task extends SEBaseObject {
         result.put("submitOnReturnTapped", submitOnReturnTapped);
         result.put("isPassFail", isPassFail);
         result.put("showUserAnswerWithBackground", showUserAnswerWithBackground);
+        result.put("isBackspaceAllowed", isBackspaceAllowed);
 
         return result;
     }
@@ -132,6 +135,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
         dest.writeByte((byte) (isPassFail ? 1 : 0));
         dest.writeByte((byte) (showUserAnswerWithBackground ? 1 : 0));
+        dest.writeByte((byte) (isBackspaceAllowed ? 1 : 0));
     }
 
     /*

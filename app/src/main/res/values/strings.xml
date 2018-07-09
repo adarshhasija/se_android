@@ -5,6 +5,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="continue_label">Continue</string>
+    <string name="alert">Alert</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -364,6 +365,7 @@
     <string name="long_press_for_more_options">Long press for more options</string>
     <string name="long_press_to_close_this_screen">Long press to close this screen</string>
     <string name="tap_screen_to_hear_text_again">Tap screen to hear text again</string>
+    <string name="double_tap_screen_to_hear_text_again">Double tap screen to hear text again</string>
     <string name="double_tap_screen_to_start">Double tap screen to start</string>
     <string name="tap_and_long_press_for_more_options">Tap and long press for more options</string>
     <string name="swipe_with_2_fingers_continue_next">Swipe with 2 fingers to continue to the next item</string>
@@ -373,5 +375,6 @@
     <string name="screenshot_view">Screen shot view</string>
     <string name="more_options_screen_opened">More options screen opened</string>
     <string name="timed">Timed</string>
+    <string name="volume_is_mute">Your volume is mute</string>
 
 </resources>
