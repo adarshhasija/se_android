@@ -17,9 +17,8 @@ import com.starsearth.one.domain.ResultGestures;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
-import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.User;
-import com.starsearth.one.domain.UserAnswer;
+import com.starsearth.one.domain.Response;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -231,8 +230,8 @@ public class Firebase {
     public String writeNewUserAnswer(User firebaseUserValues, String questionId, String userAnswerString, long timeSpent, String topicId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        UserAnswer userAnswer = new UserAnswer(key, questionId, user.getUid(), userAnswerString, timeSpent, topicId);
-        Map<String, Object> userAnswerValues = userAnswer.toMap();
+        Response userResponse = new Response(key, questionId, user.getUid(), userAnswerString, timeSpent, topicId);
+        Map<String, Object> userAnswerValues = userResponse.toMap();
         userAnswerValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/answers/"+key, userAnswerValues);
@@ -265,10 +264,10 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId) {  //String subject, int level, String levelString
+    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId, Response[] responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId);
+        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -278,10 +277,10 @@ public class Firebase {
         return testResult;
     }
 
-    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId) {  //String subject, int level, String levelString
+    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId, Response[] responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, taskId);
+        ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, taskId, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

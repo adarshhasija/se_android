@@ -518,14 +518,16 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                             bundle.getInt("wordsCorrect"),
                             bundle.getInt("totalWordsFinished"),
                             bundle.getLong("timeTakenMillis"),
-                            bundle.getInt("taskId")
+                            bundle.getInt("taskId"),
+                            bundle.getParcelableArray("responses") as Array<out Response>?
                     )
                 } else {
                     firebase.writeNewResultGestures(
                             bundle.getInt("itemsAttempted"),
                             bundle.getInt("itemsCorrect"),
                             bundle.getLong("timeTakenMillis"),
-                            bundle.getInt("taskId")
+                            bundle.getInt("taskId"),
+                            bundle.getParcelableArray("responses") as Array<out Response>?
                     )
                 }
         //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER//

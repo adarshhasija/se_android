@@ -23,6 +23,7 @@ public class Result implements Parcelable {
     public int task_id;
     public long timeTakenMillis;
     public long timestamp;
+    public Response[] responses;
 
     public Result() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -33,7 +34,14 @@ public class Result implements Parcelable {
         this.userId = userId;
         this.timeTakenMillis = timeTakenMillis;
         this.task_id = taskId;
+    }
 
+    public Result(String uid, String userId, long timeTakenMillis, int taskId, Response[] responses) {
+        this.uid = uid;
+        this.userId = userId;
+        this.timeTakenMillis = timeTakenMillis;
+        this.task_id = taskId;
+        this.responses = responses;
     }
 
     public Result(Map<String, Object> map) {
@@ -43,6 +51,7 @@ public class Result implements Parcelable {
                         map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = (Long) map.get("timestamp");
+        this.responses = (Response[]) map.get("responses");
     }
 
     protected Result(Parcel in) {
@@ -52,6 +61,7 @@ public class Result implements Parcelable {
         task_id = in.readInt();
         timeTakenMillis = in.readLong();
         timestamp = in.readLong();
+        responses = (Response[]) in.readArray(Response.class.getClassLoader());
     }
 
     public static final Creator<Result> CREATOR = new Creator<Result>() {
@@ -83,6 +93,7 @@ public class Result implements Parcelable {
         result.put("task_id", task_id);
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
+        result.put("responses", responses);
 
         return result;
     }
@@ -119,5 +130,6 @@ public class Result implements Parcelable {
         dest.writeInt(task_id);
         dest.writeLong(timeTakenMillis);
         dest.writeLong(timestamp);
+        dest.writeArray(responses);
     }
 }

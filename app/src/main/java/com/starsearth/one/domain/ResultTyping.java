@@ -57,6 +57,15 @@ public class ResultTyping extends Result {
         this.words_total_finished = words_total_finished;
     }
 
+    public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
+                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, Response[] responses) {
+        super(uid, userId, timeTakenMillis, gameId, responses);
+        this.characters_correct = characters_correct;
+        this.characters_total_attempted = characters_total_attempted;
+        this.words_correct = words_correct;
+        this.words_total_finished = words_total_finished;
+    }
+
     public ResultTyping(Map<String, Object> map) {
         super(map);
         this.characters_correct = (Integer) map.get("characters_correct");
