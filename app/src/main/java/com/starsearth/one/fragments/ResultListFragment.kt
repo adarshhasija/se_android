@@ -271,7 +271,16 @@ class ResultListFragment : Fragment() {
 
     fun onItemClicked(mTask: Task?, mResult: Parcelable, position: Int) {
         if (position == 0) {
-            sendAnalytics(mTask!!, FirebaseAnalytics.Event.SELECT_CONTENT)
+            sendAnalytics(mTask!!, "ALL_RESULTS", FirebaseAnalytics.Event.SELECT_CONTENT)
+        }
+        if (position == 1) {
+            sendAnalytics(mTask!!, "HIGH_SCORE", FirebaseAnalytics.Event.SELECT_CONTENT)
+        }
+    }
+
+    fun onItemLongPressed(mTask: Task?, mResult: Parcelable, position: Int) {
+        if (position == 1) {
+            sendAnalytics(mTask!!, "HIGH_SCORE", "LONG_PRESS_CONTENT")
             val intent = Intent(context, FullScreenActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("task", mTask)
@@ -310,10 +319,10 @@ class ResultListFragment : Fragment() {
         mDatabase?.removeEventListener(mChildEventListener)
     }
 
-    private fun sendAnalytics(task: Task, action: String) {
+    private fun sendAnalytics(task: Task, itemCategory: String, action: String) {
         val bundle = Bundle()
         bundle.putInt("CONTENT_ID", task.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "CARD_HIGHSCORE")
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, itemCategory)
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
         bundle.putString("content_name", task.title)
         bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })

@@ -86,7 +86,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureLongPress(view: View?) {
-        mListener?.onResultFragmentSwipeInteraction(mTeachingContent)
+        mListener?.onResultFragmentLongPressInteraction(mTeachingContent)
         sendAnalytics((mTeachingContent as Task), view, "LONG_PRESS")
     }
 
@@ -605,13 +605,12 @@ class ResultFragment : Fragment(), View.OnTouchListener {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onResultFragmentSwipeInteraction(teachingContent: Any?)
+        fun onResultFragmentLongPressInteraction(teachingContent: Any?)
         fun onResultFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
     companion object {
-        // TODO: Rename parameter arguments, choose names that match
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_COURSE = "course"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"

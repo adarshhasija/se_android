@@ -353,7 +353,7 @@
     <string name="facebook_app_id">2064355667218856</string>
     <string name="fb_login_protocol_scheme">fb2064355667218856</string>
 
-    <string name="screenshot_tap_for_full_screen">Want screenshot?\nTap for full screen view</string>
+    <string name="screenshot_long_press_for_full_screen">Long press for screenshot view</string>
 
     <string name="cancelled">Cancelled</string>
     <string name="no_attempt">You did not answer any questions</string>
@@ -376,5 +376,7 @@
     <string name="more_options_screen_opened">More options screen opened</string>
     <string name="timed">Timed</string>
     <string name="volume_is_mute">Your volume is mute</string>
+    <string name="all_results">All results</string>
+    <string name="tap_to_view_details">Tap to view details</string>
 
 </resources>

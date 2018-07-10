@@ -15,7 +15,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/layout_main">
 
-        <!-- Row 0 START -->
+        <!-- HIGH SCORE: START -->
 
         <TextView
             android:id="@+id/tv_app_name"
@@ -45,8 +45,8 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="70dp"
             android:text="---"
             android:textAlignment="center"
             android:textSize="50sp"
@@ -71,34 +71,52 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
-            android:id="@+id/tv_cta"
+            android:id="@+id/tv_long_press_screenshot"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:layout_marginBottom="10dp"
-            android:text="@string/screenshot_tap_for_full_screen"
+            android:text="@string/screenshot_long_press_for_full_screen"
             android:textSize="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <!-- Row 0 END -->
-
-        <!-- Row 1 START -->
         <TextView
-            android:id="@+id/tv_full_screen"
+            android:id="@+id/tv_tap_to_view_details"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/tap_to_view_details"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_long_press_screenshot"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <!-- HIGH SCORE: END -->
+
+        <!-- SEE ALL RESULTS: START -->
+        <TextView
+            android:id="@+id/tv_all_results"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/screenshot"
+            android:text="@string/all_results"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
-        <!-- Row 1 END -->
+        <!-- SEE ALL RESULTS: END -->
+
+        <!-- COMMON: START -->
+
+
+        <!-- COMMON: END -->
+
+
 
     </android.support.constraint.ConstraintLayout>
 

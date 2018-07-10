@@ -1,18 +1,13 @@
 package com.starsearth.one.adapter
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.content.Intent
 import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.activity.FullScreenActivity
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
@@ -21,13 +16,12 @@ import com.starsearth.one.fragments.ResultListFragment
 
 import com.starsearth.one.fragments.ResultListFragment.OnListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
-import java.util.*
 import kotlin.collections.LinkedHashMap
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: ResultListFragment) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
 
@@ -44,9 +38,13 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val task = mTasks.getOrNull(position)
+        val task = mTasks.getOrNull(0) //mTasks.getOrNull(position)
         holder.mItem = mValues.get("high_score")
         if (position == 0) {
+            //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
+            holder.mAllResults.visibility = View.VISIBLE
+        }
+        else if (position == 1 && (task?.isPassFail)!! == false) {
             holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
             if (holder.mItem is ResultTyping) {
                 holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
@@ -58,11 +56,15 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
             }
             holder.mResultView.visibility = View.VISIBLE
             holder.mResultSummaryView.visibility = View.VISIBLE
-            holder.mCta.visibility = View.VISIBLE
+            holder.mTapToViewDetails.visibility = View.VISIBLE
+            holder.mLongPressScreenShot.visibility = View.VISIBLE
 
             holder.mView.setOnClickListener {
                 //holder.mItem?.let { mListener?.onResultFragmentSwipeInteraction(it) }
-                holder.mItem?.let { mFragment?.onItemClicked(task, (it as Parcelable), 0) }
+            }
+            holder.mView.setOnLongClickListener {
+                holder.mItem?.let { mFragment?.onItemLongPressed(task, (it as Parcelable), 1) }
+                true
             }
         }
 
@@ -70,9 +72,9 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
 
     override fun getItemCount(): Int {
         return if (mValues.containsKey("high_score")) {
-            1
+            2
         } else {
-            0
+            1
         } //mValues.size
     }
 
@@ -113,19 +115,27 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        //SEE ALL RESULTS: Start
+        val mAllResults: TextView
+        //SEE ALL RESULTS: End
+
+        //HIGH SCORE: Start
         val mTitleView: TextView
         val mResultView: TextView
         val mResultSummaryView: TextView
-        val mCta: TextView
-        val mFullScreen: TextView
+        val mTapToViewDetails: TextView
+        val mLongPressScreenShot: TextView
+        //HIGH SCORE: End
         var mItem: Any? = null
 
         init {
+            mAllResults = mView.findViewById<TextView>(R.id.tv_all_results) as TextView
+
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
             mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView
-            mCta = mView.findViewById<TextView>(R.id.tv_cta) as TextView
-            mFullScreen = mView.findViewById<TextView>(R.id.tv_full_screen) as TextView
+            mTapToViewDetails = mView.findViewById<TextView>(R.id.tv_tap_to_view_details) as TextView
+            mLongPressScreenShot = mView.findViewById<TextView>(R.id.tv_long_press_screenshot) as TextView
         }
 
         override fun toString(): String {

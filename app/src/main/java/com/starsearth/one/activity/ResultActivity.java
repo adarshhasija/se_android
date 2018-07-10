@@ -71,13 +71,18 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onResultFragmentSwipeInteraction(Object teachingContent) {
+    public void onResultFragmentLongPressInteraction(Object teachingContent) {
         ResultListFragment fragment = ResultListFragment.Companion.newInstance((Parcelable) teachingContent);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 //.setCustomAnimations(android.R.anim.slide_in_up, R.anim.slide_out_up)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onResultFragmentSwipeInteraction(@Nullable Object teachingContent) {
+
     }
 
     @Override
@@ -93,4 +98,6 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     public void onFragmentInteraction() {
 
     }
+
+
 }
