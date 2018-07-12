@@ -6,6 +6,7 @@ import android.os.Parcel;
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class ResultTyping extends Result {
     }
 
     public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, Response[] responses) {
+                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
         super(uid, userId, timeTakenMillis, gameId, responses);
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
@@ -110,7 +111,7 @@ public class ResultTyping extends Result {
         return result.toString();
     }
 
-    public String getExplanationSummary(Context context, boolean isTimed) {
+    public String getExplanation(Context context, boolean isTimed) {
         StringBuffer result = new StringBuffer();
         if (!isTimed) {
             result.append(context.getString(R.string.accuracy) + " " + getAccuracy() +"%");

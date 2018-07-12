@@ -394,22 +394,6 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         return v
     }
 
-    private fun setLastTriedUI(teachingContent: Any?, result: Any?) {
-        if (teachingContent is Task) {
-            view?.findViewById<TextView>(R.id.tv_result)?.text =
-                    if (result is ResultTyping) {
-                        result.getScoreSummary(context, teachingContent.timed)
-                    } else if (result is ResultGestures) {
-                        result.getScoreSummary(context, teachingContent.type)
-                    } else {
-                        ""
-                    }
-        }
-
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime((result as Result).timestamp)
-        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
-    }
-
     private fun appendScoreType() : String {
         return "" + context?.resources?.getString(R.string.your_most_recent_score)
     }
@@ -510,27 +494,32 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     private fun taskComplete(bundle: Bundle) {
         val firebase = Firebase("results")
         val type = Task.Type.fromInt(bundle.getLong("taskTypeLong"))
+      /*  val responsesParcelableArray = bundle.getParcelableArray("responses")
+        val responses = ArrayList<Response>()
+        for (response in responsesParcelableArray) {
+            responses.add(response as Response)
+        }   */
         val result =
                 if (type == Task.Type.TYPING) {
                     firebase.writeNewResultTyping(
-                            bundle.getInt("charactersCorrect"),
-                            bundle.getInt("totalCharactersAttempted"),
-                            bundle.getInt("wordsCorrect"),
-                            bundle.getInt("totalWordsFinished"),
-                            bundle.getLong("timeTakenMillis"),
-                            bundle.getInt("taskId"),
-                            bundle.getParcelableArray("responses") as Array<out Response>?
+                            bundle.getInt("charactersCorrect")
+                            ,bundle.getInt("totalCharactersAttempted")
+                            ,bundle.getInt("wordsCorrect")
+                            ,bundle.getInt("totalWordsFinished")
+                            ,bundle.getLong("timeTakenMillis")
+                            ,bundle.getInt("taskId")
+                            ,bundle.getParcelableArrayList("responses")
                     )
                 } else {
                     firebase.writeNewResultGestures(
-                            bundle.getInt("itemsAttempted"),
-                            bundle.getInt("itemsCorrect"),
-                            bundle.getLong("timeTakenMillis"),
-                            bundle.getInt("taskId"),
-                            bundle.getParcelableArray("responses") as Array<out Response>?
+                            bundle.getInt("itemsAttempted")
+                            ,bundle.getInt("itemsCorrect")
+                            ,bundle.getLong("timeTakenMillis")
+                            ,bundle.getInt("taskId")
+                            ,bundle.getParcelableArrayList("responses")
                     )
                 }
-        //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER//
+        //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER
         result.timestamp = Calendar.getInstance().timeInMillis
         //////////
         analyticsTaskCompleted((mTeachingContent as Task), result)

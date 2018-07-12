@@ -130,7 +130,7 @@ public class QuestionActivity extends AppCompatActivity {
         String answer = etAnswer.getText().toString();
         long timeSpentMillis = finishTime - startTime;
         User userDetails = ((StarsEarthApplication) getApplication()).getFirebaseUser();
-        firebase.writeNewUserAnswer(userDetails, question.getUid(), answer, timeSpentMillis, parent.getUid());
+        //firebase.writeNewUserAnswer(userDetails, question.getUid(), answer, timeSpentMillis, parent.getUid());
     }
 
     private void checkAuthentication() {

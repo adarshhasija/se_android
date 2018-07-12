@@ -107,7 +107,7 @@ class LastTriedFragment : Fragment() {
                     if (result is ResultTyping) {
                         result.getScoreSummary(context, teachingContent.isPassFail)
                     } else if (result is ResultGestures) {
-                        result.getScoreSummary(context, teachingContent.type)
+                        (result.items_correct).toString()
                     } else {
                         ""
                     }

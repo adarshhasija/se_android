@@ -6,6 +6,7 @@ import android.os.Parcel;
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ResultGestures extends Result {
         super();
     }
 
-    public ResultGestures(String uid, String userId, int attemped, int correct, long timeTakenMillis, int gameId, Response[] responses) {
+    public ResultGestures(String uid, String userId, int attemped, int correct, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
         super(uid, userId, timeTakenMillis, gameId, responses);
         this.items_attempted = attemped;
         this.items_correct = correct;
@@ -39,23 +40,6 @@ public class ResultGestures extends Result {
     public String getResultToast() {
         StringBuffer result = new StringBuffer();
         result.append(items_correct);
-        return result.toString();
-    }
-
-    public String getScoreSummary(Context context, Task.Type taskType) {
-        StringBuffer result = new StringBuffer();
-        switch (taskType) {
-            case TAP_SWIPE:
-                result.append(Integer.valueOf(items_correct));
-                break;
-            default: break;
-        }
-        return result.toString();
-    }
-
-    public String getExplanationSummary(Context context, Task.Type taskType) {
-        StringBuffer result = new StringBuffer();
-        result.append(context.getResources().getString(R.string.high_score));
         return result.toString();
     }
 

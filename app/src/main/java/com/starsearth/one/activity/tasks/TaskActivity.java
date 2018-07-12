@@ -11,7 +11,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.os.Parcelable;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
@@ -36,7 +35,6 @@ import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Task;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -45,6 +43,10 @@ import java.util.Random;
 
 public class TaskActivity extends AppCompatActivity {
 
+    public final String GESTURE_SWIPE                   = "GESTURE_SWIPE";
+    public final String GESTURE_TAP                     = "GESTURE_TAP";
+    public String QUESTION_SPELL_IGNORE_CASE            = "QUESTION_SPELL_IGNORE_CASE";
+    public String QUESTION_TYPE_CHARACTER               = "QUESTION_TYPE_CHARACTER";
 
     //List<String> sentencesList;
     private long startingTime;
@@ -156,6 +158,15 @@ public class TaskActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (tts != null) {
+            tts.shutdown();
+            tts = null;
+        }
+    }
+
     private void setupTimer() {
         mCountDownTimer = new CountDownTimer(task.durationMillis, 1000) {
 
@@ -242,7 +253,7 @@ public class TaskActivity extends AppCompatActivity {
                 flashRightAnswer();
                 wordsCorrect++;
                 responses.add(new Response(
-                        expectedAnswer,
+                        QUESTION_SPELL_IGNORE_CASE,
                         expectedAnswer,
                         userAnswer,
                         true
@@ -259,7 +270,7 @@ public class TaskActivity extends AppCompatActivity {
                 flashWrongAnswer();
                 vibrate();
                 responses.add(new Response(
-                        expectedAnswer,
+                        QUESTION_SPELL_IGNORE_CASE,
                         expectedAnswer,
                         userAnswer,
                         false
@@ -307,10 +318,22 @@ public class TaskActivity extends AppCompatActivity {
             if (inputCharacter == expectedCharacter) {
                 charactersCorrect++;
                 str2.setSpan(new BackgroundColorSpan(Color.GREEN), index, index+1, 0);
+                responses.add(new Response(
+                        QUESTION_TYPE_CHARACTER,
+                        Character.toString(expectedCharacter),
+                        Character.toString(inputCharacter),
+                        true
+                ));
             }
             else {
                 wordIncorrect = true;
                 str2.setSpan(new BackgroundColorSpan(Color.RED), index, index+1, 0);
+                responses.add(new Response(
+                        QUESTION_TYPE_CHARACTER,
+                        Character.toString(expectedCharacter),
+                        Character.toString(inputCharacter),
+                        false
+                ));
             }
             builder.append(str2);
             tvMain.setText( builder, TextView.BufferType.SPANNABLE);
@@ -390,8 +413,8 @@ public class TaskActivity extends AppCompatActivity {
                             itemsCorrect++;
                             responses.add(new Response(
                                     tvMain.getText().toString(),
-                                    "GESTURE_SWIPE",
-                                    "GESTURE_SWIPE",
+                                    GESTURE_SWIPE,
+                                    GESTURE_SWIPE,
                                     true
                             ));
                         }
@@ -400,8 +423,8 @@ public class TaskActivity extends AppCompatActivity {
                             vibrate();
                             responses.add(new Response(
                                     tvMain.getText().toString(),
-                                    "GESTURE_TAP",
-                                    "GESTURE_SWIPE",
+                                    GESTURE_TAP,
+                                    GESTURE_SWIPE,
                                     false
                             ));
                         }
@@ -510,9 +533,9 @@ public class TaskActivity extends AppCompatActivity {
         bundle.putInt("totalCharactersAttempted", totalCharactersAttempted);
         bundle.putInt("wordsCorrect", wordsCorrect);
         bundle.putInt("totalWordsFinished", totalWordsFinished);
-        bundle.putParcelableArray("responses", responses.toArray(new Response[responses.size()]));
-        //new Thread(new ResultSaveRunnable(bundle)).start();
+        bundle.putParcelableArrayList("responses", responses);
 
+        //new Thread(new ResultSaveRunnable(bundle)).start();
         setResult(RESULT_OK, new Intent().putExtras(bundle));
         finish();
     }

@@ -20,6 +20,7 @@ import com.starsearth.one.domain.Topic;
 import com.starsearth.one.domain.User;
 import com.starsearth.one.domain.Response;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -227,7 +228,7 @@ public class Firebase {
 
 
     //Returns key of the newly created course
-    public String writeNewUserAnswer(User firebaseUserValues, String questionId, String userAnswerString, long timeSpent, String topicId) {
+ /*   public String writeNewUserAnswer(User firebaseUserValues, String questionId, String userAnswerString, long timeSpent, String topicId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         Response userResponse = new Response(key, questionId, user.getUid(), userAnswerString, timeSpent, topicId);
@@ -241,7 +242,7 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }
+    }   */
 
     public String writeNewAssistant(Assistant.State state) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -264,7 +265,7 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId, Response[] responses) {  //String subject, int level, String levelString
+    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId, responses);
@@ -277,7 +278,7 @@ public class Firebase {
         return testResult;
     }
 
-    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId, Response[] responses) {  //String subject, int level, String levelString
+    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
         ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, taskId, responses);

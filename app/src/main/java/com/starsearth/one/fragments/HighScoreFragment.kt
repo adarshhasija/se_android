@@ -71,9 +71,6 @@ class HighScoreFragment : Fragment() {
         if (param2 is ResultTyping) {
             tvHighScore.text = (param2 as ResultTyping).getScoreSummary(context, param1?.timed!!)
         }
-        else if (param2 is ResultGestures) {
-            tvHighScore.text = (param2 as ResultGestures).getScoreSummary(context, param1?.type)
-        }
 
         view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
                 getString(R.string.screenshot_view) + " " +

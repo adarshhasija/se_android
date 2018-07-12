@@ -26,10 +26,7 @@ import kotlin.collections.LinkedHashMap
 class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: ResultListFragment) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var layoutId = 0
-        //if (mValues.size > 1) { layoutId = R.layout.row_result_tasks_multiple }
-        //else { layoutId = R.layout.row_result_tasks_single }
-        layoutId = R.layout.row_result_tasks_single
+        var layoutId = R.layout.results_list_item
 
         val view = LayoutInflater.from(parent.context)
                 .inflate(layoutId, parent, false)
@@ -45,17 +42,16 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
             holder.mAllResults.visibility = View.VISIBLE
         }
         else if (position == 1 && (task?.isPassFail)!! == false) {
-            holder.mTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
+            holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
             if (holder.mItem is ResultTyping) {
-                holder.mResultView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
-                holder.mResultSummaryView.text = holder.mView.context.resources.getString(R.string.high_score) //(holder.mItem as ResultTyping).getExplanationSummary(holder.mView.context, task?.timed)
+                holder.mResultTextView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
+                //holder.mHighScoreTextView.text = (holder.mItem as ResultTyping).getExplanation(holder.mView.context, task?.timed)
             }
             else if (holder.mItem is ResultGestures) {
-                holder.mResultView.text = (holder.mItem as ResultGestures).getScoreSummary(holder.mView.context, task?.type)
-                holder.mResultSummaryView.text = (holder.mItem as ResultGestures).getExplanationSummary(holder.mView.context, task?.type)
+                holder.mResultTextView.text = ((holder.mItem as ResultGestures).items_correct).toString()
             }
-            holder.mResultView.visibility = View.VISIBLE
-            holder.mResultSummaryView.visibility = View.VISIBLE
+            holder.mResultTextView.visibility = View.VISIBLE
+            holder.mHighScoreTextView.visibility = View.VISIBLE
             holder.mTapToViewDetails.visibility = View.VISIBLE
             holder.mLongPressScreenShot.visibility = View.VISIBLE
 
@@ -120,9 +116,9 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         //SEE ALL RESULTS: End
 
         //HIGH SCORE: Start
-        val mTitleView: TextView
-        val mResultView: TextView
-        val mResultSummaryView: TextView
+        val mTaskTitleView: TextView
+        val mResultTextView: TextView
+        val mHighScoreTextView: TextView
         val mTapToViewDetails: TextView
         val mLongPressScreenShot: TextView
         //HIGH SCORE: End
@@ -131,15 +127,15 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
         init {
             mAllResults = mView.findViewById<TextView>(R.id.tv_all_results) as TextView
 
-            mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
-            mResultView = mView.findViewById<TextView>(R.id.tv_result) as TextView
-            mResultSummaryView = mView.findViewById<TextView>(R.id.tv_result_summary) as TextView
+            mTaskTitleView = mView.findViewById<TextView>(R.id.tv_task_title) as TextView
+            mResultTextView = mView.findViewById<TextView>(R.id.tv_result) as TextView
+            mHighScoreTextView = mView.findViewById<TextView>(R.id.tv_high_score) as TextView
             mTapToViewDetails = mView.findViewById<TextView>(R.id.tv_tap_to_view_details) as TextView
             mLongPressScreenShot = mView.findViewById<TextView>(R.id.tv_long_press_screenshot) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mResultView.text + "'"
+            return super.toString() + " '" + mResultTextView.text + "'"
         }
     }
 }
