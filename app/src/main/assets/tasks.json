@@ -11,6 +11,7 @@
           "type": 3,
           "title": "Keyboard Test",
           "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",
+          "isKeyboardRequired": true,
           "tags": ["typing"]
         },
         {
@@ -24,7 +25,8 @@
           "tags": ["typing"],
           "isPassFail": true,
           "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
         },
         {
           "id": 4,
@@ -37,7 +39,8 @@
           "tags": ["typing"],
           "isPassFail": true,
           "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
         },
         {
           "id": 5,
@@ -50,7 +53,8 @@
           "ordered": false,
           "tags": ["english","alphabet"],
           "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
         },
         {
           "id": 6,
@@ -63,7 +67,8 @@
           "ordered": false,
           "tags": ["english","alphabet"],
           "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
         }
       ]
     },
@@ -75,7 +80,7 @@
       "tasks" : [
         {
           "id": 28,
-          "type": 1,
+          "type": 5,
           "timed": false,
           "isTextVisibleOnStart": false,
           "submitOnReturnTapped": true,
@@ -83,6 +88,7 @@
           "title": "Months of the year",
           "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all 12 words to finish the exercise. Ensure your audio is not on mute for this activity.",
           "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          "isKeyboardRequired": true,
           "tags": ["spelling"]
         }
       ]

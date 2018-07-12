@@ -153,7 +153,7 @@ public class TaskActivity extends AppCompatActivity {
                 keyboard.showSoftInput(rl, 0);
             }
         };
-        if (task.type == Task.Type.TYPING) {
+        if (task.isKeyboardRequired) {
             rl.postDelayed(runnable,200); //use 300 to make it run when coming back from lock screen
         }
     }
@@ -313,7 +313,7 @@ public class TaskActivity extends AppCompatActivity {
                     tvMain.getText().toString() + inputCharacter
             );
         }
-        else {
+        else if (index < expectedAnswer.length()){
             char expectedCharacter = expectedAnswer.charAt(index);
             if (inputCharacter == expectedCharacter) {
                 charactersCorrect++;
@@ -367,7 +367,7 @@ public class TaskActivity extends AppCompatActivity {
 
 
         }
-        else if (task.isTextVisibleOnStart){
+        else if (task.isTextVisibleOnStart && index < expectedAnswer.length()){
             //announce next character for accessibility, index has been incremented
             //do it only if text is visible on start
             char nextExpectedCharacter = expectedAnswer.charAt(index);

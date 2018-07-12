@@ -30,6 +30,7 @@ public class Task extends SEBaseObject {
     public boolean isPassFail                   = false;
     public boolean showUserAnswerWithBackground = false;
     public boolean isBackspaceAllowed           = true;
+    public boolean isKeyboardRequired           = false;
 
     public Type getType() {
         return type;
@@ -38,7 +39,8 @@ public class Task extends SEBaseObject {
     public enum Type {
         TYPING(1),
         KEYBOARD_TEST(3),
-        TAP_SWIPE(4)
+        TAP_SWIPE(4),
+        SPELLING(5)
         ;
 
         private final long value;
@@ -79,6 +81,7 @@ public class Task extends SEBaseObject {
         isPassFail = in.readByte() != 0;
         showUserAnswerWithBackground = in.readByte() != 0;
         isBackspaceAllowed = in.readByte() != 0;
+        isKeyboardRequired = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -110,6 +113,7 @@ public class Task extends SEBaseObject {
         result.put("isPassFail", isPassFail);
         result.put("showUserAnswerWithBackground", showUserAnswerWithBackground);
         result.put("isBackspaceAllowed", isBackspaceAllowed);
+        result.put("isKeyboardRequired", isKeyboardRequired);
 
         return result;
     }
@@ -136,6 +140,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (isPassFail ? 1 : 0));
         dest.writeByte((byte) (showUserAnswerWithBackground ? 1 : 0));
         dest.writeByte((byte) (isBackspaceAllowed ? 1 : 0));
+        dest.writeByte((byte) (isKeyboardRequired ? 1 : 0));
     }
 
     /*
