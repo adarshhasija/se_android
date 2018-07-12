@@ -23,7 +23,7 @@ import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.KeyboardActivity
-import com.starsearth.one.activity.ResultActivity
+import com.starsearth.one.activity.TaskDetailActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
@@ -184,7 +184,7 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun listItemSelected(item: MainMenuItem, position: Int) {
-        //mListener?.onListFragmentInteraction(item);
+        //mListener?.onResultListFragmentInteraction(item);
         sendAnalytics((item.teachingContent as SEBaseObject))
 
         val teachingContent = item.teachingContent
@@ -194,7 +194,7 @@ class MainMenuItemFragment : Fragment() {
             startActivity(intent)
         }
         else {
-            val intent = Intent(context, ResultActivity::class.java)
+            val intent = Intent(context, TaskDetailActivity::class.java)
             val bundle = Bundle()
             //bundle.putParcelable("MAIN_MENU_ITEM", item)
             bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
@@ -350,7 +350,7 @@ class MainMenuItemFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
         }
     }
 

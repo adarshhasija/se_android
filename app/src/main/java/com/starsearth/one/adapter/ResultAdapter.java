@@ -24,7 +24,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LinearLayout ll = (LinearLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.results_list_item, parent, false);
+                .inflate(R.layout.task_detail_list_item, parent, false);
         ViewHolder vh = new ViewHolder(ll);
         return vh;
     }

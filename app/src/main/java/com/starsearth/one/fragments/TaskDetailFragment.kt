@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -27,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
-import com.starsearth.one.Utils
 import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.database.Firebase
@@ -38,12 +36,12 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [ResultFragment.OnFragmentInteractionListener] interface
+ * [TaskDetailFragment.OnTaskDetailFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [ResultFragment.newInstance] factory method to
+ * Use the [TaskDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ResultFragment : Fragment(), View.OnTouchListener {
+class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     private var x1: Float = 0.toFloat()
     private var x2:Float = 0.toFloat()
@@ -86,7 +84,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureLongPress(view: View?) {
-        mListener?.onResultFragmentLongPressInteraction(mTeachingContent)
+        mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent)
         sendAnalytics((mTeachingContent as Task), view, "LONG_PRESS")
     }
 
@@ -99,11 +97,11 @@ class ResultFragment : Fragment(), View.OnTouchListener {
     private var mResults: Stack<Result> = Stack()
     private var mReturnBundle = Bundle()
 
-    private var mListener: OnFragmentInteractionListener? = null
+    private var mListener: OnTaskDetailFragmentInteractionListener? = null
 
     private var adRequest: AdRequest.Builder? = null
 
-    private var listFragment : ResultListFragment? = null
+    private var listFragment : TaskDetailListFragment? = null
 
     private var mDatabase : DatabaseReference? = null
 
@@ -241,7 +239,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if (mResults.empty() || !isResultExistsInStack(result)) {
                 mResults.push(result)
                 //evaluateList((mResults as MutableList<Result>))
-                //if (result.isJustCompleted) {mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)}
+                //if (result.isJustCompleted) {mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)}
             }
         }
 
@@ -335,7 +333,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater!!.inflate(R.layout.fragment_result, container, false)
+        val v = inflater!!.inflate(R.layout.fragment_task_detail, container, false)
 
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
@@ -386,7 +384,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                 }).toString()
 
 
-        listFragment = ResultListFragment.newInstance((mTeachingContent as Parcelable))
+        listFragment = TaskDetailListFragment.newInstance((mTeachingContent as Parcelable))
         val transaction = childFragmentManager.beginTransaction()
         //transaction.add(R.id.fragment_container_list, listFragment).commit()
 
@@ -462,7 +460,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
             if (reason != null) {
                 if (reason == "no attempt") {
                     //Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
-                    mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
+                    mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
                 }
                 else if (reason == "gesture spam") {
                     val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
@@ -472,12 +470,12 @@ class ResultFragment : Fragment(), View.OnTouchListener {
                     alertDialog.setPositiveButton(getString(android.R.string.ok), null)
                     alertDialog.show()
 
-                    //mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
+                    //mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
                 }
             }
             else {
                 //Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
-                mListener?.onResultFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
+                mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
             }
 
         }
@@ -524,7 +522,7 @@ class ResultFragment : Fragment(), View.OnTouchListener {
         //////////
         analyticsTaskCompleted((mTeachingContent as Task), result)
         setReturnResult(result)
-        mListener?.onResultFragmentShowLastTried(mTeachingContent, result, null, null)
+        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 
     private fun sendAnalytics(task: Task, view: View?, action: String) {
@@ -559,10 +557,10 @@ class ResultFragment : Fragment(), View.OnTouchListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnTaskDetailFragmentInteractionListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailFragmentInteractionListener")
         }
     }
 
@@ -595,10 +593,10 @@ class ResultFragment : Fragment(), View.OnTouchListener {
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
-    interface OnFragmentInteractionListener {
-        fun onResultFragmentSwipeInteraction(teachingContent: Any?)
-        fun onResultFragmentLongPressInteraction(teachingContent: Any?)
-        fun onResultFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
+    interface OnTaskDetailFragmentInteractionListener {
+        fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
+        fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?)
+        fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
     companion object {
@@ -613,11 +611,11 @@ class ResultFragment : Fragment(), View.OnTouchListener {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ResultFragment.
+         * @return A new instance of fragment TaskDetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param0: Parcelable?): ResultFragment {
-            val fragment = ResultFragment()
+        fun newInstance(param0: Parcelable?): TaskDetailFragment {
+            val fragment = TaskDetailFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, param0)
             //args.putParcelableArray(ARG_RESULTS, (param1?.toArray() as Array<out Parcelable>))

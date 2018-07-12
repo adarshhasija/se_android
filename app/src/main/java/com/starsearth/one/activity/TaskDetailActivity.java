@@ -9,17 +9,19 @@ import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
-import com.starsearth.one.fragments.ResultFragment;
 import com.starsearth.one.fragments.ResultListFragment;
+import com.starsearth.one.fragments.TaskDetailFragment;
+import com.starsearth.one.fragments.TaskDetailListFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ResultActivity extends AppCompatActivity implements ResultFragment.OnFragmentInteractionListener, ResultListFragment.OnListFragmentInteractionListener, MainMenuItemFragment.OnListFragmentInteractionListener {
+public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener {
 
     MainMenuItem mainMenuItem = null;
     Object teachingContent = null;
@@ -27,7 +29,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+        setContentView(R.layout.activity_task_detail);
 
         final Bundle extras = getIntent().getExtras();
 
@@ -44,7 +46,7 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
                         .add(R.id.fragment_container_main, fragment).commit();
             }
             else if (teachingContent instanceof Task) {
-                ResultFragment fragment = ResultFragment.Companion.newInstance((Parcelable) teachingContent);
+                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
 
@@ -71,8 +73,8 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onResultFragmentLongPressInteraction(Object teachingContent) {
-        ResultListFragment fragment = ResultListFragment.Companion.newInstance((Parcelable) teachingContent);
+    public void onTaskDetailFragmentLongPressInteraction(Object teachingContent) {
+        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 //.setCustomAnimations(android.R.anim.slide_in_up, R.anim.slide_out_up)
@@ -81,12 +83,12 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onResultFragmentSwipeInteraction(@Nullable Object teachingContent) {
+    public void onTaskDetailFragmentSwipeInteraction(@Nullable Object teachingContent) {
 
     }
 
     @Override
-    public void onResultFragmentShowLastTried(Object teachingContent, @Nullable Object result, String errorTitle, String errorMessage) {
+    public void onTaskDetailFragmentShowLastTried(Object teachingContent, @Nullable Object result, String errorTitle, String errorMessage) {
         LastTriedFragment fragment = LastTriedFragment.Companion.newInstance((Parcelable) teachingContent, (Parcelable) result, errorTitle, errorMessage);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
@@ -95,9 +97,13 @@ public class ResultActivity extends AppCompatActivity implements ResultFragment.
     }
 
     @Override
-    public void onFragmentInteraction() {
+    public void onTaskDetailListFragmentInteraction() {
 
     }
 
 
+    @Override
+    public void onResultListFragmentInteraction(@Nullable Result item) {
+
+    }
 }

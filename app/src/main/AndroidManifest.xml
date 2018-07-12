@@ -55,7 +55,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ResultActivity"
+            android:name=".activity.TaskDetailActivity"
             android:configChanges="orientation"
             android:label="@string/typing_game"
             android:screenOrientation="portrait" />

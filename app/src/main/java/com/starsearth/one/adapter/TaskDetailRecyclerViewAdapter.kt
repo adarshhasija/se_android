@@ -12,21 +12,21 @@ import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
-import com.starsearth.one.fragments.ResultListFragment
+import com.starsearth.one.fragments.TaskDetailListFragment
 
-import com.starsearth.one.fragments.ResultListFragment.OnListFragmentInteractionListener
+import com.starsearth.one.fragments.TaskDetailListFragment.OnTaskDetailListFragmentListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import kotlin.collections.LinkedHashMap
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
+ * specified [OnTaskDetailListFragmentListener].
  *
  */
-class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: ResultListFragment) : RecyclerView.Adapter<MyResultRecyclerViewAdapter.ViewHolder>() {
+class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var layoutId = R.layout.results_list_item
+        var layoutId = R.layout.task_detail_list_item
 
         val view = LayoutInflater.from(parent.context)
                 .inflate(layoutId, parent, false)
@@ -35,13 +35,19 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //If we are passing in course, course has multiple tasks
         val task = mTasks.getOrNull(0) //mTasks.getOrNull(position)
-        holder.mItem = mValues.get("high_score")
         if (position == 0) {
+            holder.mItem = mValues.get("all_results")
             //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
             holder.mAllResults.visibility = View.VISIBLE
+            holder.mView.setOnClickListener {
+                //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
+                holder.mItem?.let { mFragment?.onItemClicked(task, (it as ArrayList<Result>), 0) }
+            }
         }
         else if (position == 1 && (task?.isPassFail)!! == false) {
+            holder.mItem = mValues.get("high_score")
             holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
             if (holder.mItem is ResultTyping) {
                 holder.mResultTextView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
@@ -56,7 +62,7 @@ class MyResultRecyclerViewAdapter(private val mTasks : List<Task>, private val m
             holder.mLongPressScreenShot.visibility = View.VISIBLE
 
             holder.mView.setOnClickListener {
-                //holder.mItem?.let { mListener?.onResultFragmentSwipeInteraction(it) }
+                //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
             }
             holder.mView.setOnLongClickListener {
                 holder.mItem?.let { mFragment?.onItemLongPressed(task, (it as Parcelable), 1) }

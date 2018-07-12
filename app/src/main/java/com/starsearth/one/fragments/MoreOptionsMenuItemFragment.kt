@@ -102,7 +102,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
         }
     }
 

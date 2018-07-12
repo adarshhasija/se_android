@@ -130,7 +130,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     public void onListFragmentInteraction(@NotNull MainMenuItem item) {
         Task task = (Task) item.teachingContent;
         sendAnalytics(task);
-        Intent intent = new Intent(this, ResultActivity.class);
+        Intent intent = new Intent(this, TaskDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("task", task);
         intent.putExtras(bundle);
