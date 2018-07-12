@@ -14,6 +14,7 @@ import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
+import com.starsearth.one.fragments.ResultDetailFragment;
 import com.starsearth.one.fragments.ResultListFragment;
 import com.starsearth.one.fragments.TaskDetailFragment;
 import com.starsearth.one.fragments.TaskDetailListFragment;
@@ -21,7 +22,7 @@ import com.starsearth.one.fragments.TaskDetailListFragment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener {
+public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener {
 
     MainMenuItem mainMenuItem = null;
     Object teachingContent = null;
@@ -101,9 +102,19 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
 
     }
 
+    @Override
+    public void onResultListFragmentInteraction(@Nullable Task task, @Nullable Result result) {
+        ResultDetailFragment fragment = ResultDetailFragment.Companion.newInstance(task, result);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
-    public void onResultListFragmentInteraction(@Nullable Result item) {
+    public void onResultDetailFragmentInteraction(@NotNull Task task, @NotNull Result result) {
 
     }
+
+
 }

@@ -12,6 +12,7 @@ import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
+import com.starsearth.one.fragments.ResultListFragment
 
 
 import com.starsearth.one.fragments.ResultListFragment.OnResultListFragmentInteractionListener
@@ -28,6 +29,7 @@ class ResultRecyclerViewAdapter(
         private val mContext: Context,
         private val mTask: Task,
         private val mValues: List<Result>,
+        private val mFragment: ResultListFragment,
         private val mListener: OnResultListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>() {
 
@@ -38,7 +40,8 @@ class ResultRecyclerViewAdapter(
             val result = v.tag as Result
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onResultListFragmentInteraction(result)
+            mFragment?.onItemClicked(mTask, result)
+            //mListener?.onResultListFragmentInteraction(mTask, result)
         }
     }
 

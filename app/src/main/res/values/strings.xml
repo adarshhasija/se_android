@@ -317,12 +317,13 @@
     <string name="phone_number_updated">Phone number updated successfully</string>
     <string name="phone_number_verified">Phone Number verified</string>
     <string name="words_correct">Words Correct</string>
+    <string name="characters_correct">Characters Correct</string>
     <string name="letters_correct">Letters Correct</string>
     <string name="numbers_correct">Numbers Correct</string>
     <string name="accuracy">Accuracy</string>
     <string name="speed">Speed</string>
     <string name="target_speed">Target speed: 30 words per minute</string>
-    <string name="target_accuracy">Target accuracy: 90%%</string>
+    <string name="target_accuracy">Target accuracy</string>
 
     <string name="title_activity_assistant">AssistantActivity</string>
 
@@ -341,7 +342,9 @@
     <string name="minutes">minutes</string>
     <string name="correct">Correct</string>
     <string name="not_correct">Not Correct</string>
+    <string name="attempted">Attempted</string>
 
+    <string name="typing_speed">Typing Speed</string>
     <string name="title_activity_task_gesture">TaskGestureActivity</string>
     <string name="loading">Loading</string>
     <string name="loading_complete">Loading Complete</string>

@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.R
 import com.starsearth.one.adapter.ResultRecyclerViewAdapter
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.Task
 
@@ -33,6 +35,15 @@ class ResultListFragment : Fragment() {
 
     private var listener: OnResultListFragmentInteractionListener? = null
 
+    private fun sendAnalytics(task: Task, result: Result, action: String) {
+        val bundle = Bundle()
+        bundle.putString("CONTENT_ID", result.uid)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(action, bundle)
+        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,17 +51,15 @@ class ResultListFragment : Fragment() {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             mTask = it.getParcelable<Task>(ARG_TASK)
             mResults.addAll(it.getParcelableArrayList(ARG_RESULTS_ARRAY))
+            Collections.reverse(mResults);
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Collections.reverse(mResults);
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_result_list, container, false)
+
+        val fragment = this
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -61,7 +70,7 @@ class ResultListFragment : Fragment() {
                 }
                 view.addItemDecoration(DividerItemDecoration(context,
                         DividerItemDecoration.VERTICAL))
-                adapter = ResultRecyclerViewAdapter(context, mTask, mResults, listener)
+                adapter = ResultRecyclerViewAdapter(context, mTask, mResults, fragment, listener)
             }
         }
         return view
@@ -81,6 +90,11 @@ class ResultListFragment : Fragment() {
         listener = null
     }
 
+    fun onItemClicked(task: Task, result: Result) {
+        sendAnalytics(task!!, result, FirebaseAnalytics.Event.SELECT_CONTENT)
+        listener?.onResultListFragmentInteraction(task, result)
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -93,18 +107,18 @@ class ResultListFragment : Fragment() {
      * for more information.
      */
     interface OnResultListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onResultListFragmentInteraction(item: Result?)
+
+        fun onResultListFragmentInteraction(task: Task?, result: Result?)
     }
 
     companion object {
 
-        // TODO: Customize parameter argument names
+
         const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_RESULTS_ARRAY = "results"
         const val ARG_TASK = "task"
 
-        // TODO: Customize parameter initialization
+
         @JvmStatic
         fun newInstance(task: Task, results: ArrayList<Result>) =
                 ResultListFragment().apply {

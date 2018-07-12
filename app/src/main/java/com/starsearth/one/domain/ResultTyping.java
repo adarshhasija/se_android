@@ -85,13 +85,13 @@ public class ResultTyping extends Result {
         return timeMins;
     }
 
-    private int getSpeedWPM() {
+    public int getSpeedWPM() {
         int x = words_correct;
         int y = getTimeMins();
         return (x*y > 0) ? (words_correct/getTimeMins()) : 0;
     }
 
-    private int getAccuracy() {
+    public int getAccuracy() {
         double accuracy = (double) words_correct/words_total_finished;
         double accuracyPercentage = Math.ceil(accuracy*100);
         int accuracyPercentageInt = (int) accuracyPercentage;

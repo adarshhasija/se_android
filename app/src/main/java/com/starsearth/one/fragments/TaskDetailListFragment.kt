@@ -44,7 +44,6 @@ import kotlin.collections.ArrayList
  * fragment (e.g. upon screen orientation changes).
  */
 class TaskDetailListFragment : Fragment() {
-    // TODO: Customize parameters
     private var mColumnCount = 1
     private var isActivityPaused = true
     private var mJustCompletedResultsSet: MutableSet<Result> = HashSet()
@@ -374,16 +373,13 @@ class TaskDetailListFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnTaskDetailListFragmentListener {
-        // TODO: Update argument type and name
         fun onTaskDetailListFragmentInteraction()
     }
 
     companion object {
 
-        // TODO: Customize parameter argument names
         private val ARG_TEACHING_CONTENT = "teaching_content"
 
-        // TODO: Customize parameter initialization
         fun newInstance(teachingContent: Parcelable?): TaskDetailListFragment {
             val fragment = TaskDetailListFragment()
             val args = Bundle()
