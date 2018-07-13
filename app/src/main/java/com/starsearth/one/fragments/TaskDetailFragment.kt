@@ -49,7 +49,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     private var y2:Float = 0.toFloat()
     private var actionDownTimestamp : Long = 0
     internal val MIN_DISTANCE = 150
-    override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
+    override fun onTouch(view: View?, event: MotionEvent?): Boolean {
         when (event?.getAction()) {
             MotionEvent.ACTION_DOWN -> {
                 x1 = event?.getX()
@@ -63,11 +63,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 val deltaX = x2 - x1
                 val deltaY = y2 - y1
                 if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
-                    gestureSwipe(p0)
+                    gestureSwipe(view)
                 } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
-                    gestureLongPress(p0)
+                    gestureLongPress(view)
                 } else {
-                    gestureTap(p0)
+                    gestureTap(view)
                 }
             }
         }
@@ -84,7 +84,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureLongPress(view: View?) {
-        mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent)
+        mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
         sendAnalytics((mTeachingContent as Task), view, "LONG_PRESS")
     }
 
@@ -94,7 +94,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
-    private var mResults: Stack<Result> = Stack()
+    private var mResults: ArrayList<Result> = ArrayList()
     private var mReturnBundle = Bundle()
 
     private var mListener: OnTaskDetailFragmentInteractionListener? = null
@@ -224,10 +224,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
 
         override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
-            val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
+          /*  val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
                 dataSnapshot?.getValue(ResultTyping::class.java)
             } else {
-                dataSnapshot?.getValue(ResultGestures::class.java)
+                //dataSnapshot?.getValue(ResultGestures::class.java)
+                dataSnapshot?.getValue(Result::class.java)
             }
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
@@ -238,9 +239,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
             if (mResults.empty() || !isResultExistsInStack(result)) {
                 mResults.push(result)
-                //evaluateList((mResults as MutableList<Result>))
                 //if (result.isJustCompleted) {mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)}
-            }
+            }   */
         }
 
         override fun onChildRemoved(p0: DataSnapshot?) {
@@ -250,13 +250,14 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     /**************************/
 
     private fun isResultExistsInStack(result: Result?) : Boolean {
-        var ret = false
+      /*  var ret = false
         if (!mResults.empty()) {
             if (mResults.peek().uid == result?.uid) {
                 ret = true
             }
         }
-        return ret
+        return ret  */
+        return true
     }
 
     private fun setReturnResult(result: Parcelable) {
@@ -282,11 +283,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
             bundle.putInt("item_submit_on_enter_tapped", if (task.submitOnReturnTapped) { 1 } else { 0 })
             bundle.putInt("item_is_text_visible_on_start", if (task.isTextVisibleOnStart) { 1 } else { 0 })
-            if (task.type == Task.Type.TAP_SWIPE) {
+            bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as Result).items_correct)
+         /*   if (task.type == Task.Type.TAP_SWIPE) {
                 bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
             } else {
                 bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
-            }
+            }   */
         }
 
         val application = (activity?.application as StarsEarthApplication)
@@ -298,42 +300,18 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mTeachingContent = arguments?.getParcelable(ARG_TEACHING_CONTENT)
-        }
-    }
-
-    /*
-    If list size > 2, remove items that are not last_tired and not highscore. NOT WORKING AS EXPECTED
-     */
-    fun evaluateList(list: MutableList<Result>) {
-        var lowestScoreIndex: Int = 0
-        var lowestScore: Int = -1
-        var lowestScoreId: String? = null
-
-        if (list.size > 2) {
-            //last item in the array is last_tried
-            //do not want to iterate till that
-            for (i in 0 until list.size-1) {
-                val score = if (list[i] is ResultTyping) {
-                    (list[i] as ResultTyping).words_correct
-                } else if (list[i] is ResultGestures) {
-                    (list[i] as ResultGestures).items_correct
-                } else {
-                    0
-                }
-                if (lowestScore == -1 || score < lowestScore) {
-                    lowestScore = score
-                    lowestScoreIndex = i
-                    lowestScoreId = list[i].uid
+            val parcelableArrayList = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+            if (parcelableArrayList != null) {
+                for (item in parcelableArrayList) {
+                    mResults.add((item as Result))
                 }
             }
-            list.removeAt(lowestScoreIndex)
-            mDatabase?.child(lowestScoreId)?.removeValue()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater!!.inflate(R.layout.fragment_task_detail, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_task_detail, container, false)
 
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
@@ -346,21 +324,29 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             }
         }
 
+        if (mResults != null && !mResults.isEmpty()) {
+            //UI changes if there are exisitng results
+            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
+            //do not want to call announce for accessibility here. Only set content description
+            view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
+        }
+
+
         val currentUser = FirebaseAuth.getInstance().currentUser
         mDatabase = FirebaseDatabase.getInstance().getReference("results")
         mDatabase?.keepSynced(true)
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
-        query?.addChildEventListener(mChildEventListener);
+        //query?.addChildEventListener(mChildEventListener);
 
 
-        v.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
+        view.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
             //onButtonPressed(mTeachingContent)
           /*  listFragment?.clearJustCompleteResultsSet()
             generateAd()
             startTask((mTeachingContent as Task))
             sendAnalytics((mTeachingContent as Task), it)   */
         })
-        val tv = v.findViewById<TextView>(R.id.tv_instruction)
+        val tv = view.findViewById<TextView>(R.id.tv_instruction)
 
         (tv as TextView).text =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
@@ -372,7 +358,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 } else if (mTeachingContent is Task) {
                   /*  String.format((mTeachingContent as Task)?.instructions + " " +
                             context?.resources?.getString(R.string.do_this_number_times) + " " +
-                            //appendScoreType() + " " +
                             context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +  */
                     (mTeachingContent as Task)?.instructions +
                             "\n\n" //+ appendCTAText()
@@ -384,16 +369,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }).toString()
 
 
-        listFragment = TaskDetailListFragment.newInstance((mTeachingContent as Parcelable))
-        val transaction = childFragmentManager.beginTransaction()
-        //transaction.add(R.id.fragment_container_list, listFragment).commit()
-
-
-        return v
-    }
-
-    private fun appendScoreType() : String {
-        return "" + context?.resources?.getString(R.string.your_most_recent_score)
+        return view
     }
 
     private fun appendCTAText() : String {
@@ -506,10 +482,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                             ,bundle.getInt("totalWordsFinished")
                             ,bundle.getLong("timeTakenMillis")
                             ,bundle.getInt("taskId")
+                            ,bundle.getInt("itemsAttempted")
+                            ,bundle.getInt("itemsCorrect")
                             ,bundle.getParcelableArrayList("responses")
                     )
                 } else {
-                    firebase.writeNewResultGestures(
+                    firebase.writeNewResult(
                             bundle.getInt("itemsAttempted")
                             ,bundle.getInt("itemsCorrect")
                             ,bundle.getLong("timeTakenMillis")
@@ -595,13 +573,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
      */
     interface OnTaskDetailFragmentInteractionListener {
         fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
-        fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?)
+        fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: ArrayList<Result>)
         fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
     companion object {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private val ARG_COURSE = "course"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
         private val ARG_RESULTS = "RESULTS"
 
@@ -614,11 +591,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
          * @return A new instance of fragment TaskDetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(param0: Parcelable?): TaskDetailFragment {
+        fun newInstance(teachingContent: Parcelable?, results: ArrayList<Parcelable>): TaskDetailFragment {
             val fragment = TaskDetailFragment()
             val args = Bundle()
-            args.putParcelable(ARG_TEACHING_CONTENT, param0)
-            //args.putParcelableArray(ARG_RESULTS, (param1?.toArray() as Array<out Parcelable>))
+            args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
+            args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment
         }

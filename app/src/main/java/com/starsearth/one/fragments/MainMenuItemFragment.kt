@@ -44,7 +44,8 @@ import kotlin.collections.HashMap
  */
 class MainMenuItemFragment : Fragment() {
     private var mReturnBundle = Bundle()
-    private var mCourse : Any? = null
+    private var mTeachingContent : Any? = null
+    private var mResult = ArrayList<Parcelable>() //Used if screen is for a course
     private var mListener: OnListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
@@ -56,7 +57,7 @@ class MainMenuItemFragment : Fragment() {
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
                 if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                    if (mCourse != null) {
+                    if (mTeachingContent != null) {
                         //If it is a course, do not re arrange the order
                         menuItem.results.add(result)
                         adapter.replaceItem(i, menuItem)
@@ -95,12 +96,16 @@ class MainMenuItemFragment : Fragment() {
     private val mResultsMultipleValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
+            val adapter = ((view as RecyclerView)?.adapter as MyMainMenuItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
-                    val newResult = Result(value)
+                    var newResult = Result(value)
+                    if (adapter.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
+                        newResult = ResultTyping(value)
+                    }
                     results.add(newResult)
                 }
                 Collections.sort(results, ComparatorMainMenuItem())
@@ -121,9 +126,13 @@ class MainMenuItemFragment : Fragment() {
     private val mResultsSingleValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
+            val adapter = ((view as RecyclerView)?.adapter as MyMainMenuItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
-                val result = Result((map as Map<String, Any>))
+                var result = Result((map as Map<String, Any>))
+                if (adapter.getTeachingContentType(result.task_id) == Task.Type.TYPING) {
+                    result = ResultTyping((map as Map<String, Any>))
+                }
                 //if (result!!.isJustCompleted && mCourse != null) {
                 //If it was just completed as this fragment is part of a course,
                 //Set return result for parent Main Menu
@@ -166,7 +175,7 @@ class MainMenuItemFragment : Fragment() {
         for (i in 0 until itemCount) {
             val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
             if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                if (mCourse != null) {
+                if (mTeachingContent != null) {
                     //If it is a course, do not re arrange the order
                     menuItem.results.add(result)
                     adapter.replaceItem(i, menuItem)
@@ -188,7 +197,7 @@ class MainMenuItemFragment : Fragment() {
         sendAnalytics((item.teachingContent as SEBaseObject))
 
         val teachingContent = item.teachingContent
-        val results = item.results
+        val resultsArray = ArrayList(item.results)
         if (teachingContent is Task && teachingContent.type == Task.Type.KEYBOARD_TEST) {
             val intent = Intent(context, KeyboardActivity::class.java)
             startActivity(intent)
@@ -196,8 +205,8 @@ class MainMenuItemFragment : Fragment() {
         else {
             val intent = Intent(context, TaskDetailActivity::class.java)
             val bundle = Bundle()
-            //bundle.putParcelable("MAIN_MENU_ITEM", item)
             bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
+            bundle.putParcelableArrayList("results", resultsArray)
             intent.putExtras(bundle)
             startActivityForResult(intent,0)
         }
@@ -252,7 +261,11 @@ class MainMenuItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mCourse = arguments!!.getParcelable(ARG_COURSE)
+            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
+            val parcelableArrayList = arguments!!.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+            for (item in parcelableArrayList) {
+                mResult.add(item)
+            }
         }
     }
 
@@ -288,7 +301,7 @@ class MainMenuItemFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(if (mCourse != null) {
+        application.logFragmentViewEvent(if (mTeachingContent != null) {
             "CourseItemsList"
         } else {
             this.javaClass.simpleName
@@ -315,8 +328,8 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MainMenuItem> {
-        val mainMenuItems = if (mCourse != null) {
-            FileTasks.getMainMenuItemsFromCourse((mCourse as Course))
+        val mainMenuItems = if (mTeachingContent != null) {
+            FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
         } else {
             FileTasks.getMainMenuItems(getContext())
         }
@@ -379,7 +392,8 @@ class MainMenuItemFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_COURSE = "course"
+        private val ARG_TEACHING_CONTENT = "teachingContent"
+        private val ARG_RESULTS = "RESULTS"
 
         fun newInstance(): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
@@ -387,10 +401,11 @@ class MainMenuItemFragment : Fragment() {
         }
 
         // TODO: Customize parameter initialization
-        fun newInstance(course: Parcelable): MainMenuItemFragment {
+        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
             val args = Bundle()
-            args.putParcelable(ARG_COURSE, course)
+            args.putParcelable(ARG_TEACHING_CONTENT, course)
+            args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment
         }

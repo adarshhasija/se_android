@@ -52,21 +52,24 @@ class ResultDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<TextView>(R.id.tv_date_time).text = Utils.formatDateTime(result.timestamp)
-        if (result is ResultGestures) {
+
+        if (result is Result) {
             view.findViewById<TextView>(R.id.tv_items_correct).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.tv_items_correct).text =
                                         context?.resources?.getString(R.string.correct) +
                                         ":" +
                                         " " +
-                                        (result as ResultGestures).items_correct
+                                        result.items_correct
             view.findViewById<TextView>(R.id.tv_items_total_attempted).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.tv_items_total_attempted).text =
                                         context?.resources?.getString(R.string.attempted) +
                                         ":" +
                                         " " +
-                                        (result as ResultGestures).items_attempted.toString()
+                                        result.items_attempted
         }
-        else if (result is ResultTyping) {
+
+        //Present additional info if its a typing task
+        if (result is ResultTyping) {
             view.findViewById<TextView>(R.id.tv_typing_speed).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.tv_typing_speed).text =
                                         context?.resources?.getString(R.string.typing_speed) +

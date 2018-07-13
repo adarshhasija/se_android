@@ -24,9 +24,9 @@ public class ResultGestures extends Result {
     }
 
     public ResultGestures(String uid, String userId, int attemped, int correct, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
-        super(uid, userId, timeTakenMillis, gameId, responses);
-        this.items_attempted = attemped;
-        this.items_correct = correct;
+        super(uid, userId, attemped, correct, timeTakenMillis, gameId, responses);
+        //this.items_attempted = attemped;
+        //this.items_correct = correct;
     }
 
     public ResultGestures(Map<String, Object> map) {

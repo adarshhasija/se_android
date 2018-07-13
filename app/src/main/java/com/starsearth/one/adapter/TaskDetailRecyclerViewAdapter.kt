@@ -9,8 +9,6 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultGestures
-import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.TaskDetailListFragment
 
@@ -49,13 +47,13 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
         else if (position == 1 && (task?.isPassFail)!! == false) {
             holder.mItem = mValues.get("high_score")
             holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
-            if (holder.mItem is ResultTyping) {
-                holder.mResultTextView.text = (holder.mItem as ResultTyping).getScoreSummary(holder.mView.context, task?.isPassFail!!)
-                //holder.mHighScoreTextView.text = (holder.mItem as ResultTyping).getExplanation(holder.mView.context, task?.timed)
-            }
-            else if (holder.mItem is ResultGestures) {
-                holder.mResultTextView.text = ((holder.mItem as ResultGestures).items_correct).toString()
-            }
+            holder.mResultTextView.text =
+                    if ((holder.mItem as Result).items_correct > 0) {
+                        ((holder.mItem as Result).items_correct).toString()
+                    } else {
+                        ""
+                    }
+
             holder.mResultTextView.visibility = View.VISIBLE
             holder.mHighScoreTextView.visibility = View.VISIBLE
             holder.mTapToViewDetails.visibility = View.VISIBLE
@@ -63,6 +61,7 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
 
             holder.mView.setOnClickListener {
                 //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
+                holder.mItem?.let { mFragment?.onItemClickedShowHighScoreDetail(task, (it as Result), 1) }
             }
             holder.mView.setOnLongClickListener {
                 holder.mItem?.let { mFragment?.onItemLongPressed(task, (it as Parcelable), 1) }
@@ -86,7 +85,10 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
         if (high_score == null) {
             res = true
         }
-        else if (result is ResultTyping && high_score is ResultTyping) {
+        else if (result.items_correct > (high_score as Result).items_correct) {
+            res = true
+        }
+      /*  else if (result is ResultTyping && high_score is ResultTyping) {
             if (result.words_correct > high_score.words_correct) {
                 res = true
             }
@@ -95,7 +97,7 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
             if (result.items_correct > high_score.items_correct) {
                 res = true
             }
-        }
+        }   */
 
         return res
     }

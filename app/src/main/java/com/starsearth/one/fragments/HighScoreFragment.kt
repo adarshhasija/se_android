@@ -15,7 +15,6 @@ import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 
@@ -35,15 +34,15 @@ private const val ARG_PARAM2 = "result"
  */
 class HighScoreFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: Task? = null
-    private var param2: Result? = null
+    private var mTask: Task? = null
+    private var mResult: Result? = null
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getParcelable(ARG_PARAM1)
-            param2 = it.getParcelable(ARG_PARAM2)
+            mTask = it.getParcelable(ARG_PARAM1)
+            mResult = it.getParcelable(ARG_PARAM2)
         }
     }
 
@@ -65,11 +64,12 @@ class HighScoreFragment : Fragment() {
         val tvTaskName = view.findViewById<TextView>(R.id.tv_task_name)
         val tvHighScore = view.findViewById<TextView>(R.id.tv_high_score)
         val tvTimeStamp = view.findViewById<TextView>(R.id.tv_timestamp)
-        tvTaskName.text = param1?.title
-        val timestamp = param2?.timestamp
+        tvTaskName.text = mTask?.title
+        val timestamp = mResult?.timestamp
         timestamp?.let { tvTimeStamp.text = Utils.formatDateTime(it)  }
-        if (param2 is ResultTyping) {
-            tvHighScore.text = (param2 as ResultTyping).getScoreSummary(context, param1?.timed!!)
+        tvHighScore.text = (mResult as Result)?.items_correct.toString()
+        if (mResult is ResultTyping) {
+            tvHighScore.text = (mResult as ResultTyping).getScoreSummary(context, mTask?.timed!!)
         }
 
         view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =

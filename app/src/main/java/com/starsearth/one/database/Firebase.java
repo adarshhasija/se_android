@@ -13,7 +13,7 @@ import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.Exercise;
 import com.starsearth.one.domain.Lesson;
 import com.starsearth.one.domain.Question;
-import com.starsearth.one.domain.ResultGestures;
+import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
@@ -265,10 +265,10 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId, ArrayList<Response> responses) {  //String subject, int level, String levelString
+    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId, responses);
+        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, timeTakenMillis, gameId, itemsAttempted, itemsCorrect, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -278,10 +278,10 @@ public class Firebase {
         return testResult;
     }
 
-    public ResultGestures writeNewResultGestures(int attempted, int correct, long timeTakenMillis, int taskId, ArrayList<Response> responses) {  //String subject, int level, String levelString
+    public Result writeNewResult(int attempted, int correct, long timeTakenMillis, int taskId, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultGestures testResult = new ResultGestures(key, user.getUid(), attempted, correct, timeTakenMillis, taskId, responses);
+        Result testResult = new Result(key, user.getUid(), attempted, correct, timeTakenMillis, taskId, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

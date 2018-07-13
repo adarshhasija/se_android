@@ -59,8 +59,8 @@ public class ResultTyping extends Result {
     }
 
     public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
-        super(uid, userId, timeTakenMillis, gameId, responses);
+                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {
+        super(uid, userId, itemsAttempted, itemsCorrect, timeTakenMillis, gameId, responses);
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
         this.words_correct = words_correct;
@@ -69,10 +69,10 @@ public class ResultTyping extends Result {
 
     public ResultTyping(Map<String, Object> map) {
         super(map);
-        this.characters_correct = (Integer) map.get("characters_correct");
-        this.characters_total_attempted = (Integer) map.get("characters_total_attempted");
-        this.words_correct = (Integer) map.get("words_correct");
-        this.words_total_finished = (Integer) map.get("words_total_finished");
+        this.characters_correct =  ((Long) map.get("characters_correct")).intValue(); //(Integer) map.get("characters_correct");
+        this.characters_total_attempted = ((Long) map.get("characters_total_attempted")).intValue();
+        this.words_correct = ((Long) map.get("words_correct")).intValue();
+        this.words_total_finished = ((Long) map.get("words_total_finished")).intValue();
     }
 
     private int getTimeMins() {

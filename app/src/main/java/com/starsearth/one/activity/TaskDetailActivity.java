@@ -22,10 +22,13 @@ import com.starsearth.one.fragments.TaskDetailListFragment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+
 public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener {
 
-    MainMenuItem mainMenuItem = null;
     Object teachingContent = null;
+    ArrayList<Parcelable> results = new ArrayList<Parcelable>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +38,22 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            mainMenuItem = extras.getParcelable("MAIN_MENU_ITEM");
             teachingContent = extras.getParcelable("teachingContent");
+            ArrayList<Parcelable> parcelableArrayList = extras.getParcelableArrayList("results");
+            for (Parcelable o : parcelableArrayList) {
+                results.add(o);
+            }
         }
 
         if (teachingContent != null) {
             setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
             if (teachingContent instanceof Course) {
-                MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent);
+                MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
             }
             else if (teachingContent instanceof Task) {
-                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent);
+                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
 
@@ -74,11 +80,11 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
     }
 
     @Override
-    public void onTaskDetailFragmentLongPressInteraction(Object teachingContent) {
-        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent);
+    public void onTaskDetailFragmentLongPressInteraction(Object teachingContent, ArrayList<Result> results) {
+        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent, results);
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
                 .replace(R.id.fragment_container_main, fragment)
-                //.setCustomAnimations(android.R.anim.slide_in_up, R.anim.slide_out_up)
                 .addToBackStack(null)
                 .commit();
     }
@@ -106,6 +112,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
     public void onResultListFragmentInteraction(@Nullable Task task, @Nullable Result result) {
         ResultDetailFragment fragment = ResultDetailFragment.Companion.newInstance(task, result);
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                 .replace(R.id.fragment_container_main, fragment)
                 .addToBackStack(null)
                 .commit();

@@ -25,6 +25,8 @@ public class Result implements Parcelable {
     public int task_id;
     public long timeTakenMillis;
     public long timestamp;
+    public int items_attempted = -1; //Item = One list item in array(content/tap/swipe). -1 = error, no value
+    public int items_correct = -1;
     public ArrayList<Response> responses;
 
     public Result() {
@@ -38,10 +40,12 @@ public class Result implements Parcelable {
         this.task_id = taskId;
     }
 
-    public Result(String uid, String userId, long timeTakenMillis, int taskId, ArrayList<Response> responses) {
+    public Result(String uid, String userId, int itemsAttempted, int itemsCorrect, long timeTakenMillis, int taskId, ArrayList<Response> responses) {
         this.uid = uid;
         this.userId = userId;
         this.timeTakenMillis = timeTakenMillis;
+        this.items_attempted = itemsAttempted;
+        this.items_correct = itemsCorrect;
         this.task_id = taskId;
         this.responses = responses;
     }
@@ -50,10 +54,14 @@ public class Result implements Parcelable {
         this.uid = (String) map.get("uid");
         this.userId = (String) map.get("userId");
         this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() :
-                        map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;
+                        map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;  //Backward compatability. Some use the old game_id
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = (Long) map.get("timestamp");
         this.responses = (ArrayList<Response>) map.get("responses");
+        this.items_attempted = map.containsKey("items_attempted") ? ((Long) map.get("items_attempted")).intValue() :
+                                    map.containsKey("words_total_finished") ? ((Long) map.get("words_total_finished")).intValue() : -1; //Backward compatibility. Some use words_attempted
+        this.items_correct = map.containsKey("items_correct") ? ((Long) map.get("items_correct")).intValue() :
+                                    map.containsKey("words_correct") ? ((Long) map.get("words_correct")).intValue() : -1; //Backward compatibility. Some use words_correct
     }
 
     protected Result(Parcel in) {
@@ -63,6 +71,8 @@ public class Result implements Parcelable {
         task_id = in.readInt();
         timeTakenMillis = in.readLong();
         timestamp = in.readLong();
+        items_attempted = in.readInt();
+        items_correct = in.readInt();
         responses = in.readArrayList(Response.class.getClassLoader());
     }
 
@@ -95,6 +105,8 @@ public class Result implements Parcelable {
         result.put("task_id", task_id);
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
+        result.put("items_attempted", items_attempted);
+        result.put("items_correct", items_correct);
         result.put("responses", responses);
 
         return result;
@@ -132,6 +144,8 @@ public class Result implements Parcelable {
         dest.writeInt(task_id);
         dest.writeLong(timeTakenMillis);
         dest.writeLong(timestamp);
+        dest.writeInt(items_attempted);
+        dest.writeInt(items_correct);
         dest.writeList(responses);
     }
 }

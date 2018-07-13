@@ -56,8 +56,8 @@ public class TaskActivity extends AppCompatActivity {
     //typing activity
     private int index=0;
     private int charactersCorrect=0;
-    private int wordsCorrect=0;
     private int totalCharactersAttempted=0;
+    private int wordsCorrect=0;
     private int totalWordsFinished=0;
     private boolean wordIncorrect = false; //This is used to show that 1 mistake has been made when typing a word
     private String expectedAnswer; //for typing tasks
@@ -66,6 +66,7 @@ public class TaskActivity extends AppCompatActivity {
     private boolean expectedAnswerGesture;
     private int itemsAttempted =0;              //In TYPING, only used to see how many have been completed
     private int itemsCorrect =0;
+    private boolean itemIncorrect = false;  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
     private int gestureSpamItemCounter=0;
 
     private RelativeLayout rl;
@@ -246,12 +247,12 @@ public class TaskActivity extends AppCompatActivity {
             return super.onKeyDown(keyCode, event);
         }
         if (keyCode == KeyEvent.KEYCODE_ENTER && task.submitOnReturnTapped) {
-            wordComplete();
-            tvCompletedTotal.setText((totalWordsFinished + 1) + "/" + task.content.length);
+            itemsAttempted++;
+            tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.length);
             String userAnswer = tvMain.getText().toString();
             if (userAnswer.equalsIgnoreCase(expectedAnswer)) {
                 flashRightAnswer();
-                wordsCorrect++;
+                itemsCorrect++;
                 responses.add(new Response(
                         QUESTION_SPELL_IGNORE_CASE,
                         expectedAnswer,
@@ -281,7 +282,7 @@ public class TaskActivity extends AppCompatActivity {
                 }
             }
 
-            if (!task.isTaskCompleted(totalWordsFinished)) {
+            if (!task.isTaskCompleted(itemsAttempted)) {
                 nextItem();
             }
             else {
@@ -327,6 +328,7 @@ public class TaskActivity extends AppCompatActivity {
             }
             else {
                 wordIncorrect = true;
+                itemIncorrect = true;
                 str2.setSpan(new BackgroundColorSpan(Color.RED), index, index+1, 0);
                 responses.add(new Response(
                         QUESTION_TYPE_CHARACTER,
@@ -342,7 +344,7 @@ public class TaskActivity extends AppCompatActivity {
                     && !task.submitOnReturnTapped) {
                 //only consider this when submit on enter is not selected
                 checkWordCorrect();
-                wordComplete(); //on spacebar, or on end of string, we have completed a word
+                totalWordsFinished++; //on spacebar, or on end of string, we have completed a word
             }
         }
 
@@ -350,6 +352,8 @@ public class TaskActivity extends AppCompatActivity {
 
         index++;
         if (index == expectedAnswer.length() && !task.submitOnReturnTapped) {
+            itemsAttempted++;
+            checkItemCorrect();
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
@@ -573,8 +577,13 @@ public class TaskActivity extends AppCompatActivity {
         wordIncorrect = false; //reset the flag for the next word
     }
 
-    private void wordComplete() {
-        totalWordsFinished++;
+    //Only used in type = TYPING
+    private void checkItemCorrect() {
+        if (!itemIncorrect) {
+            //if NO characters in item were declared incorrect, increment the items correct count
+            itemsCorrect++;
+        }
+        itemIncorrect = false; //reset the flag for the next word
     }
 
     private String generateRandomSentence() {
@@ -674,7 +683,7 @@ public class TaskActivity extends AppCompatActivity {
      * Empty list not allowed
      */
     private void nextItem() {
-        if (task.type == Task.Type.TYPING) {
+        if (task.type == Task.Type.TYPING || task.type == Task.Type.SPELLING) {
             nextItemTyping();
         }
         else {
@@ -684,7 +693,7 @@ public class TaskActivity extends AppCompatActivity {
 
     private void nextItemTyping() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = task.ordered ? task.getNextItemTyping(totalWordsFinished) : task.getNextItemTyping();
+        String text = task.ordered ? task.getNextItemTyping(itemsAttempted) : task.getNextItemTyping();
         if (task.isTextVisibleOnStart) { tvMain.setText(text); }
         else { tvMain.setText(""); }
         expectedAnswer = formatSpaceCharacter(text);

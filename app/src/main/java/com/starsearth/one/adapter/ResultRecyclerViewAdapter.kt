@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.ResultListFragment
@@ -59,7 +58,7 @@ class ResultRecyclerViewAdapter(
             holder.mScoreView.text = mContext.resources.getString(R.string.result) + ": " +
                                         " " + result.getScoreSummary(mContext, mTask.isPassFail)
         }
-        else if (result is ResultGestures) {
+        else if (result is Result) {
             holder.mScoreView.text = mContext.resources.getString(R.string.result) + ": " +
                                         " " + result.items_correct.toString()
         }

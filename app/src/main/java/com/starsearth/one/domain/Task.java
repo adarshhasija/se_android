@@ -197,11 +197,10 @@ public class Task extends SEBaseObject {
         return buf.toString();
     }
 
-    //Applies only to typing tasks right now
     //Swiping tasks will return false
-    public boolean isTaskCompleted(int wordsCompleted) {
+    public boolean isTaskCompleted(int itemsAttempted) {
         boolean result = false;
-        if (type == Type.TYPING && wordsCompleted >= content.length) {
+        if (type != Type.TAP_SWIPE && itemsAttempted >= content.length) {
             result = true;
         }
         return result;

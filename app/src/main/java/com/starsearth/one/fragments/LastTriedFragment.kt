@@ -107,9 +107,10 @@ class LastTriedFragment : Fragment() {
                     if (result is ResultTyping) {
                         result.getScoreSummary(context, teachingContent.isPassFail)
                     } else if (result is ResultGestures) {
+                        //NOT USING RESULT_GESTURES anymore
                         (result.items_correct).toString()
                     } else {
-                        ""
+                        ((result as Result).items_correct).toString()
                     }
 
             view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE

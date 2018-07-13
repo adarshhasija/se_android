@@ -48,6 +48,7 @@ class TaskDetailListFragment : Fragment() {
     private var isActivityPaused = true
     private var mJustCompletedResultsSet: MutableSet<Result> = HashSet()
     private var mTeachingContent: Any? = null
+    private var mResults = ArrayList<Result>()
     private var mDatabase: DatabaseReference? = null
     private var mListener: OnTaskDetailListFragmentListener? = null
     private var isAdAvailable = false
@@ -111,7 +112,8 @@ class TaskDetailListFragment : Fragment() {
             val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
                 dataSnapshot.getValue(ResultTyping::class.java)
             } else {
-                dataSnapshot.getValue(ResultGestures::class.java)
+                //dataSnapshot.getValue(ResultGestures::class.java)
+                dataSnapshot.getValue(Result::class.java)
             }
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
@@ -201,48 +203,15 @@ class TaskDetailListFragment : Fragment() {
         }   */
     }
 
-    private fun isHighScore() : Boolean {
-        val adapter = (view as RecyclerView).adapter as TaskDetailRecyclerViewAdapter
-        return (adapter.getItem("high_score") as Result).uid == (adapter.getItem("last_tried") as Result).uid
-    }
-
-    private fun justCompletedTask(result: Any?, isHighScore: Boolean) {
-        val inflater = layoutInflater
-        val layout = inflater.inflate(R.layout.toast_new_result,null)
-        val tvResult = layout.findViewById<TextView>(R.id.tv_result)
-        if (!isActivityPaused) {
-            if (isHighScore) {
-                tvResult.setText(R.string.high_score)
-            }
-            else if (result is ResultTyping){
-                tvResult.setText(result.getResultToast(context, (mTeachingContent as Task)?.timed))
-            }
-            else if (result is ResultGestures) {
-                //Toast.makeText(context, result.getResultToast(context, isHighScore), Toast.LENGTH_SHORT).show()
-                tvResult.setText(result.resultToast)
-            }
-
-            val toast = Toast(context)
-            toast.duration = Toast.LENGTH_LONG
-            toast.view = layout
-            toast.show()
-        }
-
-    }
-
-    private fun setReturnResult(result: Any?) {
-        val intent = Intent()
-        val bundle = Bundle()
-        bundle.putString("uid", (result as Result)?.uid)
-        intent.putExtras(bundle)
-        activity?.setResult(Activity.RESULT_OK, intent)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
+            val parcelableArrayList = arguments!!.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+            for (item in parcelableArrayList) {
+                mResults.add((item as Result))
+            }
         }
     }
 
@@ -263,14 +232,21 @@ class TaskDetailListFragment : Fragment() {
                 ArrayList(Arrays.asList(mTeachingContent))
             }
             val results = LinkedHashMap<String, Any>()
-            results.put("all_results", ArrayList<Result>())
+            results.put("all_results", mResults)
+            var highScore : Any? = mResults?.get(0)
+            for (result in mResults) {
+                if (result.items_correct > (highScore as Result)?.items_correct) {
+                    highScore = result
+                }
+            }
+            results.put("high_score", highScore!!)
             view.adapter = TaskDetailRecyclerViewAdapter(tasks as List<Task>, results, mListener, this)
 
             val currentUser = FirebaseAuth.getInstance().currentUser
             mDatabase = FirebaseDatabase.getInstance().getReference("results")
             mDatabase?.keepSynced(true)
             val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
-            query?.addChildEventListener(mChildEventListener);
+            //query?.addChildEventListener(mChildEventListener);
         }
 
         return view
@@ -281,12 +257,25 @@ class TaskDetailListFragment : Fragment() {
             sendAnalytics(task!!, "ALL_RESULTS", FirebaseAnalytics.Event.SELECT_CONTENT)
             val fragment = ResultListFragment.newInstance(task, results)
             activity?.getSupportFragmentManager()?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)
                     ?.addToBackStack(null)
                     ?.commit()
         }
         if (position == 1) {
             sendAnalytics(task!!, "HIGH_SCORE", FirebaseAnalytics.Event.SELECT_CONTENT)
+        }
+    }
+
+    fun onItemClickedShowHighScoreDetail(task: Task?, result: Result, position: Int) {
+        if (position == 1) {
+            sendAnalytics(task!!, "HIGH_SCORE", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = ResultDetailFragment.newInstance(task, result)
+            activity?.getSupportFragmentManager()?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    ?.replace(R.id.fragment_container_main, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
         }
     }
 
@@ -379,11 +368,13 @@ class TaskDetailListFragment : Fragment() {
     companion object {
 
         private val ARG_TEACHING_CONTENT = "teaching_content"
+        private val ARG_RESULTS = "results"
 
-        fun newInstance(teachingContent: Parcelable?): TaskDetailListFragment {
+        fun newInstance(teachingContent: Parcelable?, results: ArrayList<Result>): TaskDetailListFragment {
             val fragment = TaskDetailListFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
+            args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment
         }

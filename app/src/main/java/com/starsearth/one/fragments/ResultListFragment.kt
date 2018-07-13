@@ -49,7 +49,7 @@ class ResultListFragment : Fragment() {
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-            mTask = it.getParcelable<Task>(ARG_TASK)
+            mTask = it.getParcelable(ARG_TASK)
             mResults.addAll(it.getParcelableArrayList(ARG_RESULTS_ARRAY))
             Collections.reverse(mResults);
         }

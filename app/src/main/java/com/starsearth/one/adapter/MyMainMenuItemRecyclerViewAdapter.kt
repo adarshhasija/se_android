@@ -10,10 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.domain.MainMenuItem
-import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.SEBaseObject
-import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.*
 import com.starsearth.one.fragments.MainMenuItemFragment
 
 import com.starsearth.one.fragments.MainMenuItemFragment.OnListFragmentInteractionListener
@@ -135,6 +132,30 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         val lastTried = mainMenuItem.results.peek()
         lastTried?.let { timestamp = it.timestamp }
         return timestamp
+    }
+
+    public fun getTeachingContentType(inputTaskId: Int): Task.Type? {
+        var ret : Task.Type? = null
+        for (mainMenuItem in mValues) {
+            val teachingContent = mainMenuItem.teachingContent
+            if (teachingContent is Course) {
+                val tasks = teachingContent.tasks
+                for (task in tasks) {
+                    val taskId = task.id
+                    if (taskId == inputTaskId) {
+                        ret = task.type
+                        break
+                    }
+                }
+            }
+            else if (teachingContent is Task) {
+                val taskId = teachingContent.id
+                if (taskId == inputTaskId) {
+                    ret = teachingContent.type
+                }
+            }
+        }
+        return ret
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {

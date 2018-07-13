@@ -35,9 +35,9 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
         val type = Task.Type.fromInt(taskTypeLong)
         if (type == Task.Type.TYPING) {
             firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect,
-                    totalWordsFinished, timeTakenMillis, taskId, null)
+                    totalWordsFinished, timeTakenMillis, taskId, itemsAttempted, itemsCorrect, null)
         } else {
-            firebase.writeNewResultGestures(itemsAttempted, itemsCorrect, timeTakenMillis, taskId, null)
+            firebase.writeNewResult(itemsAttempted, itemsCorrect, timeTakenMillis, taskId, null)
         }
     }
 }
