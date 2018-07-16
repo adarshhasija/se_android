@@ -586,23 +586,6 @@ public class TaskActivity extends AppCompatActivity {
         itemIncorrect = false; //reset the flag for the next word
     }
 
-    private String generateRandomSentence() {
-        int MAX_LENGTH = 3;
-        int MIN_LENGTH = 2;
-        StringBuilder randomStringBuilder = new StringBuilder();
-        Random generator = new Random();
-        int sentenceLength = generator.nextInt(MAX_LENGTH) + MIN_LENGTH;
-        for (int i = 0; i < sentenceLength; i++) {
-            if (i > 0) {
-                //we do not want to put a space before the first word
-                randomStringBuilder.append(" ");
-            }
-            randomStringBuilder.append(generateRandomWord());
-        }
-
-        return randomStringBuilder.toString();
-    }
-
     public String generateRandomWord() {
         int MAX_WORD_LENGTH = 3;
         Random generator = new Random();
@@ -640,40 +623,6 @@ public class TaskActivity extends AppCompatActivity {
                 generator.nextInt(25) + 65 : //range of uppercase letters is 25
                 generator.nextInt(25) + 97; //range of lowercase letters is 25
         return (char) randomInt;
-    }
-
-    public String generateRandomNumber() {
-        Random generator = new Random();
-        return Integer.toString(generator.nextInt(999));
-    }
-
-    public String generateContent() {
-        String result = null;
-        int id=-1;
-        if (task != null) {
-            id = Integer.valueOf(task.id);
-        }
-
-        switch (id) {
-            case 1:
-                result = task.content[totalWordsFinished % 12];
-                break;
-            case 2:
-                Random random = new Random();
-                int i = random.nextInt(12);
-                result = task.content[i];
-                break;
-            case 5:
-                result = getRandomLetterString(LetterCase.LOWER);
-                break;
-            case 6:
-                result = getRandomLetterString(LetterCase.UPPER);
-                break;
-            default: break;
-
-        }
-        return result;
-
     }
 
     /**

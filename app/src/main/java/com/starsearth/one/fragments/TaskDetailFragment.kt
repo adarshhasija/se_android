@@ -43,8 +43,6 @@ import kotlin.collections.ArrayList
  */
 class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
-    private var tvMoreOptions : TextView? = null
-
     private var x1: Float = 0.toFloat()
     private var x2:Float = 0.toFloat()
     private var y1:Float = 0.toFloat()
@@ -309,7 +307,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         if (mResults != null && !mResults.isEmpty()) {
             //UI changes if there are exisitng results
-            tvMoreOptions = view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
             //do not want to call announce for accessibility here. Only set content description
             view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()

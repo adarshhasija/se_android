@@ -133,11 +133,6 @@ class MainMenuItemFragment : Fragment() {
                 if (adapter.getTeachingContentType(result.task_id) == Task.Type.TYPING) {
                     result = ResultTyping((map as Map<String, Any>))
                 }
-                //if (result!!.isJustCompleted && mCourse != null) {
-                //If it was just completed as this fragment is part of a course,
-                //Set return result for parent Main Menu
-                //setReturnResult(result)
-                //}
                 insertResult(result)
             }
 
