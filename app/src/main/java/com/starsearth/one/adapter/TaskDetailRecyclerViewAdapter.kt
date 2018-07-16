@@ -114,10 +114,6 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
         mValues.put(key, value)
     }
 
-    fun removeItem(item: Any) {
-        mValues.remove(item)
-    }
-
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         //SEE ALL RESULTS: Start
         val mAllResults: TextView

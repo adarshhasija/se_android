@@ -5,16 +5,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
+import java.util.*
+import kotlin.collections.ArrayList
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_TASK = "task"
@@ -29,10 +35,63 @@ private const val ARG_RESULT = "result"
  * create an instance of this fragment.
  *
  */
-class ResultDetailFragment : Fragment() {
+class ResultDetailFragment : Fragment(), View.OnTouchListener {
     private lateinit var task: Task
     private lateinit var result: Result
     private var listener: OnResultDetailFragmentInteractionListener? = null
+
+    private var x1: Float = 0.toFloat()
+    private var x2:Float = 0.toFloat()
+    private var y1:Float = 0.toFloat()
+    private var y2:Float = 0.toFloat()
+    private var actionDownTimestamp : Long = 0
+    internal val MIN_DISTANCE = 150
+    override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+        when (event?.getAction()) {
+            MotionEvent.ACTION_DOWN -> {
+                x1 = event?.getX()
+                y1 = event?.getY()
+                actionDownTimestamp = Calendar.getInstance().timeInMillis
+            }
+            MotionEvent.ACTION_UP -> {
+                val actionUpTimestamp = Calendar.getInstance().timeInMillis
+                x2 = event?.getX()
+                y2 = event?.getY()
+                val deltaX = x2 - x1
+                val deltaY = y2 - y1
+                if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
+                    gestureSwipe(view)
+                } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
+                    gestureLongPress(view)
+                } else {
+                    gestureTap(view)
+                }
+            }
+        }
+        return true
+    }
+
+    private fun sendAnalytics(view: View?, action: String) {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
+        val application = (activity?.application as StarsEarthApplication)
+        application.logActionEvent(action, bundle)
+        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
+    private fun gestureTap(view: View?) {
+
+    }
+
+    private fun gestureSwipe(view: View?) {
+
+    }
+
+    private fun gestureLongPress(view: View?) {
+        listener?.onResultDetailFragmentInteraction(result.responses)
+        sendAnalytics(view, "LONG_PRESS")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,11 +180,37 @@ class ResultDetailFragment : Fragment() {
                     (result as ResultTyping).characters_total_attempted
         }
 
+
+        ///ACCESSIBILITY
+        var contentDescription = context?.resources?.getString(R.string.move_your_finger_to_top_left_to_get_content)
+
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility?.isTalkbackOn
+        if (result.responses != null && result.responses.size > 0) {
+            view.findViewById<TextView>(R.id.tv_long_press_responses).visibility = View.VISIBLE
+            view.findViewById<RelativeLayout>(R.id.rl_main)?.setOnTouchListener(this)
+
+            if (isTalkbackOn == true) {
+                view.findViewById<TextView>(R.id.tv_long_press_responses).text =
+                        context?.resources?.getString(R.string.tap_long_press_to_view_responses)
+                contentDescription += " or " + context?.resources?.getString(R.string.tap_long_press_to_view_responses)
+
+            }
+        }
+
+        view.findViewById<RelativeLayout>(R.id.rl_main).contentDescription = contentDescription
+        //////
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
-        listener?.onResultDetailFragmentInteraction(task, result)
+        //listener?.onResultDetailFragmentInteraction(task, result)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
     }
 
     override fun onAttach(context: Context) {
@@ -154,7 +239,7 @@ class ResultDetailFragment : Fragment() {
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(task: Task, result: Result)
+        fun onResultDetailFragmentInteraction(responses: ArrayList<Response>)
     }
 
     companion object {

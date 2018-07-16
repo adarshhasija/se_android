@@ -55,6 +55,12 @@ class ResultListFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val application = (activity?.application as StarsEarthApplication)
+        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_result_list, container, false)

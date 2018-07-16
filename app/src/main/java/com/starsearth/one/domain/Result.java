@@ -9,6 +9,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,15 @@ public class Result implements Parcelable {
                         map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;  //Backward compatability. Some use the old game_id
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = (Long) map.get("timestamp");
-        this.responses = (ArrayList<Response>) map.get("responses");
+        ////Set responses
+        ArrayList<HashMap<String, Object>> mpArrayList = (ArrayList<HashMap<String, Object>>) map.get("responses");
+        if (mpArrayList != null) {
+            this.responses = new ArrayList<>();
+            for (HashMap<String, Object> mp : mpArrayList) {
+                this.responses.add(new Response(mp));
+            }
+        }
+        ////
         this.items_attempted = map.containsKey("items_attempted") ? ((Long) map.get("items_attempted")).intValue() :
                                     map.containsKey("words_total_finished") ? ((Long) map.get("words_total_finished")).intValue() : -1; //Backward compatibility. Some use words_attempted
         this.items_correct = map.containsKey("items_correct") ? ((Long) map.get("items_correct")).intValue() :

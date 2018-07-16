@@ -111,11 +111,9 @@ class TaskDetailListFragment : Fragment() {
                     ?.addToBackStack(null)
                     ?.commit()
         }
-        if (position == 1) {
-            sendAnalytics(task!!, "HIGH_SCORE", FirebaseAnalytics.Event.SELECT_CONTENT)
-        }
     }
 
+    //Separate function because only a single result has to be passed
     fun onItemClickedShowHighScoreDetail(task: Task?, result: Result, position: Int) {
         if (position == 1) {
             sendAnalytics(task!!, "HIGH_SCORE", FirebaseAnalytics.Event.SELECT_CONTENT)

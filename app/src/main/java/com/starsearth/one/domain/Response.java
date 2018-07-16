@@ -48,6 +48,14 @@ public class Response implements Parcelable{
         this.timestamp = System.currentTimeMillis();
     }
 
+    public Response(Map<String, Object> map) {
+        this.question = (String) map.get("question");
+        this.expectedAnswer = (String) map.get("expectedAnswer");
+        this.answer = (String) map.get("answer");
+        this.isCorrect = (Boolean) map.get("isCorrect");
+        this.timestamp = (Long) map.get("timestamp");
+    }
+
     protected Response(Parcel in) {
         uid = in.readString();
         userId = in.readString();

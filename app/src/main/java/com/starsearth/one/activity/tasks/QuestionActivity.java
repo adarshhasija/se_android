@@ -86,20 +86,20 @@ public class QuestionActivity extends AppCompatActivity {
                         tvQuestion.announceForAccessibility(getResources().getString(R.string.press_spacebar));
                     }
                     else {
-                        tvQuestion.setText(getResources().getString(R.string.now_press) + " " + expectedAnswer.charAt(expectedAnswerIndex));
+                        tvQuestion.setText(getResources().getString(R.string.correct_comma_type) + " " + expectedAnswer.charAt(expectedAnswerIndex));
                         tvQuestion.announceForAccessibility(getResources().getString(R.string.space)); //Talkback might not announce space on hardware keyboard
-                        tvQuestion.announceForAccessibility(getResources().getString(R.string.now_press) + " " + expectedAnswer.charAt(expectedAnswerIndex));
+                        tvQuestion.announceForAccessibility(getResources().getString(R.string.correct_comma_type) + " " + expectedAnswer.charAt(expectedAnswerIndex));
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_BACK) {
                     //if back button is pressed, we should do nothing. allow it
                 } else {
                     if (expectedCharacter == ' ') {
-                        tvQuestion.setText(getResources().getString(R.string.wrong_answer) + " spacebar");
-                        tvQuestion.announceForAccessibility(getResources().getString(R.string.wrong_answer) + " spacebar");
+                        tvQuestion.setText(getResources().getString(R.string.no_type) + " spacebar");
+                        tvQuestion.announceForAccessibility(getResources().getString(R.string.no_type) + " spacebar");
                     }
                     else {
-                        tvQuestion.setText(getResources().getString(R.string.wrong_answer) + " " + expectedCharacter);
-                        tvQuestion.announceForAccessibility(getResources().getString(R.string.wrong_answer) + " " + expectedCharacter);
+                        tvQuestion.setText(getResources().getString(R.string.no_type) + " " + expectedCharacter);
+                        tvQuestion.announceForAccessibility(getResources().getString(R.string.no_type) + " " + expectedCharacter);
                     }
 
                 }

@@ -131,7 +131,7 @@ class MainMenuItemFragment : Fragment() {
             if (map != null) {
                 var result = Result((map as Map<String, Any>))
                 if (adapter.getTeachingContentType(result.task_id) == Task.Type.TYPING) {
-                    result = ResultTyping((map as Map<String, Any>))
+                    result = ResultTyping((map))
                 }
                 insertResult(result)
             }
@@ -218,27 +218,6 @@ class MainMenuItemFragment : Fragment() {
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "list_item")
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
-
-    /**
-     * If course list has been expanded, items below course row will be course tasks
-     * Check if next row item is task of this course
-     */
-    fun isCourseTasksVisible(course: Course, position: Int): Boolean {
-        val adapter = (view as RecyclerView).adapter
-
-        //get next row item
-        val nextMainMenuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(position + 1)
-        val task = nextMainMenuItem.teachingContent
-        var result = false
-
-        //does course contain task of next row item
-        if (course.isTaskExists((task as SEBaseObject).id)) {
-                    result = true
-                }
-
-            return result
     }
 
     internal inner class isLoadingData : TimerTask() {

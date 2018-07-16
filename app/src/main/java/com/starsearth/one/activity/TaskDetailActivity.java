@@ -9,11 +9,13 @@ import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
+import com.starsearth.one.fragments.ResponseListFragment;
 import com.starsearth.one.fragments.ResultDetailFragment;
 import com.starsearth.one.fragments.ResultListFragment;
 import com.starsearth.one.fragments.TaskDetailFragment;
@@ -24,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener {
+public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener {
 
     Object teachingContent = null;
     ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -119,9 +121,18 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
     }
 
     @Override
-    public void onResultDetailFragmentInteraction(@NotNull Task task, @NotNull Result result) {
-
+    public void onResultDetailFragmentInteraction(@NotNull ArrayList<Response> responses) {
+        ResponseListFragment fragment = ResponseListFragment.Companion.newInstance(responses);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 
+    @Override
+    public void onResponseListFragmentInteraction(@Nullable Response item) {
+
+    }
 }

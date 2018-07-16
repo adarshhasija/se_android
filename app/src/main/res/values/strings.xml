@@ -6,6 +6,8 @@
     <string name="delete">Delete</string>
     <string name="continue_label">Continue</string>
     <string name="alert">Alert</string>
+    <string name="true_">True</string>
+    <string name="false_">False</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -187,9 +189,9 @@
 
     <!--Add question screen-->
     <string name="enter_edit_question_details">Enter/Edit Question Details</string>
-    <string name="question_title">Question</string>
-    <string name="question_answer">Answer</string>
-    <string name="question_hint">Hint</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="hint">Hint</string>
     <string name="question_instruction">Instruction</string>
     <string name="question_repeats">Repeats</string>
     <string name="question_positive_weight">Positive weight</string>
@@ -223,8 +225,8 @@
     <string name="go_back_to_lessons">Go back to lessons</string>
     <string name="lesson_last_topic_no_questions">This is the last topic. It has no questions. Go back.</string>
     <string name="press_spacebar">Good, now press Spacebar</string>
-    <string name="now_press">Correct, type</string>
-    <string name="wrong_answer">No, type</string>
+    <string name="correct_comma_type">Correct, type</string>
+    <string name="no_type">No, type</string>
     <string name="next_question">Next Question</string>
     <string name="guest_authentication_failed">Guest authentication failed</string>
     <string name="i_have_account">I have an account</string>
@@ -241,6 +243,7 @@
     <string name="course_keyboard_required">USB Keyboard required</string>
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
+    <string name="space_symbol">␣</string>
     <string name="full_stop">Full stop</string>
     <string name="help">Help</string>
     <string-array name="typing_test_sentences">
@@ -381,5 +384,12 @@
     <string name="volume_is_mute">Your volume is mute</string>
     <string name="all_results">All results</string>
     <string name="tap_to_view_details">Tap to view details</string>
-
+    <string name="move_your_finger_to_top_left_to_get_content">Move your finger to the top left to get content</string>
+    <string name="long_press_to_view_responses">Long press to view your responses</string>
+    <string name="tap_long_press_to_view_responses">Tap and long press to view your responses</string>
+    <string name="spell">Spell</string>
+    <string name="type_character">Type character</string>
+    <string name="swipe_action">Swipe action</string>
+    <string name="tap_action">Tap action</string>
+    <string name="expected">Expected</string>
 </resources>
