@@ -1,6 +1,7 @@
 package com.starsearth.one.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -89,7 +90,18 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureLongPress(view: View?) {
-        listener?.onResultDetailFragmentInteraction(result.responses)
+        if (result.responses != null && result.responses.size > 0) {
+            listener?.onResultDetailFragmentInteraction(result)
+        }
+        else {
+            val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(context)
+            alertDialog.setTitle(context?.resources?.getString(R.string.error))
+            alertDialog.setMessage(context?.resources?.getString(R.string.responses_not_recorded))
+            alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+            alertDialog.show()
+        }
         sendAnalytics(view, "LONG_PRESS")
     }
 
@@ -180,6 +192,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
                     (result as ResultTyping).characters_total_attempted
         }
 
+        view.findViewById<RelativeLayout>(R.id.rl_main)?.setOnTouchListener(this)
 
         ///ACCESSIBILITY
         var contentDescription = context?.resources?.getString(R.string.move_your_finger_to_top_left_to_get_content)
@@ -187,8 +200,6 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
         val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility?.isTalkbackOn
         if (result.responses != null && result.responses.size > 0) {
             view.findViewById<TextView>(R.id.tv_long_press_responses).visibility = View.VISIBLE
-            view.findViewById<RelativeLayout>(R.id.rl_main)?.setOnTouchListener(this)
-
             if (isTalkbackOn == true) {
                 view.findViewById<TextView>(R.id.tv_long_press_responses).text =
                         context?.resources?.getString(R.string.tap_long_press_to_view_responses)
@@ -239,7 +250,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(responses: ArrayList<Response>)
+        fun onResultDetailFragmentInteraction(result: Any)
     }
 
     companion object {

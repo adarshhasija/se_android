@@ -8,6 +8,7 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
 
     private var taskId: Int
     private var taskTypeLong: Long
+    private var startTime: Long
     private var timeTakenMillis: Long
 
     private var itemsAttempted: Int
@@ -21,6 +22,7 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
     init {
         taskId = bundle?.getInt("taskId", -1)!!
         taskTypeLong = bundle?.getLong("taskTypeLong", 0)!!
+        startTime = bundle?.getLong("startTime", 0)
         timeTakenMillis = bundle?.getLong("timeTakenMillis", 0)
         itemsCorrect = bundle?.getInt("itemsCorrect", 0)
         itemsAttempted = bundle?.getInt("itemsAttempted", 0)
@@ -35,9 +37,9 @@ class ResultSaveRunnable internal constructor(bundle: Bundle?) : Runnable {
         val type = Task.Type.fromInt(taskTypeLong)
         if (type == Task.Type.TYPING) {
             firebase.writeNewResultTyping(charactersCorrect, totalCharactersAttempted, wordsCorrect,
-                    totalWordsFinished, timeTakenMillis, taskId, itemsAttempted, itemsCorrect, null)
+                    totalWordsFinished, startTime, timeTakenMillis, taskId, itemsAttempted, itemsCorrect, null)
         } else {
-            firebase.writeNewResult(itemsAttempted, itemsCorrect, timeTakenMillis, taskId, null)
+            firebase.writeNewResult(itemsAttempted, itemsCorrect, startTime, timeTakenMillis, taskId, null)
         }
     }
 }

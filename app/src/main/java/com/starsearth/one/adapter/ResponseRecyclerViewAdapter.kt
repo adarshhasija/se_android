@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
+import com.starsearth.one.Utils
 import com.starsearth.one.domain.Response
 
 
@@ -15,6 +16,7 @@ import com.starsearth.one.fragments.ResponseListFragment.OnResponseListFragmentI
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_response.view.*
+import java.util.*
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -23,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_response.view.*
  */
 class ResponseRecyclerViewAdapter(
         private val context: Context,
+        private val startTime: Long,
         private val mValues: List<Response>,
         private val mListener: OnResponseListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResponseRecyclerViewAdapter.ViewHolder>() {
@@ -95,6 +98,14 @@ class ResponseRecyclerViewAdapter(
             Color.RED
         })
 
+        var timeTakenString = context?.resources?.getString(R.string.time_taken) + ": "
+        timeTakenString  += if (position > 0) {
+            Utils.getTimeFormatted(item.timestamp - mValues[position - 1].timestamp)
+        } else {
+            Utils.getTimeFormatted(item.timestamp - startTime)
+        }
+        holder.mTimeTaken.text = timeTakenString
+
         with(holder.mView) {
             tag = item
             setOnClickListener(mOnClickListener)
@@ -108,6 +119,7 @@ class ResponseRecyclerViewAdapter(
         val mExpectedAnswer: TextView = mView.tv_expected_answer
         val mActualAnswer: TextView = mView.tv_actual_answer
         val mResult: TextView = mView.tv_result
+        val mTimeTaken: TextView = mView.tv_time_taken
 
         override fun toString(): String {
             return super.toString() + " '" + mQuestion.text + "'"

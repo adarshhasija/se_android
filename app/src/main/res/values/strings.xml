@@ -392,4 +392,5 @@
     <string name="swipe_action">Swipe action</string>
     <string name="tap_action">Tap action</string>
     <string name="expected">Expected</string>
+    <string name="responses_not_recorded">Responses not recorded</string>
 </resources>

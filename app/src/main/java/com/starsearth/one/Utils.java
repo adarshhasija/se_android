@@ -44,4 +44,50 @@ public class Utils {
         int offsetFromUTC = tz.getOffset(msFromEpochGmt);
         return offsetFromUTC;
     }
+
+    public static String getTimeFormatted(long timeMillis) {
+        long seconds = timeMillis/1000;
+        long minutes = seconds/60;
+        long hours = minutes/60;
+
+        StringBuilder b = new StringBuilder();
+        if (hours > 9) {
+            b.append(hours);
+        }
+        else if (hours > 0) {
+            b.append("0" + hours);
+        }
+
+        if (minutes > 0) {
+            if (b.length() > 0) {
+                //hours exists
+                b.append("H ");
+            }
+
+            if (minutes > 9) {
+                b.append(minutes);
+            }
+            else {
+                //0 < mins < 10
+                b.append("0"+minutes);
+            }
+        }
+
+        if (seconds > 0) {
+            if (b.length() > 0) {
+                //hours or mins exists
+                b.append("M ");
+            }
+
+            if (seconds > 9) {
+                b.append(seconds);
+            }
+            else {
+                b.append("0"+seconds);
+            }
+            b.append('S');
+        }
+
+        return b.toString();
+    }
 }

@@ -121,8 +121,8 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
     }
 
     @Override
-    public void onResultDetailFragmentInteraction(@NotNull ArrayList<Response> responses) {
-        ResponseListFragment fragment = ResponseListFragment.Companion.newInstance(responses);
+    public void onResultDetailFragmentInteraction(@NotNull Object result) {
+        ResponseListFragment fragment = ResponseListFragment.Companion.newInstance(result);
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                 .replace(R.id.fragment_container_main, fragment)

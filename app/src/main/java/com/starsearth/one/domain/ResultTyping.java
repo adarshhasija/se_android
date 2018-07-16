@@ -50,8 +50,8 @@ public class ResultTyping extends Result {
     }
 
     public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId) {
-        super(uid, userId, timeTakenMillis, gameId);
+                        int words_correct, int words_total_finished, long startTime, long timeTakenMillis, int gameId) {
+        super(uid, userId, startTime, timeTakenMillis, gameId);
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
         this.words_correct = words_correct;
@@ -59,8 +59,8 @@ public class ResultTyping extends Result {
     }
 
     public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {
-        super(uid, userId, itemsAttempted, itemsCorrect, timeTakenMillis, gameId, responses);
+                        int words_correct, int words_total_finished, long startTime, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {
+        super(uid, userId, itemsAttempted, itemsCorrect, startTime, timeTakenMillis, gameId, responses);
         this.characters_correct = characters_correct;
         this.characters_total_attempted = characters_total_attempted;
         this.words_correct = words_correct;

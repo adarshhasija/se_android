@@ -23,8 +23,8 @@ public class ResultGestures extends Result {
         super();
     }
 
-    public ResultGestures(String uid, String userId, int attemped, int correct, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
-        super(uid, userId, attemped, correct, timeTakenMillis, gameId, responses);
+    public ResultGestures(String uid, String userId, int attemped, int correct, long startTime, long timeTakenMillis, int gameId, ArrayList<Response> responses) {
+        super(uid, userId, attemped, correct, startTime, timeTakenMillis, gameId, responses);
         //this.items_attempted = attemped;
         //this.items_correct = correct;
     }

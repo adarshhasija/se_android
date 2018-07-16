@@ -432,6 +432,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                             ,bundle.getInt("totalCharactersAttempted")
                             ,bundle.getInt("wordsCorrect")
                             ,bundle.getInt("totalWordsFinished")
+                            ,bundle.getLong("startTime")
                             ,bundle.getLong("timeTakenMillis")
                             ,bundle.getInt("taskId")
                             ,bundle.getInt("itemsAttempted")
@@ -442,6 +443,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     firebase.writeNewResult(
                             bundle.getInt("itemsAttempted")
                             ,bundle.getInt("itemsCorrect")
+                            ,bundle.getLong("startTime")
                             ,bundle.getLong("timeTakenMillis")
                             ,bundle.getInt("taskId")
                             ,bundle.getParcelableArrayList("responses")

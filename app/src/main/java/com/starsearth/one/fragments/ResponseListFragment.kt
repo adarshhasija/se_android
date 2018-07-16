@@ -2,6 +2,7 @@ package com.starsearth.one.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.ResponseRecyclerViewAdapter
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Response
+import com.starsearth.one.domain.Result
 
 /**
  * A fragment representing a list of Items.
@@ -21,7 +23,7 @@ import com.starsearth.one.domain.Response
 class ResponseListFragment : Fragment() {
 
     // TODO: Customize parameters
-    private var mResponses = ArrayList<Response>()
+    private var mResult : Any? = null
 
     private var listener: OnResponseListFragmentInteractionListener? = null
 
@@ -29,7 +31,7 @@ class ResponseListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mResponses.addAll(it.getParcelableArrayList(ARG_RESPONSES))
+            mResult = it.getParcelable(ARG_RESPONSES)
         }
     }
 
@@ -47,7 +49,7 @@ class ResponseListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = ResponseRecyclerViewAdapter(context, mResponses, listener)
+                adapter = ResponseRecyclerViewAdapter(context, (mResult as Result).startTime, (mResult as Result).responses, listener)
             }
         }
         return view
@@ -91,10 +93,10 @@ class ResponseListFragment : Fragment() {
 
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(responses: ArrayList<Response>) =
+        fun newInstance(result: Any) =
                 ResponseListFragment().apply {
                     arguments = Bundle().apply {
-                        putParcelableArrayList(ARG_RESPONSES, responses)
+                        putParcelable(ARG_RESPONSES, (result as Parcelable))
                     }
                 }
     }
