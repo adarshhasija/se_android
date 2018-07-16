@@ -1,27 +1,25 @@
 package com.starsearth.one.adapter
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.*
 import com.starsearth.one.fragments.MainMenuItemFragment
 
-import com.starsearth.one.fragments.MainMenuItemFragment.OnListFragmentInteractionListener
+import com.starsearth.one.fragments.MainMenuItemFragment.OnMainMenuFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
+ * specified [OnMainMenuFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<MainMenuItem>, private val mListener: OnListFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<MainMenuItem>, private val mListener: OnMainMenuFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

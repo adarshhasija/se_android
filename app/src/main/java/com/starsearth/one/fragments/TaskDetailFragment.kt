@@ -43,6 +43,8 @@ import kotlin.collections.ArrayList
  */
 class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
+    private var tvMoreOptions : TextView? = null
+
     private var x1: Float = 0.toFloat()
     private var x2:Float = 0.toFloat()
     private var y1:Float = 0.toFloat()
@@ -77,7 +79,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
 
     private fun gestureTap(view: View?) {
-        listFragment?.clearJustCompleteResultsSet()
         generateAd()
         startTask((mTeachingContent as Task))
         sendAnalytics((mTeachingContent as Task), view, FirebaseAnalytics.Event.SELECT_CONTENT)
@@ -98,11 +99,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     private var mReturnBundle = Bundle()
 
     private var mListener: OnTaskDetailFragmentInteractionListener? = null
-
     private var adRequest: AdRequest.Builder? = null
-
-    private var listFragment : TaskDetailListFragment? = null
-
     private var mDatabase : DatabaseReference? = null
 
 
@@ -202,7 +199,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
                 }
                 else if (ads == "Facebook") {
-                    AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
+                    //AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
                     //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
                     (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
                 }
@@ -249,17 +246,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     /**************************/
 
-    private fun isResultExistsInStack(result: Result?) : Boolean {
-      /*  var ret = false
-        if (!mResults.empty()) {
-            if (mResults.peek().uid == result?.uid) {
-                ret = true
-            }
-        }
-        return ret  */
-        return true
-    }
-
     private fun setReturnResult(result: Parcelable) {
         val intent = Intent()
         //bundle.putString("uid", (result as Result)?.uid)
@@ -284,11 +270,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             bundle.putInt("item_submit_on_enter_tapped", if (task.submitOnReturnTapped) { 1 } else { 0 })
             bundle.putInt("item_is_text_visible_on_start", if (task.isTextVisibleOnStart) { 1 } else { 0 })
             bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as Result).items_correct)
-         /*   if (task.type == Task.Type.TAP_SWIPE) {
-                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
-            } else {
-                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
-            }   */
+            //if (task.type == Task.Type.TAP_SWIPE) { bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct) }
+            //else { bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct) }
         }
 
         val application = (activity?.application as StarsEarthApplication)
@@ -326,6 +309,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         if (mResults != null && !mResults.isEmpty()) {
             //UI changes if there are exisitng results
+            tvMoreOptions = view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
             //do not want to call announce for accessibility here. Only set content description
             view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
@@ -338,44 +322,20 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
 
-
-        view.findViewById<Button>(R.id.btn_start).setOnClickListener(View.OnClickListener {
-            //onButtonPressed(mTeachingContent)
-          /*  listFragment?.clearJustCompleteResultsSet()
-            generateAd()
-            startTask((mTeachingContent as Task))
-            sendAnalytics((mTeachingContent as Task), it)   */
-        })
         val tv = view.findViewById<TextView>(R.id.tv_instruction)
-
         (tv as TextView).text =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
                             context?.resources?.getString(R.string.complete_as_many_as)
-                            //+ " " + appendScoreType()
-                            , (mTeachingContent as Task)?.getTimeLimitAsString(context)) +
-                            "\n\n" //+ appendCTAText()
+                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
                 } else if (mTeachingContent is Task) {
-                  /*  String.format((mTeachingContent as Task)?.instructions + " " +
-                            context?.resources?.getString(R.string.do_this_number_times) + " " +
-                            context?.resources?.getString(R.string.target_accuracy), (mTeachingContent as Task)?.trials) +  */
-                    (mTeachingContent as Task)?.instructions +
-                            "\n\n" //+ appendCTAText()
-                } else if (mTeachingContent is Course){
-                    (mTeachingContent as Course).instructions + " " +
-                            "\n\n" //+ appendCTAText()
+                    (mTeachingContent as Task)?.instructions
                 } else {
                     ""
                 }).toString()
 
 
         return view
-    }
-
-    private fun appendCTAText() : String {
-        return context?.resources?.getString(R.string.tap_screen_to_start) +
-                "\n" +
-                context?.resources?.getString(R.string.long_press_for_more_options)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -450,7 +410,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }
             }
             else {
-                //Toast.makeText(context, R.string.typing_game_cancelled, Toast.LENGTH_LONG).show()
+                //Show cancelled message
                 mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
             }
 
@@ -468,11 +428,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     private fun taskComplete(bundle: Bundle) {
         val firebase = Firebase("results")
         val type = Task.Type.fromInt(bundle.getLong("taskTypeLong"))
-      /*  val responsesParcelableArray = bundle.getParcelableArray("responses")
-        val responses = ArrayList<Response>()
-        for (response in responsesParcelableArray) {
-            responses.add(response as Response)
-        }   */
         val result =
                 if (type == Task.Type.TYPING) {
                     firebase.writeNewResultTyping(
@@ -501,13 +456,20 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         analyticsTaskCompleted((mTeachingContent as Task), result)
         setReturnResult(result)
         mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
+        updateResults(result)
+        view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
+        //do not want to call announce for accessibility here. Only set content description
+        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
+    }
+
+    private fun updateResults(result: Result) {
+        if (result != null) {
+            mResults?.add(result)
+        }
     }
 
     private fun sendAnalytics(task: Task, view: View?, action: String) {
         val bundle = Bundle()
-        //bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
-        //bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
-        //bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, task.type?.toString()?.replace("_", " "))
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
@@ -545,21 +507,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     override fun onDetach() {
         super.onDetach()
         mListener = null
-    }
-
-    fun flashHighScore() {
-        val mContentView = view?.findViewById<TextView>(R.id.tv_high_score) as TextView
-        mContentView.alpha = 0f
-        mContentView.visibility = View.VISIBLE
-
-        mContentView.animate()
-                .alpha(1f)
-                .setDuration(150)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        mContentView.visibility = View.GONE
-                    }
-                })
     }
 
     /**

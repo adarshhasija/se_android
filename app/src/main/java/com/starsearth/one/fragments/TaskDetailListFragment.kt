@@ -45,162 +45,15 @@ import kotlin.collections.ArrayList
  */
 class TaskDetailListFragment : Fragment() {
     private var mColumnCount = 1
-    private var isActivityPaused = true
-    private var mJustCompletedResultsSet: MutableSet<Result> = HashSet()
     private var mTeachingContent: Any? = null
     private var mResults = ArrayList<Result>()
-    private var mDatabase: DatabaseReference? = null
     private var mListener: OnTaskDetailListFragmentListener? = null
-    private var isAdAvailable = false
-
-    private val mGoogleAdListener = object : AdListener() {
-        override fun onAdLoaded() {
-            super.onAdLoaded()
-            setIsAdAvailable(true)
-        }
-
-        override fun onAdClicked() {
-            super.onAdClicked()
-        }
-
-        override fun onAdFailedToLoad(p0: Int) {
-            super.onAdFailedToLoad(p0)
-        }
-
-        override fun onAdClosed() {
-            super.onAdClosed()
-            setIsAdAvailable(false)
-        }
-
-        override fun onAdOpened() {
-            super.onAdOpened()
-        }
-
-    }
-
-    private val mFacebookAdListener = object : InterstitialAdListener {
-        override fun onInterstitialDisplayed(ad: Ad) {
-            // Interstitial displayed callback
-        }
-
-        override fun onInterstitialDismissed(ad: Ad) {
-            // Interstitial dismissed callback
-            setIsAdAvailable(false)
-        }
-
-        override fun onError(ad: Ad, adError: AdError) {
-            // Ad error callback
-            //Toast.makeText(this@MainActivity, "Error: " + adError.errorMessage,Toast.LENGTH_LONG).show()
-        }
-
-        override fun onAdLoaded(ad: Ad) {
-            // Show the ad when it's done loading.
-            setIsAdAvailable(true)
-        }
-
-        override fun onAdClicked(ad: Ad) {
-            // Ad clicked callback
-        }
-
-        override fun onLoggingImpression(ad: Ad) {
-            // Ad impression logged callback
-        }
-    }
-
-    private val mChildEventListener = object : ChildEventListener {
-        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
-                dataSnapshot.getValue(ResultTyping::class.java)
-            } else {
-                //dataSnapshot.getValue(ResultGestures::class.java)
-                dataSnapshot.getValue(Result::class.java)
-            }
-            if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
-                return;
-            }
-
-            val adapter = (view as RecyclerView).adapter
-            val high_score = (adapter as TaskDetailRecyclerViewAdapter).getItem("high_score")
-
-            adapter.putItem("last_tried", result)
-
-            val allResults = adapter.getItem("all_results")
-            if (allResults is ArrayList<*>) {
-                (allResults as ArrayList<Result>).add(result)
-                adapter.putItem("all_results", allResults)
-            }
-
-            if (high_score == null) {
-                adapter.putItem("high_score", result)
-            }
-            else if (adapter.isHigScore(result)) {
-                adapter.putItem("high_score", result)
-            }
-
-            adapter.notifyDataSetChanged()
-        }
-
-        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
-
-        }
-
-        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-
-        }
-
-        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
-
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-
-        }
-    }
-
-    fun getIsAdAvailable() : Boolean {
-        return isAdAvailable
-    }
-
-    fun setIsAdAvailable(adAvailable : Boolean) {
-        this.isAdAvailable = adAvailable
-    }
-
-    fun showAd() {
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
-        if (ads == "Google") {
-            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
-        }
-        else if (ads == "Facebook") {
-            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
-        }
-    }
-
-    fun clearJustCompleteResultsSet() {
-        mJustCompletedResultsSet?.clear() //clear the queue before starting a new game
-    }
-
-    override fun onPause() {
-        super.onPause()
-        isActivityPaused = true
-    }
 
     override fun onResume() {
         super.onResume()
 
         val application = (activity?.application as StarsEarthApplication)
         application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
-
-     /*   isActivityPaused = false
-
-        //If we are returning from an ad,
-        //Take the result out of the set and display
-        if (mJustCompletedResultsSet.size > 0) {
-            mJustCompletedResultsSet.forEach {
-
-                justCompletedTask(it, isHighScore())
-            }
-            mJustCompletedResultsSet.clear()
-        }   */
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -233,6 +86,7 @@ class TaskDetailListFragment : Fragment() {
             }
             val results = LinkedHashMap<String, Any>()
             results.put("all_results", mResults)
+            //HIGH SCORE: START
             var highScore : Any? = mResults?.get(0)
             for (result in mResults) {
                 if (result.items_correct > (highScore as Result)?.items_correct) {
@@ -240,13 +94,8 @@ class TaskDetailListFragment : Fragment() {
                 }
             }
             results.put("high_score", highScore!!)
+            //HIGH SCORE: END
             view.adapter = TaskDetailRecyclerViewAdapter(tasks as List<Task>, results, mListener, this)
-
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            mDatabase = FirebaseDatabase.getInstance().getReference("results")
-            mDatabase?.keepSynced(true)
-            val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
-            //query?.addChildEventListener(mChildEventListener);
         }
 
         return view
@@ -295,13 +144,6 @@ class TaskDetailListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.announceForAccessibility(getString(R.string.more_options_screen_opened))
-      /*  val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().get("ads")
-        if (ads == "Google") {
-            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
-        }
-        else if (ads == "Facebook") {
-            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
-        }   */
     }
 
 
@@ -317,7 +159,6 @@ class TaskDetailListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         mListener = null
-        mDatabase?.removeEventListener(mChildEventListener)
     }
 
     private fun sendAnalytics(task: Task, itemCategory: String, action: String) {
@@ -330,26 +171,6 @@ class TaskDetailListFragment : Fragment() {
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(action, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
-    private fun firebaseAnalyticsTaskCompleted(task : SEBaseObject, result : Result) {
-      /*  val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
-
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
-        val application = (activity?.application as StarsEarthApplication)
-        if (task is Task) {
-            bundle.putInt("item_type", task.getType().getValue().toInt())
-            bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
-            if (task.type == Task.Type.TAP_SWIPE) {
-                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct)
-            } else {
-                bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct)
-            }
-        }
-
-        parentFragment?.let { (it as TaskDetailFragment).analyticsTaskCompleted(FirebaseAnalytics.Event.POST_SCORE, bundle) }
-        //mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.POST_SCORE, bundle)   */
     }
 
     /**

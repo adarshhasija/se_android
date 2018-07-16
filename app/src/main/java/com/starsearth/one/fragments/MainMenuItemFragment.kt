@@ -46,7 +46,7 @@ class MainMenuItemFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
     private var mResult = ArrayList<Parcelable>() //Used if screen is for a course
-    private var mListener: OnListFragmentInteractionListener? = null
+    private var mListener: OnMainMenuFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
@@ -155,11 +155,6 @@ class MainMenuItemFragment : Fragment() {
     If it is a task as part of a course, set return result for parent
      */
     private fun setReturnResult(results: ArrayList<Parcelable>) {
-      /*  val intent = Intent()
-        val bundle = Bundle()
-        bundle.putString("uid", (result as Result)?.uid)
-        intent.putExtras(bundle)
-        activity?.setResult(Activity.RESULT_OK, intent) */
         val intent = Intent()
         if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {
             mReturnBundle.putParcelableArrayList("RESULTS", ArrayList())
@@ -275,13 +270,6 @@ class MainMenuItemFragment : Fragment() {
         // Set the adapter
         if (view is RecyclerView) {
             val context = view.getContext()
-           /* if (mCourse <= 1) {
-                view.layoutManager = LinearLayoutManager(context)
-                view.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
-            } else {
-                view.layoutManager = GridLayoutManager(context, mCourse)
-            }   */
             view.layoutManager = LinearLayoutManager(context)
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
@@ -315,8 +303,6 @@ class MainMenuItemFragment : Fragment() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             val extras = data?.extras
-            //val uid = extras?.getString("uid")
-            //FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it, uid) }
             val results : ArrayList<Parcelable>? = extras?.getParcelableArrayList("RESULTS");
             if (results != null) {
                 setReturnResult(results)
@@ -360,7 +346,7 @@ class MainMenuItemFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnMainMenuFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
@@ -383,9 +369,9 @@ class MainMenuItemFragment : Fragment() {
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
-    interface OnListFragmentInteractionListener {
+    interface OnMainMenuFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: MainMenuItem)
+        fun onMainMenuListFragmentInteraction(item: MainMenuItem)
         fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView)
     }
 

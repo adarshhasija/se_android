@@ -1,6 +1,5 @@
 package com.starsearth.one.activity
 
-import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -19,23 +17,16 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.domain.Task
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
-import com.starsearth.one.domain.SEBaseObject
 import com.starsearth.one.fragments.MainMenuItemFragment
 import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.starsearth.one.R.id.toolbar
 
-class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
+class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
     /*
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */
@@ -59,11 +50,11 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnListFragmentI
         }
     }
 
-    override fun onListFragmentInteraction(item: MoreOptionsMenuItem) {
+    override fun onMoreOptionsListFragmentInteraction(item: MoreOptionsMenuItem) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onListFragmentInteraction(item: MainMenuItem) {
+    override fun onMainMenuListFragmentInteraction(item: MainMenuItem) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

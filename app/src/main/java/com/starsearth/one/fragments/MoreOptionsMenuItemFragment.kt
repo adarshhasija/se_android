@@ -17,9 +17,14 @@ import com.starsearth.one.domain.MoreOptionsMenuItem
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.starsearth.one.BuildConfig
 import com.starsearth.one.activity.KeyboardActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
+import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.database.Firebase
 
 
 /**
@@ -36,7 +41,7 @@ import com.starsearth.one.application.StarsEarthApplication
 class MoreOptionsMenuItemFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
-    private var mListener: OnListFragmentInteractionListener? = null
+    private var mListener: OnMoreOptionsListFragmentInteractionListener? = null
 
     fun sendAnalytics(selected: String) {
         val bundle = Bundle()
@@ -54,6 +59,11 @@ class MoreOptionsMenuItemFragment : Fragment() {
             startActivity(intent)
         } else if (title != null && title.contains("Phone")) {
             intent = Intent(context, PhoneNumberActivity::class.java)
+            startActivity(intent)
+        } else if (title != null && title.contains("Logout")) {
+            FirebaseAuth.getInstance().signOut();
+            activity?.finish()
+            intent = Intent(context, WelcomeOneActivity::class.java)
             startActivity(intent)
         }
     }
@@ -86,8 +96,11 @@ class MoreOptionsMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MoreOptionsMenuItem> {
-        val dataList = ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)));
+        val dataList = ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_user_account_list)))
+        if (BuildConfig.DEBUG) {
+            dataList.add(resources.getString(R.string.logout))
+        }
         val menuItems = ArrayList<MoreOptionsMenuItem>()
         for (data in dataList) {
             val item = MoreOptionsMenuItem(data)
@@ -99,7 +112,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnMoreOptionsListFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
@@ -127,9 +140,9 @@ class MoreOptionsMenuItemFragment : Fragment() {
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
-    interface OnListFragmentInteractionListener {
+    interface OnMoreOptionsListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: MoreOptionsMenuItem)
+        fun onMoreOptionsListFragmentInteraction(item: MoreOptionsMenuItem)
     }
 
     companion object {

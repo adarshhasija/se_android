@@ -25,7 +25,7 @@ import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnListFragmentInteractionListener {
+public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnMainMenuFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseAssistantReference;
@@ -54,7 +54,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    ((StarsEarthApplication) getApplication()).setFirebaseUser(null);
+                    ((StarsEarthApplication) getApplication()).setUser(null);
 
                     //Redirecting to login screen
                     Intent newIntent = new Intent(MainSEActivity.this, WelcomeOneActivity.class);
@@ -127,7 +127,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     }
 
     @Override
-    public void onListFragmentInteraction(@NotNull MainMenuItem item) {
+    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {
         Task task = (Task) item.teachingContent;
         sendAnalytics(task);
         Intent intent = new Intent(this, TaskDetailActivity.class);
@@ -138,7 +138,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     }
 
     @Override
-    public void onListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
         sendAnalytics(item.getText1());
         Intent intent;
         String title = item.getText1();

@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener {
+public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener {
 
     Object teachingContent = null;
     ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -70,7 +70,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
 
 
     @Override
-    public void onListFragmentInteraction(@NotNull MainMenuItem item) {
+    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {
 
     }
 
