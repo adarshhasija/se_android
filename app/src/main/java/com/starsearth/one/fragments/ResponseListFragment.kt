@@ -49,7 +49,7 @@ class ResponseListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = ResponseRecyclerViewAdapter(context, (mResult as Result).startTime, (mResult as Result).responses, listener)
+                adapter = ResponseRecyclerViewAdapter(context, (mResult as Result).startTimeMillis, (mResult as Result).responses, listener)
             }
         }
         return view

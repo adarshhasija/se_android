@@ -265,10 +265,10 @@ public class Firebase {
         databaseReference.child(key).setValue(values);
     }
 
-    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long startTime, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {  //String subject, int level, String levelString
+    public ResultTyping writeNewResultTyping(int characters_correct, int characters_total_attempted, int words_correct, int words_total_finished, long startTimeMillis, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, startTime, timeTakenMillis, gameId, itemsAttempted, itemsCorrect, responses);
+        ResultTyping testResult = new ResultTyping(key, user.getUid(), characters_correct, characters_total_attempted, words_correct, words_total_finished, startTimeMillis, timeTakenMillis, gameId, itemsAttempted, itemsCorrect, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -278,10 +278,10 @@ public class Firebase {
         return testResult;
     }
 
-    public Result writeNewResult(int attempted, int correct, long startTime, long timeTakenMillis, int taskId, ArrayList<Response> responses) {  //String subject, int level, String levelString
+    public Result writeNewResult(int attempted, int correct, long startTimeMillis, long timeTakenMillis, int taskId, ArrayList<Response> responses) {  //String subject, int level, String levelString
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Result testResult = new Result(key, user.getUid(), attempted, correct, startTime, timeTakenMillis, taskId, responses);
+        Result testResult = new Result(key, user.getUid(), attempted, correct, startTimeMillis, timeTakenMillis, taskId, responses);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();

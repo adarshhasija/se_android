@@ -1,5 +1,7 @@
 package com.starsearth.one;
 
+import android.content.Context;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -45,7 +47,7 @@ public class Utils {
         return offsetFromUTC;
     }
 
-    public static String getTimeFormatted(long timeMillis) {
+    public static String getTimeTakenFormatted(Context context, long timeMillis) {
         long seconds = timeMillis/1000;
         long minutes = seconds/60;
         long hours = minutes/60;
@@ -61,31 +63,31 @@ public class Utils {
         if (minutes > 0) {
             if (b.length() > 0) {
                 //hours exists
-                b.append("H ");
+                b.append(" " + context.getResources().getString(R.string.hours));
             }
 
             if (minutes > 9) {
-                b.append(minutes);
+                b.append(" " + minutes);
             }
             else {
                 //0 < mins < 10
-                b.append("0"+minutes);
+                b.append(" " +"0"+minutes);
             }
         }
 
         if (seconds > 0) {
             if (b.length() > 0) {
                 //hours or mins exists
-                b.append("M ");
+                b.append(" " + context.getResources().getString(R.string.minutes));
             }
 
             if (seconds > 9) {
-                b.append(seconds);
+                b.append(" " +seconds);
             }
             else {
-                b.append("0"+seconds);
+                b.append(" " + "0"+seconds);
             }
-            b.append('S');
+            b.append(" " + context.getResources().getString(R.string.seconds));
         }
 
         return b.toString();

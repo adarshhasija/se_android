@@ -24,7 +24,7 @@ public class Result implements Parcelable {
     public String userId;
     //public int game_id; //id for task as INT old
     public int task_id;
-    public long startTime;
+    public long startTimeMillis;
     public long timeTakenMillis;
     public long timestamp;
     public int items_attempted = -1; //Item = One list item in array(content/tap/swipe). -1 = error, no value
@@ -35,18 +35,18 @@ public class Result implements Parcelable {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Result(String uid, String userId, long startTime, long timeTakenMillis, int taskId) {
+    public Result(String uid, String userId, long startTimeMillis, long timeTakenMillis, int taskId) {
         this.uid = uid;
         this.userId = userId;
-        this.startTime = startTime;
+        this.startTimeMillis = startTimeMillis;
         this.timeTakenMillis = timeTakenMillis;
         this.task_id = taskId;
     }
 
-    public Result(String uid, String userId, int itemsAttempted, int itemsCorrect, long startTime, long timeTakenMillis, int taskId, ArrayList<Response> responses) {
+    public Result(String uid, String userId, int itemsAttempted, int itemsCorrect, long startTimeMillis, long timeTakenMillis, int taskId, ArrayList<Response> responses) {
         this.uid = uid;
         this.userId = userId;
-        this.startTime = startTime;
+        this.startTimeMillis = startTimeMillis;
         this.timeTakenMillis = timeTakenMillis;
         this.items_attempted = itemsAttempted;
         this.items_correct = itemsCorrect;
@@ -59,7 +59,7 @@ public class Result implements Parcelable {
         this.userId = (String) map.get("userId");
         this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() :
                         map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;  //Backward compatability. Some use the old game_id
-        this.startTime = map.containsKey("startTime") ? (Long) map.get("startTime") : -1 ;
+        this.startTimeMillis = map.containsKey("startTimeMillis") ? (Long) map.get("startTimeMillis") : -1 ;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = (Long) map.get("timestamp");
         ////Set responses
@@ -82,7 +82,7 @@ public class Result implements Parcelable {
         userId = in.readString();
         //game_id = in.readInt();
         task_id = in.readInt();
-        startTime = in.readLong();
+        startTimeMillis = in.readLong();
         timeTakenMillis = in.readLong();
         timestamp = in.readLong();
         items_attempted = in.readInt();
@@ -117,7 +117,7 @@ public class Result implements Parcelable {
         result.put("userId", userId);
         //result.put("game_id", game_id);
         result.put("task_id", task_id);
-        result.put("startTime", startTime);
+        result.put("startTimeMillis", startTimeMillis);
         result.put("timeTakenMillis", timeTakenMillis);
         result.put("timestamp", timestamp);
         result.put("items_attempted", items_attempted);
@@ -157,7 +157,7 @@ public class Result implements Parcelable {
         dest.writeString(userId);
         //dest.writeInt(game_id);
         dest.writeInt(task_id);
-        dest.writeLong(startTime);
+        dest.writeLong(startTimeMillis);
         dest.writeLong(timeTakenMillis);
         dest.writeLong(timestamp);
         dest.writeInt(items_attempted);

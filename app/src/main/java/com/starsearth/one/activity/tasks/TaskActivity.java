@@ -49,7 +49,7 @@ public class TaskActivity extends AppCompatActivity {
     public String QUESTION_TYPE_CHARACTER               = "QUESTION_TYPE_CHARACTER";
 
     //List<String> sentencesList;
-    private long startTime;
+    private long startTimeMillis;
     private long timeTakenMillis;
     private ArrayList<Response> responses = new ArrayList<>();
 
@@ -113,7 +113,7 @@ public class TaskActivity extends AppCompatActivity {
         tvMain = (TextView) findViewById(R.id.tv_main);
         nextItem();
 
-        startTime = System.currentTimeMillis();
+        startTimeMillis = System.currentTimeMillis();
         if (task.timed) {
             mTimer.setVisibility(View.VISIBLE);
             setupTimer();
@@ -520,7 +520,7 @@ public class TaskActivity extends AppCompatActivity {
     //If untimed activity, calculate the time taken
     private long calculateTimeTaken() {
         if (!task.timed) {
-            timeTakenMillis = System.currentTimeMillis() - startTime;
+            timeTakenMillis = System.currentTimeMillis() - startTimeMillis;
         }
         return timeTakenMillis;
     }
@@ -530,7 +530,7 @@ public class TaskActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("taskId", task.id);
         bundle.putLong("taskTypeLong", task.type.getValue());
-        bundle.putLong("startTime", startTime);
+        bundle.putLong("startTimeMillis", startTimeMillis);
         bundle.putLong("timeTakenMillis", calculateTimeTaken());
         bundle.putInt("itemsCorrect", itemsCorrect);
         bundle.putInt("itemsAttempted", itemsAttempted);

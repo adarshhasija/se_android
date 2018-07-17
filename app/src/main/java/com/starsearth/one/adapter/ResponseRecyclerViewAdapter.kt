@@ -16,7 +16,6 @@ import com.starsearth.one.fragments.ResponseListFragment.OnResponseListFragmentI
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_response.view.*
-import java.util.*
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -100,9 +99,9 @@ class ResponseRecyclerViewAdapter(
 
         var timeTakenString = context?.resources?.getString(R.string.time_taken) + ": "
         timeTakenString  += if (position > 0) {
-            Utils.getTimeFormatted(item.timestamp - mValues[position - 1].timestamp)
+            Utils.getTimeTakenFormatted(context, item.timestamp - mValues[position - 1].timestamp)
         } else {
-            Utils.getTimeFormatted(item.timestamp - startTime)
+            Utils.getTimeTakenFormatted(context,item.timestamp - startTime)
         }
         holder.mTimeTaken.text = timeTakenString
 
