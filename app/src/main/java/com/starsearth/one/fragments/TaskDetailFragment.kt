@@ -320,16 +320,22 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //query?.addChildEventListener(mChildEventListener);
 
         val tv = view.findViewById<TextView>(R.id.tv_instruction)
-        (tv as TextView).text =
-                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
-                    String.format((mTeachingContent as Task)?.instructions + " " +
-                            context?.resources?.getString(R.string.complete_as_many_as)
-                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
-                } else if (mTeachingContent is Task) {
-                    (mTeachingContent as Task)?.instructions
-                } else {
-                    ""
-                }).toString()
+        var instructions = (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
+            String.format((mTeachingContent as Task)?.instructions + " " +
+                    context?.resources?.getString(R.string.complete_as_many_as)
+                    , (mTeachingContent as Task)?.getTimeLimitAsString(context))
+        } else if (mTeachingContent is Task) {
+            (mTeachingContent as Task)?.instructions
+        } else {
+            ""
+        }).toString()
+        if (mTeachingContent is Task) {
+            if ((mTeachingContent as Task).isExitOnInterruption) {
+                instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
+            }
+        }
+        (tv as TextView).text = instructions
+
 
 
         return view
