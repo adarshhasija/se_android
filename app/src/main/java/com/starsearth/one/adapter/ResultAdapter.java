@@ -55,11 +55,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         } else if (position == 1) {
             holder.mWpmLastScore.setText(Integer.toString(wordsCorrect));
             holder.mWpmLastScore.setVisibility(View.VISIBLE);
-            holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));
+            holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDate(result.timestamp)));
         }
         holder.mWpmLastScore.setText(Integer.toString(result.getScore()));
         holder.mWpmLastScore.setVisibility(View.VISIBLE);
-        holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDateTime(result.timestamp)));  */
+        holder.mMainLabel.setText(String.format(mContext.getString(R.string.last_tried), Utils.formatDate(result.timestamp)));  */
 
     }
 

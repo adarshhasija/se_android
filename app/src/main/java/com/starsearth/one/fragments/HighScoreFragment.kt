@@ -66,7 +66,7 @@ class HighScoreFragment : Fragment() {
         val tvTimeStamp = view.findViewById<TextView>(R.id.tv_timestamp)
         tvTaskName.text = mTask?.title
         val timestamp = mResult?.timestamp
-        timestamp?.let { tvTimeStamp.text = Utils.formatDateTime(it)  }
+        timestamp?.let { tvTimeStamp.text = Utils.formatDate(it)  }
         tvHighScore.text = (mResult as Result)?.items_correct.toString()
         if (mResult is ResultTyping) {
             tvHighScore.text = (mResult as ResultTyping).getScoreSummary(context, mTask?.timed!!)

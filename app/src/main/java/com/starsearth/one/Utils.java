@@ -2,6 +2,7 @@ package com.starsearth.one;
 
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -14,19 +15,33 @@ import java.util.TimeZone;
 public class Utils {
 
     /*
-        Returns date in local time zone
+        Returns date and time in local time zone
         Used for formatting timestamp
      */
     public static String formatDateTime(long timestamp) {
+        StringBuilder b = new StringBuilder();
+        b.append(formatDate(timestamp));
+        b.append(" ");
+        b.append(formatTime(timestamp));
+        return b.toString();
+    }
+
+    public static String formatDate(long timestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(timestamp));
         int offsetFromUTC = getOffsetFromUTC(cal);
         cal.add(Calendar.MILLISECOND, offsetFromUTC);
-        Date date = cal.getTime(); //For debugging
         String monthString = String.format(Locale.US,"%tB",cal);
         monthString = formatStringFirstLetterCapital(monthString);
         String finalString = cal.get(Calendar.DATE) + " " + monthString + " " + cal.get(Calendar.YEAR);
         return finalString;
+    }
+
+    //Formats the time from the timestamp in 12 HR FORMAT
+    public static String formatTime(long timestamp) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh.mm aa");
+        String formattedTime = dateFormat.format(timestamp).toString();
+        return formattedTime;
     }
 
     public static String formatStringFirstLetterCapital(String s) {

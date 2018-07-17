@@ -16,12 +16,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 import java.util.*
-import kotlin.collections.ArrayList
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_TASK = "task"
@@ -124,7 +122,58 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
 
         view.findViewById<TextView>(R.id.tv_date_time).text = Utils.formatDateTime(result.timestamp)
 
-        if (result is Result) {
+        if (result is ResultTyping) {
+            view.findViewById<TextView>(R.id.tv_typing_speed).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_typing_speed).text =
+                    context?.resources?.getString(R.string.typing_speed) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).speedWPM
+            view.findViewById<TextView>(R.id.tv_accuracy).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_accuracy).text =
+                    context?.resources?.getString(R.string.accuracy) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).accuracy +
+                    "%"
+            view.findViewById<TextView>(R.id.tv_target_accuracy).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_target_accuracy).text =
+                    context?.resources?.getString(R.string.target_accuracy) +
+                    ":" +
+                    " " +
+                    "90%"
+            view.findViewById<TextView>(R.id.tv_pass_fail).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_pass_fail).text =
+                    context?.resources?.getString(R.string.result) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).getScoreSummary(context, task.isPassFail)
+            view.findViewById<TextView>(R.id.tv_words_correct).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_words_correct).text =
+                    context?.resources?.getString(R.string.words_correct) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).words_correct
+            view.findViewById<TextView>(R.id.tv_words_total_attempted).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_words_total_attempted).text =
+                    context?.resources?.getString(R.string.attempted) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).words_total_finished
+            view.findViewById<TextView>(R.id.tv_characters_correct).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_characters_correct).text =
+                    context?.resources?.getString(R.string.characters_correct) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).characters_correct
+            view.findViewById<TextView>(R.id.tv_characters_total_attempted).visibility = View.VISIBLE
+            view.findViewById<TextView>(R.id.tv_characters_total_attempted).text =
+                    context?.resources?.getString(R.string.attempted) +
+                    ":" +
+                    " " +
+                    (result as ResultTyping).characters_total_attempted
+        }
+        else if (result is Result) {
             view.findViewById<TextView>(R.id.tv_items_correct).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.tv_items_correct).text =
                                         context?.resources?.getString(R.string.correct) +
@@ -139,58 +188,8 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
                                         result.items_attempted
         }
 
-        //Present additional info if its a typing task
-        if (result is ResultTyping) {
-            view.findViewById<TextView>(R.id.tv_typing_speed).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_typing_speed).text =
-                                        context?.resources?.getString(R.string.typing_speed) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).speedWPM
-            view.findViewById<TextView>(R.id.tv_accuracy).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_accuracy).text =
-                                        context?.resources?.getString(R.string.accuracy) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).accuracy +
-                                        "%"
-            view.findViewById<TextView>(R.id.tv_target_accuracy).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_target_accuracy).text =
-                                        context?.resources?.getString(R.string.target_accuracy) +
-                                        ":" +
-                                        " " +
-                                        "90%"
-            view.findViewById<TextView>(R.id.tv_pass_fail).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_pass_fail).text =
-                                        context?.resources?.getString(R.string.result) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).getScoreSummary(context, task.isPassFail)
-            view.findViewById<TextView>(R.id.tv_words_correct).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_words_correct).text =
-                                        context?.resources?.getString(R.string.words_correct) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).words_correct
-            view.findViewById<TextView>(R.id.tv_words_total_attempted).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_words_total_attempted).text =
-                                        context?.resources?.getString(R.string.attempted) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).words_total_finished
-            view.findViewById<TextView>(R.id.tv_characters_correct).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_characters_correct).text =
-                                        context?.resources?.getString(R.string.characters_correct) +
-                                        ":" +
-                                        " " +
-                                        (result as ResultTyping).characters_correct
-            view.findViewById<TextView>(R.id.tv_characters_total_attempted).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_characters_total_attempted).text =
-                    context?.resources?.getString(R.string.attempted) +
-                    ":" +
-                    " " +
-                    (result as ResultTyping).characters_total_attempted
-        }
+
+
 
         view.findViewById<RelativeLayout>(R.id.rl_main)?.setOnTouchListener(this)
 

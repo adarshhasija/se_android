@@ -116,7 +116,7 @@ class LastTriedFragment : Fragment() {
             view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
         }
 
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDateTime((result as Result).timestamp)
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate((result as Result).timestamp)
     }
 
     override fun onResume() {

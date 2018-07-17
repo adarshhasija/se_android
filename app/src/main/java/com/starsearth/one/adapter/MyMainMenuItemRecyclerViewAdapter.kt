@@ -30,7 +30,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
 
     private fun formatLatTriedTime(input: Result?): String? {
         val time = input?.timestamp
-        return time?.let { Utils.formatDateTime(it) }
+        return time?.let { Utils.formatDate(it) }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
