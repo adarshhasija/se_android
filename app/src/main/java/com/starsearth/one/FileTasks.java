@@ -223,8 +223,18 @@ public class FileTasks {
     public static int getHighestId(List<Object> teachingContentList) {
         int result = 0;
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).id > result) {
-                result = ((SEBaseObject) o).id;
+            if (o instanceof Course) {
+                //Course
+                ArrayList<Task> tasks = (ArrayList<Task>) ((Course) o).tasks;
+                for (Task task : tasks) {
+                    if (task.id > result) {
+                        result = task.id;
+                    }
+                }
+            }
+            else if (((Task) o).id > result) {
+                //Task
+                result = ((Task) o).id;
             }
         }
         return result;

@@ -39,15 +39,19 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         val teachingContent = holder.mItem?.teachingContent
         val results = holder.mItem?.results
 
-        (teachingContent as SEBaseObject)?.title?.let { holder.mText1View.text = Utils.formatStringFirstLetterCapital(it) }
+        (teachingContent as SEBaseObject)?.title?.let { holder.mTitleView.text = Utils.formatStringFirstLetterCapital(it) }
         if (teachingContent is Task && teachingContent.timed) {
-            holder.mText2View.text = mContext?.getText(R.string.timed)
+            holder.mTimedView.text = mContext?.getText(R.string.timed)
         }
 
-        holder.mText2View.text = if (results?.isNotEmpty()!!) {
-            formatLatTriedTime(results?.peek())
-        } else if (teachingContent is Task && teachingContent.timed) {
+        holder.mTimedView.text = if (teachingContent is Task && teachingContent.timed) {
             mContext?.getText(R.string.timed)
+        } else {
+            ""
+        }
+
+        holder.mLastTriedView.text = if (results?.isNotEmpty()!!) {
+            formatLatTriedTime(results?.peek())
         } else {
             ""
         }
@@ -157,17 +161,19 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mText1View: TextView
-        val mText2View: TextView
+        val mTitleView: TextView
+        val mTimedView: TextView
+        val mLastTriedView: TextView
         var mItem: MainMenuItem? = null
 
         init {
-            mText1View = mView.findViewById<TextView>(R.id.text1) as TextView
-            mText2View = mView.findViewById<TextView>(R.id.text2) as TextView
+            mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
+            mTimedView = mView.findViewById<TextView>(R.id.tv_timed) as TextView
+            mLastTriedView = mView.findViewById<TextView>(R.id.tv_last_tried) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mText1View.text + "'"  + " '" + mText2View.text + "'"
+            return super.toString() + " '" + mTitleView.text + "'"  + " '" + mTimedView.text + "'" + " '" + mLastTriedView.text + "'"
         }
     }
 }
