@@ -31,6 +31,7 @@ public class Task extends SEBaseObject {
     public boolean showUserAnswerWithBackground = false;
     public boolean isBackspaceAllowed           = true;
     public boolean isKeyboardRequired           = false;
+    public boolean isExitOnInterruption         = false;
 
     public Type getType() {
         return type;
@@ -82,6 +83,7 @@ public class Task extends SEBaseObject {
         showUserAnswerWithBackground = in.readByte() != 0;
         isBackspaceAllowed = in.readByte() != 0;
         isKeyboardRequired = in.readByte() != 0;
+        isExitOnInterruption = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -114,6 +116,7 @@ public class Task extends SEBaseObject {
         result.put("showUserAnswerWithBackground", showUserAnswerWithBackground);
         result.put("isBackspaceAllowed", isBackspaceAllowed);
         result.put("isKeyboardRequired", isKeyboardRequired);
+        result.put("isExitOnInterruption", isExitOnInterruption);
 
         return result;
     }
@@ -141,6 +144,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (showUserAnswerWithBackground ? 1 : 0));
         dest.writeByte((byte) (isBackspaceAllowed ? 1 : 0));
         dest.writeByte((byte) (isKeyboardRequired ? 1 : 0));
+        dest.writeByte((byte) (isExitOnInterruption ? 1 : 0));
     }
 
     /*

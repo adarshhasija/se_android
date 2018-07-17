@@ -548,7 +548,8 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        taskCancelled();
+        //Home button or square button tapped
+        if (task.isExitOnInterruption) taskCancelled();
     }
 
     private void analyticsTaskCancelled() {
