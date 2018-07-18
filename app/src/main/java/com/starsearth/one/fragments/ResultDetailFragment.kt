@@ -147,7 +147,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.result) +
                     ":" +
                     " " +
-                    (result as ResultTyping).getScoreSummary(context, task.isPassFail)
+                    (result as ResultTyping).getScoreSummary(context, task.isPassFail, task.passPercentage)
             view.findViewById<TextView>(R.id.tv_words_correct).visibility = View.VISIBLE
             view.findViewById<TextView>(R.id.tv_words_correct).text =
                     context?.resources?.getString(R.string.words_correct) +

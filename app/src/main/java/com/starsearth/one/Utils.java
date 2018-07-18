@@ -105,6 +105,11 @@ public class Utils {
             b.append(" " + context.getResources().getString(R.string.seconds));
         }
 
+        if (b.length() == 0) {
+            //Only show milliseconds if duration is < 1 second
+            b.append(timeMillis + " " + context.getResources().getString(R.string.milliseconds));
+        }
+
         return b.toString();
     }
 }

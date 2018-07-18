@@ -105,7 +105,7 @@ class LastTriedFragment : Fragment() {
         if (teachingContent is Task) {
             view?.findViewById<TextView>(R.id.tv_result)?.text =
                     if (result is ResultTyping) {
-                        result.getScoreSummary(context, teachingContent.isPassFail)
+                        result.getScoreSummary(context, teachingContent.isPassFail, teachingContent.passPercentage)
                     } else if (result is ResultGestures) {
                         //NOT USING RESULT_GESTURES anymore
                         (result.items_correct).toString()

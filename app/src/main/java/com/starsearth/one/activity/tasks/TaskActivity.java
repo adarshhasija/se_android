@@ -354,6 +354,9 @@ public class TaskActivity extends AppCompatActivity {
         if (index == expectedAnswer.length() && !task.submitOnReturnTapped) {
             itemsAttempted++;
             checkItemCorrect();
+            if (tvCompletedTotal.getVisibility() == View.VISIBLE) {
+                tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.length);
+            }
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {

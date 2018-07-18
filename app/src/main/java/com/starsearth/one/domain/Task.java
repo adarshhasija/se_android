@@ -28,6 +28,7 @@ public class Task extends SEBaseObject {
     public boolean isTextVisibleOnStart         = true;
     public boolean submitOnReturnTapped         = false;
     public boolean isPassFail                   = false;
+    public int passPercentage                   = 0; //Relevant only if task is type isPassFail = true
     public boolean showUserAnswerWithBackground = false;
     public boolean isBackspaceAllowed           = true;
     public boolean isKeyboardRequired           = false;
@@ -80,6 +81,7 @@ public class Task extends SEBaseObject {
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
         isPassFail = in.readByte() != 0;
+        passPercentage = in.readInt();
         showUserAnswerWithBackground = in.readByte() != 0;
         isBackspaceAllowed = in.readByte() != 0;
         isKeyboardRequired = in.readByte() != 0;
@@ -113,6 +115,7 @@ public class Task extends SEBaseObject {
         result.put("isTextVisibleOnStart", isTextVisibleOnStart);
         result.put("submitOnReturnTapped", submitOnReturnTapped);
         result.put("isPassFail", isPassFail);
+        result.put("passPercentage", passPercentage);
         result.put("showUserAnswerWithBackground", showUserAnswerWithBackground);
         result.put("isBackspaceAllowed", isBackspaceAllowed);
         result.put("isKeyboardRequired", isKeyboardRequired);
@@ -141,6 +144,7 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
         dest.writeByte((byte) (isPassFail ? 1 : 0));
+        dest.writeInt(passPercentage);
         dest.writeByte((byte) (showUserAnswerWithBackground ? 1 : 0));
         dest.writeByte((byte) (isBackspaceAllowed ? 1 : 0));
         dest.writeByte((byte) (isKeyboardRequired ? 1 : 0));

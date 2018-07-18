@@ -56,7 +56,7 @@ class ResultRecyclerViewAdapter(
 
         if (result is ResultTyping) {
             holder.mScoreView.text = mContext.resources.getString(R.string.result) + ": " +
-                                        " " + result.getScoreSummary(mContext, mTask.isPassFail)
+                                        " " + result.getScoreSummary(mContext, mTask.isPassFail, mTask.passPercentage)
         }
         else if (result is Result) {
             holder.mScoreView.text = mContext.resources.getString(R.string.result) + ": " +

@@ -69,7 +69,7 @@ class HighScoreFragment : Fragment() {
         timestamp?.let { tvTimeStamp.text = Utils.formatDate(it)  }
         tvHighScore.text = (mResult as Result)?.items_correct.toString()
         if (mResult is ResultTyping) {
-            tvHighScore.text = (mResult as ResultTyping).getScoreSummary(context, mTask?.timed!!)
+            tvHighScore.text = (mResult as ResultTyping).getScoreSummary(context, mTask?.timed!!, mTask?.passPercentage!!)
         }
 
         view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =

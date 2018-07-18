@@ -98,14 +98,14 @@ public class ResultTyping extends Result {
         return accuracyPercentageInt;
     }
 
-    public String getScoreSummary(Context context, boolean isPassFail) {
+    public String getScoreSummary(Context context, boolean isPassFail, int passPercentage) {
         StringBuffer result = new StringBuffer();
         if (!isPassFail) {
             result.append(Integer.valueOf(words_correct));
         }
         else {
             int accuracy = getAccuracy();
-            if (accuracy >= 90) result.append(context.getString(R.string.passed));
+            if (accuracy >= passPercentage) result.append(context.getString(R.string.passed));
             else result.append(context.getString(R.string.failed));
         }
         return result.toString();
