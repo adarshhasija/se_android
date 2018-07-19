@@ -81,7 +81,6 @@ public class FileTasks {
         task.ordered = Boolean.parseBoolean(input.get("ordered"));
         task.timed = Boolean.parseBoolean(input.get("timed"));
         if (input.get("durationMillis") != null) task.durationMillis = Integer.valueOf(input.get("durationMillis"));
-        if (input.get("trials") != null) task.trials = Integer.valueOf(input.get("trials"));
 
         return task;
     }

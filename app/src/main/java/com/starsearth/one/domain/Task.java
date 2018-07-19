@@ -23,7 +23,6 @@ public class Task extends SEBaseObject {
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
-    public int trials;  //number of trials, if instruction must be repeated. This field is only used for format instructions text
     public String[] tags;
     public boolean isTextVisibleOnStart         = true;
     public boolean submitOnReturnTapped         = false;
@@ -76,7 +75,6 @@ public class Task extends SEBaseObject {
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
-        trials = in.readInt();
         tags = in.createStringArray();
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
@@ -110,7 +108,6 @@ public class Task extends SEBaseObject {
         result.put("ordered", ordered);
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
-        result.put("trials", trials);
         result.put("tags", tags);
         result.put("isTextVisibleOnStart", isTextVisibleOnStart);
         result.put("submitOnReturnTapped", submitOnReturnTapped);
@@ -139,7 +136,6 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
-        dest.writeInt(trials);
         dest.writeStringArray(tags);
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));

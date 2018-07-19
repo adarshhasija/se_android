@@ -79,6 +79,9 @@ class ResponseRecyclerViewAdapter(
             context.resources.getString(R.string.tap_action) + " = " + context.resources.getString(R.string.true_)
         } else if (item.answer == " ") {
             context.resources.getString(R.string.space_symbol)
+        } else if (item.answer.isNullOrEmpty()) {
+            //Means no answer provided
+            (context.resources.getString(R.string.no_answer_received)).toUpperCase()
         } else {
             item.answer
         }
