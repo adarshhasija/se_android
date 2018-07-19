@@ -36,7 +36,10 @@ import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Task;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -440,7 +443,7 @@ public class TaskActivity extends AppCompatActivity {
                 else
                 {
                     // consider as something else - a screen tap for example
-                    if (task.type == Task.Type.TYPING) {
+                    if (task.type == Task.Type.TYPING || task.type == Task.Type.SPELLING) {
                         if (expectedAnswer != null) {
                             //On screen tap, announce the next expected character
                             //If text is not visible to user, use normal TTS
