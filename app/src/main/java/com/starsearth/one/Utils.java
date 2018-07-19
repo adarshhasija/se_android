@@ -39,7 +39,7 @@ public class Utils {
 
     //Formats the time from the timestamp in 12 HR FORMAT
     public static String formatTime(long timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh.mm aa");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
         String formattedTime = dateFormat.format(timestamp).toString();
         return formattedTime;
     }
@@ -105,9 +105,9 @@ public class Utils {
             b.append(" " + context.getResources().getString(R.string.seconds));
         }
 
-        if (b.length() == 0) {
-            //Only show milliseconds if duration is < 1 second
-            b.append(timeMillis + " " + context.getResources().getString(R.string.milliseconds));
+        if (timeMillis < 1000) {
+            //Duration < 1 second
+            b.append(context.getResources().getString(R.string.less_than_1_second));
         }
 
         return b.toString();

@@ -345,6 +345,7 @@
     <string name="minutes">minutes</string>
     <string name="seconds">seconds</string>
     <string name="milliseconds">milliseconds</string>
+    <string name="less_than_1_second">Less than 1 second</string>
     <string name="hours">hours</string>
     <string name="correct">Correct</string>
     <string name="not_correct">Not Correct</string>

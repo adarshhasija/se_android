@@ -123,7 +123,6 @@ public class TaskActivity extends AppCompatActivity {
             if (task.content != null && task.content.length > 1) {
                 tvCompletedTotal.setVisibility(View.VISIBLE);
                 tvCompletedTotal.setText("1" + "/" + task.content.length);
-                tvTapScreenToHearContent.setVisibility(View.VISIBLE);
                 if (((StarsEarthApplication) getApplication()).getAccessibility().isTalkbackOn()) {
                     tvTapScreenToHearContent.setText(getResources().getString(R.string.double_tap_screen_to_hear_text_again));
                 }

@@ -23,7 +23,7 @@ public class Task extends SEBaseObject {
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
-    public int trials;  //number of trials, if instruction must be repeated
+    public int trials;  //number of trials, if instruction must be repeated. This field is only used for format instructions text
     public String[] tags;
     public boolean isTextVisibleOnStart         = true;
     public boolean submitOnReturnTapped         = false;
