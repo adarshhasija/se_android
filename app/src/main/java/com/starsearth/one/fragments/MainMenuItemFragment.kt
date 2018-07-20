@@ -45,7 +45,7 @@ import kotlin.collections.HashMap
 class MainMenuItemFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
-    private var mResult = ArrayList<Parcelable>() //Used if screen is for a course
+    private var mResults = ArrayList<Parcelable>() //Used if screen is for a course
     private var mListener: OnMainMenuFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
@@ -233,7 +233,7 @@ class MainMenuItemFragment : Fragment() {
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
             val parcelableArrayList = arguments!!.getParcelableArrayList<Parcelable>(ARG_RESULTS)
             for (item in parcelableArrayList) {
-                mResult.add(item)
+                mResults.add(item)
             }
         }
     }
@@ -257,7 +257,16 @@ class MainMenuItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //view has to exist by the time this is called
-        FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+        if (!mResults.isEmpty()) {
+            for (result in mResults) {
+                insertResult((result as Result))
+            }
+        }
+        else {
+            //Only call from Firebase if there are no results passed in
+            FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+        }
+
     }
 
     override fun onResume() {
@@ -288,7 +297,7 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MainMenuItem> {
-        val mainMenuItems = if (mTeachingContent != null) {
+        val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
             FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
         } else {
             FileTasks.getMainMenuItems(getContext())
@@ -357,6 +366,14 @@ class MainMenuItemFragment : Fragment() {
 
         fun newInstance(): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
+            return fragment
+        }
+
+        fun newInstance(course: Parcelable): MainMenuItemFragment {
+            val fragment = MainMenuItemFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_TEACHING_CONTENT, course)
+            fragment.arguments = args
             return fragment
         }
 

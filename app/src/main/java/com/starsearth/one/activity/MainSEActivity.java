@@ -38,13 +38,13 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         setContentView(R.layout.activity_main_se);
         isPhoneNumberVerified();
 
-        MainMenuItemFragment mainMenuItemFragment = new MainMenuItemFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
+        //MainMenuItemFragment mainMenuItemFragment = new MainMenuItemFragment();
+        //getSupportFragmentManager().beginTransaction()
+        //        .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
 
         MoreOptionsMenuItemFragment moreOptionsMenuItemFragment = new MoreOptionsMenuItemFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_top_menu, moreOptionsMenuItemFragment).commit();
+                .add(R.id.fragment_container_main_menu, moreOptionsMenuItemFragment).commit();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

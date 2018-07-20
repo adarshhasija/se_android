@@ -3,6 +3,7 @@ package com.starsearth.one.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -18,13 +19,12 @@ import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.starsearth.one.BuildConfig
 import com.starsearth.one.activity.KeyboardActivity
+import com.starsearth.one.activity.TaskDetailActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.database.Firebase
 
 
 /**
@@ -65,6 +65,12 @@ class MoreOptionsMenuItemFragment : Fragment() {
             activity?.finish()
             intent = Intent(context, WelcomeOneActivity::class.java)
             startActivity(intent)
+        } else {
+            val intent = Intent(context, TaskDetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("action", item.text1)
+            intent.putExtras(bundle)
+            startActivity(intent)
         }
     }
 
@@ -96,7 +102,8 @@ class MoreOptionsMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MoreOptionsMenuItem> {
-        val dataList = ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)))
+        val dataList = ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_actions_list)))
+        dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_user_account_list)))
         if (BuildConfig.DEBUG) {
             dataList.add(resources.getString(R.string.logout))

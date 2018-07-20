@@ -42,25 +42,53 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
         if (extras != null) {
             teachingContent = extras.getParcelable("teachingContent");
             ArrayList<Parcelable> parcelableArrayList = extras.getParcelableArrayList("results");
-            for (Parcelable o : parcelableArrayList) {
-                results.add(o);
+            if (parcelableArrayList != null) {
+                for (Parcelable o : parcelableArrayList) {
+                    results.add(o);
+                }
+            }
+            String action = extras.getString("action");
+            if (action != null) {
+                setTitle(action);
+            }
+            else if (teachingContent != null) {
+                setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
             }
         }
 
         if (teachingContent != null) {
-            setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
+            if (teachingContent instanceof Task) {
+                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container_main, fragment).commit();
+            }
+        }
+        else {
+            MainMenuItemFragment fragment;
+            if (teachingContent != null) {
+                fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+            }
+            else {
+                fragment = MainMenuItemFragment.Companion.newInstance();
+            }
+            //MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container_main, fragment).commit();
+        }
+
+     /*   if (teachingContent != null) {
             if (teachingContent instanceof Course) {
                 MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container_main, fragment).commit();
+                        .replace(R.id.fragment_container_main, fragment).commit();
             }
             else if (teachingContent instanceof Task) {
                 TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container_main, fragment).commit();
+                        .replace(R.id.fragment_container_main, fragment).commit();
 
             }
-        }
+        }   */
     }
 
     @Override

@@ -61,13 +61,15 @@
     <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
-    <array name="se_main_list_practice">
-        <item>Typing - small letters</item>
-        <item>Typing - capital letters</item>
-        <item>Typing - 1 word</item>
-        <item>Typing - many words</item>
-        <item>Typing - 1 sentence</item>
-        <item>Typing - many sentences</item>
+    <array name="se_actions_list">
+        <item>Keyboard Typing Activities</item>
+        <item>All Spelling Activities</item>
+        <item>All Gesture Activities</item>
+        <item>All Timed Games</item>
+        <item>All Mathematics Activities</item>
+        <item>All English Activities</item>
+        <item>All Activities</item>
+        <item>My Records</item>
     </array>
     <array name="se_assistant_list">
         <!--<item>StarsEarth Teacher</item>-->
