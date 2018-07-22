@@ -169,7 +169,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
                 updateUserProperties();
             }
         }).start();
-        Intent intent = new Intent(WelcomeOneActivity.this, TabbedActivity.class);
+        Intent intent = new Intent(WelcomeOneActivity.this, MainSEActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

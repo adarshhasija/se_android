@@ -63,6 +63,11 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
             }
+            else {
+                MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container_main, fragment).commit();
+            }
         }
         else {
             MainMenuItemFragment fragment;
