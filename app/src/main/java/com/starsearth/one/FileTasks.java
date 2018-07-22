@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -158,7 +159,7 @@ public class FileTasks {
         return list;
     }
 
-    public static ArrayList<MainMenuItem> getMainMenuItems(Context context) {
+    public static ArrayList<MainMenuItem> getMainMenuItems(Context context, String tag) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         try {
 
@@ -170,9 +171,22 @@ public class FileTasks {
             //int highestId = getHighestId(teachingContentList);
             for (Object o : teachingContentList) {
                 if (((SEBaseObject) o).visible) {
+                    boolean isTagPresent = false;
+                    if (tag != null) {
+                        String[] tags = ((Task) o).tags;
+                        List<String> tagsList = Arrays.asList(tags);
+                        if (tagsList.contains(tag)) {
+                            isTagPresent = true;
+                        }
+                    }
+                    if (tag != null && isTagPresent == false) {
+                        continue;
+                    }
+
                     MainMenuItem mainMenuItem = new MainMenuItem();
                     mainMenuItem.teachingContent = o;
                     mainMenuItems.add(mainMenuItem);
+
                 }
             }
           /*  Gson gson = new Gson();

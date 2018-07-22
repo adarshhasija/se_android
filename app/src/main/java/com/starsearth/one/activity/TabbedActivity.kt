@@ -31,7 +31,6 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */
     override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.visibility = visibility
         if (visibility == View.VISIBLE) {

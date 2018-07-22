@@ -30,6 +30,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
 
     Object teachingContent = null;
     ArrayList<Parcelable> results = new ArrayList<Parcelable>();
+    String action = null;
 
 
     @Override
@@ -47,7 +48,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
                     results.add(o);
                 }
             }
-            String action = extras.getString("action");
+            action = extras.getString("action");
             if (action != null) {
                 setTitle(action);
             }
@@ -67,6 +68,9 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
             MainMenuItemFragment fragment;
             if (teachingContent != null) {
                 fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+            }
+            else if (action != null) {
+                fragment = MainMenuItemFragment.Companion.newInstance(action);
             }
             else {
                 fragment = MainMenuItemFragment.Companion.newInstance();

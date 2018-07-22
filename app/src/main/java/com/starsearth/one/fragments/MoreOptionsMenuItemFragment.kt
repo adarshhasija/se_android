@@ -25,6 +25,7 @@ import com.starsearth.one.activity.TaskDetailActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
+import kotlin.collections.ArrayList
 
 
 /**
@@ -68,7 +69,11 @@ class MoreOptionsMenuItemFragment : Fragment() {
         } else {
             val intent = Intent(context, TaskDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putString("action", item.text1)
+            bundle.putString("action", if (item.text1.contains("mathematics")) {
+                "mathematics"
+            } else {
+                item.text1
+            })
             intent.putExtras(bundle)
             startActivity(intent)
         }
@@ -102,7 +107,8 @@ class MoreOptionsMenuItemFragment : Fragment() {
     }
 
     fun getData(): ArrayList<MoreOptionsMenuItem> {
-        val dataList = ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_actions_list)))
+        val dataList = ArrayList<String>()
+        //dataList.addAll(ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_actions_list))))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_user_account_list)))
         if (BuildConfig.DEBUG) {

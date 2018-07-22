@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -154,6 +157,21 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
 
     @Override
     public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
-        findViewById(R.id.progress_bar).setVisibility(visibility);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(visibility);
+        if (visibility == View.VISIBLE) {
+            findViewById(R.id.fragment_container_main_menu).setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.fragment_container_main_menu).setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
+        }
+
+        if (visibility == View.VISIBLE) {
+            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait));
+        }
+        else {
+            progressBar.announceForAccessibility(getString(R.string.loading_complete));
+        }
     }
 }

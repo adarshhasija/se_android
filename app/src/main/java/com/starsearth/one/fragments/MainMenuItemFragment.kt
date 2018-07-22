@@ -46,6 +46,7 @@ class MainMenuItemFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
     private var mResults = ArrayList<Parcelable>() //Used if screen is for a course
+    private var mTag : String? = null
     private var mListener: OnMainMenuFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
@@ -235,6 +236,7 @@ class MainMenuItemFragment : Fragment() {
             for (item in parcelableArrayList) {
                 mResults.add(item)
             }
+            mTag = arguments!!.getString(ARG_TAG)
         }
     }
 
@@ -247,7 +249,7 @@ class MainMenuItemFragment : Fragment() {
             view.layoutManager = LinearLayoutManager(context)
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            val mainMenuItems = getData()
+            val mainMenuItems = getData(mTag)
             view.adapter = MyMainMenuItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view
@@ -296,11 +298,11 @@ class MainMenuItemFragment : Fragment() {
         }
     }
 
-    fun getData(): ArrayList<MainMenuItem> {
+    fun getData(tag: String?): ArrayList<MainMenuItem> {
         val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
             FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
         } else {
-            FileTasks.getMainMenuItems(getContext())
+            FileTasks.getMainMenuItems(getContext(), tag)
         }
 
         return mainMenuItems
@@ -363,6 +365,7 @@ class MainMenuItemFragment : Fragment() {
         // TODO: Customize parameter argument names
         private val ARG_TEACHING_CONTENT = "teachingContent"
         private val ARG_RESULTS = "RESULTS"
+        private val ARG_TAG = "TAG"
 
         fun newInstance(): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
@@ -373,6 +376,14 @@ class MainMenuItemFragment : Fragment() {
             val fragment = MainMenuItemFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(tag: String): MainMenuItemFragment {
+            val fragment = MainMenuItemFragment()
+            val args = Bundle()
+            args.putString(ARG_TAG, tag)
             fragment.arguments = args
             return fragment
         }
