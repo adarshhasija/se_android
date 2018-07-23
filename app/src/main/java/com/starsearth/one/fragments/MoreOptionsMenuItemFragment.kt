@@ -3,7 +3,6 @@ package com.starsearth.one.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -22,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.starsearth.one.BuildConfig
 import com.starsearth.one.FileTasks
 import com.starsearth.one.activity.KeyboardActivity
-import com.starsearth.one.activity.TaskDetailActivity
+import com.starsearth.one.activity.DetailActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
@@ -44,6 +43,7 @@ import kotlin.collections.ArrayList
 class MoreOptionsMenuItemFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
+    private var mSubjectsList : ArrayList<String>? = null
     private var mListener: OnMoreOptionsListFragmentInteractionListener? = null
 
     fun sendAnalytics(selected: String) {
@@ -69,7 +69,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
             intent = Intent(context, WelcomeOneActivity::class.java)
             startActivity(intent)
         } else {
-            val intent = Intent(context, TaskDetailActivity::class.java)
+            val intent = Intent(context, DetailActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("teachingContent", if (item.text1.contains("Keyboard Typing")) {
                 FileTasks.getCourseById(context, 10) //Task id for keyboard typing course
@@ -102,6 +102,12 @@ class MoreOptionsMenuItemFragment : Fragment() {
             } else {
                 false
             })
+            if (item.text1.contains("subject")) {
+                val subjects = ArrayList<String>()
+                subjects.add("English")
+                subjects.add("Mathematics")
+                bundle.putStringArrayList("subjects", subjects)
+            }
             intent.putExtras(bundle)
             startActivity(intent)
         }
@@ -112,6 +118,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
 
         if (arguments != null) {
             mColumnCount = arguments!!.getInt(ARG_COLUMN_COUNT)
+            mSubjectsList = arguments!!.getStringArrayList(ARG_SUBJECTS)
         }
     }
 
@@ -128,7 +135,11 @@ class MoreOptionsMenuItemFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val menuItems = getData()
+            val menuItems = if (mSubjectsList != null) {
+                getSubjects(mSubjectsList!!)
+            } else {
+                getData()
+            }
             view.adapter = MyMoreOptionsMenuItemRecyclerViewAdapter(menuItems, mListener, this)
         }
         return view
@@ -144,6 +155,15 @@ class MoreOptionsMenuItemFragment : Fragment() {
         }
         val menuItems = ArrayList<MoreOptionsMenuItem>()
         for (data in dataList) {
+            val item = MoreOptionsMenuItem(data)
+            menuItems.add(item)
+        }
+        return menuItems
+    }
+
+    fun getSubjects(subjectsList: ArrayList<String>): ArrayList<MoreOptionsMenuItem> {
+        val menuItems = ArrayList<MoreOptionsMenuItem>()
+        for (data in subjectsList) {
             val item = MoreOptionsMenuItem(data)
             menuItems.add(item)
         }
@@ -190,12 +210,21 @@ class MoreOptionsMenuItemFragment : Fragment() {
 
         // TODO: Customize parameter argument names
         private val ARG_COLUMN_COUNT = "column-count"
+        private val ARG_SUBJECTS = "subjects"
 
         // TODO: Customize parameter initialization
         fun newInstance(columnCount: Int): MoreOptionsMenuItemFragment {
             val fragment = MoreOptionsMenuItemFragment()
             val args = Bundle()
             args.putInt(ARG_COLUMN_COUNT, columnCount)
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(subjects: ArrayList<String>): MoreOptionsMenuItemFragment {
+            val fragment = MoreOptionsMenuItemFragment()
+            val args = Bundle()
+            args.putStringArrayList(ARG_SUBJECTS, subjects)
             fragment.arguments = args
             return fragment
         }

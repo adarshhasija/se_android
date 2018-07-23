@@ -4,17 +4,21 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.MoreOptionsMenuItem;
 import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
+import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
 import com.starsearth.one.fragments.ResponseListFragment;
 import com.starsearth.one.fragments.ResultDetailFragment;
 import com.starsearth.one.fragments.ResultListFragment;
@@ -26,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener {
+public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
 
     private Object teachingContent = null;
     private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -34,6 +38,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
     private Long type;
     private boolean isTimed = false;
     private boolean isGame = false;
+    private ArrayList<String> subjects = null;
 
 
     @Override
@@ -62,6 +67,9 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
             type = extras.getLong("type");
             isTimed = extras.getBoolean("isTimed");
             isGame = extras.getBoolean("isGame");
+            if (extras.containsKey("subjects")) {
+                subjects = extras.getStringArrayList("subjects");
+            }
         }
 
         if (teachingContent != null) {
@@ -76,6 +84,11 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
             }
+        }
+        else if (subjects != null) {
+            MoreOptionsMenuItemFragment fragment = MoreOptionsMenuItemFragment.Companion.newInstance(subjects);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container_main, fragment).commit();
         }
         else {
             MainMenuItemFragment fragment;
@@ -120,7 +133,22 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
 
     @Override
     public void setListFragmentProgressBarVisibility(int visibility, @NotNull RecyclerView view) {
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(visibility);
+        if (visibility == View.VISIBLE) {
+            findViewById(R.id.fragment_container_main).setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.fragment_container_main).setVisibility(View.VISIBLE);
+            view.setVisibility(View.VISIBLE);
+        }
 
+        if (visibility == View.VISIBLE) {
+            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait));
+        }
+        else {
+            progressBar.announceForAccessibility(getString(R.string.loading_complete));
+        }
     }
 
     @Override
@@ -175,6 +203,11 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
 
     @Override
     public void onResponseListFragmentInteraction(@Nullable Response item) {
+
+    }
+
+    @Override
+    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
 
     }
 }

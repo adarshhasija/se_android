@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -133,7 +132,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {
         Task task = (Task) item.teachingContent;
         sendAnalytics(task);
-        Intent intent = new Intent(this, TaskDetailActivity.class);
+        Intent intent = new Intent(this, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("task", task);
         intent.putExtras(bundle);

@@ -23,7 +23,7 @@ import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.KeyboardActivity
-import com.starsearth.one.activity.TaskDetailActivity
+import com.starsearth.one.activity.DetailActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
@@ -197,7 +197,7 @@ class MainMenuItemFragment : Fragment() {
             startActivity(intent)
         }
         else {
-            val intent = Intent(context, TaskDetailActivity::class.java)
+            val intent = Intent(context, DetailActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
             bundle.putParcelableArrayList("results", resultsArray)
