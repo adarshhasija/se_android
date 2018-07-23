@@ -2,6 +2,7 @@ package com.starsearth.one;
 
 import android.content.Context;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -159,17 +160,23 @@ public class FileTasks {
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
                 boolean isTagPresent = false;
-                if (o instanceof Task) {
+                if (o instanceof Course) {
+                    Course course = (Course) o;
+                    List<Task> tasks = course.getTasks();
+                    for (Task task : tasks) {
+                        String[] tags = task.tags;
+                        List<String> tagsList = Arrays.asList(tags);
+                        if (tagsList.contains(tag)) {
+                            mainMenuItems.add(new MainMenuItem(task));
+                        }
+                    }
+                }
+                else if (o instanceof Task) {
                     String[] tags = ((Task) o).tags;
                     List<String> tagsList = Arrays.asList(tags);
                     if (tagsList.contains(tag)) {
-                        isTagPresent = true;
+                        mainMenuItems.add(new MainMenuItem(o));
                     }
-                }
-                if (isTagPresent) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.teachingContent = o;
-                    mainMenuItems.add(mainMenuItem);
                 }
             }
         }
@@ -180,11 +187,22 @@ public class FileTasks {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (o instanceof Task) {
-                if (((Task) o).type == type) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.teachingContent = o;
-                    mainMenuItems.add(mainMenuItem);
+            if (((SEBaseObject) o).visible) {
+                if (o instanceof Course) {
+                    Course course = (Course) o;
+                    List<Task> tasks = course.getTasks();
+                    for (Task task : tasks) {
+                        if (task.type == type) {
+                            mainMenuItems.add(new MainMenuItem(task));
+                        }
+                    }
+                }
+                else if (o instanceof Task) {
+                    if (((Task) o).type == type) {
+                        MainMenuItem mainMenuItem = new MainMenuItem();
+                        mainMenuItem.teachingContent = o;
+                        mainMenuItems.add(mainMenuItem);
+                    }
                 }
             }
         }
@@ -195,11 +213,20 @@ public class FileTasks {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (o instanceof Task) {
-                if (((Task) o).timed) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.teachingContent = o;
-                    mainMenuItems.add(mainMenuItem);
+            if (((SEBaseObject) o).visible) {
+                if (o instanceof Course) {
+                    Course course = (Course) o;
+                    List<Task> tasks = course.getTasks();
+                    for (Task task : tasks) {
+                        if (task.timed) {
+                            mainMenuItems.add(new MainMenuItem(task));
+                        }
+                    }
+                }
+                else if (o instanceof Task) {
+                    if (((Task) o).timed) {
+                        mainMenuItems.add(new MainMenuItem(o));
+                    }
                 }
             }
         }
@@ -210,13 +237,23 @@ public class FileTasks {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (o instanceof Task) {
-                if (((Task) o).isGame) {
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.teachingContent = o;
-                    mainMenuItems.add(mainMenuItem);
+            if (((SEBaseObject) o).visible) {
+                if (o instanceof Course) {
+                    Course course = (Course) o;
+                    List<Task> tasks = course.getTasks();
+                    for (Task task : tasks) {
+                        if (task.isGame) {
+                            mainMenuItems.add(new MainMenuItem(task));
+                        }
+                    }
+                }
+                else if (o instanceof Task) {
+                    if (((Task) o).isGame) {
+                        mainMenuItems.add(new MainMenuItem(o));
+                    }
                 }
             }
+
         }
         return mainMenuItems;
     }

@@ -23,6 +23,11 @@ public class MainMenuItem implements Parcelable {
         results = new Stack<>();
     }
 
+    public MainMenuItem(Object teachingContent) {
+        this.teachingContent = teachingContent;
+        results = new Stack<>();
+    }
+
     public boolean isTaskIdExists(int taskId) {
         boolean result = false;
         if (teachingContent instanceof Course) {
