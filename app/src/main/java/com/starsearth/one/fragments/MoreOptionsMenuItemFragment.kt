@@ -83,7 +83,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
             } else if (item.text1.contains("Spelling")) {
                 "spelling"
             } else {
-                item.text1
+                ""
             })
             bundle.putLong("type", if (item.text1.contains("Gesture")) {
                 Task.Type.TAP_SWIPE.value

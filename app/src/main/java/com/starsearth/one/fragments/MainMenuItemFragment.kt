@@ -320,7 +320,8 @@ class MainMenuItemFragment : Fragment() {
         } else if (!tag.isNullOrEmpty()) {
             FileTasks.getMainMenuItemsByTag(context, tag)
         } else {
-            ArrayList()
+            //Show everything
+            FileTasks.getAllMainMenuItems(context)
         }
 
         return mainMenuItems

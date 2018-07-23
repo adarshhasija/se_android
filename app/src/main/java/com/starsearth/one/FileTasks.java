@@ -1,15 +1,12 @@
 package com.starsearth.one;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.starsearth.one.domain.Course;
@@ -21,17 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.lang.reflect.Type;
 
 /**
@@ -161,7 +155,7 @@ public class FileTasks {
 
     public static ArrayList<MainMenuItem> getMainMenuItemsByTag(Context context, String tag) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        List<Object> teachingContentList = getMainMenuItems(context);
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
                 boolean isTagPresent = false;
@@ -184,7 +178,7 @@ public class FileTasks {
 
     public static ArrayList<MainMenuItem> getMainMenuItemsByType(Context context, Task.Type type) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        List<Object> teachingContentList = getMainMenuItems(context);
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (o instanceof Task) {
                 if (((Task) o).type == type) {
@@ -199,7 +193,7 @@ public class FileTasks {
 
     public static ArrayList<MainMenuItem> getMainMenuItemsTimed(Context context) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        List<Object> teachingContentList = getMainMenuItems(context);
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (o instanceof Task) {
                 if (((Task) o).timed) {
@@ -214,7 +208,7 @@ public class FileTasks {
 
     public static ArrayList<MainMenuItem> getMainMenuItemsGames(Context context) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        List<Object> teachingContentList = getMainMenuItems(context);
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (o instanceof Task) {
                 if (((Task) o).isGame) {
@@ -229,7 +223,7 @@ public class FileTasks {
 
     public static Course getCourseById(Context context, int courseId) {
         Course result = null;
-        List<Object> teachingContentList = getMainMenuItems(context);
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (o instanceof Course) {
                 Course course = (Course) o;
@@ -242,8 +236,20 @@ public class FileTasks {
         return result;
     }
 
-    //Tag can be null. This means allow everything
-    private static List<Object> getMainMenuItems(Context context) {
+    //Gets all items from JSON and returns them as array of MainMenuItem
+    public static ArrayList<MainMenuItem> getAllMainMenuItems(Context context) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
+        for (Object o : teachingContentList) {
+            MainMenuItem mainMenuItem = new MainMenuItem();
+            mainMenuItem.teachingContent = o;
+            mainMenuItems.add(mainMenuItem);
+        }
+        return mainMenuItems;
+    }
+
+
+    private static List<Object> getAllItemsFromJSON(Context context) {
         List<Object> teachingContentList = new ArrayList<>();
         try {
 

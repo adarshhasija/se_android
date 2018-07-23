@@ -52,7 +52,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
                 }
             }
             action = extras.getString("action");
-            if (action != null) {
+            if (action != null && action.length() > 0) {
                 setTitle(Utils.formatStringFirstLetterCapital(action));
             }
             else if (teachingContent != null) {
@@ -79,7 +79,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
         }
         else {
             MainMenuItemFragment fragment;
-            if (action != null) {
+            if (action != null || type != null || isTimed || isGame) {
                 fragment = MainMenuItemFragment.Companion.newInstance(action, type, isTimed, isGame);
             }
             else {
