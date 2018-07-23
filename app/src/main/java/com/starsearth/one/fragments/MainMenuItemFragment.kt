@@ -47,6 +47,9 @@ class MainMenuItemFragment : Fragment() {
     private var mTeachingContent : Any? = null
     private var mResults = ArrayList<Parcelable>() //Used if screen is for a course
     private var mTag : String? = null
+    private var mType : Task.Type? = null
+    private var mIsTimed : Boolean = false
+    private var mIsGame : Boolean = false
     private var mListener: OnMainMenuFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
@@ -232,11 +235,18 @@ class MainMenuItemFragment : Fragment() {
 
         if (arguments != null) {
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
-            val parcelableArrayList = arguments!!.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+            val parcelableArrayList = if (arguments!!.containsKey(ARG_RESULTS)) {
+                arguments!!.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+            } else {
+                ArrayList<Parcelable>()
+            }
             for (item in parcelableArrayList) {
                 mResults.add(item)
             }
             mTag = arguments!!.getString(ARG_TAG)
+            mType = Task.Type.fromInt(arguments!!.getLong(ARG_TYPE))
+            mIsTimed = arguments!!.getBoolean(ARG_TIMED)
+            mIsGame = arguments!!.getBoolean(ARG_GAME)
         }
     }
 
@@ -249,7 +259,7 @@ class MainMenuItemFragment : Fragment() {
             view.layoutManager = LinearLayoutManager(context)
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            val mainMenuItems = getData(mTag)
+            val mainMenuItems = getData(mTag, mType, mIsTimed, mIsGame)
             view.adapter = MyMainMenuItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view
@@ -298,11 +308,19 @@ class MainMenuItemFragment : Fragment() {
         }
     }
 
-    fun getData(tag: String?): ArrayList<MainMenuItem> {
+    fun getData(tag: String?, type: Task.Type?, isTimed: Boolean, isGame: Boolean): ArrayList<MainMenuItem> {
         val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
             FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
+        } else if (isTimed) {
+            FileTasks.getMainMenuItemsTimed(context)
+        } else if (isGame) {
+            FileTasks.getMainMenuItemsGames(context)
+        } else if (type != null) {
+            FileTasks.getMainMenuItemsByType(context, type)
+        } else if (!tag.isNullOrEmpty()) {
+            FileTasks.getMainMenuItemsByTag(context, tag)
         } else {
-            FileTasks.getMainMenuItems(getContext(), tag)
+            ArrayList()
         }
 
         return mainMenuItems
@@ -366,6 +384,9 @@ class MainMenuItemFragment : Fragment() {
         private val ARG_TEACHING_CONTENT = "teachingContent"
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TAG = "TAG"
+        private val ARG_TYPE = "TYPE"
+        private val ARG_TIMED = "IS_TIMED"
+        private const val ARG_GAME = "IS_GAME"
 
         fun newInstance(): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
@@ -380,10 +401,13 @@ class MainMenuItemFragment : Fragment() {
             return fragment
         }
 
-        fun newInstance(tag: String): MainMenuItemFragment {
+        fun newInstance(tag: String, type: Long, isTimed: Boolean, isGame: Boolean): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
             val args = Bundle()
             args.putString(ARG_TAG, tag)
+            args.putLong(ARG_TYPE, type)
+            args.putBoolean(ARG_TIMED, isTimed)
+            args.putBoolean(ARG_GAME, isGame)
             fragment.arguments = args
             return fragment
         }

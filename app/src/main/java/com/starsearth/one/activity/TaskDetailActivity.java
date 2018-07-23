@@ -28,9 +28,12 @@ import java.util.ArrayList;
 
 public class TaskDetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener {
 
-    Object teachingContent = null;
-    ArrayList<Parcelable> results = new ArrayList<Parcelable>();
-    String action = null;
+    private Object teachingContent = null;
+    private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
+    private String action = null;
+    private Long type;
+    private boolean isTimed = false;
+    private boolean isGame = false;
 
 
     @Override
@@ -50,11 +53,15 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
             }
             action = extras.getString("action");
             if (action != null) {
-                setTitle(action);
+                setTitle(Utils.formatStringFirstLetterCapital(action));
             }
             else if (teachingContent != null) {
                 setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
             }
+
+            type = extras.getLong("type");
+            isTimed = extras.getBoolean("isTimed");
+            isGame = extras.getBoolean("isGame");
         }
 
         if (teachingContent != null) {
@@ -64,6 +71,7 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
                         .add(R.id.fragment_container_main, fragment).commit();
             }
             else {
+                //it is a course
                 MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
@@ -71,11 +79,8 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailF
         }
         else {
             MainMenuItemFragment fragment;
-            if (teachingContent != null) {
-                fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
-            }
-            else if (action != null) {
-                fragment = MainMenuItemFragment.Companion.newInstance(action);
+            if (action != null) {
+                fragment = MainMenuItemFragment.Companion.newInstance(action, type, isTimed, isGame);
             }
             else {
                 fragment = MainMenuItemFragment.Companion.newInstance();

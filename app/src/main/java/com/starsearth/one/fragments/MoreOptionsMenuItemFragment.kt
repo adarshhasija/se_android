@@ -20,11 +20,13 @@ import android.support.v7.widget.DividerItemDecoration
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.starsearth.one.BuildConfig
+import com.starsearth.one.FileTasks
 import com.starsearth.one.activity.KeyboardActivity
 import com.starsearth.one.activity.TaskDetailActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.Task
 import kotlin.collections.ArrayList
 
 
@@ -55,7 +57,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
         sendAnalytics(item.text1)
         val intent: Intent
         val title = item.text1
-        if (title != null && title.contains("Keyboard")) {
+        if (title != null && title.contains("Keyboard Test")) {
             intent = Intent(context, KeyboardActivity::class.java)
             startActivity(intent)
         } else if (title != null && title.contains("Phone")) {
@@ -69,10 +71,36 @@ class MoreOptionsMenuItemFragment : Fragment() {
         } else {
             val intent = Intent(context, TaskDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putString("action", if (item.text1.contains("mathematics")) {
+            bundle.putParcelable("teachingContent", if (item.text1.contains("Keyboard Typing")) {
+                FileTasks.getCourseById(context, 10) //Task id for keyboard typing course
+            } else {
+                null
+            })
+            bundle.putString("action", if (item.text1.contains("Mathematics")) {
                 "mathematics"
+            } else if (item.text1.contains("English")) {
+                "english"
+            } else if (item.text1.contains("Spelling")) {
+                "spelling"
             } else {
                 item.text1
+            })
+            bundle.putLong("type", if (item.text1.contains("Gesture")) {
+                Task.Type.TAP_SWIPE.value
+            } else if (item.text1.contains("Spelling")) {
+                Task.Type.SPELLING.value
+            } else {
+                0
+            })
+            bundle.putBoolean("isTimed", if (item.text1.contains("Timed")) {
+                true
+            } else {
+                false
+            })
+            bundle.putBoolean("isGame", if (item.text1.contains("Game")) {
+                true
+            } else {
+                false
             })
             intent.putExtras(bundle)
             startActivity(intent)
@@ -108,7 +136,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
 
     fun getData(): ArrayList<MoreOptionsMenuItem> {
         val dataList = ArrayList<String>()
-        //dataList.addAll(ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_actions_list))))
+        dataList.addAll(ArrayList(Arrays.asList(*resources.getStringArray(R.array.se_actions_list))))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_keyboard_test_list)))
         dataList.addAll(Arrays.asList(*resources.getStringArray(R.array.se_user_account_list)))
         if (BuildConfig.DEBUG) {

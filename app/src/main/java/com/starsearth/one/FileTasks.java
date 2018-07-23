@@ -159,54 +159,105 @@ public class FileTasks {
         return list;
     }
 
-    //Tag can be null. This means allow everything
-    public static ArrayList<MainMenuItem> getMainMenuItems(Context context, String tag) {
+    public static ArrayList<MainMenuItem> getMainMenuItemsByTag(Context context, String tag) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        List<Object> teachingContentList = getMainMenuItems(context);
+        for (Object o : teachingContentList) {
+            if (((SEBaseObject) o).visible) {
+                boolean isTagPresent = false;
+                if (o instanceof Task) {
+                    String[] tags = ((Task) o).tags;
+                    List<String> tagsList = Arrays.asList(tags);
+                    if (tagsList.contains(tag)) {
+                        isTagPresent = true;
+                    }
+                }
+                if (isTagPresent) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.teachingContent = o;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+        }
+        return mainMenuItems;
+    }
+
+    public static ArrayList<MainMenuItem> getMainMenuItemsByType(Context context, Task.Type type) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        List<Object> teachingContentList = getMainMenuItems(context);
+        for (Object o : teachingContentList) {
+            if (o instanceof Task) {
+                if (((Task) o).type == type) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.teachingContent = o;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+        }
+        return mainMenuItems;
+    }
+
+    public static ArrayList<MainMenuItem> getMainMenuItemsTimed(Context context) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        List<Object> teachingContentList = getMainMenuItems(context);
+        for (Object o : teachingContentList) {
+            if (o instanceof Task) {
+                if (((Task) o).timed) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.teachingContent = o;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+        }
+        return mainMenuItems;
+    }
+
+    public static ArrayList<MainMenuItem> getMainMenuItemsGames(Context context) {
+        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+        List<Object> teachingContentList = getMainMenuItems(context);
+        for (Object o : teachingContentList) {
+            if (o instanceof Task) {
+                if (((Task) o).isGame) {
+                    MainMenuItem mainMenuItem = new MainMenuItem();
+                    mainMenuItem.teachingContent = o;
+                    mainMenuItems.add(mainMenuItem);
+                }
+            }
+        }
+        return mainMenuItems;
+    }
+
+    public static Course getCourseById(Context context, int courseId) {
+        Course result = null;
+        List<Object> teachingContentList = getMainMenuItems(context);
+        for (Object o : teachingContentList) {
+            if (o instanceof Course) {
+                Course course = (Course) o;
+                if (course.id == courseId && course.tasks.size() > 0) {
+                    result = course;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    //Tag can be null. This means allow everything
+    private static List<Object> getMainMenuItems(Context context) {
+        List<Object> teachingContentList = new ArrayList<>();
         try {
 
             JSONObject root = new JSONObject(loadJSONFromAsset(context));
             JSONArray coursesJSON = root.getJSONArray("courses");
             JSONArray tasksJSON = root.getJSONArray("tasks");
-            List<Object> teachingContentList = getCourses(coursesJSON);
+            teachingContentList.addAll(getCourses(coursesJSON));
             teachingContentList.addAll(getTasks(tasksJSON));
             //int highestId = getHighestId(teachingContentList);
-            for (Object o : teachingContentList) {
-                if (((SEBaseObject) o).visible) {
-                    boolean isTagPresent = false;
-                    if (tag != null) {
-                        String[] tags = ((Task) o).tags;
-                        List<String> tagsList = Arrays.asList(tags);
-                        if (tagsList.contains(tag)) {
-                            isTagPresent = true;
-                        }
-                    }
-                    if (tag != null && isTagPresent == false) {
-                        //If it is not part of the requested tag, do not allow it
-                        continue;
-                    }
-
-                    MainMenuItem mainMenuItem = new MainMenuItem();
-                    mainMenuItem.teachingContent = o;
-                    mainMenuItems.add(mainMenuItem);
-
-                }
-            }
-          /*  Gson gson = new Gson();
-            Type typeCourse = new TypeToken<List<Course>>(){}.getType();
-            Type typeTask = new TypeToken<List<Task>>(){}.getType();
-            List<Course> coursesList = gson.fromJson(coursesJSON.toString(), typeCourse);
-
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
-            Gson gson2 = gsonBuilder.create();
-            tasksList = gson2.fromJson(tasksJSON.toString(), typeTask);
-            */
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return mainMenuItems;
+        return teachingContentList;
     }
 
     /*
