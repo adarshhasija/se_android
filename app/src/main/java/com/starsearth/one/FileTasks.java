@@ -159,6 +159,7 @@ public class FileTasks {
         return list;
     }
 
+    //Tag can be null. This means allow everything
     public static ArrayList<MainMenuItem> getMainMenuItems(Context context, String tag) {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         try {
@@ -180,6 +181,7 @@ public class FileTasks {
                         }
                     }
                     if (tag != null && isTagPresent == false) {
+                        //If it is not part of the requested tag, do not allow it
                         continue;
                     }
 

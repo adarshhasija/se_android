@@ -1,7 +1,5 @@
 package com.starsearth.one.fragments
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,12 +10,10 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
-import com.facebook.ads.AdSettings
 import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -179,10 +175,16 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     fun generateAd() {
-        val accessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
+        val isAccessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
+        val isOwnerWantingAds = if (mTeachingContent is Task) {
+            (mTeachingContent as Task).isOwnerWantingAds
+        } else {
+            false
+        }
         //only generate ads for non-accessibility users
-        if (ads != "None" && !accessibilityUser) {
+        //only generate ads if task owner wants to make money from ads
+        if (ads != "None" && !isAccessibilityUser && isOwnerWantingAds) {
             val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().adsFrequencyModulo
             val moduloInt = Integer.parseInt(moduloString)
             val random = Random()
