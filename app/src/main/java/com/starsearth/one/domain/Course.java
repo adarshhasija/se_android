@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by faimac on 2/24/17.
+ * Created by Adarsh Hasija on 2/24/17.
+ * Courses have a title and a list of organized tasks. Tasks are done in order
+ * When a task is done, course list is not re-ordered
  */
 
 @IgnoreExtraProperties

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MyMoreOptionsMenuItemRecyclerViewAdapter
+import com.starsearth.one.adapter.MyUserOptionsMenuItemRecyclerViewAdapter
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
@@ -40,7 +40,7 @@ import kotlin.collections.ArrayList
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class MoreOptionsMenuItemFragment : Fragment() {
+class UserOptionsMenuItemFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var mSubjectsList : ArrayList<String>? = null
@@ -140,7 +140,7 @@ class MoreOptionsMenuItemFragment : Fragment() {
             } else {
                 getData()
             }
-            view.adapter = MyMoreOptionsMenuItemRecyclerViewAdapter(menuItems, mListener, this)
+            view.adapter = MyUserOptionsMenuItemRecyclerViewAdapter(menuItems, mListener, this)
         }
         return view
     }
@@ -213,16 +213,16 @@ class MoreOptionsMenuItemFragment : Fragment() {
         private val ARG_SUBJECTS = "subjects"
 
         // TODO: Customize parameter initialization
-        fun newInstance(columnCount: Int): MoreOptionsMenuItemFragment {
-            val fragment = MoreOptionsMenuItemFragment()
+        fun newInstance(columnCount: Int): UserOptionsMenuItemFragment {
+            val fragment = UserOptionsMenuItemFragment()
             val args = Bundle()
             args.putInt(ARG_COLUMN_COUNT, columnCount)
             fragment.arguments = args
             return fragment
         }
 
-        fun newInstance(subjects: ArrayList<String>): MoreOptionsMenuItemFragment {
-            val fragment = MoreOptionsMenuItemFragment()
+        fun newInstance(subjects: ArrayList<String>): UserOptionsMenuItemFragment {
+            val fragment = UserOptionsMenuItemFragment()
             val args = Bundle()
             args.putStringArrayList(ARG_SUBJECTS, subjects)
             fragment.arguments = args

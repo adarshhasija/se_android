@@ -23,11 +23,11 @@ import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.MoreOptionsMenuItem;
 import com.starsearth.one.fragments.MainMenuItemFragment;
-import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
+import com.starsearth.one.fragments.UserOptionsMenuItemFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnMainMenuFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnMainMenuFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseAssistantReference;
@@ -44,9 +44,9 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         //getSupportFragmentManager().beginTransaction()
         //        .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
 
-        MoreOptionsMenuItemFragment moreOptionsMenuItemFragment = new MoreOptionsMenuItemFragment();
+        UserOptionsMenuItemFragment userOptionsMenuItemFragment = new UserOptionsMenuItemFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_main_menu, moreOptionsMenuItemFragment).commit();
+                .add(R.id.fragment_container_main_menu, userOptionsMenuItemFragment).commit();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

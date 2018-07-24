@@ -22,11 +22,11 @@ import com.starsearth.one.R
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.MainMenuItemFragment
-import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
+import com.starsearth.one.fragments.UserOptionsMenuItemFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
-class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
     /*
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */
@@ -126,7 +126,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1)
-            var fragment : Fragment = MoreOptionsMenuItemFragment.newInstance(1)
+            var fragment : Fragment = UserOptionsMenuItemFragment.newInstance(1)
             when (position) {
                 0 -> {
                     fragment = MainMenuItemFragment.newInstance()

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.MoreOptionsMenuItem
-import com.starsearth.one.fragments.MoreOptionsMenuItemFragment
+import com.starsearth.one.fragments.UserOptionsMenuItemFragment
 
-import com.starsearth.one.fragments.MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener
+import com.starsearth.one.fragments.UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
@@ -17,7 +17,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnMoreOptionsListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOptionsMenuItem>, private val mListener: OnMoreOptionsListFragmentInteractionListener?, private val mFragment: MoreOptionsMenuItemFragment) : RecyclerView.Adapter<MyMoreOptionsMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyUserOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOptionsMenuItem>, private val mListener: OnMoreOptionsListFragmentInteractionListener?, private val mFragment: UserOptionsMenuItemFragment) : RecyclerView.Adapter<MyUserOptionsMenuItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,7 +27,7 @@ class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOpt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.mText1View.text = mValues[position].text1
+        holder.mTitleView.text = mValues[position].text1
         //holder.mContentView.text = mValues[position].content
 
         holder.mView.setOnClickListener {
@@ -43,17 +43,17 @@ class MyMoreOptionsMenuItemRecyclerViewAdapter(private val mValues: List<MoreOpt
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mText1View: TextView
+        val mTitleView: TextView
         val mText2View: TextView
         var mItem: MoreOptionsMenuItem? = null
 
         init {
-            mText1View = mView.findViewById<TextView>(R.id.tv_title) as TextView
+            mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mText2View = mView.findViewById<TextView>(R.id.text2) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mText1View.text + "'"
+            return super.toString() + " '" + mTitleView.text + "'"
         }
     }
 }

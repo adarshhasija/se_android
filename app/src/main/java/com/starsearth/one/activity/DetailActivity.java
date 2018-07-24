@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
-import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.MainMenuItem;
 import com.starsearth.one.domain.MoreOptionsMenuItem;
 import com.starsearth.one.domain.Response;
@@ -18,7 +17,7 @@ import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
-import com.starsearth.one.fragments.MoreOptionsMenuItemFragment;
+import com.starsearth.one.fragments.UserOptionsMenuItemFragment;
 import com.starsearth.one.fragments.ResponseListFragment;
 import com.starsearth.one.fragments.ResultDetailFragment;
 import com.starsearth.one.fragments.ResultListFragment;
@@ -30,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, MoreOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
 
     private Object teachingContent = null;
     private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -86,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
             }
         }
         else if (subjects != null) {
-            MoreOptionsMenuItemFragment fragment = MoreOptionsMenuItemFragment.Companion.newInstance(subjects);
+            UserOptionsMenuItemFragment fragment = UserOptionsMenuItemFragment.Companion.newInstance(subjects);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit();
         }

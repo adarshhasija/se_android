@@ -23,7 +23,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_main, parent, false)
+                .inflate(R.layout.list_item_main_menu, parent, false)
                 //.inflate(R.layout.fragment_mainmenuitem, parent, false)
         return ViewHolder(view)
     }
