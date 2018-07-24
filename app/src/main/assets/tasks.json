@@ -159,13 +159,14 @@
           "showUserAnswerWithBackground": true,
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true,
-          "isExitOnInterruption": true
+          "isExitOnInterruption": true,
+          "isGame": true
         }
       ]
     },
     {
       "id": 27,
-      "visible": true,
+      "visible": false,
       "title": "Spelling Exercises",
       "instructions": "See if you can spell these words.",
       "tasks" : [
@@ -174,7 +175,7 @@
     },
     {
       "id": 24,
-      "visible": true,
+      "visible": false,
       "title": "Comparing numbers",
       "instructions": "Test your number skills with these games",
       "tasks": [
@@ -183,7 +184,7 @@
     },
     {
       "id": 25,
-      "visible": true,
+      "visible": false,
       "title": "Addition and Subtraction",
       "instructions": "Test your addition and subtraction skills with these exercises.",
       "tasks" : [
@@ -192,7 +193,7 @@
     },
     {
       "id": 23,
-      "visible": true,
+      "visible": false,
       "title": "Clock face",
       "instructions": "Test your geometry skills with these clock face exercises.",
       "tasks" : [
@@ -201,7 +202,7 @@
     },
     {
       "id": 26,
-      "visible": true,
+      "visible": false,
       "title": "Spot the spelling mistakes",
       "instructions": "See if you can find the spelling mistakes.",
       "tasks" :[

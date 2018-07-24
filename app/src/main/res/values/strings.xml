@@ -63,12 +63,12 @@
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <array name="se_actions_list">
         <item>Keyboard Typing Activities</item>
-        <item>All Activities</item>
+        <item>View All</item>
+        <item>Activities by subject</item>
         <item>Timed Activities</item>
         <item>All Games</item>
         <item>All Gesture Activities</item>
         <item>All Spelling Activities</item>
-        <item>Activities by subject</item>
     </array>
     <array name="se_assistant_list">
         <!--<item>StarsEarth Teacher</item>-->

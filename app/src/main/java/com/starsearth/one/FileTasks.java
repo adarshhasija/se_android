@@ -278,9 +278,9 @@ public class FileTasks {
         ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            MainMenuItem mainMenuItem = new MainMenuItem();
-            mainMenuItem.teachingContent = o;
-            mainMenuItems.add(mainMenuItem);
+            if (((SEBaseObject) o).visible) {
+                mainMenuItems.add(new MainMenuItem(o));
+            }
         }
         return mainMenuItems;
     }

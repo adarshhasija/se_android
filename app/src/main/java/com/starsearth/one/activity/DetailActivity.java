@@ -55,14 +55,14 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
                     results.add(o);
                 }
             }
-            action = extras.getString("action");
-            if (action != null && action.length() > 0) {
-                setTitle(Utils.formatStringFirstLetterCapital(action));
-            }
-            else if (teachingContent != null) {
+
+            if (teachingContent != null) {
                 setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
             }
-
+            else if (extras.containsKey("title")) {
+                setTitle(Utils.formatStringFirstLetterCapital(extras.getString("title")));
+            }
+            action = extras.getString("action");
             type = extras.getLong("type");
             isTimed = extras.getBoolean("isTimed");
             isGame = extras.getBoolean("isGame");

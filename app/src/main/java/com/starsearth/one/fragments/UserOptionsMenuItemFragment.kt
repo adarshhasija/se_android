@@ -71,6 +71,7 @@ class UserOptionsMenuItemFragment : Fragment() {
         } else {
             val intent = Intent(context, DetailActivity::class.java)
             val bundle = Bundle()
+            bundle.putString("title", item.text1)
             bundle.putParcelable("teachingContent", if (item.text1.contains("Keyboard Typing")) {
                 FileTasks.getCourseById(context, 10) //Task id for keyboard typing course
             } else {
