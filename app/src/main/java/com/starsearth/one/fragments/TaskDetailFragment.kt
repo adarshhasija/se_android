@@ -26,6 +26,7 @@ import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
+import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -326,10 +327,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             String.format((mTeachingContent as Task)?.instructions + " " +
                     context?.resources?.getString(R.string.complete_as_many_as)
                     , (mTeachingContent as Task)?.getTimeLimitAsString(context))
-        } else if (mTeachingContent is Task) {
-            (mTeachingContent as Task)?.instructions
         } else {
-            ""
+            (mTeachingContent as SEBaseObject)?.instructions
         }).toString()
         if (mTeachingContent is Task) {
             if ((mTeachingContent as Task).isExitOnInterruption) {
@@ -338,7 +337,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
         (tv as TextView).text = instructions
 
-
+        if (mTeachingContent is Course && mResults.isNotEmpty()) {
+            tvProgress.visibility = View.VISIBLE
+            tvProgress.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+        }
 
         return view
     }
@@ -355,15 +357,21 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         if (isTalkbackOn) {
             view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.VISIBLE
-            view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
             view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_continue_next)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
+            tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
+            if (mTeachingContent is Course && mResults.isNotEmpty()) {
+                tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
+            }
         }
         else {
             view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.GONE
-            view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text = context?.resources?.getString(R.string.tap_screen_to_start)
             view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_continue_next)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.long_press_for_more_options)
+            tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
+            if (mTeachingContent is Course && mResults.isNotEmpty()) {
+                tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_continue)
+            }
         }
 
         var contentDescription = getContentDescriptionForAccessibility()
@@ -379,7 +387,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             contentDescription += view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.text.toString()
         }
 
-        contentDescription += " " + view?.findViewById<TextView>(R.id.tv_tap_screen_to_start)?.text.toString()
+        contentDescription += " " + view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.text.toString()
         if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
             contentDescription += " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
         }
@@ -464,6 +472,13 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         setReturnResult(result)
         mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
         updateResults(result)
+
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+        if (mTeachingContent is Course && isTalkbackOn) {
+            tvTapScreenToStart.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
+        } else {
+            tvTapScreenToStart.text = context?.resources?.getString(R.string.tap_screen_to_continue)
+        }
         view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
         //do not want to call announce for accessibility here. Only set content description
         view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()

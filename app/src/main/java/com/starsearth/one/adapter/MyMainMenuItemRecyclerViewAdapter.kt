@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
@@ -20,6 +22,12 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * TODO: Replace the implementation with code for your data type.
  */
 class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<MainMenuItem>, private val mListener: OnMainMenuFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
+
+
+    var mValuesFiltered : ArrayList<MainMenuItem> = ArrayList() //For search filter purposes
+    init {
+        mValuesFiltered = mValues
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

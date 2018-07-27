@@ -26,6 +26,7 @@ public class Course extends SEBaseObject {
     public int difficulty;
     public String description;
     public boolean usbKeyboard;
+    public boolean hasKeyboardTest = false;
     //public Map<String, Boolean> lessons = new HashMap<>();
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
@@ -73,6 +74,7 @@ public class Course extends SEBaseObject {
         difficulty = in.readInt();
         description = in.readString();
         usbKeyboard = in.readByte() != 0;
+        hasKeyboardTest = in.readByte() != 0;
         lessons = in.readHashMap(getClass().getClassLoader());
         tasks = in.readArrayList(Task.class.getClassLoader());
     }
@@ -126,6 +128,7 @@ public class Course extends SEBaseObject {
         result.put("difficulty", difficulty);
         result.put("description", description);
         result.put("usbKeyboard", usbKeyboard);
+        result.put("hasKeyboardTest", hasKeyboardTest);
         result.put("lessons", lessons);
         result.put("tasks", tasks);
 
@@ -144,6 +147,7 @@ public class Course extends SEBaseObject {
         dest.writeInt(difficulty);
         dest.writeString(description);
         dest.writeByte((byte) (usbKeyboard ? 1 : 0));
+        dest.writeByte((byte) (hasKeyboardTest? 1 : 0));
         dest.writeMap(lessons);
         dest.writeList(tasks);
     }

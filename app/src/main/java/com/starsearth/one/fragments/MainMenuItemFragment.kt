@@ -260,6 +260,11 @@ class MainMenuItemFragment : Fragment() {
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             val mainMenuItems = getData(mTag, mType, mIsTimed, mIsGame)
+            if (mTeachingContent is Course) {
+                if ((mTeachingContent as Course).hasKeyboardTest) {
+                    mainMenuItems.addAll(0, FileTasks.getMainMenuItemsByType(getContext(), Task.Type.KEYBOARD_TEST))
+                }
+            }
             view.adapter = MyMainMenuItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view

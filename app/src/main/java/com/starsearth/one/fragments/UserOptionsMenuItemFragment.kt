@@ -83,6 +83,8 @@ class UserOptionsMenuItemFragment : Fragment() {
                 "english"
             } else if (item.text1.contains("Spelling")) {
                 "spelling"
+            } else if (item.text1.contains("Typing")) {
+                "typing"
             } else {
                 ""
             })
@@ -107,6 +109,7 @@ class UserOptionsMenuItemFragment : Fragment() {
                 val subjects = ArrayList<String>()
                 subjects.add("English")
                 subjects.add("Mathematics")
+                subjects.add("Typing")
                 bundle.putStringArrayList("subjects", subjects)
             }
             intent.putExtras(bundle)

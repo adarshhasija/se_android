@@ -1,216 +1,12 @@
 {
-  "courses": [
-    {
-      "visible": true,
-      "id": 10,
-      "title": "Keyboard Typing Exercises",
-      "instructions": "Improve your keyboard typing skills with these exercises",
-      "tasks" : [
-        {
-          "id": 12,
-          "type": 3,
-          "title": "Keyboard Test",
-          "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",
-          "isKeyboardRequired": true,
-          "tags": ["typing"]
-        },
-        {
-          "id": 3,
-          "type": 1,
-          "timed": false,
-          "title": "Type f and press spacebar",
-          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["f␣","f␣","f␣","f␣"],
-          "tags": ["typing"],
-          "isPassFail": true,
-          "passPercentage": 90,
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true
-
-        },
-        {
-          "id": 4,
-          "type": 1,
-          "timed": false,
-          "title": "Type j and press spacebar",
-          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["j␣","j␣","j␣","j␣"],
-          "tags": ["typing"],
-          "isPassFail": true,
-          "passPercentage": 90,
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true
-
-        },
-        {
-          "id": 33,
-          "type": 1,
-          "timed": false,
-          "title": "Home row: left hand",
-          "instructions": "These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
-          "content": ["asdf","asdf","asdf","asdf"],
-          "trials": 4,
-          "ordered": true,
-          "tags": ["typing"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 34,
-          "type": 1,
-          "timed": false,
-          "title": "Home row: right hand",
-          "instructions": "These keys should be pressed using the fingers of the right hand. Type them out correctly. ",
-          "content": ["jkl", "jkl", "jkl", "jkl"],
-          "trials": 4,
-          "ordered": true,
-          "tags": ["typing"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 29,
-          "type": 1,
-          "timed": false,
-          "title": "small letters",
-          "instructions": "You will be shown some letters. Type them out correctly. ",
-          "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
-          "ordered": true,
-          "tags": ["english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 30,
-          "type": 1,
-          "timed": false,
-          "title": "capital letters",
-          "instructions": "You will be shown some capital letters. Type them out correctly. ",
-          "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-          "ordered": true,
-          "tags": ["english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 31,
-          "type": 1,
-          "timed": false,
-          "title": "numbers practice: single digits",
-          "instructions": "You will be shown some numbers. Type them out correctly. ",
-          "content": ["1","2","3","4","5","6","7","8","9","0"],
-          "ordered": true,
-          "tags": ["mathematics"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 5,
-          "type": 1,
-          "timed": true,
-          "durationMillis": 61000,
-          "title": "small letters",
-          "instructions": "You will be shown some letters. Type as many as you can correctly within the time limit. ",
-          "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
-          "ordered": false,
-          "tags": ["english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": true
-        },
-        {
-          "id": 6,
-          "type": 1,
-          "timed": true,
-          "durationMillis": 61000,
-          "title": "capital letters",
-          "instructions": "You will be shown some capital letters. Type as many as you can correctly within the time limit. ",
-          "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-          "ordered": false,
-          "tags": ["english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": true
-        },
-        {
-          "id": 32,
-          "type": 1,
-          "timed": true,
-          "durationMillis": 61000,
-          "title": "numbers game: single digits",
-          "instructions": "You will be shown some numbers. Type them out as many as you can within 1 minute. ",
-          "content": ["1","2","3","4","5","6","7","8","9","0"],
-          "ordered": false,
-          "tags": ["mathematics"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": true,
-          "isGame": true
-        }
-      ]
-    },
-    {
-      "id": 27,
-      "visible": false,
-      "title": "Spelling Exercises",
-      "instructions": "See if you can spell these words.",
-      "tasks" : [
-
-      ]
-    },
-    {
-      "id": 24,
-      "visible": false,
-      "title": "Comparing numbers",
-      "instructions": "Test your number skills with these games",
-      "tasks": [
-
-      ]
-    },
-    {
-      "id": 25,
-      "visible": false,
-      "title": "Addition and Subtraction",
-      "instructions": "Test your addition and subtraction skills with these exercises.",
-      "tasks" : [
-
-      ]
-    },
-    {
-      "id": 23,
-      "visible": false,
-      "title": "Clock face",
-      "instructions": "Test your geometry skills with these clock face exercises.",
-      "tasks" : [
-
-      ]
-    },
-    {
-      "id": 26,
-      "visible": false,
-      "title": "Spot the spelling mistakes",
-      "instructions": "See if you can find the spelling mistakes.",
-      "tasks" :[
-
-      ]
-    }
-  ],
   "tasks": [
+    {
+      "id": 12,
+      "type": 3,
+      "title": "Keyboard Test",
+      "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",
+      "isKeyboardRequired": true
+    },
     {
       "id": 11,
       "type": 4,
@@ -263,7 +59,7 @@
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["Eyes", "Nose", "Ears", "Mouth", "Teeth", "Tongue", "Nostrils", "Pupils", "Neck", "Arms", "Hands", "Fingers", "Elbow", "Heart", "Lungs", "Stomach", "Legs", "Knees", "Feet", "Toes"],
       "isKeyboardRequired": true,
-      "tags": ["spelling"]
+      "tags": ["english","spelling"]
     },
     {
       "id": 37,
@@ -276,8 +72,56 @@
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["New Delhi", "Mumbai", "Bangalore", "Goa", "Ahmedebad", "Chennai", "Hyderabad", "Kolkata", "Jaipur", "Dhaka", "Colombo", "Kabul", "Beijing", "Shanghai", "Tokyo", "Seoul", "Moscow", "Manila", "Jakarta", "Bangkok", "Bali"],
       "isKeyboardRequired": true,
-      "tags": ["spelling"]
+      "tags": ["english", "spelling"]
     },
+    {
+      "id": 5,
+      "type": 1,
+      "timed": true,
+      "durationMillis": 61000,
+      "title": "small letters",
+      "instructions": "You will be shown some letters. Type as many as you can correctly within the time limit. ",
+      "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+      "ordered": false,
+      "tags": ["english","alphabet"],
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 6,
+      "type": 1,
+      "timed": true,
+      "durationMillis": 61000,
+      "title": "capital letters",
+      "instructions": "You will be shown some capital letters. Type as many as you can correctly within the time limit. ",
+      "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
+      "ordered": false,
+      "tags": ["english","alphabet"],
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 32,
+      "type": 1,
+      "timed": true,
+      "durationMillis": 61000,
+      "title": "numbers game: single digits",
+      "instructions": "You will be shown some numbers. Type them out as many as you can within 1 minute. ",
+      "content": ["1","2","3","4","5","6","7","8","9","0"],
+      "ordered": false,
+      "tags": ["mathematics", "numbers"],
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "isExitOnInterruption": true,
+      "isGame": true
+    },
+
+
     {
       "id": 13,
       "type": 4,
@@ -531,6 +375,165 @@
       "ordered": false,
       "tags": ["english"],
       "isExitOnInterruption": true
+    }
+  ],
+
+  "courses": [
+    {
+      "visible": true,
+      "id": 10,
+      "title": "Keyboard Typing Exercises",
+      "instructions": "Improve your keyboard typing skills with these exercises",
+      "hasKeyboardTest": true,
+      "tasks" : [
+        {
+          "id": 3,
+          "type": 1,
+          "timed": false,
+          "title": "Type f and press spacebar",
+          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "content": ["f␣","f␣","f␣","f␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 90,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 4,
+          "type": 1,
+          "timed": false,
+          "title": "Type j and press spacebar",
+          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "content": ["j␣","j␣","j␣","j␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 90,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 33,
+          "type": 1,
+          "timed": false,
+          "title": "Home row: left hand",
+          "instructions": "These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
+          "content": ["asdf","asdf","asdf","asdf"],
+          "trials": 4,
+          "ordered": true,
+          "tags": ["typing"],
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true,
+          "isExitOnInterruption": false
+        },
+        {
+          "id": 34,
+          "type": 1,
+          "timed": false,
+          "title": "Home row: right hand",
+          "instructions": "These keys should be pressed using the fingers of the right hand. Type them out correctly. ",
+          "content": ["jkl", "jkl", "jkl", "jkl"],
+          "trials": 4,
+          "ordered": true,
+          "tags": ["typing"],
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true,
+          "isExitOnInterruption": false
+        },
+        {
+          "id": 29,
+          "type": 1,
+          "timed": false,
+          "title": "small letters",
+          "instructions": "You will be shown some letters. Type them out correctly. ",
+          "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+          "ordered": true,
+          "tags": ["typing","english","alphabet"],
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true,
+          "isExitOnInterruption": false
+        },
+        {
+          "id": 30,
+          "type": 1,
+          "timed": false,
+          "title": "capital letters",
+          "instructions": "You will be shown some capital letters. Type them out correctly. ",
+          "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
+          "ordered": true,
+          "tags": ["typing","english","alphabet"],
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true,
+          "isExitOnInterruption": false
+        },
+        {
+          "id": 31,
+          "type": 1,
+          "timed": false,
+          "title": "numbers practice: single digits",
+          "instructions": "You will be shown some numbers. Type them out correctly. ",
+          "content": ["1","2","3","4","5","6","7","8","9","0"],
+          "ordered": true,
+          "tags": ["typing","mathematics"],
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true,
+          "isExitOnInterruption": false
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "visible": false,
+      "title": "Spelling Exercises",
+      "instructions": "See if you can spell these words.",
+      "tasks" : [
+
+      ]
+    },
+    {
+      "id": 24,
+      "visible": false,
+      "title": "Comparing numbers",
+      "instructions": "Test your number skills with these games",
+      "tasks": [
+
+      ]
+    },
+    {
+      "id": 25,
+      "visible": false,
+      "title": "Addition and Subtraction",
+      "instructions": "Test your addition and subtraction skills with these exercises.",
+      "tasks" : [
+
+      ]
+    },
+    {
+      "id": 23,
+      "visible": false,
+      "title": "Clock face",
+      "instructions": "Test your geometry skills with these clock face exercises.",
+      "tasks" : [
+
+      ]
+    },
+    {
+      "id": 26,
+      "visible": false,
+      "title": "Spot the spelling mistakes",
+      "instructions": "See if you can find the spelling mistakes.",
+      "tasks" :[
+
+      ]
     }
   ]
 }
