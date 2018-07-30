@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.TaskDetailListFragment
@@ -21,7 +22,7 @@ import kotlin.collections.LinkedHashMap
  * specified [OnTaskDetailListFragmentListener].
  *
  */
-class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
+class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private val mValues: LinkedHashMap<String, Any>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = R.layout.task_detail_list_item
@@ -33,20 +34,26 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //If we are passing in course, course has multiple tasks
-        val task = mTasks.getOrNull(0) //mTasks.getOrNull(position)
-        if (position == 0) {
+        //val teachingContent = mTeachingContent.getOrNull(0)
+        if (position == 0 && mTeachingContent is Task) {
             holder.mItem = mValues.get("all_results")
             //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
             holder.mAllResults.visibility = View.VISIBLE
             holder.mView.setOnClickListener {
                 //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
-                holder.mItem?.let { mFragment?.onItemClicked(task, (it as ArrayList<Result>), 0) }
+                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
             }
         }
-        else if (position == 1 && (task?.isPassFail)!! == false) {
+        else if (position == 0 && mTeachingContent is Course) {
+            holder.mItem = mValues.get("all_results")
+            holder.mFullCourse.visibility = View.VISIBLE
+            holder.mView.setOnClickListener {
+                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
+            }
+        }
+        else if (position == 1 && (mTeachingContent is Task && mTeachingContent?.isGame)) {
             holder.mItem = mValues.get("high_score")
-            holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(task?.title)
+            holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(mTeachingContent?.title)
             holder.mResultTextView.text =
                     if ((holder.mItem as Result).items_correct > 0) {
                         ((holder.mItem as Result).items_correct).toString()
@@ -61,10 +68,10 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
 
             holder.mView.setOnClickListener {
                 //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
-                holder.mItem?.let { mFragment?.onItemClickedShowHighScoreDetail(task, (it as Result), 1) }
+                holder.mItem?.let { mFragment?.onItemClickedShowHighScoreDetail(mTeachingContent, (it as Result), 1) }
             }
             holder.mView.setOnLongClickListener {
-                holder.mItem?.let { mFragment?.onItemLongPressed(task, (it as Parcelable), 1) }
+                holder.mItem?.let { mFragment?.onItemLongPressed(mTeachingContent, (it as Parcelable), 1) }
                 true
             }
         }
@@ -119,6 +126,10 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
         val mAllResults: TextView
         //SEE ALL RESULTS: End
 
+        //FULL COURSE: Start
+        val mFullCourse: TextView
+        //FULL COURSE: End
+
         //HIGH SCORE: Start
         val mTaskTitleView: TextView
         val mResultTextView: TextView
@@ -130,6 +141,8 @@ class TaskDetailRecyclerViewAdapter(private val mTasks : List<Task>, private val
 
         init {
             mAllResults = mView.findViewById<TextView>(R.id.tv_all_results) as TextView
+
+            mFullCourse = mView.findViewById<TextView>(R.id.tv_full_course) as TextView
 
             mTaskTitleView = mView.findViewById<TextView>(R.id.tv_task_title) as TextView
             mResultTextView = mView.findViewById<TextView>(R.id.tv_result) as TextView

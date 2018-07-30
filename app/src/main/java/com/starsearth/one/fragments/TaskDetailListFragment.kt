@@ -1,6 +1,5 @@
 package com.starsearth.one.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,22 +11,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.TaskDetailRecyclerViewAdapter
 import com.starsearth.one.domain.*
 import java.util.*
-import kotlin.collections.HashSet
-import android.widget.TextView
-import com.google.android.gms.ads.AdListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.application.StarsEarthApplication
-import com.facebook.ads.Ad
-import com.facebook.ads.AdError
-import com.facebook.ads.InterstitialAdListener
 import com.starsearth.one.activity.FullScreenActivity
 import kotlin.collections.ArrayList
 
@@ -79,11 +69,11 @@ class TaskDetailListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val tasks = if (mTeachingContent is Course) {
+         /*   val tasks = if (mTeachingContent is Course) {
                 (mTeachingContent as Course)!!.getTasks()
             } else {
                 ArrayList(Arrays.asList(mTeachingContent))
-            }
+            }   */
             val results = LinkedHashMap<String, Any>()
             results.put("all_results", mResults)
             //HIGH SCORE: START
@@ -95,16 +85,25 @@ class TaskDetailListFragment : Fragment() {
             }
             results.put("high_score", highScore!!)
             //HIGH SCORE: END
-            view.adapter = TaskDetailRecyclerViewAdapter(tasks as List<Task>, results, mListener, this)
+            view.adapter = TaskDetailRecyclerViewAdapter(mTeachingContent, results, mListener, this)
         }
 
         return view
     }
 
-    fun onItemClicked(task: Task?, results: ArrayList<Result>, position: Int) {
-        if (position == 0) {
-            sendAnalytics(task!!, "ALL_RESULTS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = ResultListFragment.newInstance(task, results)
+    fun onItemClicked(teachingContent: Any?, results: ArrayList<Result>, position: Int) {
+        if (position == 0 && teachingContent is Task) {
+            sendAnalytics(teachingContent!!, "ALL_RESULTS", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = ResultListFragment.newInstance(teachingContent, results)
+            activity?.getSupportFragmentManager()?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    ?.replace(R.id.fragment_container_main, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+        }
+        else if (position == 0 && teachingContent is Course) {
+            sendAnalytics(teachingContent!!, "FULL_COURSE", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = MainMenuItemFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)
@@ -159,13 +158,15 @@ class TaskDetailListFragment : Fragment() {
         mListener = null
     }
 
-    private fun sendAnalytics(task: Task, itemCategory: String, action: String) {
+    private fun sendAnalytics(teachingContent: SEBaseObject, itemCategory: String, action: String) {
         val bundle = Bundle()
-        bundle.putInt("CONTENT_ID", task.id)
+        bundle.putInt("CONTENT_ID", teachingContent.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, itemCategory)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
-        bundle.putString("content_name", task.title)
-        bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
+        bundle.putString("content_name", teachingContent.title)
+        if (teachingContent is Task) {
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, teachingContent.type?.toString()?.replace("_", " "))
+            bundle.putInt("content_timed", if (teachingContent.timed) { 1 } else { 0 })
+        }
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(action, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)

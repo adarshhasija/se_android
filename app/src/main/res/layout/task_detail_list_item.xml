@@ -112,6 +112,20 @@
 
         <!-- SEE ALL RESULTS: END -->
 
+        <!-- FULL COURSE: START -->
+        <TextView
+            android:id="@+id/tv_full_course"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/full_course"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <!-- FULL COURSE: END-->
+
         <!-- COMMON: START -->
 
 

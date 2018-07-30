@@ -75,13 +75,22 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     private fun gestureTap(view: View?) {
         generateAd()
-        startTask((mTeachingContent as Task))
-        sendAnalytics((mTeachingContent as Task), view, FirebaseAnalytics.Event.SELECT_CONTENT)
+        if (mTeachingContent is Task) {
+            startTask((mTeachingContent as Task))
+            sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+        }
+        else if (mTeachingContent is Course && mResults.size < (mTeachingContent as Course).tasks.size) {
+            val nextTaskIndex = mResults.size
+            val task = (mTeachingContent as Course).tasks[nextTaskIndex]
+            mListener?.goToNextTask(task, null)
+            sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+        }
+
     }
 
     private fun gestureLongPress(view: View?) {
         mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
-        sendAnalytics((mTeachingContent as Task), view, "LONG_PRESS")
+        sendAnalytics(mTeachingContent, view, "LONG_PRESS")
     }
 
     private fun gestureSwipe(view: View?) {
@@ -338,8 +347,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         (tv as TextView).text = instructions
 
         if (mTeachingContent is Course && mResults.isNotEmpty()) {
-            tvProgress.visibility = View.VISIBLE
-            tvProgress.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+            view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
+            view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
         }
 
         return view
@@ -470,14 +479,22 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //////////
         analyticsTaskCompleted((mTeachingContent as Task), result)
         setReturnResult(result)
-        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
         updateResults(result)
+        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
 
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-        if (mTeachingContent is Course && isTalkbackOn) {
-            tvTapScreenToStart.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
-        } else {
-            tvTapScreenToStart.text = context?.resources?.getString(R.string.tap_screen_to_continue)
+
+        if (mTeachingContent is Course) {
+            if (mResults.size == (mTeachingContent as Course).tasks.size) {
+                tvTapScreenToStart.visibility = View.GONE
+            }
+            else {
+                val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+                if (isTalkbackOn) {
+                    tvTapScreenToStart.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
+                } else {
+                    tvTapScreenToStart.text = context?.resources?.getString(R.string.tap_screen_to_continue)
+                }
+            }
         }
         view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
         //do not want to call announce for accessibility here. Only set content description
@@ -490,13 +507,15 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
     }
 
-    private fun sendAnalytics(task: Task, view: View?, action: String) {
+    private fun sendAnalytics(teachingContent: Any?, view: View?, action: String) {
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
-        bundle.putString("content_name", task.title)
-        bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
+        if (teachingContent is Task) {
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, teachingContent.type?.toString()?.replace("_", " "))
+            bundle.putString("content_name", teachingContent.title)
+            bundle.putInt("content_timed", if (teachingContent.timed) { 1 } else { 0 })
+        }
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(action, bundle)
         //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
@@ -543,6 +562,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     interface OnTaskDetailFragmentInteractionListener {
         fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
         fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: ArrayList<Result>)
+        fun goToNextTask(task: Task, results: ArrayList<Parcelable>?)
         fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
@@ -560,7 +580,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
          * @return A new instance of fragment TaskDetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(teachingContent: Parcelable?, results: ArrayList<Parcelable>): TaskDetailFragment {
+        fun newInstance(teachingContent: Parcelable?, results: ArrayList<Parcelable>?): TaskDetailFragment {
             val fragment = TaskDetailFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)

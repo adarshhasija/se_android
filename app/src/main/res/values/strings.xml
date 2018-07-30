@@ -63,8 +63,7 @@
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <array name="se_actions_list">
         <item>Activities by subject</item>
-        <item>Keyboard Typing Activities</item>
-        <item>View All Activities</item>
+        <item>My Records</item>
         <item>Timed Activities</item>
         <item>All Games</item>
         <item>All Gesture Activities</item>
@@ -391,6 +390,7 @@
     <string name="not_timed">Not Timed</string>
     <string name="volume_is_mute">Your volume is mute</string>
     <string name="all_results">All results</string>
+    <string name="full_course">Full course</string>
     <string name="tap_to_view_details">Tap to view details</string>
     <string name="move_your_finger_to_top_left_to_get_content">Move your finger to the top left to get content</string>
     <string name="long_press_to_view_responses">Long press to view your responses</string>

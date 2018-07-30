@@ -283,7 +283,7 @@ public class FileTasks {
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
-                if (o instanceof Course) {
+              /*  if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
@@ -292,7 +292,8 @@ public class FileTasks {
                 }
                 else if (o instanceof Task) {
                     mainMenuItems.add(new MainMenuItem(o));
-                }
+                }   */
+              mainMenuItems.add(new MainMenuItem(o));
             }
         }
         return mainMenuItems;

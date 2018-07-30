@@ -79,7 +79,10 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
             }
             else {
                 //it is a course
-                MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+              /*  MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container_main, fragment).commit();  */
+                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();
             }
@@ -208,5 +211,15 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
     @Override
     public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
 
+    }
+
+    @Override
+    public void goToNextTask(@NotNull Task task, ArrayList<Parcelable> results) {
+        TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance(task, results);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
