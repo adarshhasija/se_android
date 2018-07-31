@@ -163,6 +163,28 @@ public class Course extends SEBaseObject {
         return result;
     }
 
+    //This checks if the last Result is that of the last Task in the Course list
+    public boolean isCourseComplete(ArrayList<Result> allResults) {
+        boolean result = false;
+        Result lastTaskAttempted = allResults.get(allResults.size()-1);
+        if (lastTaskAttempted.task_id == tasks.get(tasks.size()-1).id) {
+            result = true;
+        }
+        return result;
+    }
+
+    public Task getNextTask(ArrayList<Result> allResults) {
+        Task ret = null;
+        Result lastTaskAttempted = allResults.get(allResults.size()-1);
+        for (int i = 0; i < tasks.size(); i++) {
+            if (lastTaskAttempted.task_id == tasks.get(i).id &&
+                    i + 1 < tasks.size()) {
+                ret = tasks.get(i+1);
+            }
+        }
+        return ret;
+    }
+
     private List<Task> safe( List<Task> other ) {
         return other == null ? Collections.EMPTY_LIST : other;
     }

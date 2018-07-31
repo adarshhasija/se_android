@@ -79,10 +79,9 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             startTask((mTeachingContent as Task))
             sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
         }
-        else if (mTeachingContent is Course && mResults.size < (mTeachingContent as Course).tasks.size) {
-            val nextTaskIndex = mResults.size
-            val task = (mTeachingContent as Course).tasks[nextTaskIndex]
-            mListener?.goToNextTask(task, null)
+        else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+            val task = (mTeachingContent as Course).getNextTask(mResults)
+            startTask(task)
             sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
         }
 
@@ -346,9 +345,21 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
         (tv as TextView).text = instructions
 
+        if (mTeachingContent is Course) {
+            view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).tasks[mResults.size].instructions
+
+            view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
+            if (mResults.isNotEmpty()) {
+                view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
+                view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+            }
+            else if (mResults.isEmpty()) {
+                view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)
+            }
+        }
+
         if (mTeachingContent is Course && mResults.isNotEmpty()) {
-            view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-            view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+
         }
 
         return view
@@ -369,18 +380,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_continue_next)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
             tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
-            if (mTeachingContent is Course && mResults.isNotEmpty()) {
-                tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
-            }
         }
         else {
             view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.GONE
             view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_continue_next)
             view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.long_press_for_more_options)
             tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
-            if (mTeachingContent is Course && mResults.isNotEmpty()) {
-                tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_continue)
-            }
         }
 
         var contentDescription = getContentDescriptionForAccessibility()
@@ -484,16 +489,16 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
 
         if (mTeachingContent is Course) {
-            if (mResults.size == (mTeachingContent as Course).tasks.size) {
+            tvProgress.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+            tvProgress.visibility = View.VISIBLE
+            if ((mTeachingContent as Course).isCourseComplete(mResults)) {
                 tvTapScreenToStart.visibility = View.GONE
+                tvNextTask.visibility = View.GONE
+                tvCourseTaskInstruction.visibility = View.GONE
             }
             else {
-                val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-                if (isTalkbackOn) {
-                    tvTapScreenToStart.text = context?.resources?.getString(R.string.double_tap_screen_to_continue)
-                } else {
-                    tvTapScreenToStart.text = context?.resources?.getString(R.string.tap_screen_to_continue)
-                }
+                tvNextTask.visibility = View.VISIBLE
+                tvCourseTaskInstruction.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
             }
         }
         view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE //If its a succesful result, set this to visible

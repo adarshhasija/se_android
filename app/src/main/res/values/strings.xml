@@ -403,4 +403,6 @@
     <string name="responses_not_recorded">Responses not recorded</string>
     <string name="activity_will_end_if_interrupted">Please note that the activity will be ended if it is cancelled(example: by pressing Home)</string>
     <string name="no_answer_received">No answer received</string>
+    <string name="firt_task">First Task</string>
+    <string name="next_task">Next Task</string>
 </resources>
