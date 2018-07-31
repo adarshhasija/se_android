@@ -346,7 +346,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         (tv as TextView).text = instructions
 
         if (mTeachingContent is Course) {
-            view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).tasks[mResults.size].instructions
+            view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
 
             view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
             if (mResults.isNotEmpty()) {
@@ -482,13 +482,24 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER
         result.timestamp = Calendar.getInstance().timeInMillis
         //////////
-        analyticsTaskCompleted((mTeachingContent as Task), result)
+        analyticsTaskCompleted(if(mTeachingContent is Task) {
+            mTeachingContent as Task
+        } else {
+            (mTeachingContent as Course).getTaskById(result.task_id)
+        }, result)
         setReturnResult(result)
         updateResults(result)
-        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
+        mListener?.onTaskDetailFragmentShowLastTried(if (mTeachingContent is Task) {
+            mTeachingContent as Task
+        } else {
+            (mTeachingContent as Course).getTaskById(result.task_id)
+        }, result, null, null)
 
 
-        if (mTeachingContent is Course) {
+        if (mTeachingContent is Course && //If we are doing a course
+                result is ResultTyping && //If the result is of type TYPING
+                result.isPassed((mTeachingContent as Course).getTaskById(result.task_id).passPercentage)) //If the user passed the task
+        {
             tvProgress.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
             tvProgress.visibility = View.VISIBLE
             if ((mTeachingContent as Course).isCourseComplete(mResults)) {
@@ -567,7 +578,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     interface OnTaskDetailFragmentInteractionListener {
         fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
         fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: ArrayList<Result>)
-        fun goToNextTask(task: Task, results: ArrayList<Parcelable>?)
         fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 

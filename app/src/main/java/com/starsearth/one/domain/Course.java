@@ -163,6 +163,17 @@ public class Course extends SEBaseObject {
         return result;
     }
 
+    public Task getTaskById(int id) {
+        Task result = null;
+        for (Task t : safe(tasks)) {
+            if (t.id == id) {
+                result = t;
+                break;
+            }
+        }
+        return result;
+    }
+
     //This checks if the last Result is that of the last Task in the Course list
     public boolean isCourseComplete(ArrayList<Result> allResults) {
         boolean result = false;
@@ -175,11 +186,19 @@ public class Course extends SEBaseObject {
 
     public Task getNextTask(ArrayList<Result> allResults) {
         Task ret = null;
-        Result lastTaskAttempted = allResults.get(allResults.size()-1);
+        ResultTyping lastTaskAttempted = (ResultTyping) allResults.get(allResults.size()-1);
         for (int i = 0; i < tasks.size(); i++) {
-            if (lastTaskAttempted.task_id == tasks.get(i).id &&
-                    i + 1 < tasks.size()) {
-                ret = tasks.get(i+1);
+            Task task = tasks.get(i);
+            if (lastTaskAttempted.task_id == task.id) {
+                //If the user passed, give the next task
+                if (lastTaskAttempted.isPassed(task.passPercentage) && i + 1 < tasks.size()) {
+                    ret = tasks.get(i + 1);
+                }
+                else {
+                    //Else give the same task again
+                    ret = tasks.get(i);
+                }
+                break;
             }
         }
         return ret;

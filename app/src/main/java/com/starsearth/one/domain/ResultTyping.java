@@ -104,36 +104,17 @@ public class ResultTyping extends Result {
             result.append(Integer.valueOf(words_correct));
         }
         else {
-            int accuracy = getAccuracy();
-            if (accuracy >= passPercentage) result.append(context.getString(R.string.passed));
+            if (isPassed(passPercentage)) result.append(context.getString(R.string.passed));
             else result.append(context.getString(R.string.failed));
         }
         return result.toString();
     }
 
-    public String getExplanation(Context context, boolean isTimed) {
-        StringBuffer result = new StringBuffer();
-        if (!isTimed) {
-            result.append(context.getString(R.string.accuracy) + " " + getAccuracy() +"%");
-        }
-        else {
-            result.append(context.getResources().getString(R.string.high_score));
-        }
-        return result.toString();
-    }
-
-    public String getResultToast(Context context, boolean isPassFail) {
-        StringBuffer result = new StringBuffer();
-        if (!isPassFail) {
-            result.append(words_correct);
-        }
-        else {
-            int accuracy = getAccuracy();
-            if (accuracy > 90) result.append(context.getString(R.string.passed));
-            else result.append(context.getString(R.string.failed));
-        }
-
-        return result.toString();
+    public boolean isPassed(int passPercentage) {
+        boolean result = false;
+        int accuracy = getAccuracy();
+        if (accuracy >= passPercentage) result = true;
+        return result;
     }
 
     @Exclude

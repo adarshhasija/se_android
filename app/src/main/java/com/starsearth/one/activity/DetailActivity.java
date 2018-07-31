@@ -212,14 +212,4 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
     public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
 
     }
-
-    @Override
-    public void goToNextTask(@NotNull Task task, ArrayList<Parcelable> results) {
-        TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance(task, results);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
 }
