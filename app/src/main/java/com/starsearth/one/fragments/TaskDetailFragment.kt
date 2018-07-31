@@ -351,15 +351,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
             if (mResults.isNotEmpty()) {
                 view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
+                val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
             }
             else if (mResults.isEmpty()) {
                 view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)
             }
-        }
-
-        if (mTeachingContent is Course && mResults.isNotEmpty()) {
-
         }
 
         return view
@@ -500,7 +497,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 result is ResultTyping && //If the result is of type TYPING
                 result.isPassed((mTeachingContent as Course).getTaskById(result.task_id).passPercentage)) //If the user passed the task
         {
-            tvProgress.text = Integer.toString(mResults.size) + "/" + (mTeachingContent as Course).tasks.size
             tvProgress.visibility = View.VISIBLE
             if ((mTeachingContent as Course).isCourseComplete(mResults)) {
                 tvTapScreenToStart.visibility = View.GONE

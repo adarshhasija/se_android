@@ -174,6 +174,27 @@ public class Course extends SEBaseObject {
         return result;
     }
 
+    public int getIndexOfLastPassedTask(ArrayList<Result> results) {
+        int ret = -1;
+        int lastPassedTaskId= -1;
+        for (int i = results.size() - 1; i > -1; i --) {
+            Result result = results.get(i);
+            if (result instanceof ResultTyping) {
+                if (((ResultTyping) result).isPassed(getTaskById(result.task_id).passPercentage)) {
+                    lastPassedTaskId = result.task_id;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).id == lastPassedTaskId) {
+                ret = i;
+                break;
+            }
+        }
+        return ret;
+    }
+
     //This checks if the last Result is that of the last Task in the Course list
     public boolean isCourseComplete(ArrayList<Result> allResults) {
         boolean result = false;
