@@ -55,6 +55,7 @@
     <string name="se_assistant_tap_here_to_begin">Tap here to begin</string>
     <string name="se_assistant_tap_here_to_continue">Tap here to continue</string>
     <string name="se_assistant_keyboard_test_completed">Keyboard test completed</string>
+    <string name="complete">Complete</string>
     <string name="se_assistant_no_update">No Update</string>
     <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing task from the main menu</string>
     <string name="se_assistant_welcome_message">I am the StarsEarth Teacher. I will help you use this app.\nTap screen to continue</string>

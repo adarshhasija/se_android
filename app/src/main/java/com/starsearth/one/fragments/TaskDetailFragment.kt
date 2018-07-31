@@ -346,13 +346,20 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         (tv as TextView).text = instructions
 
         if (mTeachingContent is Course) {
-            view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
-
-            view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
             if (mResults.isNotEmpty()) {
                 view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
                 val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
                 view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
+
+                if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                    view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
+                }
+                else {
+                    //If course is complete, disable this
+                    view?.findViewById<TextView>(R.id.tvProgress)?.text =  view?.findViewById<TextView>(R.id.tvProgress)?.text.toString() + "\n" + context?.resources?.getString(R.string.complete)
+                    view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.GONE
+                }
             }
             else if (mResults.isEmpty()) {
                 view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)

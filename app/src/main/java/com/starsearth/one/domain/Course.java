@@ -198,8 +198,8 @@ public class Course extends SEBaseObject {
     //This checks if the last Result is that of the last Task in the Course list
     public boolean isCourseComplete(ArrayList<Result> allResults) {
         boolean result = false;
-        Result lastTaskAttempted = allResults.get(allResults.size()-1);
-        if (lastTaskAttempted.task_id == tasks.get(tasks.size()-1).id) {
+        int indexOfLastPassedTask = getIndexOfLastPassedTask(allResults);
+        if (indexOfLastPassedTask == tasks.size()-1) {
             result = true;
         }
         return result;

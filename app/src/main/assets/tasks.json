@@ -420,18 +420,19 @@
           "id": 33,
           "type": 1,
           "timed": false,
+          "isPassFail": true,
+          "passPercentage": 90,
           "title": "Home row: left hand",
           "instructions": "These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
           "content": ["asdf","asdf","asdf","asdf"],
-          "trials": 4,
           "ordered": true,
           "tags": ["typing"],
           "showUserAnswerWithBackground": true,
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true,
           "isExitOnInterruption": false
-        },
-        {
+        }
+      /*  {
           "id": 34,
           "type": 1,
           "timed": false,
@@ -487,7 +488,7 @@
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true,
           "isExitOnInterruption": false
-        }
+        } */
       ]
     },
     {
