@@ -79,12 +79,16 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             startTask((mTeachingContent as Task))
             sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
         }
-        else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
-            val task = (mTeachingContent as Course).getNextTask(mResults)
-            startTask(task)
+        else if (mTeachingContent is Course) {
             sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+            if (mResults.isEmpty()) {
+                startTask((mTeachingContent as Course).tasks[0])
+            }
+            else if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
+                val task = (mTeachingContent as Course).getNextTask(mResults)
+                startTask(task)
+            }
         }
-
     }
 
     private fun gestureLongPress(view: View?) {
@@ -346,22 +350,35 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         (tv as TextView).text = instructions
 
         if (mTeachingContent is Course) {
-            if (mResults.isNotEmpty()) {
-                view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
+            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
 
+            if (mResults.isNotEmpty()) {
                 if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
                     view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
+                    if ((mTeachingContent as Course).isFirstTaskCompleted(mResults)) {
+                        view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
+                        val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                        view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
+                        view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.next_task)
+                    }
+
                 }
                 else {
                     //If course is complete, disable this
+                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.GONE
+                    view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
+                    val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                    view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
                     view?.findViewById<TextView>(R.id.tvProgress)?.text =  view?.findViewById<TextView>(R.id.tvProgress)?.text.toString() + "\n" + context?.resources?.getString(R.string.complete)
                     view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.GONE
                 }
             }
             else if (mResults.isEmpty()) {
+                view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
+                view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).tasks[0]?.instructions
+                view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
                 view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)
             }
         }

@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="@string/next_task"
+        android:text="@string/firt_task"
         android:visibility="gone"
         android:layout_margin="10dp" />
 
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textAlignment="center"
+        android:visibility="gone"
         android:focusable="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_centerInParent="true"/>
