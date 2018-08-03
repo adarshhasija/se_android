@@ -101,7 +101,7 @@ public class KeyboardActivity extends AppCompatActivity implements View.OnKeyLis
             }
         }, null);   */
 
-        tvInstruction = (TextView) findViewById(R.id.tv_instruction);
+        tvInstruction = (TextView) findViewById(R.id.tvInstruction);
         tvKey = (TextView) findViewById(R.id.tv_key);
         tvInstruction.setOnKeyListener(this);
 

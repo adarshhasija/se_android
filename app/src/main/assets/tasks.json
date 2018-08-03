@@ -2,6 +2,7 @@
   "tasks": [
     {
       "id": 12,
+      "visible": false,
       "type": 3,
       "title": "Keyboard Test",
       "instructions": "Connect a USB keyboard and press any key to know more about your keyboard",

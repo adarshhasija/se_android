@@ -97,6 +97,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureSwipe(view: View?) {
+        if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+            mListener?.onTaskDetailFragmentSwipeInteraction(mTeachingContent)
+            sendAnalytics(mTeachingContent, view, "SWIPE")
+        }
 
     }
 
@@ -322,7 +326,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         if (mResults != null && !mResults.isEmpty()) {
             //UI changes if there are exisitng results
-            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
+            view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
             //do not want to call announce for accessibility here. Only set content description
             view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
         }
@@ -334,7 +338,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
 
-        val tv = view.findViewById<TextView>(R.id.tv_instruction)
+        val tv = view.findViewById<TextView>(R.id.tvInstruction)
         var instructions = (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
             String.format((mTeachingContent as Task)?.instructions + " " +
                     context?.resources?.getString(R.string.complete_as_many_as)
@@ -350,10 +354,14 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         (tv as TextView).text = instructions
 
         if (mTeachingContent is Course) {
-            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
+            if ((mTeachingContent as Course).hasKeyboardTest) {
+                view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.visibility = View.VISIBLE
+            }
+            view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
 
             if (mResults.isNotEmpty()) {
                 if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
                     view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
@@ -376,6 +384,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }
             }
             else if (mResults.isEmpty()) {
+                view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
                 view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
                 view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).tasks[0]?.instructions
                 view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
@@ -394,40 +403,43 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     fun setupScreenAccessibility() {
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-
-        if (isTalkbackOn) {
-            view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.VISIBLE
-            view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_continue_next)
-            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
-            tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
-        }
-        else {
-            view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.visibility = View.GONE
-            view?.findViewById<TextView>(R.id.tv_swipe_to_continue)?.text = context?.resources?.getString(R.string.swipe_continue_next)
-            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text = context?.resources?.getString(R.string.long_press_for_more_options)
-            tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
-        }
-
+        setGesturesText()
         var contentDescription = getContentDescriptionForAccessibility()
         view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
         view?.announceForAccessibility(contentDescription)
     }
 
+    fun setGesturesText() {
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+
+        if (isTalkbackOn) {
+            tvSingleTapToRepeat?.visibility = View.VISIBLE
+            tvSwipeToContinue?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_for_keyboard_test)
+            tvLongPressForMoreOptions?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
+            tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
+        }
+        else {
+            tvSingleTapToRepeat?.visibility = View.GONE
+            tvSwipeToContinue?.text = context?.resources?.getText(R.string.swipe_for_keyboard_test)
+            tvLongPressForMoreOptions?.text = context?.resources?.getString(R.string.long_press_for_more_options)
+            tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
+        }
+    }
+
     fun getContentDescriptionForAccessibility() : String {
         val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
 
-        var contentDescription = view?.findViewById<TextView>(R.id.tv_instruction)?.text.toString()
+        var contentDescription = tvInstruction?.text.toString()
         if (isTalkbackOn) {
-            contentDescription += view?.findViewById<TextView>(R.id.tv_single_tap_to_repeat)?.text.toString()
+            contentDescription += tvSingleTapToRepeat?.text.toString()
         }
 
-        contentDescription += " " + view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.text.toString()
-        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
-            contentDescription += " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
+        contentDescription += " " + tvTapScreenToStart?.text.toString()
+        if (tvSwipeToContinue?.visibility == View.VISIBLE) {
+            contentDescription += " " + tvSwipeToContinue?.text.toString()
         }
-        if (view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility == View.VISIBLE) {
-            contentDescription += " " + view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.text.toString()
+        if (tvLongPressForMoreOptions?.visibility == View.VISIBLE) {
+            contentDescription += " " + tvLongPressForMoreOptions?.text.toString()
         }
 
         return contentDescription
@@ -532,7 +544,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 tvCourseTaskInstruction.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
             }
         }
-        view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
+        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
         //do not want to call announce for accessibility here. Only set content description
         view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
     }

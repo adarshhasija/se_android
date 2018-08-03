@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/tv_instruction"
+        android:id="@+id/tvInstruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -73,7 +73,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/tv_single_tap_to_repeat"
+        android:id="@+id/tvSingleTapToRepeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -87,6 +87,7 @@
         android:id="@+id/tvTapScreenToStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
@@ -94,7 +95,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/tv_swipe_to_continue"
+        android:id="@+id/tvSwipeToContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -105,7 +106,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/tv_long_press_for_more_options"
+        android:id="@+id/tvLongPressForMoreOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

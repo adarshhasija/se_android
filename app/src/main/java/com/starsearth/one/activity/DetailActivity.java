@@ -1,5 +1,6 @@
 package com.starsearth.one.activity;
 
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -165,7 +166,8 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
 
     @Override
     public void onTaskDetailFragmentSwipeInteraction(@Nullable Object teachingContent) {
-
+        Intent intent = new Intent(this, KeyboardActivity.class);
+        startActivity(intent);
     }
 
     @Override

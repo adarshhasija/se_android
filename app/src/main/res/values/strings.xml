@@ -380,6 +380,7 @@
     <string name="double_tap_screen_to_start">Double tap screen to start</string>
     <string name="tap_and_long_press_for_more_options">Tap and long press for more options</string>
     <string name="swipe_with_2_fingers_continue_next">Swipe with 2 fingers to continue to the next item</string>
+    <string name="swipe_with_2_fingers_for_keyboard_test">Swipe with 2 fingers for keyboard test</string>
     <string name="tap_long_press_to_close_this_screen">Tap and long press to close this screen</string>
     <string name="tap_screen_to_hear_content">Tap screen to hear content</string>
     <string name="tap_screen_to_continue">Tap screen to continue</string>
@@ -406,4 +407,5 @@
     <string name="no_answer_received">No answer received</string>
     <string name="firt_task">First Task</string>
     <string name="next_task">Next Task</string>
+    <string name="swipe_for_keyboard_test">Swipe for keyboard test</string>
 </resources>
