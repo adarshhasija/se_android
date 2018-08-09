@@ -142,7 +142,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
         init {
             mAllResults = mView.findViewById<TextView>(R.id.tv_all_results) as TextView
 
-            mFullCourse = mView.findViewById<TextView>(R.id.tv_full_course) as TextView
+            mFullCourse = mView.findViewById<TextView>(R.id.tv_see_progress) as TextView
 
             mTaskTitleView = mView.findViewById<TextView>(R.id.tv_task_title) as TextView
             mResultTextView = mView.findViewById<TextView>(R.id.tv_result) as TextView

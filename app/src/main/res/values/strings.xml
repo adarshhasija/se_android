@@ -393,6 +393,8 @@
     <string name="volume_is_mute">Your volume is mute</string>
     <string name="all_results">All results</string>
     <string name="full_course">Full course</string>
+    <string name="see_progress">See progress</string>
+    <string name="repeat_completed_tasks">Repeat completed tasks</string>
     <string name="tap_to_view_details">Tap to view details</string>
     <string name="move_your_finger_to_top_left_to_get_content">Move your finger to the top left to get content</string>
     <string name="long_press_to_view_responses">Long press to view your responses</string>

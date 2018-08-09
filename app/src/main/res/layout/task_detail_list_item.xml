@@ -112,23 +112,32 @@
 
         <!-- SEE ALL RESULTS: END -->
 
-        <!-- FULL COURSE: START -->
+        <!-- SEE COURSE PROGRESS: START -->
         <TextView
-            android:id="@+id/tv_full_course"
+            android:id="@+id/tv_see_progress"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/full_course"
+            android:text="@string/see_progress"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
-        <!-- FULL COURSE: END-->
+        <!-- SEE COURSE PROGRESS: END-->
 
         <!-- COMMON: START -->
-
-
+        <TextView
+            android:id="@+id/tv_repeat_completed_tasks"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/repeat_completed_tasks"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
         <!-- COMMON: END -->
 
 
