@@ -46,7 +46,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
         }
         else if (position == 0 && mTeachingContent is Course) {
             holder.mItem = mValues.get("all_results")
-            holder.mFullCourse.visibility = View.VISIBLE
+            holder.mSeeProgress.visibility = View.VISIBLE
             holder.mView.setOnClickListener {
                 holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
             }
@@ -75,15 +75,25 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
                 true
             }
         }
+        else if (position == 1 && mTeachingContent is Course) {
+            holder.mItem = mValues.get("all_results")
+            holder.mRepeatCompletedTasks.visibility = View.VISIBLE
+            holder.mView.setOnClickListener {
+                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 1) }
+            }
+        }
 
     }
 
     override fun getItemCount(): Int {
         return if (mValues.containsKey("high_score")) {
             2
+        } else if (mTeachingContent is Course && !mValues.isEmpty()) {
+            //If it is a Course and there are results
+            2
         } else {
             1
-        } //mValues.size
+        }//mValues.size
     }
 
     fun isHigScore(result: Result) : Boolean {
@@ -126,9 +136,9 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
         val mAllResults: TextView
         //SEE ALL RESULTS: End
 
-        //FULL COURSE: Start
-        val mFullCourse: TextView
-        //FULL COURSE: End
+        //SEE PROGRESS: Start
+        val mSeeProgress: TextView
+        //SEE PROGRESS: End
 
         //HIGH SCORE: Start
         val mTaskTitleView: TextView
@@ -137,18 +147,25 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
         val mTapToViewDetails: TextView
         val mLongPressScreenShot: TextView
         //HIGH SCORE: End
+
+        //REPEAT COMPLETED TASKS: Start
+        val mRepeatCompletedTasks: TextView
+        //REPEAT COMPLETED TASKS: End
+
         var mItem: Any? = null
 
         init {
             mAllResults = mView.findViewById<TextView>(R.id.tv_all_results) as TextView
 
-            mFullCourse = mView.findViewById<TextView>(R.id.tv_see_progress) as TextView
+            mSeeProgress = mView.findViewById<TextView>(R.id.tv_see_progress) as TextView
 
             mTaskTitleView = mView.findViewById<TextView>(R.id.tv_task_title) as TextView
             mResultTextView = mView.findViewById<TextView>(R.id.tv_result) as TextView
             mHighScoreTextView = mView.findViewById<TextView>(R.id.tv_high_score) as TextView
             mTapToViewDetails = mView.findViewById<TextView>(R.id.tv_tap_to_view_details) as TextView
             mLongPressScreenShot = mView.findViewById<TextView>(R.id.tv_long_press_screenshot) as TextView
+
+            mRepeatCompletedTasks = mView.findViewById<TextView>(R.id.tv_repeat_completed_tasks) as TextView
         }
 
         override fun toString(): String {

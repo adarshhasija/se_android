@@ -102,7 +102,16 @@ class TaskDetailListFragment : Fragment() {
                     ?.commit()
         }
         else if (position == 0 && teachingContent is Course) {
-            sendAnalytics(teachingContent!!, "FULL_COURSE", FirebaseAnalytics.Event.SELECT_CONTENT)
+            sendAnalytics(teachingContent!!, "COURSE_PROGRESS", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = MainMenuItemFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
+            activity?.getSupportFragmentManager()?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    ?.replace(R.id.fragment_container_main, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+        }
+        else if (position == 1 && teachingContent is Course) {
+            sendAnalytics(teachingContent!!, "COURSE_REPEAT_ITEMS", FirebaseAnalytics.Event.SELECT_CONTENT)
             val fragment = MainMenuItemFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)

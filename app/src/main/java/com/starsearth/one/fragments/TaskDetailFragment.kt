@@ -397,6 +397,15 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)
             }
         }
+        else if (mTeachingContent is Task) {
+            view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
+            if (mResults.isNotEmpty()) {
+                view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
+            }
+        }
+
+        //do not want to call announce for accessibility here. Only set content description
+        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
 
         return view
     }

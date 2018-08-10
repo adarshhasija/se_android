@@ -310,7 +310,7 @@ class MainMenuItemFragment : Fragment() {
 
     fun getData(tag: String?, type: Task.Type?, isTimed: Boolean, isGame: Boolean): ArrayList<MainMenuItem> {
         val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
-            FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
+            (mTeachingContent as Course).getAllCompletedTasks((mResults[mResults.lastIndex] as Result)) //FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
         } else if (isTimed) {
             FileTasks.getMainMenuItemsTimed(context)
         } else if (isGame) {
