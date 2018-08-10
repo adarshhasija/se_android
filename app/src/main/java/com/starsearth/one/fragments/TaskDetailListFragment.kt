@@ -103,7 +103,7 @@ class TaskDetailListFragment : Fragment() {
         }
         else if (position == 0 && teachingContent is Course) {
             sendAnalytics(teachingContent!!, "COURSE_PROGRESS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = MainMenuItemFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
+            val fragment = CourseProgressListFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)

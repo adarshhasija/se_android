@@ -16,6 +16,7 @@ import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
+import com.starsearth.one.fragments.CourseProgressListFragment;
 import com.starsearth.one.fragments.LastTriedFragment;
 import com.starsearth.one.fragments.MainMenuItemFragment;
 import com.starsearth.one.fragments.UserOptionsMenuItemFragment;
@@ -24,13 +25,14 @@ import com.starsearth.one.fragments.ResultDetailFragment;
 import com.starsearth.one.fragments.ResultListFragment;
 import com.starsearth.one.fragments.TaskDetailFragment;
 import com.starsearth.one.fragments.TaskDetailListFragment;
+import com.starsearth.one.fragments.dummy.DummyContent;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener, CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
 
     private Object teachingContent = null;
     private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -212,6 +214,11 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
 
     @Override
     public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+
+    }
+
+    @Override
+    public void onCourseProgressListFragmentInteraction(@Nullable DummyContent.DummyItem item) {
 
     }
 }

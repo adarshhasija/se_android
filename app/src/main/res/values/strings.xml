@@ -340,6 +340,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="not_attempted">Not Attempted</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
     <string name="minute">minute</string>

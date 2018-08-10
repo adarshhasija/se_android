@@ -75,7 +75,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
                 true
             }
         }
-        else if (position == 1 && mTeachingContent is Course) {
+        else if (position == 1 && mTeachingContent is Course && mValues.size > 0) {
             holder.mItem = mValues.get("all_results")
             holder.mRepeatCompletedTasks.visibility = View.VISIBLE
             holder.mView.setOnClickListener {
