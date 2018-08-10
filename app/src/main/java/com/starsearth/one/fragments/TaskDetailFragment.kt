@@ -74,34 +74,40 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
 
     private fun gestureTap(view: View?) {
-        generateAd()
-        if (mTeachingContent is Task) {
-            startTask((mTeachingContent as Task))
-            sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
-        }
-        else if (mTeachingContent is Course) {
-            sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
-            if (mResults.isEmpty()) {
-                startTask((mTeachingContent as Course).tasks[0])
+        if (tvTapScreenToStart.visibility == View.VISIBLE) {
+            generateAd()
+            if (mTeachingContent is Task) {
+                startTask((mTeachingContent as Task))
+                sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
             }
-            else if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
-                val task = (mTeachingContent as Course).getNextTask(mResults)
-                startTask(task)
+            else if (mTeachingContent is Course) {
+                sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+                if (mResults.isEmpty()) {
+                    startTask((mTeachingContent as Course).tasks[0])
+                }
+                else if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    val task = (mTeachingContent as Course).getNextTask(mResults)
+                    startTask(task)
+                }
             }
         }
+
     }
 
     private fun gestureLongPress(view: View?) {
-        mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
-        sendAnalytics(mTeachingContent, view, "LONG_PRESS")
+        if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
+            mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
+            sendAnalytics(mTeachingContent, view, "LONG_PRESS")
+        }
     }
 
     private fun gestureSwipe(view: View?) {
-        if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
-            mListener?.onTaskDetailFragmentSwipeInteraction(mTeachingContent)
-            sendAnalytics(mTeachingContent, view, "SWIPE")
+        if (tvSwipeToContinue.visibility == View.VISIBLE) {
+            if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+                mListener?.onTaskDetailFragmentSwipeInteraction(mTeachingContent)
+                sendAnalytics(mTeachingContent, view, "SWIPE")
+            }
         }
-
     }
 
     // TODO: Rename and change types of parameters
