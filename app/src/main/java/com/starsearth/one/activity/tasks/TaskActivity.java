@@ -36,10 +36,8 @@ import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Task;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -58,17 +56,17 @@ public class TaskActivity extends AppCompatActivity {
 
     //typing activity
     private int index=0;
-    private int charactersCorrect=0;
-    private int totalCharactersAttempted=0;
-    private int wordsCorrect=0;
-    private int totalWordsFinished=0;
+    private long charactersCorrect=0;
+    private long charactersTotalAttempted =0;
+    private long wordsCorrect=0;
+    private long wordsTotalFinished =0;
     private boolean wordIncorrect = false; //This is used to show that 1 mistake has been made when typing a word
     private String expectedAnswer; //for typing tasks
 
     //gesture activity
     private boolean expectedAnswerGesture;
-    private int itemsAttempted =0;              //In TYPING, only used to see how many have been completed
-    private int itemsCorrect =0;
+    private long itemsAttempted =0;              //In TYPING, only used to see how many have been completed
+    private long itemsCorrect =0;
     private boolean itemIncorrect = false;  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
     private int gestureSpamItemCounter=0;
 
@@ -201,7 +199,7 @@ public class TaskActivity extends AppCompatActivity {
 
             public void onFinish() {
                 timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
-                if ((task.getType() == Task.Type.TYPING && totalCharactersAttempted == 0) ||
+                if ((task.getType() == Task.Type.TYPING && charactersTotalAttempted == 0) ||
                         (task.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0)) {
                     taskCancelled("no attempt");
                 }
@@ -310,7 +308,7 @@ public class TaskActivity extends AppCompatActivity {
 
         char inputCharacter = (char) event.getUnicodeChar();
 
-        totalCharactersAttempted++;
+        charactersTotalAttempted++;
         if (!task.showUserAnswerWithBackground) {
             tvMain.setText(
                     tvMain.getText().toString() + inputCharacter
@@ -346,7 +344,7 @@ public class TaskActivity extends AppCompatActivity {
                     && !task.submitOnReturnTapped) {
                 //only consider this when submit on enter is not selected
                 checkWordCorrect();
-                totalWordsFinished++; //on spacebar, or on end of string, we have completed a word
+                wordsTotalFinished++; //on spacebar, or on end of string, we have completed a word
             }
         }
 
@@ -363,7 +361,7 @@ public class TaskActivity extends AppCompatActivity {
                     new Runnable() {
                         public void run() {
                             //One millis delay so user can see the result of last letter before sentence changes
-                            if (task.timed || !task.isTaskCompleted(totalWordsFinished)) {
+                            if (task.timed || !task.isTaskCompleted(wordsTotalFinished)) {
                                 nextItem();
                             }
                             else {
@@ -530,22 +528,26 @@ public class TaskActivity extends AppCompatActivity {
         return timeTakenMillis;
     }
 
+    //Integers must be saved as Long
+    //Results constructor takes values as Long
+    //Results from Firebase have Integer as Long
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
-        Bundle bundle = new Bundle();
-        bundle.putInt("taskId", task.id);
-        bundle.putLong("taskTypeLong", task.type.getValue());
-        bundle.putLong("startTimeMillis", startTimeMillis);
-        bundle.putLong("timeTakenMillis", calculateTimeTaken());
-        bundle.putInt("itemsCorrect", itemsCorrect);
-        bundle.putInt("itemsAttempted", itemsAttempted);
-        bundle.putInt("charactersCorrect", charactersCorrect);
-        bundle.putInt("totalCharactersAttempted", totalCharactersAttempted);
-        bundle.putInt("wordsCorrect", wordsCorrect);
-        bundle.putInt("totalWordsFinished", totalWordsFinished);
-        bundle.putParcelableArrayList("responses", responses);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("task_id", task.id);
+        map.put("taskTypeLong", task.type.getValue());
+        map.put("startTimeMillis", startTimeMillis);
+        map.put("timeTakenMillis", calculateTimeTaken());
+        map.put("items_correct", itemsCorrect);
+        map.put("items_attempted", itemsAttempted);
+        map.put("characters_correct", charactersCorrect);
+        map.put("characters_total_attempted", charactersTotalAttempted);
+        map.put("words_correct", wordsCorrect);
+        map.put("words_total_finished", wordsTotalFinished);
+        map.put("responses", responses);
 
-        //new Thread(new ResultSaveRunnable(bundle)).start();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("result_map", map);
         setResult(RESULT_OK, new Intent().putExtras(bundle));
         finish();
     }
@@ -649,7 +651,7 @@ public class TaskActivity extends AppCompatActivity {
 
     private void nextItemTyping() {
         index = 0; //reset the cursor to the start of the sentence
-        String text = task.ordered ? task.getNextItemTyping(itemsAttempted) : task.getNextItemTyping();
+        String text = task.ordered ? task.getNextItemTyping((int) itemsAttempted) : task.getNextItemTyping();
         if (task.isTextVisibleOnStart) { tvMain.setText(text); }
         else { tvMain.setText(""); }
         expectedAnswer = formatSpaceCharacter(text);

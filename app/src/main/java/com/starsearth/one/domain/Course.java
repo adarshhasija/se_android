@@ -246,14 +246,14 @@ public class Course extends SEBaseObject {
 
     public ArrayList<MainMenuItem> getAllAttemptedTasks(ArrayList<Parcelable> results) {
         ArrayList<MainMenuItem> result = new ArrayList<>();
-        for (int i = 0; i < tasks.size(); i++) {
+      /*  for (int i = 0; i < tasks.size(); i++) {
             result.add(new MainMenuItem(tasks.get(i)));
             if (tasks.get(i).id == lastAttemptedTask.task_id) {
                 //If we have reached the last attempted task, break
                 //No more tasks to be added to ArrayList
                 break;
             }
-        }
+        }   */
         return result;
     }
 

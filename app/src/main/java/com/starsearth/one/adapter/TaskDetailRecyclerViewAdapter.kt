@@ -105,16 +105,6 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
         else if (result.items_correct > (high_score as Result).items_correct) {
             res = true
         }
-      /*  else if (result is ResultTyping && high_score is ResultTyping) {
-            if (result.words_correct > high_score.words_correct) {
-                res = true
-            }
-        }
-        else if (result is ResultGestures && high_score is ResultGestures) {
-            if (result.items_correct > high_score.items_correct) {
-                res = true
-            }
-        }   */
 
         return res
     }

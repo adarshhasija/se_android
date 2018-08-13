@@ -210,7 +210,7 @@ public class Task extends SEBaseObject {
     }
 
     //Swiping tasks will return false
-    public boolean isTaskCompleted(int itemsAttempted) {
+    public boolean isTaskCompleted(long itemsAttempted) {
         boolean result = false;
         if (type != Type.TAP_SWIPE && itemsAttempted >= content.length) {
             result = true;

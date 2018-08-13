@@ -29,6 +29,7 @@ import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -247,7 +248,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
           /*  val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
                 dataSnapshot?.getValue(ResultTyping::class.java)
             } else {
-                //dataSnapshot?.getValue(ResultGestures::class.java)
                 dataSnapshot?.getValue(Result::class.java)
             }
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
@@ -293,8 +293,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             bundle.putInt("item_submit_on_enter_tapped", if (task.submitOnReturnTapped) { 1 } else { 0 })
             bundle.putInt("item_is_text_visible_on_start", if (task.isTextVisibleOnStart) { 1 } else { 0 })
             bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as Result).items_correct)
-            //if (task.type == Task.Type.TAP_SWIPE) { bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultGestures).items_correct) }
-            //else { bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as ResultTyping).words_correct) }
         }
 
         val application = (activity?.application as StarsEarthApplication)
@@ -502,34 +500,14 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     private fun taskComplete(bundle: Bundle) {
         val firebase = Firebase("results")
-        val type = Task.Type.fromInt(bundle.getLong("taskTypeLong"))
+        val resultMap : HashMap<String, Any> = bundle.getSerializable("result_map") as HashMap<String, Any>
+        val type = Task.Type.fromInt((resultMap["taskTypeLong"] as Long)) //Task.Type.fromInt(bundle.getLong("taskTypeLong"))
         val result =
                 if (type == Task.Type.TYPING) {
-                    firebase.writeNewResultTyping(
-                            bundle.getInt("charactersCorrect")
-                            ,bundle.getInt("totalCharactersAttempted")
-                            ,bundle.getInt("wordsCorrect")
-                            ,bundle.getInt("totalWordsFinished")
-                            ,bundle.getLong("startTimeMillis")
-                            ,bundle.getLong("timeTakenMillis")
-                            ,bundle.getInt("taskId")
-                            ,bundle.getInt("itemsAttempted")
-                            ,bundle.getInt("itemsCorrect")
-                            ,bundle.getParcelableArrayList("responses")
-                    )
+                    firebase.writeNewResultTyping(resultMap)
                 } else {
-                    firebase.writeNewResult(
-                            bundle.getInt("itemsAttempted")
-                            ,bundle.getInt("itemsCorrect")
-                            ,bundle.getLong("startTimeMillis")
-                            ,bundle.getLong("timeTakenMillis")
-                            ,bundle.getInt("taskId")
-                            ,bundle.getParcelableArrayList("responses")
-                    )
+                    firebase.writeNewResult(resultMap)
                 }
-        //TEMPORARY MOVE AS TIMESTAMP IS ONLY CREATED ON THE SERVER
-        result.timestamp = Calendar.getInstance().timeInMillis
-        //////////
         analyticsTaskCompleted(if(mTeachingContent is Task) {
             mTeachingContent as Task
         } else {

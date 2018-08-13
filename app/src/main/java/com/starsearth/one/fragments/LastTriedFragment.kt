@@ -13,7 +13,6 @@ import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultGestures
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
 
@@ -106,9 +105,6 @@ class LastTriedFragment : Fragment() {
             view?.findViewById<TextView>(R.id.tv_result)?.text =
                     if (result is ResultTyping) {
                         result.getScoreSummary(context, teachingContent.isPassFail, teachingContent.passPercentage)
-                    } else if (result is ResultGestures) {
-                        //NOT USING RESULT_GESTURES anymore
-                        (result.items_correct).toString()
                     } else {
                         ((result as Result).items_correct).toString()
                     }

@@ -20,6 +20,7 @@ public class ResultTyping extends Result {
     public int characters_total_attempted;
     public int words_correct;
     public int words_total_finished;
+    public int passPercentage;
 
     public int getCharacters_correct() {
         return characters_correct;
@@ -47,24 +48,6 @@ public class ResultTyping extends Result {
 
     public ResultTyping() {
         super();
-    }
-
-    public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long startTimeMillis, long timeTakenMillis, int gameId) {
-        super(uid, userId, startTimeMillis, timeTakenMillis, gameId);
-        this.characters_correct = characters_correct;
-        this.characters_total_attempted = characters_total_attempted;
-        this.words_correct = words_correct;
-        this.words_total_finished = words_total_finished;
-    }
-
-    public ResultTyping(String uid, String userId, int characters_correct, int characters_total_attempted,
-                        int words_correct, int words_total_finished, long startTimeMillis, long timeTakenMillis, int gameId, int itemsAttempted, int itemsCorrect, ArrayList<Response> responses) {
-        super(uid, userId, itemsAttempted, itemsCorrect, startTimeMillis, timeTakenMillis, gameId, responses);
-        this.characters_correct = characters_correct;
-        this.characters_total_attempted = characters_total_attempted;
-        this.words_correct = words_correct;
-        this.words_total_finished = words_total_finished;
     }
 
     public ResultTyping(Map<String, Object> map) {

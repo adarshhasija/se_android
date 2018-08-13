@@ -35,39 +35,27 @@ public class Result implements Parcelable {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Result(String uid, String userId, long startTimeMillis, long timeTakenMillis, int taskId) {
-        this.uid = uid;
-        this.userId = userId;
-        this.startTimeMillis = startTimeMillis;
-        this.timeTakenMillis = timeTakenMillis;
-        this.task_id = taskId;
-    }
-
-    public Result(String uid, String userId, int itemsAttempted, int itemsCorrect, long startTimeMillis, long timeTakenMillis, int taskId, ArrayList<Response> responses) {
-        this.uid = uid;
-        this.userId = userId;
-        this.startTimeMillis = startTimeMillis;
-        this.timeTakenMillis = timeTakenMillis;
-        this.items_attempted = itemsAttempted;
-        this.items_correct = itemsCorrect;
-        this.task_id = taskId;
-        this.responses = responses;
-    }
-
     public Result(Map<String, Object> map) {
         this.uid = (String) map.get("uid");
         this.userId = (String) map.get("userId");
-        this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() :
-                        map.containsKey("task_id") ? ((Long) map.get("task_id")).intValue() : 0;  //Backward compatability. Some use the old game_id
+        this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() : //If game_id exists, take game_id
+                        map.containsKey("task_id") ? //Else check if task_id exists
+                                (map.get("task_id") instanceof Long) ? ((Long) map.get("task_id")).intValue() : //If task_id is a Long, treat it as Long
+                                        ((Integer) map.get("task_id")) : 0;  //Else treat it as Integer
         this.startTimeMillis = map.containsKey("startTimeMillis") ? (Long) map.get("startTimeMillis") : -1 ;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
-        this.timestamp = (Long) map.get("timestamp");
+        this.timestamp = map.containsKey ("timestamp") ? (Long) map.get("timestamp") : Calendar.getInstance().getTimeInMillis();
         ////Set responses
         ArrayList<HashMap<String, Object>> mpArrayList = (ArrayList<HashMap<String, Object>>) map.get("responses");
         if (mpArrayList != null) {
             this.responses = new ArrayList<>();
-            for (HashMap<String, Object> mp : mpArrayList) {
-                this.responses.add(new Response(mp));
+            for (Object mp : mpArrayList) {
+                if (mp instanceof Response) {
+                    this.responses.add((Response) mp);
+                }
+                else {
+                    this.responses.add(new Response((HashMap<String, Object>) mp));
+                }
             }
         }
         ////
