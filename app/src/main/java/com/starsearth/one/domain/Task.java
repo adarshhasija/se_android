@@ -235,4 +235,15 @@ public class Task extends SEBaseObject {
         return ret;
     }
 
+    public boolean isPassed(Result result) {
+        boolean ret = false;
+        if (result instanceof ResultTyping && ((ResultTyping) result).task_id == id) {
+            int accuracy = ((ResultTyping) result).getAccuracy();
+            if (accuracy >= passPercentage) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
 }

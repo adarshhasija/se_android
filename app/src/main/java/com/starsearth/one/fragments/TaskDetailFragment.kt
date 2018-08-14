@@ -522,9 +522,9 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }, result, null, null)
 
 
+        val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
         if (mTeachingContent is Course && //If we are doing a course
-                result is ResultTyping && //If the result is of type TYPING
-                result.isPassed((mTeachingContent as Course).getTaskById(result.task_id).passPercentage)) //If the user passed the task
+                currentTask.isPassFail && currentTask.isPassed(result))
         {
             tvProgress.visibility = View.VISIBLE
             if ((mTeachingContent as Course).isCourseComplete(mResults)) {
