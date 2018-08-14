@@ -282,7 +282,7 @@ public class TaskActivity extends AppCompatActivity {
                 }
             }
 
-            if (!task.isTaskCompleted(itemsAttempted)) {
+            if (!task.isTaskItemsCompleted(itemsAttempted)) {
                 nextItem();
             }
             else {
@@ -361,7 +361,7 @@ public class TaskActivity extends AppCompatActivity {
                     new Runnable() {
                         public void run() {
                             //One millis delay so user can see the result of last letter before sentence changes
-                            if (task.timed || !task.isTaskCompleted(wordsTotalFinished)) {
+                            if (task.timed || !task.isTaskItemsCompleted(wordsTotalFinished)) {
                                 nextItem();
                             }
                             else {
@@ -570,7 +570,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void logAnalytics(Bundle bundle) {
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putInt("item_timed", task.timed? 1 : 0);
         StarsEarthApplication application = (StarsEarthApplication) getApplication();

@@ -20,7 +20,6 @@ public class ResultTyping extends Result {
     public int characters_total_attempted;
     public int words_correct;
     public int words_total_finished;
-    public int passPercentage;
 
     public int getCharacters_correct() {
         return characters_correct;

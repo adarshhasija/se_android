@@ -283,7 +283,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     fun analyticsTaskCompleted(task: Task, result: Any?) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id)
+        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, task.id)
 
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
 

@@ -144,7 +144,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         return timestamp
     }
 
-    public fun getTeachingContentType(inputTaskId: Int): Task.Type? {
+    public fun getTeachingContentType(inputTaskId: Long): Task.Type? {
         var ret : Task.Type? = null
         for (mainMenuItem in mValues) {
             val teachingContent = mainMenuItem.teachingContent

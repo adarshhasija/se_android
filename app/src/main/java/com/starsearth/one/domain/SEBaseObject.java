@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class SEBaseObject implements Parcelable {
 
-    public int id; //local id
+    public long id; //local id
     public String uid;
     public String title;
     public String instructions;
@@ -48,7 +48,7 @@ public class SEBaseObject implements Parcelable {
     }
 
     protected SEBaseObject(Parcel in) {
-        id = in.readInt();
+        id = in.readLong();
         uid = in.readString();
         title = in.readString();
         instructions = in.readString();
@@ -120,7 +120,7 @@ public class SEBaseObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(uid);
         dest.writeString(title);
         dest.writeString(instructions);

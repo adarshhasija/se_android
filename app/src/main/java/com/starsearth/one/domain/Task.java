@@ -6,6 +6,7 @@ import android.os.Parcel;
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -210,12 +211,28 @@ public class Task extends SEBaseObject {
     }
 
     //Swiping tasks will return false
-    public boolean isTaskCompleted(long itemsAttempted) {
+    public boolean isTaskItemsCompleted(long itemsAttempted) {
         boolean result = false;
         if (type != Type.TAP_SWIPE && itemsAttempted >= content.length) {
             result = true;
         }
         return result;
+    }
+
+    public boolean isPassed(ArrayList<Result> results) {
+        boolean ret = false;
+        for (Object result : results) {
+            if (result instanceof ResultTyping) {
+                if (((ResultTyping) result).task_id == id) {
+                    int accuracy = ((ResultTyping) result).getAccuracy();
+                    if (accuracy >= passPercentage) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return ret;
     }
 
 }

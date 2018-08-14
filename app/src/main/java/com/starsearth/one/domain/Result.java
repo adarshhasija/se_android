@@ -23,7 +23,7 @@ public class Result implements Parcelable {
     public String uid;
     public String userId;
     //public int game_id; //id for task as INT old
-    public int task_id;
+    public long task_id;
     public long startTimeMillis;
     public long timeTakenMillis;
     public long timestamp;
@@ -38,10 +38,8 @@ public class Result implements Parcelable {
     public Result(Map<String, Object> map) {
         this.uid = (String) map.get("uid");
         this.userId = (String) map.get("userId");
-        this.task_id = map.containsKey("game_id") ? ((Long) map.get("game_id")).intValue() : //If game_id exists, take game_id
-                        map.containsKey("task_id") ? //Else check if task_id exists
-                                (map.get("task_id") instanceof Long) ? ((Long) map.get("task_id")).intValue() : //If task_id is a Long, treat it as Long
-                                        ((Integer) map.get("task_id")) : 0;  //Else treat it as Integer
+        this.task_id = map.containsKey("game_id") ? (Long) map.get("game_id") : //If game_id exists, take game_id
+                        map.containsKey("task_id") ? (Long) map.get("task_id") : 0;  //Else take task_id
         this.startTimeMillis = map.containsKey("startTimeMillis") ? (Long) map.get("startTimeMillis") : -1 ;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = map.containsKey ("timestamp") ? (Long) map.get("timestamp") : Calendar.getInstance().getTimeInMillis();
@@ -69,7 +67,7 @@ public class Result implements Parcelable {
         uid = in.readString();
         userId = in.readString();
         //game_id = in.readInt();
-        task_id = in.readInt();
+        task_id = in.readLong();
         startTimeMillis = in.readLong();
         timeTakenMillis = in.readLong();
         timestamp = in.readLong();
@@ -90,7 +88,7 @@ public class Result implements Parcelable {
         }
     };
 
-    public int getTask_id() {
+    public long getTask_id() {
         return task_id;
     }
 
@@ -144,7 +142,7 @@ public class Result implements Parcelable {
         dest.writeString(uid);
         dest.writeString(userId);
         //dest.writeInt(game_id);
-        dest.writeInt(task_id);
+        dest.writeLong(task_id);
         dest.writeLong(startTimeMillis);
         dest.writeLong(timeTakenMillis);
         dest.writeLong(timestamp);

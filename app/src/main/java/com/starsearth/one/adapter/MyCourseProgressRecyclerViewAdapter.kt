@@ -19,6 +19,7 @@ import com.starsearth.one.fragments.CourseProgressListFragment.OnCourseProgressL
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_courseprogress.view.*
+import java.util.ArrayList
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -54,18 +55,13 @@ class MyCourseProgressRecyclerViewAdapter(
         holder.mTaskNameView.text = task.title
         holder.mTaskPassedView.text = mContext.resources.getString(R.string.not_attempted)
         if (task.isPassFail) {
-            for (result in mValues) {
-                if (result is ResultTyping &&
-                        result.task_id == task.id) {
-                    if (result.isPassed(task.passPercentage)) {
-                        holder.mTaskPassedView.text = mContext.resources.getString(R.string.passed)
-                        holder.mCLMain.setBackgroundColor(Color.GREEN)
-                    }
-                    else {
-                        holder.mTaskPassedView.text = mContext.resources.getString(R.string.failed)
-                        holder.mCLMain.setBackgroundColor(Color.RED)
-                    }
-                }
+            if (task.isPassed((mValues as ArrayList<Result>))) {
+                holder.mTaskPassedView.text = mContext.resources.getString(R.string.passed)
+                holder.mCLMain.setBackgroundColor(Color.GREEN)
+            }
+            else {
+                holder.mTaskPassedView.text = mContext.resources.getString(R.string.failed)
+                holder.mCLMain.setBackgroundColor(Color.RED)
             }
         }
 

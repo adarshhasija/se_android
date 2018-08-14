@@ -28,7 +28,7 @@ public class MainMenuItem implements Parcelable {
         results = new Stack<>();
     }
 
-    public boolean isTaskIdExists(int taskId) {
+    public boolean isTaskIdExists(long taskId) {
         boolean result = false;
         if (teachingContent instanceof Course) {
             result = ((Course) teachingContent).isTaskExists(taskId);

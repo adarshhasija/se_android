@@ -169,7 +169,7 @@ class TaskDetailListFragment : Fragment() {
 
     private fun sendAnalytics(teachingContent: SEBaseObject, itemCategory: String, action: String) {
         val bundle = Bundle()
-        bundle.putInt("CONTENT_ID", teachingContent.id)
+        bundle.putLong("CONTENT_ID", teachingContent.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, itemCategory)
         bundle.putString("content_name", teachingContent.title)
         if (teachingContent is Task) {

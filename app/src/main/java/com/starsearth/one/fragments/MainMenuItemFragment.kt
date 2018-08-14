@@ -45,7 +45,7 @@ import kotlin.collections.HashMap
 class MainMenuItemFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
-    private var mResults = ArrayList<Parcelable>() //Used if screen is for a course
+    private var mResults = ArrayList<Result>() //Used if screen is for a course
     private var mTag : String? = null
     private var mType : Task.Type? = null
     private var mIsTimed : Boolean = false
@@ -209,7 +209,7 @@ class MainMenuItemFragment : Fragment() {
 
     fun sendAnalytics(item: SEBaseObject) {
         val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, item.id)
+        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, item.id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
         if (item is Task) {
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "task")
@@ -240,8 +240,8 @@ class MainMenuItemFragment : Fragment() {
             } else {
                 ArrayList<Parcelable>()
             }
-            for (item in parcelableArrayList) {
-                mResults.add(item)
+            for (parcelableResult in parcelableArrayList) {
+                mResults.add((parcelableResult as Result))
             }
             mTag = arguments!!.getString(ARG_TAG)
             mType = Task.Type.fromInt(arguments!!.getLong(ARG_TYPE))
@@ -310,7 +310,7 @@ class MainMenuItemFragment : Fragment() {
 
     fun getData(tag: String?, type: Task.Type?, isTimed: Boolean, isGame: Boolean): ArrayList<MainMenuItem> {
         val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
-            (mTeachingContent as Course).getAllAttemptedTasks(mResults) //FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
+            (mTeachingContent as Course).getAllPassedTasks(mResults) //FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
         } else if (isTimed) {
             FileTasks.getMainMenuItemsTimed(context)
         } else if (isGame) {

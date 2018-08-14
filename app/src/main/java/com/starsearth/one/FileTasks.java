@@ -322,7 +322,7 @@ public class FileTasks {
      */
     public static boolean areIdsUnique(List<Object> teachingContentList) {
         boolean result = true;
-        HashMap<Integer, Integer> map = new HashMap<>();
+        HashMap<Long, Integer> map = new HashMap<>();
         for (Object o : teachingContentList) {
             if (!map.containsKey(((SEBaseObject) o).id)) {
                 map.put(((SEBaseObject) o).id, 1);
@@ -343,8 +343,8 @@ public class FileTasks {
         return result;
     }
 
-    public static int getHighestId(List<Object> teachingContentList) {
-        int result = 0;
+    public static long getHighestId(List<Object> teachingContentList) {
+        long result = 0;
         for (Object o : teachingContentList) {
             if (o instanceof Course) {
                 //Course

@@ -112,7 +112,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
 
     public void sendAnalytics(Task task) {
         Bundle bundle = new Bundle();
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, task.id);
+        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, task.id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "list_item");
         if (mFirebaseAnalytics != null) {

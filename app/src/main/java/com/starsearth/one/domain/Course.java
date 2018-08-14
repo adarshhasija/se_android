@@ -44,7 +44,7 @@ public class Course extends SEBaseObject {
         this.usbKeyboard = usbKeyboard;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -152,7 +152,7 @@ public class Course extends SEBaseObject {
         dest.writeList(tasks);
     }
 
-    public boolean isTaskExists(int taskId) {
+    public boolean isTaskExists(long taskId) {
         boolean result = false;
         for (Task t : safe(tasks)) {
             if (t.id == taskId) {
@@ -163,7 +163,7 @@ public class Course extends SEBaseObject {
         return result;
     }
 
-    public Task getTaskById(int id) {
+    public Task getTaskById(long id) {
         Task result = null;
         for (Task t : safe(tasks)) {
             if (t.id == id) {
@@ -175,24 +175,14 @@ public class Course extends SEBaseObject {
     }
 
     public int getIndexOfLastPassedTask(ArrayList<Result> results) {
-        int ret = -1;
-        int lastPassedTaskId= -1;
-        for (int i = results.size() - 1; i > -1; i --) {
-            Result result = results.get(i);
-            if (result instanceof ResultTyping) {
-                if (((ResultTyping) result).isPassed(getTaskById(result.task_id).passPercentage)) {
-                    lastPassedTaskId = result.task_id;
-                    break;
-                }
-            }
-        }
+        int lastPassedTaskIndex = -1;
         for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).id == lastPassedTaskId) {
-                ret = i;
-                break;
+            Task task = tasks.get(i);
+            if (task.isPassed(results)) {
+                lastPassedTaskIndex = i;
             }
         }
-        return ret;
+        return lastPassedTaskIndex;
     }
 
     //This checks if the last Result is that of the last Task in the Course list
@@ -244,16 +234,13 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
-    public ArrayList<MainMenuItem> getAllAttemptedTasks(ArrayList<Parcelable> results) {
+    public ArrayList<MainMenuItem> getAllPassedTasks(ArrayList<Result> results) {
         ArrayList<MainMenuItem> result = new ArrayList<>();
-      /*  for (int i = 0; i < tasks.size(); i++) {
-            result.add(new MainMenuItem(tasks.get(i)));
-            if (tasks.get(i).id == lastAttemptedTask.task_id) {
-                //If we have reached the last attempted task, break
-                //No more tasks to be added to ArrayList
-                break;
+        for (Task task : tasks) {
+            if (task.isPassed(results)) {
+                result.add(new MainMenuItem(task));
             }
-        }   */
+        }
         return result;
     }
 
