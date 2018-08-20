@@ -59,7 +59,8 @@ class MyCourseProgressRecyclerViewAdapter(
                 holder.mTaskPassedView.text = mContext.resources.getString(R.string.passed)
                 holder.mCLMain.setBackgroundColor(Color.GREEN)
             }
-            else {
+            else if (task.isAttempted((mValues))) {
+                //Only do this if user attempted and failed the task
                 holder.mTaskPassedView.text = mContext.resources.getString(R.string.failed)
                 holder.mCLMain.setBackgroundColor(Color.RED)
             }
@@ -71,7 +72,7 @@ class MyCourseProgressRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = mCourse.tasks.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mCLMain: ConstraintLayout = mView.cl_main

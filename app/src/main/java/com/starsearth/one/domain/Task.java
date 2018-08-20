@@ -219,6 +219,19 @@ public class Task extends SEBaseObject {
         return result;
     }
 
+    public boolean isAttempted(ArrayList<Result> results) {
+        boolean ret = false;
+        for (Object result : results) {
+            if (result instanceof ResultTyping) {
+                if (((ResultTyping) result).task_id == id) {
+                    ret = true;
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+
     public boolean isPassed(ArrayList<Result> results) {
         boolean ret = false;
         for (Object result : results) {

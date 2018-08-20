@@ -195,20 +195,23 @@ public class Course extends SEBaseObject {
         return result;
     }
 
-    public boolean isFirstTaskCompleted(ArrayList<Result> results) {
+    public boolean isFirstTaskAttempted(ArrayList<Result> results) {
         boolean ret = false;
-        if (!results.isEmpty()) {
-            Result result = results.get(results.size() - 1);
-            if (result.task_id != tasks.get(0).id) {
-                //If last result is not from first task, it is from later task. so first task is completed
+        if (tasks.size() > 0) {
+            Task task = tasks.get(0);
+            if (task.isAttempted(results)) {
                 ret = true;
             }
-            else if (result instanceof ResultTyping) {
-                //result is of first task
-                //result is typing
-                if (((ResultTyping) result).isPassed(tasks.get(0).passPercentage)) {
-                    ret = true;
-                }
+        }
+        return ret;
+    }
+
+    public boolean isFirstTaskPassed(ArrayList<Result> results) {
+        boolean ret = false;
+        if (tasks.size() > 0) {
+            Task task = tasks.get(0);
+            if (task.isPassed(results)) {
+                ret = true;
             }
         }
         return ret;
@@ -216,22 +219,28 @@ public class Course extends SEBaseObject {
 
     public Task getNextTask(ArrayList<Result> allResults) {
         Task ret = null;
-        ResultTyping lastTaskAttempted = (ResultTyping) allResults.get(allResults.size()-1);
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            if (lastTaskAttempted.task_id == task.id) {
-                //If the user passed, give the next task
-                if (lastTaskAttempted.isPassed(task.passPercentage) && i + 1 < tasks.size()) {
-                    ret = tasks.get(i + 1);
-                }
-                else {
-                    //Else give the same task again
-                    ret = tasks.get(i);
-                }
-                break;
+        int currentTaskIndex = getCurrentTaskIndex(allResults);
+        if (currentTaskIndex < tasks.size()) {
+            Task currentTask = tasks.get(currentTaskIndex);
+            if (currentTask.isPassed(allResults) && currentTaskIndex + 1 < tasks.size()) {
+                ret = tasks.get(currentTaskIndex + 1);
+            }
+            else {
+                ret = currentTask;
             }
         }
         return ret;
+    }
+
+    public int getCurrentTaskIndex(ArrayList<Result> results) {
+        int index = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.isAttempted(results)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     public ArrayList<MainMenuItem> getAllPassedTasks(ArrayList<Result> results) {

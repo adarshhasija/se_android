@@ -18,9 +18,7 @@ import com.starsearth.one.domain.ResultTyping;
 import com.starsearth.one.domain.SENestedObject;
 import com.starsearth.one.domain.Topic;
 import com.starsearth.one.domain.User;
-import com.starsearth.one.domain.Response;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

@@ -364,16 +364,21 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
 
             if (mResults.isNotEmpty()) {
+                val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                if (progress > 0) {
+                    view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
+                }
+
                 if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
                     view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
                     view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
-                    if ((mTeachingContent as Course).isFirstTaskCompleted(mResults)) {
+                    if ((mTeachingContent as Course).isFirstTaskAttempted(mResults)) {
                         view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                        val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                        view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
-                        view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.next_task)
+                        if ((mTeachingContent as Course).isFirstTaskPassed(mResults)) {
+                            view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.next_task)
+                        }
                     }
 
                 }
@@ -381,8 +386,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     //If course is complete, disable this
                     view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.GONE
                     view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                    val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                    view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
                     view?.findViewById<TextView>(R.id.tvProgress)?.text =  view?.findViewById<TextView>(R.id.tvProgress)?.text.toString() + "\n" + context?.resources?.getString(R.string.complete)
                     view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.GONE
                 }
@@ -508,6 +511,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 } else {
                     firebase.writeNewResult(resultMap)
                 }
+
         analyticsTaskCompleted(if(mTeachingContent is Task) {
             mTeachingContent as Task
         } else {
@@ -522,19 +526,20 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }, result, null, null)
 
 
-        val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
-        if (mTeachingContent is Course && //If we are doing a course
-                currentTask.isPassFail && currentTask.isPassed(result))
-        {
-            tvProgress.visibility = View.VISIBLE
-            if ((mTeachingContent as Course).isCourseComplete(mResults)) {
-                tvTapScreenToStart.visibility = View.GONE
-                tvNextTask.visibility = View.GONE
-                tvCourseTaskInstruction.visibility = View.GONE
-            }
-            else {
-                tvNextTask.visibility = View.VISIBLE
-                tvCourseTaskInstruction.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
+
+        if (mTeachingContent is Course) {
+            val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
+            if (currentTask.isPassFail && currentTask.isPassed(result)) {
+                tvProgress.visibility = View.VISIBLE
+                if ((mTeachingContent as Course).isCourseComplete(mResults)) {
+                    tvTapScreenToStart.visibility = View.GONE
+                    tvNextTask.visibility = View.GONE
+                    tvCourseTaskInstruction.visibility = View.GONE
+                }
+                else {
+                    tvNextTask.visibility = View.VISIBLE
+                    tvCourseTaskInstruction.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                }
             }
         }
         view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE //If its a succesful result, set this to visible

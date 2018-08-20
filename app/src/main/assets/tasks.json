@@ -424,7 +424,7 @@
           "isPassFail": true,
           "passPercentage": 90,
           "title": "Home row: left hand",
-          "instructions": "These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
+          "instructions": "asdf. These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
           "content": ["asdf","asdf","asdf","asdf"],
           "ordered": true,
           "tags": ["typing"],

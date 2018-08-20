@@ -51,7 +51,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
                 holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
             }
         }
-        else if (position == 1 && (mTeachingContent is Task && mTeachingContent?.isGame)) {
+        else if (position == 1 && (mTeachingContent is Task && mTeachingContent?.isGame) && mValues.containsKey("high_score")) {
             holder.mItem = mValues.get("high_score")
             holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(mTeachingContent?.title)
             holder.mResultTextView.text =
@@ -75,7 +75,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
                 true
             }
         }
-        else if (position == 1 && mTeachingContent is Course && mValues.size > 0) {
+        else if (position == 1 && mTeachingContent is Course && mTeachingContent.isFirstTaskPassed((mValues.get("all_results") as java.util.ArrayList<Result>))) {
             holder.mItem = mValues.get("all_results")
             holder.mRepeatCompletedTasks.visibility = View.VISIBLE
             holder.mView.setOnClickListener {

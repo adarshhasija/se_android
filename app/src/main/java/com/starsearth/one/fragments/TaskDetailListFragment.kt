@@ -77,13 +77,15 @@ class TaskDetailListFragment : Fragment() {
             val results = LinkedHashMap<String, Any>()
             results.put("all_results", mResults)
             //HIGH SCORE: START
-            var highScore : Any? = mResults?.get(0)
-            for (result in mResults) {
-                if (result.items_correct > (highScore as Result)?.items_correct) {
-                    highScore = result
+            var highScore : Any? = mResults?.getOrNull(0)
+            if (highScore != null) {
+                for (result in mResults) {
+                    if (result.items_correct > (highScore as Result)?.items_correct) {
+                        highScore = result
+                    }
                 }
+                results.put("high_score", highScore!!)
             }
-            results.put("high_score", highScore!!)
             //HIGH SCORE: END
             view.adapter = TaskDetailRecyclerViewAdapter(mTeachingContent, results, mListener, this)
         }
