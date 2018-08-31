@@ -343,19 +343,60 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //query?.addChildEventListener(mChildEventListener);
 
         val tv = view.findViewById<TextView>(R.id.tvInstruction)
-        var instructions = (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
-            String.format((mTeachingContent as Task)?.instructions + " " +
-                    context?.resources?.getString(R.string.complete_as_many_as)
-                    , (mTeachingContent as Task)?.getTimeLimitAsString(context))
-        } else {
-            (mTeachingContent as SEBaseObject)?.instructions
-        }).toString()
+        var instructions =
+                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
+                    String.format((mTeachingContent as Task)?.instructions + " " +
+                            context?.resources?.getString(R.string.complete_as_many_as)
+                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                } else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    //If its a course thats already started, take the instructions of the next task
+                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                } else {
+                    (mTeachingContent as SEBaseObject)?.instructions
+                }).toString()
         if (mTeachingContent is Task) {
+            //Additionally, if its a task that should be exited on interruption, add a line.
             if ((mTeachingContent as Task).isExitOnInterruption) {
                 instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
             }
         }
         (tv as TextView).text = instructions
+
+        view?.findViewById<TextView>(R.id.tvProgress)?.visibility =
+                if ((mTeachingContent is Course) && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        view?.findViewById<TextView>(R.id.tvSingleTapToRepeat)?.visibility =
+                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    View.GONE
+                }
+                else {
+                    View.VISIBLE
+                }
+        view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.visibility =
+                if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility =
+                if (mTeachingContent is Course) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
 
         if (mTeachingContent is Course) {
             if ((mTeachingContent as Course).hasKeyboardTest) {

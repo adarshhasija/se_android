@@ -111,7 +111,7 @@
       "timed": true,
       "durationMillis": 61000,
       "title": "numbers game: single digits",
-      "instructions": "You will be shown some numbers. Type them out as many as you can within 1 minute. ",
+      "instructions": "You will be shown some numbers.",
       "content": ["1","2","3","4","5","6","7","8","9","0"],
       "ordered": false,
       "tags": ["mathematics", "numbers"],
