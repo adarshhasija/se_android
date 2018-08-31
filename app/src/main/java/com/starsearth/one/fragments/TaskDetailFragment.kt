@@ -342,7 +342,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
 
-        val tv = view.findViewById<TextView>(R.id.tvInstruction)
+      /*  val tv = view.findViewById<TextView>(R.id.tvInstruction)
         var instructions =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
                     String.format((mTeachingContent as Task)?.instructions + " " +
@@ -360,8 +360,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
             }
         }
-        (tv as TextView).text = instructions
+        (tv as TextView).text = instructions    */
 
+        //Set visibility for all UI
+        view?.findViewById<TextView>(R.id.tvInstruction)?.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.tvProgress)?.visibility =
                 if ((mTeachingContent is Course) && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
                     View.VISIBLE
@@ -398,7 +400,59 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     View.GONE
                 }
 
-        if (mTeachingContent is Course) {
+        //Set text for all UI
+        view?.findViewById<TextView>(R.id.tvProgress)?.text =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    context?.resources?.getString(R.string.complete)
+                }
+                else if (mTeachingContent is Course && !mResults.isEmpty()) {
+                    val nextTaskIndex = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                    Integer.toString(nextTaskIndex) + "/" + (mTeachingContent as Course).tasks.size
+                }
+                else {
+                    context?.resources?.getString(R.string.firt_task)
+                }
+
+        val tv = view.findViewById<TextView>(R.id.tvInstruction)
+        var instructions = (mTeachingContent as SEBaseObject)?.instructions
+        if (mTeachingContent is Task) {
+            if ((mTeachingContent as Task)?.durationMillis > 0) {
+                instructions +=
+                        context?.resources?.getString(R.string.complete_as_many_as) +
+                        " " + (mTeachingContent as Task)?.getTimeLimitAsString(context)
+            }
+            if ((mTeachingContent as Task).isExitOnInterruption) {
+                instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
+            }
+        }
+        if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+            //If its a course thats already started, take the instructions of the next task
+            (mTeachingContent as Course).getNextTask(mResults)?.instructions
+        }
+        (tv as TextView).text = instructions
+
+
+
+     /*   var instructions =
+                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
+                    String.format((mTeachingContent as Task)?.instructions + " " +
+                            context?.resources?.getString(R.string.complete_as_many_as)
+                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
+                } else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    //If its a course thats already started, take the instructions of the next task
+                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                } else {
+                    (mTeachingContent as SEBaseObject)?.instructions
+                }).toString()
+        if (mTeachingContent is Task) {
+            //Additionally, if its a task that should be exited on interruption, add a line.
+            if ((mTeachingContent as Task).isExitOnInterruption) {
+                instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
+            }
+        }   */
+
+
+     /*   if (mTeachingContent is Course) {
             if ((mTeachingContent as Course).hasKeyboardTest) {
                 view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.visibility = View.VISIBLE
             }
@@ -444,7 +498,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             if (mResults.isNotEmpty()) {
                 view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
             }
-        }
+        }   */
 
         //do not want to call announce for accessibility here. Only set content description
         view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
