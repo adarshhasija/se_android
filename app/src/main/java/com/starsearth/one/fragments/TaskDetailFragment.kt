@@ -393,7 +393,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     View.GONE
                 }
         view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility =
-                if (mTeachingContent is Course) {
+                if (mTeachingContent is Course || mTeachingContent is Task && mResults.isNotEmpty()) {
                     View.VISIBLE
                 }
                 else {
@@ -431,7 +431,29 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
         (tv as TextView).text = instructions
 
+        view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.text =
+                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
+                    context?.resources?.getString(R.string.double_tap_screen_to_start)
+                }
+                else {
+                    context?.resources?.getString(R.string.tap_screen_to_start)
+                }
 
+        view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.text =
+                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn && mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+                    context?.resources?.getString(R.string.swipe_with_2_fingers_for_keyboard_test)
+                }
+                else {
+                    context?.resources?.getString(R.string.swipe_for_keyboard_test)
+                }
+
+        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.text =
+                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
+                    context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
+                }
+                else {
+                    context?.resources?.getString(R.string.long_press_for_more_options)
+                }
 
      /*   var instructions =
                 (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
@@ -510,11 +532,18 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         super.onViewCreated(view, savedInstanceState)
         setupAdListener()
         view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
-        setupScreenAccessibility()
+        //setupScreenAccessibility()
+        announceForAccessibility()
     }
 
     fun setupScreenAccessibility() {
-        setGesturesText()
+        //setGesturesText()
+        var contentDescription = getContentDescriptionForAccessibility()
+        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
+        view?.announceForAccessibility(contentDescription)
+    }
+
+    fun announceForAccessibility() {
         var contentDescription = getContentDescriptionForAccessibility()
         view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
         view?.announceForAccessibility(contentDescription)
