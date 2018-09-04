@@ -7,6 +7,8 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.starsearth.one.BuildConfig;
 
+import java.util.List;
+
 public class Ads {
 
     private InterstitialAd mGoogleInterstitialAd;
@@ -45,17 +47,11 @@ public class Ads {
     public AdRequest.Builder setupAdRequest(SEBaseObject mTeachingContent) {
         AdRequest.Builder adRequest = new AdRequest.Builder();
         if (mTeachingContent instanceof Task) {
-            String[] tags = ((Task) mTeachingContent).tags;
+            List<String> tags = ((Task) mTeachingContent).tags;
             for (String tag : tags) {
                 adRequest.addKeyword(tag);
             }
         }
         return adRequest;
-    }
-
-    public void onDestroy() {
-        if (mFacebookInterstitalAd != null) {
-            mFacebookInterstitalAd.destroy();
-        }
     }
 }

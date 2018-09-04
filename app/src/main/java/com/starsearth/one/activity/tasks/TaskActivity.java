@@ -121,9 +121,9 @@ public class TaskActivity extends AppCompatActivity {
         }
         else {
             mTimer.setVisibility(View.GONE);
-            if (task.content != null && task.content.length > 1) {
+            if (task.content != null && task.content.size() > 1) {
                 tvCompletedTotal.setVisibility(View.VISIBLE);
-                tvCompletedTotal.setText("1" + "/" + task.content.length);
+                tvCompletedTotal.setText("1" + "/" + task.content.size());
                 if (((StarsEarthApplication) getApplication()).getAccessibility().isTalkbackOn()) {
                     tvTapScreenToHearContent.setText(getResources().getString(R.string.double_tap_screen_to_hear_text_again));
                 }
@@ -248,7 +248,7 @@ public class TaskActivity extends AppCompatActivity {
         }
         if (keyCode == KeyEvent.KEYCODE_ENTER && task.submitOnReturnTapped) {
             itemsAttempted++;
-            tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.length);
+            tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.size());
             String userAnswer = tvMain.getText().toString();
             if (userAnswer.equalsIgnoreCase(expectedAnswer)) {
                 flashRightAnswer();
@@ -355,7 +355,7 @@ public class TaskActivity extends AppCompatActivity {
             itemsAttempted++;
             checkItemCorrect();
             if (tvCompletedTotal.getVisibility() == View.VISIBLE) {
-                tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.length);
+                tvCompletedTotal.setText((itemsAttempted + 1) + "/" + task.content.size());
             }
             new android.os.Handler().postDelayed(
                     new Runnable() {
@@ -667,7 +667,14 @@ public class TaskActivity extends AppCompatActivity {
             expectedAnswerGesture = (boolean) pair.getValue();
             //it.remove(); // avoids a ConcurrentModificationException
         }
-        tvMain.announceForAccessibility(tvMain.getText());
+        if (tvMain.getText().toString().isEmpty()) {
+            //If we did not get any new text, simply cancel the task
+            taskCancelled();
+        }
+        else {
+            tvMain.announceForAccessibility(tvMain.getText());
+        }
+
     }
 
     /*

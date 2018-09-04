@@ -8,6 +8,7 @@ import com.starsearth.one.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -17,14 +18,14 @@ import java.util.Random;
 
 public class Task extends SEBaseObject {
 
-    public String[] content;
-    public String[] tap;
-    public String[] swipe;
+    public List<String> content = new ArrayList<>(); //Has to be List<String> to save to Firebase
+    public List<String> tap = new ArrayList<>();
+    public List<String> swipe = new ArrayList<>();
     public Type type;
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
-    public String[] tags;
+    public List<String> tags = new ArrayList<>();
     public boolean isTextVisibleOnStart         = true;
     public boolean submitOnReturnTapped         = false;
     public boolean isPassFail                   = false;
@@ -71,14 +72,14 @@ public class Task extends SEBaseObject {
 
     protected Task(Parcel in) {
         super(in);
-        content = in.createStringArray();
-        tap = in.createStringArray();
-        swipe = in.createStringArray();
+        content = in.readArrayList(String.class.getClassLoader());
+        tap = in.readArrayList(String.class.getClassLoader());
+        swipe = in.readArrayList(String.class.getClassLoader());
         type = Type.fromInt(in.readInt());
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
-        tags = in.createStringArray();
+        tags = in.readArrayList(String.class.getClassLoader());
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
         isPassFail = in.readByte() != 0;
@@ -136,14 +137,14 @@ public class Task extends SEBaseObject {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeStringArray(content);
-        dest.writeStringArray(tap);
-        dest.writeStringArray(swipe);
+        dest.writeList(content);
+        dest.writeList(tap);
+        dest.writeList(swipe);
         dest.writeInt((int) type.getValue());
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
-        dest.writeStringArray(tags);
+        dest.writeList(tags);
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
         dest.writeByte((byte) (isPassFail ? 1 : 0));
@@ -162,8 +163,8 @@ public class Task extends SEBaseObject {
      */
     public String getNextItemTyping() {
         Random random = new Random();
-        int i = random.nextInt(content.length);
-        return content[i];
+        int i = random.nextInt(content.size());
+        return content.get(i);
     }
 
 
@@ -175,14 +176,13 @@ public class Task extends SEBaseObject {
         Map<String, Boolean> map = new HashMap<>();
         Random random = new Random();
         int i = random.nextInt(2);
-        if (i % 2 == 0) {
-            map.put(tap[random.nextInt(tap.length)], true);
-            return map;
+        if (i % 2 == 0 && tap.size() > 0) {
+            map.put(tap.get(random.nextInt(tap.size())), true);
         }
-        else {
-            map.put(swipe[random.nextInt(swipe.length)], false);
-            return map;
+        else if (swipe.size() > 0) {
+            map.put(swipe.get(random.nextInt(swipe.size())), false);
         }
+        return map;
     }
 
     /*
@@ -192,7 +192,7 @@ public class Task extends SEBaseObject {
         Return content at index
      */
     public String getNextItemTyping(int index) {
-        return content[index % content.length];
+        return content.get(index % content.size());
     }
 
 
@@ -213,7 +213,7 @@ public class Task extends SEBaseObject {
     //Swiping tasks will return false
     public boolean isTaskItemsCompleted(long itemsAttempted) {
         boolean result = false;
-        if (type != Type.TAP_SWIPE && itemsAttempted >= content.length) {
+        if (type != Type.TAP_SWIPE && itemsAttempted >= content.size()) {
             result = true;
         }
         return result;

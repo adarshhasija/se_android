@@ -55,11 +55,11 @@ public class FileTasks {
         return result;
     }
 
-    private static String[] getContent(String line) {
-        String[] result = null;
+    private static List<String> getContent(String line) {
+        ArrayList<String> result = new ArrayList<>();
         if (line != null) {
             line = line.replaceAll("\"","");
-            result = line.split(",");
+            result.addAll(Arrays.asList(line.split(",")));
         }
         return result;
     }
@@ -159,25 +159,24 @@ public class FileTasks {
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
-                boolean isTagPresent = false;
                 if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
-                        String[] tags = task.tags;
+                        List<String> tags = task.tags;
                         if (tags != null) {
-                            List<String> tagsList = Arrays.asList(tags);
-                            if (tagsList.contains(tag)) {
+                            //List<String> tagsList = Arrays.asList(tags);
+                            if (tags.contains(tag)) {
                                 mainMenuItems.add(new MainMenuItem(task));
                             }
                         }
                     }
                 }
                 else if (o instanceof Task) {
-                    String[] tags = ((Task) o).tags;
+                    List<String> tags = ((Task) o).tags;
                     if (tags != null) {
-                        List<String> tagsList = Arrays.asList(tags);
-                        if (tagsList.contains(tag)) {
+                        //List<String> tagsList = Arrays.asList(tags);
+                        if (tags.contains(tag)) {
                             mainMenuItems.add(new MainMenuItem(o));
                         }
                     }
