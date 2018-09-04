@@ -28,20 +28,18 @@ public class Question extends SEBaseObject {
         super();
     }
 
-    public Question(String uid, String title, String instructions, String answer, String hint, int index, float positiveWeight, float negativeWeight,
-                        String feedbackCorrectAnswer, String feedbackWrongAnswer, String createdBy, String parentId,
-                            String instruction, int repeats, String questionType) {
-        super(uid, title, instructions, createdBy, "exercise", parentId);
-        this.answer = answer;
-        this.hint = hint;
-        this.index = index;
-        this.instruction = instruction;
-        this.questionType = questionType;
-        this.repeats = repeats;
-        this.positiveWeight = positiveWeight;
-        this.negativeWeight = negativeWeight;
-        this.feedbackCorrectAnswer = feedbackCorrectAnswer;
-        this.feedbackWrongAnswer = feedbackWrongAnswer;
+    public Question(HashMap<String, Object> map) {
+        super(map);
+        this.answer = map.containsKey("answer") ? (String) map.get("answer") : null;
+        this.index = map.containsKey("index") ? ((Long) map.get("index")).intValue() : -1;
+        this.instruction = map.containsKey("instructions") ? (String) map.get("instructions") : null;
+        this.questionType = map.containsKey("questionType") ? (String) map.get("questionType") : null;
+        this.repeats = map.containsKey("repeats") ? ((Long) map.get("repeats")).intValue() : -1;
+        this.hint = map.containsKey("hint") ? (String) map.get("hint") : null;
+        this.positiveWeight = map.containsKey("positiveWeight") ? ((Long) map.get("positiveWeight")).floatValue() : 0;
+        this.negativeWeight = map.containsKey("negativeWeight") ? ((Long) map.get("neightWeight")).floatValue() : 0;
+        this.feedbackCorrectAnswer = map.containsKey("feedbackCorrectAnswer") ? (String) map.get("feedbackCorrectAnswer") : null;
+        this.feedbackWrongAnswer = map.containsKey("feedbackWrongAnswer") ? (String) map.get("feedbackWrongAnswer") : null;
     }
 
     public String getAnswer() {

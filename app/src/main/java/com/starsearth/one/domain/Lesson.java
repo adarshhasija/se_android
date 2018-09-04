@@ -24,9 +24,9 @@ public class Lesson extends SEBaseObject {
         // Default constructor required for calls to DataSnapshot.getValue(Lesson.class)
     }
 
-    public Lesson(String uid, String title, String instructions, int index, String createdBy, String parentId) {
-        super(uid, title, instructions, createdBy, "course", parentId);
-        this.index = index;
+    public Lesson(HashMap<String, Object> map) {
+        super(map);
+        this.index = map.containsKey("index") ? ((Long) map.get("index")).intValue() : -1 ;
     }
 
     protected Lesson(Parcel in) {

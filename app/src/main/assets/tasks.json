@@ -381,7 +381,7 @@
 
   "courses": [
     {
-      "visible": true,
+      "visible": false,
       "id": 10,
       "title": "Keyboard Typing Exercises",
       "instructions": "Improve your keyboard typing skills with these exercises",
@@ -490,6 +490,30 @@
           "isKeyboardRequired": true,
           "isExitOnInterruption": false
         } */
+      ]
+    },
+    {
+      "visible": true,
+      "id": 38,
+      "title": "Keyboard Typing Course",
+      "instructions": "Improve your keyboard typing skills with these exercises",
+      "hasKeyboardTest": true,
+      "tasks" : [
+        {
+          "id": 39,
+          "type": 1,
+          "timed": false,
+          "title": "Type f and press spacebar",
+          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "content": ["f␣","f␣","f␣","f␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 90,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        }
       ]
     },
     {

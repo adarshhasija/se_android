@@ -29,22 +29,16 @@ public class SEBaseObject implements Parcelable {
 
     }
 
-    public SEBaseObject(String uid, String title, String instructions, String createdBy) {
-        this.uid = uid;
-        this.title = title;
-        this.instructions = instructions;
-        this.createdBy = createdBy;
-        this.updatedBy = createdBy;
-    }
-
-    public SEBaseObject(String uid, String title, String instructions, String createdBy, String parentType, String parentId) {
-        this.uid = uid;
-        this.title = title;
-        this.instructions = instructions;
-        this.createdBy = createdBy;
-        this.updatedBy = createdBy;
-        this.parentType = parentType;
-        this.parentId = parentId;
+    public SEBaseObject(HashMap<String, Object> map) {
+        this.id =  map.containsKey("id") ? (Long) map.get("id") : -1;
+        this.title = map.containsKey("title") ? (String) map.get("title") : null;
+        this.instructions = map.containsKey("instructions") ? (String) map.get("instructions") : null;
+        this.visible = map.containsKey ("visible") ? (Boolean) map.get("visible") : false;
+        this.createdBy = map.containsKey("createdBy") ? (String) map.get("createdBy") : null;
+        this.updatedBy = map.containsKey("updatedBy") ? (String) map.get("updatedBy") : null;
+        this.parentType = map.containsKey("parentType") ? (String) map.get("parentType") : null;
+        this.parentId = map.containsKey("parentId") ? (String) map.get("parentId") : null;
+        this.timestamp = map.containsKey("timestamp") ? (Long) map.get("timestamp") : -1;
     }
 
     protected SEBaseObject(Parcel in) {

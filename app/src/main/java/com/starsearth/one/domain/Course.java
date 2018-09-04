@@ -25,7 +25,7 @@ public class Course extends SEBaseObject {
     public String type;
     public int difficulty;
     public String description;
-    public boolean usbKeyboard;
+    public boolean usbKeyboard = false;
     public boolean hasKeyboardTest = false;
     //public Map<String, Boolean> lessons = new HashMap<>();
     public Map<String, SENestedObject> lessons = new HashMap<>();
@@ -36,12 +36,19 @@ public class Course extends SEBaseObject {
         // Default constructor required for calls to DataSnapshot.getValue(Course.class)
     }
 
-    public Course(String uid, String type, int difficulty, String title, String instructions, String description, String createdBy, boolean usbKeyboard) {
-        super(uid, title, instructions, createdBy);
+    public Course(HashMap<String, Object> map) {
+        super(map);
         this.type = type;
         this.difficulty = difficulty;
         this.description = description;
         this.usbKeyboard = usbKeyboard;
+
+        this.type = map.containsKey("type") ? (String) map.get("type") : null;
+        this.difficulty = map.containsKey("difficulty") ? ((Long) map.get("difficulty")).intValue() : -1;
+        this.description = map.containsKey("description") ? (String) map.get("description") : null;
+        this.usbKeyboard = map.containsKey("usbKeyboard") ? (Boolean) map.get("usbKeyboard") : false;
+        this.hasKeyboardTest = map.containsKey("hasKeyboardTest") ? (Boolean) map.get("hasKeyboardTest") : false;
+        this.tasks = map.containsKey("tasks") ? (List<Task>) map.get("tasks") : null;
     }
 
     public long getId() {

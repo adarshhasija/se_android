@@ -22,10 +22,10 @@ public class Exercise extends SEBaseObject implements Parcelable{
 
     }
 
-    public Exercise(String uid, String title, String instructions, String description, int index, String createdBy, String parentId) {
-        super(uid, title, instructions, createdBy, "topic", parentId);
-        this.description = description;
-        this.index = index;
+    public Exercise(HashMap<String, Object> map) {
+        super(map);
+        this.description = map.containsKey("description") ? (String) map.get("description") : null;
+        this.index = map.containsKey("index") ? ((Long) map.get("index")).intValue() : -1;
     }
 
     protected Exercise(Parcel in) {

@@ -166,10 +166,11 @@ public class Firebase {
         databaseReference.child(topic.getUid()).removeValue();
     }
 
-    public String writeNewExercise(int index, String title, String instructions, String description, String parent) {
+    public String writeNewExercise(HashMap<String, Object> map) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Exercise exercise = new Exercise(key, title, instructions, description, index, user.getUid(), parent);
+        map.put("key", key);
+        Exercise exercise = new Exercise(map);
         Map<String, Object> topicValues = exercise.toMap();
         topicValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
