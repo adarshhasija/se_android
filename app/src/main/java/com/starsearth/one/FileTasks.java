@@ -309,7 +309,9 @@ public class FileTasks {
             JSONArray tasksJSON = root.getJSONArray("tasks");
             teachingContentList.addAll(getCourses(coursesJSON));
             teachingContentList.addAll(getTasks(tasksJSON));
-            //int highestId = getHighestId(teachingContentList);
+            long highestId = getHighestId(teachingContentList);
+            //boolean b = areIdsUnique(teachingContentList);
+            int i = 0;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -324,12 +326,28 @@ public class FileTasks {
         boolean result = true;
         HashMap<Long, Integer> map = new HashMap<>();
         for (Object o : teachingContentList) {
-            if (!map.containsKey(((SEBaseObject) o).id)) {
-                map.put(((SEBaseObject) o).id, 1);
+            if (o instanceof Course) {
+                //Course
+                ArrayList<Task> tasks = (ArrayList<Task>) ((Course) o).tasks;
+                for (Task task : tasks) {
+                    if (!map.containsKey(task.id)) {
+                        map.put(task.id, 1);
+                    }
+                    else {
+                        map.put(task.id, map.get(task.id) + 1);
+                    }
+                }
             }
             else {
-                map.put(((SEBaseObject) o).id, map.get(((SEBaseObject) o).id) + 1);
+                //Its a task
+                if (!map.containsKey(((SEBaseObject) o).id)) {
+                    map.put(((SEBaseObject) o).id, 1);
+                }
+                else {
+                    map.put(((SEBaseObject) o).id, map.get(((SEBaseObject) o).id) + 1);
+                }
             }
+
         }
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
@@ -361,18 +379,6 @@ public class FileTasks {
             }
         }
         return result;
-    }
-
-    public static ArrayList<MainMenuItem> getMainMenuItemsFromCourse(Course course) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
-        for (Object o : course.tasks) {
-            if (((SEBaseObject) o).visible) {
-                MainMenuItem mainMenuItem = new MainMenuItem();
-                mainMenuItem.teachingContent = o;
-                mainMenuItems.add(mainMenuItem);
-            }
-        }
-        return mainMenuItems;
     }
 
     private static class TypeDeserializer implements
