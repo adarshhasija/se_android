@@ -652,6 +652,13 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
 
         if (mTeachingContent is Course) {
+            if ((mTeachingContent as Course)?.isCourseStarted(mResults)) {
+                Firebase("courses/attempted").writeNewCourseAttempt((mTeachingContent as Course))
+            }
+          /*  (mTeachingContent as Course)?.isCourseStarted(mResults).let {
+                Firebase("courses/attempted").writeNewCourseAttempt((it as Course))
+            }   */
+
             val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
             if (currentTask.isPassFail && currentTask.isPassed(result)) {
                 tvProgress.visibility = View.VISIBLE

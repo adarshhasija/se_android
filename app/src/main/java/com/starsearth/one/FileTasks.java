@@ -309,9 +309,8 @@ public class FileTasks {
             JSONArray tasksJSON = root.getJSONArray("tasks");
             teachingContentList.addAll(getCourses(coursesJSON));
             teachingContentList.addAll(getTasks(tasksJSON));
-            long highestId = getHighestId(teachingContentList);
+            //long highestId = getHighestId(teachingContentList);
             //boolean b = areIdsUnique(teachingContentList);
-            int i = 0;
         } catch (JSONException e) {
             e.printStackTrace();
         }

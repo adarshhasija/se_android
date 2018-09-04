@@ -78,10 +78,11 @@ public class Firebase {
     }
 
     //Returns key of the newly created course
- /*   public String writeNewCourse(String type, int difficulty, String name, String description, boolean usbKeyboard) {
+    public String writeNewCourse(HashMap<String, Object> map) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = databaseReference.push().getKey();
-        Course course = new Course(key, type, difficulty, name, description, user.getUid(), usbKeyboard);
+        map.put("key", key);
+        Course course = new Course(map);
         Map<String, Object> courseValues = course.toMap();
         courseValues.put("timestamp", ServerValue.TIMESTAMP);
         Map<String, Object> childUpdates = new HashMap<>();
@@ -89,7 +90,15 @@ public class Firebase {
 
         databaseReference.updateChildren(childUpdates);
         return key;
-    }   */
+    }
+
+    //When a user starts an attempt on a new course, save a copy of it
+    //We will always refer to this copy of the course in future and ignore any updates made
+    public String writeNewCourseAttempt(Course course) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        course.attemptedByUserId = user.getUid();
+        return writeNewCourse((HashMap<String, Object>) course.toMap());
+    }
 
     public void updateExistingCourse(String key, Course course) {
         //databasereference.child(key).setValue(course);

@@ -23,13 +23,13 @@ import java.util.Map;
 public class Course extends SEBaseObject {
 
     public String type;
-    public int difficulty;
     public String description;
     public boolean usbKeyboard = false;
     public boolean hasKeyboardTest = false;
     //public Map<String, Boolean> lessons = new HashMap<>();
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
+    public String attemptedByUserId = null; //The user who started an attempt on this Course
 
     public Course() {
         super();
@@ -38,17 +38,23 @@ public class Course extends SEBaseObject {
 
     public Course(HashMap<String, Object> map) {
         super(map);
-        this.type = type;
-        this.difficulty = difficulty;
-        this.description = description;
-        this.usbKeyboard = usbKeyboard;
-
         this.type = map.containsKey("type") ? (String) map.get("type") : null;
-        this.difficulty = map.containsKey("difficulty") ? ((Long) map.get("difficulty")).intValue() : -1;
         this.description = map.containsKey("description") ? (String) map.get("description") : null;
         this.usbKeyboard = map.containsKey("usbKeyboard") ? (Boolean) map.get("usbKeyboard") : false;
         this.hasKeyboardTest = map.containsKey("hasKeyboardTest") ? (Boolean) map.get("hasKeyboardTest") : false;
-        this.tasks = map.containsKey("tasks") ? (List<Task>) map.get("tasks") : null;
+        //this.tasks = map.containsKey("tasks") ? (List<Task>) map.get("tasks") : null;
+        ////Set tasks list
+        ArrayList<HashMap<String, Object>> mpArrayList = (ArrayList<HashMap<String, Object>>) map.get("tasks");
+        if (mpArrayList != null) {
+            this.tasks = new ArrayList<>();
+            for (Object mp : mpArrayList) {
+                if (mp instanceof Task) {
+                    this.tasks.add((Task) mp);
+                }
+            }
+        }
+        ////
+        this.attemptedByUserId = map.containsKey("attemptedByUserId") ? (String) map.get("attemptedByUserId") : null;
     }
 
     public long getId() {
@@ -75,15 +81,16 @@ public class Course extends SEBaseObject {
         this.tasks = tasks;
     }
 
+
     protected Course(Parcel in) {
         super(in);
         type = in.readString();
-        difficulty = in.readInt();
         description = in.readString();
         usbKeyboard = in.readByte() != 0;
         hasKeyboardTest = in.readByte() != 0;
         lessons = in.readHashMap(getClass().getClassLoader());
         tasks = in.readArrayList(Task.class.getClassLoader());
+        attemptedByUserId = in.readString();
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -106,14 +113,6 @@ public class Course extends SEBaseObject {
         this.type = type;
     }
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -132,12 +131,12 @@ public class Course extends SEBaseObject {
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
         result.put("type", type);
-        result.put("difficulty", difficulty);
         result.put("description", description);
         result.put("usbKeyboard", usbKeyboard);
         result.put("hasKeyboardTest", hasKeyboardTest);
         result.put("lessons", lessons);
         result.put("tasks", tasks);
+        result.put("attemptedByUserId", attemptedByUserId);
 
         return result;
     }
@@ -151,12 +150,12 @@ public class Course extends SEBaseObject {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(type);
-        dest.writeInt(difficulty);
         dest.writeString(description);
         dest.writeByte((byte) (usbKeyboard ? 1 : 0));
         dest.writeByte((byte) (hasKeyboardTest? 1 : 0));
         dest.writeMap(lessons);
         dest.writeList(tasks);
+        dest.writeString(attemptedByUserId);
     }
 
     public boolean isTaskExists(long taskId) {
@@ -202,7 +201,8 @@ public class Course extends SEBaseObject {
         return result;
     }
 
-    public boolean isFirstTaskAttempted(ArrayList<Result> results) {
+    //Returns true if results contains items relating to the first task
+    public boolean isCourseStarted(ArrayList<Result> results) {
         boolean ret = false;
         if (tasks.size() > 0) {
             Task task = tasks.get(0);
