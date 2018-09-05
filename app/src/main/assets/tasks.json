@@ -514,6 +514,21 @@
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true
 
+        },
+        {
+          "id": 40,
+          "type": 1,
+          "timed": false,
+          "title": "Type j and press spacebar",
+          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "content": ["j␣","j␣","j␣","j␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 90,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
         }
       ]
     },

@@ -685,7 +685,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }
 
         tvInstruction?.text =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
                     (mTeachingContent as Course).getNextTask(mResults)?.instructions
                 }
                 else {

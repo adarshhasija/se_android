@@ -43,15 +43,4 @@ public class Ads {
     private void initializeFacebookAds(Context context) {
         mFacebookInterstitalAd = new com.facebook.ads.InterstitialAd(context, "2064355667218856_2069620790025677");
     }
-
-    public AdRequest.Builder setupAdRequest(SEBaseObject mTeachingContent) {
-        AdRequest.Builder adRequest = new AdRequest.Builder();
-        if (mTeachingContent instanceof Task) {
-            List<String> tags = ((Task) mTeachingContent).tags;
-            for (String tag : tags) {
-                adRequest.addKeyword(tag);
-            }
-        }
-        return adRequest;
-    }
 }
