@@ -94,6 +94,7 @@ public class Firebase {
 
     //When a user starts an attempt on a new course, save a copy of it
     //We will always refer to this copy of the course in future and ignore any updates made
+    //Cannot pass Course object directly to writeNewCourse as it saves lots of metadata, which we dont want
     public String writeNewCourseAttempt(Course course) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         course.attemptedByUserId = user.getUid();

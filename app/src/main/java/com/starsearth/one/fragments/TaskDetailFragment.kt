@@ -332,7 +332,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             //UI changes if there are exisitng results
             view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
             //do not want to call announce for accessibility here. Only set content description
-            view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
+            view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
         }
 
 
@@ -523,7 +523,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }   */
 
         //do not want to call announce for accessibility here. Only set content description
-        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
+        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
 
         return view
     }
@@ -531,7 +531,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdListener()
-        view.findViewById<LinearLayout>(R.id.ll_main).setOnTouchListener(this)
+        view.findViewById<LinearLayout>(R.id.llMain).setOnTouchListener(this)
         //setupScreenAccessibility()
         announceForAccessibility()
     }
@@ -539,13 +539,13 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     fun setupScreenAccessibility() {
         //setGesturesText()
         var contentDescription = getContentDescriptionForAccessibility()
-        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
+        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = contentDescription
         view?.announceForAccessibility(contentDescription)
     }
 
     fun announceForAccessibility() {
         var contentDescription = getContentDescriptionForAccessibility()
-        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = contentDescription
+        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = contentDescription
         view?.announceForAccessibility(contentDescription)
     }
 
@@ -636,7 +636,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     firebase.writeNewResult(resultMap)
                 }
 
-        analyticsTaskCompleted(if(mTeachingContent is Task) {
+        newResultProcedures(result)
+      /*  analyticsTaskCompleted(if(mTeachingContent is Task) {
             mTeachingContent as Task
         } else {
             (mTeachingContent as Course).getTaskById(result.task_id)
@@ -647,18 +648,51 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             mTeachingContent as Task
         } else {
             (mTeachingContent as Course).getTaskById(result.task_id)
-        }, result, null, null)
+        }, result, null, null)  */
 
+        //Set visibility for all UI
+        tvProgress?.visibility =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    View.GONE
+                }
+                else {
+                    View.VISIBLE
+                }
+        tvTapScreenToStart?.visibility =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    View.GONE
+                }
+                else {
+                    View.VISIBLE
+                }
+        tvSwipeToContinue?.visibility =
+                if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        tvLongPressForMoreOptions?.visibility = View.VISIBLE
 
+        //Set text for all UI
+        tvProgress?.text =
+                if (mTeachingContent is Course && !mResults.isEmpty()) {
+                    val nextTaskIndex = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
+                    Integer.toString(nextTaskIndex) + "/" + (mTeachingContent as Course).tasks.size
+                }
+                else {
+                    ""
+                }
 
-        if (mTeachingContent is Course) {
-            if ((mTeachingContent as Course)?.isCourseStarted(mResults)) {
-                Firebase("courses/attempted").writeNewCourseAttempt((mTeachingContent as Course))
-            }
-          /*  (mTeachingContent as Course)?.isCourseStarted(mResults).let {
-                Firebase("courses/attempted").writeNewCourseAttempt((it as Course))
-            }   */
+        tvInstruction?.text =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                }
+                else {
+                    ""
+                }
 
+     /*   if (mTeachingContent is Course) {
             val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
             if (currentTask.isPassFail && currentTask.isPassed(result)) {
                 tvProgress.visibility = View.VISIBLE
@@ -673,15 +707,33 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }
             }
         }
-        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE //If its a succesful result, set this to visible
-        //do not want to call announce for accessibility here. Only set content description
-        view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
+        tvLongPressForMoreOptions?.visibility = View.VISIBLE //If its a succesful result, set this to visible
+        //do not want to call announce for accessibility here. Only set content description     */
+        llMain?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
 
-    private fun updateResults(result: Result) {
+    private fun newResultProcedures(result: Result) {
+        //1. Do analytics
+        analyticsTaskCompleted(if(mTeachingContent is Task) {
+            mTeachingContent as Task
+        } else {
+            (mTeachingContent as Course).getTaskById(result.task_id)
+        }, result)
+
+        //2. Set return result to previous screen onActivityResult
+        setReturnResult(result)
+
+        //3. Update the Fragment's mResults array
         if (result != null) {
             mResults?.add(result)
         }
+
+        //4. Show the results screen to the user
+        mListener?.onTaskDetailFragmentShowLastTried(if (mTeachingContent is Task) {
+            mTeachingContent as Task
+        } else {
+            (mTeachingContent as Course).getTaskById(result.task_id)
+        }, result, null, null)
     }
 
     private fun sendAnalytics(teachingContent: Any?, view: View?, action: String) {
