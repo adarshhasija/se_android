@@ -31,7 +31,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Months of the year",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all 12 words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all 12 words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]
@@ -44,7 +44,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Countries in Asia",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["India", "Pakistan", "Afghanistan", "Bangladesh", "Nepal", "Myanmar", "China", "Russia", "Japan", "North Korea", "South Korea", "Taiwan", "Hong Kong", "Maldives", "Indonesia", "Thailand", "Philippines"],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]
@@ -57,7 +57,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Parts of the human body",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["Eyes", "Nose", "Ears", "Mouth", "Teeth", "Tongue", "Nostrils", "Pupils", "Neck", "Arms", "Hands", "Fingers", "Elbow", "Heart", "Lungs", "Stomach", "Legs", "Knees", "Feet", "Toes"],
       "isKeyboardRequired": true,
       "tags": ["english","spelling"]
@@ -70,7 +70,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Major cities in the world",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the work, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
       "content": ["New Delhi", "Mumbai", "Bangalore", "Goa", "Ahmedebad", "Chennai", "Hyderabad", "Kolkata", "Jaipur", "Dhaka", "Colombo", "Kabul", "Beijing", "Shanghai", "Tokyo", "Seoul", "Moscow", "Manila", "Jakarta", "Bangkok", "Bali"],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]

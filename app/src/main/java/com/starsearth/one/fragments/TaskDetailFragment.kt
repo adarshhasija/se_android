@@ -342,79 +342,71 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
 
-      /*  val tv = view.findViewById<TextView>(R.id.tvInstruction)
-        var instructions =
-                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
-                    String.format((mTeachingContent as Task)?.instructions + " " +
-                            context?.resources?.getString(R.string.complete_as_many_as)
-                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
-                } else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
-                    //If its a course thats already started, take the instructions of the next task
-                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
-                } else {
-                    (mTeachingContent as SEBaseObject)?.instructions
-                }).toString()
-        if (mTeachingContent is Task) {
-            //Additionally, if its a task that should be exited on interruption, add a line.
-            if ((mTeachingContent as Task).isExitOnInterruption) {
-                instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
-            }
-        }
-        (tv as TextView).text = instructions    */
+        return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupAdListener()
+        view.findViewById<LinearLayout>(R.id.llMain).setOnTouchListener(this)
+        //setupScreenAccessibility()
+        updateUIVisibility() //Must be called from here as view exists from here
+        updateUIText() //Must be called from here as view exists from here
+        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
+        announceForAccessibility()
+    }
+
+    fun updateUIVisibility() {
         //Set visibility for all UI
-        view?.findViewById<TextView>(R.id.tvInstruction)?.visibility = View.VISIBLE
-        view?.findViewById<TextView>(R.id.tvProgress)?.visibility =
+        tvInstruction?.visibility = View.VISIBLE
+        tvProgress?.visibility =
                 if ((mTeachingContent is Course) && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
                 }
-        view?.findViewById<TextView>(R.id.tvSingleTapToRepeat)?.visibility =
+        tvSingleTapToRepeat?.visibility =
                 if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
                 }
-        view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility =
+        tvTapScreenToStart?.visibility =
                 if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
                     View.GONE
                 }
                 else {
                     View.VISIBLE
                 }
-        view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.visibility =
+        tvSwipeToContinue?.visibility =
                 if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
                 }
-        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility =
+        tvLongPressForMoreOptions?.visibility =
                 if (mTeachingContent is Course || mTeachingContent is Task && mResults.isNotEmpty()) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
                 }
+    }
 
-        //Set text for all UI
-        view?.findViewById<TextView>(R.id.tvProgress)?.text =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
-                    context?.resources?.getString(R.string.complete)
-                }
-                else if (mTeachingContent is Course && !mResults.isEmpty()) {
-                    val nextTaskIndex = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                    Integer.toString(nextTaskIndex) + "/" + (mTeachingContent as Course).tasks.size
+    fun updateUIText() {
+        val tv = tvInstruction
+        var instructions =
+                if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+                    //Get the instructions of next task
+                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
                 }
                 else {
-                    context?.resources?.getString(R.string.firt_task)
+                    //Course or Task, get the normal instructions
+                    (mTeachingContent as SEBaseObject)?.instructions
                 }
-
-        val tv = view.findViewById<TextView>(R.id.tvInstruction)
-        var instructions = (mTeachingContent as SEBaseObject)?.instructions
         if (mTeachingContent is Task) {
             if ((mTeachingContent as Task)?.durationMillis > 0) {
                 instructions +=
@@ -425,13 +417,9 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
             }
         }
-        if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
-            //If its a course thats already started, take the instructions of the next task
-            (mTeachingContent as Course).getNextTask(mResults)?.instructions
-        }
         (tv as TextView).text = instructions
 
-        view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.text =
+        tvTapScreenToStart?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
                     context?.resources?.getString(R.string.double_tap_screen_to_start)
                 }
@@ -439,7 +427,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.tap_screen_to_start)
                 }
 
-        view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.text =
+        tvSwipeToContinue?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn && mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                     context?.resources?.getString(R.string.swipe_with_2_fingers_for_keyboard_test)
                 }
@@ -447,7 +435,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.swipe_for_keyboard_test)
                 }
 
-        view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.text =
+        tvLongPressForMoreOptions?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
                     context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
                 }
@@ -455,92 +443,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.long_press_for_more_options)
                 }
 
-     /*   var instructions =
-                (if (mTeachingContent is Task && (mTeachingContent as Task)?.durationMillis > 0) {
-                    String.format((mTeachingContent as Task)?.instructions + " " +
-                            context?.resources?.getString(R.string.complete_as_many_as)
-                            , (mTeachingContent as Task)?.getTimeLimitAsString(context))
-                } else if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
-                    //If its a course thats already started, take the instructions of the next task
-                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
-                } else {
-                    (mTeachingContent as SEBaseObject)?.instructions
-                }).toString()
-        if (mTeachingContent is Task) {
-            //Additionally, if its a task that should be exited on interruption, add a line.
-            if ((mTeachingContent as Task).isExitOnInterruption) {
-                instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
-            }
-        }   */
-
-
-     /*   if (mTeachingContent is Course) {
-            if ((mTeachingContent as Course).hasKeyboardTest) {
-                view?.findViewById<TextView>(R.id.tvSwipeToContinue)?.visibility = View.VISIBLE
-            }
-            view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
-
-            if (mResults.isNotEmpty()) {
-                val progress = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                if (progress > 0) {
-                    view?.findViewById<TextView>(R.id.tvProgress)?.text = Integer.toString(progress) + "/" + (mTeachingContent as Course).tasks.size
-                }
-
-                if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
-                    view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
-                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
-                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
-                    view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
-                    if ((mTeachingContent as Course).isFirstTaskAttempted(mResults)) {
-                        view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                        if ((mTeachingContent as Course).isFirstTaskPassed(mResults)) {
-                            view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.next_task)
-                        }
-                    }
-
-                }
-                else {
-                    //If course is complete, disable this
-                    view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.GONE
-                    view?.findViewById<TextView>(R.id.tvProgress)?.visibility = View.VISIBLE
-                    view?.findViewById<TextView>(R.id.tvProgress)?.text =  view?.findViewById<TextView>(R.id.tvProgress)?.text.toString() + "\n" + context?.resources?.getString(R.string.complete)
-                    view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.GONE
-                }
-            }
-            else if (mResults.isEmpty()) {
-                view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
-                view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.visibility = View.VISIBLE
-                view?.findViewById<TextView>(R.id.tvCourseTaskInstruction)?.text = (mTeachingContent as Course).tasks[0]?.instructions
-                view?.findViewById<TextView>(R.id.tvNextTask)?.visibility = View.VISIBLE
-                view?.findViewById<TextView>(R.id.tvNextTask)?.text = context?.resources?.getText(R.string.firt_task)
-            }
-        }
-        else if (mTeachingContent is Task) {
-            view?.findViewById<TextView>(R.id.tvTapScreenToStart)?.visibility = View.VISIBLE
-            if (mResults.isNotEmpty()) {
-                view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
-            }
-        }   */
-
-        //do not want to call announce for accessibility here. Only set content description
-        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupAdListener()
-        view.findViewById<LinearLayout>(R.id.llMain).setOnTouchListener(this)
-        //setupScreenAccessibility()
-        announceForAccessibility()
-    }
-
-    fun setupScreenAccessibility() {
-        //setGesturesText()
-        var contentDescription = getContentDescriptionForAccessibility()
-        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = contentDescription
-        view?.announceForAccessibility(contentDescription)
+        llMain?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
 
     fun announceForAccessibility() {
@@ -637,79 +540,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 }
 
         newResultProcedures(result)
-      /*  analyticsTaskCompleted(if(mTeachingContent is Task) {
-            mTeachingContent as Task
-        } else {
-            (mTeachingContent as Course).getTaskById(result.task_id)
-        }, result)
-        setReturnResult(result)
-        updateResults(result)
-        mListener?.onTaskDetailFragmentShowLastTried(if (mTeachingContent is Task) {
-            mTeachingContent as Task
-        } else {
-            (mTeachingContent as Course).getTaskById(result.task_id)
-        }, result, null, null)  */
-
-        //Set visibility for all UI
-        tvProgress?.visibility =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
-                    View.GONE
-                }
-                else {
-                    View.VISIBLE
-                }
-        tvTapScreenToStart?.visibility =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
-                    View.GONE
-                }
-                else {
-                    View.VISIBLE
-                }
-        tvSwipeToContinue?.visibility =
-                if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
-                    View.VISIBLE
-                }
-                else {
-                    View.GONE
-                }
-        tvLongPressForMoreOptions?.visibility = View.VISIBLE
-
-        //Set text for all UI
-        tvProgress?.text =
-                if (mTeachingContent is Course && !mResults.isEmpty()) {
-                    val nextTaskIndex = (mTeachingContent as Course).getIndexOfLastPassedTask(mResults) + 1
-                    Integer.toString(nextTaskIndex) + "/" + (mTeachingContent as Course).tasks.size
-                }
-                else {
-                    ""
-                }
-
-        tvInstruction?.text =
-                if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
-                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
-                }
-                else {
-                    ""
-                }
-
-     /*   if (mTeachingContent is Course) {
-            val currentTask = (mTeachingContent as Course).getTaskById(result.task_id)
-            if (currentTask.isPassFail && currentTask.isPassed(result)) {
-                tvProgress.visibility = View.VISIBLE
-                if ((mTeachingContent as Course).isCourseComplete(mResults)) {
-                    tvTapScreenToStart.visibility = View.GONE
-                    tvNextTask.visibility = View.GONE
-                    tvCourseTaskInstruction.visibility = View.GONE
-                }
-                else {
-                    tvNextTask.visibility = View.VISIBLE
-                    tvCourseTaskInstruction.text = (mTeachingContent as Course).getNextTask(mResults)?.instructions
-                }
-            }
-        }
-        tvLongPressForMoreOptions?.visibility = View.VISIBLE //If its a succesful result, set this to visible
-        //do not want to call announce for accessibility here. Only set content description     */
-        llMain?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
+        updateUIVisibility()
+        updateUIText()
     }
 
     private fun newResultProcedures(result: Result) {
