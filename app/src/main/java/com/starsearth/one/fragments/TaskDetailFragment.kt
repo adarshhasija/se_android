@@ -352,7 +352,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //setupScreenAccessibility()
         updateUIVisibility() //Must be called from here as view exists from here
         updateUIText() //Must be called from here as view exists from here
-        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
+        llMain?.contentDescription = getContentDescriptionForAccessibility()
         announceForAccessibility()
     }
 
@@ -397,6 +397,19 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     fun updateUIText() {
+        tvProgress?.text =
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                    context?.resources?.getText(R.string.complete)
+                }
+                else if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)){
+                    val nextTaskIndex = (mTeachingContent as Course).getCurrentTaskIndex(mResults) + 2
+                    context?.resources?.getString(R.string.next_task) + "\n" + nextTaskIndex + "/" + (mTeachingContent as Course).tasks.size
+                }
+                else {
+                    //If the course has not started, or if teachingContent is a Task, empty string
+                    ""
+                }
+
         val tv = tvInstruction
         var instructions =
                 if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {

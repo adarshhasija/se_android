@@ -411,4 +411,6 @@
     <string name="firt_task">First Task</string>
     <string name="next_task">Next Task</string>
     <string name="swipe_for_keyboard_test">Swipe for keyboard test</string>
+    <string name="actions">Actions</string>
+    <string name="records">Records</string>
 </resources>

@@ -139,10 +139,10 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
         }
 
         override fun getPageTitle(position: Int): CharSequence {
-            var title : CharSequence = "More"
+            var title : CharSequence = applicationContext?.resources?.getString(R.string.actions) as CharSequence
             when (position) {
                 0 -> {
-                    title = "Main"
+                    title = applicationContext?.resources?.getString(R.string.records) as CharSequence
                 }
                 else -> {
                 }
