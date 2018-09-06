@@ -102,6 +102,7 @@ public class Course extends SEBaseObject {
         lessons = in.readHashMap(getClass().getClassLoader());
         tasks = in.readArrayList(Task.class.getClassLoader());
         attemptedByUserId = in.readString();
+        checkpoints = in.readHashMap(getClass().getClassLoader());
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -148,6 +149,7 @@ public class Course extends SEBaseObject {
         result.put("lessons", lessons);
         result.put("tasks", tasks);
         result.put("attemptedByUserId", attemptedByUserId);
+        result.put("checkpoints", checkpoints);
 
         return result;
     }
@@ -167,6 +169,7 @@ public class Course extends SEBaseObject {
         dest.writeMap(lessons);
         dest.writeList(tasks);
         dest.writeString(attemptedByUserId);
+        dest.writeMap(checkpoints);
     }
 
     public boolean isTaskExists(long taskId) {

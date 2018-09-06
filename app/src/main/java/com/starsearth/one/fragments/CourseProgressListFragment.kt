@@ -15,8 +15,8 @@ import com.starsearth.one.adapter.MyCourseProgressRecyclerViewAdapter
 import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 
-import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
+import kotlinx.android.synthetic.main.fragment_mainmenuitem.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -51,13 +51,16 @@ class CourseProgressListFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_courseprogress_list, container, false)
 
-        val mValues = ArrayList<Any>()
-        for (result in mResults) {
-            mValues.add(result)
-            if (mCourse?.checkpoints?.containsKey(result.task_id) == true) {
-                mValues.add((mCourse?.checkpoints?.get(result.task_id) as Any))
+        val mTasksAndCheckpoints = ArrayList<Any>()
+        mCourse?.let {
+            for (task in it.tasks) {
+                mTasksAndCheckpoints.add(task)
+                if (it.checkpoints?.containsKey(task.id) == true) {
+                    mTasksAndCheckpoints.add((mCourse?.checkpoints?.get(task.id) as Any))
+                }
             }
         }
+
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -66,7 +69,7 @@ class CourseProgressListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                mCourse?.let { adapter = MyCourseProgressRecyclerViewAdapter(context, it, mValues, listener) }
+                mCourse?.let { adapter = MyCourseProgressRecyclerViewAdapter(context, it, mTasksAndCheckpoints, mResults, listener) }
 
             }
         }

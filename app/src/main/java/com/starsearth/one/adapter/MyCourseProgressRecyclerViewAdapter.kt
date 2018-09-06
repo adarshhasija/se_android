@@ -30,7 +30,8 @@ import java.util.ArrayList
 class MyCourseProgressRecyclerViewAdapter(
         private val mContext: Context,
         private val mCourse: Course,
-        private val mValues: List<Any>,
+        private val mValues: List<Any>,   //Tasks and checkpoints
+        private val mResults: ArrayList<Result>,
         private val mListener: CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener?)
     : RecyclerView.Adapter<MyCourseProgressRecyclerViewAdapter.ViewHolder>() {
 
@@ -52,15 +53,15 @@ class MyCourseProgressRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mCourse.tasks[position]
-        holder.mTaskTitleView.text = item.title
+        val item = mValues[position]
         if (item is Task) {
             holder.llTask.visibility = View.VISIBLE
+            holder.mTaskTitleView.text = item.title
             holder.mTaskPassedView.text =
-                    if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                    if (item.isPassFail && item.isPassed(mResults)) {
                         mContext.resources.getString(R.string.passed)
                     }
-                    else if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                    else if (item.isPassFail && item.isPassed(mResults)) {
                         mContext.resources.getString(R.string.failed)
                     }
                     else {
@@ -68,10 +69,10 @@ class MyCourseProgressRecyclerViewAdapter(
                     }
 
             holder.mCLMain.setBackgroundColor(
-                    if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                    if (item.isPassFail && item.isPassed(mResults)) {
                         Color.GREEN
                     }
-                    else if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                    else if (item.isPassFail && item.isPassed(mResults)) {
                         Color.RED
                     }
                     else {
@@ -83,8 +84,15 @@ class MyCourseProgressRecyclerViewAdapter(
             holder.llCheckpoint.visibility = View.VISIBLE
             holder.mCheckpointTitle.text = (item as Checkpoint).title
             //If the previous Task is passed, set the checkpoint to cleared
+            holder.mCheckpointStatus.text =
+                    if ((mValues[position-1] as Task).isPassFail && (mValues[position-1] as Task).isPassed(mResults)) {
+                        mContext?.resources?.getString(R.string.reached)
+                    }
+                    else {
+                        mContext?.resources?.getString(R.string.not_reached)
+                    }
             holder.mCLMain.setBackgroundColor(
-                    if ((mValues[position-1] as Task).isPassFail && (mValues[position-1] as Task).isPassed((mValues as ArrayList<Result>))) {
+                    if ((mValues[position-1] as Task).isPassFail && (mValues[position-1] as Task).isPassed(mResults)) {
                         Color.GREEN
                     }
                     else {
@@ -118,13 +126,14 @@ class MyCourseProgressRecyclerViewAdapter(
         val mCLMain: ConstraintLayout = mView.cl_main
 
         //Task
-        val llTask: LinearLayout = mView.llTask
-        val mTaskTitleView: TextView = mView.tvTaskTitle
-        val mTaskPassedView: TextView = mView.tv_is_passed
+        val llTask:             LinearLayout    = mView.llTask
+        val mTaskTitleView:     TextView        = mView.tvTaskTitle
+        val mTaskPassedView:    TextView        = mView.tv_is_passed
 
         //Checkpoint
-        val llCheckpoint: LinearLayout = mView.llCheckpoint
-        val mCheckpointTitle: TextView = mView.tvCheckpointTitle
+        val llCheckpoint:       LinearLayout    = mView.llCheckpoint
+        val mCheckpointTitle:   TextView        = mView.tvCheckpointTitle
+        val mCheckpointStatus:  TextView        = mView.tvCheckpointStatus
 
         override fun toString(): String {
             return super.toString() + " '" + mTaskTitleView.text + "'"
