@@ -11,11 +11,9 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.fragments.CourseProgressListFragment
 
 
-import com.starsearth.one.fragments.CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_courseprogress.view.*

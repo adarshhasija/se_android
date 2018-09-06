@@ -51,6 +51,14 @@ class CourseProgressListFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_courseprogress_list, container, false)
 
+        val mValues = ArrayList<Any>()
+        for (result in mResults) {
+            mValues.add(result)
+            if (mCourse?.checkpoints?.containsKey(result.task_id) == true) {
+                mValues.add((mCourse?.checkpoints?.get(result.task_id) as Any))
+            }
+        }
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {

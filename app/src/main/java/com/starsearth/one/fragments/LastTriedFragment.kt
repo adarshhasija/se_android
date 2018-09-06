@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
@@ -56,7 +57,7 @@ class LastTriedFragment : Fragment() {
         if (mErrorTitle != null && mErrorMessage != null) {
             setErrorUI(mErrorTitle, mErrorMessage)
         }
-        else {
+        else if (mTeachingContent is Course) {
             setLastTriedUI(mTeachingContent, mResult)
         }
         view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
@@ -101,7 +102,31 @@ class LastTriedFragment : Fragment() {
     }
 
     private fun setLastTriedUI(teachingContent: Any?, result: Any?) {
-        if (teachingContent is Task) {
+        view?.findViewById<TextView>(R.id.tv_label_top)?.visibility =
+                if (teachingContent is Course && (teachingContent as Course).isCheckpointReached((result as Result))) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+
+        view?.findViewById<TextView>(R.id.tv_label_top)?.text =
+                if (teachingContent is Course && (teachingContent as Course).isCheckpointReached((result as Result))) {
+                    context?.resources?.getString(R.string.checkpoint_reached)
+                }
+                else {
+                    ""
+                }
+
+        view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tv_result)?.text =
+                if (mTeachingContent is Course && (mTeachingContent as Course).getTaskById((result as Result).task_id).isPassFail) {
+                    (result as ResultTyping).getScoreSummary(context, true, (mTeachingContent as Course).getTaskById((result as Result).task_id).passPercentage)
+                } else {
+                    ((result as Result).items_correct).toString()
+                }
+
+     /*   if (teachingContent is Task) {
             view?.findViewById<TextView>(R.id.tv_result)?.text =
                     if (result is ResultTyping) {
                         result.getScoreSummary(context, teachingContent.isPassFail, teachingContent.passPercentage)
@@ -110,9 +135,10 @@ class LastTriedFragment : Fragment() {
                     }
 
             view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
-        }
+        }   */
 
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate((result as Result).timestamp)
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate(result.timestamp)
     }
 
     override fun onResume() {

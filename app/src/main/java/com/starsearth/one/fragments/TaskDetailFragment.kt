@@ -332,7 +332,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             //UI changes if there are exisitng results
             view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
             //do not want to call announce for accessibility here. Only set content description
-            view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = getContentDescriptionForAccessibility()
+            view?.findViewById<LinearLayout>(R.id.llTask)?.contentDescription = getContentDescriptionForAccessibility()
         }
 
 
@@ -348,11 +348,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdListener()
-        view.findViewById<LinearLayout>(R.id.llMain).setOnTouchListener(this)
+        view.findViewById<LinearLayout>(R.id.llTask).setOnTouchListener(this)
         //setupScreenAccessibility()
         updateUIVisibility() //Must be called from here as view exists from here
         updateUIText() //Must be called from here as view exists from here
-        llMain?.contentDescription = getContentDescriptionForAccessibility()
+        llTask?.contentDescription = getContentDescriptionForAccessibility()
         announceForAccessibility()
     }
 
@@ -456,12 +456,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.long_press_for_more_options)
                 }
 
-        llMain?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
+        llTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
 
     fun announceForAccessibility() {
         var contentDescription = getContentDescriptionForAccessibility()
-        view?.findViewById<LinearLayout>(R.id.llMain)?.contentDescription = contentDescription
+        view?.findViewById<LinearLayout>(R.id.llTask)?.contentDescription = contentDescription
         view?.announceForAccessibility(contentDescription)
     }
 

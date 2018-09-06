@@ -30,6 +30,7 @@ public class Course extends SEBaseObject {
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
     public String attemptedByUserId = null; //The user who started an attempt on this Course
+    public HashMap<Long, Checkpoint> checkpoints;
 
     public Course() {
         super();
@@ -44,13 +45,23 @@ public class Course extends SEBaseObject {
         this.hasKeyboardTest = map.containsKey("hasKeyboardTest") ? (Boolean) map.get("hasKeyboardTest") : false;
         //this.tasks = map.containsKey("tasks") ? (List<Task>) map.get("tasks") : null;
         ////Set tasks list
-        ArrayList<HashMap<String, Object>> mpArrayList = (ArrayList<HashMap<String, Object>>) map.get("tasks");
-        if (mpArrayList != null) {
+        ArrayList<HashMap<String, Object>> mpArrayListTasks = (ArrayList<HashMap<String, Object>>) map.get("tasks");
+        if (mpArrayListTasks != null) {
             this.tasks = new ArrayList<>();
-            for (Object mp : mpArrayList) {
+            for (Object mp : mpArrayListTasks) {
                 if (mp instanceof Task) {
                     this.tasks.add((Task) mp);
                 }
+            }
+        }
+        ////
+        ////Set checkpoints map
+        HashMap<Long, Checkpoint> mpCheckpoints = (HashMap<Long, Checkpoint>) map.get("checkpoints");
+        if (mpCheckpoints != null) {
+            this.checkpoints = new HashMap<>();
+            for (Map.Entry<Long, Checkpoint> entry : mpCheckpoints.entrySet())
+            {
+                this.checkpoints.put(entry.getKey(), entry.getValue());
             }
         }
         ////
@@ -258,6 +269,10 @@ public class Course extends SEBaseObject {
             }
         }
         return result;
+    }
+
+    public boolean isCheckpointReached(Result result) {
+        return this.checkpoints.containsKey(result.task_id);
     }
 
     private List<Task> safe( List<Task> other ) {

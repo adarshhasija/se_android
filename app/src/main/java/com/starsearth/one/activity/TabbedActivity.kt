@@ -126,13 +126,13 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1)
-            var fragment : Fragment = UserOptionsMenuItemFragment.newInstance(1)
+            var fragment : Fragment?
             when (position) {
                 0 -> {
-                    fragment = MainMenuItemFragment.newInstance()
+                    fragment = UserOptionsMenuItemFragment.newInstance(1)
                 }
                 else -> {
-
+                    fragment = MainMenuItemFragment.newInstance()
                 }
             }
             return fragment
@@ -142,9 +142,10 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
             var title : CharSequence = applicationContext?.resources?.getString(R.string.actions) as CharSequence
             when (position) {
                 0 -> {
-                    title = applicationContext?.resources?.getString(R.string.records) as CharSequence
+                    title = applicationContext?.resources?.getString(R.string.actions) as CharSequence
                 }
                 else -> {
+                    title = applicationContext?.resources?.getString(R.string.records) as CharSequence
                 }
             }
             return title; //super.getPageTitle(position)

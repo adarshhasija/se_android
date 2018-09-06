@@ -64,7 +64,7 @@
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <array name="se_actions_list">
         <item>Activities by subject</item>
-        <item>My Records</item>
+        <!--<item>My Records</item>-->
         <item>Timed Activities</item>
         <item>All Games</item>
         <item>All Gesture Activities</item>
@@ -413,4 +413,5 @@
     <string name="swipe_for_keyboard_test">Swipe for keyboard test</string>
     <string name="actions">Actions</string>
     <string name="records">Records</string>
+    <string name="checkpoint_reached">CHECKPOINT REACHED</string>
 </resources>
