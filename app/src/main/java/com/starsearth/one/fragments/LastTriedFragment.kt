@@ -12,10 +12,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.Course
-import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultTyping
-import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,6 +93,7 @@ class LastTriedFragment : Fragment() {
     }
 
     private fun setErrorUI(errorTitle: String?, errorMessage: String?) {
+        view?.findViewById<TextView>(R.id.tv_label_top)?.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.tv_label_top)?.text = errorTitle
         view?.findViewById<TextView>(R.id.tv_error_message)?.text = errorMessage
         view?.findViewById<TextView>(R.id.tv_error_message)?.visibility = View.VISIBLE
@@ -111,8 +109,8 @@ class LastTriedFragment : Fragment() {
                 }
 
         view?.findViewById<TextView>(R.id.tv_label_top)?.text =
-                if (teachingContent is Course && (teachingContent as Course).isCheckpointReached((result as Result))) {
-                    context?.resources?.getString(R.string.checkpoint_reached)
+                if (teachingContent is Course && teachingContent.isCheckpointReached((result as Result))) {
+                    context?.resources?.getString(R.string.checkpoint_reached) + "\n" + (teachingContent.checkpoints.get((result as Result).task_id) as Checkpoint).title
                 }
                 else {
                     ""
@@ -120,8 +118,8 @@ class LastTriedFragment : Fragment() {
 
         view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.tv_result)?.text =
-                if (mTeachingContent is Course && (mTeachingContent as Course).getTaskById((result as Result).task_id).isPassFail) {
-                    (result as ResultTyping).getScoreSummary(context, true, (mTeachingContent as Course).getTaskById((result as Result).task_id).passPercentage)
+                if (teachingContent is Course && teachingContent.getTaskById((result as Result).task_id).isPassFail) {
+                    (result as ResultTyping).getScoreSummary(context, true, teachingContent.getTaskById((result as Result).task_id).passPercentage)
                 } else {
                     ((result as Result).items_correct).toString()
                 }

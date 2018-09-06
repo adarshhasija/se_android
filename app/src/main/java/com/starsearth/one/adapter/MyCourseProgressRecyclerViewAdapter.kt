@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.starsearth.one.R
+import com.starsearth.one.domain.Checkpoint
 import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
+import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.CourseProgressListFragment
 
 
@@ -27,7 +30,7 @@ import java.util.ArrayList
 class MyCourseProgressRecyclerViewAdapter(
         private val mContext: Context,
         private val mCourse: Course,
-        private val mValues: List<Result>,
+        private val mValues: List<Any>,
         private val mListener: CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener?)
     : RecyclerView.Adapter<MyCourseProgressRecyclerViewAdapter.ViewHolder>() {
 
@@ -49,36 +52,82 @@ class MyCourseProgressRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val task = mCourse.tasks[position]
-        holder.mTaskNameView.text = task.title
-        holder.mTaskPassedView.text = mContext.resources.getString(R.string.not_attempted)
-        if (task.isPassFail) {
-            if (task.isPassed((mValues as ArrayList<Result>))) {
+        val item = mCourse.tasks[position]
+        holder.mTaskTitleView.text = item.title
+        if (item is Task) {
+            holder.llTask.visibility = View.VISIBLE
+            holder.mTaskPassedView.text =
+                    if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                        mContext.resources.getString(R.string.passed)
+                    }
+                    else if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                        mContext.resources.getString(R.string.failed)
+                    }
+                    else {
+                        mContext.resources.getString(R.string.not_attempted)
+                    }
+
+            holder.mCLMain.setBackgroundColor(
+                    if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                        Color.GREEN
+                    }
+                    else if (item.isPassFail && item.isPassed((mValues as ArrayList<Result>))) {
+                        Color.RED
+                    }
+                    else {
+                        Color.parseColor("#c0c0c0")
+                    }
+            )
+        }
+        else {
+            holder.llCheckpoint.visibility = View.VISIBLE
+            holder.mCheckpointTitle.text = (item as Checkpoint).title
+            //If the previous Task is passed, set the checkpoint to cleared
+            holder.mCLMain.setBackgroundColor(
+                    if ((mValues[position-1] as Task).isPassFail && (mValues[position-1] as Task).isPassed((mValues as ArrayList<Result>))) {
+                        Color.GREEN
+                    }
+                    else {
+                        Color.parseColor("#c0c0c0")
+                    }
+            )
+
+        }
+    /*    holder.mTaskPassedView.text = mContext.resources.getString(R.string.not_attempted)
+        if (item.isPassFail) {
+            if (item.isPassed((mValues as ArrayList<Result>))) {
                 holder.mTaskPassedView.text = mContext.resources.getString(R.string.passed)
                 holder.mCLMain.setBackgroundColor(Color.GREEN)
             }
-            else if (task.isAttempted((mValues))) {
+            else if (item.isAttempted((mValues))) {
                 //Only do this if user attempted and failed the task
                 holder.mTaskPassedView.text = mContext.resources.getString(R.string.failed)
                 holder.mCLMain.setBackgroundColor(Color.RED)
             }
-        }
+        }   */
 
         with(holder.mView) {
-            tag = task
+            tag = item
             setOnClickListener(mOnClickListener)
         }
     }
 
-    override fun getItemCount(): Int = mCourse.tasks.size
+    override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mCLMain: ConstraintLayout = mView.cl_main
-        val mTaskNameView: TextView = mView.tv_task_name
+
+        //Task
+        val llTask: LinearLayout = mView.llTask
+        val mTaskTitleView: TextView = mView.tvTaskTitle
         val mTaskPassedView: TextView = mView.tv_is_passed
 
+        //Checkpoint
+        val llCheckpoint: LinearLayout = mView.llCheckpoint
+        val mCheckpointTitle: TextView = mView.tvCheckpointTitle
+
         override fun toString(): String {
-            return super.toString() + " '" + mTaskNameView.text + "'"
+            return super.toString() + " '" + mTaskTitleView.text + "'"
         }
     }
 }

@@ -61,7 +61,7 @@ class HighScoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tvTaskName = view.findViewById<TextView>(R.id.tv_task_name)
+        val tvTaskName = view.findViewById<TextView>(R.id.tvTaskTitle)
         val tvHighScore = view.findViewById<TextView>(R.id.tv_high_score)
         val tvTimeStamp = view.findViewById<TextView>(R.id.tv_timestamp)
         tvTaskName.text = mTask?.title

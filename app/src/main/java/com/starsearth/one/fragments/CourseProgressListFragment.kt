@@ -66,7 +66,7 @@ class CourseProgressListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                mCourse?.let { adapter = MyCourseProgressRecyclerViewAdapter(context, it, mResults, listener) }
+                mCourse?.let { adapter = MyCourseProgressRecyclerViewAdapter(context, it, mValues, listener) }
 
             }
         }
