@@ -30,7 +30,8 @@ public class Course extends SEBaseObject {
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
     public String attemptedByUserId = null; //The user who started an attempt on this Course
-    public HashMap<Long, Checkpoint> checkpoints;
+    public HashMap<Long, Checkpoint> checkpoints; //Checkpoint after task with key == id
+    public Boolean isOwnerWantingAds = false;
 
     public Course() {
         super();
@@ -66,6 +67,7 @@ public class Course extends SEBaseObject {
         }
         ////
         this.attemptedByUserId = map.containsKey("attemptedByUserId") ? (String) map.get("attemptedByUserId") : null;
+        this.hasKeyboardTest = map.containsKey("isOwnerWantingAds") ? (Boolean) map.get("isOwnerWantingAds") : false;
     }
 
     public long getId() {
@@ -103,6 +105,7 @@ public class Course extends SEBaseObject {
         tasks = in.readArrayList(Task.class.getClassLoader());
         attemptedByUserId = in.readString();
         checkpoints = in.readHashMap(getClass().getClassLoader());
+        isOwnerWantingAds = in.readByte() != 0;
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -150,6 +153,7 @@ public class Course extends SEBaseObject {
         result.put("tasks", tasks);
         result.put("attemptedByUserId", attemptedByUserId);
         result.put("checkpoints", checkpoints);
+        result.put("isOwnerWantingAds", isOwnerWantingAds);
 
         return result;
     }
@@ -170,6 +174,7 @@ public class Course extends SEBaseObject {
         dest.writeList(tasks);
         dest.writeString(attemptedByUserId);
         dest.writeMap(checkpoints);
+        dest.writeByte((byte) (isOwnerWantingAds? 1 : 0));
     }
 
     public boolean isTaskExists(long taskId) {
@@ -203,6 +208,17 @@ public class Course extends SEBaseObject {
             }
         }
         return lastPassedTaskIndex;
+    }
+
+    public long getIdOfLastPassedTask(ArrayList<Result> results) {
+        long lastPassedTaskId = -1;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.isPassed(results)) {
+                lastPassedTaskId = task.id;
+            }
+        }
+        return lastPassedTaskId;
     }
 
     //This checks if the last Result is that of the last Task in the Course list
@@ -276,6 +292,23 @@ public class Course extends SEBaseObject {
 
     public boolean isCheckpointReached(Result result) {
         return this.checkpoints.containsKey(result.task_id) && this.getTaskById(result.task_id).isPassed(result);
+    }
+
+    //Returns yes if we have reached a checkpoint
+    public boolean shouldGenerateAd(ArrayList<Result> results) {
+        return this.checkpoints.containsKey(getNextTask(results));
+    }
+
+    public boolean shouldShowAd(ArrayList<Result> results) {
+        boolean ret = false;
+        if (results.size() > 0) {
+            Result lastAttemptResult = results.get(results.size()-1);
+            Task lastAttemptTask = getTaskById(lastAttemptResult.task_id);
+            if (lastAttemptTask.isPassed(lastAttemptResult)) {
+                ret = this.checkpoints.containsKey(lastAttemptTask.id);
+            }
+        }
+        return ret;
     }
 
     private List<Task> safe( List<Task> other ) {

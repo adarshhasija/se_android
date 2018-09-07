@@ -101,18 +101,6 @@ class MyCourseProgressRecyclerViewAdapter(
             )
 
         }
-    /*    holder.mTaskPassedView.text = mContext.resources.getString(R.string.not_attempted)
-        if (item.isPassFail) {
-            if (item.isPassed((mValues as ArrayList<Result>))) {
-                holder.mTaskPassedView.text = mContext.resources.getString(R.string.passed)
-                holder.mCLMain.setBackgroundColor(Color.GREEN)
-            }
-            else if (item.isAttempted((mValues))) {
-                //Only do this if user attempted and failed the task
-                holder.mTaskPassedView.text = mContext.resources.getString(R.string.failed)
-                holder.mCLMain.setBackgroundColor(Color.RED)
-            }
-        }   */
 
         with(holder.mView) {
             tag = item

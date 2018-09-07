@@ -15,7 +15,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
-import com.starsearth.one.domain.Ads;
+import com.starsearth.one.domain.AdsManager;
 import com.starsearth.one.domain.Analytics;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;
@@ -29,7 +29,7 @@ public class StarsEarthApplication extends Application {
     private FirebaseRemoteConfigWrapper mFirebaseRemoteConfigWrapper;
     private Analytics mAnalytics;
     private Accessibility mAccessibility;
-    private Ads mAds;
+    private AdsManager mAdsManager;
 
     private User user;
 
@@ -39,18 +39,22 @@ public class StarsEarthApplication extends Application {
 
     public InterstitialAd getGoogleInterstitialAd() {
         InterstitialAd result = null;
-        if (mAds != null) {
-            result = mAds.getGoogleInterstitialAd();
+        if (mAdsManager != null) {
+            result = mAdsManager.getGoogleInterstitialAd();
         }
         return result;
     }
 
     public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
         com.facebook.ads.InterstitialAd result = null;
-        if (mAds != null) {
-            result = mAds.getFacebookInterstitalAd();
+        if (mAdsManager != null) {
+            result = mAdsManager.getFacebookInterstitalAd();
         }
         return result;
+    }
+
+    public AdsManager getAdsManager() {
+        return mAdsManager;
     }
 
     public Analytics getAnalytics() {
@@ -105,7 +109,7 @@ public class StarsEarthApplication extends Application {
         mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper();
         mAnalytics = new Analytics(getApplicationContext());
         mAccessibility = new Accessibility(getApplicationContext());
-        mAds = new Ads(getApplicationContext());
+        mAdsManager = new AdsManager(getApplicationContext());
 
         //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility");
         //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();

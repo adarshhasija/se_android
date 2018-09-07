@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
+import com.facebook.ads.AdSettings
 import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -120,70 +121,27 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     private var adRequest: AdRequest.Builder? = null
     private var mDatabase : DatabaseReference? = null
 
-
-    /******* ADS LISTENERS ****************/
-    private var isAdAvailable = false
-
-    private val mGoogleAdListener = object : AdListener() {
-        override fun onAdLoaded() {
-            super.onAdLoaded()
-            isAdAvailable = true
-        }
-
-        override fun onAdClicked() {
-            super.onAdClicked()
-        }
-
-        override fun onAdFailedToLoad(p0: Int) {
-            super.onAdFailedToLoad(p0)
-        }
-
-        override fun onAdClosed() {
-            super.onAdClosed()
-            isAdAvailable = false
-        }
-
-        override fun onAdOpened() {
-            super.onAdOpened()
-        }
-
-    }
-
-    private val mFacebookAdListener = object : InterstitialAdListener {
-        override fun onInterstitialDisplayed(ad: Ad) {
-            // Interstitial displayed callback
-        }
-
-        override fun onInterstitialDismissed(ad: Ad) {
-            // Interstitial dismissed callback
-            isAdAvailable = false
-        }
-
-        override fun onError(ad: Ad, adError: AdError) {
-            // Ad error callback
-            //Toast.makeText(this@MainActivity, "Error: " + adError.errorMessage,Toast.LENGTH_LONG).show()
-        }
-
-        override fun onAdLoaded(ad: Ad) {
-            // Show the ad when it's done loading.
-            isAdAvailable = true
-        }
-
-        override fun onAdClicked(ad: Ad) {
-            // Ad clicked callback
-        }
-
-        override fun onLoggingImpression(ad: Ad) {
-            // Ad impression logged callback
-        }
+    fun shouldShowAd() : Boolean {
+        val isTeachingContentAllowingAd =
+            if (mTeachingContent is Course) {
+                //If its a Course, only show if the task was passed
+                (mTeachingContent as Course).shouldShowAd(mResults)
+            }
+            else {
+                //If its a Task, no additional validation required
+                true
+            }
+        return isTeachingContentAllowingAd
     }
 
     fun showAd() {
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
-        if (ads == "Google") {
+        if (ads == "Google" &&
+                (activity?.application as StarsEarthApplication)?.googleInterstitialAd?.isLoaded == true) {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.show()
         }
-        else if (ads == "Facebook") {
+        else if (ads == "Facebook" &&
+                (activity?.application as StarsEarthApplication)?.facebookInterstitalAd?.isAdLoaded == true) {
             (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.show()
         }
     }
@@ -191,10 +149,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     fun setupAdListener() {
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
-            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = mGoogleAdListener
+            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = (activity?.application as StarsEarthApplication).adsManager?.mGoogleAdListener //mGoogleAdListener
         }
         else if (ads == "Facebook") {
-            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
+            //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
+            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener((activity?.application as StarsEarthApplication).adsManager?.mFacebookAdListener)
         }
     }
 
@@ -203,17 +162,19 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         val isOwnerWantingAds = if (mTeachingContent is Task) {
             (mTeachingContent as Task).isOwnerWantingAds
+        } else if (mTeachingContent is Course) {
+            (mTeachingContent as Course).isOwnerWantingAds
         } else {
             false
         }
         //only generate ads for non-accessibility users
         //only generate ads if task owner wants to make money from ads
         if (ads != "None" && !isAccessibilityUser && isOwnerWantingAds) {
-            val moduloString = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().adsFrequencyModulo
-            val moduloInt = Integer.parseInt(moduloString)
-            val random = Random()
-            val shouldGenerateAd = if (moduloInt > 0 && random.nextInt(moduloInt) % moduloInt == 0) {
-                true
+            val shouldGenerateAd = if (mTeachingContent is Course) {
+                (mTeachingContent as Course).shouldGenerateAd(mResults)
+            }
+            else if (mTeachingContent is Task) {
+                (mTeachingContent as Task).isOwnerWantingAds && AdsManager.shouldGenerateAd(context)
             }
             else {
                 false
@@ -223,7 +184,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
                 }
                 else if (ads == "Facebook") {
-                    //AdSettings.addTestDevice("b8441b0c-b48d-4d5e-8d36-c67770d5bf01"); //TS Mac simulator
+                    AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
                     //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
                     (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
                 }
@@ -347,7 +308,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupAdListener()
+        //setupAdListener()
         view.findViewById<LinearLayout>(R.id.llTask).setOnTouchListener(this)
         //setupScreenAccessibility()
         updateUIVisibility() //Must be called from here as view exists from here
@@ -552,7 +513,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 taskComplete(data.extras)
             }
-            if (isAdAvailable == true) {
+            if (shouldShowAd()) {
                 showAd()
             }
         }
