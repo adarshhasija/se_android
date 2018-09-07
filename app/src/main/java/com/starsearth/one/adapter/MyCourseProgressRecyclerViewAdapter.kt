@@ -61,7 +61,7 @@ class MyCourseProgressRecyclerViewAdapter(
                     if (item.isPassFail && item.isPassed(mResults)) {
                         mContext.resources.getString(R.string.passed)
                     }
-                    else if (item.isPassFail && item.isPassed(mResults)) {
+                    else if (item.isPassFail && item.isAttempted(mResults)) {
                         mContext.resources.getString(R.string.failed)
                     }
                     else {
@@ -72,7 +72,7 @@ class MyCourseProgressRecyclerViewAdapter(
                     if (item.isPassFail && item.isPassed(mResults)) {
                         Color.GREEN
                     }
-                    else if (item.isPassFail && item.isPassed(mResults)) {
+                    else if (item.isPassFail && item.isAttempted(mResults)) {
                         Color.RED
                     }
                     else {

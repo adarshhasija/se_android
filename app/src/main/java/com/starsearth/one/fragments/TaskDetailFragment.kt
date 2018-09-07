@@ -358,9 +358,16 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     fun updateUIVisibility() {
         //Set visibility for all UI
+        tvCourseDescription?.visibility =
+                if (mTeachingContent is Course) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
         tvInstruction?.visibility = View.VISIBLE
         tvProgress?.visibility =
-                if ((mTeachingContent is Course) && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
+                if (mTeachingContent is Course) {
                     View.VISIBLE
                 }
                 else {
@@ -397,16 +404,26 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     fun updateUIText() {
+        tvCourseDescription?.text =
+                if (mTeachingContent is Course) {
+                    (mTeachingContent as Course).description
+                }
+                else {
+                    ""
+                }
         tvProgress?.text =
                 if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
                     context?.resources?.getText(R.string.complete)
                 }
-                else if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)){
+                else if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)){
                     val nextTaskIndex = (mTeachingContent as Course).getCurrentTaskIndex(mResults) + 2
                     context?.resources?.getString(R.string.next_task) + "\n" + nextTaskIndex + "/" + (mTeachingContent as Course).tasks.size
                 }
-                else {
-                    //If the course has not started, or if teachingContent is a Task, empty string
+                else if (mTeachingContent is Course) {
+                    //If the course has not started
+                    context?.resources?.getString(R.string.first_task) + "\n" + "1" + "/" + (mTeachingContent as Course).tasks.size
+                } else {
+                    //If the teaching content item is a Task
                     ""
                 }
 
@@ -574,11 +591,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
 
         //4. Show the results screen to the user
-        mListener?.onTaskDetailFragmentShowLastTried(if (mTeachingContent is Task) {
-            mTeachingContent as Task
-        } else {
-            (mTeachingContent as Course).getTaskById(result.task_id)
-        }, result, null, null)
+        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 
     private fun sendAnalytics(teachingContent: Any?, view: View?, action: String) {

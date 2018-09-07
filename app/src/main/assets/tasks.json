@@ -496,7 +496,7 @@
       "visible": true,
       "id": 38,
       "title": "Keyboard Typing Course",
-      "instructions": "Improve your keyboard typing skills with these exercises",
+      "description": "Learn the basics of keyboard typing",
       "hasKeyboardTest": true,
       "createdBy": "RycAhfhPsXOrUdbO8GOJqucktAA3",
       "checkpoints": {

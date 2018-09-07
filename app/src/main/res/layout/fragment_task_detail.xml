@@ -9,6 +9,16 @@
     tools:context="com.starsearth.one.fragments.TaskDetailFragment">
 
     <TextView
+        android:id="@+id/tvCourseDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:focusable="true"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_centerInParent="true"/>
+
+    <TextView
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

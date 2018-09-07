@@ -55,7 +55,7 @@ class LastTriedFragment : Fragment() {
             setErrorUI(mErrorTitle, mErrorMessage)
         }
         else if (mTeachingContent is Course) {
-            setLastTriedUI(mTeachingContent, mResult)
+            setLastTriedUI(mTeachingContent, (mResult as Result))
         }
         view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
         view?.findViewById<ConstraintLayout>(R.id.layout_main)?.setOnLongClickListener(View.OnLongClickListener {
@@ -99,9 +99,9 @@ class LastTriedFragment : Fragment() {
         view?.findViewById<TextView>(R.id.tv_error_message)?.visibility = View.VISIBLE
     }
 
-    private fun setLastTriedUI(teachingContent: Any?, result: Any?) {
+    private fun setLastTriedUI(teachingContent: Any?, result: Result) {
         view?.findViewById<TextView>(R.id.tv_label_top)?.visibility =
-                if (teachingContent is Course && (teachingContent as Course).isCheckpointReached((result as Result))) {
+                if (teachingContent is Course && teachingContent.isCheckpointReached(result)) {
                     View.VISIBLE
                 }
                 else {
@@ -109,17 +109,19 @@ class LastTriedFragment : Fragment() {
                 }
 
         view?.findViewById<TextView>(R.id.tv_label_top)?.text =
-                if (teachingContent is Course && teachingContent.isCheckpointReached((result as Result))) {
-                    context?.resources?.getString(R.string.checkpoint_reached) + "\n" + (teachingContent.checkpoints.get((result as Result).task_id) as Checkpoint).title
+                if (teachingContent is Course && teachingContent.isCheckpointReached(result)) {
+                    context?.resources?.getString(R.string.checkpoint_reached) + "\n" + (teachingContent.checkpoints.get(result.task_id) as Checkpoint).title
                 }
                 else {
                     ""
                 }
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate(result.timestamp)
 
         view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.tv_result)?.text =
-                if (teachingContent is Course && teachingContent.getTaskById((result as Result).task_id).isPassFail) {
-                    (result as ResultTyping).getScoreSummary(context, true, teachingContent.getTaskById((result as Result).task_id).passPercentage)
+                if (teachingContent is Course && teachingContent.getTaskById(result.task_id).isPassFail) {
+                    (result as ResultTyping).getScoreSummary(context, true, teachingContent.getTaskById(result.task_id).passPercentage)
                 } else {
                     ((result as Result).items_correct).toString()
                 }
@@ -135,8 +137,6 @@ class LastTriedFragment : Fragment() {
             view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
         }   */
 
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.visibility = View.VISIBLE
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate(result.timestamp)
     }
 
     override fun onResume() {

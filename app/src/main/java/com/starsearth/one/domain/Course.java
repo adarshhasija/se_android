@@ -275,7 +275,7 @@ public class Course extends SEBaseObject {
     }
 
     public boolean isCheckpointReached(Result result) {
-        return this.checkpoints.containsKey(result.task_id);
+        return this.checkpoints.containsKey(result.task_id) && this.getTaskById(result.task_id).isPassed(result);
     }
 
     private List<Task> safe( List<Task> other ) {
