@@ -150,7 +150,7 @@ class TaskDetailRecyclerViewAdapter(private val mTeachingContent : Any?, private
             mSeeProgress = mView.findViewById<TextView>(R.id.tv_see_progress) as TextView
 
             mTaskTitleView = mView.findViewById<TextView>(R.id.tv_task_title) as TextView
-            mResultTextView = mView.findViewById<TextView>(R.id.tv_result) as TextView
+            mResultTextView = mView.findViewById<TextView>(R.id.tvResult) as TextView
             mHighScoreTextView = mView.findViewById<TextView>(R.id.tv_high_score) as TextView
             mTapToViewDetails = mView.findViewById<TextView>(R.id.tv_tap_to_view_details) as TextView
             mLongPressScreenShot = mView.findViewById<TextView>(R.id.tv_long_press_screenshot) as TextView

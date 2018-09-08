@@ -13,6 +13,7 @@ import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
+import kotlinx.android.synthetic.main.fragment_last_tried.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,16 +32,16 @@ class LastTriedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
     private var mResult: Any? = null
-    private var mErrorTitle: String? = null
-    private var mErrorMessage: String? = null
+    private var mTitle: String? = null      //Error or Checkpoint
+    private var mMessage: String? = null    //Error message or Checkpoint message
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mTeachingContent = it.getParcelable(ARG_PARAM1)
             mResult = it.getParcelable(ARG_PARAM2)
-            mErrorTitle = it.getString(ARG_PARAM3)
-            mErrorMessage = it.getString(ARG_PARAM4)
+            mTitle = it.getString(ARG_PARAM3)
+            mMessage = it.getString(ARG_PARAM4)
         }
     }
 
@@ -51,75 +52,155 @@ class LastTriedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (mErrorTitle != null && mErrorMessage != null) {
-            setErrorUI(mErrorTitle, mErrorMessage)
+     /*   if (mTitle != null && mMessage != null) {
+            setMessageUI(mTitle, mMessage)
         }
         else if (mTeachingContent is Course) {
             setLastTriedUI(mTeachingContent, (mResult as Result))
-        }
-        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.visibility = View.VISIBLE
-        view?.findViewById<ConstraintLayout>(R.id.layout_main)?.setOnLongClickListener(View.OnLongClickListener {
-            activity?.supportFragmentManager?.popBackStackImmediate()!!
-        })
-
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-
-        if (isTalkbackOn) {
-            view.findViewById<TextView>(R.id.tv_long_press_close_screen)?.text = context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
-        }
-
-        if (mErrorTitle != null && mErrorMessage != null) {
-            view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString() + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
-
-            view.announceForAccessibility(
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_error_message).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
-            )
-        } else {
-            view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString() + " " +
-                    view.findViewById<TextView>(R.id.tv_result).text.toString() + " " +
-                    view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
-
-            view.announceForAccessibility(
-                    view.findViewById<TextView>(R.id.tv_label_top).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_result).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tv_long_press_close_screen).text.toString()
-            )
-        }
-
-    }
-
-    private fun setErrorUI(errorTitle: String?, errorMessage: String?) {
-        view?.findViewById<TextView>(R.id.tv_label_top)?.visibility = View.VISIBLE
-        view?.findViewById<TextView>(R.id.tv_label_top)?.text = errorTitle
-        view?.findViewById<TextView>(R.id.tv_error_message)?.text = errorMessage
-        view?.findViewById<TextView>(R.id.tv_error_message)?.visibility = View.VISIBLE
-    }
-
-    private fun setLastTriedUI(teachingContent: Any?, result: Result) {
-        view?.findViewById<TextView>(R.id.tv_label_top)?.visibility =
-                if (teachingContent is Course && teachingContent.isCheckpointReached(result)) {
+        }   */
+        tvTitle?.visibility = View.VISIBLE
+        tvTimestamp?.visibility =
+                if (mTeachingContent != null) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
                 }
+        tvMessage?.visibility =
+                if (!mMessage.isNullOrEmpty()) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        tvResult?.visibility =
+                if (mTeachingContent != null) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        tvLongPressCloseScreen?.visibility = View.VISIBLE
 
-        view?.findViewById<TextView>(R.id.tv_label_top)?.text =
+        tvTitle?.text =
+                if (!mTitle.isNullOrEmpty()) {
+                    mTitle
+                }
+                else if (mTeachingContent != null && mResult != null) {
+                    context?.resources?.getString(R.string.result)
+                }
+                else {
+                    ""
+                }
+        tvTimestamp?.text =
+                if (mResult != null) {
+                    Utils.formatDate((mResult as Result).timestamp)
+                }
+                else {
+                    ""
+                }
+        tvMessage?.text =
+                if (!mMessage.isNullOrEmpty()) {
+                    mMessage
+                }
+                else {
+                    ""
+                }
+        tvResult?.text =
+                if (mTeachingContent is Course && (mTeachingContent as Course)?.getTaskById((mResult as Result)?.task_id).isPassFail) {
+                    (mResult as ResultTyping).getScoreSummary(context, true, (mTeachingContent as Course)?.getTaskById((mResult as Result).task_id).passPercentage)
+                }
+                else if (mTeachingContent is Task) {
+                    ((mResult as Result).items_correct).toString()
+                }
+                else {
+                    ""
+                }
+        tvLongPressCloseScreen?.text =
+                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn == true) {
+                    context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
+                }
+                else {
+                    context?.resources?.getText(R.string.long_press_to_close_this_screen)
+                }
+
+        clMain?.visibility = View.VISIBLE
+        clMain?.contentDescription =
+                if (!mTitle.isNullOrEmpty() && !mMessage.isNullOrEmpty()) {
+                    tvTitle?.text.toString() + " " + tvMessage?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                }
+                else if (mTeachingContent != null && mResult != null) {
+                    tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                }
+                else {
+                    ""
+                }
+        clMain?.announceForAccessibility(
+                if (!mTitle.isNullOrEmpty() && !mMessage.isNullOrEmpty()) {
+                    tvTitle?.text.toString() + " " + tvMessage?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                }
+                else if (mTeachingContent != null && mResult != null) {
+                    tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                }
+                else {
+                    ""
+                }
+        )
+        clMain?.setOnLongClickListener(View.OnLongClickListener {
+            activity?.supportFragmentManager?.popBackStackImmediate()!!
+        })
+
+    /*    val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
+        if (isTalkbackOn) {
+            view.findViewById<TextView>(R.id.tvLongPressCloseScreen)?.text = context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
+        }   */
+
+    /*    if (mTitle != null && mMessage != null) {
+            view.findViewById<ConstraintLayout>(R.id.clMain).contentDescription =
+                    view.findViewById<TextView>(R.id.tvTitle).text.toString() + " " + view.findViewById<TextView>(R.id.tvMessage).text.toString() + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
+
+            view.announceForAccessibility(
+                    view.findViewById<TextView>(R.id.tvTitle).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tvMessage).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
+            )
+        } else {
+            view.findViewById<ConstraintLayout>(R.id.clMain).contentDescription =
+                    view.findViewById<TextView>(R.id.tvTitle).text.toString() + " " +
+                    view.findViewById<TextView>(R.id.tvResult).text.toString() + " " +
+                    view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
+
+            view.announceForAccessibility(
+                    view.findViewById<TextView>(R.id.tvTitle).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tvResult).text.toString()
+                            + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
+            )
+        }   */
+
+    }
+
+    private fun setMessageUI(errorTitle: String?, errorMessage: String?) {
+        view?.findViewById<TextView>(R.id.tvTitle)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tvTitle)?.text = errorTitle
+        view?.findViewById<TextView>(R.id.tvMessage)?.text = errorMessage
+        view?.findViewById<TextView>(R.id.tvMessage)?.visibility = View.VISIBLE
+    }
+
+    private fun setLastTriedUI(teachingContent: Any?, result: Result) {
+        view?.findViewById<TextView>(R.id.tvTitle)?.visibility = View.GONE
+
+        view?.findViewById<TextView>(R.id.tvTitle)?.text =
                 if (teachingContent is Course && teachingContent.isCheckpointReached(result)) {
                     context?.resources?.getString(R.string.checkpoint_reached) + "\n" + (teachingContent.checkpoints.get(result.task_id) as Checkpoint).title
                 }
                 else {
                     ""
                 }
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.visibility = View.VISIBLE
-        view?.findViewById<TextView>(R.id.tv_last_tried)?.text = Utils.formatDate(result.timestamp)
+        view?.findViewById<TextView>(R.id.tvTimestamp)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tvTimestamp)?.text = Utils.formatDate(result.timestamp)
 
-        view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
-        view?.findViewById<TextView>(R.id.tv_result)?.text =
+        view?.findViewById<TextView>(R.id.tvResult)?.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.tvResult)?.text =
                 if (teachingContent is Course && teachingContent.getTaskById(result.task_id).isPassFail) {
                     (result as ResultTyping).getScoreSummary(context, true, teachingContent.getTaskById(result.task_id).passPercentage)
                 } else {

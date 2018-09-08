@@ -15,7 +15,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
-import com.starsearth.one.domain.AdsManager;
+import com.starsearth.one.manager.AdsManager;
 import com.starsearth.one.domain.Analytics;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;

@@ -72,7 +72,7 @@ class HighScoreFragment : Fragment() {
             tvHighScore.text = (mResult as ResultTyping).getScoreSummary(context, mTask?.timed!!, mTask?.passPercentage!!)
         }
 
-        view.findViewById<ConstraintLayout>(R.id.layout_main).contentDescription =
+        view.findViewById<ConstraintLayout>(R.id.clMain).contentDescription =
                 getString(R.string.screenshot_view) + " " +
                 view.findViewById<TextView>(R.id.tv_timestamp).text.toString() + " " +
                 getString(R.string.high_score) + " " +

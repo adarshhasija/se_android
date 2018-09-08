@@ -120,7 +120,7 @@ class ResponseRecyclerViewAdapter(
         val mQuestion: TextView = mView.tv_question
         val mExpectedAnswer: TextView = mView.tv_expected_answer
         val mActualAnswer: TextView = mView.tv_actual_answer
-        val mResult: TextView = mView.tv_result
+        val mResult: TextView = mView.tvResult
         val mTimeTaken: TextView = mView.tv_time_taken
 
         override fun toString(): String {

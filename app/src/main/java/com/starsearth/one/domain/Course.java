@@ -296,7 +296,7 @@ public class Course extends SEBaseObject {
 
     //Returns yes if we have reached a checkpoint
     public boolean shouldGenerateAd(ArrayList<Result> results) {
-        return this.checkpoints.containsKey(getNextTask(results));
+        return this.checkpoints.containsKey(getNextTask(results).id);
     }
 
     public boolean shouldShowAd(ArrayList<Result> results) {

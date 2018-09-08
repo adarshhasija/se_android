@@ -12,11 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.facebook.ads.Ad
-import com.facebook.ads.AdError
 import com.facebook.ads.AdSettings
-import com.facebook.ads.InterstitialAdListener
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +23,7 @@ import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
+import com.starsearth.one.manager.AdsManager
 import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -80,10 +77,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             generateAd()
             if (mTeachingContent is Task) {
                 startTask((mTeachingContent as Task))
-                sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+                sendAnalyticsForGesture(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
             }
             else if (mTeachingContent is Course) {
-                sendAnalytics(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
+                sendAnalyticsForGesture(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
                 if (mResults.isEmpty()) {
                     startTask((mTeachingContent as Course).tasks[0])
                 }
@@ -99,7 +96,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     private fun gestureLongPress(view: View?) {
         if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
             mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
-            sendAnalytics(mTeachingContent, view, "LONG_PRESS")
+            sendAnalyticsForGesture(mTeachingContent, view, "LONG_PRESS")
         }
     }
 
@@ -107,7 +104,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         if (tvSwipeToContinue.visibility == View.VISIBLE) {
             if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                 mListener?.onTaskDetailFragmentSwipeInteraction(mTeachingContent)
-                sendAnalytics(mTeachingContent, view, "SWIPE")
+                sendAnalyticsForGesture(mTeachingContent, view, "SWIPE")
             }
         }
     }
@@ -147,18 +144,19 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     fun setupAdListener() {
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
+      /*  val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         if (ads == "Google") {
             (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = (activity?.application as StarsEarthApplication).adsManager?.mGoogleAdListener //mGoogleAdListener
         }
         else if (ads == "Facebook") {
             //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
             (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener((activity?.application as StarsEarthApplication).adsManager?.mFacebookAdListener)
-        }
+        }   */
     }
 
     fun generateAd() {
-        val isAccessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
+        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
+      /*  val isAccessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
         val isOwnerWantingAds = if (mTeachingContent is Task) {
             (mTeachingContent as Task).isOwnerWantingAds
@@ -184,12 +182,25 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
                 }
                 else if (ads == "Facebook") {
-                    AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
+                    //AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
                     //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
                     (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
                 }
             }
+        }   */
+
+        if (AdsManager.shouldGenerateAd(context?.applicationContext, mTeachingContent, mResults)) {
+            if (ads == "Google" && adRequest != null) {
+                (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
+            }
+            else if (ads == "Facebook") {
+                //AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
+                //AdSettings.addTestDevice("171f080c-a50d-457c-9226-bcdc194fda20"); //AH Mac simulator
+                (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
+            }
         }
+
+
     }
     /****************************************/
 
@@ -551,18 +562,35 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             mResults?.add(result)
         }
 
-        //4. Show the results screen to the user
+        //4. If the task is passed and a checkpoint has been reached, push checkpoint fragment first
+        if (mTeachingContent is Course &&
+                (mTeachingContent as Course).getTaskById(result.task_id).isPassed(result) &&
+                            (mTeachingContent as Course).checkpoints.containsKey(result.task_id))
+        {
+            mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.checkpoint_reached), ((mTeachingContent as Course).checkpoints.get(result.task_id) as Checkpoint).title)
+        }
+
+        //5. Show the results screen to the user
         mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 
-    private fun sendAnalytics(teachingContent: Any?, view: View?, action: String) {
+    private fun sendAnalyticsForGesture(teachingContent: Any?, view: View?, action: String) {
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
         if (teachingContent is Task) {
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, teachingContent.type?.toString()?.replace("_", " "))
-            bundle.putString("content_name", teachingContent.title)
+            bundle.putString("content_title", teachingContent.title)
             bundle.putInt("content_timed", if (teachingContent.timed) { 1 } else { 0 })
+        }
+        else if (teachingContent is Course) {
+            bundle.putInt("is_part_of_course", 1)
+            bundle.putString("course_title", teachingContent.title)
+
+            val task = teachingContent.getNextTask(mResults)
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
+            bundle.putString("content_title", teachingContent.title)
+            bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
         }
         val application = (activity?.application as StarsEarthApplication)
         application.logActionEvent(action, bundle)

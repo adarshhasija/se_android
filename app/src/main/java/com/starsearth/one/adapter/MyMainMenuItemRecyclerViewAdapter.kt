@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
@@ -177,7 +175,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         init {
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
             mTimedView = mView.findViewById<TextView>(R.id.tv_timed) as TextView
-            mLastTriedView = mView.findViewById<TextView>(R.id.tv_last_tried) as TextView
+            mLastTriedView = mView.findViewById<TextView>(R.id.tvTimestamp) as TextView
         }
 
         override fun toString(): String {
