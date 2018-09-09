@@ -16,7 +16,7 @@
 
         <!-- TASK -->
         <LinearLayout
-            android:id="@+id/llTask"
+            android:id="@+id/clTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"

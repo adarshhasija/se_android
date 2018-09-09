@@ -15,10 +15,10 @@ import android.view.ViewGroup
 import com.starsearth.one.R
 import com.starsearth.one.adapter.TaskDetailRecyclerViewAdapter
 import com.starsearth.one.domain.*
-import java.util.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.activity.FullScreenActivity
+import com.starsearth.one.activity.KeyboardActivity
 import kotlin.collections.ArrayList
 
 
@@ -38,6 +38,31 @@ class TaskDetailListFragment : Fragment() {
     private var mTeachingContent: Any? = null
     private var mResults = ArrayList<Result>()
     private var mListener: OnTaskDetailListFragmentListener? = null
+
+    enum class LIST_ITEM private constructor(val valueString: String) {
+        //Course
+        SEE_PROGRESS("SEE_PROGRESS"),
+        KEYBOARD_TEST("KEYBOARD_TEST"),
+        REPEAT_PREVIOUSLY_PASSED_TASKS("REPEAT_PREVIOUS"),  //Closest match so that we dont have to change even if the overall text changes
+        SEE_RESULTS_OF_ATTEMPTED_TASKS("SEE_RESULTS_OF_ATTEMPTED"),
+
+        //Task
+        ALL_RESULTS("ALL_RESULTS"),
+        HIGH_SCORE("HIGH_SCORE");
+
+
+        companion object {
+
+            fun fromString(i: String): LIST_ITEM? {
+                for (type in LIST_ITEM.values()) {
+                    if (type.valueString == i) {
+                        return type
+                    }
+                }
+                return null
+            }
+        }
+    };
 
     override fun onResume() {
         super.onResume()
@@ -69,58 +94,122 @@ class TaskDetailListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-         /*   val tasks = if (mTeachingContent is Course) {
-                (mTeachingContent as Course)!!.getTasks()
-            } else {
-                ArrayList(Arrays.asList(mTeachingContent))
-            }   */
-            val results = LinkedHashMap<String, Any>()
-            results.put("all_results", mResults)
-            //HIGH SCORE: START
-            var highScore : Any? = mResults?.getOrNull(0)
-            if (highScore != null) {
-                for (result in mResults) {
-                    if (result.items_correct > (highScore as Result)?.items_correct) {
-                        highScore = result
-                    }
-                }
-                results.put("high_score", highScore!!)
+            val listTitles = ArrayList<LIST_ITEM>() //LinkedHashMap<LIST_ITEM, Any>()
+            if (mTeachingContent is Course) {
+                //results.put(LIST_ITEM.SEE_PROGRESS, true)
+                listTitles.add(LIST_ITEM.SEE_PROGRESS)
             }
-            //HIGH SCORE: END
-            view.adapter = TaskDetailRecyclerViewAdapter(mTeachingContent, results, mListener, this)
+            if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+                //results.put(LIST_ITEM.KEYBOARD_TEST, true)
+                listTitles.add(LIST_ITEM.KEYBOARD_TEST)
+            }
+            if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
+                //results.put(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS, true)
+                //results.put(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS, true)
+                listTitles.add(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+                listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
+            }
+            if (mTeachingContent is Task && mResults.isNotEmpty()) {
+                //results.put(LIST_ITEM.ALL_RESULTS, mResults)
+                listTitles.add(LIST_ITEM.ALL_RESULTS)
+            }
+        /*    if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
+                //HIGH SCORE: START
+                var highScore : Any? = mResults?.getOrNull(0)
+                if (highScore != null) {
+                    for (result in mResults) {
+                        if (result.items_correct > (highScore as Result)?.items_correct) {
+                            highScore = result
+                        }
+                    }
+                    listTitles.put(LIST_ITEM.HIGH_SCORE, highScore!!)
+                }
+                //HIGH SCORE: END
+            }   */
+
+            view.adapter = TaskDetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener, this)
         }
 
         return view
     }
 
-    fun onItemClicked(teachingContent: Any?, results: ArrayList<Result>, position: Int) {
-        if (position == 0 && teachingContent is Task) {
-            sendAnalytics(teachingContent!!, "ALL_RESULTS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = ResultListFragment.newInstance(teachingContent, results)
+    fun onItemClicked(itemTitle: LIST_ITEM) {
+        sendAnalytics((mTeachingContent as SEBaseObject), itemTitle.valueString, FirebaseAnalytics.Event.SELECT_CONTENT)
+        when (itemTitle) {
+            //Course
+            LIST_ITEM.SEE_PROGRESS -> {
+                val fragment = CourseProgressListFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>)
+                activity?.getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+            LIST_ITEM.KEYBOARD_TEST -> {
+                val intent = Intent(activity, KeyboardActivity::class.java)
+                startActivity(intent)
+            }
+            LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
+                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>)
+                activity?.getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+            LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
+                // TODO
+            }
+
+            //Task
+            LIST_ITEM.ALL_RESULTS -> {
+                val fragment = ResultListFragment.newInstance((mTeachingContent as Task), mResults)
+                activity?.getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+            LIST_ITEM.HIGH_SCORE -> {
+                val fragment = ResultDetailFragment.newInstance((mTeachingContent as Task), (mTeachingContent as Task).getHighScoreResult(mResults))
+                activity?.getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
+            else -> {
+
+            }
+        }
+
+      /*  if (position == 0 && itemTitle is Task) {
+            //sendAnalytics(itemTitle!!, itemTitle.getTitle(), FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = ResultListFragment.newInstance((mTeachingContent as Task), mResults)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)
                     ?.addToBackStack(null)
                     ?.commit()
         }
-        else if (position == 0 && teachingContent is Course) {
-            sendAnalytics(teachingContent!!, "COURSE_PROGRESS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = CourseProgressListFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
+        else if (position == 0 && itemTitle is Course) {
+            //sendAnalytics(itemTitle!!, "COURSE_PROGRESS", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = CourseProgressListFragment.newInstance(itemTitle, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)
                     ?.addToBackStack(null)
                     ?.commit()
         }
-        else if (position == 1 && teachingContent is Course) {
-            sendAnalytics(teachingContent!!, "COURSE_REPEAT_ITEMS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = MainMenuItemFragment.newInstance(teachingContent, results as ArrayList<Parcelable>)
+        else if (position == 1 && itemTitle is Course) {
+            //sendAnalytics(itemTitle!!, "COURSE_REPEAT_ITEMS", FirebaseAnalytics.Event.SELECT_CONTENT)
+            val fragment = MainMenuItemFragment.newInstance(itemTitle, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)
                     ?.addToBackStack(null)
                     ?.commit()
-        }
+        }   */
     }
 
     //Separate function because only a single result has to be passed
@@ -136,17 +225,33 @@ class TaskDetailListFragment : Fragment() {
         }
     }
 
-    fun onItemLongPressed(mTask: Task?, mResult: Parcelable, position: Int) {
-        if (position == 1) {
-            sendAnalytics(mTask!!, "HIGH_SCORE", "LONG_PRESS_CONTENT")
+    fun onItemLongPressed(itemTitle: LIST_ITEM) {
+        sendAnalytics((mTeachingContent as SEBaseObject), itemTitle.valueString, "LONG_PRESS_CONTENT")
+        when (itemTitle) {
+            LIST_ITEM.HIGH_SCORE -> {
+                val intent = Intent(context, FullScreenActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("task", (mTeachingContent as Task))
+                bundle.putParcelable("result", (mTeachingContent as Task).getHighScoreResult(mResults))
+                bundle.putString("view_type", "high_score")
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+            else -> {
+
+            }
+        }
+
+     /*   if (position == 1) {
+
             val intent = Intent(context, FullScreenActivity::class.java)
             val bundle = Bundle()
-            bundle.putParcelable("task", mTask)
-            bundle.putParcelable("result", mResult)
+            bundle.putParcelable("task", (mTeachingContent as Task))
+            bundle.putParcelable("result", (mTeachingContent as Task).getHighScoreResult(mResults))
             bundle.putString("view_type", "high_score")
             intent.putExtras(bundle)
             startActivity(intent)
-        }
+        }   */
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -169,10 +274,10 @@ class TaskDetailListFragment : Fragment() {
         mListener = null
     }
 
-    private fun sendAnalytics(teachingContent: SEBaseObject, itemCategory: String, action: String) {
+    private fun sendAnalytics(teachingContent: SEBaseObject, listItemTitle: String, action: String) {
         val bundle = Bundle()
         bundle.putLong("CONTENT_ID", teachingContent.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, itemCategory)
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, listItemTitle)
         bundle.putString("content_name", teachingContent.title)
         if (teachingContent is Task) {
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, teachingContent.type?.toString()?.replace("_", " "))

@@ -259,4 +259,17 @@ public class Task extends SEBaseObject {
         return ret;
     }
 
+    public Result getHighScoreResult(ArrayList<Result> results) {
+        Result ret = null;
+        for (Result result : results) {
+            if (ret == null) {
+                ret = result;
+            }
+            else if (result.items_correct > ret.items_correct) {
+                ret = result;
+            }
+        }
+        return ret;
+    }
+
 }

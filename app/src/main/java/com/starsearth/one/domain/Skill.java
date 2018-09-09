@@ -9,7 +9,7 @@ public class Skill {
     public String skill;
 
     public Skill() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        // Default constructor required for calls to DataSnapshot.getValueString(User.class)
     }
 
     public Skill(String firstName, String lastName, String email, String skill) {

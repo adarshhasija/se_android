@@ -219,6 +219,7 @@
     <string name="logout">Logout</string>
     <string name="view_courses_selected">View Courses selected</string>
     <string name="keyboard_test">Keyboard Test</string>
+    <string name="keyboard_test_why">If you are using a USB keyboard, tap here to do a keyboard test. This will confirm if you can use the keyboard with this app</string>
     <string name="escape_key_description">Screen has closed. Pressing this closes the screen that you are on</string>
     <string name="print_screen_description">Image of the screen has been taken. Pressing this takes an image of the screen</string>
     <string name="go_to_questions">Go to questions</string>
@@ -396,6 +397,7 @@
     <string name="full_course">Full course</string>
     <string name="see_progress">See progress</string>
     <string name="repeat_tasks_you_passed">Repeat tasks you have passed</string>
+    <string name="see_results_of_tasks_you_attempted">See results of tasks you attempted</string>
     <string name="tap_to_view_details">Tap to view details</string>
     <string name="move_your_finger_to_top_left_to_get_content">Move your finger to the top left to get content</string>
     <string name="long_press_to_view_responses">Long press to view your responses</string>

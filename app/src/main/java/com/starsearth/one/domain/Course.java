@@ -35,7 +35,7 @@ public class Course extends SEBaseObject {
 
     public Course() {
         super();
-        // Default constructor required for calls to DataSnapshot.getValue(Course.class)
+        // Default constructor required for calls to DataSnapshot.getValueString(Course.class)
     }
 
     public Course(HashMap<String, Object> map) {
@@ -137,7 +137,7 @@ public class Course extends SEBaseObject {
     }
 
     //public void addLesson(String lessonsId) { this.lessons.put(lessonsId, true); }
-    //public void addLesson(String lessonId, SENestedObject value) { this.lessons.put(lessonId, value); }
+    //public void addLesson(String lessonId, SENestedObject valueString) { this.lessons.put(lessonId, valueString); }
     public void addLesson(SENestedObject value) { this.lessons.put(value.uid, value); }
 
     public void removeLesson(String lessonId) { this.lessons.remove(lessonId); }

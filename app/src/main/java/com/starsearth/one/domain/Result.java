@@ -27,12 +27,12 @@ public class Result implements Parcelable {
     public long startTimeMillis;
     public long timeTakenMillis;
     public long timestamp;
-    public int items_attempted = -1; //Item = One list item in array(content/tap/swipe). -1 = error, no value
+    public int items_attempted = -1; //Item = One list item in array(content/tap/swipe). -1 = error, no valueString
     public int items_correct = -1;
     public ArrayList<Response> responses;
 
     public Result() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+        // Default constructor required for calls to DataSnapshot.getValueString(Post.class)
     }
 
     public Result(Map<String, Object> map) {

@@ -114,7 +114,7 @@ class MyCourseProgressRecyclerViewAdapter(
         val mCLMain: ConstraintLayout = mView.cl_main
 
         //Task
-        val llTask:             LinearLayout    = mView.llTask
+        val llTask:             LinearLayout    = mView.clTask
         val mTaskTitleView:     TextView        = mView.tvTaskTitle
         val mTaskPassedView:    TextView        = mView.tv_is_passed
 

@@ -21,7 +21,7 @@ public class Lesson extends SEBaseObject {
 
     public Lesson() {
         super();
-        // Default constructor required for calls to DataSnapshot.getValue(Lesson.class)
+        // Default constructor required for calls to DataSnapshot.getValueString(Lesson.class)
     }
 
     public Lesson(HashMap<String, Object> map) {

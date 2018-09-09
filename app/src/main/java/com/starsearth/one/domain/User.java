@@ -23,7 +23,7 @@ public class User  implements Parcelable {
     public Map<String, SENestedObject> answers = new HashMap<>();
 
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        // Default constructor required for calls to DataSnapshot.getValueString(User.class)
     }
 
     public User(String uid, boolean course_admin, String email) {

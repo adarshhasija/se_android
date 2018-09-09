@@ -97,20 +97,31 @@
             app:layout_constraintRight_toRightOf="parent" />
         <!-- HIGH SCORE: END -->
 
-        <!-- SEE ALL RESULTS: START -->
+        <!-- GENERIC HEADING 1/HEADING 2 CARD. USED FOR: SEE ALL RESULTS, SEE COURSE PROGRESS, KEYBOARD TEST, REPEAT COMPLETED TASKS  -->
         <TextView
-            android:id="@+id/tv_all_results"
+            android:id="@+id/tvHeading1"
             android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/all_results"
+            android:text="--"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
-        <!-- SEE ALL RESULTS: END -->
+        <TextView
+            android:id="@+id/tvHeading2"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="--"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintTop_toBottomOf="@id/tvHeading1"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <!-- GENERIC HEADING 1/HEADING 2 CARD: END -->
 
         <!-- SEE COURSE PROGRESS: START -->
         <TextView

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.facebook.ads.AdSettings
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
@@ -218,9 +218,9 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
           /*  val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
-                dataSnapshot?.getValue(ResultTyping::class.java)
+                dataSnapshot?.getValueString(ResultTyping::class.java)
             } else {
-                dataSnapshot?.getValue(Result::class.java)
+                dataSnapshot?.getValueString(Result::class.java)
             }
             if ((mTeachingContent as SEBaseObject)?.id != result!!.task_id) {
                 return;
@@ -300,14 +300,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             }
         }
 
-        if (mResults != null && !mResults.isEmpty()) {
-            //UI changes if there are exisitng results
-            view?.findViewById<TextView>(R.id.tvLongPressForMoreOptions)?.visibility = View.VISIBLE
-            //do not want to call announce for accessibility here. Only set content description
-            view?.findViewById<LinearLayout>(R.id.llTask)?.contentDescription = getContentDescriptionForAccessibility()
-        }
-
-
         val currentUser = FirebaseAuth.getInstance().currentUser
         mDatabase = FirebaseDatabase.getInstance().getReference("results")
         mDatabase?.keepSynced(true)
@@ -320,12 +312,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setupAdListener()
-        view.findViewById<LinearLayout>(R.id.llTask).setOnTouchListener(this)
         //setupScreenAccessibility()
         updateUIVisibility() //Must be called from here as view exists from here
         updateUIText() //Must be called from here as view exists from here
-        llTask?.contentDescription = getContentDescriptionForAccessibility()
-        announceForAccessibility()
+        clTask?.setOnTouchListener(this)
+        clTask?.contentDescription = getContentDescriptionForAccessibility()
+        view?.announceForAccessibility(clTask?.contentDescription)
     }
 
     fun updateUIVisibility() {
@@ -359,13 +351,13 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 else {
                     View.VISIBLE
                 }
-        tvSwipeToContinue?.visibility =
-                if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+        tvSwipeToContinue?.visibility = View.GONE
+             /*   if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */
         tvLongPressForMoreOptions?.visibility =
                 if (mTeachingContent is Course || mTeachingContent is Task && mResults.isNotEmpty()) {
                     View.VISIBLE
@@ -429,13 +421,13 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.tap_screen_to_start)
                 }
 
-        tvSwipeToContinue?.text =
-                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn && mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
+        tvSwipeToContinue?.text = ""
+             /*   if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn && mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                     context?.resources?.getString(R.string.swipe_with_2_fingers_for_keyboard_test)
                 }
                 else {
                     context?.resources?.getString(R.string.swipe_for_keyboard_test)
-                }
+                }   */
 
         tvLongPressForMoreOptions?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn) {
@@ -445,13 +437,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getString(R.string.long_press_for_more_options)
                 }
 
-        llTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
-    }
-
-    fun announceForAccessibility() {
-        var contentDescription = getContentDescriptionForAccessibility()
-        view?.findViewById<LinearLayout>(R.id.llTask)?.contentDescription = contentDescription
-        view?.announceForAccessibility(contentDescription)
+        clTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
 
     fun setGesturesText() {
