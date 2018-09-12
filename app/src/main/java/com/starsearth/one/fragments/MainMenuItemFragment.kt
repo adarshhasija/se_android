@@ -47,7 +47,8 @@ class MainMenuItemFragment : Fragment() {
     private var mTeachingContent : Any? = null
     private var mResults = ArrayList<Result>() //Used if screen is for a course
     private var mTag : String? = null
-    private var mType : Task.Type? = null
+    private var mTypeCourseListItem : TaskDetailListFragment.LIST_ITEM? = null
+    private var mTypeTask : Task.Type? = null
     private var mIsTimed : Boolean = false
     private var mIsGame : Boolean = false
     private var mListener: OnMainMenuFragmentInteractionListener? = null
@@ -192,19 +193,12 @@ class MainMenuItemFragment : Fragment() {
 
         val teachingContent = item.teachingContent
         val resultsArray = ArrayList(item.results)
-        if (teachingContent is Task && teachingContent.type == Task.Type.KEYBOARD_TEST) {
-            val intent = Intent(context, KeyboardActivity::class.java)
-            startActivity(intent)
-        }
-        else {
-            val intent = Intent(context, DetailActivity::class.java)
-            val bundle = Bundle()
-            bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
-            bundle.putParcelableArrayList("results", resultsArray)
-            intent.putExtras(bundle)
-            startActivityForResult(intent,0)
-        }
-
+        val intent = Intent(context, DetailActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
+        bundle.putParcelableArrayList("results", resultsArray)
+        intent.putExtras(bundle)
+        startActivityForResult(intent,0)
     }
 
     fun sendAnalytics(item: SEBaseObject) {
@@ -244,7 +238,8 @@ class MainMenuItemFragment : Fragment() {
                 mResults.add((parcelableResult as Result))
             }
             mTag = arguments!!.getString(ARG_TAG)
-            mType = Task.Type.fromInt(arguments!!.getLong(ARG_TYPE))
+            mTypeCourseListItem = TaskDetailListFragment.LIST_ITEM.fromString(arguments!!.getString(ARG_TYPE_COURSE))
+            mTypeTask = Task.Type.fromInt(arguments!!.getLong(ARG_TYPE_TASK))
             mIsTimed = arguments!!.getBoolean(ARG_TIMED)
             mIsGame = arguments!!.getBoolean(ARG_GAME)
         }
@@ -259,7 +254,7 @@ class MainMenuItemFragment : Fragment() {
             view.layoutManager = LinearLayoutManager(context)
             view.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            val mainMenuItems = getData(mTag, mType, mIsTimed, mIsGame)
+            val mainMenuItems = getData(mTag, mTypeTask, mIsTimed, mIsGame)
             view.adapter = MyMainMenuItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view
@@ -309,20 +304,23 @@ class MainMenuItemFragment : Fragment() {
     }
 
     fun getData(tag: String?, type: Task.Type?, isTimed: Boolean, isGame: Boolean): ArrayList<MainMenuItem> {
-        val mainMenuItems = if (mTeachingContent != null && mTeachingContent is Course) {
-            (mTeachingContent as Course).getAllPassedTasks(mResults) //FileTasks.getMainMenuItemsFromCourse((mTeachingContent as Course))
-        } else if (isTimed) {
-            FileTasks.getMainMenuItemsTimed(context)
-        } else if (isGame) {
-            FileTasks.getMainMenuItemsGames(context)
-        } else if (type != null) {
-            FileTasks.getMainMenuItemsByType(context, type)
-        } else if (!tag.isNullOrEmpty()) {
-            FileTasks.getMainMenuItemsByTag(context, tag)
-        } else {
-            //Show everything
-            FileTasks.getAllMainMenuItems(context)
-        }
+        val mainMenuItems =
+                if (mTeachingContent is Course && mTypeCourseListItem == TaskDetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                    (mTeachingContent as Course).getAllPassedTasks(mResults)
+                } else if (mTeachingContent is Course && mTypeCourseListItem == TaskDetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+                    (mTeachingContent as Course).getAllAttemptedTasks(mResults)
+                } else if (isTimed) {
+                    FileTasks.getMainMenuItemsTimed(context)
+                } else if (isGame) {
+                    FileTasks.getMainMenuItemsGames(context)
+                } else if (type != null) {
+                    FileTasks.getMainMenuItemsByType(context, type)
+                } else if (!tag.isNullOrEmpty()) {
+                    FileTasks.getMainMenuItemsByTag(context, tag)
+                } else {
+                    //Show everything
+                    FileTasks.getAllMainMenuItems(context)
+                }
 
         return mainMenuItems
     }
@@ -385,7 +383,8 @@ class MainMenuItemFragment : Fragment() {
         private val ARG_TEACHING_CONTENT = "teachingContent"
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TAG = "TAG"
-        private val ARG_TYPE = "TYPE"
+        private val ARG_TYPE_COURSE = "COURSE"
+        private val ARG_TYPE_TASK = "TYPE"
         private val ARG_TIMED = "IS_TIMED"
         private const val ARG_GAME = "IS_GAME"
 
@@ -406,7 +405,7 @@ class MainMenuItemFragment : Fragment() {
             val fragment = MainMenuItemFragment()
             val args = Bundle()
             args.putString(ARG_TAG, tag)
-            args.putLong(ARG_TYPE, type)
+            args.putLong(ARG_TYPE_TASK, type)
             args.putBoolean(ARG_TIMED, isTimed)
             args.putBoolean(ARG_GAME, isGame)
             fragment.arguments = args
@@ -414,11 +413,12 @@ class MainMenuItemFragment : Fragment() {
         }
 
         // TODO: Customize parameter initialization
-        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>): MainMenuItemFragment {
+        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: TaskDetailListFragment.LIST_ITEM): MainMenuItemFragment {
             val fragment = MainMenuItemFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)
             args.putParcelableArrayList(ARG_RESULTS, results)
+            args.putString(ARG_TYPE_COURSE, listItem.valueString)
             fragment.arguments = args
             return fragment
         }

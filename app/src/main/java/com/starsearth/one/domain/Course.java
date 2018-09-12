@@ -290,6 +290,16 @@ public class Course extends SEBaseObject {
         return result;
     }
 
+    public ArrayList<MainMenuItem> getAllAttemptedTasks(ArrayList<Result> results) {
+        ArrayList<MainMenuItem> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.isAttempted(results)) {
+                result.add(new MainMenuItem(task));
+            }
+        }
+        return result;
+    }
+
     public boolean isCheckpointReached(Result result) {
         return this.checkpoints.containsKey(result.task_id) && this.getTaskById(result.task_id).isPassed(result);
     }

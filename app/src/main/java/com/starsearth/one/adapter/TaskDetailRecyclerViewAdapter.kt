@@ -43,7 +43,7 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
                 //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
-                holder.mHeading1.text = context?.resources?.getString(R.string.all_results)
+                holder.mHeading1.text = context?.resources?.getString(R.string.see_progress)
                 holder.mHeading2.text = ""
             }
             TaskDetailListFragment.LIST_ITEM.KEYBOARD_TEST -> {

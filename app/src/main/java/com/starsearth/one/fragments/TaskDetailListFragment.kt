@@ -107,11 +107,18 @@ class TaskDetailListFragment : Fragment() {
                 //results.put(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS, true)
                 //results.put(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS, true)
                 listTitles.add(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+            }
+            if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)) {
+                //results.put(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS, true)
+                //results.put(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS, true)
                 listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty()) {
                 //results.put(LIST_ITEM.ALL_RESULTS, mResults)
                 listTitles.add(LIST_ITEM.ALL_RESULTS)
+            }
+            if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
+                listTitles.add(LIST_ITEM.HIGH_SCORE)
             }
         /*    if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
                 //HIGH SCORE: START
@@ -150,7 +157,7 @@ class TaskDetailListFragment : Fragment() {
                 startActivity(intent)
             }
             LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
-                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>)
+                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
                 activity?.getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                         ?.replace(R.id.fragment_container_main, fragment)
@@ -158,7 +165,12 @@ class TaskDetailListFragment : Fragment() {
                         ?.commit()
             }
             LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
-                // TODO
+                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
+                activity?.getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
             }
 
             //Task
