@@ -88,6 +88,7 @@
       "showUserAnswerWithBackground": true,
       "isBackspaceAllowed": false,
       "isKeyboardRequired": true,
+      "isGame": true,
       "isExitOnInterruption": true
     },
     {
@@ -102,6 +103,7 @@
       "tags": ["english","alphabet"],
       "showUserAnswerWithBackground": true,
       "isBackspaceAllowed": false,
+      "isGame": true,
       "isKeyboardRequired": true,
       "isExitOnInterruption": true
     },
@@ -501,7 +503,7 @@
       "hasKeyboardTest": true,
       "createdBy": "RycAhfhPsXOrUdbO8GOJqucktAA3",
       "checkpoints": {
-        "39": {
+        "42": {
           "id": 41,
           "title": "CHECKPOINT 1"
         }
@@ -512,6 +514,21 @@
           "type": 1,
           "timed": false,
           "title": "Type f and press spacebar",
+          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "content": ["f␣","f␣","f␣","f␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 90,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 42,
+          "type": 1,
+          "timed": false,
+          "title": "ABC",
           "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
           "content": ["f␣","f␣","f␣","f␣"],
           "tags": ["typing"],

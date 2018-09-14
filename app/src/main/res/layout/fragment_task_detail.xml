@@ -47,6 +47,28 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_centerInParent="true"/>
 
+        <TextView
+            android:id="@+id/tvSingleTapToRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:text="@string/tap_screen_to_hear_text_again"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tvTapScreenToStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:text="@string/tap_screen_to_start"
+            android:textAlignment="center" />
+
         <include layout="@layout/fragment_last_tried" />
 
     </LinearLayout>
@@ -71,28 +93,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/tvSingleTapToRepeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:text="@string/tap_screen_to_hear_text_again"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/tvTapScreenToStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:text="@string/tap_screen_to_start"
-            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tvSwipeToContinue"

@@ -109,9 +109,7 @@ class TaskDetailListFragment : Fragment() {
                 listTitles.add(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)) {
-                //results.put(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS, true)
-                //results.put(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS, true)
-                listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
+                //listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty()) {
                 //results.put(LIST_ITEM.ALL_RESULTS, mResults)
@@ -158,14 +156,6 @@ class TaskDetailListFragment : Fragment() {
             }
             LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
                 val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
-                activity?.getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
-            }
-            LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
-                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
                 activity?.getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                         ?.replace(R.id.fragment_container_main, fragment)

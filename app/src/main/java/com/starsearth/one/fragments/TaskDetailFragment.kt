@@ -313,11 +313,15 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         super.onViewCreated(view, savedInstanceState)
         //setupAdListener()
         //setupScreenAccessibility()
-        updateUIVisibility() //Must be called from here as view exists from here
-        updateUIText() //Must be called from here as view exists from here
+        updateUI()
         clTask?.setOnTouchListener(this)
         clTask?.contentDescription = getContentDescriptionForAccessibility()
         view?.announceForAccessibility(clTask?.contentDescription)
+    }
+
+    fun updateUI() {
+        updateUIVisibility()
+        updateUIText()
     }
 
     fun updateUIVisibility() {
@@ -380,8 +384,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     context?.resources?.getText(R.string.complete)
                 }
                 else if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)){
-                    val nextTaskIndex = (mTeachingContent as Course).getCurrentTaskIndex(mResults) + 2
-                    context?.resources?.getString(R.string.next_task) + "\n" + nextTaskIndex + "/" + (mTeachingContent as Course).tasks.size
+                    val nextTaskNumber = (mTeachingContent as Course).getNextTaskIndex(mResults) + 1
+                    context?.resources?.getString(R.string.next_task) + "\n" + nextTaskNumber + "/" + (mTeachingContent as Course).tasks.size
                 }
                 else if (mTeachingContent is Course) {
                     //If the course has not started
@@ -556,7 +560,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.checkpoint_reached), ((mTeachingContent as Course).checkpoints.get(result.task_id) as Checkpoint).title)
         }
 
-        //5. Show the results screen to the user
+        //5. Update UI
+        updateUI()
+
+        //6. Show the results screen to the user
         mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 

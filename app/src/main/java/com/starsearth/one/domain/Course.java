@@ -269,6 +269,23 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
+    public int getNextTaskIndex(ArrayList<Result> allResults) {
+        int retIndex = -1;
+        int currentTaskIndex = getCurrentTaskIndex(allResults);
+        if (currentTaskIndex < tasks.size()) {
+            Task currentTask = tasks.get(currentTaskIndex);
+            if (currentTask.isPassed(allResults) && currentTaskIndex + 1 < tasks.size()) {
+                retIndex = currentTaskIndex + 1;
+            }
+            else {
+                retIndex = currentTaskIndex;
+            }
+        }
+        return retIndex;
+    }
+
+
+
     public int getCurrentTaskIndex(ArrayList<Result> results) {
         int index = 0;
         for (int i = 0; i < tasks.size(); i++) {
