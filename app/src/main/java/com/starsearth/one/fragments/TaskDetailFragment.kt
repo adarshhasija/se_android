@@ -552,7 +552,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             mResults?.add(result)
         }
 
-        //4. If the task is passed and a checkpoint has been reached, push checkpoint fragment first
+        //4. If the task is passed and we have reached the end of the course, push end of course message
+        if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+            mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.congratulations), getString(R.string.course_complete))
+        }
+
+        //5. If the task is passed and a checkpoint has been reached, push checkpoint fragment next
         if (mTeachingContent is Course &&
                 (mTeachingContent as Course).getTaskById(result.task_id).isPassed(result) &&
                             (mTeachingContent as Course).checkpoints.containsKey(result.task_id))
@@ -560,10 +565,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.checkpoint_reached), ((mTeachingContent as Course).checkpoints.get(result.task_id) as Checkpoint).title)
         }
 
-        //5. Update UI
+        //6. Update UI
         updateUI()
 
-        //6. Show the results screen to the user
+        //7. Show the results screen to the user
         mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
     }
 

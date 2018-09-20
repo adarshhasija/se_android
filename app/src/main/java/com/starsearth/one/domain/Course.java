@@ -327,15 +327,17 @@ public class Course extends SEBaseObject {
     }
 
     public boolean shouldShowAd(ArrayList<Result> results) {
-        boolean ret = false;
+        boolean isCourseFinished = false;
+        boolean isCheckpointReached = false;
         if (results.size() > 0) {
             Result lastAttemptResult = results.get(results.size()-1);
             Task lastAttemptTask = getTaskById(lastAttemptResult.task_id);
             if (lastAttemptTask.isPassed(lastAttemptResult)) {
-                ret = this.checkpoints.containsKey(lastAttemptTask.id);
+                isCourseFinished = lastAttemptTask.id == tasks.get(tasks.size() - 1).id;
+                isCheckpointReached = this.checkpoints.containsKey(lastAttemptTask.id);
             }
         }
-        return ret;
+        return isCourseFinished || isCheckpointReached;
     }
 
     private List<Task> safe( List<Task> other ) {
