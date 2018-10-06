@@ -32,6 +32,7 @@ public class Course extends SEBaseObject {
     public String attemptedByUserId = null; //The user who started an attempt on this Course
     public HashMap<Long, Checkpoint> checkpoints; //Checkpoint after task with key == id
     public Boolean isOwnerWantingAds = false;
+    public List<String> tags = new ArrayList<>();
 
     public Course() {
         super();
@@ -68,6 +69,17 @@ public class Course extends SEBaseObject {
         ////
         this.attemptedByUserId = map.containsKey("attemptedByUserId") ? (String) map.get("attemptedByUserId") : null;
         this.hasKeyboardTest = map.containsKey("isOwnerWantingAds") ? (Boolean) map.get("isOwnerWantingAds") : false;
+        ////Set tags list
+        ArrayList<String> mpArrayListTags = (ArrayList<String>) map.get("tags");
+        if (mpArrayListTags != null) {
+            this.tasks = new ArrayList<>();
+            for (Object tag : mpArrayListTags) {
+                if (tag instanceof String) {
+                    this.tags.add((String) tag);
+                }
+            }
+        }
+        ////
     }
 
     public long getId() {
@@ -106,6 +118,7 @@ public class Course extends SEBaseObject {
         attemptedByUserId = in.readString();
         checkpoints = in.readHashMap(getClass().getClassLoader());
         isOwnerWantingAds = in.readByte() != 0;
+        tags = in.readArrayList(String.class.getClassLoader());
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -154,6 +167,7 @@ public class Course extends SEBaseObject {
         result.put("attemptedByUserId", attemptedByUserId);
         result.put("checkpoints", checkpoints);
         result.put("isOwnerWantingAds", isOwnerWantingAds);
+        result.put("tags", tags);
 
         return result;
     }
@@ -175,6 +189,7 @@ public class Course extends SEBaseObject {
         dest.writeString(attemptedByUserId);
         dest.writeMap(checkpoints);
         dest.writeByte((byte) (isOwnerWantingAds? 1 : 0));
+        dest.writeList(tags);
     }
 
     public boolean isTaskExists(long taskId) {
@@ -321,9 +336,13 @@ public class Course extends SEBaseObject {
         return this.checkpoints.containsKey(result.task_id) && this.getTaskById(result.task_id).isPassed(result);
     }
 
-    //Returns yes if we have reached a checkpoint
+    //Returns yes if the next task to be attempted is a checkpoint or if its the last task in a Course
     public boolean shouldGenerateAd(ArrayList<Result> results) {
-        return this.checkpoints.containsKey(getNextTask(results).id);
+        return this.checkpoints.containsKey(getNextTask(results).id) || isLastTask(getNextTask(results).id);
+    }
+
+    public boolean isLastTask(long taskId) {
+        return this.tasks.get(tasks.size() - 1).id == taskId;
     }
 
     public boolean shouldShowAd(ArrayList<Result> results) {

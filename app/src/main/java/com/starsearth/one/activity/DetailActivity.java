@@ -123,13 +123,6 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
         }   */
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-    }
-
 
     @Override
     public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {

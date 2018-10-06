@@ -238,7 +238,12 @@ class MainMenuItemFragment : Fragment() {
                 mResults.add((parcelableResult as Result))
             }
             mTag = arguments!!.getString(ARG_TAG)
-            mTypeCourseListItem = TaskDetailListFragment.LIST_ITEM.fromString(arguments!!.getString(ARG_TYPE_COURSE))
+            mTypeCourseListItem = if (arguments!!.containsKey(ARG_TYPE_COURSE)) {
+                TaskDetailListFragment.LIST_ITEM.fromString(arguments!!.getString(ARG_TYPE_COURSE))
+            }
+            else {
+                null
+            }
             mTypeTask = Task.Type.fromInt(arguments!!.getLong(ARG_TYPE_TASK))
             mIsTimed = arguments!!.getBoolean(ARG_TIMED)
             mIsGame = arguments!!.getBoolean(ARG_GAME)

@@ -85,6 +85,8 @@ class UserOptionsMenuItemFragment : Fragment() {
                 "spelling"
             } else if (item.text1.contains("Typing")) {
                 "typing"
+            } else if (item.text1.contains("Courses")) {
+                "courses"
             } else {
                 ""
             })

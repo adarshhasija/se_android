@@ -160,15 +160,12 @@ public class FileTasks {
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
                 if (o instanceof Course) {
-                    Course course = (Course) o;
-                    List<Task> tasks = course.getTasks();
-                    for (Task task : tasks) {
-                        List<String> tags = task.tags;
-                        if (tags != null) {
-                            //List<String> tagsList = Arrays.asList(tags);
-                            if (tags.contains(tag)) {
-                                mainMenuItems.add(new MainMenuItem(task));
-                            }
+                    List<String> tags = ((Course) o).tags;
+                    if (tags != null) {
+                        //List<String> tagsList = Arrays.asList(tags);
+                        if (tags.contains(tag)) {
+                            mainMenuItems.add(new MainMenuItem(o));
+                            break;
                         }
                     }
                 }
@@ -178,6 +175,7 @@ public class FileTasks {
                         //List<String> tagsList = Arrays.asList(tags);
                         if (tags.contains(tag)) {
                             mainMenuItems.add(new MainMenuItem(o));
+                            break;
                         }
                     }
                 }
