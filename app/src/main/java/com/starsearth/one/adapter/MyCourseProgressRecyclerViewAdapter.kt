@@ -55,6 +55,7 @@ class MyCourseProgressRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         if (item is Task) {
+            holder.llCheckpoint.visibility = View.GONE
             holder.llTask.visibility = View.VISIBLE
             holder.mTaskTitleView.text = item.title
             holder.mTaskPassedView.text =
@@ -81,6 +82,7 @@ class MyCourseProgressRecyclerViewAdapter(
             )
         }
         else {
+            holder.llTask.visibility = View.GONE
             holder.llCheckpoint.visibility = View.VISIBLE
             holder.mCheckpointTitle.text = (item as Checkpoint).title
             //If the previous Task is passed, set the checkpoint to cleared

@@ -383,130 +383,22 @@
 
   "courses": [
     {
-      "visible": false,
-      "id": 10,
-      "title": "Keyboard Typing Exercises",
-      "instructions": "Improve your keyboard typing skills with these exercises",
-      "hasKeyboardTest": true,
-      "tags": ["courses", "typing"],
-      "tasks" : [
-        {
-          "id": 3,
-          "type": 1,
-          "timed": false,
-          "title": "Type f and press spacebar",
-          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["f␣","f␣","f␣","f␣"],
-          "tags": ["typing"],
-          "isPassFail": true,
-          "passPercentage": 90,
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true
-
-        },
-        {
-          "id": 4,
-          "type": 1,
-          "timed": false,
-          "title": "Type j and press spacebar",
-          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["j␣","j␣","j␣","j␣"],
-          "tags": ["typing"],
-          "isPassFail": true,
-          "passPercentage": 90,
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true
-
-        },
-        {
-          "id": 33,
-          "type": 1,
-          "timed": false,
-          "isPassFail": true,
-          "passPercentage": 90,
-          "title": "Home row: left hand",
-          "instructions": "asdf. These keys should be pressed using the fingers of the left hand. Type them out correctly. ",
-          "content": ["asdf","asdf","asdf","asdf"],
-          "ordered": true,
-          "tags": ["typing"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        }
-      /*  {
-          "id": 34,
-          "type": 1,
-          "timed": false,
-          "title": "Home row: right hand",
-          "instructions": "These keys should be pressed using the fingers of the right hand. Type them out correctly. ",
-          "content": ["jkl", "jkl", "jkl", "jkl"],
-          "trials": 4,
-          "ordered": true,
-          "tags": ["typing"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 29,
-          "type": 1,
-          "timed": false,
-          "title": "small letters",
-          "instructions": "You will be shown some letters. Type them out correctly. ",
-          "content": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
-          "ordered": true,
-          "tags": ["typing","english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 30,
-          "type": 1,
-          "timed": false,
-          "title": "capital letters",
-          "instructions": "You will be shown some capital letters. Type them out correctly. ",
-          "content": ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-          "ordered": true,
-          "tags": ["typing","english","alphabet"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        },
-        {
-          "id": 31,
-          "type": 1,
-          "timed": false,
-          "title": "numbers practice: single digits",
-          "instructions": "You will be shown some numbers. Type them out correctly. ",
-          "content": ["1","2","3","4","5","6","7","8","9","0"],
-          "ordered": true,
-          "tags": ["typing","mathematics"],
-          "showUserAnswerWithBackground": true,
-          "isBackspaceAllowed": false,
-          "isKeyboardRequired": true,
-          "isExitOnInterruption": false
-        } */
-      ]
-    },
-    {
       "visible": true,
       "id": 38,
-      "title": "Keyboard Typing Course",
+      "title": "Keyboard Home Row",
       "isOwnerWantingAds": true,
-      "description": "Learn the basics of keyboard typing",
+      "description": "Home row is located at the center of the keyboard, third row from the bottom. We will now practice typing with the home row.",
       "hasKeyboardTest": true,
       "createdBy": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "tags": ["courses", "typing"],
       "checkpoints": {
-        "42": {
-          "id": 41,
-          "title": "CHECKPOINT 1"
+        "44": {
+          "id": 45,
+          "title": "LEFT TO RIGHT"
+        },
+        "49": {
+          "id": 50,
+          "title": "RIGHT TO LEFT"
         }
       },
       "tasks" : [
@@ -515,11 +407,11 @@
           "type": 1,
           "timed": false,
           "title": "Type f and press spacebar",
-          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
+          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 75%.",
           "content": ["f␣","f␣","f␣","f␣"],
           "tags": ["typing"],
           "isPassFail": true,
-          "passPercentage": 90,
+          "passPercentage": 75,
           "showUserAnswerWithBackground": true,
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true
@@ -529,12 +421,12 @@
           "id": 42,
           "type": 1,
           "timed": false,
-          "title": "ABC",
-          "instructions": "Type f and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["f␣","f␣","f␣","f␣"],
+          "title": "Type j and press spacebar",
+          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["j␣","j␣","j␣","j␣"],
           "tags": ["typing"],
           "isPassFail": true,
-          "passPercentage": 90,
+          "passPercentage": 75,
           "showUserAnswerWithBackground": true,
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true
@@ -544,12 +436,206 @@
           "id": 40,
           "type": 1,
           "timed": false,
-          "title": "Type j and press spacebar",
-          "instructions": "Type j and press spacebar. Do this 4 times. Target accuracy 90%.",
-          "content": ["j␣","j␣","j␣","j␣"],
+          "title": "Type fj and press spacebar",
+          "instructions": "Type fj and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["fj␣","fj␣","fj␣","fj␣"],
           "tags": ["typing"],
           "isPassFail": true,
-          "passPercentage": 90,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+        },
+        {
+          "id": 43,
+          "type": 1,
+          "timed": false,
+          "title": "Type fjk and press spacebar",
+          "instructions": "Type fjk and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["fjk␣","fjk␣","fjk␣","fjk␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 44,
+          "type": 1,
+          "timed": false,
+          "title": "Type fjkl and press spacebar",
+          "instructions": "Type fjkl and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["fjkl␣","fjkl␣","fjkl␣","fjkl␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 46,
+          "type": 1,
+          "timed": false,
+          "title": "Type jf and press spacebar",
+          "instructions": "Type jf and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jf␣","jf␣","jf␣","jf␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 47,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfd and press spacebar",
+          "instructions": "Type jfd and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfd␣","jfd␣","jfd␣","jfd␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 48,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfds and press spacebar",
+          "instructions": "Type jfds and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfds␣","jfds␣","jfds␣","jfds␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 49,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfdsa and press spacebar",
+          "instructions": "Type jfdsa and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfdsa␣","jfdsa␣","jfdsa␣","jfdsa␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 51,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfa and press spacebar",
+          "instructions": "Type jfa and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfa␣","jfa␣","jfa␣","jfa␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 52,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfas and press spacebar",
+          "instructions": "Type jfas and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfas␣","jfas␣","jfas␣","jfas␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 53,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfasdf and press spacebar",
+          "instructions": "Type jfasdf and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfasdf␣","jfasdf␣","jfasdf␣","jfasdf␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 54,
+          "type": 1,
+          "timed": false,
+          "title": "Type jfasdfj and press spacebar",
+          "instructions": "Type jfasdfj and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jfasdfj␣","jfasdfj␣","jfasdfj␣","jfasdfj␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 55,
+          "type": 1,
+          "timed": false,
+          "title": "Type jklf and press spacebar",
+          "instructions": "Type jklf and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jklf␣","jklf␣","jklf␣","jklf␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 56,
+          "type": 1,
+          "timed": false,
+          "title": "Type jklfdsa and press spacebar",
+          "instructions": "Type jklfdsa and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jklfdsa␣","jklfdsa␣","jklfdsa␣","jklfdsa␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
+          "showUserAnswerWithBackground": true,
+          "isBackspaceAllowed": false,
+          "isKeyboardRequired": true
+
+        },
+        {
+          "id": 57,
+          "type": 1,
+          "timed": false,
+          "title": "Type jklasdf and press spacebar",
+          "instructions": "Type jklasdf and press spacebar. Do this 4 times. Target accuracy 75%.",
+          "content": ["jklasdf␣","jklasdf␣","jklasdf␣","jklasdf␣"],
+          "tags": ["typing"],
+          "isPassFail": true,
+          "passPercentage": 75,
           "showUserAnswerWithBackground": true,
           "isBackspaceAllowed": false,
           "isKeyboardRequired": true
