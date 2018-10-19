@@ -165,7 +165,6 @@ public class FileTasks {
                         //List<String> tagsList = Arrays.asList(tags);
                         if (tags.contains(tag)) {
                             mainMenuItems.add(new MainMenuItem(o));
-                            break;
                         }
                     }
                 }
@@ -175,13 +174,24 @@ public class FileTasks {
                         //List<String> tagsList = Arrays.asList(tags);
                         if (tags.contains(tag)) {
                             mainMenuItems.add(new MainMenuItem(o));
-                            break;
                         }
                     }
                 }
             }
         }
         return mainMenuItems;
+    }
+
+    public static MainMenuItem getMainMenuItemById(Context context, long id) {
+        MainMenuItem mainMenuItem = null;
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
+        for (Object o : teachingContentList) {
+            if (((SEBaseObject) o).visible && ((SEBaseObject) o).id == id) {
+                mainMenuItem = new MainMenuItem();
+                mainMenuItem.teachingContent = o;
+            }
+        }
+        return mainMenuItem;
     }
 
     public static ArrayList<MainMenuItem> getMainMenuItemsByType(Context context, Task.Type type) {

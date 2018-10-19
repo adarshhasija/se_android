@@ -8,9 +8,9 @@ android {
         applicationId "com.starsearth.one"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 24
+        versionCode 25
 
-        versionName "1.0.24"
+        versionName "1.0.25"
     }
     buildTypes {
         debug {

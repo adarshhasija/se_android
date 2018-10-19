@@ -87,6 +87,8 @@ class UserOptionsMenuItemFragment : Fragment() {
                 "typing"
             } else if (item.text1.contains("Courses")) {
                 "courses"
+            } else if (item.text1.contains("General")) {
+                "general"
             } else {
                 ""
             })
@@ -109,6 +111,7 @@ class UserOptionsMenuItemFragment : Fragment() {
             })
             if (item.text1.contains("subject")) {
                 val subjects = ArrayList<String>()
+                subjects.add("General")
                 subjects.add("English")
                 subjects.add("Mathematics")
                 subjects.add("Typing")

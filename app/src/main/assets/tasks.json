@@ -20,7 +20,7 @@
       "tap": ["Tap"],
       "swipe": ["Swipe"],
       "ordered": false,
-      "tags": ["adarsh_top_choice"],
+      "tags": ["general", "english"],
       "isExitOnInterruption": true
     },
     {
