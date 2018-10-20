@@ -40,10 +40,6 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         setContentView(R.layout.activity_main_se);
         isPhoneNumberVerified();
 
-        //MainMenuItemFragment mainMenuItemFragment = new MainMenuItemFragment();
-        //getSupportFragmentManager().beginTransaction()
-        //        .add(R.id.fragment_container_main_menu, mainMenuItemFragment).commit();
-
         UserOptionsMenuItemFragment userOptionsMenuItemFragment = new UserOptionsMenuItemFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container_main_menu, userOptionsMenuItemFragment).commit();

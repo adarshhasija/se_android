@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.MainSEActivity;
 import com.starsearth.one.activity.TabbedActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
