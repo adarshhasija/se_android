@@ -170,15 +170,19 @@ class MainMenuItemFragment : Fragment() {
         for (i in 0 until itemCount) {
             val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
             if (menuItem.isTaskIdExists(result?.task_id!!)) {
+                if (menuItem.isResultLatest(result)) {
+                    menuItem.lastResult = result
+                }
+
                 if (mTeachingContent != null) {
                     //If it is a course, do not re arrange the order
-                    menuItem.results.add(result)
+                    //menuItem.results.add(result)
                     adapter.replaceItem(i, menuItem)
                     adapter.notifyItemChanged(i)
                 }
                 else {
                     adapter.removeAt(i) //remove the entry from the list
-                    menuItem.results.push(result)
+                    //menuItem.results.push(result)
                     adapter.addItem(menuItem)
                     adapter.notifyDataSetChanged()
                     (view as RecyclerView).layoutManager.scrollToPosition(0)

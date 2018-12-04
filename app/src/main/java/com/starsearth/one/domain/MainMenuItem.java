@@ -17,15 +17,24 @@ public class MainMenuItem implements Parcelable {
 
     //Either a course or a task
     public Object teachingContent;
-    public Stack<Result> results;
+    public Result lastResult;
+    //public Stack<Result> results;
 
     public MainMenuItem() {
-        results = new Stack<>();
+        //results = new Stack<>();
     }
 
     public MainMenuItem(Object teachingContent) {
         this.teachingContent = teachingContent;
-        results = new Stack<>();
+        //results = new Stack<>();
+    }
+
+    public boolean isResultLatest(Result result) {
+        return result.timestamp > lastResult.timestamp;
+    }
+
+    public void setLastResult(Result result) {
+        this.lastResult = result;
     }
 
     public boolean isTaskIdExists(long taskId) {
@@ -43,7 +52,8 @@ public class MainMenuItem implements Parcelable {
 
     protected MainMenuItem(Parcel in) {
         teachingContent = in.readParcelable(ClassLoader.getSystemClassLoader());
-        results.addAll(in.readArrayList(Result.class.getClassLoader()));
+        lastResult = in.readParcelable(ClassLoader.getSystemClassLoader());
+        //results.addAll(in.readArrayList(Result.class.getClassLoader()));
     }
 
     public static final Creator<MainMenuItem> CREATOR = new Creator<MainMenuItem>() {
@@ -68,6 +78,7 @@ public class MainMenuItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeParcelable((Parcelable) teachingContent, 0);
-        dest.writeList(results);
+        dest.writeParcelable((Parcelable) lastResult, 0);
+        //dest.writeList(results);
     }
 }
