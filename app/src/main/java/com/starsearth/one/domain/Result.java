@@ -31,6 +31,10 @@ public class Result implements Parcelable {
     public int items_correct = -1;
     public ArrayList<Response> responses;
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
     public Result() {
         // Default constructor required for calls to DataSnapshot.getValueString(Post.class)
     }

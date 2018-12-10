@@ -114,9 +114,7 @@ class MainMenuItemFragment : Fragment() {
                     results.add(newResult)
                 }
                 Collections.sort(results, ComparatorMainMenuItem())
-                for (result in results) {
-                    insertResult(result)
-                }
+                insertResults(results)
             }
 
             mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
@@ -138,7 +136,8 @@ class MainMenuItemFragment : Fragment() {
                 if (adapter.getTeachingContentType(result.task_id) == Task.Type.TYPING) {
                     result = ResultTyping((map))
                 }
-                insertResult(result)
+                val results : ArrayList<Result> = arrayListOf(result)
+                insertResults(results)
             }
 
 
@@ -164,6 +163,15 @@ class MainMenuItemFragment : Fragment() {
         activity?.setResult(Activity.RESULT_OK, intent)
     }
 
+    fun insertResults(results: ArrayList<Result>) {
+        val adapter = (view as RecyclerView).adapter
+        for (result in results) {
+            insertResult(result)
+        }
+        adapter.notifyDataSetChanged()
+        (view as RecyclerView)?.layoutManager.scrollToPosition(0)
+    }
+
     fun insertResult(result: Result) {
         val adapter = (view as RecyclerView).adapter
         val itemCount = adapter.itemCount
@@ -171,22 +179,10 @@ class MainMenuItemFragment : Fragment() {
             val menuItem = (adapter as MyMainMenuItemRecyclerViewAdapter).getItem(i)
             if (menuItem.isTaskIdExists(result?.task_id!!)) {
                 if (menuItem.isResultLatest(result)) {
-                    menuItem.lastResult = result
+                    menuItem.results.add(result)
                 }
-
-                if (mTeachingContent != null) {
-                    //If it is a course, do not re arrange the order
-                    //menuItem.results.add(result)
-                    adapter.replaceItem(i, menuItem)
-                    adapter.notifyItemChanged(i)
-                }
-                else {
-                    adapter.removeAt(i) //remove the entry from the list
-                    //menuItem.results.push(result)
-                    adapter.addItem(menuItem)
-                    adapter.notifyDataSetChanged()
-                    (view as RecyclerView).layoutManager.scrollToPosition(0)
-                }
+                adapter.removeAt(i) //remove the entry from the list
+                adapter.addItem(menuItem)
             }
         }
     }

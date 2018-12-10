@@ -3,7 +3,12 @@ package com.starsearth.one.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.collect.EvictingQueue;
+import com.google.common.collect.MinMaxPriorityQueue;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -17,24 +22,21 @@ public class MainMenuItem implements Parcelable {
 
     //Either a course or a task
     public Object teachingContent;
-    public Result lastResult;
-    //public Stack<Result> results;
-
-    public MainMenuItem() {
-        //results = new Stack<>();
-    }
+    public MinMaxPriorityQueue<Result> results;
 
     public MainMenuItem(Object teachingContent) {
         this.teachingContent = teachingContent;
-        //results = new Stack<>();
+        results = MinMaxPriorityQueue
+                .orderedBy(Comparator.comparing(Result::getTimestamp))
+                .maximumSize(1) //change this based on requirement
+                .create();
     }
 
     public boolean isResultLatest(Result result) {
-        return result.timestamp > lastResult.timestamp;
-    }
-
-    public void setLastResult(Result result) {
-        this.lastResult = result;
+        if (results != null && results.size() > 0) {
+            return result.timestamp > results.peek().timestamp;
+        }
+        return true;
     }
 
     public boolean isTaskIdExists(long taskId) {
@@ -52,8 +54,7 @@ public class MainMenuItem implements Parcelable {
 
     protected MainMenuItem(Parcel in) {
         teachingContent = in.readParcelable(ClassLoader.getSystemClassLoader());
-        lastResult = in.readParcelable(ClassLoader.getSystemClassLoader());
-        //results.addAll(in.readArrayList(Result.class.getClassLoader()));
+        results.addAll(in.readArrayList(Result.class.getClassLoader()));
     }
 
     public static final Creator<MainMenuItem> CREATOR = new Creator<MainMenuItem>() {
@@ -78,7 +79,6 @@ public class MainMenuItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeParcelable((Parcelable) teachingContent, 0);
-        dest.writeParcelable((Parcelable) lastResult, 0);
-        //dest.writeList(results);
+        dest.writeList(Collections.singletonList(results));
     }
 }

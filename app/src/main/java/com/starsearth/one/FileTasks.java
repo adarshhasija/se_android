@@ -187,8 +187,7 @@ public class FileTasks {
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible && ((SEBaseObject) o).id == id) {
-                mainMenuItem = new MainMenuItem();
-                mainMenuItem.teachingContent = o;
+                mainMenuItem = new MainMenuItem(o);
             }
         }
         return mainMenuItem;
@@ -210,8 +209,7 @@ public class FileTasks {
                 }
                 else if (o instanceof Task) {
                     if (((Task) o).type == type) {
-                        MainMenuItem mainMenuItem = new MainMenuItem();
-                        mainMenuItem.teachingContent = o;
+                        MainMenuItem mainMenuItem = new MainMenuItem(o);
                         mainMenuItems.add(mainMenuItem);
                     }
                 }
