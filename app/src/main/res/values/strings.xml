@@ -65,9 +65,9 @@
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <array name="se_actions_list">
-        <item>Activities by subject</item>
         <item>Courses</item>
-        <!--<item>My Records</item>-->
+        <item>My Records</item>
+        <item>Activities by subject</item>
         <item>Timed Activities</item>
         <item>All Games</item>
         <item>All Gesture Activities</item>
