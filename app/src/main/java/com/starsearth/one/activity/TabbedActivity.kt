@@ -82,6 +82,13 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
 
+        if (PlaceholderFragment.NUMBER_OF_TABS > 1) {
+            tabLayout?.visibility = View.VISIBLE
+        }
+        else {
+            tabLayout?.visibility = View.GONE
+        }
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -152,8 +159,8 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
         }
 
         override fun getCount(): Int {
-            // Show 2 total pages.
-            return 2
+            // Change this depending on how many pages you want
+            return PlaceholderFragment.NUMBER_OF_TABS
         }
     }
 
@@ -166,10 +173,13 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
                                   savedInstanceState: Bundle?): View? {
             val rootView = inflater.inflate(R.layout.fragment_tabbed, container, false)
             rootView.section_label.text = getString(R.string.section_format, arguments?.getInt(ARG_SECTION_NUMBER))
+
             return rootView
         }
 
         companion object {
+            val NUMBER_OF_TABS = 1 //Change this if you want to change the number of tabs shown
+
             /**
              * The fragment argument representing the section number for this
              * fragment.
