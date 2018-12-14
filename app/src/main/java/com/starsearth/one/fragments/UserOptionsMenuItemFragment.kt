@@ -126,7 +126,6 @@ class UserOptionsMenuItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mColumnCount = arguments!!.getInt(ARG_COLUMN_COUNT)
             mSubjectsList = arguments!!.getStringArrayList(ARG_SUBJECTS)
         }
     }
@@ -218,14 +217,12 @@ class UserOptionsMenuItemFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        private val ARG_COLUMN_COUNT = "column-count"
         private val ARG_SUBJECTS = "subjects"
 
         // TODO: Customize parameter initialization
-        fun newInstance(columnCount: Int): UserOptionsMenuItemFragment {
+        fun newInstance(): UserOptionsMenuItemFragment {
             val fragment = UserOptionsMenuItemFragment()
             val args = Bundle()
-            args.putInt(ARG_COLUMN_COUNT, columnCount)
             fragment.arguments = args
             return fragment
         }

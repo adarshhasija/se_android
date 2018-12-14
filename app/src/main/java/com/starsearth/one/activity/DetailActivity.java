@@ -123,12 +123,6 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
         }   */
     }
 
-
-    @Override
-    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {
-
-    }
-
     @Override
     public void setListFragmentProgressBarVisibility(int visibility, @NotNull RecyclerView view) {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
@@ -205,13 +199,19 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
 
     }
 
+
     @Override
-    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+    public void onCourseProgressListFragmentInteraction(@Nullable DummyContent.DummyItem item) {
 
     }
 
     @Override
-    public void onCourseProgressListFragmentInteraction(@Nullable DummyContent.DummyItem item) {
+    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem mainMenuItem) {
+
+    }
+
+    @Override
+    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
 
     }
 }

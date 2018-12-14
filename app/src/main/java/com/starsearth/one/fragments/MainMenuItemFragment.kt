@@ -378,7 +378,7 @@ class MainMenuItemFragment : Fragment() {
      */
     interface OnMainMenuFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onMainMenuListFragmentInteraction(item: MainMenuItem)
+        fun onMainMenuListFragmentInteraction(mainMenuItem: MainMenuItem)
         fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) //This is done for TabbedActivity. Progress Bar must be part of TabbedActivity so it can overlay all tabs
     }
 

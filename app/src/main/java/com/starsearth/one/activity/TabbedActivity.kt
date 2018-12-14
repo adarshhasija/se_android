@@ -1,5 +1,6 @@
 package com.starsearth.one.activity
 
+import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -19,15 +20,42 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.domain.MainMenuItem
 import com.starsearth.one.domain.MoreOptionsMenuItem
 import com.starsearth.one.fragments.MainMenuItemFragment
+import com.starsearth.one.fragments.ResultDetailFragment
+import com.starsearth.one.fragments.TaskDetailFragment
 import com.starsearth.one.fragments.UserOptionsMenuItemFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
 class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+
+    override fun onMainMenuListFragmentInteraction(mainMenuItem: MainMenuItem) {
+        val fragment = TaskDetailFragment.newInstance(mainMenuItem, null)
+        supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                .replace(R.id.main_content, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onMoreOptionsListFragmentInteraction(item: MoreOptionsMenuItem) {
+        //sendAnalytics(item.text1)
+        val intent: Intent
+        val title = item.text1
+        if (title != null && title.contains("Keyboard")) {
+            intent = Intent(this, KeyboardActivity::class.java)
+            startActivity(intent)
+        } else if (title != null && title.contains("Phone")) {
+            intent = Intent(this, PhoneNumberActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
     /*
+    If a fragment is part of tabbed activity and needs to update content and have a progress bar, it should have this function as part of its interface
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */
     override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
@@ -47,14 +75,6 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
         else {
             progressBar.announceForAccessibility(getString(R.string.loading_complete))
         }
-    }
-
-    override fun onMoreOptionsListFragmentInteraction(item: MoreOptionsMenuItem) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onMainMenuListFragmentInteraction(item: MainMenuItem) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -136,7 +156,7 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
             var fragment : Fragment?
             when (position) {
                 0 -> {
-                    fragment = UserOptionsMenuItemFragment.newInstance(1)
+                    fragment = UserOptionsMenuItemFragment.newInstance()
                 }
                 else -> {
                     fragment = MainMenuItemFragment.newInstance()
