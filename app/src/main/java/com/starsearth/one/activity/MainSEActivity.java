@@ -19,15 +19,15 @@ import com.starsearth.one.R;
 import com.starsearth.one.activity.profile.PhoneNumberActivity;
 import com.starsearth.one.activity.welcome.WelcomeOneActivity;
 import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.Task;
-import com.starsearth.one.domain.MainMenuItem;
-import com.starsearth.one.domain.MoreOptionsMenuItem;
-import com.starsearth.one.fragments.MainMenuItemFragment;
-import com.starsearth.one.fragments.UserOptionsMenuItemFragment;
+import com.starsearth.one.domain.SEOneListItem;
+import com.starsearth.one.fragments.lists.RecordsListFragment;
+import com.starsearth.one.fragments.lists.SeOneListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainSEActivity extends AppCompatActivity implements MainMenuItemFragment.OnMainMenuFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+public class MainSEActivity extends AppCompatActivity implements RecordsListFragment.OnRecordListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseAssistantReference;
@@ -40,9 +40,9 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
         setContentView(R.layout.activity_main_se);
         isPhoneNumberVerified();
 
-        UserOptionsMenuItemFragment userOptionsMenuItemFragment = new UserOptionsMenuItemFragment();
+        SeOneListFragment seOneListFragment = new SeOneListFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_main_menu, userOptionsMenuItemFragment).commit();
+                .add(R.id.fragment_container_main_menu, seOneListFragment).commit();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -125,7 +125,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     }
 
     @Override
-    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem item) {
+    public void onMainMenuListFragmentInteraction(@NotNull RecordItem item) {
         Task task = (Task) item.teachingContent;
         sendAnalytics(task);
         Intent intent = new Intent(this, DetailActivity.class);
@@ -136,7 +136,7 @@ public class MainSEActivity extends AppCompatActivity implements MainMenuItemFra
     }
 
     @Override
-    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+    public void onMoreOptionsListFragmentInteraction(@NotNull SEOneListItem item) {
         sendAnalytics(item.getText1());
         Intent intent;
         String title = item.getText1();

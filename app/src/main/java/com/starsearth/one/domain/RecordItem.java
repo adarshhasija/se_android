@@ -3,28 +3,22 @@ package com.starsearth.one.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.MinMaxPriorityQueue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
 
 /**
  * Created by faimac on 2/5/18.
  */
 
-public class MainMenuItem implements Parcelable {
+public class RecordItem implements Parcelable {
 
     //Either a course or a task
     public Object teachingContent;
     public MinMaxPriorityQueue<Result> results;
 
-    public MainMenuItem(Object teachingContent) {
+    public RecordItem(Object teachingContent) {
         this.teachingContent = teachingContent;
         results = MinMaxPriorityQueue
                 .orderedBy(Comparator.comparing(Result::getTimestamp))
@@ -52,20 +46,20 @@ public class MainMenuItem implements Parcelable {
         return result;
     }
 
-    protected MainMenuItem(Parcel in) {
+    protected RecordItem(Parcel in) {
         teachingContent = in.readParcelable(ClassLoader.getSystemClassLoader());
         results.addAll(in.readArrayList(Result.class.getClassLoader()));
     }
 
-    public static final Creator<MainMenuItem> CREATOR = new Creator<MainMenuItem>() {
+    public static final Creator<RecordItem> CREATOR = new Creator<RecordItem>() {
         @Override
-        public MainMenuItem createFromParcel(Parcel in) {
-            return new MainMenuItem(in);
+        public RecordItem createFromParcel(Parcel in) {
+            return new RecordItem(in);
         }
 
         @Override
-        public MainMenuItem[] newArray(int size) {
-            return new MainMenuItem[size];
+        public RecordItem[] newArray(int size) {
+            return new RecordItem[size];
         }
     };
 

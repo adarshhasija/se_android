@@ -7,10 +7,7 @@ import android.os.Handler
 import android.os.Parcelable
 import android.view.View
 import com.starsearth.one.R
-import com.starsearth.one.R.id.dummy_button
-import com.starsearth.one.R.id.fullscreen_content
 import com.starsearth.one.fragments.HighScoreFragment
-import com.starsearth.one.fragments.MainMenuItemFragment
 import kotlinx.android.synthetic.main.activity_full_screen.*
 
 /**

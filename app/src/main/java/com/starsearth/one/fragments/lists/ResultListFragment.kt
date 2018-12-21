@@ -1,4 +1,4 @@
-package com.starsearth.one.fragments
+package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
@@ -17,8 +17,6 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.Task
 
-import com.starsearth.one.fragments.dummy.DummyContent
-import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import java.util.*
 
 /**

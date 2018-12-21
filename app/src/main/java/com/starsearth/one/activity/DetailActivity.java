@@ -10,21 +10,21 @@ import android.widget.ProgressBar;
 
 import com.starsearth.one.R;
 import com.starsearth.one.Utils;
-import com.starsearth.one.domain.MainMenuItem;
-import com.starsearth.one.domain.MoreOptionsMenuItem;
+import com.starsearth.one.domain.RecordItem;
+import com.starsearth.one.domain.SEOneListItem;
 import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Result;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
-import com.starsearth.one.fragments.CourseProgressListFragment;
+import com.starsearth.one.fragments.lists.CourseProgressListFragment;
 import com.starsearth.one.fragments.LastTriedFragment;
-import com.starsearth.one.fragments.MainMenuItemFragment;
-import com.starsearth.one.fragments.UserOptionsMenuItemFragment;
-import com.starsearth.one.fragments.ResponseListFragment;
+import com.starsearth.one.fragments.lists.RecordsListFragment;
+import com.starsearth.one.fragments.lists.SeOneListFragment;
+import com.starsearth.one.fragments.lists.ResponseListFragment;
 import com.starsearth.one.fragments.ResultDetailFragment;
-import com.starsearth.one.fragments.ResultListFragment;
+import com.starsearth.one.fragments.lists.ResultListFragment;
 import com.starsearth.one.fragments.TaskDetailFragment;
-import com.starsearth.one.fragments.TaskDetailListFragment;
+import com.starsearth.one.fragments.lists.TaskDetailListFragment;
 import com.starsearth.one.fragments.dummy.DummyContent;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, MainMenuItemFragment.OnMainMenuFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener, CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
+public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, RecordsListFragment.OnRecordListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener, CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
 
     private Object teachingContent = null;
     private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
@@ -82,7 +82,7 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
             }
             else {
                 //it is a course
-              /*  MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+              /*  RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container_main, fragment).commit();  */
                 TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
@@ -91,26 +91,26 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
             }
         }
         else if (subjects != null) {
-            UserOptionsMenuItemFragment fragment = UserOptionsMenuItemFragment.Companion.newInstance(subjects);
+          /*  SeOneListFragment fragment = SeOneListFragment.Companion.newInstance(subjects);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container_main, fragment).commit();
+                    .add(R.id.fragment_container_main, fragment).commit();  */
         }
         else {
-            MainMenuItemFragment fragment;
-            if (action != null || type != null || isTimed || isGame) {
-                fragment = MainMenuItemFragment.Companion.newInstance(action, type, isTimed, isGame);
+            RecordsListFragment fragment;
+         /*   if (action != null || type != null || isTimed || isGame) {
+                fragment = RecordsListFragment.Companion.newInstance(action, type, isTimed, isGame);
             }
             else {
-                fragment = MainMenuItemFragment.Companion.newInstance();
+                fragment = RecordsListFragment.Companion.newInstance();
             }
-            //MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+            //RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_main, fragment).commit();
+                    .replace(R.id.fragment_container_main, fragment).commit();  */
         }
 
      /*   if (teachingContent != null) {
             if (teachingContent instanceof Course) {
-                MainMenuItemFragment fragment = MainMenuItemFragment.Companion.newInstance((Parcelable) teachingContent, results);
+                RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container_main, fragment).commit();
             }
@@ -206,12 +206,12 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
     }
 
     @Override
-    public void onMainMenuListFragmentInteraction(@NotNull MainMenuItem mainMenuItem) {
+    public void onMainMenuListFragmentInteraction(@NotNull RecordItem recordItem) {
 
     }
 
     @Override
-    public void onMoreOptionsListFragmentInteraction(@NotNull MoreOptionsMenuItem item) {
+    public void onMoreOptionsListFragmentInteraction(@NotNull SEOneListItem item) {
 
     }
 }

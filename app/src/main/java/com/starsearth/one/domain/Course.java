@@ -1,7 +1,6 @@
 package com.starsearth.one.domain;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -9,7 +8,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -312,21 +310,21 @@ public class Course extends SEBaseObject {
         return index;
     }
 
-    public ArrayList<MainMenuItem> getAllPassedTasks(ArrayList<Result> results) {
-        ArrayList<MainMenuItem> result = new ArrayList<>();
+    public ArrayList<RecordItem> getAllPassedTasks(ArrayList<Result> results) {
+        ArrayList<RecordItem> result = new ArrayList<>();
         for (Task task : tasks) {
             if (task.isPassed(results)) {
-                result.add(new MainMenuItem(task));
+                result.add(new RecordItem(task));
             }
         }
         return result;
     }
 
-    public ArrayList<MainMenuItem> getAllAttemptedTasks(ArrayList<Result> results) {
-        ArrayList<MainMenuItem> result = new ArrayList<>();
+    public ArrayList<RecordItem> getAllAttemptedTasks(ArrayList<Result> results) {
+        ArrayList<RecordItem> result = new ArrayList<>();
         for (Task task : tasks) {
             if (task.isAttempted(results)) {
-                result.add(new MainMenuItem(task));
+                result.add(new RecordItem(task));
             }
         }
         return result;

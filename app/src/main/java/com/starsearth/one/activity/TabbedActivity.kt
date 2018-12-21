@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,22 +19,23 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.domain.MainMenuItem
-import com.starsearth.one.domain.MoreOptionsMenuItem
-import com.starsearth.one.fragments.MainMenuItemFragment
-import com.starsearth.one.fragments.ResultDetailFragment
+import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.RecordItem
+import com.starsearth.one.domain.SEOneListItem
+import com.starsearth.one.fragments.lists.RecordsListFragment
 import com.starsearth.one.fragments.TaskDetailFragment
-import com.starsearth.one.fragments.UserOptionsMenuItemFragment
+import com.starsearth.one.fragments.lists.SeOneListFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
-class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragmentInteractionListener, UserOptionsMenuItemFragment.OnMoreOptionsListFragmentInteractionListener {
+class TabbedActivity : AppCompatActivity(), RecordsListFragment.OnRecordListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
-    override fun onMainMenuListFragmentInteraction(mainMenuItem: MainMenuItem) {
-        val fragment = TaskDetailFragment.newInstance(mainMenuItem, null)
+    override fun onMainMenuListFragmentInteraction(recordItem: RecordItem) {
+        val fragment = TaskDetailFragment.newInstance(recordItem, null)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                 .replace(R.id.main_content, fragment)
@@ -41,17 +43,31 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
                 .commit()
     }
 
-    override fun onMoreOptionsListFragmentInteraction(item: MoreOptionsMenuItem) {
-        //sendAnalytics(item.text1)
+    override fun onMoreOptionsListFragmentInteraction(item: SEOneListItem) {
+        sendAnalytics(item.text1)
         val intent: Intent
         val title = item.text1
         if (title != null && title.contains("Keyboard")) {
             intent = Intent(this, KeyboardActivity::class.java)
             startActivity(intent)
-        } else if (title != null && title.contains("Phone")) {
+        }
+        else if (title != null && title.contains("Phone")) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)
         }
+        else {
+            val fragment = RecordsListFragment.newInstance(item.type)
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .addToBackStack(null)
+                    .commit()
+        }
+    }
+
+    fun sendAnalytics(selected: String) {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
+        (application as? StarsEarthApplication)?.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     /*
@@ -156,10 +172,10 @@ class TabbedActivity : AppCompatActivity(), MainMenuItemFragment.OnMainMenuFragm
             var fragment : Fragment?
             when (position) {
                 0 -> {
-                    fragment = UserOptionsMenuItemFragment.newInstance()
+                    fragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
                 }
                 else -> {
-                    fragment = MainMenuItemFragment.newInstance()
+                    fragment = RecordsListFragment.newInstance()
                 }
             }
             return fragment

@@ -14,7 +14,7 @@ import com.starsearth.one.domain.Checkpoint
 import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.Task
-import com.starsearth.one.fragments.CourseProgressListFragment
+import com.starsearth.one.fragments.lists.CourseProgressListFragment
 
 
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem

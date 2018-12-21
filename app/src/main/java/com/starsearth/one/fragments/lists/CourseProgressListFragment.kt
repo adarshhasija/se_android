@@ -1,4 +1,4 @@
-package com.starsearth.one.fragments
+package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,6 @@ import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
-import kotlinx.android.synthetic.main.fragment_mainmenuitem.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -38,7 +37,7 @@ class CourseProgressListFragment : Fragment() {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             mCourse = it.getParcelable(ARG_COURSE)
-            val parcelableArrayList = arguments?.getParcelableArrayList<Parcelable>(CourseProgressListFragment.ARG_RESULTS)
+            val parcelableArrayList = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
             if (parcelableArrayList != null) {
                 for (item in parcelableArrayList) {
                     mResults.add((item as Result))

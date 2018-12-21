@@ -1,7 +1,6 @@
 package com.starsearth.one.adapter
 
 import android.content.Context
-import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.Task
-import com.starsearth.one.fragments.TaskDetailListFragment
+import com.starsearth.one.fragments.lists.TaskDetailListFragment
 
-import com.starsearth.one.fragments.TaskDetailListFragment.OnTaskDetailListFragmentListener
+import com.starsearth.one.fragments.lists.TaskDetailListFragment.OnTaskDetailListFragmentListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**

@@ -12,7 +12,7 @@ import com.starsearth.one.Utils
 import com.starsearth.one.domain.Response
 
 
-import com.starsearth.one.fragments.ResponseListFragment.OnResponseListFragmentInteractionListener
+import com.starsearth.one.fragments.lists.ResponseListFragment.OnResponseListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_response.view.*

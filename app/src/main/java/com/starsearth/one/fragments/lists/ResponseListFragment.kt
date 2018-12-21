@@ -1,4 +1,4 @@
-package com.starsearth.one.fragments
+package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.os.Bundle

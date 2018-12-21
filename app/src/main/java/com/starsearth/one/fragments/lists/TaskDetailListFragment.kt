@@ -1,4 +1,4 @@
-package com.starsearth.one.fragments
+package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.content.Intent
@@ -19,6 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.activity.FullScreenActivity
 import com.starsearth.one.activity.KeyboardActivity
+import com.starsearth.one.fragments.ResultDetailFragment
 import kotlin.collections.ArrayList
 
 
@@ -155,7 +156,7 @@ class TaskDetailListFragment : Fragment() {
                 startActivity(intent)
             }
             LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
-                val fragment = MainMenuItemFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+                val fragment = RecordsListFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
                 activity?.getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                         ?.replace(R.id.fragment_container_main, fragment)
@@ -205,7 +206,7 @@ class TaskDetailListFragment : Fragment() {
         }
         else if (position == 1 && itemTitle is Course) {
             //sendAnalytics(itemTitle!!, "COURSE_REPEAT_ITEMS", FirebaseAnalytics.Event.SELECT_CONTENT)
-            val fragment = MainMenuItemFragment.newInstance(itemTitle, results as ArrayList<Parcelable>)
+            val fragment = RecordsListFragment.newInstance(itemTitle, results as ArrayList<Parcelable>)
             activity?.getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)

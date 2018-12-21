@@ -9,27 +9,27 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.*
-import com.starsearth.one.fragments.MainMenuItemFragment
+import com.starsearth.one.fragments.lists.RecordsListFragment
 
-import com.starsearth.one.fragments.MainMenuItemFragment.OnMainMenuFragmentInteractionListener
+import com.starsearth.one.fragments.lists.RecordsListFragment.OnRecordListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnMainMenuFragmentInteractionListener].
+ * specified [OnRecordListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<MainMenuItem>, private val mListener: OnMainMenuFragmentInteractionListener?, private val mFragment: MainMenuItemFragment) : RecyclerView.Adapter<MyMainMenuItemRecyclerViewAdapter.ViewHolder>() {
+class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?, private val mFragment: RecordsListFragment) : RecyclerView.Adapter<MyRecordItemRecyclerViewAdapter.ViewHolder>() {
 
 
-    var mValuesFiltered : ArrayList<MainMenuItem> = ArrayList() //For search filter purposes
+    var mValuesFiltered : ArrayList<RecordItem> = ArrayList() //For search filter purposes
     init {
         mValuesFiltered = mValues
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_main_menu, parent, false)
+                .inflate(R.layout.list_item_record, parent, false)
                 //.inflate(R.layout.fragment_mainmenuitem, parent, false)
         return ViewHolder(view)
     }
@@ -72,7 +72,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         return mValues.size
     }
 
-    fun getItem(index: Int): MainMenuItem {
+    fun getItem(index: Int): RecordItem {
         return mValues.get(index)
     }
 
@@ -84,27 +84,27 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         mValues.subList(startIndex, endIndex).clear()
     }
 
-    fun addItem(mainMenuItem: MainMenuItem) {
-        val lastTriedMillis = mainMenuItem.results.peek().timestamp
+    fun addItem(recordItem: RecordItem) {
+        val lastTriedMillis = recordItem.results.peek().timestamp
         val index = 0; //indexToInsert(lastTriedMillis)
-        mValues.add(index, mainMenuItem)
+        mValues.add(index, recordItem)
     }
 
-    fun addItem(mainMenuItem: MainMenuItem, index: Int) {
+    fun addItem(recordItem: RecordItem, index: Int) {
         if (index <= mValues.size) {
-            mValues.add(index, mainMenuItem)
+            mValues.add(index, recordItem)
         }
     }
 
-    fun replaceItem(index: Int, mainMenuItem: MainMenuItem) {
+    fun replaceItem(index: Int, recordItem: RecordItem) {
         if (index <= mValues.size) {
-            mValues.set(index, mainMenuItem)
+            mValues.set(index, recordItem)
         }
     }
 
-    fun addItems(mainMenuItems: List<MainMenuItem>, index: Int) {
+    fun addItems(recordItems: List<RecordItem>, index: Int) {
         if (index <= mValues.size) {
-            mValues.addAll(index, mainMenuItems)
+            mValues.addAll(index, recordItems)
         }
     }
 
@@ -170,7 +170,7 @@ class MyMainMenuItemRecyclerViewAdapter(private val mContext: Context?, private 
         val mTitleView: TextView
         val mTimedView: TextView
         val mLastTriedView: TextView
-        var mItem: MainMenuItem? = null
+        var mItem: RecordItem? = null
 
         init {
             mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView

@@ -11,10 +11,10 @@ import com.starsearth.one.Utils
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
-import com.starsearth.one.fragments.ResultListFragment
+import com.starsearth.one.fragments.lists.ResultListFragment
 
 
-import com.starsearth.one.fragments.ResultListFragment.OnResultListFragmentInteractionListener
+import com.starsearth.one.fragments.lists.ResultListFragment.OnResultListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_result.view.*

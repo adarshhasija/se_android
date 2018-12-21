@@ -2,7 +2,6 @@ package com.starsearth.one;
 
 import android.content.Context;
 
-import com.google.android.gms.tasks.Tasks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -11,7 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.starsearth.one.domain.Course;
-import com.starsearth.one.domain.MainMenuItem;
+import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 
@@ -31,9 +30,10 @@ import java.lang.reflect.Type;
 
 /**
  * Created by faimac on 3/2/18.
+ * Get Course/Task data from JSON file in assets
  */
 
-public class FileTasks {
+public class AssetsFileManager {
 
     private static int getDataInt(String line) {
         String result = null;
@@ -81,42 +81,6 @@ public class FileTasks {
         return task;
     }
 
-  /*  public static ArrayList<Task> openTextFile(Context context) {
-        final AssetManager assetManager = context.getResources().getAssets();
-        Vector<String> vector = new Vector<String>();
-        HashMap<String, String> map = new HashMap<>();
-
-        ArrayList<Task> tasks = null;
-        BufferedReader br;
-        try {
-            final InputStream inputStream = assetManager.open("tasks.json");
-            br = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                if (line.contains("{")) {
-                    //vector.clear();
-                    map.clear();
-                }
-                else if (line.contains("}")) {
-                    Task task = newTask(map);
-                    if (task != null) {
-                        tasks.add(task);
-                    }
-                }
-                else {
-                    //vector.add(line);
-                    String[] tmp = line.split(":");
-                    map.put(tmp[0], tmp[1]);
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }   */
-
     private static String loadJSONFromAsset(Context context) {
         String json;
         try {
@@ -154,8 +118,38 @@ public class FileTasks {
         return list;
     }
 
-    public static ArrayList<MainMenuItem> getMainMenuItemsByTag(Context context, String tag) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+    public static ArrayList<String> getAllTags(Context context) {
+        ArrayList<String> tagList = new ArrayList<>();
+        List<Object> teachingContentList = getAllItemsFromJSON(context);
+        for (Object o : teachingContentList) {
+            if (((SEBaseObject) o).visible) {
+                if (o instanceof Course) {
+                    List<String> tags = ((Course) o).tags;
+                    if (tags != null) {
+                        for (String tag : tags) {
+                            if (!tagList.contains(tag)) {
+                                tagList.add(tag);
+                            }
+                        }
+                    }
+                }
+                else if (o instanceof Task) {
+                    List<String> tags = ((Task) o).tags;
+                    if (tags != null) {
+                        for (String tag : tags) {
+                            if (!tagList.contains(tag)) {
+                                tagList.add(tag);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return tagList;
+    }
+
+    public static ArrayList<RecordItem> getItemsByTag(Context context, String tag) {
+        ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
@@ -164,7 +158,7 @@ public class FileTasks {
                     if (tags != null) {
                         //List<String> tagsList = Arrays.asList(tags);
                         if (tags.contains(tag)) {
-                            mainMenuItems.add(new MainMenuItem(o));
+                            recordItems.add(new RecordItem(o));
                         }
                     }
                 }
@@ -173,28 +167,28 @@ public class FileTasks {
                     if (tags != null) {
                         //List<String> tagsList = Arrays.asList(tags);
                         if (tags.contains(tag)) {
-                            mainMenuItems.add(new MainMenuItem(o));
+                            recordItems.add(new RecordItem(o));
                         }
                     }
                 }
             }
         }
-        return mainMenuItems;
+        return recordItems;
     }
 
-    public static MainMenuItem getMainMenuItemById(Context context, long id) {
-        MainMenuItem mainMenuItem = null;
+    public static RecordItem getItemById(Context context, long id) {
+        RecordItem recordItem = null;
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible && ((SEBaseObject) o).id == id) {
-                mainMenuItem = new MainMenuItem(o);
+                recordItem = new RecordItem(o);
             }
         }
-        return mainMenuItem;
+        return recordItem;
     }
 
-    public static ArrayList<MainMenuItem> getMainMenuItemsByType(Context context, Task.Type type) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+    public static ArrayList<RecordItem> getItemsByType(Context context, Task.Type type) {
+        ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
@@ -203,23 +197,23 @@ public class FileTasks {
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
                         if (task.type == type) {
-                            mainMenuItems.add(new MainMenuItem(task));
+                            recordItems.add(new RecordItem(task));
                         }
                     }
                 }
                 else if (o instanceof Task) {
                     if (((Task) o).type == type) {
-                        MainMenuItem mainMenuItem = new MainMenuItem(o);
-                        mainMenuItems.add(mainMenuItem);
+                        RecordItem recordItem = new RecordItem(o);
+                        recordItems.add(recordItem);
                     }
                 }
             }
         }
-        return mainMenuItems;
+        return recordItems;
     }
 
-    public static ArrayList<MainMenuItem> getMainMenuItemsTimed(Context context) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+    public static ArrayList<RecordItem> getAllTimedItems(Context context) {
+        ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
@@ -228,22 +222,22 @@ public class FileTasks {
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
                         if (task.timed) {
-                            mainMenuItems.add(new MainMenuItem(task));
+                            recordItems.add(new RecordItem(task));
                         }
                     }
                 }
                 else if (o instanceof Task) {
                     if (((Task) o).timed) {
-                        mainMenuItems.add(new MainMenuItem(o));
+                        recordItems.add(new RecordItem(o));
                     }
                 }
             }
         }
-        return mainMenuItems;
+        return recordItems;
     }
 
-    public static ArrayList<MainMenuItem> getMainMenuItemsGames(Context context) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+    public static ArrayList<RecordItem> getAllGames(Context context) {
+        ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
@@ -252,19 +246,19 @@ public class FileTasks {
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
                         if (task.isGame) {
-                            mainMenuItems.add(new MainMenuItem(task));
+                            recordItems.add(new RecordItem(task));
                         }
                     }
                 }
                 else if (o instanceof Task) {
                     if (((Task) o).isGame) {
-                        mainMenuItems.add(new MainMenuItem(o));
+                        recordItems.add(new RecordItem(o));
                     }
                 }
             }
 
         }
-        return mainMenuItems;
+        return recordItems;
     }
 
     public static Course getCourseById(Context context, int courseId) {
@@ -282,9 +276,9 @@ public class FileTasks {
         return result;
     }
 
-    //Gets all items from JSON and returns them as array of MainMenuItem
-    public static ArrayList<MainMenuItem> getAllMainMenuItems(Context context) {
-        ArrayList<MainMenuItem> mainMenuItems = new ArrayList<>();
+    //Gets all items from JSON and returns them as array of RecordItem
+    public static ArrayList<RecordItem> getAllItems(Context context) {
+        ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
             if (((SEBaseObject) o).visible) {
@@ -292,16 +286,16 @@ public class FileTasks {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
                     for (Task task : tasks) {
-                        mainMenuItems.add(new MainMenuItem(task));
+                        recordItems.add(new RecordItem(task));
                     }
                 }
                 else if (o instanceof Task) {
-                    mainMenuItems.add(new MainMenuItem(o));
+                    recordItems.add(new RecordItem(o));
                 }   */
-              mainMenuItems.add(new MainMenuItem(o));
+              recordItems.add(new RecordItem(o));
             }
         }
-        return mainMenuItems;
+        return recordItems;
     }
 
 

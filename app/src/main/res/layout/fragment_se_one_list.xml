@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.starsearth.one.fragments.UserOptionsMenuItemFragment"
-    tools:listitem="@layout/fragment_moreoptionsmenuitem" />
+    tools:context="com.starsearth.one.fragments.lists.SeOneListFragment"
+    tools:listitem="@layout/fragment_se_one_list_item" />
