@@ -22,12 +22,12 @@ import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.SEOneListItem;
-import com.starsearth.one.fragments.lists.RecordsListFragment;
+import com.starsearth.one.fragments.lists.RecordListFragment;
 import com.starsearth.one.fragments.lists.SeOneListFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainSEActivity extends AppCompatActivity implements RecordsListFragment.OnRecordListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener {
+public class MainSEActivity extends AppCompatActivity implements RecordListFragment.OnRecordListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseAssistantReference;
@@ -125,7 +125,7 @@ public class MainSEActivity extends AppCompatActivity implements RecordsListFrag
     }
 
     @Override
-    public void onMainMenuListFragmentInteraction(@NotNull RecordItem item) {
+    public void onRecordListItemInteraction(@NotNull RecordItem item) {
         Task task = (Task) item.teachingContent;
         sendAnalytics(task);
         Intent intent = new Intent(this, DetailActivity.class);
@@ -136,37 +136,7 @@ public class MainSEActivity extends AppCompatActivity implements RecordsListFrag
     }
 
     @Override
-    public void onMoreOptionsListFragmentInteraction(@NotNull SEOneListItem item) {
-        sendAnalytics(item.getText1());
-        Intent intent;
-        String title = item.getText1();
-        if (title != null && title.contains("Keyboard")) {
-            intent = new Intent(this, KeyboardActivity.class);
-            startActivity(intent);
-        }
-        else if (title != null && title.contains("Phone")) {
-            intent = new Intent(this, PhoneNumberActivity.class);
-            startActivity(intent);
-        }
-    }
+    public void onSeOneListFragmentInteraction(@NotNull SEOneListItem item) {
 
-    @Override
-    public void setListFragmentProgressBarVisibility(int visibility, RecyclerView view) {
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        progressBar.setVisibility(visibility);
-        if (visibility == View.VISIBLE) {
-            findViewById(R.id.fragment_container_main_menu).setVisibility(View.GONE);
-            view.setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.fragment_container_main_menu).setVisibility(View.VISIBLE);
-            view.setVisibility(View.VISIBLE);
-        }
-
-        if (visibility == View.VISIBLE) {
-            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait));
-        }
-        else {
-            progressBar.announceForAccessibility(getString(R.string.loading_complete));
-        }
     }
 }

@@ -156,7 +156,7 @@ class TaskDetailListFragment : Fragment() {
                 startActivity(intent)
             }
             LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
-                val fragment = RecordsListFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+                val fragment = RecordListFragment.newInstance((mTeachingContent as Course), mResults as ArrayList<Parcelable>, LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
                 activity?.getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                         ?.replace(R.id.fragment_container_main, fragment)

@@ -8,6 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -212,7 +213,7 @@ public class Course extends SEBaseObject {
         return result;
     }
 
-    public int getIndexOfLastPassedTask(ArrayList<Result> results) {
+    public int getIndexOfLastPassedTask(List<Result> results) {
         int lastPassedTaskIndex = -1;
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
@@ -235,7 +236,7 @@ public class Course extends SEBaseObject {
     }
 
     //This checks if the last Result is that of the last Task in the Course list
-    public boolean isCourseComplete(ArrayList<Result> results) {
+    public boolean isCourseComplete(List<Result> results) {
         boolean result = false;
         int indexOfLastPassedTask = getIndexOfLastPassedTask(results);
         if (indexOfLastPassedTask == tasks.size()-1) {
@@ -256,7 +257,7 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
-    public boolean isFirstTaskPassed(ArrayList<Result> results) {
+    public boolean isFirstTaskPassed(List<Result> results) {
         boolean ret = false;
         if (tasks.size() > 0) {
             Task task = tasks.get(0);
@@ -267,7 +268,7 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
-    public Task getNextTask(ArrayList<Result> allResults) {
+    public Task getNextTask(List<Result> allResults) {
         Task ret = null;
         int currentTaskIndex = getCurrentTaskIndex(allResults);
         if (currentTaskIndex < tasks.size()) {
@@ -282,7 +283,7 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
-    public int getNextTaskIndex(ArrayList<Result> allResults) {
+    public int getNextTaskIndex(List<Result> allResults) {
         int retIndex = -1;
         int currentTaskIndex = getCurrentTaskIndex(allResults);
         if (currentTaskIndex < tasks.size()) {
@@ -299,7 +300,7 @@ public class Course extends SEBaseObject {
 
 
 
-    public int getCurrentTaskIndex(ArrayList<Result> results) {
+    public int getCurrentTaskIndex(List<Result> results) {
         int index = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
@@ -335,7 +336,7 @@ public class Course extends SEBaseObject {
     }
 
     //Returns yes if the next task to be attempted is a checkpoint or if its the last task in a Course
-    public boolean shouldGenerateAd(ArrayList<Result> results) {
+    public boolean shouldGenerateAd(List<Result> results) {
         return this.checkpoints.containsKey(getNextTask(results).id) || isLastTask(getNextTask(results).id);
     }
 
@@ -343,16 +344,13 @@ public class Course extends SEBaseObject {
         return this.tasks.get(tasks.size() - 1).id == taskId;
     }
 
-    public boolean shouldShowAd(ArrayList<Result> results) {
+    public boolean shouldShowAd(Result lastAttemptResult) {
         boolean isCourseFinished = false;
         boolean isCheckpointReached = false;
-        if (results.size() > 0) {
-            Result lastAttemptResult = results.get(results.size()-1);
-            Task lastAttemptTask = getTaskById(lastAttemptResult.task_id);
-            if (lastAttemptTask.isPassed(lastAttemptResult)) {
-                isCourseFinished = lastAttemptTask.id == tasks.get(tasks.size() - 1).id;
-                isCheckpointReached = this.checkpoints.containsKey(lastAttemptTask.id);
-            }
+        Task lastAttemptTask = getTaskById(lastAttemptResult.task_id);
+        if (lastAttemptTask.isPassed(lastAttemptResult)) {
+            isCourseFinished = lastAttemptTask.id == tasks.get(tasks.size() - 1).id;
+            isCheckpointReached = this.checkpoints.containsKey(lastAttemptTask.id);
         }
         return isCourseFinished || isCheckpointReached;
     }

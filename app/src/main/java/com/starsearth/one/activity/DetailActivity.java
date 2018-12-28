@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,11 +15,11 @@ import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.SEOneListItem;
 import com.starsearth.one.domain.Response;
 import com.starsearth.one.domain.Result;
-import com.starsearth.one.domain.SEBaseObject;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.fragments.lists.CourseProgressListFragment;
 import com.starsearth.one.fragments.LastTriedFragment;
-import com.starsearth.one.fragments.lists.RecordsListFragment;
+import com.starsearth.one.fragments.lists.RecordListFragment;
+import com.starsearth.one.fragments.lists.RecordListFragment;
 import com.starsearth.one.fragments.lists.SeOneListFragment;
 import com.starsearth.one.fragments.lists.ResponseListFragment;
 import com.starsearth.one.fragments.ResultDetailFragment;
@@ -31,16 +32,21 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DetailActivity extends AppCompatActivity implements TaskDetailFragment.OnTaskDetailFragmentInteractionListener, TaskDetailListFragment.OnTaskDetailListFragmentListener, RecordsListFragment.OnRecordListFragmentInteractionListener, ResultListFragment.OnResultListFragmentInteractionListener, ResultDetailFragment.OnResultDetailFragmentInteractionListener, ResponseListFragment.OnResponseListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener, CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
-
-    private Object teachingContent = null;
-    private ArrayList<Parcelable> results = new ArrayList<Parcelable>();
-    private String action = null;
-    private Long type;
-    private boolean isTimed = false;
-    private boolean isGame = false;
-    private ArrayList<String> subjects = null;
+/*
+This activity is responsible for all the fragment transitions
+This is so that we can switch between TabbedActivity and MainActivity for the base activity
+ */
+public class DetailActivity extends AppCompatActivity implements
+                                                                    TaskDetailFragment.OnTaskDetailFragmentInteractionListener,
+                                                                    TaskDetailListFragment.OnTaskDetailListFragmentListener,
+                                                                    RecordListFragment.OnRecordListFragmentInteractionListener,
+                                                                    ResultListFragment.OnResultListFragmentInteractionListener,
+                                                                    ResultDetailFragment.OnResultDetailFragmentInteractionListener,
+                                                                    ResponseListFragment.OnResponseListFragmentInteractionListener,
+                                                                    SeOneListFragment.OnSeOneListFragmentInteractionListener,
+                                                                    CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
 
 
     @Override
@@ -51,76 +57,12 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            teachingContent = extras.getParcelable("teachingContent");
-            ArrayList<Parcelable> parcelableArrayList = extras.getParcelableArrayList("results");
-            if (parcelableArrayList != null) {
-                for (Parcelable o : parcelableArrayList) {
-                    results.add(o);
-                }
-            }
-
-            if (teachingContent != null) {
-                setTitle(Utils.formatStringFirstLetterCapital(((SEBaseObject) teachingContent).title));
-            }
-            else if (extras.containsKey("title")) {
-                setTitle(Utils.formatStringFirstLetterCapital(extras.getString("title")));
-            }
-            action = extras.getString("action");
-            type = extras.getLong("type");
-            isTimed = extras.getBoolean("isTimed");
-            isGame = extras.getBoolean("isGame");
-            if (extras.containsKey("subjects")) {
-                subjects = extras.getStringArrayList("subjects");
-            }
-        }
-
-        if (teachingContent != null) {
-            if (teachingContent instanceof Task) {
-                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container_main, fragment).commit();
-            }
-            else {
-                //it is a course
-              /*  RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container_main, fragment).commit();  */
-                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container_main, fragment).commit();
-            }
-        }
-        else if (subjects != null) {
-          /*  SeOneListFragment fragment = SeOneListFragment.Companion.newInstance(subjects);
+            String type = extras.getString(SEOneListItem.TYPE_LABEL);
+            String content = extras.getString(SEOneListItem.CONTENT);
+            RecordListFragment recordsListFragment = RecordListFragment.Companion.newInstance(SEOneListItem.Type.fromString(type), content);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container_main, fragment).commit();  */
+                    .add(R.id.fragment_container_main, recordsListFragment).commit();
         }
-        else {
-            RecordsListFragment fragment;
-         /*   if (action != null || type != null || isTimed || isGame) {
-                fragment = RecordsListFragment.Companion.newInstance(action, type, isTimed, isGame);
-            }
-            else {
-                fragment = RecordsListFragment.Companion.newInstance();
-            }
-            //RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container_main, fragment).commit();  */
-        }
-
-     /*   if (teachingContent != null) {
-            if (teachingContent instanceof Course) {
-                RecordsListFragment fragment = RecordsListFragment.Companion.newInstance((Parcelable) teachingContent, results);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container_main, fragment).commit();
-            }
-            else if (teachingContent instanceof Task) {
-                TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) teachingContent, results);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container_main, fragment).commit();
-
-            }
-        }   */
     }
 
     @Override
@@ -144,8 +86,8 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
     }
 
     @Override
-    public void onTaskDetailFragmentLongPressInteraction(Object teachingContent, ArrayList<Result> results) {
-        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent, results);
+    public void onTaskDetailFragmentLongPressInteraction(@Nullable Object teachingContent, @NotNull List<? extends Result> results) {
+        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent, new ArrayList<>(results));
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
                 .replace(R.id.fragment_container_main, fragment)
@@ -206,12 +148,19 @@ public class DetailActivity extends AppCompatActivity implements TaskDetailFragm
     }
 
     @Override
-    public void onMainMenuListFragmentInteraction(@NotNull RecordItem recordItem) {
-
+    public void onRecordListItemInteraction(@NotNull RecordItem recordItem) {
+        TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) recordItem.teachingContent);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
-    public void onMoreOptionsListFragmentInteraction(@NotNull SEOneListItem item) {
+    public void onSeOneListFragmentInteraction(@NotNull SEOneListItem item) {
 
     }
+
+
 }

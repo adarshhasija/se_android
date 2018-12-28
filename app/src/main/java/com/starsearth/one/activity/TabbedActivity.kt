@@ -20,47 +20,54 @@ import android.widget.ProgressBar
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
+import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.RecordItem
 import com.starsearth.one.domain.SEOneListItem
-import com.starsearth.one.fragments.lists.RecordsListFragment
+import com.starsearth.one.fragments.lists.RecordListFragment
 import com.starsearth.one.fragments.TaskDetailFragment
 import com.starsearth.one.fragments.lists.SeOneListFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
-class TabbedActivity : AppCompatActivity(), RecordsListFragment.OnRecordListFragmentInteractionListener, SeOneListFragment.OnSeOneListFragmentInteractionListener {
+class TabbedActivity : AppCompatActivity(), SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
-    override fun onMainMenuListFragmentInteraction(recordItem: RecordItem) {
-        val fragment = TaskDetailFragment.newInstance(recordItem, null)
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.main_content, fragment)
-                .addToBackStack(null)
-                .commit()
-    }
-
-    override fun onMoreOptionsListFragmentInteraction(item: SEOneListItem) {
+    override fun onSeOneListFragmentInteraction(item: SEOneListItem) {
         sendAnalytics(item.text1)
         val intent: Intent
-        val title = item.text1
-        if (title != null && title.contains("Keyboard")) {
+        val type = item.type
+        if (type == SEOneListItem.Type.KEYBOARD_TEST) {
             intent = Intent(this, KeyboardActivity::class.java)
             startActivity(intent)
         }
-        else if (title != null && title.contains("Phone")) {
+        else if (type == SEOneListItem.Type.PHONE_NUMBER) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)
         }
+        else if (type == SEOneListItem.Type.LOGOUT) {
+            FirebaseAuth.getInstance().signOut();
+            finish()
+            intent = Intent(this, WelcomeOneActivity::class.java)
+            startActivity(intent)
+        }
+        else if (type == SEOneListItem.Type.ALL) {
+            intent = Intent(this, DetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString(SEOneListItem.TYPE_LABEL, item.type.value)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
         else {
-            val fragment = RecordsListFragment.newInstance(item.type)
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .addToBackStack(null)
-                    .commit()
+            intent = Intent(this, DetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString(SEOneListItem.TYPE_LABEL, item.type.value)
+            bundle.putString(SEOneListItem.CONTENT, item.text1)
+            intent.putExtras(bundle)
+            startActivity(intent)
         }
     }
 
@@ -74,24 +81,9 @@ class TabbedActivity : AppCompatActivity(), RecordsListFragment.OnRecordListFrag
     If a fragment is part of tabbed activity and needs to update content and have a progress bar, it should have this function as part of its interface
     @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
      */
-    override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
-        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        progressBar.visibility = visibility
-        if (visibility == View.VISIBLE) {
-            (findViewById<ViewPager>(R.id.container)).visibility = View.GONE
-            view.visibility = View.GONE
-        } else {
-            (findViewById<ViewPager>(R.id.container)).visibility = View.VISIBLE
-            view.visibility = View.VISIBLE
-        }
+ /*   override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
 
-        if (visibility == View.VISIBLE) {
-            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait))
-        }
-        else {
-            progressBar.announceForAccessibility(getString(R.string.loading_complete))
-        }
-    }
+    }   */
 
 
 
@@ -175,7 +167,7 @@ class TabbedActivity : AppCompatActivity(), RecordsListFragment.OnRecordListFrag
                     fragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
                 }
                 else -> {
-                    fragment = RecordsListFragment.newInstance()
+                    fragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
                 }
             }
             return fragment

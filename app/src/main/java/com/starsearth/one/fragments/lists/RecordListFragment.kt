@@ -21,6 +21,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.DetailActivity
 import com.starsearth.one.application.StarsEarthApplication
@@ -41,11 +42,12 @@ import kotlin.collections.HashMap
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class RecordsListFragment : Fragment() {
+class RecordListFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
     private var mResults = ArrayList<Result>() //Used if screen is for a course
     private var mType : SEOneListItem.Type? = null
+    private var mContent : String? = null
     private var mTypeCourseListItem : TaskDetailListFragment.LIST_ITEM? = null
     private var mTypeTask : Task.Type? = null
     private var mIsTimed : Boolean = false
@@ -228,6 +230,7 @@ class RecordsListFragment : Fragment() {
 
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE))
+            mContent = arguments!!.getString(ARG_CONTENT)
         }
     }
 
@@ -292,7 +295,7 @@ class RecordsListFragment : Fragment() {
     fun getData(tag: SEOneListItem.Type?): ArrayList<RecordItem> {
         val mainMenuItems =
                 if (tag == SEOneListItem.Type.TAG) {
-                    AssetsFileManager.getItemsByTag(context, tag.toString())
+                    AssetsFileManager.getItemsByTag(context, mContent)
                 }
                 else if (tag == SEOneListItem.Type.GAME) {
                     AssetsFileManager.getAllGames(context)
@@ -373,8 +376,7 @@ class RecordsListFragment : Fragment() {
      */
     interface OnRecordListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onMainMenuListFragmentInteraction(recordItem: RecordItem)
-        fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) //This is done for TabbedActivity. Progress Bar must be part of TabbedActivity so it can overlay all tabs
+        fun onRecordListItemInteraction(recordItem: RecordItem)
     }
 
     companion object {
@@ -383,35 +385,24 @@ class RecordsListFragment : Fragment() {
         private val ARG_TEACHING_CONTENT = "teachingContent"
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TYPE = "TYPE"
+        private val ARG_CONTENT = "CONTENT"
         private val ARG_TYPE_COURSE = "COURSE"
         private val ARG_TYPE_TASK = "TYPE"
         private val ARG_TIMED = "IS_TIMED"
         private const val ARG_GAME = "IS_GAME"
 
-        fun newInstance(): RecordsListFragment {
-            val fragment = RecordsListFragment()
-            return fragment
-        }
-
-        fun newInstance(course: Parcelable): RecordsListFragment {
-            val fragment = RecordsListFragment()
+        fun newInstance(type: SEOneListItem.Type, content: String?): RecordListFragment {
+            val fragment = RecordListFragment()
             val args = Bundle()
-            args.putParcelable(ARG_TEACHING_CONTENT, course)
-            fragment.arguments = args
-            return fragment
-        }
-
-        fun newInstance(type: SEOneListItem.Type?): RecordsListFragment {
-            val fragment = RecordsListFragment()
-            val args = Bundle()
-            args.putString(ARG_TYPE, type?.toString())
+            args.putString(ARG_TYPE, type.toString())
+            args.putString(ARG_CONTENT, content)
             fragment.arguments = args
             return fragment
         }
 
 
-        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: TaskDetailListFragment.LIST_ITEM): RecordsListFragment {
-            val fragment = RecordsListFragment()
+        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: TaskDetailListFragment.LIST_ITEM): RecordListFragment {
+            val fragment = RecordListFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)
             args.putParcelableArrayList(ARG_RESULTS, results)

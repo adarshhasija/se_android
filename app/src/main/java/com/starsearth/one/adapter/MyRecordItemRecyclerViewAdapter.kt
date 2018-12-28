@@ -9,9 +9,9 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.*
-import com.starsearth.one.fragments.lists.RecordsListFragment
+import com.starsearth.one.fragments.lists.RecordListFragment
 
-import com.starsearth.one.fragments.lists.RecordsListFragment.OnRecordListFragmentInteractionListener
+import com.starsearth.one.fragments.lists.RecordListFragment.OnRecordListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
@@ -19,7 +19,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnRecordListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?, private val mFragment: RecordsListFragment) : RecyclerView.Adapter<MyRecordItemRecyclerViewAdapter.ViewHolder>() {
+class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?, private val mFragment: RecordListFragment) : RecyclerView.Adapter<MyRecordItemRecyclerViewAdapter.ViewHolder>() {
 
 
     var mValuesFiltered : ArrayList<RecordItem> = ArrayList() //For search filter purposes

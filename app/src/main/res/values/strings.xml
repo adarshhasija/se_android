@@ -64,6 +64,7 @@
     <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
+    <string name="view_all">View All</string>
     <array name="se_actions_list">
         <item>Courses</item>
         <item>My Records</item>
@@ -72,28 +73,6 @@
         <item>All Games</item>
         <item>All Gesture Activities</item>
         <item>All Spelling Activities</item>
-    </array>
-    <array name="se_assistant_list">
-        <!--<item>StarsEarth Teacher</item>-->
-    </array>
-    <array name="se_keyboard_test_list">
-        <item>Keyboard Test</item>
-    </array>
-    <array name="se_login_list">
-        <item>Login to your account</item>
-        <item>Signup for an account</item>
-    </array>
-    <array name="se_guest_user_list">
-        <item>Convert to full account</item>
-    </array>
-    <array name="se_user_account_list">
-        <item>Phone Number</item>
-        <!--<item>Name</item>-->
-    </array>
-    <array name="se_user_account_email_list">
-        <!--<item>My email address</item>
-        <item>Change Password</item>-->
-        <!--<item>Logout</item>-->
     </array>
     <array name="se_user_admin_list">
         <item>Courses Admin Mode</item>

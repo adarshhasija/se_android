@@ -1,6 +1,13 @@
 package com.starsearth.one.domain;
 
-import java.util.Set;
+import android.content.Context;
+
+import com.starsearth.one.AssetsFileManager;
+import com.starsearth.one.BuildConfig;
+import com.starsearth.one.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by faimac on 2/27/18.
@@ -8,12 +15,45 @@ import java.util.Set;
 
 public class SEOneListItem {
 
+    public static String TYPE_LABEL = "TYPE";
+    public static String CONTENT = "CONTENT";
+
+    public static List<SEOneListItem> populateBaseList(Context context) {
+        List<SEOneListItem> list = new ArrayList<>();
+        list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.keyboard_test), Type.KEYBOARD_TEST));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.phone_number), Type.PHONE_NUMBER));
+        if (BuildConfig.DEBUG) {
+            list.add(new SEOneListItem(context.getResources().getString(R.string.logout), Type.LOGOUT));
+        }
+
+        return list;
+    }
+
+    public static List<SEOneListItem> returnListForType(Context context, SEOneListItem.Type type) {
+        List<String> list = new ArrayList<>();
+        switch (type) {
+            case TAG:
+                list.addAll(AssetsFileManager.getAllTags(context));
+                break;
+            default:
+                break;
+        }
+
+        List<SEOneListItem> returnList = new ArrayList<>();
+        for (String s : list) {
+            returnList.add(new SEOneListItem(s, type));
+        }
+        return returnList;
+    }
+
     public enum Type {
             LOGOUT("LOGOUT"),
             KEYBOARD_TEST("KEYBOARD_TEST"),
             PHONE_NUMBER("PHONE_NUMBER"),
             GAME("GAME"),
             TIMED("TIMED"),
+            ALL("ALL"),
             TAG("TAG")
             ;
 
@@ -29,7 +69,7 @@ public class SEOneListItem {
 
         public static Type fromString(String i) {
             for (Type type : Type.values()) {
-                if (type.getValue() == i) { return type; }
+                if (type.getValue().equals(i)) { return type; }
             }
             return null;
         }
@@ -39,8 +79,13 @@ public class SEOneListItem {
     private String text2;
     private Type type;
 
-    public SEOneListItem(String text1) {
+    public SEOneListItem(SEOneListItem.Type type) {
+        this.type = type;
+    }
+
+    public SEOneListItem(String text1, SEOneListItem.Type type) {
         this.text1 = text1;
+        this.type = type;
     }
 
     public String getText1() {

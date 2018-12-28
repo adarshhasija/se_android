@@ -88,7 +88,7 @@ public class AdsManager {
     };
 
 
-    public static boolean shouldGenerateAd(Context context, Object teachingContent, ArrayList<Result> results) {
+    public static boolean shouldGenerateAd(Context context, Object teachingContent, List<Result> results) {
         boolean ret = false;
         String ads = ((StarsEarthApplication) context).getFirebaseRemoteConfigWrapper().getAds();
         if (!ads.equalsIgnoreCase("None") && context != null && teachingContent instanceof Course) {

@@ -5,13 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -84,8 +82,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 if (mResults.isEmpty()) {
                     startTask((mTeachingContent as Course).tasks[0])
                 }
-                else if (!(mTeachingContent as Course).isCourseComplete(mResults)) {
-                    val task = (mTeachingContent as Course).getNextTask(mResults)
+                else if (!(mTeachingContent as Course).isCourseComplete(mResults?.toList())) {
+                    val task = (mTeachingContent as Course).getNextTask(mResults?.toList())
                     startTask(task)
                 }
             }
@@ -95,7 +93,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     private fun gestureLongPress(view: View?) {
         if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
-            mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults)
+            mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults.toList())
             sendAnalyticsForGesture(mTeachingContent, view, "LONG_PRESS")
         }
     }
@@ -111,18 +109,22 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: Any? = null
-    private var mResults: ArrayList<Result> = ArrayList()
+    private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
     private var mReturnBundle = Bundle()
 
     private var mListener: OnTaskDetailFragmentInteractionListener? = null
     private var adRequest: AdRequest.Builder? = null
     private var mDatabase : DatabaseReference? = null
 
+    /*
+    Call this only after at least 1 result is succesfully received in onActivityResult
+     */
     fun shouldShowAd() : Boolean {
         val isTeachingContentAllowingAd =
             if (mTeachingContent is Course) {
                 //If its a Course, only show if the task was passed
-                (mTeachingContent as Course).shouldShowAd(mResults)
+                //mResults size should never be 0 here. It is called after saving a Result in onActivityResult
+                (mTeachingContent as Course).shouldShowAd(mResults.last())
             }
             else {
                 //If its a Task, no additional validation required
@@ -143,53 +145,10 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
     }
 
-    fun setupAdListener() {
-      /*  val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
-        if (ads == "Google") {
-            (activity?.application as StarsEarthApplication)?.googleInterstitialAd.adListener = (activity?.application as StarsEarthApplication).adsManager?.mGoogleAdListener //mGoogleAdListener
-        }
-        else if (ads == "Facebook") {
-            //(activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener(mFacebookAdListener)
-            (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.setAdListener((activity?.application as StarsEarthApplication).adsManager?.mFacebookAdListener)
-        }   */
-    }
-
     fun generateAd() {
         val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
-      /*  val isAccessibilityUser = (activity?.application as StarsEarthApplication).accessibility.isAccessibilityUser
-        val ads = (activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().ads
-        val isOwnerWantingAds = if (mTeachingContent is Task) {
-            (mTeachingContent as Task).isOwnerWantingAds
-        } else if (mTeachingContent is Course) {
-            (mTeachingContent as Course).isOwnerWantingAds
-        } else {
-            false
-        }
-        //only generate ads for non-accessibility users
-        //only generate ads if task owner wants to make money from ads
-        if (ads != "None" && !isAccessibilityUser && isOwnerWantingAds) {
-            val shouldGenerateAd = if (mTeachingContent is Course) {
-                (mTeachingContent as Course).shouldGenerateAd(mResults)
-            }
-            else if (mTeachingContent is Task) {
-                (mTeachingContent as Task).isOwnerWantingAds && AdsManager.shouldGenerateAd(context)
-            }
-            else {
-                false
-            }
-            if (shouldGenerateAd) {
-                if (ads == "Google" && adRequest != null) {
-                    (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
-                }
-                else if (ads == "Facebook") {
-                    //AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
-                    //AdSettings.addTestDevice("c2d5b02b-abe8-4901-bc66-226c06250599"); //AH Mac simulator
-                    (activity?.application as StarsEarthApplication)?.facebookInterstitalAd.loadAd()
-                }
-            }
-        }   */
 
-        if (AdsManager.shouldGenerateAd(context?.applicationContext, mTeachingContent, mResults)) {
+        if (AdsManager.shouldGenerateAd(context?.applicationContext, mTeachingContent, mResults.toList())) {
             if (ads == "Google" && adRequest != null) {
                 (activity?.application as StarsEarthApplication)?.googleInterstitialAd.loadAd(adRequest?.build())
             }
@@ -276,12 +235,8 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mTeachingContent = arguments?.getParcelable(ARG_TEACHING_CONTENT)
-            val parcelableArrayList = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
-            if (parcelableArrayList != null) {
-                for (item in parcelableArrayList) {
-                    mResults.add((item as Result))
-                }
-            }
+         //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
+         //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
     }
 
@@ -311,8 +266,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //setupAdListener()
-        //setupScreenAccessibility()
         updateUI()
         clTask?.setOnTouchListener(this)
         clTask?.contentDescription = getContentDescriptionForAccessibility()
@@ -349,7 +302,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     View.GONE
                 }
         tvTapScreenToStart?.visibility =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     View.GONE
                 }
                 else {
@@ -380,11 +333,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     ""
                 }
         tvProgress?.text =
-                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+                if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     context?.resources?.getText(R.string.complete)
                 }
-                else if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)){
-                    val nextTaskNumber = (mTeachingContent as Course).getNextTaskIndex(mResults) + 1
+                else if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults.toList())){
+                    val nextTaskNumber = (mTeachingContent as Course).getNextTaskIndex(mResults.toList()) + 1
                     context?.resources?.getString(R.string.next_task) + "\n" + nextTaskNumber + "/" + (mTeachingContent as Course).tasks.size
                 }
                 else if (mTeachingContent is Course) {
@@ -397,9 +350,9 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         val tv = tvInstruction
         var instructions =
-                if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults)) {
+                if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     //Get the instructions of next task
-                    (mTeachingContent as Course).getNextTask(mResults)?.instructions
+                    (mTeachingContent as Course).getNextTask(mResults.toList())?.instructions
                 }
                 else {
                     //Course or Task, get the normal instructions
@@ -444,23 +397,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         clTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
 
-    fun setGesturesText() {
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-
-        if (isTalkbackOn) {
-            tvSingleTapToRepeat?.visibility = View.VISIBLE
-            tvSwipeToContinue?.text = context?.resources?.getString(R.string.swipe_with_2_fingers_for_keyboard_test)
-            tvLongPressForMoreOptions?.text = context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
-            tvTapScreenToStart?.text = context?.resources?.getString(R.string.double_tap_screen_to_start)
-        }
-        else {
-            tvSingleTapToRepeat?.visibility = View.GONE
-            tvSwipeToContinue?.text = context?.resources?.getText(R.string.swipe_for_keyboard_test)
-            tvLongPressForMoreOptions?.text = context?.resources?.getString(R.string.long_press_for_more_options)
-            tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
-        }
-    }
-
     fun getContentDescriptionForAccessibility() : String {
         val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
 
@@ -490,7 +426,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             val reason = extras?.get("reason")
             if (reason != null) {
                 if (reason == "no attempt") {
-                    //Toast.makeText(context, R.string.cancelled_no_attempt, Toast.LENGTH_LONG).show()
                     mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
                 }
                 else if (reason == "gesture spam") {
@@ -500,8 +435,6 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                     alertDialog.setCancelable(false)
                     alertDialog.setPositiveButton(getString(android.R.string.ok), null)
                     alertDialog.show()
-
-                    //mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.gesture_spam_detected), message)
                 }
             }
             else {
@@ -553,7 +486,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         }
 
         //4. If the task is passed and we have reached the end of the course, push end of course message
-        if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults)) {
+        if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
             mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.congratulations), getString(R.string.course_complete))
         }
 
@@ -585,7 +518,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             bundle.putInt("is_part_of_course", 1)
             bundle.putString("course_title", teachingContent.title)
 
-            val task = teachingContent.getNextTask(mResults)
+            val task = teachingContent.getNextTask(mResults.toList())
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
             bundle.putString("content_title", teachingContent.title)
             bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
@@ -635,7 +568,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
      */
     interface OnTaskDetailFragmentInteractionListener {
         fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
-        fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: ArrayList<Result>)
+        fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>)
         fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
     }
 
@@ -653,11 +586,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
          * @return A new instance of fragment TaskDetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(teachingContent: Parcelable?, results: ArrayList<Parcelable>?): TaskDetailFragment {
+        fun newInstance(teachingContent: Parcelable?/*, results: ArrayList<Parcelable>? */): TaskDetailFragment {
             val fragment = TaskDetailFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
-            args.putParcelableArrayList(ARG_RESULTS, results)
+            //args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment
         }

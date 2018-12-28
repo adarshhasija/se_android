@@ -219,7 +219,7 @@ public class Task extends SEBaseObject {
         return result;
     }
 
-    public boolean isAttempted(ArrayList<Result> results) {
+    public boolean isAttempted(List<Result> results) {
         boolean ret = false;
         for (Object result : results) {
             if (result instanceof ResultTyping) {
@@ -232,7 +232,7 @@ public class Task extends SEBaseObject {
         return ret;
     }
 
-    public boolean isPassed(ArrayList<Result> results) {
+    public boolean isPassed(List<Result> results) {
         boolean ret = false;
         for (Object result : results) {
             if (result instanceof ResultTyping) {
