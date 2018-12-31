@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(),
         val fragment = TaskDetailFragment.newInstance(item.teachingContent as Parcelable)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main_menu, fragment)
+                .replace(R.id.fragment_container_main, fragment)
                 .addToBackStack(null)
                 .commit()
     }
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(),
         else {
             val recordsListFragment = RecordListFragment.newInstance(item.type, item.text1)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_main_menu, recordsListFragment)
+                    .replace(R.id.fragment_container_main, recordsListFragment)
                     .addToBackStack(null)
                     .commit()
         }
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(),
 
         val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container_main_menu, seOneListFragment).commit()
+                .add(R.id.fragment_container_main, seOneListFragment).commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
