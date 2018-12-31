@@ -1,4 +1,4 @@
-package com.starsearth.one;
+package com.starsearth.one.manager;
 
 import android.content.Context;
 import android.util.Log;

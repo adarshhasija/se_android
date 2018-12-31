@@ -66,26 +66,6 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void setListFragmentProgressBarVisibility(int visibility, @NotNull RecyclerView view) {
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        progressBar.setVisibility(visibility);
-        if (visibility == View.VISIBLE) {
-            findViewById(R.id.fragment_container_main).setVisibility(View.GONE);
-            view.setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.fragment_container_main).setVisibility(View.VISIBLE);
-            view.setVisibility(View.VISIBLE);
-        }
-
-        if (visibility == View.VISIBLE) {
-            progressBar.announceForAccessibility(getString(R.string.loading) + " " + getString(R.string.please_wait));
-        }
-        else {
-            progressBar.announceForAccessibility(getString(R.string.loading_complete));
-        }
-    }
-
-    @Override
     public void onTaskDetailFragmentLongPressInteraction(@Nullable Object teachingContent, @NotNull List<? extends Result> results) {
         TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent, new ArrayList<>(results));
         getSupportFragmentManager().beginTransaction()

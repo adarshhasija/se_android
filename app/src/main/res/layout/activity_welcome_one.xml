@@ -61,7 +61,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:id="@+id/btn_login_one"
+            android:id="@+id/btn_login_phone"
             android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:textColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/btn_login_two"
+            android:id="@+id/btn_login_email"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,23 +91,6 @@
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
-    <!--<EditText
-        android:id="@+id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:layout_above="@id/btn_login"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:layout_above="@id/et_password"
-        android:focusable="true"
-        android:inputType="textEmailAddress" />-->
 
     <ProgressBar
         android:id="@+id/progress_bar"

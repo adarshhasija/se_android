@@ -1,4 +1,4 @@
-package com.starsearth.one.domain;
+package com.starsearth.one.manager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,15 +11,16 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.domain.Accessibility;
 
-public class Analytics {
+public class AnalyticsManager {
 
     private Context mContext;
     private FirebaseAnalytics firebaseAnalytics;
     private AppEventsLogger facebookAnalytics;
 
 
-    public Analytics(Context context) {
+    public AnalyticsManager(Context context) {
         this.mContext = context;
         if (!BuildConfig.DEBUG) {
             String remoteConfigAnalytics = ((StarsEarthApplication) context).getRemoteConfigAnalytics();

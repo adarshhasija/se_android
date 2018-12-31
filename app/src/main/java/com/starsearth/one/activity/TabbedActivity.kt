@@ -8,15 +8,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
-import android.os.Parcelable
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -26,67 +23,12 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.RecordItem
 import com.starsearth.one.domain.SEOneListItem
-import com.starsearth.one.fragments.lists.RecordListFragment
-import com.starsearth.one.fragments.TaskDetailFragment
 import com.starsearth.one.fragments.lists.SeOneListFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*
 import kotlinx.android.synthetic.main.fragment_tabbed.view.*
 
-class TabbedActivity : AppCompatActivity(), SeOneListFragment.OnSeOneListFragmentInteractionListener {
-
-    override fun onSeOneListFragmentInteraction(item: SEOneListItem) {
-        sendAnalytics(item.text1)
-        val intent: Intent
-        val type = item.type
-        if (type == SEOneListItem.Type.KEYBOARD_TEST) {
-            intent = Intent(this, KeyboardActivity::class.java)
-            startActivity(intent)
-        }
-        else if (type == SEOneListItem.Type.PHONE_NUMBER) {
-            intent = Intent(this, PhoneNumberActivity::class.java)
-            startActivity(intent)
-        }
-        else if (type == SEOneListItem.Type.LOGOUT) {
-            FirebaseAuth.getInstance().signOut();
-            finish()
-            intent = Intent(this, WelcomeOneActivity::class.java)
-            startActivity(intent)
-        }
-        else if (type == SEOneListItem.Type.ALL) {
-            intent = Intent(this, DetailActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString(SEOneListItem.TYPE_LABEL, item.type.value)
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
-        else {
-            intent = Intent(this, DetailActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString(SEOneListItem.TYPE_LABEL, item.type.value)
-            bundle.putString(SEOneListItem.CONTENT, item.text1)
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
-    }
-
-    fun sendAnalytics(selected: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
-        (application as? StarsEarthApplication)?.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
-    /*
-    If a fragment is part of tabbed activity and needs to update content and have a progress bar, it should have this function as part of its interface
-    @params: visibility: should the progress bar be visible. view: the main menu view, should be hidden when loading
-     */
- /*   override fun setListFragmentProgressBarVisibility(visibility: Int, view: RecyclerView) {
-
-    }   */
-
-
-
+class TabbedActivity : AppCompatActivity() {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide

@@ -2,7 +2,7 @@ package com.starsearth.one.domain;
 
 import android.content.Context;
 
-import com.starsearth.one.AssetsFileManager;
+import com.starsearth.one.manager.AssetsFileManager;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
 

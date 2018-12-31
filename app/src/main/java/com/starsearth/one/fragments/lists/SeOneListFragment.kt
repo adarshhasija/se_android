@@ -1,7 +1,6 @@
 package com.starsearth.one.fragments.lists
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -14,18 +13,8 @@ import android.view.ViewGroup
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MySeOneListItemRecyclerViewAdapter
 import com.starsearth.one.domain.SEOneListItem
-import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
-import com.starsearth.one.BuildConfig
-import com.starsearth.one.AssetsFileManager
-import com.starsearth.one.activity.KeyboardActivity
-import com.starsearth.one.activity.DetailActivity
-import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.Task
 import kotlin.collections.ArrayList
 
 

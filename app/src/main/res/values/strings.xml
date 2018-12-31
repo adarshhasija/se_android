@@ -303,6 +303,7 @@
     <string name="change_phone_number">Change Phone Number</string>
     <string name="phone_number_updated">Phone number updated successfully</string>
     <string name="phone_number_verified">Phone Number verified</string>
+    <string name="email_address_verified">Email Address verified</string>
     <string name="words_correct">Words Correct</string>
     <string name="characters_correct">Characters Correct</string>
     <string name="letters_correct">Letters Correct</string>

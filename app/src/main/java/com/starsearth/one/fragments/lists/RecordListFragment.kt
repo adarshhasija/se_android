@@ -15,18 +15,19 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.starsearth.one.AssetsFileManager
+import com.starsearth.one.manager.AssetsFileManager
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.starsearth.one.activity.DetailActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
+import kotlinx.android.synthetic.main.fragment_records_list.*
+import kotlinx.android.synthetic.main.fragment_records_list.view.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -48,17 +49,13 @@ class RecordListFragment : Fragment() {
     private var mResults = ArrayList<Result>() //Used if screen is for a course
     private var mType : SEOneListItem.Type? = null
     private var mContent : String? = null
-    private var mTypeCourseListItem : TaskDetailListFragment.LIST_ITEM? = null
-    private var mTypeTask : Task.Type? = null
-    private var mIsTimed : Boolean = false
-    private var mIsGame : Boolean = false
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
     private val mResultsChildListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
             val result = dataSnapshot.getValue(Result::class.java)
 
-            val adapter = (view as RecyclerView).adapter
+            val adapter = list.adapter
             val itemCount = adapter.itemCount
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
@@ -74,7 +71,7 @@ class RecordListFragment : Fragment() {
                         menuItem.results.add(result) //add at the end
                         adapter.addItem(menuItem)
                         adapter.notifyDataSetChanged()
-                        (view as RecyclerView).layoutManager.scrollToPosition(0)
+                        list.layoutManager.scrollToPosition(0)
                     }
 
                 }
@@ -102,7 +99,7 @@ class RecordListFragment : Fragment() {
     private val mResultsMultipleValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
-            val adapter = ((view as RecyclerView)?.adapter as MyRecordItemRecyclerViewAdapter)
+            val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
@@ -118,7 +115,8 @@ class RecordListFragment : Fragment() {
                 insertResults(results)
             }
 
-            mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
+            progressBar?.visibility = View.GONE
+            list?.visibility = View.VISIBLE
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -130,7 +128,7 @@ class RecordListFragment : Fragment() {
     private val mResultsSingleValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
-            val adapter = ((view as RecyclerView)?.adapter as MyRecordItemRecyclerViewAdapter)
+            val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
                 var result = Result((map as Map<String, Any>))
@@ -141,8 +139,8 @@ class RecordListFragment : Fragment() {
                 insertResults(results)
             }
 
-
-            mListener?.setListFragmentProgressBarVisibility(View.GONE, (view as RecyclerView))
+            progressBar?.visibility = View.GONE
+            list?.visibility = View.VISIBLE
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -165,16 +163,16 @@ class RecordListFragment : Fragment() {
     }
 
     fun insertResults(results: ArrayList<Result>) {
-        val adapter = (view as RecyclerView).adapter
+        val adapter = list.adapter
         for (result in results) {
             insertResult(result)
         }
         adapter.notifyDataSetChanged()
-        (view as RecyclerView)?.layoutManager.scrollToPosition(0)
+        list?.layoutManager?.scrollToPosition(0)
     }
 
     fun insertResult(result: Result) {
-        val adapter = (view as RecyclerView).adapter
+        val adapter = list.adapter
         val itemCount = adapter.itemCount
         for (i in 0 until itemCount) {
             val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
@@ -219,12 +217,6 @@ class RecordListFragment : Fragment() {
         application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
-    internal inner class isLoadingData : TimerTask() {
-        override fun run() {
-            mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -238,13 +230,13 @@ class RecordListFragment : Fragment() {
         val view = inflater!!.inflate(R.layout.fragment_records_list, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
+        if (view.list is RecyclerView) {
             val context = view.getContext()
-            view.layoutManager = LinearLayoutManager(context)
-            view.addItemDecoration(DividerItemDecoration(context,
+            view.list.layoutManager = LinearLayoutManager(context)
+            view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             val mainMenuItems = getData(mType)
-            view.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
+            view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
         }
         return view
     }
@@ -335,17 +327,14 @@ class RecordListFragment : Fragment() {
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
-        mListener?.setListFragmentProgressBarVisibility(View.VISIBLE, (view as RecyclerView))
-        //mTimer = Timer()
-        //mTimer.schedule(isLoadingData(), 0, 1000)
+        progressBar?.visibility = View.VISIBLE
+        list?.visibility = View.GONE
     }
     private fun setupResultsListener(currentUser: FirebaseUser, uid: String?) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.child(uid)
         query?.addListenerForSingleValueEvent(mResultsSingleValueListener)
-        //mTimer = Timer()
-        //mTimer.schedule(isLoadingData(), 0, 1000)
     }
 
 

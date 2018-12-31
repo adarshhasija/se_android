@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
 import com.starsearth.one.manager.AdsManager;
-import com.starsearth.one.domain.Analytics;
+import com.starsearth.one.manager.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;
 
@@ -27,7 +27,7 @@ import com.starsearth.one.domain.User;
 public class StarsEarthApplication extends Application {
 
     private FirebaseRemoteConfigWrapper mFirebaseRemoteConfigWrapper;
-    private Analytics mAnalytics;
+    private AnalyticsManager mAnalyticsManager;
     private Accessibility mAccessibility;
     private AdsManager mAdsManager;
 
@@ -57,8 +57,8 @@ public class StarsEarthApplication extends Application {
         return mAdsManager;
     }
 
-    public Analytics getAnalytics() {
-        return mAnalytics;
+    public AnalyticsManager getAnalytics() {
+        return mAnalyticsManager;
     }
 
     public Accessibility getAccessibility() {
@@ -75,26 +75,26 @@ public class StarsEarthApplication extends Application {
             };
 
     public void logActionEvent(String eventName, Bundle bundle) {
-        if (mAnalytics != null) {
-            mAnalytics.logActionEvent(eventName, bundle);
+        if (mAnalyticsManager != null) {
+            mAnalyticsManager.logActionEvent(eventName, bundle);
         }
     }
 
     public void logActionEvent(String eventName, Bundle bundle, int score) {
-        if (mAnalytics != null) {
-            mAnalytics.logActionEvent(eventName, bundle, score);
+        if (mAnalyticsManager != null) {
+            mAnalyticsManager.logActionEvent(eventName, bundle, score);
         }
     }
 
     public void logFragmentViewEvent(String fragmentName, Activity activity) {
-        if (mAnalytics != null) {
-            mAnalytics.logFragmentViewEvent(fragmentName, activity);
+        if (mAnalyticsManager != null) {
+            mAnalyticsManager.logFragmentViewEvent(fragmentName, activity);
         }
     }
 
     public void updateUserAnalyticsInfo(String userId) {
-        if (mAnalytics != null) {
-            mAnalytics.updateUserAnalyticsInfo(userId);
+        if (mAnalyticsManager != null) {
+            mAnalyticsManager.updateUserAnalyticsInfo(userId);
         }
     }
 
@@ -107,7 +107,7 @@ public class StarsEarthApplication extends Application {
         //preferences.registerOnSharedPreferenceChangeListener(spChanged);
 
         mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper();
-        mAnalytics = new Analytics(getApplicationContext());
+        mAnalyticsManager = new AnalyticsManager(getApplicationContext());
         mAccessibility = new Accessibility(getApplicationContext());
         mAdsManager = new AdsManager(getApplicationContext());
 
