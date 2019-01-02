@@ -39,14 +39,8 @@ This activity is responsible for all the fragment transitions
 This is so that we can switch between TabbedActivity and MainActivity for the base activity
  */
 public class DetailActivity extends AppCompatActivity implements
-                                                                    TaskDetailFragment.OnTaskDetailFragmentInteractionListener,
-                                                                    TaskDetailListFragment.OnTaskDetailListFragmentListener,
-                                                                    RecordListFragment.OnRecordListFragmentInteractionListener,
-                                                                    ResultListFragment.OnResultListFragmentInteractionListener,
                                                                     ResultDetailFragment.OnResultDetailFragmentInteractionListener,
-                                                                    ResponseListFragment.OnResponseListFragmentInteractionListener,
-                                                                    SeOneListFragment.OnSeOneListFragmentInteractionListener,
-                                                                    CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener {
+                                                                    ResponseListFragment.OnResponseListFragmentInteractionListener {
 
 
     @Override
@@ -66,46 +60,6 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTaskDetailFragmentLongPressInteraction(@Nullable Object teachingContent, @NotNull List<? extends Result> results) {
-        TaskDetailListFragment fragment = TaskDetailListFragment.Companion.newInstance((Parcelable) teachingContent, new ArrayList<>(results));
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public void onTaskDetailFragmentSwipeInteraction(@Nullable Object teachingContent) {
-        Intent intent = new Intent(this, KeyboardActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onTaskDetailFragmentShowLastTried(Object teachingContent, @Nullable Object result, String errorTitle, String errorMessage) {
-        LastTriedFragment fragment = LastTriedFragment.Companion.newInstance((Parcelable) teachingContent, (Parcelable) result, errorTitle, errorMessage);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public void onTaskDetailListFragmentInteraction() {
-
-    }
-
-    @Override
-    public void onResultListFragmentInteraction(@Nullable Task task, @Nullable Result result) {
-        ResultDetailFragment fragment = ResultDetailFragment.Companion.newInstance(task, result);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
     public void onResultDetailFragmentInteraction(@NotNull Object result) {
         ResponseListFragment fragment = ResponseListFragment.Companion.newInstance(result);
         getSupportFragmentManager().beginTransaction()
@@ -118,27 +72,6 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onResponseListFragmentInteraction(@Nullable Response item) {
-
-    }
-
-
-    @Override
-    public void onCourseProgressListFragmentInteraction(@Nullable DummyContent.DummyItem item) {
-
-    }
-
-    @Override
-    public void onRecordListItemInteraction(@NotNull RecordItem recordItem) {
-        TaskDetailFragment fragment = TaskDetailFragment.Companion.newInstance((Parcelable) recordItem.teachingContent);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public void onSeOneListFragmentInteraction(@NotNull SEOneListItem item) {
 
     }
 

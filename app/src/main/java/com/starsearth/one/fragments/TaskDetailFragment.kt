@@ -18,10 +18,13 @@ import com.google.firebase.database.*
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.tasks.TaskActivity
+import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
 import com.starsearth.one.manager.AdsManager
+import kotlinx.android.synthetic.main.fragment_records_list.*
 import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -231,6 +234,27 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         application.logActionEvent(FirebaseAnalytics.Event.POST_SCORE, bundle, score)
     }
 
+    private val mResultsMultipleValuesListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            val map = dataSnapshot?.value
+            if (map != null) {
+                for (entry in (map as HashMap<*, *>).entries) {
+                    val value = entry.value as Map<String, Any>
+                    var newResult = Result(value)
+                    if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.TYPING) {
+                        newResult = ResultTyping(value)
+                    }
+                    mResults.add(newResult)
+                }
+            }
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -260,6 +284,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         mDatabase?.keepSynced(true)
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
+        query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
 
         return view
     }

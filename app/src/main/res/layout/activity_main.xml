@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:context="com.starsearth.one.activity.MainActivity">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/fragment_container_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

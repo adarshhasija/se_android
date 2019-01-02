@@ -63,8 +63,8 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
         }
 
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mFragment.listItemSelected(it, position) }
-            //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) } //mListener?.onTaskDetailFragmentSwipeInteraction(holder.mItem)
+            //holder.mItem?.let { mFragment.listItemSelected(it, position) }
+            holder.mItem?.let { mListener?.onRecordListItemInteraction(it) } //mListener?.onTaskDetailFragmentSwipeInteraction(holder.mItem)
         }
     }
 

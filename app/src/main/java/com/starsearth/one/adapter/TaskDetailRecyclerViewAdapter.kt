@@ -87,7 +87,8 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
             }
         }
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mFragment?.onItemClicked(it) }
+            //holder.mItem?.let { mFragment?.onItemClicked(it) }
+            holder.mItem?.let { mListener?.onTaskDetailListFragmentInteraction(it, mTeachingContent, mResults) }
         }
 
      /*   if (position == 0 && mTeachingContent is Task) {
