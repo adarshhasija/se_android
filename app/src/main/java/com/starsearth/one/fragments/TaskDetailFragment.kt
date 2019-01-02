@@ -241,11 +241,16 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
+                    if ((mTeachingContent as SEBaseObject)?.id != newResult!!.task_id) {
+                        //Only proceed if result belongs to this teaching content
+                        continue
+                    }
                     if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
                     }
                     mResults.add(newResult)
                 }
+                updateUI()
             }
         }
 
@@ -279,6 +284,12 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
             }
         }
 
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val currentUser = FirebaseAuth.getInstance().currentUser
         mDatabase = FirebaseDatabase.getInstance().getReference("results")
         mDatabase?.keepSynced(true)
@@ -286,20 +297,15 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         //query?.addChildEventListener(mChildEventListener);
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        updateUI()
         clTask?.setOnTouchListener(this)
-        clTask?.contentDescription = getContentDescriptionForAccessibility()
-        view?.announceForAccessibility(clTask?.contentDescription)
+        //updateUI()
     }
 
     fun updateUI() {
         updateUIVisibility()
         updateUIText()
+        clTask?.contentDescription = getContentDescriptionForAccessibility()
+        view?.announceForAccessibility(clTask?.contentDescription)
     }
 
     fun updateUIVisibility() {

@@ -20,6 +20,8 @@ public class SEOneListItem {
 
     public static List<SEOneListItem> populateBaseList(Context context) {
         List<SEOneListItem> list = new ArrayList<>();
+        list.add(new SEOneListItem(context.getResources().getString(R.string.timed), Type.TIMED));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.games), Type.GAME));
         list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
         list.add(new SEOneListItem(context.getResources().getString(R.string.keyboard_test), Type.KEYBOARD_TEST));
         list.add(new SEOneListItem(context.getResources().getString(R.string.phone_number), Type.PHONE_NUMBER));
