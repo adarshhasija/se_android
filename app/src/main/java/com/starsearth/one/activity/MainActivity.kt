@@ -19,6 +19,10 @@ import com.starsearth.one.fragments.ResultDetailFragment
 import com.starsearth.one.fragments.TaskDetailFragment
 import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.lists.*
+import com.google.firebase.auth.FirebaseUser
+import android.support.annotation.NonNull
+
+
 
 class MainActivity : AppCompatActivity(),
         RecordListFragment.OnRecordListFragmentInteractionListener,
@@ -169,10 +173,23 @@ class MainActivity : AppCompatActivity(),
         (application as? StarsEarthApplication)?.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
+    private var mAuth: FirebaseAuth? = null
+    private val mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val user = firebaseAuth.currentUser
+        if (user == null) {
+            val intent = Intent(this@MainActivity, WelcomeOneActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuth?.addAuthStateListener(mAuthListener);
 
         val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
         supportFragmentManager.beginTransaction()
