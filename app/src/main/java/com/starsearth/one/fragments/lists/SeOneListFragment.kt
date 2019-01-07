@@ -102,7 +102,7 @@ class SeOneListFragment : Fragment() {
      */
     interface OnSeOneListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onSeOneListFragmentInteraction(item: SEOneListItem)
+        fun onSeOneListFragmentInteraction(item: SEOneListItem, index: Int)
     }
 
     companion object {

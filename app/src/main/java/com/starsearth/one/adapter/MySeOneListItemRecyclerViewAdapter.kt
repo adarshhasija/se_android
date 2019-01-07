@@ -31,7 +31,7 @@ class MySeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem
 
         holder.mView.setOnClickListener {
             holder.mItem?.let {
-                mListener?.onSeOneListFragmentInteraction(it)
+                mListener?.onSeOneListFragmentInteraction(it, position)
             }
 
         }

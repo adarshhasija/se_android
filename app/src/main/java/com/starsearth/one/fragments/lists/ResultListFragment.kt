@@ -33,15 +33,6 @@ class ResultListFragment : Fragment() {
 
     private var listener: OnResultListFragmentInteractionListener? = null
 
-    private fun sendAnalytics(task: Task, result: Result, action: String) {
-        val bundle = Bundle()
-        bundle.putString("CONTENT_ID", result.uid)
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
-        val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(action, bundle)
-        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -92,11 +83,6 @@ class ResultListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-    fun onItemClicked(task: Task, result: Result) {
-        sendAnalytics(task!!, result, FirebaseAnalytics.Event.SELECT_CONTENT)
-        listener?.onResultListFragmentInteraction(task, result)
     }
 
     /**

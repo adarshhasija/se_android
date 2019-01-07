@@ -108,11 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (((Button) v).getText()).toString());
-                StarsEarthApplication application = (StarsEarthApplication) getApplication();
-                application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                
                 login();
             }
         });

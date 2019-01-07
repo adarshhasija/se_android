@@ -90,11 +90,6 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         val btnSendOTP = findViewById<Button>(R.id.btn_send_otp) as Button
         btnSendOTP.setOnClickListener(View.OnClickListener {
-            val bundle = Bundle()
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (it as Button).text.toString())
-            val application = application as StarsEarthApplication
-            application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-
             val availability = GoogleApiAvailability.getInstance()
             val available = availability.isGooglePlayServicesAvailable(applicationContext)
             if (available == ConnectionResult.SUCCESS) {
@@ -199,6 +194,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "Phone number updated.")
                             phoneNumberVerificationSuccessful()
+                            (application as StarsEarthApplication)?.analyticsManager?.logActionEvent("se1_phone_number_updated", Bundle())
                         }
                         else {
                             Log.d(TAG, "updatedWithPhoneNumber: failure", task.exception)

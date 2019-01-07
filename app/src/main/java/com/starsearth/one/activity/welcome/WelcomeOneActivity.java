@@ -38,11 +38,6 @@ public class WelcomeOneActivity extends AppCompatActivity {
         btnLoginPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (((Button) v).getText()).toString());
-                StarsEarthApplication application = (StarsEarthApplication) getApplication();
-                application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                
               Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
               startActivityForResult(intent, LOGIN_WITH_PHONE_NUMBER_REQUEST);
             }
@@ -50,11 +45,6 @@ public class WelcomeOneActivity extends AppCompatActivity {
         btnLoginEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (((Button) v).getText()).toString());
-                StarsEarthApplication application = (StarsEarthApplication) getApplication();
-                application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
                 Intent intent = new Intent(WelcomeOneActivity.this, LoginActivity.class);
                 startActivityForResult(intent, LOGIN_WITH_EMAIL_ADDRESS_REQUEST);
             }

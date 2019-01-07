@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Result
+import com.starsearth.one.domain.SEBaseObject
 import com.starsearth.one.domain.Task
 import com.starsearth.one.fragments.lists.TaskDetailListFragment
 
@@ -20,7 +21,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnTaskDetailListFragmentListener].
  *
  */
-class TaskDetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : Any?, private val mListTitles: ArrayList<TaskDetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
+class TaskDetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SEBaseObject?, private val mListTitles: ArrayList<TaskDetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = R.layout.task_detail_list_item
@@ -32,13 +33,11 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //val teachingContent = mTeachingContent.getOrNull(0)
         val itemTitle = mListTitles[position]
         holder.mItem = itemTitle
         when (itemTitle) {
             //Course
             TaskDetailListFragment.LIST_ITEM.SEE_PROGRESS -> {
-                //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
                 holder.mHeading1.text = context?.resources?.getString(R.string.see_progress)
@@ -77,9 +76,11 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
                 holder.mLongPressScreenShot.visibility = View.VISIBLE
 
                 holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital((mTeachingContent as Task)?.title)
-                holder.mResultTextView.text = (mTeachingContent as Task)?.getHighScoreResult(mResults)?.items_correct?.toString()
+                holder.mResultTextView.text = mTeachingContent?.getHighScoreResult(mResults)?.items_correct?.toString()
                 holder.mView.setOnLongClickListener {
-                    holder.mItem?.let { mFragment?.onItemLongPressed(it) }
+                    holder.mItem?.let {
+                        mListener?.onTaskDetailListItemLongPress(it, mTeachingContent, mResults)
+                    }
                     true
                 }
             }
@@ -87,100 +88,12 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
             }
         }
         holder.mView.setOnClickListener {
-            //holder.mItem?.let { mFragment?.onItemClicked(it) }
-            holder.mItem?.let { mListener?.onTaskDetailListFragmentInteraction(it, mTeachingContent, mResults) }
+            holder.mItem?.let { mListener?.onTaskDetailListItemTap(it, mTeachingContent, mResults) }
         }
-
-     /*   if (position == 0 && mTeachingContent is Task) {
-            holder.mItem = mListTitles.get("all_results")
-            //holder.mSeeAllResults.text = holder.mView.context.resources.getText(R.string.see_all_results)
-            holder.mHeading1.visibility = View.VISIBLE
-            holder.mHeading2.visibility = View.GONE
-            holder.mHeading1.text = context?.resources?.getString(R.string.all_results)
-            holder.mHeading2.text = ""
-            holder.mView.setOnClickListener {
-                //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
-                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
-            }
-        }
-        else if (position == 0 && mTeachingContent is Course) {
-            holder.mItem = mListTitles.get("all_results")
-            holder.mHeading1.visibility = View.VISIBLE
-            holder.mHeading2.visibility = View.GONE
-            holder.mHeading1.text = context?.resources?.getString(R.string.see_progress)
-            holder.mHeading2.text = ""
-            holder.mView.setOnClickListener {
-                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 0) }
-            }
-        }
-        else if (position == 1 && mTeachingContent is Course && (mTeachingContent as Course)?.hasKeyboardTest) {
-            holder.mHeading1.visibility = View.VISIBLE
-            holder.mHeading2.visibility = View.VISIBLE
-            holder.mHeading1.text = context?.resources?.getString(R.string.keyboard_test)
-            holder.mHeading2.text = context?.resources?.getString(R.string.keyboard_test_why)
-            holder.mView.setOnClickListener {
-                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 1) }
-            }
-        }
-        else if (position == 1 && mTeachingContent is Course && mTeachingContent.isFirstTaskPassed((mListTitles.get("all_results") as java.util.ArrayList<Result>))) {
-            holder.mItem = mListTitles.get("all_results")
-            holder.mHeading1.visibility = View.VISIBLE
-            holder.mHeading2.visibility = View.GONE
-            holder.mHeading1.text = context?.resources?.getString(R.string.repeat_tasks_you_passed)
-            holder.mHeading2.text = ""
-            holder.mView.setOnClickListener {
-                holder.mItem?.let { mFragment?.onItemClicked(mTeachingContent, (it as ArrayList<Result>), 1) }
-            }
-        }
-        else if (position == 1 && (mTeachingContent is Task && mTeachingContent?.isGame) && mListTitles.containsKey("high_score")) {
-            holder.mItem = mListTitles.get("high_score")
-            holder.mTaskTitleView.text = Utils.formatStringFirstLetterCapital(mTeachingContent?.title)
-            holder.mResultTextView.text =
-                    if ((holder.mItem as Result).items_correct > 0) {
-                        ((holder.mItem as Result).items_correct).toString()
-                    } else {
-                        ""
-                    }
-
-            holder.mResultTextView.visibility = View.VISIBLE
-            holder.mHighScoreTextView.visibility = View.VISIBLE
-            holder.mTapToViewDetails.visibility = View.VISIBLE
-            holder.mLongPressScreenShot.visibility = View.VISIBLE
-
-            holder.mView.setOnClickListener {
-                //holder.mItem?.let { mListener?.onTaskDetailFragmentSwipeInteraction(it) }
-                holder.mItem?.let { mFragment?.onItemClickedShowHighScoreDetail(mTeachingContent, (it as Result), 1) }
-            }
-            holder.mView.setOnLongClickListener {
-                holder.mItem?.let { mFragment?.onItemLongPressed(mTeachingContent, (it as Parcelable), 1) }
-                true
-            }
-        }   */
     }
 
     override fun getItemCount(): Int {
-        return mListTitles.size/*if (mListTitles.containsKey("high_score")) {
-            2
-        }
-        else if (mTeachingContent is Course && mListTitles.isNotEmpty()) {
-            //If it is a Course and there are results
-            2
-        } else {
-            1
-        }*/
-    }
-
-    fun getHighScore() : Int? {
-        var highScore : Result? = mResults?.getOrNull(0)
-        if (highScore != null) {
-            for (result in mResults) {
-                if (result.items_correct > (highScore as Result)?.items_correct) {
-                    highScore = result
-                }
-            }
-            //results.put(TaskDetailListFragment.LIST_ITEM.HIGH_SCORE, highScore!!)
-        }
-        return highScore?.items_correct
+        return mListTitles.size
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {

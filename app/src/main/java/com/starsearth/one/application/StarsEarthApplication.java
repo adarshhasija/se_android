@@ -15,8 +15,8 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
 import com.starsearth.one.domain.Accessibility;
-import com.starsearth.one.manager.AdsManager;
-import com.starsearth.one.manager.AnalyticsManager;
+import com.starsearth.one.managers.AdsManager;
+import com.starsearth.one.managers.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;
 
@@ -57,7 +57,7 @@ public class StarsEarthApplication extends Application {
         return mAdsManager;
     }
 
-    public AnalyticsManager getAnalytics() {
+    public AnalyticsManager getAnalyticsManager() {
         return mAnalyticsManager;
     }
 
@@ -77,12 +77,6 @@ public class StarsEarthApplication extends Application {
     public void logActionEvent(String eventName, Bundle bundle) {
         if (mAnalyticsManager != null) {
             mAnalyticsManager.logActionEvent(eventName, bundle);
-        }
-    }
-
-    public void logActionEvent(String eventName, Bundle bundle, int score) {
-        if (mAnalyticsManager != null) {
-            mAnalyticsManager.logActionEvent(eventName, bundle, score);
         }
     }
 

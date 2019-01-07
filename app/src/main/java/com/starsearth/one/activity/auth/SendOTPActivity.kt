@@ -98,7 +98,7 @@ class SendOTPActivity : AppCompatActivity() {
 
         val btnSendOTPAgain = findViewById<Button>(R.id.btn_send_otp_again) as Button
         btnSendOTPAgain.setOnClickListener { v: View? ->
-            sendOTPAgainAnalytics(v)
+            (application as? StarsEarthApplication)?.analyticsManager?.logActionEvent("se1_send_otp_again", Bundle())
             sendOTP(phoneNumber)
             mCountDownTimer!!.start()
             mViewOTPTimer!!.visibility = View.VISIBLE
@@ -124,13 +124,6 @@ class SendOTPActivity : AppCompatActivity() {
         mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
 
         startCowntDownTimer()
-    }
-
-    private fun sendOTPAgainAnalytics(v: View?) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, (v as Button).text.toString())
-        val application = application as StarsEarthApplication
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private fun sendOTP(phoneNumber: String?) {

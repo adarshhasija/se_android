@@ -1,16 +1,17 @@
 package com.starsearth.one.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
+import com.starsearth.one.activity.tasks.TaskActivity
 import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
@@ -19,9 +20,7 @@ import com.starsearth.one.fragments.ResultDetailFragment
 import com.starsearth.one.fragments.TaskDetailFragment
 import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.lists.*
-import com.google.firebase.auth.FirebaseUser
-import android.support.annotation.NonNull
-
+import com.starsearth.one.managers.AnalyticsManager
 
 
 class MainActivity : AppCompatActivity(),
@@ -33,6 +32,24 @@ class MainActivity : AppCompatActivity(),
         ResultDetailFragment.OnResultDetailFragmentInteractionListener,
         ResponseListFragment.OnResponseListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onTaskDetailListItemLongPress(itemTitle: TaskDetailListFragment.LIST_ITEM, teachingContent: SEBaseObject?, results: ArrayList<Result>) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemLongPress(itemTitle.toString(), teachingContent)
+        when (itemTitle) {
+            TaskDetailListFragment.LIST_ITEM.HIGH_SCORE -> {
+                val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("task", (teachingContent as Task))
+                bundle.putParcelable("result", teachingContent.getHighScoreResult(results))
+                bundle.putString("view_type", "high_score")
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+            else -> {
+
+            }
+        }
+    }
 
     override fun onResponseListFragmentInteraction(item: Response?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -54,6 +71,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onResultListFragmentInteraction(task: Task?, result: Result?) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultListItemTap(task)
         val fragment = ResultDetailFragment.newInstance(task!!, result!!)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
@@ -62,7 +80,8 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onTaskDetailListFragmentInteraction(itemTitle: TaskDetailListFragment.LIST_ITEM, teachingContent: Any?, results: ArrayList<Result>) {
+    override fun onTaskDetailListItemTap(itemTitle: TaskDetailListFragment.LIST_ITEM, teachingContent: SEBaseObject?, results: ArrayList<Result>) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemTap(itemTitle.toString(), teachingContent)
         when (itemTitle) {
         //Course
             TaskDetailListFragment.LIST_ITEM.SEE_PROGRESS -> {
@@ -109,12 +128,24 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    override fun onTaskDetailFragmentTapInteraction(task: Task) {
+        //Only calling this here so that all interactions/transitions are in one place
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
+        val intent = Intent(this@MainActivity, TaskActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("task", task)
+        intent.putExtras(bundle)
+        startActivityForResult(intent, TASK_ACTIVITY_REQUEST)
+    }
+
     override fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(teachingContent, AnalyticsManager.Companion.GESTURES.SWIPE.toString())
         val intent = Intent(this, KeyboardActivity::class.java)
         startActivity(intent)
     }
 
     override fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(teachingContent, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
         val fragment = TaskDetailListFragment.newInstance(teachingContent as Parcelable?, ArrayList(results))
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
@@ -123,25 +154,34 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, errorTitle: String?, errorMessage: String?) {
-        val fragment = LastTriedFragment.newInstance(teachingContent as Parcelable, result as Parcelable?, errorTitle, errorMessage)
+    override fun onTaskDetailFragmentShowMessage(errorTitle: String?, errorMessage: String?) {
+        val fragment = LastTriedFragment.newInstance(errorTitle, errorMessage)
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 .addToBackStack(null)
                 .commit()
     }
 
-    override fun onRecordListItemInteraction(item: RecordItem) {
+    override fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?) {
+        val fragment = LastTriedFragment.newInstance(teachingContent as Parcelable, result as Parcelable?)
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
         val fragment = TaskDetailFragment.newInstance(item.teachingContent as Parcelable)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                 .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
+                .addToBackStack(TaskDetailFragment.FRAGMENT_TAG)
                 .commit()
     }
 
-    override fun onSeOneListFragmentInteraction(item: SEOneListItem) {
-        sendAnalytics(item.text1)
+    override fun onSeOneListFragmentInteraction(item: SEOneListItem, index: Int) {
+        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForListItemTap(item.text1, index)
         val intent: Intent
         val type = item.type
         if (type == SEOneListItem.Type.KEYBOARD_TEST) {
@@ -165,12 +205,6 @@ class MainActivity : AppCompatActivity(),
                     .addToBackStack(null)
                     .commit()
         }
-    }
-
-    fun sendAnalytics(selected: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, selected)
-        (application as? StarsEarthApplication)?.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private var mAuth: FirebaseAuth? = null
@@ -216,7 +250,20 @@ class MainActivity : AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
+    val TASK_ACTIVITY_REQUEST = 100
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        if (requestCode == TASK_ACTIVITY_REQUEST) {
+            val fragment = supportFragmentManager?.findFragmentByTag(TaskDetailFragment.FRAGMENT_TAG)
+            if (resultCode == Activity.RESULT_CANCELED) {
+                (fragment as? TaskDetailFragment)?.onActivityResultCancelled(data)
+            }
+            if (resultCode == Activity.RESULT_OK) {
+                (fragment as? TaskDetailFragment)?.onActivityResultOK(data)
+            }
+        }
+    }
 
 
 }

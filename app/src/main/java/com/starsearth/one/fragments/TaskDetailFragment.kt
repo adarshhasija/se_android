@@ -18,13 +18,10 @@ import com.google.firebase.database.*
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.tasks.TaskActivity
-import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
-import com.starsearth.one.manager.AdsManager
-import kotlinx.android.synthetic.main.fragment_records_list.*
+import com.starsearth.one.managers.AdsManager
 import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -60,11 +57,11 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 val deltaX = x2 - x1
                 val deltaY = y2 - y1
                 if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
-                    gestureSwipe(view)
+                    gestureSwipe()
                 } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
-                    gestureLongPress(view)
+                    gestureLongPress()
                 } else {
-                    gestureTap(view)
+                    gestureTap()
                 }
             }
         }
@@ -73,39 +70,34 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
 
 
-    private fun gestureTap(view: View?) {
+    private fun gestureTap() {
         if (tvTapScreenToStart.visibility == View.VISIBLE) {
             generateAd()
-            if (mTeachingContent is Task) {
-                startTask((mTeachingContent as Task))
-                sendAnalyticsForGesture(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
-            }
-            else if (mTeachingContent is Course) {
-                sendAnalyticsForGesture(mTeachingContent, view, FirebaseAnalytics.Event.SELECT_CONTENT)
-                if (mResults.isEmpty()) {
-                    startTask((mTeachingContent as Course).tasks[0])
-                }
-                else if (!(mTeachingContent as Course).isCourseComplete(mResults?.toList())) {
-                    val task = (mTeachingContent as Course).getNextTask(mResults?.toList())
-                    startTask(task)
-                }
+            var task : Task? =
+                    if (mTeachingContent is Course) {
+                        (mTeachingContent as? Course)?.getNextTask(mResults?.toList())
+                    }
+                    else {
+                        mTeachingContent as Task
+                    }
+
+            task?.let {
+                mListener?.onTaskDetailFragmentTapInteraction(task)
             }
         }
 
     }
 
-    private fun gestureLongPress(view: View?) {
+    private fun gestureLongPress() {
         if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
             mListener?.onTaskDetailFragmentLongPressInteraction(mTeachingContent, mResults.toList())
-            sendAnalyticsForGesture(mTeachingContent, view, "LONG_PRESS")
         }
     }
 
-    private fun gestureSwipe(view: View?) {
+    private fun gestureSwipe() {
         if (tvSwipeToContinue.visibility == View.VISIBLE) {
             if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                 mListener?.onTaskDetailFragmentSwipeInteraction(mTeachingContent)
-                sendAnalyticsForGesture(mTeachingContent, view, "SWIPE")
             }
         }
     }
@@ -218,20 +210,14 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
     fun analyticsTaskCompleted(task: Task, result: Any?) {
         val bundle = Bundle()
         bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, task.id)
-
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title)
+        bundle.putInt("type", task.getType().getValue().toInt())
+        bundle.putBoolean("timed", task.timed)
+        bundle.putBoolean("isGame", task.isGame)
+        bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as Result).items_correct)
 
-        if (task is Task) {
-            bundle.putInt("item_type", task.getType().getValue().toInt())
-            bundle.putInt("item_timed", if (task.timed) { 1 } else { 0 })
-            bundle.putInt("item_submit_on_enter_tapped", if (task.submitOnReturnTapped) { 1 } else { 0 })
-            bundle.putInt("item_is_text_visible_on_start", if (task.isTextVisibleOnStart) { 1 } else { 0 })
-            bundle.putInt(FirebaseAnalytics.Param.SCORE, (result as Result).items_correct)
-        }
-
-        val application = (activity?.application as StarsEarthApplication)
         val score = bundle?.getInt(FirebaseAnalytics.Param.SCORE)
-        application.logActionEvent(FirebaseAnalytics.Event.POST_SCORE, bundle, score)
+        (activity?.application as StarsEarthApplication)?.analyticsManager?.logActionEvent("se1_post_score", bundle, score)
     }
 
     private val mResultsMultipleValuesListener = object : ValueEventListener {
@@ -447,40 +433,35 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
         return contentDescription
     }
 
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 0 && resultCode == Activity.RESULT_CANCELED) {
-            val extras = data?.extras
-            val reason = extras?.get("reason")
-            if (reason != null) {
-                if (reason == "no attempt") {
-                    mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.no_attempt))
-                }
-                else if (reason == "gesture spam") {
-                    val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
-                    alertDialog.setTitle(getString(R.string.gesture_spam_detected))
-                    alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().gestureSpamMessage)
-                    alertDialog.setCancelable(false)
-                    alertDialog.setPositiveButton(getString(android.R.string.ok), null)
-                    alertDialog.show()
-                }
-            }
-            else {
-                //Show cancelled message
-                mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
-            }
-
+    /*
+    onActivityResult Helpers
+     */
+    fun onActivityResultCancelled(data: Intent?) {
+        val extras = data?.extras
+        val reason = extras?.get(Task.FAIL_REASON)
+        if (reason == Task.NO_ATTEMPT) {
+            mListener?.onTaskDetailFragmentShowMessage(getString(R.string.cancelled), getString(R.string.no_attempt))
         }
-        else if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                taskComplete(data.extras)
-            }
-            if (shouldShowAd()) {
-                showAd()
-            }
+        else if (reason == Task.GESTURE_SPAM) {
+            val alertDialog = (activity?.application as StarsEarthApplication).createAlertDialog(context)
+            alertDialog.setTitle(getString(R.string.gesture_spam_detected))
+            alertDialog.setMessage((activity?.application as StarsEarthApplication).getFirebaseRemoteConfigWrapper().gestureSpamMessage)
+            alertDialog.setCancelable(false)
+            alertDialog.setPositiveButton(getString(android.R.string.ok), null)
+            alertDialog.show()
+        }
+        else {
+            //Show cancelled message
+            mListener?.onTaskDetailFragmentShowMessage(getString(R.string.cancelled), getString(R.string.typing_game_cancelled))
+        }
+    }
+
+    fun onActivityResultOK(data: Intent?) {
+        data?.let {
+            taskComplete(it.extras)
+        }
+        if (shouldShowAd()) {
+            showAd()
         }
     }
 
@@ -518,7 +499,7 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
 
         //4. If the task is passed and we have reached the end of the course, push end of course message
         if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
-            mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.congratulations), getString(R.string.course_complete))
+            mListener?.onTaskDetailFragmentShowMessage(getString(R.string.congratulations), getString(R.string.course_complete))
         }
 
         //5. If the task is passed and a checkpoint has been reached, push checkpoint fragment next
@@ -526,52 +507,19 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
                 (mTeachingContent as Course).getTaskById(result.task_id).isPassed(result) &&
                             (mTeachingContent as Course).checkpoints.containsKey(result.task_id))
         {
-            mListener?.onTaskDetailFragmentShowLastTried(null, null, getString(R.string.checkpoint_reached), ((mTeachingContent as Course).checkpoints.get(result.task_id) as Checkpoint).title)
+            mListener?.onTaskDetailFragmentShowMessage(getString(R.string.checkpoint_reached), ((mTeachingContent as Course).checkpoints.get(result.task_id) as Checkpoint).title)
         }
 
         //6. Update UI
         updateUI()
 
         //7. Show the results screen to the user
-        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result, null, null)
-    }
-
-    private fun sendAnalyticsForGesture(teachingContent: Any?, view: View?, action: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
-        if (teachingContent is Task) {
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, teachingContent.type?.toString()?.replace("_", " "))
-            bundle.putString("content_title", teachingContent.title)
-            bundle.putInt("content_timed", if (teachingContent.timed) { 1 } else { 0 })
-        }
-        else if (teachingContent is Course) {
-            bundle.putInt("is_part_of_course", 1)
-            bundle.putString("course_title", teachingContent.title)
-
-            val task = teachingContent.getNextTask(mResults.toList())
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, task.type?.toString()?.replace("_", " "))
-            bundle.putString("content_title", teachingContent.title)
-            bundle.putInt("content_timed", if (task.timed) { 1 } else { 0 })
-        }
-        val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(action, bundle)
-        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        mListener?.onTaskDetailFragmentShowLastTried(mTeachingContent, result)
     }
 
     override fun onResume() {
         super.onResume()
-        val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
-        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.name, null /* class override */);
-    }
-
-    private fun startTask(task: Task) {
-        val intent = Intent(context, TaskActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("task", task)
-        intent.putExtras(bundle)
-        startActivityForResult(intent, 0)
+        (activity?.application as StarsEarthApplication)?.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
     }
 
     override fun onAttach(context: Context?) {
@@ -598,15 +546,18 @@ class TaskDetailFragment : Fragment(), View.OnTouchListener {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnTaskDetailFragmentInteractionListener {
+        fun onTaskDetailFragmentTapInteraction(task: Task)
         fun onTaskDetailFragmentSwipeInteraction(teachingContent: Any?)
         fun onTaskDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>)
-        fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?, title: String?, message: String?)
+        fun onTaskDetailFragmentShowLastTried(teachingContent: Any?, result: Any?)
+        fun onTaskDetailFragmentShowMessage(title: String?, message: String?)
     }
 
     companion object {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+        val FRAGMENT_TAG = "DetailFragment"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
-        private val ARG_RESULTS = "RESULTS"
+
 
         /**
          * Use this factory method to create a new instance of

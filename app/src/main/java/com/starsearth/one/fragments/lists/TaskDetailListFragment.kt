@@ -36,7 +36,7 @@ import kotlin.collections.ArrayList
  */
 class TaskDetailListFragment : Fragment() {
     private var mColumnCount = 1
-    private var mTeachingContent: Any? = null
+    private var mTeachingContent: SEBaseObject? = null
     private var mResults = ArrayList<Result>()
     private var mListener: OnTaskDetailListFragmentListener? = null
 
@@ -119,19 +119,6 @@ class TaskDetailListFragment : Fragment() {
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
                 listTitles.add(LIST_ITEM.HIGH_SCORE)
             }
-        /*    if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
-                //HIGH SCORE: START
-                var highScore : Any? = mResults?.getOrNull(0)
-                if (highScore != null) {
-                    for (result in mResults) {
-                        if (result.items_correct > (highScore as Result)?.items_correct) {
-                            highScore = result
-                        }
-                    }
-                    listTitles.put(LIST_ITEM.HIGH_SCORE, highScore!!)
-                }
-                //HIGH SCORE: END
-            }   */
 
             view.adapter = TaskDetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener, this)
         }
@@ -228,35 +215,6 @@ class TaskDetailListFragment : Fragment() {
         }
     }
 
-    fun onItemLongPressed(itemTitle: LIST_ITEM) {
-        sendAnalytics((mTeachingContent as SEBaseObject), itemTitle.valueString, "LONG_PRESS_CONTENT")
-        when (itemTitle) {
-            LIST_ITEM.HIGH_SCORE -> {
-                val intent = Intent(context, FullScreenActivity::class.java)
-                val bundle = Bundle()
-                bundle.putParcelable("task", (mTeachingContent as Task))
-                bundle.putParcelable("result", (mTeachingContent as Task).getHighScoreResult(mResults))
-                bundle.putString("view_type", "high_score")
-                intent.putExtras(bundle)
-                startActivity(intent)
-            }
-            else -> {
-
-            }
-        }
-
-     /*   if (position == 1) {
-
-            val intent = Intent(context, FullScreenActivity::class.java)
-            val bundle = Bundle()
-            bundle.putParcelable("task", (mTeachingContent as Task))
-            bundle.putParcelable("result", (mTeachingContent as Task).getHighScoreResult(mResults))
-            bundle.putString("view_type", "high_score")
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }   */
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.announceForAccessibility(getString(R.string.more_options_screen_opened))
@@ -301,7 +259,8 @@ class TaskDetailListFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnTaskDetailListFragmentListener {
-        fun onTaskDetailListFragmentInteraction(itemTitle: LIST_ITEM, teachingContent: Any?, results: ArrayList<Result>)
+        fun onTaskDetailListItemTap(itemTitle: LIST_ITEM, teachingContent: SEBaseObject?, results: ArrayList<Result>)
+        fun onTaskDetailListItemLongPress(itemTitle: LIST_ITEM, teachingContent: SEBaseObject?, results: ArrayList<Result>)
     }
 
     companion object {

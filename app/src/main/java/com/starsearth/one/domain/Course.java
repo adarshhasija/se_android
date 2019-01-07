@@ -8,7 +8,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -213,6 +212,9 @@ public class Course extends SEBaseObject {
         return result;
     }
 
+    /*
+        Returns index of last passed task, -1 if no tasks were passed
+     */
     public int getIndexOfLastPassedTask(List<Result> results) {
         int lastPassedTaskIndex = -1;
         for (int i = 0; i < tasks.size(); i++) {
@@ -268,24 +270,23 @@ public class Course extends SEBaseObject {
         return ret;
     }
 
+    /*
+        Returns the next task in the course. If this is the last task, will return null
+     */
     public Task getNextTask(List<Result> allResults) {
-        Task ret = null;
-        int currentTaskIndex = getCurrentTaskIndex(allResults);
-        if (currentTaskIndex < tasks.size()) {
-            Task currentTask = tasks.get(currentTaskIndex);
-            if (currentTask.isPassed(allResults) && currentTaskIndex + 1 < tasks.size()) {
-                ret = tasks.get(currentTaskIndex + 1);
-            }
-            else {
-                ret = currentTask;
-            }
+        Task task = null;
+        int indexOfLastPassedTask = getIndexOfLastPassedTask(allResults);
+        int indexOfNextTask = indexOfLastPassedTask + 1;
+        if (indexOfNextTask < tasks.size()) {
+            task = tasks.get(indexOfNextTask);
         }
-        return ret;
+
+        return task;
     }
 
     public int getNextTaskIndex(List<Result> allResults) {
         int retIndex = -1;
-        int currentTaskIndex = getCurrentTaskIndex(allResults);
+        int currentTaskIndex = getIndexOfLastAttemptedTask(allResults);
         if (currentTaskIndex < tasks.size()) {
             Task currentTask = tasks.get(currentTaskIndex);
             if (currentTask.isPassed(allResults) && currentTaskIndex + 1 < tasks.size()) {
@@ -299,8 +300,10 @@ public class Course extends SEBaseObject {
     }
 
 
-
-    public int getCurrentTaskIndex(List<Result> results) {
+    /*
+    Gets the index of the last attempted task, 0 if no task was attempted
+     */
+    public int getIndexOfLastAttemptedTask(List<Result> results) {
         int index = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);

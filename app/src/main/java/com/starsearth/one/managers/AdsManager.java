@@ -1,4 +1,4 @@
-package com.starsearth.one.manager;
+package com.starsearth.one.managers;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,64 +26,56 @@ public class AdsManager {
     private InterstitialAd mGoogleInterstitialAd;
     private com.facebook.ads.InterstitialAd mFacebookInterstitalAd;
 
-    private void sendAnalytics(String callbackType, String sourcePlatform) {
-        Bundle bundle = new Bundle();
-        bundle.putString("callback_type", callbackType);
-        bundle.putString("source_platform", sourcePlatform);
-        StarsEarthApplication application = (StarsEarthApplication) mContext.getApplicationContext();
-        application.logActionEvent("ADVERTISEMENT_EVENT", bundle);
-    }
-
 
     public AdListener mGoogleAdListener = new AdListener() {
         @Override
         public void onAdLoaded() {
             super.onAdLoaded();
-            sendAnalytics("AD_LOADED", "Google");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("AD_LOADED", "Google");
         }
 
         @Override
         public void onAdClosed() {
             super.onAdClosed();
-            sendAnalytics("AD_CLOSED", "Google");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("AD_CLOSED", "Google");
         }
 
         @Override
         public void onAdImpression() {
             super.onAdImpression();
-            sendAnalytics("AD_IMPRESSION", "Google");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("AD_IMPRESSION", "Google");
         }
     };
 
     public InterstitialAdListener mFacebookAdListener = new InterstitialAdListener() {
         @Override
         public void onInterstitialDisplayed(Ad ad) {
-            sendAnalytics("INTERSTITIAL_DISPLAYED", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("INTERSTITIAL_DISPLAYED", "Facebook");
         }
 
         @Override
         public void onInterstitialDismissed(Ad ad) {
-            sendAnalytics("INTERSTITIAL_DISMISSED", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("INTERSTITIAL_DISMISSED", "Facebook");
         }
 
         @Override
         public void onError(Ad ad, AdError adError) {
-            sendAnalytics("ERROR", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("ERROR", "Facebook");
         }
 
         @Override
         public void onAdLoaded(Ad ad) {
-            sendAnalytics("AD_LOADED", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("AD_LOADED", "Facebook");
         }
 
         @Override
         public void onAdClicked(Ad ad) {
-            sendAnalytics("AD_CLICKED", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("AD_CLICKED", "Facebook");
         }
 
         @Override
         public void onLoggingImpression(Ad ad) {
-            sendAnalytics("LOGGING_IMPRESSION", "Facebook");
+            ((StarsEarthApplication) mContext.getApplicationContext()).getAnalyticsManager().sendAnalyticsForAdvertisingEvent("LOGGING_IMPRESSION", "Facebook");
         }
     };
 

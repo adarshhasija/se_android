@@ -238,11 +238,18 @@ class LastTriedFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(teachingContent: Parcelable?, result: Parcelable?, errorTitle: String?, errorMessage: String?) =
+        fun newInstance(teachingContent: Parcelable?, result: Parcelable?) =
                 LastTriedFragment().apply {
                     arguments = Bundle().apply {
                         putParcelable(ARG_PARAM1, teachingContent)
                         putParcelable(ARG_PARAM2, result)
+                    }
+                }
+
+        @JvmStatic
+        fun newInstance(errorTitle: String?, errorMessage: String?) =
+                LastTriedFragment().apply {
+                    arguments = Bundle().apply {
                         putString(ARG_PARAM3, errorTitle)
                         putString(ARG_PARAM4, errorMessage)
                     }

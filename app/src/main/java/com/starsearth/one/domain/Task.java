@@ -18,6 +18,13 @@ import java.util.Random;
 
 public class Task extends SEBaseObject {
 
+    public static String FAIL_REASON = "fail_reason";
+    public static String NO_ATTEMPT = "no_attempt";
+    public static String GESTURE_SPAM = "gesture_spam";
+    public static String BACK_PRESSED = "back_button_pressed";
+    public static String HOME_BUTTON_TAPPED = "home_button_tapped";
+    public static String NO_MORE_CONTENT = "no_more_content";
+
     public List<String> content = new ArrayList<>(); //Has to be List<String> to save to Firebase
     public List<String> tap = new ArrayList<>();
     public List<String> swipe = new ArrayList<>();
@@ -27,7 +34,7 @@ public class Task extends SEBaseObject {
     public int durationMillis;
     public List<String> tags = new ArrayList<>();
     public boolean isTextVisibleOnStart         = true;
-    public boolean submitOnReturnTapped         = false;
+    public boolean submitOnReturnTapped         = false; //submit the activity when user has tapped return
     public boolean isPassFail                   = false;
     public int passPercentage                   = 0; //Relevant only if task is type isPassFail = true
     public boolean showUserAnswerWithBackground = false;

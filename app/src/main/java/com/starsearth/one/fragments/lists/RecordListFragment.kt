@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.starsearth.one.manager.AssetsFileManager
+import com.starsearth.one.managers.AssetsFileManager
 
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
@@ -186,37 +186,6 @@ class RecordListFragment : Fragment() {
         }
     }
 
-    fun listItemSelected(item: RecordItem, position: Int) {
-        //mListener?.onResultListFragmentInteraction(item);
-        sendAnalytics((item.teachingContent as SEBaseObject))
-
-        val teachingContent = item.teachingContent
-        val resultsArray = ArrayList(item.results)
-        val intent = Intent(context, DetailActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("teachingContent", (teachingContent as Parcelable))
-        bundle.putParcelableArrayList("results", resultsArray)
-        intent.putExtras(bundle)
-        startActivityForResult(intent,0)
-    }
-
-    fun sendAnalytics(item: SEBaseObject) {
-        val bundle = Bundle()
-        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, item.id)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, item.title)
-        if (item is Task) {
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "task")
-            bundle.putString("item_interaction_type", item.type?.toString()?.replace("_", " "))
-            bundle.putInt("item_timed", if (item.timed) { 1} else { 0 })
-        }
-        else {
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "course")
-        }
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "list_item")
-        val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -365,7 +334,7 @@ class RecordListFragment : Fragment() {
      */
     interface OnRecordListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onRecordListItemInteraction(recordItem: RecordItem)
+        fun onRecordListItemInteraction(recordItem: RecordItem, index: Int)
     }
 
     companion object {

@@ -176,7 +176,7 @@ public class TaskActivity extends AppCompatActivity {
                     timeTakenMillis = 61000 - millisUntilFinished;
                     if ((millisUntilFinished/1000) % 10 == 0) {
                         if (gestureSpamItemCounter > 30) {
-                            taskCancelled("gesture spam");
+                            taskCancelled(Task.GESTURE_SPAM);
                         }
                         gestureSpamItemCounter=0;
                     }
@@ -201,7 +201,7 @@ public class TaskActivity extends AppCompatActivity {
                 timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
                 if ((task.getType() == Task.Type.TYPING && charactersTotalAttempted == 0) ||
                         (task.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0)) {
-                    taskCancelled("no attempt");
+                    taskCancelled(Task.NO_ATTEMPT);
                 }
                 else {
                     taskCompleted();
@@ -221,7 +221,7 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        taskCancelled("back pressed");
+        taskCancelled(Task.BACK_PRESSED);
     }
 
 
@@ -556,25 +556,7 @@ public class TaskActivity extends AppCompatActivity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         //Home button or square button tapped
-        if (task.isExitOnInterruption) taskCancelled();
-    }
-
-    private void analyticsTaskCancelled() {
-        logAnalytics(new Bundle());
-    }
-
-    private void analyticsTaskCancelled(String reason) {
-        Bundle bundle = new Bundle();
-        bundle.putString("reason", reason);
-        logAnalytics(bundle);
-    }
-
-    private void logAnalytics(Bundle bundle) {
-        bundle.putLong(FirebaseAnalytics.Param.ITEM_ID, task.id);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, task.title);
-        bundle.putInt("item_timed", task.timed? 1 : 0);
-        StarsEarthApplication application = (StarsEarthApplication) getApplication();
-        application.logActionEvent("task_cancelled", bundle);
+        if (task.isExitOnInterruption) taskCancelled(Task.HOME_BUTTON_TAPPED);
     }
 
     private void checkWordCorrect() {
@@ -612,15 +594,6 @@ public class TaskActivity extends AppCompatActivity {
 
     public enum LetterCase {
         LOWER, UPPER
-    }
-
-    /*
-        Returns a random letter as a string
-     */
-    public String getRandomLetterString(LetterCase letterCase) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(generateRandomLetterChar(letterCase));
-        return stringBuilder.toString();
     }
 
     /*
@@ -669,7 +642,7 @@ public class TaskActivity extends AppCompatActivity {
         }
         if (tvMain.getText().toString().isEmpty()) {
             //If we did not get any new text, simply cancel the task
-            taskCancelled();
+            taskCancelled(Task.NO_MORE_CONTENT);
         }
         else {
             tvMain.announceForAccessibility(tvMain.getText());
@@ -685,39 +658,20 @@ public class TaskActivity extends AppCompatActivity {
         return s.replaceAll("␣", " ");
     }
 
-    private String addFullStop(String text) {
-        if (text.charAt(text.length() - 1) != '.') {
-            //All strings must end in full stop
-            text = text.concat(".");
-        }
-        return text;
-    }
-
     private void taskCancelled(String reason) {
-        analyticsTaskCancelled(reason);
+        ((StarsEarthApplication) getApplicationContext()).getAnalyticsManager().sendAnalyticsForTaskCancellation(task, reason);
         endTask(reason);
-    }
-
-    private void taskCancelled() {
-        analyticsTaskCancelled();
-        endTask();
     }
 
     private void stopTimer() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
     }
 
-    private void endTask() {
-        stopTimer();
-        setResult(RESULT_CANCELED);
-        finish();
-    }
-
     private void endTask(String reason) {
         stopTimer();
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
-        bundle.putString("reason", reason);
+        bundle.putString(Task.FAIL_REASON, reason);
         intent.putExtras(bundle);
         setResult(RESULT_CANCELED, intent);
         finish();

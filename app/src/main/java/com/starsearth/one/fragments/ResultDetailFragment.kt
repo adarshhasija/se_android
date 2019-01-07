@@ -19,6 +19,7 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
+import com.starsearth.one.managers.AnalyticsManager
 import java.util.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,35 +60,26 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
                 val deltaX = x2 - x1
                 val deltaY = y2 - y1
                 if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
-                    gestureSwipe(view)
+                    gestureSwipe()
                 } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
-                    gestureLongPress(view)
+                    gestureLongPress()
                 } else {
-                    gestureTap(view)
+                    gestureTap()
                 }
             }
         }
         return true
     }
 
-    private fun sendAnalytics(view: View?, action: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, this.javaClass.simpleName)
-        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Screen")
-        val application = (activity?.application as StarsEarthApplication)
-        application.logActionEvent(action, bundle)
-        //mFirebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
-    private fun gestureTap(view: View?) {
+    private fun gestureTap() {
 
     }
 
-    private fun gestureSwipe(view: View?) {
+    private fun gestureSwipe() {
 
     }
 
-    private fun gestureLongPress(view: View?) {
+    private fun gestureLongPress() {
         if (result.responses != null && result.responses.size > 0) {
             listener?.onResultDetailFragmentInteraction(result)
         }
@@ -100,7 +92,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
             })
             alertDialog.show()
         }
-        sendAnalytics(view, "LONG_PRESS")
+        (activity?.application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsScreenGesture(task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -210,11 +202,6 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
         view.findViewById<RelativeLayout>(R.id.rl_main).contentDescription = contentDescription
         //////
 
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        //listener?.onResultDetailFragmentInteraction(task, result)
     }
 
     override fun onResume() {
