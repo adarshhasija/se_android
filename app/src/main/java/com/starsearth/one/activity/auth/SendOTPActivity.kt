@@ -126,6 +126,16 @@ class SendOTPActivity : AppCompatActivity() {
         startCowntDownTimer()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginPhoneNumberExit("VerifyOTP", "BACK_PRESSED")
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginPhoneNumberExit("VerifyOTP", "HOME_BUTTON_TAPPED")
+    }
+
     private fun sendOTP(phoneNumber: String?) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber!!,        // Phone number to verify
@@ -215,8 +225,10 @@ class SendOTPActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             updateUserPhoneNumber(user, credential)
+            (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForUpdatedPhoneNumber("VerifyOTP")
         }
         else {
+            (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginWithPhoneNumber("VerifyOTP")
             signInNewUser(credential)
         }
 

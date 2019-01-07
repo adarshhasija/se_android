@@ -124,6 +124,44 @@ class AnalyticsManager(private val mContext: Context) {
     }
 
     /*
+    Analytics event to know if the user exited the login process
+    This will only be sent during the login process. Not during the edit phone number process
+    @params: title: to know which was selected.
+                task: to know task for which detail item was selected
+               index: to know if the user had to scroll down to find item
+     */
+    fun sendAnalyticsForLoginPhoneNumberExit(screen: String, action: String) {
+        val bundle = Bundle()
+        bundle.putString("screen", screen)
+        bundle.putString("action", action)
+        logActionEvent("se1_exited_login", bundle)
+    }
+
+    /*
+    Analytics event for successful signin with phone number
+    This will only be sent during the signin phone number process.
+    @params: screen: the screen we came from. Edit phone number or verify OTP. This is to know if the system read the OTP automatically
+
+     */
+    fun sendAnalyticsForLoginWithPhoneNumber(screen: String) {
+        val bundle = Bundle()
+        bundle.putString("screen", screen)
+        logActionEvent("se1_phone_number_updated", bundle)
+    }
+
+    /*
+    Analytics event for successful updating of phone number
+    This will only be sent during the edit phone number process.
+    @params: screen: the screen we came from. Edit phone number or verify OTP. This is to know if the system read the OTP automatically
+
+     */
+    fun sendAnalyticsForUpdatedPhoneNumber(screen: String) {
+        val bundle = Bundle()
+        bundle.putString("screen", screen)
+        logActionEvent("se1_phone_number_updated", bundle)
+    }
+
+    /*
     Analytics event for detail item tap
     @params: title: to know which was selected.
                 task: to know task for which detail item was selected

@@ -120,6 +120,17 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginPhoneNumberExit("EnterPhoneNumber", "BACK_PRESSED")
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        //home button tapped
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginPhoneNumberExit("EnterPhoneNumber", "HOME_BUTTON_TAPPED")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -194,7 +205,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "Phone number updated.")
                             phoneNumberVerificationSuccessful()
-                            (application as StarsEarthApplication)?.analyticsManager?.logActionEvent("se1_phone_number_updated", Bundle())
+                            (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForUpdatedPhoneNumber("EditPhoneNumber")
                         }
                         else {
                             Log.d(TAG, "updatedWithPhoneNumber: failure", task.exception)
@@ -214,6 +225,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success")
+                        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForLoginWithPhoneNumber("EnterPhoneNumber")
 
                         val user = task.result.user
                         val builder = createAlertDialog()

@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(),
         val fragment = TaskDetailFragment.newInstance(item.teachingContent as Parcelable)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment)
+                .replace(R.id.fragment_container_main, fragment, TaskDetailFragment.FRAGMENT_TAG)
                 .addToBackStack(TaskDetailFragment.FRAGMENT_TAG)
                 .commit()
     }
