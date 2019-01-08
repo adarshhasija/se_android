@@ -21,8 +21,6 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.starsearth.one.activity.DetailActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
@@ -226,18 +224,6 @@ class RecordListFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(if (mTeachingContent != null) {
-            "CourseItemsList"
-        } else {
-            this.javaClass.simpleName
-        }, activity!!)
-        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -269,9 +255,9 @@ class RecordListFragment : Fragment() {
                     AssetsFileManager.getAllItems(context)
                 }
 
-             /*   if (mTeachingContent is Course && mTypeCourseListItem == TaskDetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+             /*   if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                     (mTeachingContent as Course).getAllPassedTasks(mResults)
-                } else if (mTeachingContent is Course && mTypeCourseListItem == TaskDetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+                } else if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
                     (mTeachingContent as Course).getAllAttemptedTasks(mResults)
                 } else if (isTimed) {
                     AssetsFileManager.getAllTimedItems(context)
@@ -359,7 +345,7 @@ class RecordListFragment : Fragment() {
         }
 
 
-        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: TaskDetailListFragment.LIST_ITEM): RecordListFragment {
+        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: DetailListFragment.LIST_ITEM): RecordListFragment {
             val fragment = RecordListFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)

@@ -5,14 +5,16 @@ import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by faimac on 3/2/17.
  */
 
-public class SEBaseObject implements Parcelable {
+public class SETeachingContent implements Parcelable {
 
     public long id; //local id
     public String uid;
@@ -24,12 +26,13 @@ public class SEBaseObject implements Parcelable {
     public String parentType;
     public String parentId;
     public long timestamp;
+    public List<String> tags = new ArrayList<>();
 
-    public SEBaseObject() {
+    public SETeachingContent() {
 
     }
 
-    public SEBaseObject(HashMap<String, Object> map) {
+    public SETeachingContent(HashMap<String, Object> map) {
         this.id =  map.containsKey("id") ? (Long) map.get("id") : -1;
         this.title = map.containsKey("title") ? (String) map.get("title") : null;
         this.instructions = map.containsKey("instructions") ? (String) map.get("instructions") : null;
@@ -39,9 +42,20 @@ public class SEBaseObject implements Parcelable {
         this.parentType = map.containsKey("parentType") ? (String) map.get("parentType") : null;
         this.parentId = map.containsKey("parentId") ? (String) map.get("parentId") : null;
         this.timestamp = map.containsKey("timestamp") ? (Long) map.get("timestamp") : -1;
+        ////Set tags list
+        ArrayList<String> mpArrayListTags = (ArrayList<String>) map.get("tags");
+        if (mpArrayListTags != null) {
+            this.tags = new ArrayList<>();
+            for (Object tag : mpArrayListTags) {
+                if (tag instanceof String) {
+                    this.tags.add((String) tag);
+                }
+            }
+        }
+        ////
     }
 
-    protected SEBaseObject(Parcel in) {
+    protected SETeachingContent(Parcel in) {
         id = in.readLong();
         uid = in.readString();
         title = in.readString();
@@ -52,17 +66,18 @@ public class SEBaseObject implements Parcelable {
         parentType = in.readString();
         parentId = in.readString();
         timestamp = in.readLong();
+        tags = in.readArrayList(String.class.getClassLoader());
     }
 
-    public static final Creator<SEBaseObject> CREATOR = new Creator<SEBaseObject>() {
+    public static final Creator<SETeachingContent> CREATOR = new Creator<SETeachingContent>() {
         @Override
-        public SEBaseObject createFromParcel(Parcel in) {
-            return new SEBaseObject(in);
+        public SETeachingContent createFromParcel(Parcel in) {
+            return new SETeachingContent(in);
         }
 
         @Override
-        public SEBaseObject[] newArray(int size) {
-            return new SEBaseObject[size];
+        public SETeachingContent[] newArray(int size) {
+            return new SETeachingContent[size];
         }
     };
 
@@ -103,6 +118,7 @@ public class SEBaseObject implements Parcelable {
         result.put("parentType", parentType);
         result.put("parentId", parentId);
         result.put("timestamp", timestamp);
+        result.put("tags", tags);
 
         return result;
     }
@@ -124,5 +140,6 @@ public class SEBaseObject implements Parcelable {
         dest.writeString(parentType);
         dest.writeString(parentId);
         dest.writeLong(timestamp);
+        dest.writeList(tags);
     }
 }

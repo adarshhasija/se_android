@@ -1,7 +1,6 @@
 package com.starsearth.one.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +11,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.RecordItem;
-import com.starsearth.one.domain.SEBaseObject;
+import com.starsearth.one.domain.SETeachingContent;
 import com.starsearth.one.domain.Task;
 
 import org.json.JSONArray;
@@ -123,7 +122,7 @@ public class AssetsFileManager {
         ArrayList<String> tagList = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
                 if (o instanceof Course) {
                     List<String> tags = ((Course) o).tags;
                     if (tags != null) {
@@ -153,7 +152,7 @@ public class AssetsFileManager {
         ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
                 if (o instanceof Course) {
                     List<String> tags = ((Course) o).tags;
                     if (tags != null) {
@@ -181,7 +180,7 @@ public class AssetsFileManager {
         RecordItem recordItem = null;
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible && ((SEBaseObject) o).id == id) {
+            if (((SETeachingContent) o).visible && ((SETeachingContent) o).id == id) {
                 recordItem = new RecordItem(o);
             }
         }
@@ -192,7 +191,7 @@ public class AssetsFileManager {
         ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
                 if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
@@ -217,7 +216,7 @@ public class AssetsFileManager {
         ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
                 if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
@@ -241,7 +240,7 @@ public class AssetsFileManager {
         ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
                 if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
@@ -282,7 +281,7 @@ public class AssetsFileManager {
         ArrayList<RecordItem> recordItems = new ArrayList<>();
         List<Object> teachingContentList = getAllItemsFromJSON(context);
         for (Object o : teachingContentList) {
-            if (((SEBaseObject) o).visible) {
+            if (((SETeachingContent) o).visible) {
               /*  if (o instanceof Course) {
                     Course course = (Course) o;
                     List<Task> tasks = course.getTasks();
@@ -339,11 +338,11 @@ public class AssetsFileManager {
             }
             else {
                 //Its a task
-                if (!map.containsKey(((SEBaseObject) o).id)) {
-                    map.put(((SEBaseObject) o).id, 1);
+                if (!map.containsKey(((SETeachingContent) o).id)) {
+                    map.put(((SETeachingContent) o).id, 1);
                 }
                 else {
-                    map.put(((SEBaseObject) o).id, map.get(((SEBaseObject) o).id) + 1);
+                    map.put(((SETeachingContent) o).id, map.get(((SETeachingContent) o).id) + 1);
                 }
             }
 

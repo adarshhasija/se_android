@@ -91,8 +91,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
     private void updateUserProperties() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            StarsEarthApplication application = (StarsEarthApplication) getApplication();
-            application.updateUserAnalyticsInfo(currentUser.getUid());
+            ((StarsEarthApplication) getApplication()).getAnalyticsManager().updateUserAnalyticsInfo(currentUser.getUid());
         }
 
     }

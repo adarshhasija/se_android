@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by faimac on 3/2/17.
  */
 
-public class Question extends SEBaseObject {
+public class Question extends SETeachingContent {
 
     public String answer;
     public int index;

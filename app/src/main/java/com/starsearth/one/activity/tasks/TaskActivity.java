@@ -124,7 +124,7 @@ public class TaskActivity extends AppCompatActivity {
             if (task.content != null && task.content.size() > 1) {
                 tvCompletedTotal.setVisibility(View.VISIBLE);
                 tvCompletedTotal.setText("1" + "/" + task.content.size());
-                if (((StarsEarthApplication) getApplication()).getAccessibility().isTalkbackOn()) {
+                if (((StarsEarthApplication) getApplication()).getAccessibilityManager().isTalkbackOn()) {
                     tvTapScreenToHearContent.setText(getResources().getString(R.string.double_tap_screen_to_hear_text_again));
                 }
             }
@@ -209,13 +209,6 @@ public class TaskActivity extends AppCompatActivity {
             }
         };
         mCountDownTimer.start();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StarsEarthApplication application = (StarsEarthApplication) getApplication();
-        application.logFragmentViewEvent(this.getClass().getSimpleName(), this);
     }
 
     @Override

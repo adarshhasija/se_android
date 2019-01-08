@@ -2,7 +2,6 @@ package com.starsearth.one.fragments
 
 import android.content.Context
 import android.content.DialogInterface
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.google.firebase.analytics.FirebaseAnalytics
 
 import com.starsearth.one.R
 import com.starsearth.one.Utils
@@ -80,6 +78,8 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun gestureLongPress() {
+        listener?.onResultDetailFragmentInteraction(result, task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
+      /*  (activity?.application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, result.responses.size > 0, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
         if (result.responses != null && result.responses.size > 0) {
             listener?.onResultDetailFragmentInteraction(result)
         }
@@ -91,8 +91,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
                 dialog.dismiss()
             })
             alertDialog.show()
-        }
-        (activity?.application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsScreenGesture(task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
+        }   */
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,7 +187,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
         ///ACCESSIBILITY
         var contentDescription = context?.resources?.getString(R.string.move_your_finger_to_top_left_to_get_content)
 
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility?.isTalkbackOn
+        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn
         if (result.responses != null && result.responses.size > 0) {
             view.findViewById<TextView>(R.id.tv_long_press_responses).visibility = View.VISIBLE
             if (isTalkbackOn == true) {
@@ -202,12 +201,6 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
         view.findViewById<RelativeLayout>(R.id.rl_main).contentDescription = contentDescription
         //////
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
     }
 
     override fun onAttach(context: Context) {
@@ -236,10 +229,11 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(result: Any)
+        fun onResultDetailFragmentInteraction(result: Result, task: Task, action: String)
     }
 
     companion object {
+        val TAG = "RESULT_DETAIL_FRAGMENT"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

@@ -117,7 +117,7 @@ class LastTriedFragment : Fragment() {
                     ""
                 }
         tvLongPressCloseScreen?.text =
-                if ((activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn == true) {
+                if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
                 }
                 else {
@@ -207,23 +207,6 @@ class LastTriedFragment : Fragment() {
                     ((result as Result).items_correct).toString()
                 }
 
-     /*   if (teachingContent is Task) {
-            view?.findViewById<TextView>(R.id.tv_result)?.text =
-                    if (result is ResultTyping) {
-                        result.getScoreSummary(context, teachingContent.isPassFail, teachingContent.passPercentage)
-                    } else {
-                        ((result as Result).items_correct).toString()
-                    }
-
-            view?.findViewById<TextView>(R.id.tv_result)?.visibility = View.VISIBLE
-        }   */
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
     }
 
 

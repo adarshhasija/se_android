@@ -89,20 +89,15 @@ public class SignupActivity extends AppCompatActivity {
         if (username != null && password != null) {
             if (mProgressBar != null) mProgressBar.setVisibility(View.VISIBLE);
             Toast.makeText(SignupActivity.this, R.string.starting_signup_please_wait, Toast.LENGTH_SHORT).show();
-            final User currentUser = ((StarsEarthApplication) getApplication()).getUser();
-            if (currentUser != null && currentUser.isGuest) {
+            final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
                 AuthCredential credential = EmailAuthProvider.getCredential(username, password);
                 mAuth.getCurrentUser().linkWithCredential(credential)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    currentUser.isGuest = false;
-                                    currentUser.email = username;
-                                    Firebase firebase = new Firebase("users");
-                                    firebase.convertGuestUserToFullUser(currentUser.uid, currentUser);
-                                    //ref.child("users").child(currentUser.uid).child("isGuest").setValue(null); //set in cloud
-                                    ((StarsEarthApplication) getApplication()).setUser(currentUser); //set locally
+
                                 }
                             }
                         })

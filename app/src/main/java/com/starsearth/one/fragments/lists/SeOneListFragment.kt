@@ -79,13 +79,6 @@ class SeOneListFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val application = (activity?.application as StarsEarthApplication)
-        application.logFragmentViewEvent(this.javaClass.simpleName, activity!!)
-        //mFirebaseAnalytics?.setCurrentScreen(activity!!, this.javaClass.simpleName, null /* class override */); //use name to avoid issues with obstrufication
-    }
-
     override fun onDetach() {
         super.onDetach()
         mListener = null

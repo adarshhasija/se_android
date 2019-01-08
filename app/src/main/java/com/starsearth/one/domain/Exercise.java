@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by faimac on 3/1/17.
  */
 
-public class Exercise extends SEBaseObject implements Parcelable{
+public class Exercise extends SETeachingContent implements Parcelable{
 
     public String description;
     public int index;

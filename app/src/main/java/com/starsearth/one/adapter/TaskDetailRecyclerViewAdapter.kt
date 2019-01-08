@@ -9,11 +9,11 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.SEBaseObject
+import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.domain.Task
-import com.starsearth.one.fragments.lists.TaskDetailListFragment
+import com.starsearth.one.fragments.lists.DetailListFragment
 
-import com.starsearth.one.fragments.lists.TaskDetailListFragment.OnTaskDetailListFragmentListener
+import com.starsearth.one.fragments.lists.DetailListFragment.OnTaskDetailListFragmentListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
@@ -21,7 +21,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnTaskDetailListFragmentListener].
  *
  */
-class TaskDetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SEBaseObject?, private val mListTitles: ArrayList<TaskDetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: TaskDetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
+class TaskDetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SETeachingContent?, private val mListTitles: ArrayList<DetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?, private val mFragment: DetailListFragment) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = R.layout.task_detail_list_item
@@ -37,25 +37,25 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
         holder.mItem = itemTitle
         when (itemTitle) {
             //Course
-            TaskDetailListFragment.LIST_ITEM.SEE_PROGRESS -> {
+            DetailListFragment.LIST_ITEM.SEE_PROGRESS -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
                 holder.mHeading1.text = context?.resources?.getString(R.string.see_progress)
                 holder.mHeading2.text = ""
             }
-            TaskDetailListFragment.LIST_ITEM.KEYBOARD_TEST -> {
+            DetailListFragment.LIST_ITEM.KEYBOARD_TEST -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.VISIBLE
                 holder.mHeading1.text = context?.resources?.getString(R.string.keyboard_test)
                 holder.mHeading2.text = context?.resources?.getString(R.string.keyboard_test_why)
             }
-            TaskDetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
+            DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
                 holder.mHeading1.text = context?.resources?.getString(R.string.repeat_tasks_you_passed)
                 holder.mHeading2.text = ""
             }
-            TaskDetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
+            DetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
                 holder.mHeading1.text = context?.resources?.getString(R.string.see_results_of_tasks_you_attempted)
@@ -63,13 +63,13 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
             }
 
             //Task
-            TaskDetailListFragment.LIST_ITEM.ALL_RESULTS -> {
+            DetailListFragment.LIST_ITEM.ALL_RESULTS -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE
                 holder.mHeading1.text = context?.resources?.getString(R.string.all_results)
                 holder.mHeading2.text = ""
             }
-            TaskDetailListFragment.LIST_ITEM.HIGH_SCORE -> {
+            DetailListFragment.LIST_ITEM.HIGH_SCORE -> {
                 holder.mResultTextView.visibility = View.VISIBLE
                 holder.mHighScoreTextView.visibility = View.VISIBLE
                 holder.mTapToViewDetails.visibility = View.VISIBLE
@@ -79,7 +79,7 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
                 holder.mResultTextView.text = mTeachingContent?.getHighScoreResult(mResults)?.items_correct?.toString()
                 holder.mView.setOnLongClickListener {
                     holder.mItem?.let {
-                        mListener?.onTaskDetailListItemLongPress(it, mTeachingContent, mResults)
+                        mListener?.onDetailListItemLongPress(it, mTeachingContent, mResults)
                     }
                     true
                 }
@@ -88,7 +88,7 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
             }
         }
         holder.mView.setOnClickListener {
-            holder.mItem?.let { mListener?.onTaskDetailListItemTap(it, mTeachingContent, mResults) }
+            holder.mItem?.let { mListener?.onDetailListItemTap(it, mTeachingContent, mResults) }
         }
     }
 
@@ -118,7 +118,7 @@ class TaskDetailRecyclerViewAdapter(private val context: Context, private val mT
         val mRepeatCompletedTasks: TextView
         //REPEAT COMPLETED TASKS: End
 
-        var mItem: TaskDetailListFragment.LIST_ITEM? = null
+        var mItem: DetailListFragment.LIST_ITEM? = null
 
         init {
             mHeading1 = mView.findViewById<TextView>(R.id.tvHeading1) as TextView

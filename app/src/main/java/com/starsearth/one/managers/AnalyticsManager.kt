@@ -51,27 +51,20 @@ class AnalyticsManager(private val mContext: Context) {
     }
 
     fun logActionEvent(eventName: String, bundle: Bundle) {
-        if (firebaseAnalytics != null) {
-            firebaseAnalytics!!.logEvent(eventName, bundle)
-        }
-        if (facebookAnalytics != null) {
-            facebookAnalytics!!.logEvent(eventName, bundle)
-        }
+        firebaseAnalytics?.logEvent(eventName, bundle)
+        facebookAnalytics?.logEvent(eventName, bundle)
     }
 
     fun logActionEvent(eventName: String, bundle: Bundle, score: Int) {
-        if (firebaseAnalytics != null) {
-            firebaseAnalytics!!.logEvent(eventName, bundle)
-        }
-        if (facebookAnalytics != null) {
-            facebookAnalytics!!.logEvent(eventName, score.toDouble(), bundle)
-        }
+        firebaseAnalytics?.logEvent(eventName, bundle)
+        facebookAnalytics?.logEvent(eventName, score.toDouble(), bundle)
     }
 
+    /*
+        Currently unused. Call this in future if we want to record screen views
+     */
     fun logFragmentViewEvent(fragmentName: String, activity: Activity) {
-        if (firebaseAnalytics != null) {
-            firebaseAnalytics!!.setCurrentScreen(activity, fragmentName, null)
-        }
+        firebaseAnalytics?.setCurrentScreen(activity, fragmentName, null)
         if (facebookAnalytics != null) {
             val bundle = Bundle()
             bundle.putString("content", fragmentName)
@@ -85,21 +78,17 @@ class AnalyticsManager(private val mContext: Context) {
     }
 
     fun updateAnalyticsUserId(userId: String) {
-        if (firebaseAnalytics != null) {
-            firebaseAnalytics!!.setUserId(userId)
-        }
+        firebaseAnalytics?.setUserId(userId)
         if (facebookAnalytics != null) {
             AppEventsLogger.setUserID(userId)
         }
     }
 
     private fun updateUserProperties() {
-        val accessibility = (mContext as StarsEarthApplication).accessibility
-        val user_props = accessibility.userPropertiesAccessibility
-        if (firebaseAnalytics != null && user_props != null) {
-            for (key in user_props.keySet()) {
-                firebaseAnalytics!!.setUserProperty(key, user_props.get(key)!!.toString()) //must be a string
-            }
+        val accessibility = (mContext as? StarsEarthApplication)?.accessibilityManager
+        val user_props = accessibility?.userPropertiesAccessibility
+        user_props?.keySet()?.forEach {
+            firebaseAnalytics?.setUserProperty(it, user_props.get(it)!!.toString()) //must be a string
         }
         if (facebookAnalytics != null) {
             AppEventsLogger.updateUserProperties(user_props, null)
@@ -114,7 +103,7 @@ class AnalyticsManager(private val mContext: Context) {
     fun sendAnalyticsForDetailScreenGesture(teachingContent: Any?, action: String) {
         val bundle = Bundle()
         bundle.putString("action", action)
-        bundle.putString("title", (teachingContent as? SEBaseObject)?.title)
+        bundle.putString("title", (teachingContent as? SETeachingContent)?.title)
         bundle.putString("type", if (teachingContent is Course) {
             "course"
         } else {
@@ -167,7 +156,7 @@ class AnalyticsManager(private val mContext: Context) {
                 task: to know task for which detail item was selected
                index: to know if the user had to scroll down to find item
      */
-    fun sendAnalyticsForDetailListItemTap(title: String, teachingContent: SEBaseObject?) {
+    fun sendAnalyticsForDetailListItemTap(title: String, teachingContent: SETeachingContent?) {
         val bundle = Bundle()
         bundle.putString("title", title)
         bundle.putString("task_title", teachingContent?.title)
@@ -180,7 +169,7 @@ class AnalyticsManager(private val mContext: Context) {
                 task: to know task for which detail item was selected
                index: to know if the user had to scroll down to find item
      */
-    fun sendAnalyticsForDetailListItemLongPress(title: String, teachingContent: SEBaseObject?) {
+    fun sendAnalyticsForDetailListItemLongPress(title: String, teachingContent: SETeachingContent?) {
         val bundle = Bundle()
         bundle.putString("title", title)
         bundle.putString("task_title", teachingContent?.title)
@@ -190,12 +179,13 @@ class AnalyticsManager(private val mContext: Context) {
     /*
         Results screen gesture to open responses
      */
-    fun sendAnalyticsForResultsScreenGesture(task: Task?, action: String) {
+    fun sendAnalyticsForResultsToResponses(task: Task?, isResponsesPresent: Boolean, action: String) {
         val bundle = Bundle()
         bundle.putString("action", action)
+        bundle.putBoolean("isResponsesPresent", isResponsesPresent)
         bundle.putString("title", task?.title)
         bundle.putString("type", "task")
-        logActionEvent("se1_results_screen_gesture", bundle)
+        logActionEvent("se1_result_to_responses", bundle)
     }
 
     /*
@@ -217,7 +207,7 @@ class AnalyticsManager(private val mContext: Context) {
      */
     fun sendAnalyticsForRecordListItemTap(selected: RecordItem, index: Int) {
         val bundle = Bundle()
-        bundle.putString("title", (selected.teachingContent as? SEBaseObject)?.title)
+        bundle.putString("title", (selected.teachingContent as? SETeachingContent)?.title)
         bundle.putInt("index", index)
         logActionEvent("se1_record_list_item_tap", bundle)
     }

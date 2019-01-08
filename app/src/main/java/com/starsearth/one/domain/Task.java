@@ -16,7 +16,7 @@ import java.util.Random;
  * Created by faimac on 1/30/18.
  */
 
-public class Task extends SEBaseObject {
+public class Task extends SETeachingContent {
 
     public static String FAIL_REASON = "fail_reason";
     public static String NO_ATTEMPT = "no_attempt";
@@ -32,7 +32,6 @@ public class Task extends SEBaseObject {
     public boolean ordered; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
-    public List<String> tags = new ArrayList<>();
     public boolean isTextVisibleOnStart         = true;
     public boolean submitOnReturnTapped         = false; //submit the activity when user has tapped return
     public boolean isPassFail                   = false;
@@ -86,7 +85,6 @@ public class Task extends SEBaseObject {
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
-        tags = in.readArrayList(String.class.getClassLoader());
         isTextVisibleOnStart = in.readByte() != 0;
         submitOnReturnTapped = in.readByte() != 0;
         isPassFail = in.readByte() != 0;
@@ -121,7 +119,6 @@ public class Task extends SEBaseObject {
         result.put("ordered", ordered);
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
-        result.put("tags", tags);
         result.put("isTextVisibleOnStart", isTextVisibleOnStart);
         result.put("submitOnReturnTapped", submitOnReturnTapped);
         result.put("isPassFail", isPassFail);
@@ -151,7 +148,6 @@ public class Task extends SEBaseObject {
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);
-        dest.writeList(tags);
         dest.writeByte((byte) (isTextVisibleOnStart ? 1 : 0));
         dest.writeByte((byte) (submitOnReturnTapped ? 1 : 0));
         dest.writeByte((byte) (isPassFail ? 1 : 0));

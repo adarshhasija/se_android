@@ -12,22 +12,22 @@ import java.util.List;
 
 import static android.content.Context.ACCESSIBILITY_SERVICE;
 
-public class Accessibility {
+public class SeOneAccessibilityManager {
 
     private Context mContext;
 
-    public Accessibility(Context context) {
+    public SeOneAccessibilityManager(Context context) {
         mContext = context;
     }
 
     public Bundle getUserPropertiesAccessibility() {
         Bundle bundle = new Bundle();
-        bundle.putInt("talkback_service_enabled", isTalkbackOn()? 1 : 0);
-        bundle.putInt("magnification_service_enabled", isMagnificationServiceOn()? 1 : 0);
-        bundle.putInt("select_to_speak_service_enabled", isSelectToSpeakOn()? 1 : 0);
-        bundle.putInt("switch_access_service_enabled", isSwitchAccessOn()? 1 : 0);
-        bundle.putInt("voice_access_service_enabled", isVoiceAccessOn()? 1 : 0);
-        bundle.putInt("braille_back_service_enabled", isBrailleBackOn()? 1 : 0);
+        bundle.putInt("talkback", isTalkbackOn()? 1 : 0);
+        bundle.putInt("magnification", isMagnificationServiceOn()? 1 : 0);
+        bundle.putInt("select_to_speak", isSelectToSpeakOn()? 1 : 0);
+        bundle.putInt("switch_access", isSwitchAccessOn()? 1 : 0);
+        bundle.putInt("voice_access", isVoiceAccessOn()? 1 : 0);
+        bundle.putInt("braille_back", isBrailleBackOn()? 1 : 0);
         return bundle;
     }
 

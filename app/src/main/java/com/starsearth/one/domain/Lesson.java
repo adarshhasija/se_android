@@ -1,7 +1,6 @@
 package com.starsearth.one.domain;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 
@@ -12,7 +11,7 @@ import java.util.Map;
  * Created by faimac on 2/28/17.
  */
 
-public class Lesson extends SEBaseObject {
+public class Lesson extends SETeachingContent {
 
     public String title;
     public int index;

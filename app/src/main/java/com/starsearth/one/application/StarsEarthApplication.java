@@ -1,20 +1,13 @@
 package com.starsearth.one.application;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.FirebaseDatabase;
-import com.starsearth.one.R;
-import com.starsearth.one.domain.Accessibility;
+import com.starsearth.one.domain.SeOneAccessibilityManager;
 import com.starsearth.one.managers.AdsManager;
 import com.starsearth.one.managers.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
@@ -28,7 +21,7 @@ public class StarsEarthApplication extends Application {
 
     private FirebaseRemoteConfigWrapper mFirebaseRemoteConfigWrapper;
     private AnalyticsManager mAnalyticsManager;
-    private Accessibility mAccessibility;
+    private SeOneAccessibilityManager mSeOneAccessibilityManager;
     private AdsManager mAdsManager;
 
     private User user;
@@ -61,35 +54,8 @@ public class StarsEarthApplication extends Application {
         return mAnalyticsManager;
     }
 
-    public Accessibility getAccessibility() {
-        return mAccessibility;
-    }
-
-    private SharedPreferences preferences;
-    private SharedPreferences.OnSharedPreferenceChangeListener spChanged =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-
-                }
-            };
-
-    public void logActionEvent(String eventName, Bundle bundle) {
-        if (mAnalyticsManager != null) {
-            mAnalyticsManager.logActionEvent(eventName, bundle);
-        }
-    }
-
-    public void logFragmentViewEvent(String fragmentName, Activity activity) {
-        if (mAnalyticsManager != null) {
-            mAnalyticsManager.logFragmentViewEvent(fragmentName, activity);
-        }
-    }
-
-    public void updateUserAnalyticsInfo(String userId) {
-        if (mAnalyticsManager != null) {
-            mAnalyticsManager.updateUserAnalyticsInfo(userId);
-        }
+    public SeOneAccessibilityManager getAccessibilityManager() {
+        return mSeOneAccessibilityManager;
     }
 
 
@@ -97,12 +63,10 @@ public class StarsEarthApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        //preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //preferences.registerOnSharedPreferenceChangeListener(spChanged);
 
         mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper();
         mAnalyticsManager = new AnalyticsManager(getApplicationContext());
-        mAccessibility = new Accessibility(getApplicationContext());
+        mSeOneAccessibilityManager = new SeOneAccessibilityManager(getApplicationContext());
         mAdsManager = new AdsManager(getApplicationContext());
 
         //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility");
@@ -113,27 +77,6 @@ public class StarsEarthApplication extends Application {
 
     public String getRemoteConfigAnalytics() {
         return mFirebaseRemoteConfigWrapper.get("analytics");
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public void vibrate(long timeMillis) {
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(timeMillis);
-    }
-
-    public void showNoInternetDialog(Context context) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setTitle(R.string.error);
-        alertDialog.setMessage(R.string.no_internet);
-        alertDialog.setNeutralButton(android.R.string.ok, null);
-        alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-        alertDialog.show();
     }
 
     public User getUser() {

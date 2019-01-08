@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class Course extends SEBaseObject {
+public class Course extends SETeachingContent {
 
     public String type;
     public String description;
@@ -30,7 +30,6 @@ public class Course extends SEBaseObject {
     public String attemptedByUserId = null; //The user who started an attempt on this Course
     public HashMap<Long, Checkpoint> checkpoints; //Checkpoint after task with key == id
     public Boolean isOwnerWantingAds = false;
-    public List<String> tags = new ArrayList<>();
 
     public Course() {
         super();
@@ -67,17 +66,6 @@ public class Course extends SEBaseObject {
         ////
         this.attemptedByUserId = map.containsKey("attemptedByUserId") ? (String) map.get("attemptedByUserId") : null;
         this.hasKeyboardTest = map.containsKey("isOwnerWantingAds") ? (Boolean) map.get("isOwnerWantingAds") : false;
-        ////Set tags list
-        ArrayList<String> mpArrayListTags = (ArrayList<String>) map.get("tags");
-        if (mpArrayListTags != null) {
-            this.tasks = new ArrayList<>();
-            for (Object tag : mpArrayListTags) {
-                if (tag instanceof String) {
-                    this.tags.add((String) tag);
-                }
-            }
-        }
-        ////
     }
 
     public long getId() {
@@ -116,7 +104,6 @@ public class Course extends SEBaseObject {
         attemptedByUserId = in.readString();
         checkpoints = in.readHashMap(getClass().getClassLoader());
         isOwnerWantingAds = in.readByte() != 0;
-        tags = in.readArrayList(String.class.getClassLoader());
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -165,7 +152,6 @@ public class Course extends SEBaseObject {
         result.put("attemptedByUserId", attemptedByUserId);
         result.put("checkpoints", checkpoints);
         result.put("isOwnerWantingAds", isOwnerWantingAds);
-        result.put("tags", tags);
 
         return result;
     }
@@ -187,7 +173,6 @@ public class Course extends SEBaseObject {
         dest.writeString(attemptedByUserId);
         dest.writeMap(checkpoints);
         dest.writeByte((byte) (isOwnerWantingAds? 1 : 0));
-        dest.writeList(tags);
     }
 
     public boolean isTaskExists(long taskId) {

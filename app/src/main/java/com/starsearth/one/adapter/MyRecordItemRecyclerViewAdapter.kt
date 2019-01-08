@@ -45,7 +45,7 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
         val teachingContent = holder.mItem?.teachingContent
         val results = holder.mItem?.results
 
-        (teachingContent as SEBaseObject)?.title?.let { holder.mTitleView.text = Utils.formatStringFirstLetterCapital(it) }
+        (teachingContent as SETeachingContent)?.title?.let { holder.mTitleView.text = Utils.formatStringFirstLetterCapital(it) }
         if (teachingContent is Task && teachingContent.timed) {
             holder.mTimedView.text = mContext?.getText(R.string.timed)
         }
@@ -63,8 +63,7 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
         }
 
         holder.mView.setOnClickListener {
-            //holder.mItem?.let { mFragment.listItemSelected(it, position) }
-            holder.mItem?.let { mListener?.onRecordListItemInteraction(it, position) } //mListener?.onTaskDetailFragmentSwipeInteraction(holder.mItem)
+            holder.mItem?.let { mListener?.onRecordListItemInteraction(it, position) }
         }
     }
 
