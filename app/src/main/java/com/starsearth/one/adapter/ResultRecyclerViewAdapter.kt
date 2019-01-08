@@ -72,7 +72,7 @@ class ResultRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mDateTimeView: TextView = mView.tv_date_time
+        val mDateTimeView: TextView = mView.tvDateTime
         val mScoreView: TextView = mView.tv_score
 
         override fun toString(): String {

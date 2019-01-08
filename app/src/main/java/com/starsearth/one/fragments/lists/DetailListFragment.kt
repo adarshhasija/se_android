@@ -107,7 +107,7 @@ class DetailListFragment : Fragment() {
                 listTitles.add(LIST_ITEM.HIGH_SCORE)
             }
 
-            view.adapter = TaskDetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener, this)
+            view.adapter = TaskDetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener)
         }
 
         return view

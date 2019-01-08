@@ -26,7 +26,7 @@ import com.starsearth.one.managers.AnalyticsManager
 
 class MainActivity : AppCompatActivity(),
         RecordListFragment.OnRecordListFragmentInteractionListener,
-        DetailFragment.OnTaskDetailFragmentInteractionListener,
+        DetailFragment.OnDetailFragmentInteractionListener,
         DetailListFragment.OnTaskDetailListFragmentListener,
         ResultListFragment.OnResultListFragmentInteractionListener,
         CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener,

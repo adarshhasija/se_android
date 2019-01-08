@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -20,7 +19,7 @@ import com.starsearth.one.R
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.database.Firebase
 import com.starsearth.one.domain.*
-import com.starsearth.one.managers.AdsManager
+import com.starsearth.one.listeners.SeOnTouchListener
 import kotlinx.android.synthetic.main.fragment_task_detail.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,47 +28,14 @@ import kotlin.collections.HashMap
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [DetailFragment.OnTaskDetailFragmentInteractionListener] interface
+ * [DetailFragment.OnDetailFragmentInteractionListener] interface
  * to handle interaction events.
  * Use the [DetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DetailFragment : Fragment(), View.OnTouchListener {
+class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface {
 
-    private var x1: Float = 0.toFloat()
-    private var x2:Float = 0.toFloat()
-    private var y1:Float = 0.toFloat()
-    private var y2:Float = 0.toFloat()
-    private var actionDownTimestamp : Long = 0
-    internal val MIN_DISTANCE = 150
-    override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-        when (event?.getAction()) {
-            MotionEvent.ACTION_DOWN -> {
-                x1 = event?.getX()
-                y1 = event?.getY()
-                actionDownTimestamp = Calendar.getInstance().timeInMillis
-            }
-            MotionEvent.ACTION_UP -> {
-                val actionUpTimestamp = Calendar.getInstance().timeInMillis
-                x2 = event?.getX()
-                y2 = event?.getY()
-                val deltaX = x2 - x1
-                val deltaY = y2 - y1
-                if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
-                    gestureSwipe()
-                } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
-                    gestureLongPress()
-                } else {
-                    gestureTap()
-                }
-            }
-        }
-        return true
-    }
-
-
-
-    private fun gestureTap() {
+    override fun gestureTap() {
         if (tvTapScreenToStart.visibility == View.VISIBLE) {
             (activity?.application as? StarsEarthApplication)?.adsManager?.generateAd(mTeachingContent, mResults.toList())
             var task : Task? =
@@ -84,20 +50,19 @@ class DetailFragment : Fragment(), View.OnTouchListener {
                 mListener?.onDetailFragmentTapInteraction(task)
             }
         }
-
     }
 
-    private fun gestureLongPress() {
-        if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
-            mListener?.onDetailFragmentLongPressInteraction(mTeachingContent, mResults.toList())
-        }
-    }
-
-    private fun gestureSwipe() {
+    override fun gestureSwipe() {
         if (tvSwipeToContinue.visibility == View.VISIBLE) {
             if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
                 mListener?.onDetailFragmentSwipeInteraction(mTeachingContent)
             }
+        }
+    }
+
+    override fun gestureLongPress() {
+        if (tvLongPressForMoreOptions.visibility == View.VISIBLE) {
+            mListener?.onDetailFragmentLongPressInteraction(mTeachingContent, mResults.toList())
         }
     }
 
@@ -106,7 +71,7 @@ class DetailFragment : Fragment(), View.OnTouchListener {
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
     private var mReturnBundle = Bundle()
 
-    private var mListener: OnTaskDetailFragmentInteractionListener? = null
+    private var mListener: OnDetailFragmentInteractionListener? = null
     private var mDatabase : DatabaseReference? = null
 
     /*
@@ -242,7 +207,7 @@ class DetailFragment : Fragment(), View.OnTouchListener {
         //query?.addChildEventListener(mChildEventListener);
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
 
-        clTask?.setOnTouchListener(this)
+        clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
         //updateUI()
     }
 
@@ -478,10 +443,10 @@ class DetailFragment : Fragment(), View.OnTouchListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnTaskDetailFragmentInteractionListener) {
+        if (context is OnDetailFragmentInteractionListener) {
             mListener = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailFragmentInteractionListener")
+            throw RuntimeException(context!!.toString() + " must implement OnDetailFragmentInteractionListener")
         }
     }
 
@@ -499,7 +464,7 @@ class DetailFragment : Fragment(), View.OnTouchListener {
      *
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
-    interface OnTaskDetailFragmentInteractionListener {
+    interface OnDetailFragmentInteractionListener {
         fun onDetailFragmentTapInteraction(task: Task)
         fun onDetailFragmentSwipeInteraction(teachingContent: Any?)
         fun onDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>)

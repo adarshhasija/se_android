@@ -1,14 +1,11 @@
 package com.starsearth.one.fragments
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import android.widget.TextView
 
 import com.starsearth.one.R
@@ -17,8 +14,9 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
+import com.starsearth.one.listeners.SeOnTouchListener
 import com.starsearth.one.managers.AnalyticsManager
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_result_detail.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_TASK = "task"
@@ -33,12 +31,26 @@ private const val ARG_RESULT = "result"
  * create an instance of this fragment.
  *
  */
-class ResultDetailFragment : Fragment(), View.OnTouchListener {
+class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface {
+
+    override fun gestureTap() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun gestureSwipe() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
+    override fun gestureLongPress() {
+        listener?.onResultDetailFragmentInteraction(result, task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
+    }
+
     private lateinit var task: Task
     private lateinit var result: Result
     private var listener: OnResultDetailFragmentInteractionListener? = null
 
-    private var x1: Float = 0.toFloat()
+/*    private var x1: Float = 0.toFloat()
     private var x2:Float = 0.toFloat()
     private var y1:Float = 0.toFloat()
     private var y2:Float = 0.toFloat()
@@ -92,7 +104,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
             })
             alertDialog.show()
         }   */
-    }
+    }   */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,68 +123,68 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<TextView>(R.id.tv_date_time).text = Utils.formatDateTime(result.timestamp)
+        tvDateTime?.text = Utils.formatDateTime(result.timestamp)
 
         if (result is ResultTyping) {
-            view.findViewById<TextView>(R.id.tv_typing_speed).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_typing_speed).text =
+            tv_typing_speed?.visibility = View.VISIBLE
+            tv_typing_speed?.text =
                     context?.resources?.getString(R.string.typing_speed) +
                     ":" +
                     " " +
                     (result as ResultTyping).speedWPM
-            view.findViewById<TextView>(R.id.tv_accuracy).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_accuracy).text =
+            tv_accuracy?.visibility = View.VISIBLE
+            tv_accuracy.text =
                     context?.resources?.getString(R.string.accuracy) +
                     ":" +
                     " " +
                     (result as ResultTyping).accuracy +
                     "%"
-            view.findViewById<TextView>(R.id.tv_target_accuracy).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_target_accuracy).text =
+            tv_target_accuracy?.visibility = View.VISIBLE
+            tv_target_accuracy?.text =
                     context?.resources?.getString(R.string.target_accuracy) +
                     ":" +
                     " " +
                     "90%"
-            view.findViewById<TextView>(R.id.tv_pass_fail).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_pass_fail).text =
+            tv_pass_fail?.visibility = View.VISIBLE
+            tv_pass_fail?.text =
                     context?.resources?.getString(R.string.result) +
                     ":" +
                     " " +
                     (result as ResultTyping).getScoreSummary(context, task.isPassFail, task.passPercentage)
-            view.findViewById<TextView>(R.id.tv_words_correct).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_words_correct).text =
+            tv_words_correct?.visibility = View.VISIBLE
+            tv_words_correct?.text =
                     context?.resources?.getString(R.string.words_correct) +
                     ":" +
                     " " +
                     (result as ResultTyping).words_correct
-            view.findViewById<TextView>(R.id.tv_words_total_attempted).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_words_total_attempted).text =
+            tv_words_total_attempted?.visibility = View.VISIBLE
+            tv_words_total_attempted?.text =
                     context?.resources?.getString(R.string.attempted) +
                     ":" +
                     " " +
                     (result as ResultTyping).words_total_finished
-            view.findViewById<TextView>(R.id.tv_characters_correct).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_characters_correct).text =
+            tv_characters_correct?.visibility = View.VISIBLE
+            tv_characters_correct?.text =
                     context?.resources?.getString(R.string.characters_correct) +
                     ":" +
                     " " +
                     (result as ResultTyping).characters_correct
-            view.findViewById<TextView>(R.id.tv_characters_total_attempted).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_characters_total_attempted).text =
+            tv_characters_total_attempted?.visibility = View.VISIBLE
+            tv_characters_total_attempted?.text =
                     context?.resources?.getString(R.string.attempted) +
                     ":" +
                     " " +
                     (result as ResultTyping).characters_total_attempted
         }
         else if (result is Result) {
-            view.findViewById<TextView>(R.id.tv_items_correct).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_items_correct).text =
+            tv_items_correct?.visibility = View.VISIBLE
+            tv_items_correct?.text =
                                         context?.resources?.getString(R.string.correct) +
                                         ":" +
                                         " " +
                                         result.items_correct
-            view.findViewById<TextView>(R.id.tv_items_total_attempted).visibility = View.VISIBLE
-            view.findViewById<TextView>(R.id.tv_items_total_attempted).text =
+            tv_items_total_attempted?.visibility = View.VISIBLE
+            tv_items_total_attempted?.text =
                                         context?.resources?.getString(R.string.attempted) +
                                         ":" +
                                         " " +
@@ -182,7 +194,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
 
 
 
-        view.findViewById<RelativeLayout>(R.id.rl_main)?.setOnTouchListener(this)
+        rlMain?.setOnTouchListener(SeOnTouchListener(this@ResultDetailFragment))
 
         ///ACCESSIBILITY
         var contentDescription = context?.resources?.getString(R.string.move_your_finger_to_top_left_to_get_content)
@@ -198,7 +210,7 @@ class ResultDetailFragment : Fragment(), View.OnTouchListener {
             }
         }
 
-        view.findViewById<RelativeLayout>(R.id.rl_main).contentDescription = contentDescription
+        rlMain?.contentDescription = contentDescription
         //////
 
     }
