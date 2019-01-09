@@ -25,7 +25,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '28.0.2'
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8

@@ -59,7 +59,7 @@ class ResultListFragment : Fragment() {
                 }
                 view.addItemDecoration(DividerItemDecoration(context,
                         DividerItemDecoration.VERTICAL))
-                adapter = ResultRecyclerViewAdapter(context, mTask, mResults, fragment, listener)
+                adapter = ResultRecyclerViewAdapter(context, mTask, mResults,listener)
             }
         }
         return view

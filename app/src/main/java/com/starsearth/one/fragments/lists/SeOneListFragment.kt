@@ -56,7 +56,7 @@ class SeOneListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            view.adapter = MySeOneListItemRecyclerViewAdapter(getData(), mListener, this)
+            view.adapter = MySeOneListItemRecyclerViewAdapter(getData(), mListener)
         }
         return view
     }

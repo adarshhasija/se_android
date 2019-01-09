@@ -19,7 +19,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnRecordListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?, private val mFragment: RecordListFragment) : RecyclerView.Adapter<MyRecordItemRecyclerViewAdapter.ViewHolder>() {
+class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?) : RecyclerView.Adapter<MyRecordItemRecyclerViewAdapter.ViewHolder>() {
 
 
     var mValuesFiltered : ArrayList<RecordItem> = ArrayList() //For search filter purposes

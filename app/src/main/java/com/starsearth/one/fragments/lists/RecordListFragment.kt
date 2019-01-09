@@ -203,7 +203,7 @@ class RecordListFragment : Fragment() {
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             val mainMenuItems = getData(mType)
-            view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener, this)
+            view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
         return view
     }

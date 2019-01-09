@@ -17,7 +17,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnSeOneListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MySeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>, private val mListener: OnSeOneListFragmentInteractionListener?, private val mFragment: SeOneListFragment) : RecyclerView.Adapter<MySeOneListItemRecyclerViewAdapter.ViewHolder>() {
+class MySeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>, private val mListener: OnSeOneListFragmentInteractionListener?) : RecyclerView.Adapter<MySeOneListItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

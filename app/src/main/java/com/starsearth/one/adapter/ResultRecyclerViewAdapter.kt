@@ -28,7 +28,6 @@ class ResultRecyclerViewAdapter(
         private val mContext: Context,
         private val mTask: Task,
         private val mValues: List<Result>,
-        private val mFragment: ResultListFragment,
         private val mListener: OnResultListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>() {
 
