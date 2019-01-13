@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.TaskDetailRecyclerViewAdapter
+import com.starsearth.one.adapter.DetailRecyclerViewAdapter
 import com.starsearth.one.domain.*
 import kotlin.collections.ArrayList
 
@@ -107,7 +107,7 @@ class DetailListFragment : Fragment() {
                 listTitles.add(LIST_ITEM.HIGH_SCORE)
             }
 
-            view.adapter = TaskDetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener)
+            view.adapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener)
         }
 
         return view

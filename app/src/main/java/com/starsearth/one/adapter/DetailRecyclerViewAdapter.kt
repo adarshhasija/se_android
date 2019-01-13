@@ -21,7 +21,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnTaskDetailListFragmentListener].
  *
  */
-class TaskDetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SETeachingContent?, private val mListTitles: ArrayList<DetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?) : RecyclerView.Adapter<TaskDetailRecyclerViewAdapter.ViewHolder>() {
+class DetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SETeachingContent?, private val mListTitles: ArrayList<DetailListFragment.LIST_ITEM>, private val mResults: ArrayList<Result>, private val mListener: OnTaskDetailListFragmentListener?) : RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = R.layout.task_detail_list_item

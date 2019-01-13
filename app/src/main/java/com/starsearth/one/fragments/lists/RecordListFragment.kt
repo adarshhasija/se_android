@@ -123,7 +123,7 @@ class RecordListFragment : Fragment() {
 
     }
 
-    private val mResultsSingleValueListener = object : ValueEventListener {
+    private val mResultsSingleValueListener = object : ValueEventListener {D
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             mTimer?.cancel()
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)

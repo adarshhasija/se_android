@@ -208,7 +208,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
 
         clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
-        //updateUI()
+        updateUI() //This must remain uncommented. UI should be visible even if no results are available
     }
 
     fun updateUI() {
