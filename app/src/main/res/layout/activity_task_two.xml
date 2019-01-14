@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#ffffff"
     tools:context=".activity.TaskTwoActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
@@ -28,11 +28,26 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="@string/tap_screen_to_hear_text_again"
-            android:layout_below="@id/tv_completed_total"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
         <!-- END -->
 
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="1:00" />
+
+
+
+        <TextView
+            android:id="@+id/tvMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_margin="5dp" />
 
 
     </LinearLayout>

@@ -96,8 +96,7 @@
         <activity
             android:name=".activity.TaskTwoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_task_two"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
