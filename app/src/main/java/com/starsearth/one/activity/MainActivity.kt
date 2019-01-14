@@ -40,9 +40,9 @@ class MainActivity : AppCompatActivity(),
             DetailListFragment.LIST_ITEM.HIGH_SCORE -> {
                 val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("task", (teachingContent as Task))
-                bundle.putParcelable("result", teachingContent.getHighScoreResult(results))
-                bundle.putString("view_type", "high_score")
+                bundle.putParcelable(FullScreenActivity.TASK, (teachingContent as Task))
+                bundle.putParcelable(FullScreenActivity.RESULT, teachingContent.getHighScoreResult(results))
+                bundle.putString(FullScreenActivity.VIEW_TYPE, FullScreenActivity.VIEW_TYPE_HIGH_SCORE)
                 intent.putExtras(bundle)
                 startActivity(intent)
             }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".activity.TaskTwoActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- COMPLETED TOTAL IS USED AS TOP ITEM IF UNTIMED TASK AND MULTIPLE ITEMS -->
+        <TextView
+            android:id="@+id/tvCompletedTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/tvTapScreenToHearContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/tap_screen_to_hear_text_again"
+            android:layout_below="@id/tv_completed_total"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_centerHorizontal="true" />
+        <!-- END -->
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivRed"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#FF0000" />
+
+    <ImageView
+        android:id="@+id/imgGreen"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#00FF00" />
+
+</android.support.constraint.ConstraintLayout>

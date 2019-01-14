@@ -70,10 +70,10 @@ class FullScreenActivity : AppCompatActivity(), HighScoreFragment.OnFragmentInte
         dummy_button.setOnTouchListener(mDelayHideTouchListener)
 
         val extras = intent.extras
-        val mTask = extras?.get("task")
-        val mResult = extras?.get("result")
-        val view_type = extras?.get("view_type")
-        if (view_type == "high_score") {
+        val mTask = extras?.get(TASK)
+        val mResult = extras?.get(RESULT)
+        val view_type = extras?.get(VIEW_TYPE)
+        if (view_type == VIEW_TYPE_HIGH_SCORE) {
             val fragment = HighScoreFragment.newInstance((mTask as Parcelable), (mResult as Parcelable))
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit()
@@ -148,5 +148,10 @@ class FullScreenActivity : AppCompatActivity(), HighScoreFragment.OnFragmentInte
          * and a change of the status and navigation bar.
          */
         private val UI_ANIMATION_DELAY = 300
+
+        val VIEW_TYPE = "view_type"
+        val VIEW_TYPE_HIGH_SCORE = "view_type_high_score"
+        val TASK = "task"
+        val RESULT = "result"
     }
 }
