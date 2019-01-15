@@ -1,21 +1,34 @@
 package com.starsearth.one.activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.RingtoneManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.os.Vibrator
+import android.speech.tts.TextToSpeech
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.BackgroundColorSpan
+import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import com.starsearth.one.R
 import com.starsearth.one.activity.FullScreenActivity.Companion.TASK
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Task
 import kotlinx.android.synthetic.main.activity_task_two.*
-import java.util.HashMap
+import java.util.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -23,11 +36,19 @@ import java.util.HashMap
  */
 class TaskTwoActivity : AppCompatActivity() {
 
+    val GESTURE_SWIPE = "GESTURE_SWIPE"
+    val GESTURE_TAP = "GESTURE_TAP"
+    var QUESTION_SPELL_IGNORE_CASE = "QUESTION_SPELL_IGNORE_CASE"
+    var QUESTION_TYPE_CHARACTER = "QUESTION_TYPE_CHARACTER"
+
     private lateinit var mTask : Task
+
+    private lateinit var tts: TextToSpeech
 
     private var mCountDownTimer: CountDownTimer? = null
     private var startTimeMillis: Long = 0
     private var timeTakenMillis : Long = 0
+    private val responses = ArrayList<Response>()
 
     //typing activity
     private var index = 0
@@ -63,6 +84,55 @@ class TaskTwoActivity : AppCompatActivity() {
         if (mTask.timed) {
             setupTimer(mTask.durationMillis.toLong(), 1000)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        tts = TextToSpeech(this, null)
+        tts.setLanguage(Locale.US)
+
+        cl?.requestFocus()
+        if (mTask.isKeyboardRequired) {
+            cl.postDelayed({
+                val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                keyboard.showSoftInput(cl, 0)
+            }, 200)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        tts?.shutdown()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        taskCancelled(Task.BACK_PRESSED)
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (mTask.isExitOnInterruption) {
+            taskCancelled(Task.HOME_BUTTON_TAPPED)
+        }
+    }
+
+    private fun beep() {
+        try {
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(applicationContext, notification)
+            r.play()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun vibrate() {
+        val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        // Vibrate for 100 milliseconds
+        v.vibrate(100)
     }
 
     private fun setupTimer(duration: Long, interval: Long) {
@@ -168,6 +238,68 @@ class TaskTwoActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun flashWrongAnswer() {
+        ivRed?.alpha = 0f
+        ivRed?.visibility = View.VISIBLE
+
+        ivRed?.animate()
+                ?.alpha(1f)
+                ?.setDuration(150)
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        ivRed?.visibility = View.GONE
+                    }
+                })
+    }
+
+    private fun flashRightAnswer() {
+        ivGreen?.alpha = 0f
+        ivGreen?.visibility = View.VISIBLE
+
+        ivGreen?.animate()
+                ?.alpha(1f)
+                ?.setDuration(150)
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        ivGreen?.visibility = View.GONE
+                    }
+                })
+    }
+
+    /*
+        Analyze the new character the user entered and set the background of the character as right or wrong
+     */
+    private fun checkEnteredCharacter(enteredCharacter: Char) : String {
+        val text = SpannableString(tvMain.text.toString())
+
+        val expectedCharacter = expectedAnswer?.getOrNull(index)
+        if (enteredCharacter == expectedCharacter) run {
+            charactersCorrect++
+            text.setSpan(BackgroundColorSpan(Color.GREEN), index, index + 1, 0)
+            responses.add(Response(
+                    QUESTION_TYPE_CHARACTER,
+                    Character.toString(expectedCharacter),
+                    Character.toString(enteredCharacter),
+                    true
+            ))
+        }
+        else if (expectedCharacter != null) run {
+            wordIncorrect = true
+            itemIncorrect = true
+            text.setSpan(BackgroundColorSpan(Color.RED), index, index + 1, 0)
+            responses.add(Response(
+                    QUESTION_TYPE_CHARACTER,
+                    Character.toString(expectedCharacter),
+                    Character.toString(enteredCharacter),
+                    false
+            ))
+        }
+
+        return text.toString()
+    }
+
+
+
     //If timed activity, return timeTakenMillis
     //If untimed activity, calculate the time taken
     private fun calculateTimeTaken(): Long {
@@ -199,6 +331,47 @@ class TaskTwoActivity : AppCompatActivity() {
         bundle.putSerializable("result_map", map)
         setResult(Activity.RESULT_OK, Intent().putExtras(bundle))
         finish()
+    }
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_SHIFT_LEFT,
+            KeyEvent.KEYCODE_SHIFT_RIGHT,
+            KeyEvent.KEYCODE_CAPS_LOCK ->
+                //Ignore these
+                return true
+            KeyEvent.KEYCODE_DEL ->
+                if (mTask.isBackspaceAllowed) {
+                    tvMain?.text = tvMain.text.subSequence(0, tvMain.text.length - 1)
+                }
+                else {
+                    //Backspace not allowed, signal error.
+                    beep()
+                    vibrate()
+                }
+            KeyEvent.KEYCODE_ENTER ->
+                if (mTask.submitOnReturnTapped) {
+                    itemsAttempted++
+                    tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+
+                }
+            else -> {
+                charactersTotalAttempted++
+                val inputCharacter = event?.unicodeChar?.toChar()
+                if (inputCharacter != null && mTask.type == Task.Type.TYPING) {
+                    tvMain?.text = tvMain?.text?.toString() + checkEnteredCharacter(inputCharacter)
+                }
+                else if (inputCharacter != null && mTask.type == Task.Type.SPELLING) {
+                    tvMain?.text = tvMain?.text?.toString() + inputCharacter
+                }
+            }
+
+        }
+
+        return super.onKeyDown(keyCode, event)
+
+
     }
 
 
