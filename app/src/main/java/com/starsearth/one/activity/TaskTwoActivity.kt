@@ -29,6 +29,7 @@ import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Task
 import kotlinx.android.synthetic.main.activity_task_two.*
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -99,6 +100,7 @@ class TaskTwoActivity : AppCompatActivity() {
                 keyboard.showSoftInput(cl, 0)
             }, 200)
         }
+        updateContent()
     }
 
     override fun onStop() {
@@ -223,6 +225,19 @@ class TaskTwoActivity : AppCompatActivity() {
 
     }
 
+    private fun updateContent() {
+        val nextItem = mTask.nextItem
+        if (nextItem is String) {
+            tvMain?.text = nextItem
+        }
+        else if (nextItem is HashMap<*, *>) {
+            nextItem?.forEach { text, gesture ->
+                tvMain?.text = text as? String
+                expectedAnswerGesture = gesture as Boolean
+            }
+        }
+    }
+
     private fun taskCancelled(reason: String) {
         (applicationContext as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForTaskCancellation(mTask, reason)
         endTask(reason)
@@ -238,30 +253,21 @@ class TaskTwoActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun flashWrongAnswer() {
-        ivRed?.alpha = 0f
-        ivRed?.visibility = View.VISIBLE
+    private fun flashAnswerResult(isCorrect: Boolean) {
+        val imageView = if (isCorrect) {
+                            ivGreen
+                        } else {
+                            ivRed
+                        }
+        imageView?.alpha = 0f
+        imageView?.visibility = View.VISIBLE
 
-        ivRed?.animate()
+        imageView?.animate()
                 ?.alpha(1f)
                 ?.setDuration(150)
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        ivRed?.visibility = View.GONE
-                    }
-                })
-    }
-
-    private fun flashRightAnswer() {
-        ivGreen?.alpha = 0f
-        ivGreen?.visibility = View.VISIBLE
-
-        ivGreen?.animate()
-                ?.alpha(1f)
-                ?.setDuration(150)
-                ?.setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        ivGreen?.visibility = View.GONE
+                        imageView?.visibility = View.GONE
                     }
                 })
     }
@@ -335,6 +341,7 @@ class TaskTwoActivity : AppCompatActivity() {
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        lateinit var response : Response
         when (keyCode) {
             KeyEvent.KEYCODE_SHIFT_LEFT,
             KeyEvent.KEYCODE_SHIFT_RIGHT,
@@ -351,23 +358,51 @@ class TaskTwoActivity : AppCompatActivity() {
                     vibrate()
                 }
             KeyEvent.KEYCODE_ENTER ->
-                if (mTask.submitOnReturnTapped) {
+                if (mTask.type == Task.Type.SPELLING) {
                     itemsAttempted++
                     tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+                    tvMain?.text?.toString()?.let {
+                        val isCorrect = it.equals(expectedAnswer, true)
+                        if (isCorrect) itemsCorrect++
+                        flashAnswerResult(isCorrect)
+                        responses.add(Response(QUESTION_SPELL_IGNORE_CASE,expectedAnswer,it,isCorrect))
+                    }
 
                 }
             else -> {
+                //All other characters
                 charactersTotalAttempted++
                 val inputCharacter = event?.unicodeChar?.toChar()
-                if (inputCharacter != null && mTask.type == Task.Type.TYPING) {
-                    tvMain?.text = tvMain?.text?.toString() + checkEnteredCharacter(inputCharacter)
-                }
-                else if (inputCharacter != null && mTask.type == Task.Type.SPELLING) {
+                if (mTask.type == Task.Type.SPELLING) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
                 }
+                else if (mTask.type == Task.Type.TYPING) {
+                    val isCorrect = inputCharacter == expectedAnswer?.getOrNull(index)
+                    if (isCorrect) charactersCorrect++
+                    else {
+                        itemIncorrect = true
+                        wordIncorrect = true
+                    }
+                    tvMain?.text = SpannableString(tvMain?.text)
+                                    .setSpan(BackgroundColorSpan(if (isCorrect) {
+                                                                    Color.GREEN
+                                                                } else {
+                                                                    Color.RED
+                                                                }), index, index + 1, 0)
+                                    .toString()
+                }
             }
-
         }
+
+        android.os.Handler().postDelayed({
+                    //One millis delay so user can see the result of last letter before sentence changes
+                    if (mTask.timed || !mTask.isTaskItemsCompleted(wordsTotalFinished)) {
+                        updateContent()
+                    } else {
+                        taskCompleted()
+                    }
+                },
+                100)
 
         return super.onKeyDown(keyCode, event)
 

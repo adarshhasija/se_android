@@ -160,6 +160,34 @@ public class Task extends SETeachingContent {
         dest.writeByte((byte) (isOwnerWantingAds ? 1 : 0));
     }
 
+    public Object getNextItem() {
+        Object ret = null;
+        switch (this.type) {
+            case TYPING:
+            case SPELLING:
+                Random random = new Random();
+                int i = random.nextInt(content.size());
+                ret = content.get(i);
+                break;
+            default:
+                break;
+        }
+        return ret;
+    }
+
+    public Object getNextItem(int index) {
+        Object ret = null;
+        switch (this.type) {
+            case TYPING:
+            case SPELLING:
+                ret = content.get(index % content.size());
+                break;
+            default:
+                break;
+        }
+        return ret;
+    }
+
     /*
     If content should be returned in any order
     Type: typing
