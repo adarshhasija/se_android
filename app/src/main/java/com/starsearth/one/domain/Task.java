@@ -244,7 +244,7 @@ public class Task extends SETeachingContent {
     //Swiping tasks will return false
     public boolean isTaskItemsCompleted(long itemsAttempted) {
         boolean result = false;
-        if (type != Type.TAP_SWIPE && itemsAttempted >= content.size()) {
+        if (itemsAttempted >= content.size()) {
             result = true;
         }
         return result;

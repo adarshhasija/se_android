@@ -226,6 +226,7 @@ class TaskTwoActivity : AppCompatActivity() {
     }
 
     private fun updateContent() {
+        index = 0
         val nextItem = mTask.nextItem
         if (nextItem is String) {
             expectedAnswer = nextItem.replace("␣", " ")
@@ -410,6 +411,16 @@ class TaskTwoActivity : AppCompatActivity() {
                                                 }), index, index + 1, 0)
                     tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
                 }
+                else if (mTask.type == Task.Type.TAP_SWIPE) {
+                    itemsAttempted++
+                    if (inputCharacter?.equals('y', ignoreCase = true) == true && expectedAnswerGesture) {
+                        itemsCorrect++
+                        flashAnswerResult(true)
+                    }
+                    else if (inputCharacter?.equals('n', ignoreCase = true) == true && !expectedAnswerGesture) {
+                        flashAnswerResult(false)
+                    }
+                }
 
                 //Check if we have reached the end of a word
                 if ((inputCharacter == ' ' || index == expectedAnswer?.length?.minus(1)) && !mTask.submitOnReturnTapped) {
@@ -452,15 +463,22 @@ class TaskTwoActivity : AppCompatActivity() {
 
         android.os.Handler().postDelayed({
                     //One millis delay so user can see the result of last letter before sentence changes
-                    if (index == expectedAnswer?.length && !mTask.submitOnReturnTapped) {
-                        updateContent()
-                    }
-                    else if (!mTask.timed && !mTask.isTaskItemsCompleted(wordsTotalFinished)) {
-                        updateContent()
-                    }
-                    else {
+                    if (mTask.type == Task.Type.TYPING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                         taskCompleted()
                     }
+                    else if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        taskCompleted()
+                    }
+                    else if (mTask.type == Task.Type.SPELLING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        taskCompleted()
+                    }
+                    if (mTask.type == Task.Type.TYPING && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
+                        updateContent()
+                    }
+                    else if (mTask.type == Task.Type.TAP_SWIPE && mTask.timed) {
+                        updateContent()
+                    }
+
                 },
                 100)
 
