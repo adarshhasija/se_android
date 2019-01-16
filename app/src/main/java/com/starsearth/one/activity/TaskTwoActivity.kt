@@ -14,7 +14,6 @@ import android.os.Handler
 import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.style.BackgroundColorSpan
 import android.view.KeyEvent
 import android.view.View
@@ -22,6 +21,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.activity.FullScreenActivity.Companion.TASK
 import com.starsearth.one.application.StarsEarthApplication
@@ -228,12 +228,13 @@ class TaskTwoActivity : AppCompatActivity() {
     private fun updateContent() {
         val nextItem = mTask.nextItem
         if (nextItem is String) {
+            expectedAnswer = nextItem.replace("␣", " ")
             tvMain?.text = nextItem
         }
         else if (nextItem is HashMap<*, *>) {
             nextItem?.forEach { text, gesture ->
-                tvMain?.text = text as? String
                 expectedAnswerGesture = gesture as Boolean
+                tvMain?.text = text as? String
             }
         }
     }
@@ -254,7 +255,7 @@ class TaskTwoActivity : AppCompatActivity() {
     }
 
     private fun flashAnswerResult(isCorrect: Boolean) {
-        val imageView = if (isCorrect) {
+        val imageView : ImageView = if (isCorrect) {
                             ivGreen
                         } else {
                             ivRed
@@ -270,6 +271,24 @@ class TaskTwoActivity : AppCompatActivity() {
                         imageView?.visibility = View.GONE
                     }
                 })
+    }
+
+    private fun checkWordCorrect() {
+        //You must also tap the spacebar after the word to get the word correct
+        if (!wordIncorrect) {
+            //if the word was not declared incorrect, increment the words correct count
+            wordsCorrect++
+        }
+        wordIncorrect = false //reset the flag for the next word
+    }
+
+    //Only used in type = TYPING
+    private fun checkItemCorrect() {
+        if (!itemIncorrect) {
+            //if NO characters in item were declared incorrect, increment the items correct count
+            itemsCorrect++
+        }
+        itemIncorrect = false //reset the flag for the next word
     }
 
     /*
@@ -383,22 +402,63 @@ class TaskTwoActivity : AppCompatActivity() {
                         itemIncorrect = true
                         wordIncorrect = true
                     }
-                    tvMain?.text = SpannableString(tvMain?.text)
-                                    .setSpan(BackgroundColorSpan(if (isCorrect) {
-                                                                    Color.GREEN
-                                                                } else {
-                                                                    Color.RED
-                                                                }), index, index + 1, 0)
-                                    .toString()
+                    val spannableString = SpannableString(tvMain?.text.toString())
+                    spannableString.setSpan(BackgroundColorSpan(if (isCorrect) {
+                                                    Color.GREEN
+                                                } else {
+                                                    Color.RED
+                                                }), index, index + 1, 0)
+                    tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
                 }
+
+                //Check if we have reached the end of a word
+                if ((inputCharacter == ' ' || index == expectedAnswer?.length?.minus(1)) && !mTask.submitOnReturnTapped) {
+                    //only consider this when submit on enter is not selected
+                    wordsTotalFinished++ //on spacebar, or on end of string, we have completed a word
+                    checkWordCorrect()
+                }
+
+
+            }
+
+        }
+
+        //Reached the last character in the the expected answer
+        if (index == expectedAnswer?.length?.minus(1) && mTask.type == Task.Type.TYPING) {
+            itemsAttempted++
+            checkItemCorrect()
+            if (!mTask.timed) {
+                tvCompletedTotal?.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
             }
         }
 
+        //Prepare for next item
+        index++
+
+        if (mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
+            //If we have not yet reached the end and the text is visible to the user
+            //announce next character for accessibility, index has been incremented
+            //do it only if text is visible on start
+            val nextExpectedCharacter = expectedAnswer?.getOrNull(index)
+            if (nextExpectedCharacter == ' ') {
+                tvMain.announceForAccessibility(getString(R.string.space))
+            } else if (nextExpectedCharacter == '.') {
+                tvMain.announceForAccessibility(getString(R.string.full_stop))
+            } else {
+                tvMain.announceForAccessibility(nextExpectedCharacter.toString())
+            }
+        }
+
+
         android.os.Handler().postDelayed({
                     //One millis delay so user can see the result of last letter before sentence changes
-                    if (mTask.timed || !mTask.isTaskItemsCompleted(wordsTotalFinished)) {
+                    if (index == expectedAnswer?.length && !mTask.submitOnReturnTapped) {
                         updateContent()
-                    } else {
+                    }
+                    else if (!mTask.timed && !mTask.isTaskItemsCompleted(wordsTotalFinished)) {
+                        updateContent()
+                    }
+                    else {
                         taskCompleted()
                     }
                 },
