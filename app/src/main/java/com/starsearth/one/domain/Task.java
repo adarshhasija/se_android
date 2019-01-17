@@ -162,12 +162,23 @@ public class Task extends SETeachingContent {
 
     public Object getNextItem() {
         Object ret = null;
+        Random random = new Random();
+        int i;
         switch (this.type) {
             case TYPING:
             case SPELLING:
-                Random random = new Random();
-                int i = random.nextInt(content.size());
+                i = random.nextInt(content.size());
                 ret = content.get(i);
+                break;
+            case TAP_SWIPE:
+                ret = new HashMap<>();
+                i = random.nextInt(2);
+                if (i % 2 == 0 && tap.size() > 0) {
+                    ((HashMap) ret).put(tap.get(random.nextInt(tap.size())), true);
+                }
+                else if (swipe.size() > 0) {
+                    ((HashMap) ret).put(swipe.get(random.nextInt(swipe.size())), false);
+                }
                 break;
             default:
                 break;

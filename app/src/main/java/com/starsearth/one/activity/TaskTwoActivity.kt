@@ -4,8 +4,10 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioManager
 import android.media.RingtoneManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +17,7 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -27,6 +30,7 @@ import com.starsearth.one.activity.FullScreenActivity.Companion.TASK
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Task
+import com.starsearth.one.listeners.SeOnTouchListener
 import kotlinx.android.synthetic.main.activity_task_two.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -35,7 +39,67 @@ import kotlin.collections.HashMap
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class TaskTwoActivity : AppCompatActivity() {
+class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInterface {
+
+    override fun gestureTap() {
+        if (mTask.type == Task.Type.TAP_SWIPE) {
+            //tap means true
+            itemsAttempted++
+            gestureSpamItemCounter++
+            if (expectedAnswerGesture) {
+                itemsCorrect++
+                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
+            }
+            else {
+                vibrate()
+                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+            }
+            flashAnswerResult(expectedAnswerGesture)
+            updateContent()
+        }
+        else {
+            val mgr = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val volume = mgr.getStreamVolume(AudioManager.STREAM_SYSTEM)
+            if (volume > 0) {
+                if (mTask.type == Task.Type.TYPING) {
+                    val expectedCharacter = expectedAnswer?.getOrNull(index)
+                    expectedCharacter?.toString()?.let { tts?.speak(it, TextToSpeech.QUEUE_ADD, null, "1") }
+                }
+                else {
+                    tts?.speak(expectedAnswer, TextToSpeech.QUEUE_ADD, null, "1")
+                }
+            } else {
+                val builder = (application as StarsEarthApplication).createAlertDialog(this)
+                builder.setTitle(resources.getString(R.string.alert))
+                builder.setMessage(resources.getString(R.string.volume_is_mute))
+                builder.setPositiveButton(resources.getString(android.R.string.ok)) { dialogInterface, i -> dialogInterface.dismiss() }
+                builder.show()
+            }
+        }
+    }
+
+    override fun gestureSwipe() {
+        if (mTask.type == Task.Type.TAP_SWIPE) {
+            //left -> right or top ->bottom
+            //swipe means false
+            itemsAttempted++
+            gestureSpamItemCounter++
+            if (!expectedAnswerGesture) run {
+                itemsCorrect++
+                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
+            }
+            else {
+                vibrate()
+                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+            }
+            flashAnswerResult(!expectedAnswerGesture)
+            updateContent()
+        }
+    }
+
+    override fun gestureLongPress() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     val GESTURE_SWIPE = "GESTURE_SWIPE"
     val GESTURE_TAP = "GESTURE_TAP"
@@ -85,6 +149,7 @@ class TaskTwoActivity : AppCompatActivity() {
         if (mTask.timed) {
             setupTimer(mTask.durationMillis.toLong(), 1000)
         }
+        cl?.setOnTouchListener(SeOnTouchListener(this))
     }
 
     override fun onStart() {
@@ -178,7 +243,6 @@ class TaskTwoActivity : AppCompatActivity() {
     private fun setupUI() {
         setupUIVisibility()
         setupUIText()
-        setupUIAccessibility()
     }
 
     private fun setupUIVisibility() {
@@ -221,16 +285,22 @@ class TaskTwoActivity : AppCompatActivity() {
                 }
     }
 
-    private fun setupUIAccessibility() {
-
-    }
-
     private fun updateContent() {
         index = 0
-        val nextItem = mTask.nextItem
+        val nextItem = if (mTask.ordered) {
+                            mTask.getNextItem(itemsAttempted.toInt())
+                        }
+                        else {
+                            mTask.nextItem
+                        }
         if (nextItem is String) {
             expectedAnswer = nextItem.replace("␣", " ")
-            tvMain?.text = nextItem
+            if (mTask.isTextVisibleOnStart) {
+                tvMain?.text = nextItem
+            }
+            else {
+                tvMain?.text = ""
+            }
         }
         else if (nextItem is HashMap<*, *>) {
             nextItem?.forEach { text, gesture ->
@@ -292,36 +362,8 @@ class TaskTwoActivity : AppCompatActivity() {
         itemIncorrect = false //reset the flag for the next word
     }
 
-    /*
-        Analyze the new character the user entered and set the background of the character as right or wrong
-     */
-    private fun checkEnteredCharacter(enteredCharacter: Char) : String {
-        val text = SpannableString(tvMain.text.toString())
-
-        val expectedCharacter = expectedAnswer?.getOrNull(index)
-        if (enteredCharacter == expectedCharacter) run {
-            charactersCorrect++
-            text.setSpan(BackgroundColorSpan(Color.GREEN), index, index + 1, 0)
-            responses.add(Response(
-                    QUESTION_TYPE_CHARACTER,
-                    Character.toString(expectedCharacter),
-                    Character.toString(enteredCharacter),
-                    true
-            ))
-        }
-        else if (expectedCharacter != null) run {
-            wordIncorrect = true
-            itemIncorrect = true
-            text.setSpan(BackgroundColorSpan(Color.RED), index, index + 1, 0)
-            responses.add(Response(
-                    QUESTION_TYPE_CHARACTER,
-                    Character.toString(expectedCharacter),
-                    Character.toString(enteredCharacter),
-                    false
-            ))
-        }
-
-        return text.toString()
+    private fun hasReachedEndOfWord(inputCharacter: Char?) : Boolean {
+        return (inputCharacter == ' ' || index == expectedAnswer?.length?.minus(1)) && !mTask.submitOnReturnTapped
     }
 
 
@@ -361,7 +403,6 @@ class TaskTwoActivity : AppCompatActivity() {
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        lateinit var response : Response
         when (keyCode) {
             KeyEvent.KEYCODE_SHIFT_LEFT,
             KeyEvent.KEYCODE_SHIFT_RIGHT,
@@ -383,9 +424,18 @@ class TaskTwoActivity : AppCompatActivity() {
                     tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
                     tvMain?.text?.toString()?.let {
                         val isCorrect = it.equals(expectedAnswer, true)
+                        Log.d("TAG", "*********"+isCorrect+"*********"+it+"*********"+expectedAnswer)
                         if (isCorrect) itemsCorrect++
                         flashAnswerResult(isCorrect)
                         responses.add(Response(QUESTION_SPELL_IGNORE_CASE,expectedAnswer,it,isCorrect))
+
+                        //For spelling tasks we only submit on return tapped
+                        if (mTask.type == Task.Type.SPELLING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                            taskCompleted()
+                        }
+                        else if (mTask.type == Task.Type.SPELLING && !mTask.timed && !mTask.isTaskItemsCompleted(itemsAttempted)) {
+                            updateContent()
+                        }
                     }
 
                 }
@@ -393,16 +443,24 @@ class TaskTwoActivity : AppCompatActivity() {
                 //All other characters
                 charactersTotalAttempted++
                 val inputCharacter = event?.unicodeChar?.toChar()
+                val expectedCharacter = expectedAnswer?.getOrNull(index)
                 if (mTask.type == Task.Type.SPELLING) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
                 }
                 else if (mTask.type == Task.Type.TYPING) {
-                    val isCorrect = inputCharacter == expectedAnswer?.getOrNull(index)
-                    if (isCorrect) charactersCorrect++
+                    val isCorrect = inputCharacter == expectedCharacter
+                    if (isCorrect) {
+                        charactersCorrect++
+
+                    }
                     else {
                         itemIncorrect = true
                         wordIncorrect = true
                     }
+                    if (expectedCharacter != null && inputCharacter != null) {
+                        responses.add(Response(QUESTION_TYPE_CHARACTER,Character.toString(expectedCharacter),Character.toString(inputCharacter),false))
+                    }
+
                     val spannableString = SpannableString(tvMain?.text.toString())
                     spannableString.setSpan(BackgroundColorSpan(if (isCorrect) {
                                                     Color.GREEN
@@ -413,29 +471,37 @@ class TaskTwoActivity : AppCompatActivity() {
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
                     itemsAttempted++
-                    if (inputCharacter?.equals('y', ignoreCase = true) == true && expectedAnswerGesture) {
+                    if (inputCharacter?.equals('y', ignoreCase = true) == true) {
                         itemsCorrect++
-                        flashAnswerResult(true)
+                        flashAnswerResult(expectedAnswerGesture)
+                        responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                            GESTURE_TAP
+                        } else {
+                            GESTURE_SWIPE
+                        },GESTURE_TAP, expectedAnswerGesture))  //Answer was true. If expected was true send true, else send false
                     }
-                    else if (inputCharacter?.equals('n', ignoreCase = true) == true && !expectedAnswerGesture) {
-                        flashAnswerResult(false)
+                    else if (inputCharacter?.equals('n', ignoreCase = true) == true) {
+                        flashAnswerResult(!expectedAnswerGesture)
                     }
+                    responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                        GESTURE_TAP
+                    } else {
+                        GESTURE_SWIPE
+                    },GESTURE_SWIPE, !expectedAnswerGesture)) //Answer was false. If expected was false, send true
                 }
 
                 //Check if we have reached the end of a word
-                if ((inputCharacter == ' ' || index == expectedAnswer?.length?.minus(1)) && !mTask.submitOnReturnTapped) {
+                if (mTask.type == Task.Type.TYPING && hasReachedEndOfWord(inputCharacter)) {
                     //only consider this when submit on enter is not selected
                     wordsTotalFinished++ //on spacebar, or on end of string, we have completed a word
                     checkWordCorrect()
                 }
-
-
             }
 
         }
 
         //Reached the last character in the the expected answer
-        if (index == expectedAnswer?.length?.minus(1) && mTask.type == Task.Type.TYPING) {
+        if (mTask.type == Task.Type.TYPING && index == expectedAnswer?.length?.minus(1)) {
             itemsAttempted++
             checkItemCorrect()
             if (!mTask.timed) {
@@ -446,7 +512,7 @@ class TaskTwoActivity : AppCompatActivity() {
         //Prepare for next item
         index++
 
-        if (mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
+        if (mTask.type == Task.Type.TYPING && mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
             //If we have not yet reached the end and the text is visible to the user
             //announce next character for accessibility, index has been incremented
             //do it only if text is visible on start
@@ -469,10 +535,7 @@ class TaskTwoActivity : AppCompatActivity() {
                     else if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                         taskCompleted()
                     }
-                    else if (mTask.type == Task.Type.SPELLING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
-                        taskCompleted()
-                    }
-                    if (mTask.type == Task.Type.TYPING && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
+                    else if (mTask.type == Task.Type.TYPING && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
                         updateContent()
                     }
                     else if (mTask.type == Task.Type.TAP_SWIPE && mTask.timed) {
