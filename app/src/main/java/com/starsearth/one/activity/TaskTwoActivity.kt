@@ -267,6 +267,14 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     View.GONE
                 }
 
+        tvTapSwipeKeyboardInstructions?.visibility =
+                if (mTask.type == Task.Type.TAP_SWIPE) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+
     }
 
     private fun setupUIText() {
@@ -424,7 +432,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
                     tvMain?.text?.toString()?.let {
                         val isCorrect = it.equals(expectedAnswer, true)
-                        Log.d("TAG", "*********"+isCorrect+"*********"+it+"*********"+expectedAnswer)
                         if (isCorrect) itemsCorrect++
                         flashAnswerResult(isCorrect)
                         responses.add(Response(QUESTION_SPELL_IGNORE_CASE,expectedAnswer,it,isCorrect))
@@ -482,12 +489,17 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     }
                     else if (inputCharacter?.equals('n', ignoreCase = true) == true) {
                         flashAnswerResult(!expectedAnswerGesture)
+                        responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                            GESTURE_TAP
+                        } else {
+                            GESTURE_SWIPE
+                        },GESTURE_SWIPE, !expectedAnswerGesture)) //Answer was false. If expected was false, send true
                     }
-                    responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
-                        GESTURE_TAP
-                    } else {
-                        GESTURE_SWIPE
-                    },GESTURE_SWIPE, !expectedAnswerGesture)) //Answer was false. If expected was false, send true
+                    else if (inputCharacter?.equals(' ', true) == true) {
+                        //If space was tapped, say the content on the screen
+                        tts?.speak(tvMain?.text?.toString(), TextToSpeech.QUEUE_ADD, null, "1")
+                        return super.onKeyDown(keyCode, event) //Exit the flow. We simply want to say what is on the screen, nothing else
+                    }
                 }
 
                 //Check if we have reached the end of a word

@@ -402,5 +402,5 @@
     <string name="checkpoint_reached">CHECKPOINT REACHED</string>
     <string name="reached">Reached</string>
     <string name="not_reached">Not Reached</string>
-
+    <string name="tap_swipe_keyboard_instructions">Using a USB keyboard?\nTap Y = True\nTap N = False\nTap Spacebar = Repeat question</string>
 </resources>

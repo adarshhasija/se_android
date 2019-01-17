@@ -101,6 +101,24 @@ class AdsManager(private val mContext: Context) {
         return ret
     }
 
+    fun shouldShowAd(teachingContent: SETeachingContent?, resultOfLastAttempt: Result) : Boolean {
+        val isTeachingContentAllowingAd =
+                if (teachingContent is Course) {
+                    //If its a Course, only show if the task was passed
+                    //mResults size should never be 0 here. It is called after saving a Result in onActivityResult
+                    (teachingContent as Course).shouldShowAd(resultOfLastAttempt)
+                }
+                else if (teachingContent is Task) {
+                    //If its a Task, no additional validation required
+                    true
+                }
+                else {
+                    //If its null, return false
+                    false
+                }
+        return isTeachingContentAllowingAd
+    }
+
     fun showAd() {
         val ads = (mContext as? StarsEarthApplication)?.firebaseRemoteConfigWrapper?.ads
         if (ads.equals(GOOGLE, true) && googleInterstitialAd?.isLoaded == true) {

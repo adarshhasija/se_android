@@ -82,25 +82,20 @@ class DetailListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val listTitles = ArrayList<LIST_ITEM>() //LinkedHashMap<LIST_ITEM, Any>()
+            val listTitles = ArrayList<LIST_ITEM>()
             if (mTeachingContent is Course) {
-                //results.put(LIST_ITEM.SEE_PROGRESS, true)
                 listTitles.add(LIST_ITEM.SEE_PROGRESS)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
-                //results.put(LIST_ITEM.KEYBOARD_TEST, true)
                 listTitles.add(LIST_ITEM.KEYBOARD_TEST)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
-                //results.put(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS, true)
-                //results.put(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS, true)
                 listTitles.add(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)) {
                 //listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty()) {
-                //results.put(LIST_ITEM.ALL_RESULTS, mResults)
                 listTitles.add(LIST_ITEM.ALL_RESULTS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {

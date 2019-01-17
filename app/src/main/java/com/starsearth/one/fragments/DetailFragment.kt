@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -90,44 +89,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
             }
         return isTeachingContentAllowingAd
     }
-    /****************************************/
-
-
-    /**** CHILD EVENT LISTENERS *************/
-    private val mChildEventListener = object : ChildEventListener {
-        override fun onCancelled(p0: DatabaseError?) {
-        }
-
-        override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
-        }
-
-        override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
-        }
-
-        override fun onChildAdded(dataSnapshot: DataSnapshot?, p1: String?) {
-          /*  val result = if ((mTeachingContent as Task)?.type == Task.Type.TYPING) {
-                dataSnapshot?.getValueString(ResultTyping::class.java)
-            } else {
-                dataSnapshot?.getValueString(Result::class.java)
-            }
-            if ((mTeachingContent as SETeachingContent)?.id != result!!.task_id) {
-                return;
-            }
-            view?.findViewById<TextView>(R.id.tv_long_press_for_more_options)?.visibility = View.VISIBLE
-            //do not want to call announce for accessibility here. Only set content description
-            view?.findViewById<LinearLayout>(R.id.ll_main)?.contentDescription = getContentDescriptionForAccessibility()
-
-            if (mResults.empty() || !isResultExistsInStack(result)) {
-                mResults.push(result)
-                //if (result.isJustCompleted) {mListener?.onDetailFragmentShowLastTried(mTeachingContent, result, null, null)}
-            }   */
-        }
-
-        override fun onChildRemoved(p0: DataSnapshot?) {
-        }
-    }
-
-    /**************************/
 
     private fun setReturnResult(result: Parcelable) {
         val intent = Intent()
@@ -153,7 +114,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         (activity?.application as StarsEarthApplication)?.analyticsManager?.logActionEvent("se1_post_score", bundle, score)
     }
 
-    private val mResultsMultipleValuesListener = object : ValueEventListener {
+    private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             val map = dataSnapshot?.value
             if (map != null) {
@@ -205,7 +166,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         mDatabase?.keepSynced(true)
         val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
         //query?.addChildEventListener(mChildEventListener);
-        query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
+        query?.addListenerForSingleValueEvent(mResultValuesListener)
 
         clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
         updateUI() //This must remain uncommented. UI should be visible even if no results are available
@@ -384,7 +345,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         data?.let {
             taskComplete(it.extras)
         }
-        if (shouldShowAd()) {
+        if ((activity?.application as? StarsEarthApplication)?.adsManager?.shouldShowAd(mTeachingContent, mResults.last()) == true) {
             (activity?.application as? StarsEarthApplication)?.adsManager?.showAd()
         }
     }
