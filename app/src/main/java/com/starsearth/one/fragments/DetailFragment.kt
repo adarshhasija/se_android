@@ -73,23 +73,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     private var mListener: OnDetailFragmentInteractionListener? = null
     private var mDatabase : DatabaseReference? = null
 
-    /*
-    Call this only after at least 1 result is succesfully received in onActivityResult
-     */
-    fun shouldShowAd() : Boolean {
-        val isTeachingContentAllowingAd =
-            if (mTeachingContent is Course) {
-                //If its a Course, only show if the task was passed
-                //mResults size should never be 0 here. It is called after saving a Result in onActivityResult
-                (mTeachingContent as Course).shouldShowAd(mResults.last())
-            }
-            else {
-                //If its a Task, no additional validation required
-                true
-            }
-        return isTeachingContentAllowingAd
-    }
-
     private fun setReturnResult(result: Parcelable) {
         val intent = Intent()
         if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {

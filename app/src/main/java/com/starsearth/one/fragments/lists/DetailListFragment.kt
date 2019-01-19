@@ -45,17 +45,13 @@ class DetailListFragment : Fragment() {
         ALL_RESULTS("ALL_RESULTS"),
         HIGH_SCORE("HIGH_SCORE");
 
-
-        companion object {
-
-            fun fromString(i: String): LIST_ITEM? {
-                for (type in LIST_ITEM.values()) {
-                    if (type.valueString == i) {
-                        return type
-                    }
+        fun fromString(i: String): LIST_ITEM? {
+            for (type in LIST_ITEM.values()) {
+                if (type.valueString == i) {
+                    return type
                 }
-                return null
             }
+            return null
         }
     }
 

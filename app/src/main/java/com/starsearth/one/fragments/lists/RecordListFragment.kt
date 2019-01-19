@@ -21,7 +21,6 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
@@ -45,7 +44,7 @@ class RecordListFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : Any? = null
     private var mResults = ArrayList<Result>() //Used if screen is for a course
-    private var mType : SEOneListItem.Type? = null
+    private var mType : Any? = null
     private var mContent : String? = null
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
@@ -96,7 +95,6 @@ class RecordListFragment : Fragment() {
 
     private val mResultsMultipleValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            mTimer?.cancel()
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
@@ -125,7 +123,6 @@ class RecordListFragment : Fragment() {
 
     private val mResultsSingleValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            mTimer?.cancel()
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
@@ -188,7 +185,9 @@ class RecordListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE))
+            mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
+                    ?:
+                    DetailListFragment.LIST_ITEM.valueOf(arguments!!.getString(ARG_TYPE)) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
             mContent = arguments!!.getString(ARG_CONTENT)
         }
     }
@@ -202,7 +201,10 @@ class RecordListFragment : Fragment() {
             view.list.layoutManager = LinearLayoutManager(context)
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            val mainMenuItems = getData(mType)
+            var mainMenuItems = getData(mType)
+            if (mType == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                mainMenuItems = removeUnAttemptedTasks(mainMenuItems)
+            }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
         return view
@@ -213,9 +215,7 @@ class RecordListFragment : Fragment() {
 
         //view has to exist by the time this is called
         if (!mResults.isEmpty()) {
-            for (result in mResults) {
-                insertResult((result as Result))
-            }
+            insertResults(mResults)
         }
         else {
             //Only call from Firebase if there are no results passed in
@@ -239,7 +239,30 @@ class RecordListFragment : Fragment() {
         }
     }
 
-    fun getData(tag: SEOneListItem.Type?): ArrayList<RecordItem> {
+    private fun getRecordItemsFromPreviouslyAttemptedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {
+        val recordItemList = ArrayList<RecordItem>()
+        for (task in taskList) {
+            if (task.isAttempted(resultsList)) {
+                recordItemList.add(RecordItem(task))
+            }
+        }
+        return recordItemList
+    }
+
+    /*
+        If we are in REPEAT_PREVIOUSLY_ATTEMPTED_TASKS mode, we only want to see tasks that we have attempted. Remove the others
+     */
+    private fun removeUnAttemptedTasks(mainMenuItems: List<RecordItem>) : ArrayList<RecordItem> {
+        val returnList = ArrayList<RecordItem>()
+        mainMenuItems?.forEach {
+            if (it.results.size > 0) {
+                returnList.add(it)
+            }
+        }
+        return returnList
+    }
+
+    private fun getData(tag: Any?): ArrayList<RecordItem> {
         val mainMenuItems =
                 if (tag == SEOneListItem.Type.TAG) {
                     AssetsFileManager.getItemsByTag(context, mContent)
@@ -249,6 +272,9 @@ class RecordListFragment : Fragment() {
                 }
                 else if (tag == SEOneListItem.Type.TIMED) {
                     AssetsFileManager.getAllTimedItems(context)
+                }
+                else if (tag == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                    getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mResults)
                 }
                 else {
                     //Show everything
@@ -275,7 +301,6 @@ class RecordListFragment : Fragment() {
         return mainMenuItems
     }
 
-    val mTimer : Timer? = null
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
@@ -304,7 +329,6 @@ class RecordListFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        mTimer?.cancel()
         mListener = null
         //mDatabaseResultsReference?.removeEventListener(mResultsChildListener)
     }
@@ -350,7 +374,7 @@ class RecordListFragment : Fragment() {
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)
             args.putParcelableArrayList(ARG_RESULTS, results)
-            args.putString(ARG_TYPE_COURSE, listItem.valueString)
+            args.putString(ARG_TYPE, listItem.valueString)
             fragment.arguments = args
             return fragment
         }
