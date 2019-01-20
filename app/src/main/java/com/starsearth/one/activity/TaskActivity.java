@@ -1,4 +1,4 @@
-package com.starsearth.one.activity.tasks;
+package com.starsearth.one.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -523,7 +523,7 @@ public class TaskActivity extends AppCompatActivity {
 
     //Integers must be saved as Long
     //Results constructor takes values as Long
-    //Results from Firebase have Integer as Long
+    //Results from FirebaseManager have Integer as Long
     private void taskCompleted() {
         if (mCountDownTimer != null) mCountDownTimer.cancel();
         HashMap<String, Object> map = new HashMap<>();

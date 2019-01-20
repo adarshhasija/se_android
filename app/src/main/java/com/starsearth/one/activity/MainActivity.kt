@@ -12,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.activity.tasks.TaskActivity
-import com.starsearth.one.activity.welcome.WelcomeOneActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
 import com.starsearth.one.fragments.LastTriedFragment
@@ -33,6 +31,11 @@ class MainActivity : AppCompatActivity(),
         ResultDetailFragment.OnResultDetailFragmentInteractionListener,
         ResponseListFragment.OnResponseListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onDetailFragmentTaskCompleted(result: Result) {
+        val fragment = supportFragmentManager?.findFragmentByTag(RecordListFragment.TAG)
+        (fragment as? RecordListFragment)?.taskCompleted(result)
+    }
 
     override fun onDetailListItemLongPress(itemTitle: DetailListFragment.LIST_ITEM, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemLongPress(itemTitle.toString(), teachingContent)
@@ -115,8 +118,8 @@ class MainActivity : AppCompatActivity(),
                 val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
                 getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
+                        ?.replace(R.id.fragment_container_main, fragment, RecordListFragment.TAG)
+                        ?.addToBackStack(RecordListFragment.TAG)
                         ?.commit()
             }
 
@@ -210,14 +213,14 @@ class MainActivity : AppCompatActivity(),
         else if (type == SEOneListItem.Type.LOGOUT) {
             FirebaseAuth.getInstance().signOut();
             finish()
-            intent = Intent(this, WelcomeOneActivity::class.java)
+            intent = Intent(this, WelcomeActivity::class.java)
             startActivity(intent)
         }
         else {
             val recordsListFragment = RecordListFragment.newInstance(item.type, item.text1)
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_main, recordsListFragment)
-                    .addToBackStack(null)
+                    .replace(R.id.fragment_container_main, recordsListFragment, RecordListFragment.TAG)
+                    .addToBackStack(RecordListFragment.TAG)
                     .commit()
         }
     }
@@ -226,7 +229,7 @@ class MainActivity : AppCompatActivity(),
     private val mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
         val user = firebaseAuth.currentUser
         if (user == null) {
-            val intent = Intent(this@MainActivity, WelcomeOneActivity::class.java)
+            val intent = Intent(this@MainActivity, WelcomeActivity::class.java)
             startActivity(intent)
             finish()
         }

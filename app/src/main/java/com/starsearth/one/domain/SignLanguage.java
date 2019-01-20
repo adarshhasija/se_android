@@ -3,7 +3,7 @@ package com.starsearth.one.domain;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.starsearth.one.database.Firebase;
+import com.starsearth.one.managers.FirebaseManager;
 import com.starsearth.one.listeners.BotResponseListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,14 +59,14 @@ public class SignLanguage {
     }
 
     private void getDescription() {
-        Firebase firebase = new Firebase(firebaseReference);
-        Query query = firebase.getDatabaseQuery(firebaseIndexOn, item);
+        FirebaseManager firebaseManager = new FirebaseManager(firebaseReference);
+        Query query = firebaseManager.getDatabaseQuery(firebaseIndexOn, item);
         query.addValueEventListener(descriptionReceivedListener);
     }
 
     private void getMedia() {
-        Firebase firebase = new Firebase(firebaseReference);
-        StorageReference mediaRef = firebase.getImageReference(item, type);
+        FirebaseManager firebaseManager = new FirebaseManager(firebaseReference);
+        StorageReference mediaRef = firebaseManager.getImageReference(item, type);
         mediaRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(imageReceivedListener).addOnFailureListener(failureListener);
     }
 

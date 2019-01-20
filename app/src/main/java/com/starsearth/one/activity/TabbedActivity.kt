@@ -1,6 +1,5 @@
 package com.starsearth.one.activity
 
-import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -16,13 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.profile.PhoneNumberActivity
-import com.starsearth.one.activity.welcome.WelcomeOneActivity
-import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.SEOneListItem
 import com.starsearth.one.fragments.lists.SeOneListFragment
 import kotlinx.android.synthetic.main.activity_tabbed.*

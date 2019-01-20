@@ -121,29 +121,6 @@ class RecordListFragment : Fragment() {
 
     }
 
-    private val mResultsSingleValueListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
-            val map = dataSnapshot?.value
-            if (map != null) {
-                var result = Result((map as Map<String, Any>))
-                if (adapter.getTeachingContentType(result.task_id) == Task.Type.TYPING) {
-                    result = ResultTyping((map))
-                }
-                val results : ArrayList<Result> = arrayListOf(result)
-                insertResults(results)
-            }
-
-            progressBar?.visibility = View.GONE
-            list?.visibility = View.VISIBLE
-        }
-
-        override fun onCancelled(p0: DatabaseError?) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-    }
-
     /*
     If it is a task as part of a course, set return result for parent
      */
@@ -203,7 +180,7 @@ class RecordListFragment : Fragment() {
                     DividerItemDecoration.VERTICAL))
             var mainMenuItems = getData(mType)
             if (mType == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                mainMenuItems = removeUnAttemptedTasks(mainMenuItems)
+                mainMenuItems = removeUnattemptedTasks(mainMenuItems)
             }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
@@ -218,31 +195,30 @@ class RecordListFragment : Fragment() {
             insertResults(mResults)
         }
         else {
-            //Only call from Firebase if there are no results passed in
+            //Only call from FirebaseManager if there are no results passed in
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onResume() {
+        super.onResume()
 
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-            val extras = data?.extras
-            val results : ArrayList<Parcelable>? = extras?.getParcelableArrayList("RESULTS");
-            if (results != null) {
-                setReturnResult(results)
-                for (result in results) {
-                    insertResult((result as Result))
-                }
-            }
-        }
+        (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
     }
 
-    private fun getRecordItemsFromPreviouslyAttemptedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {
+    /*
+    When a task is completed DetailFragment->MainActivity calls this. Insert a result and when the fragment gets focus,
+    Update the view
+     */
+    fun taskCompleted(result: Result) {
+        insertResult(result)
+    }
+
+    private fun getRecordItemsFromPreviouslyPassedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {
         val recordItemList = ArrayList<RecordItem>()
         for (task in taskList) {
-            if (task.isAttempted(resultsList)) {
+            if (task.isPassed(resultsList)) {
                 recordItemList.add(RecordItem(task))
             }
         }
@@ -252,9 +228,9 @@ class RecordListFragment : Fragment() {
     /*
         If we are in REPEAT_PREVIOUSLY_ATTEMPTED_TASKS mode, we only want to see tasks that we have attempted. Remove the others
      */
-    private fun removeUnAttemptedTasks(mainMenuItems: List<RecordItem>) : ArrayList<RecordItem> {
+    private fun removeUnattemptedTasks(mainMenuItems: List<RecordItem>) : ArrayList<RecordItem> {
         val returnList = ArrayList<RecordItem>()
-        mainMenuItems?.forEach {
+        mainMenuItems.forEach {
             if (it.results.size > 0) {
                 returnList.add(it)
             }
@@ -274,7 +250,7 @@ class RecordListFragment : Fragment() {
                     AssetsFileManager.getAllTimedItems(context)
                 }
                 else if (tag == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                    getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mResults)
+                    getRecordItemsFromPreviouslyPassedTasks((mTeachingContent as Course).tasks, mResults)
                 }
                 else {
                     //Show everything
@@ -310,12 +286,6 @@ class RecordListFragment : Fragment() {
         progressBar?.visibility = View.VISIBLE
         list?.visibility = View.GONE
     }
-    private fun setupResultsListener(currentUser: FirebaseUser, uid: String?) {
-        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
-        mDatabaseResultsReference?.keepSynced(true)
-        val query = mDatabaseResultsReference?.child(uid)
-        query?.addListenerForSingleValueEvent(mResultsSingleValueListener)
-    }
 
 
     override fun onAttach(context: Context?) {
@@ -349,15 +319,13 @@ class RecordListFragment : Fragment() {
 
     companion object {
 
+        val TAG = "RECORD_LIST_FRAGMENT"
+
         // TODO: Customize parameter argument names
         private val ARG_TEACHING_CONTENT = "teachingContent"
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TYPE = "TYPE"
         private val ARG_CONTENT = "CONTENT"
-        private val ARG_TYPE_COURSE = "COURSE"
-        private val ARG_TYPE_TASK = "TYPE"
-        private val ARG_TIMED = "IS_TIMED"
-        private const val ARG_GAME = "IS_GAME"
 
         fun newInstance(type: SEOneListItem.Type, content: String?): RecordListFragment {
             val fragment = RecordListFragment()

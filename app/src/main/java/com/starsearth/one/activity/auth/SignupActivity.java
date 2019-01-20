@@ -18,9 +18,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.R;
-import com.starsearth.one.application.StarsEarthApplication;
-import com.starsearth.one.database.Firebase;
-import com.starsearth.one.domain.User;
+import com.starsearth.one.managers.FirebaseManager;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -52,8 +50,8 @@ public class SignupActivity extends AppCompatActivity {
                 FirebaseUser user = result.getUser();
                 if (user != null) {
                     if (mProgressBar != null) mProgressBar.setVisibility(View.GONE);
-                    Firebase firebase = new Firebase(USERS_REFERENCE);
-                    firebase.writeNewUser(user.getUid(), false, user.getEmail());
+                    FirebaseManager firebaseManager = new FirebaseManager(USERS_REFERENCE);
+                    firebaseManager.writeNewUser(user.getUid(), false, user.getEmail());
                     finish();
                 }
             }

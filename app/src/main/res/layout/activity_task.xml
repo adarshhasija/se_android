@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true"
     android:id="@+id/rl"
     android:fitsSystemWindows="true"
-    tools:context="com.starsearth.one.activity.tasks.TaskActivity">
+    tools:context="com.starsearth.one.activity.TaskActivity">
 
     <ImageView
         android:id="@+id/img_red"

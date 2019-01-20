@@ -1,27 +1,21 @@
-package com.starsearth.one.activity.welcome;
+package com.starsearth.one.activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
-import com.starsearth.one.activity.KeyboardActivity;
-import com.starsearth.one.activity.MainActivity;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
 import com.starsearth.one.application.StarsEarthApplication;
 
-public class WelcomeOneActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     public static int LOGIN_WITH_PHONE_NUMBER_REQUEST = 0;
     public static int LOGIN_WITH_EMAIL_ADDRESS_REQUEST = 1;
@@ -38,14 +32,14 @@ public class WelcomeOneActivity extends AppCompatActivity {
         btnLoginPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Intent intent = new Intent(WelcomeOneActivity.this, AddEditPhoneNumberActivity.class);
+              Intent intent = new Intent(WelcomeActivity.this, AddEditPhoneNumberActivity.class);
               startActivityForResult(intent, LOGIN_WITH_PHONE_NUMBER_REQUEST);
             }
         });
         btnLoginEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WelcomeOneActivity.this, LoginActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivityForResult(intent, LOGIN_WITH_EMAIL_ADDRESS_REQUEST);
             }
         });
@@ -59,7 +53,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
             btnKeyboard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(WelcomeOneActivity.this, KeyboardActivity.class);
+                    Intent intent = new Intent(WelcomeActivity.this, KeyboardActivity.class);
                     startActivity(intent);
                 }
             });
@@ -103,7 +97,7 @@ public class WelcomeOneActivity extends AppCompatActivity {
                 updateUserProperties();
             }
         }).start();
-        Intent intent = new Intent(WelcomeOneActivity.this, MainActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

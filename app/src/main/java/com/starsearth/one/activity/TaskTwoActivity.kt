@@ -305,6 +305,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             expectedAnswer = nextItem.replace("␣", " ")
             if (mTask.isTextVisibleOnStart) {
                 tvMain?.text = nextItem
+                tvMain?.announceForAccessibility(nextItem.substring(0, 1))
             }
             else {
                 tvMain?.text = ""
@@ -314,6 +315,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             nextItem?.forEach { text, gesture ->
                 expectedAnswerGesture = gesture as Boolean
                 tvMain?.text = text as? String
+                tvMain.announceForAccessibility(text as String)
             }
         }
     }
@@ -387,7 +389,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     //Integers must be saved as Long
     //Results constructor takes values as Long
-    //Results from Firebase have Integer as Long
+    //Results from FirebaseManager have Integer as Long
     private fun taskCompleted() {
         mCountDownTimer?.cancel()
         val map = HashMap<String, Any>()

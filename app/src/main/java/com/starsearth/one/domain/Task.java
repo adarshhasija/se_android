@@ -25,7 +25,7 @@ public class Task extends SETeachingContent {
     public static String HOME_BUTTON_TAPPED = "home_button_tapped";
     public static String NO_MORE_CONTENT = "no_more_content";
 
-    public List<String> content = new ArrayList<>(); //Has to be List<String> to save to Firebase
+    public List<String> content = new ArrayList<>(); //Has to be List<String> to save to FirebaseManager
     public List<String> tap = new ArrayList<>();
     public List<String> swipe = new ArrayList<>();
     public Type type;

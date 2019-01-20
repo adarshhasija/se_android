@@ -16,7 +16,7 @@ import com.google.firebase.database.*
 
 import com.starsearth.one.R
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.database.Firebase
+import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
 import com.starsearth.one.listeners.SeOnTouchListener
 import kotlinx.android.synthetic.main.fragment_task_detail.*
@@ -120,6 +120,20 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         override fun onCancelled(p0: DatabaseError?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
+    }
+
+    private val mTeachingContentListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            val map = dataSnapshot?.value
+            if (map != null) {
+                //TODO: Process TeachingContent here. Map contains values of a single object
+                //var result = Result((map as Map<String, Any>))
+            }
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
 
     }
 
@@ -153,6 +167,16 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
         updateUI() //This must remain uncommented. UI should be visible even if no results are available
+    }
+
+    /*
+        Call this listener if teaching content is on FirebaseManager and we need to call it
+     */
+    private fun setupTeachingContentListener(teachingContentUid: String?) {
+        //mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("teaching_content")
+        //mDatabaseResultsReference?.keepSynced(true)
+        //val query = mDatabaseResultsReference?.child(teachingContentUid)
+        //query?.addListenerForSingleValueEvent(mTeachingContentListener)
     }
 
     fun updateUI() {
@@ -334,7 +358,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     private fun taskComplete(bundle: Bundle) {
-        val firebase = Firebase("results")
+        val firebase = FirebaseManager("results")
         val resultMap : HashMap<String, Any> = bundle.getSerializable("result_map") as HashMap<String, Any>
         val type = Task.Type.fromInt((resultMap["taskTypeLong"] as Long)) //Task.Type.fromInt(bundle.getLong("taskTypeLong"))
         val result =
@@ -414,6 +438,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         fun onDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>)
         fun onDetailFragmentShowLastTried(teachingContent: Any?, result: Any?)
         fun onDetailFragmentShowMessage(title: String?, message: String?)
+        fun onDetailFragmentTaskCompleted(result: Result)
     }
 
     companion object {
