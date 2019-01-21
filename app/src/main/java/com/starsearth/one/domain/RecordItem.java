@@ -17,6 +17,7 @@ public class RecordItem implements Parcelable {
     //Either a course or a task
     public Object teachingContent;
     public MinMaxPriorityQueue<Result> results;
+    public Object type; //DetailListFragment.ListItem. Needed if we have to show results screen directly instead of DetailFragment
 
     public RecordItem(Object teachingContent) {
         this.teachingContent = teachingContent;
@@ -49,6 +50,7 @@ public class RecordItem implements Parcelable {
     protected RecordItem(Parcel in) {
         teachingContent = in.readParcelable(ClassLoader.getSystemClassLoader());
         results.addAll(in.readArrayList(Result.class.getClassLoader()));
+        type = in.readParcelable(ClassLoader.getSystemClassLoader());
     }
 
     public static final Creator<RecordItem> CREATOR = new Creator<RecordItem>() {
@@ -74,5 +76,6 @@ public class RecordItem implements Parcelable {
     public void writeToParcel(Parcel dest, int i) {
         dest.writeParcelable((Parcelable) teachingContent, 0);
         dest.writeList(Collections.singletonList(results));
+        dest.writeParcelable((Parcelable) type, 0);
     }
 }

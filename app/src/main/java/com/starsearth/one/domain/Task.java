@@ -276,15 +276,18 @@ public class Task extends SETeachingContent {
 
     public boolean isPassed(List<Result> results) {
         boolean ret = false;
-        for (Object result : results) {
-            if (result instanceof ResultTyping) {
-                if (((ResultTyping) result).task_id == id) {
+        for (Result result : results) {
+            if (result.task_id == id) {
+                if (result instanceof ResultTyping) {
                     int accuracy = ((ResultTyping) result).getAccuracy();
                     if (accuracy >= passPercentage) {
                         ret = true;
                         break;
                     }
                 }
+            }
+            if (result instanceof ResultTyping) {
+
             }
         }
         return ret;

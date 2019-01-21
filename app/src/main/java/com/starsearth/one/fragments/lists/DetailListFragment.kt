@@ -34,19 +34,19 @@ class DetailListFragment : Fragment() {
     private var mResults = ArrayList<Result>()
     private var mListener: OnTaskDetailListFragmentListener? = null
 
-    enum class LIST_ITEM private constructor(val valueString: String) {
+    enum class ListItem constructor(val valueString: String) {
         //Course
         SEE_PROGRESS("SEE_PROGRESS"),
         KEYBOARD_TEST("KEYBOARD_TEST"),
-        REPEAT_PREVIOUSLY_PASSED_TASKS("REPEAT_PREVIOUS"),  //Closest match so that we dont have to change even if the overall text changes
-        SEE_RESULTS_OF_ATTEMPTED_TASKS("SEE_RESULTS_OF_ATTEMPTED"),
+        REPEAT_PREVIOUSLY_PASSED_TASKS("REPEAT_PREVIOUSLY_PASSED_TASKS"),  //Closest match so that we dont have to change even if the overall text changes
+        SEE_RESULTS_OF_ATTEMPTED_TASKS("SEE_RESULTS_OF_ATTEMPTED_TASKS"),
 
         //Task
         ALL_RESULTS("ALL_RESULTS"),
         HIGH_SCORE("HIGH_SCORE");
 
-        fun fromString(i: String): LIST_ITEM? {
-            for (type in LIST_ITEM.values()) {
+        fun fromString(i: String): ListItem? {
+            for (type in ListItem.values()) {
                 if (type.valueString == i) {
                     return type
                 }
@@ -78,24 +78,24 @@ class DetailListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            val listTitles = ArrayList<LIST_ITEM>()
+            val listTitles = ArrayList<ListItem>()
             if (mTeachingContent is Course) {
-                listTitles.add(LIST_ITEM.SEE_PROGRESS)
+                listTitles.add(ListItem.SEE_PROGRESS)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
-                listTitles.add(LIST_ITEM.KEYBOARD_TEST)
+                listTitles.add(ListItem.KEYBOARD_TEST)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).isFirstTaskPassed(mResults)) {
-                listTitles.add(LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+                listTitles.add(ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS)
             }
             if (mTeachingContent is Course && (mTeachingContent as Course).isCourseStarted(mResults)) {
-                //listTitles.add(LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS)
+                listTitles.add(ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty()) {
-                listTitles.add(LIST_ITEM.ALL_RESULTS)
+                listTitles.add(ListItem.ALL_RESULTS)
             }
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
-                listTitles.add(LIST_ITEM.HIGH_SCORE)
+                listTitles.add(ListItem.HIGH_SCORE)
             }
 
             view.adapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener)
@@ -134,12 +134,11 @@ class DetailListFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnTaskDetailListFragmentListener {
-        fun onDetailListItemTap(itemTitle: LIST_ITEM, teachingContent: SETeachingContent?, results: ArrayList<Result>)
-        fun onDetailListItemLongPress(itemTitle: LIST_ITEM, teachingContent: SETeachingContent?, results: ArrayList<Result>)
+        fun onDetailListItemTap(itemTitle: ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>)
+        fun onDetailListItemLongPress(itemTitle: ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>)
     }
 
     companion object {
-
         private val ARG_TEACHING_CONTENT = "teaching_content"
         private val ARG_RESULTS = "results"
 

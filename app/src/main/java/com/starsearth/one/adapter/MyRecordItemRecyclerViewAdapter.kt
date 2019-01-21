@@ -172,9 +172,9 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
         var mItem: RecordItem? = null
 
         init {
-            mTitleView = mView.findViewById<TextView>(R.id.tv_title) as TextView
-            mTimedView = mView.findViewById<TextView>(R.id.tv_timed) as TextView
-            mLastTriedView = mView.findViewById<TextView>(R.id.tvTimestamp) as TextView
+            mTitleView = mView.findViewById(R.id.tv_title) as TextView
+            mTimedView = mView.findViewById(R.id.tv_timed) as TextView
+            mLastTriedView = mView.findViewById(R.id.tvTimestamp) as TextView
         }
 
         override fun toString(): String {

@@ -1,6 +1,7 @@
 package com.starsearth.one.domain;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;

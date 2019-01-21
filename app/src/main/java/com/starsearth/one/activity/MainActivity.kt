@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -34,14 +35,32 @@ class MainActivity : AppCompatActivity(),
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
     override fun onDetailFragmentTaskCompleted(result: Result) {
-        val fragment = supportFragmentManager?.findFragmentByTag(RecordListFragment.TAG)
-        (fragment as? RecordListFragment)?.taskCompleted(result)
+        //We should loop through all the fragments as we could have multiple instances of each fragment
+        //Once a fragment type is complete we should not process it again if we find it later in the array
+        var recordListFragmentComplete = false
+        var detailFragmentComplete = false
+        supportFragmentManager?.fragments?.forEach {
+            if (it is RecordListFragment && !recordListFragmentComplete) {
+                //Once a task has been completed, add it to the record list fragment
+                //Once we return to that screen, we will simply update the list
+                //Should only do this on the first instance of RecordListFragment. There could be another instance later for viewing completed tasks
+                it.taskCompleted(result)
+                recordListFragmentComplete = true
+            }
+            else if (it is DetailFragment && !detailFragmentComplete) {
+                //If we have just repeated a task thats part of a course(by tapping REPEAT_PREVIOUSLY_PASSED_TASKS)
+                //Update the detail fragment with the result.
+                //This should only be done for the first instance of DetailFragment
+                it.onTaskRepeated(result)
+                detailFragmentComplete = true
+            }
+        }
     }
 
-    override fun onDetailListItemLongPress(itemTitle: DetailListFragment.LIST_ITEM, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
+    override fun onDetailListItemLongPress(itemTitle: DetailListFragment.ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemLongPress(itemTitle.toString(), teachingContent)
         when (itemTitle) {
-            DetailListFragment.LIST_ITEM.HIGH_SCORE -> {
+            DetailListFragment.ListItem.HIGH_SCORE -> {
                 val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
                 val bundle = Bundle()
                 bundle.putParcelable(FullScreenActivity.TASK, (teachingContent as Task))
@@ -99,11 +118,11 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onDetailListItemTap(itemTitle: DetailListFragment.LIST_ITEM, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
+    override fun onDetailListItemTap(itemTitle: DetailListFragment.ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemTap(itemTitle.toString(), teachingContent)
         when (itemTitle) {
         //Course
-            DetailListFragment.LIST_ITEM.SEE_PROGRESS -> {
+            DetailListFragment.ListItem.SEE_PROGRESS -> {
                 val fragment = CourseProgressListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>)
                 getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
@@ -111,12 +130,20 @@ class MainActivity : AppCompatActivity(),
                         ?.addToBackStack(null)
                         ?.commit()
             }
-            DetailListFragment.LIST_ITEM.KEYBOARD_TEST -> {
+            DetailListFragment.ListItem.KEYBOARD_TEST -> {
                 val intent = Intent(this, KeyboardActivity::class.java)
                 startActivity(intent)
             }
-            DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
-                val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS)
+            DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
+                val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, itemTitle)
+                getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment, RecordListFragment.TAG)
+                        ?.addToBackStack(RecordListFragment.TAG)
+                        ?.commit()
+            }
+            DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
+                val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, itemTitle)
                 getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                         ?.replace(R.id.fragment_container_main, fragment, RecordListFragment.TAG)
@@ -125,7 +152,7 @@ class MainActivity : AppCompatActivity(),
             }
 
         //Task
-            DetailListFragment.LIST_ITEM.ALL_RESULTS -> {
+            DetailListFragment.ListItem.ALL_RESULTS -> {
                 val fragment = ResultListFragment.newInstance((teachingContent as Task), results)
                 getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
@@ -133,7 +160,7 @@ class MainActivity : AppCompatActivity(),
                         ?.addToBackStack(null)
                         ?.commit()
             }
-            DetailListFragment.LIST_ITEM.HIGH_SCORE -> {
+            DetailListFragment.ListItem.HIGH_SCORE -> {
                 val fragment = ResultDetailFragment.newInstance((teachingContent as Task), (teachingContent as Task).getHighScoreResult(results))
                 getSupportFragmentManager()?.beginTransaction()
                         ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
@@ -191,12 +218,22 @@ class MainActivity : AppCompatActivity(),
 
     override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
-        val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable)
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
-                .addToBackStack(DetailFragment.TAG)
-                .commit()
+        if (item.type == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+            val fragment = ResultListFragment.newInstance((item.teachingContent as Task), results)
+            getSupportFragmentManager()?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    ?.replace(R.id.fragment_container_main, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+        }
+        else {
+            val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable, item.type)
+            supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
+                    .addToBackStack(DetailFragment.TAG)
+                    .commit()
+        }
     }
 
     override fun onSeOneListFragmentInteraction(item: SEOneListItem, index: Int) {

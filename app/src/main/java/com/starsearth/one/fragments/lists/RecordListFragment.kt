@@ -21,6 +21,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import android.util.Log
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
@@ -42,7 +43,7 @@ import kotlin.collections.HashMap
  */
 class RecordListFragment : Fragment() {
     private var mReturnBundle = Bundle()
-    private var mTeachingContent : Any? = null
+    private var mTeachingContent : SETeachingContent? = null
     private var mResults = ArrayList<Result>() //Used if screen is for a course
     private var mType : Any? = null
     private var mContent : String? = null
@@ -135,11 +136,10 @@ class RecordListFragment : Fragment() {
     }
 
     fun insertResults(results: ArrayList<Result>) {
-        val adapter = list.adapter
         for (result in results) {
             insertResult(result)
         }
-        adapter.notifyDataSetChanged()
+        list.adapter.notifyDataSetChanged()
         list?.layoutManager?.scrollToPosition(0)
     }
 
@@ -148,7 +148,7 @@ class RecordListFragment : Fragment() {
         val itemCount = adapter.itemCount
         for (i in 0 until itemCount) {
             val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
-            if (menuItem.isTaskIdExists(result?.task_id!!)) {
+            if (menuItem.isTaskIdExists(result.task_id)) {
                 if (menuItem.isResultLatest(result)) {
                     menuItem.results.add(result)
                 }
@@ -164,8 +164,13 @@ class RecordListFragment : Fragment() {
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
                     ?:
-                    DetailListFragment.LIST_ITEM.valueOf(arguments!!.getString(ARG_TYPE)) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
+                    DetailListFragment.ListItem.valueOf(arguments!!.getString(ARG_TYPE)) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
             mContent = arguments!!.getString(ARG_CONTENT)
+            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
+            arguments!!.getParcelableArrayList<Result>(ARG_RESULTS)?.let {
+                mResults.addAll(it)
+            }
+
         }
     }
 
@@ -179,8 +184,8 @@ class RecordListFragment : Fragment() {
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             var mainMenuItems = getData(mType)
-            if (mType == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                mainMenuItems = removeUnattemptedTasks(mainMenuItems)
+            if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                mainMenuItems = removeUnattemptedTasks(mainMenuItems, mResults)
             }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
@@ -191,10 +196,7 @@ class RecordListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //view has to exist by the time this is called
-        if (!mResults.isEmpty()) {
-            insertResults(mResults)
-        }
-        else {
+        if (mResults.isEmpty()) {
             //Only call from FirebaseManager if there are no results passed in
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }
@@ -204,7 +206,12 @@ class RecordListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+        if (mTeachingContent == null) {
+            //This means we are not looking at a course specific list of tasks
+            //We are looking at a general list of records and so we should update the list to show last updates
+            (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+        }
+
     }
 
     /*
@@ -219,7 +226,21 @@ class RecordListFragment : Fragment() {
         val recordItemList = ArrayList<RecordItem>()
         for (task in taskList) {
             if (task.isPassed(resultsList)) {
-                recordItemList.add(RecordItem(task))
+                val recordItem = RecordItem(task)
+                recordItem.type = DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS
+                recordItemList.add(recordItem)
+            }
+        }
+        return recordItemList
+    }
+
+    private fun getRecordItemsFromPreviouslyAttemptedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {
+        val recordItemList = ArrayList<RecordItem>()
+        for (task in taskList) {
+            if (task.isAttempted(resultsList)) {
+                val recordItem = RecordItem(task)
+                recordItem.type = DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS
+                recordItemList.add(recordItem)
             }
         }
         return recordItemList
@@ -228,10 +249,11 @@ class RecordListFragment : Fragment() {
     /*
         If we are in REPEAT_PREVIOUSLY_ATTEMPTED_TASKS mode, we only want to see tasks that we have attempted. Remove the others
      */
-    private fun removeUnattemptedTasks(mainMenuItems: List<RecordItem>) : ArrayList<RecordItem> {
+    private fun removeUnattemptedTasks(mainMenuItems: List<RecordItem>, resultList: List<Result>) : ArrayList<RecordItem> {
         val returnList = ArrayList<RecordItem>()
         mainMenuItems.forEach {
-            if (it.results.size > 0) {
+            val isPassed = (it.teachingContent as? Task)?.isPassed(resultList)
+            if (isPassed == true) {
                 returnList.add(it)
             }
         }
@@ -249,17 +271,20 @@ class RecordListFragment : Fragment() {
                 else if (tag == SEOneListItem.Type.TIMED) {
                     AssetsFileManager.getAllTimedItems(context)
                 }
-                else if (tag == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                else if (tag == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                     getRecordItemsFromPreviouslyPassedTasks((mTeachingContent as Course).tasks, mResults)
+                }
+                else if (tag == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+                    getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mResults)
                 }
                 else {
                     //Show everything
                     AssetsFileManager.getAllItems(context)
                 }
 
-             /*   if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.LIST_ITEM.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+             /*   if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                     (mTeachingContent as Course).getAllPassedTasks(mResults)
-                } else if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.LIST_ITEM.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+                } else if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
                     (mTeachingContent as Course).getAllAttemptedTasks(mResults)
                 } else if (isTimed) {
                     AssetsFileManager.getAllTimedItems(context)
@@ -337,7 +362,7 @@ class RecordListFragment : Fragment() {
         }
 
 
-        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: DetailListFragment.LIST_ITEM): RecordListFragment {
+        fun newInstance(course: Parcelable, results: ArrayList<Parcelable>, listItem: DetailListFragment.ListItem): RecordListFragment {
             val fragment = RecordListFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, course)

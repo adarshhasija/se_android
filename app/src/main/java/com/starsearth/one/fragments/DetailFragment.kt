@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     // TODO: Rename and change types of parameters
+    private var mType : Any? = null
     private var mTeachingContent: SETeachingContent? = null
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
     private var mReturnBundle = Bundle()
@@ -71,6 +73,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS")?.add(result)
         intent.putExtras(mReturnBundle)
         activity?.setResult(Activity.RESULT_OK, intent)
+    }
+
+    /*
+        If a previously passed task has been repeated. Result is irreleveant. Simple add it to the array
+     */
+    fun onTaskRepeated(result: Result) {
+        mResults.add(result)
     }
 
 
@@ -94,9 +103,17 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
-                    if ((mTeachingContent as SETeachingContent)?.id != newResult!!.task_id) {
-                        //Only proceed if result belongs to this teaching content
-                        continue
+                    if (mTeachingContent is Task) {
+                        if ((mTeachingContent as Task)?.id != newResult.task_id) {
+                            //Only proceed if result belongs to this task
+                            continue
+                        }
+                    }
+                    if (mTeachingContent is Course) {
+                        if (!(mTeachingContent as Course).isTaskExists(newResult.task_id)) {
+                            //Only proceed if result belongs to this course
+                            continue
+                        }
                     }
                     if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
@@ -130,7 +147,9 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mTeachingContent = arguments?.getParcelable(ARG_TEACHING_CONTENT)
+            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
+            mType = arguments!!.getParcelable(TYPE)
+            Log.d("TAG", "**********type*********"+mType)
          //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
@@ -453,6 +472,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         val TAG = "DetailFragment"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
+        private val TYPE = "type"
 
 
         /**
@@ -464,10 +484,11 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
          * @return A new instance of fragment DetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(teachingContent: Parcelable?/*, results: ArrayList<Parcelable>? */): DetailFragment {
+        fun newInstance(teachingContent: Parcelable?, type: Any?): DetailFragment {
             val fragment = DetailFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
+            args.putParcelable(TYPE, type as Parcelable?)
             //args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment
