@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
@@ -175,16 +176,16 @@ class MainActivity : AppCompatActivity(),
     override fun onDetailFragmentShowMessage(errorTitle: String?, errorMessage: String?) {
         val fragment = LastTriedFragment.newInstance(errorTitle, errorMessage)
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
+                .replace(R.id.fragment_container_main, fragment, LastTriedFragment.TAG)
+                .addToBackStack(LastTriedFragment.TAG)
                 .commit()
     }
 
     override fun onDetailFragmentShowLastTried(teachingContent: Any?, result: Any?) {
         val fragment = LastTriedFragment.newInstance(teachingContent as Parcelable, result as Parcelable?)
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
+                .replace(R.id.fragment_container_main, fragment, LastTriedFragment.TAG)
+                .addToBackStack(LastTriedFragment.TAG)
                 .commit()
     }
 
@@ -193,8 +194,8 @@ class MainActivity : AppCompatActivity(),
         val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment, DetailFragment.FRAGMENT_TAG)
-                .addToBackStack(DetailFragment.FRAGMENT_TAG)
+                .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
+                .addToBackStack(DetailFragment.TAG)
                 .commit()
     }
 
@@ -268,12 +269,30 @@ class MainActivity : AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            val index = supportFragmentManager.backStackEntryCount - 1
+            val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+            if (backEntry.name == DetailFragment.TAG) {
+                val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
+                (fragment as? DetailFragment)?.onEnterTapped()
+            }
+            else if (backEntry.name == LastTriedFragment.TAG) {
+                val fragment = supportFragmentManager?.findFragmentByTag(LastTriedFragment.TAG)
+                (fragment as? LastTriedFragment)?.onEnterTapped()
+            }
+        }
+
+        return super.onKeyUp(keyCode, event)
+    }
+
     val TASK_ACTIVITY_REQUEST = 100
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == TASK_ACTIVITY_REQUEST) {
-            val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.FRAGMENT_TAG)
+            val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
             if (resultCode == Activity.RESULT_CANCELED) {
                 (fragment as? DetailFragment)?.onActivityResultCancelled(data)
             }

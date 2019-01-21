@@ -37,17 +37,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     override fun gestureTap() {
         if (tvTapScreenToStart.visibility == View.VISIBLE) {
             (activity?.application as? StarsEarthApplication)?.adsManager?.generateAd(mTeachingContent, mResults.toList())
-            var task : Task? =
-                    if (mTeachingContent is Course) {
-                        (mTeachingContent as? Course)?.getNextTask(mResults?.toList())
-                    }
-                    else {
-                        mTeachingContent as Task
-                    }
-
-            task?.let {
-                mListener?.onDetailFragmentTapInteraction(task)
-            }
+            openTask()
         }
     }
 
@@ -325,6 +315,24 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         return contentDescription
     }
 
+    fun onEnterTapped() {
+        openTask()
+    }
+
+    private fun openTask() {
+        var task : Task? =
+                if (mTeachingContent is Course) {
+                    (mTeachingContent as? Course)?.getNextTask(mResults?.toList())
+                }
+                else {
+                    mTeachingContent as Task
+                }
+
+        task?.let {
+            mListener?.onDetailFragmentTapInteraction(task)
+        }
+    }
+
     /*
     onActivityResult Helpers
      */
@@ -443,7 +451,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
     companion object {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        val FRAGMENT_TAG = "DetailFragment"
+        val TAG = "DetailFragment"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
 
 

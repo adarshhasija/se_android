@@ -179,6 +179,10 @@ class LastTriedFragment : Fragment() {
 
     }
 
+    fun onEnterTapped() {
+        activity?.supportFragmentManager?.popBackStackImmediate()!!
+    }
+
     private fun setMessageUI(errorTitle: String?, errorMessage: String?) {
         view?.findViewById<TextView>(R.id.tvTitle)?.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.tvTitle)?.text = errorTitle
@@ -211,6 +215,7 @@ class LastTriedFragment : Fragment() {
 
 
     companion object {
+        val TAG = "LastTriedFragment"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

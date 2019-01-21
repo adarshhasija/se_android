@@ -90,7 +90,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
             else {
                 vibrate()
-                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
             }
             flashAnswerResult(!expectedAnswerGesture)
             updateContent()
@@ -467,7 +467,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         wordIncorrect = true
                     }
                     if (expectedCharacter != null && inputCharacter != null) {
-                        responses.add(Response(QUESTION_TYPE_CHARACTER,Character.toString(expectedCharacter),Character.toString(inputCharacter),false))
+                        responses.add(Response(QUESTION_TYPE_CHARACTER,Character.toString(expectedCharacter),Character.toString(inputCharacter),isCorrect))
                     }
 
                     val spannableString = SpannableString(tvMain?.text.toString())
@@ -481,7 +481,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
                     itemsAttempted++
                     if (inputCharacter?.equals('y', ignoreCase = true) == true) {
-                        itemsCorrect++
+                        if (expectedAnswerGesture) {
+                            itemsCorrect++
+                        }
                         flashAnswerResult(expectedAnswerGesture)
                         responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
                             GESTURE_TAP
@@ -490,6 +492,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         },GESTURE_TAP, expectedAnswerGesture))  //Answer was true. If expected was true send true, else send false
                     }
                     else if (inputCharacter?.equals('n', ignoreCase = true) == true) {
+                        if (!expectedAnswerGesture) {
+                            itemsCorrect++
+                        }
                         flashAnswerResult(!expectedAnswerGesture)
                         responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
                             GESTURE_TAP
