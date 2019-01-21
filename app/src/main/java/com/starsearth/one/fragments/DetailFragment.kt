@@ -408,7 +408,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }, result)
 
         //2. Set return result to previous screen onActivityResult
-        setReturnResult(result)
+        //setReturnResult(result)
+        mListener?.onDetailFragmentTaskCompleted(result)
 
         //3. Update the Fragment's mResults array
         if (result != null) {

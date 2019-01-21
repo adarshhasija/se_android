@@ -27,7 +27,7 @@ class MySeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
-        holder.mTitleView.text = mValues[position].text1?.capitalize()
+        holder.mTitleView.text = mValues[position].text1?.replace("_", " ", true)?.capitalize()
 
         holder.mView.setOnClickListener {
             holder.mItem?.let {

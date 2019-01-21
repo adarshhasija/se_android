@@ -44,7 +44,7 @@ import kotlin.collections.HashMap
 class RecordListFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : SETeachingContent? = null
-    private var mResults = ArrayList<Result>() //Used if screen is for a course
+    private lateinit var mResults : ArrayList<Result> //Used if screen is for a course
     private var mType : Any? = null
     private var mContent : String? = null
     private var mListener: OnRecordListFragmentInteractionListener? = null
@@ -99,17 +99,19 @@ class RecordListFragment : Fragment() {
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
-                val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
                     if (adapter.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
                     }
-                    results.add(newResult)
+                    mResults.add(newResult)
                 }
-                Collections.sort(results, ComparatorMainMenuItem())
-                insertResults(results)
+                Collections.sort(mResults, ComparatorMainMenuItem())
+                insertResults(mResults)
+                (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                list?.layoutManager?.scrollToPosition(0)
+                mResults.clear() //Clear mResults so that we can accept new results from future fragments
             }
 
             progressBar?.visibility = View.GONE
@@ -135,12 +137,10 @@ class RecordListFragment : Fragment() {
         activity?.setResult(Activity.RESULT_OK, intent)
     }
 
-    fun insertResults(results: ArrayList<Result>) {
+    fun insertResults(results: List<Result>) {
         for (result in results) {
             insertResult(result)
         }
-        list.adapter.notifyDataSetChanged()
-        list?.layoutManager?.scrollToPosition(0)
     }
 
     fun insertResult(result: Result) {
@@ -161,6 +161,8 @@ class RecordListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d("TAG", "********ON CREATE************")
+        mResults = ArrayList()
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
                     ?:
@@ -186,6 +188,7 @@ class RecordListFragment : Fragment() {
             var mainMenuItems = getData(mType)
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mResults)
+                mResults.clear() //Dont need mResults anymore
             }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
@@ -209,7 +212,10 @@ class RecordListFragment : Fragment() {
         if (mTeachingContent == null) {
             //This means we are not looking at a course specific list of tasks
             //We are looking at a general list of records and so we should update the list to show last updates
+            Log.d("TAG", "************M RESULTS************"+mResults.size)
+            insertResults(mResults)
             (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+            list?.layoutManager?.scrollToPosition(0)
         }
 
     }
@@ -219,7 +225,9 @@ class RecordListFragment : Fragment() {
     Update the view
      */
     fun taskCompleted(result: Result) {
-        insertResult(result)
+        Log.d("TAG", "*******REACHING HERE*********")
+        mResults.add(result)
+        Log.d("TAG", "*******m RESULTS 1*********"+mResults.size)
     }
 
     private fun getRecordItemsFromPreviouslyPassedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {

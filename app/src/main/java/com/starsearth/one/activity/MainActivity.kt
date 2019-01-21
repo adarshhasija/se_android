@@ -39,19 +39,23 @@ class MainActivity : AppCompatActivity(),
         //Once a fragment type is complete we should not process it again if we find it later in the array
         var recordListFragmentComplete = false
         var detailFragmentComplete = false
-        supportFragmentManager?.fragments?.forEach {
-            if (it is RecordListFragment && !recordListFragmentComplete) {
+        val backStackCount = supportFragmentManager.backStackEntryCount
+        for (index in 0 until backStackCount) {
+            val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+            if (backEntry.name == RecordListFragment.TAG && !recordListFragmentComplete) {
                 //Once a task has been completed, add it to the record list fragment
                 //Once we return to that screen, we will simply update the list
                 //Should only do this on the first instance of RecordListFragment. There could be another instance later for viewing completed tasks
-                it.taskCompleted(result)
+                val fragment = supportFragmentManager?.findFragmentByTag(RecordListFragment.TAG)
+                (fragment as? RecordListFragment)?.taskCompleted(result)
                 recordListFragmentComplete = true
             }
-            else if (it is DetailFragment && !detailFragmentComplete) {
+            else if (backEntry.name == DetailFragment.TAG && !detailFragmentComplete) {
                 //If we have just repeated a task thats part of a course(by tapping REPEAT_PREVIOUSLY_PASSED_TASKS)
                 //Update the detail fragment with the result.
                 //This should only be done for the first instance of DetailFragment
-                it.onTaskRepeated(result)
+                val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
+                (fragment as? DetailFragment)?.onTaskRepeated(result)
                 detailFragmentComplete = true
             }
         }
@@ -81,8 +85,8 @@ class MainActivity : AppCompatActivity(),
 
 
     override fun onResultDetailFragmentInteraction(result: Result, task: Task, action: String) {
-        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, result.responses.size > 0, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
-        if (result.responses != null && result.responses.size > 0) {
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, result.responses?.isEmpty() == false, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
+        if (result.responses?.isEmpty() == false) {
             val fragment = ResponseListFragment.newInstance(result)
             supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
