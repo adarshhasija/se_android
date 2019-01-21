@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity(),
     override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
         if (item.type == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
-            val fragment = ResultListFragment.newInstance((item.teachingContent as Task), results)
+            val fragment = ResultListFragment.newInstance((item.teachingContent as Task))
             getSupportFragmentManager()?.beginTransaction()
                     ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     ?.replace(R.id.fragment_container_main, fragment)

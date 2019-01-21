@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
+import com.starsearth.one.domain.RecordItem
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_result.view.*
 class ResultRecyclerViewAdapter(
         private val mContext: Context,
         private val mTask: Task,
-        private val mValues: List<Result>,
+        private val mValues: ArrayList<Result>,
         private val mListener: OnResultListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>() {
 
@@ -66,6 +67,14 @@ class ResultRecyclerViewAdapter(
             tag = result
             setOnClickListener(mOnClickListener)
         }
+    }
+
+    fun addItem(result: Result) {
+        mValues.add(result)
+    }
+
+    fun addAll(results: ArrayList<Result>) {
+        mValues.addAll(results)
     }
 
     override fun getItemCount(): Int = mValues.size

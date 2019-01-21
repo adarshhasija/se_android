@@ -149,7 +149,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         if (arguments != null) {
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
             mType = arguments!!.getParcelable(TYPE)
-            Log.d("TAG", "**********type*********"+mType)
          //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
