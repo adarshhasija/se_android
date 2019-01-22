@@ -1,9 +1,7 @@
 package com.starsearth.one.fragments.lists
 
 //import android.app.Fragment
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
@@ -21,7 +19,6 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
-import android.util.Log
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
@@ -42,60 +39,15 @@ import kotlin.collections.HashMap
  * fragment (e.g. upon screen orientation changes).
  */
 class RecordListFragment : Fragment() {
-    private var mReturnBundle = Bundle()
     private var mTeachingContent : SETeachingContent? = null
-    private lateinit var mResults : ArrayList<Result> //Used if screen is for a course
+    private lateinit var mPassedInResults : ArrayList<Result> //Passed in results if screen is for a course
     private var mNewlyCompletedResults = ArrayList<Result>() //For newly created results that are returned back from fragments
     private var mType : Any? = null
     private var mContent : String? = null
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
-    private val mResultsChildListener = object : ChildEventListener {
-        override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-            val result = dataSnapshot.getValue(Result::class.java)
 
-            val adapter = list.adapter
-            val itemCount = adapter.itemCount
-            for (i in 0 until itemCount) {
-                val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
-                if (menuItem.isTaskIdExists(result?.task_id!!)) {
-                    if (mTeachingContent != null) {
-                        //If it is a course, do not re arrange the order
-                        menuItem.results.add(result)
-                        adapter.replaceItem(i, menuItem)
-                        adapter.notifyItemChanged(i)
-                    }
-                    else {
-                        adapter.removeAt(i) //remove the entry from the list
-                        menuItem.results.add(result) //add at the end
-                        adapter.addItem(menuItem)
-                        adapter.notifyDataSetChanged()
-                        list.layoutManager.scrollToPosition(0)
-                    }
-
-                }
-            }
-
-        }
-
-        override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
-
-        }
-
-        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-
-        }
-
-        override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
-
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-
-        }
-    }
-
-    private val mResultsMultipleValuesListener = object : ValueEventListener {
+    private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
@@ -123,19 +75,6 @@ class RecordListFragment : Fragment() {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-    }
-
-    /*
-    If it is a task as part of a course, set return result for parent
-     */
-    private fun setReturnResult(results: ArrayList<Parcelable>) {
-        val intent = Intent()
-        if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {
-            mReturnBundle.putParcelableArrayList("RESULTS", ArrayList())
-        }
-        mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS")?.addAll(results)
-        intent.putExtras(mReturnBundle)
-        activity?.setResult(Activity.RESULT_OK, intent)
     }
 
     fun insertResults(results: List<Result>) {
@@ -188,7 +127,7 @@ class RecordListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mResults = ArrayList()
+        mPassedInResults = ArrayList()
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
                     ?:
@@ -196,7 +135,7 @@ class RecordListFragment : Fragment() {
             mContent = arguments!!.getString(ARG_CONTENT)
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
             arguments!!.getParcelableArrayList<Result>(ARG_RESULTS)?.let {
-                mResults.addAll(it)
+                mPassedInResults.addAll(it)
             }
 
         }
@@ -213,7 +152,7 @@ class RecordListFragment : Fragment() {
                     DividerItemDecoration.VERTICAL))
             var mainMenuItems = getData(mType)
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                mainMenuItems = removeUnattemptedTasks(mainMenuItems, mResults)
+                mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
             }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
@@ -224,7 +163,7 @@ class RecordListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //view has to exist by the time this is called
-        if (mResults.isEmpty()) {
+        if (mPassedInResults.isEmpty()) {
             //Only call from FirebaseManager if there are no results passed in
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }
@@ -237,8 +176,8 @@ class RecordListFragment : Fragment() {
         if (mTeachingContent == null && mNewlyCompletedResults.size > 0) {
             //This means we are not looking at a course specific list of tasks
             //We are looking at a general list of records and so we should update the list to show last updates
-            //mResults contains latest updates of just attempted tasks
-            //Update list only if mResults has values
+            //mPassedInResults contains latest updates of just attempted tasks
+            //Update list only if mPassedInResults has values
             insertNewlyCompletedResults(mNewlyCompletedResults)
             mNewlyCompletedResults.clear()
             (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
@@ -305,32 +244,15 @@ class RecordListFragment : Fragment() {
                     AssetsFileManager.getAllTimedItems(context)
                 }
                 else if (tag == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                    getRecordItemsFromPreviouslyPassedTasks((mTeachingContent as Course).tasks, mResults)
+                    getRecordItemsFromPreviouslyPassedTasks((mTeachingContent as Course).tasks, mPassedInResults)
                 }
                 else if (tag == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
-                    getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mResults)
+                    getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mPassedInResults)
                 }
                 else {
                     //Show everything
                     AssetsFileManager.getAllItems(context)
                 }
-
-             /*   if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                    (mTeachingContent as Course).getAllPassedTasks(mResults)
-                } else if (mTeachingContent is Course && mTypeCourseListItem == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
-                    (mTeachingContent as Course).getAllAttemptedTasks(mResults)
-                } else if (isTimed) {
-                    AssetsFileManager.getAllTimedItems(context)
-                } else if (isGame) {
-                    AssetsFileManager.getAllGames(context)
-                } else if (type != null) {
-                    AssetsFileManager.getItemsByType(context, type)
-                } else if (!tag.isNullOrEmpty()) {
-                    AssetsFileManager.getItemsByTag(context, tag)
-                } else {
-                    //Show everything
-                    AssetsFileManager.getAllItems(context)
-                }   */
 
         return mainMenuItems
     }
@@ -340,7 +262,7 @@ class RecordListFragment : Fragment() {
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
         //query?.addChildEventListener(mResultsChildListener)
-        query?.addListenerForSingleValueEvent(mResultsMultipleValuesListener)
+        query?.addListenerForSingleValueEvent(mResultValuesListener)
         progressBar?.visibility = View.VISIBLE
         list?.visibility = View.GONE
     }

@@ -150,33 +150,6 @@ class LastTriedFragment : Fragment() {
             activity?.supportFragmentManager?.popBackStackImmediate()!!
         })
 
-    /*    val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibility.isTalkbackOn
-        if (isTalkbackOn) {
-            view.findViewById<TextView>(R.id.tvLongPressCloseScreen)?.text = context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)
-        }   */
-
-    /*    if (mTitle != null && mMessage != null) {
-            view.findViewById<ConstraintLayout>(R.id.clMain).contentDescription =
-                    view.findViewById<TextView>(R.id.tvTitle).text.toString() + " " + view.findViewById<TextView>(R.id.tvMessage).text.toString() + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
-
-            view.announceForAccessibility(
-                    view.findViewById<TextView>(R.id.tvTitle).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tvMessage).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
-            )
-        } else {
-            view.findViewById<ConstraintLayout>(R.id.clMain).contentDescription =
-                    view.findViewById<TextView>(R.id.tvTitle).text.toString() + " " +
-                    view.findViewById<TextView>(R.id.tvResult).text.toString() + " " +
-                    view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
-
-            view.announceForAccessibility(
-                    view.findViewById<TextView>(R.id.tvTitle).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tvResult).text.toString()
-                            + " " + view.findViewById<TextView>(R.id.tvLongPressCloseScreen).text.toString()
-            )
-        }   */
-
     }
 
     fun onEnterTapped() {

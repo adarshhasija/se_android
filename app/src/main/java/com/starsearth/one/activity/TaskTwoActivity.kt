@@ -305,7 +305,12 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             expectedAnswer = nextItem.replace("␣", " ")
             if (mTask.isTextVisibleOnStart) {
                 tvMain?.text = nextItem
-                tvMain?.announceForAccessibility(nextItem.substring(0, 1))
+                android.os.Handler().postDelayed({
+                    //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
+                    tvMain?.announceForAccessibility(nextItem.substring(0, 1))
+                },
+                        1000)
+
             }
             else {
                 tvMain?.text = ""
@@ -315,7 +320,12 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             nextItem?.forEach { text, gesture ->
                 expectedAnswerGesture = gesture as Boolean
                 tvMain?.text = text as? String
-                tvMain.announceForAccessibility(text as String)
+                android.os.Handler().postDelayed({
+                    //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
+                    tvMain.announceForAccessibility(text as String)
+                },
+                        1000)
+
             }
         }
     }

@@ -304,7 +304,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }   */
 
         tvLongPressForMoreOptions?.text =
-                if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+                if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
                 }
                 else {
@@ -315,7 +315,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     fun getContentDescriptionForAccessibility() : String {
-        val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn
+        val isTalkbackOn = (activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn
 
         var contentDescription = tvInstruction?.text.toString()
         if (isTalkbackOn == true) {
@@ -340,7 +340,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     private fun openTask() {
         var task : Task? =
                 if (mTeachingContent is Course) {
-                    (mTeachingContent as? Course)?.getNextTask(mResults?.toList())
+                    (mTeachingContent as? Course)?.getNextTask(mResults.toList())
                 }
                 else {
                     mTeachingContent as Task
@@ -412,9 +412,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         mListener?.onDetailFragmentTaskCompleted(result)
 
         //3. Update the Fragment's mResults array
-        if (result != null) {
-            mResults?.add(result)
-        }
+        mResults.add(result)
 
         //4. If the task is passed and we have reached the end of the course, push end of course message
         if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
