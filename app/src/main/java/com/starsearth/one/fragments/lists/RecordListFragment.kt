@@ -45,6 +45,7 @@ class RecordListFragment : Fragment() {
     private var mReturnBundle = Bundle()
     private var mTeachingContent : SETeachingContent? = null
     private lateinit var mResults : ArrayList<Result> //Used if screen is for a course
+    private var mNewlyCompletedResults = ArrayList<Result>() //For newly created results that are returned back from fragments
     private var mType : Any? = null
     private var mContent : String? = null
     private var mListener: OnRecordListFragmentInteractionListener? = null
@@ -99,19 +100,19 @@ class RecordListFragment : Fragment() {
             val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
+                val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
                     if (adapter.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
                     }
-                    mResults.add(newResult)
+                    results.add(newResult)
                 }
-                Collections.sort(mResults, ComparatorMainMenuItem())
-                insertResults(mResults)
+                Collections.sort(results, ComparatorMainMenuItem())
+                insertResults(results)
                 (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
-                mResults.clear() //Clear mResults so that we can accept new results from future fragments
             }
 
             progressBar?.visibility = View.GONE
@@ -143,6 +144,9 @@ class RecordListFragment : Fragment() {
         }
     }
 
+    /*
+        This function is called when results are pulled from the server and populated
+     */
     fun insertResult(result: Result) {
         val adapter = list.adapter
         val itemCount = adapter.itemCount
@@ -158,10 +162,32 @@ class RecordListFragment : Fragment() {
         }
     }
 
+    /*
+        This function is called when results newly created and returned from DetailFragment.
+        Here we do not check if its latest result. We simply insert
+        We are assuming that all results will come from same course
+     */
+    fun insertNewlyCompletedResults(results: ArrayList<Result>) {
+        if (results.size <= 0) {
+            return
+        }
+        val adapter = list.adapter
+        val itemCount = adapter.itemCount
+        for (i in 0 until itemCount) {
+            val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
+            //Assuming all results returned in the array are from same course/task
+            //Only need to check first item in the array
+            if (menuItem.isTaskIdExists(results.get(0).task_id)) {
+                menuItem.results.addAll(results)
+                adapter.removeAt(i)
+                adapter.addItem(menuItem)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("TAG", "********ON CREATE************")
         mResults = ArrayList()
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
@@ -188,7 +214,6 @@ class RecordListFragment : Fragment() {
             var mainMenuItems = getData(mType)
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mResults)
-                mResults.clear() //Dont need mResults anymore
             }
             view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
@@ -209,11 +234,13 @@ class RecordListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (mTeachingContent == null) {
+        if (mTeachingContent == null && mNewlyCompletedResults.size > 0) {
             //This means we are not looking at a course specific list of tasks
             //We are looking at a general list of records and so we should update the list to show last updates
-            Log.d("TAG", "************M RESULTS************"+mResults.size)
-            insertResults(mResults)
+            //mResults contains latest updates of just attempted tasks
+            //Update list only if mResults has values
+            insertNewlyCompletedResults(mNewlyCompletedResults)
+            mNewlyCompletedResults.clear()
             (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
             list?.layoutManager?.scrollToPosition(0)
         }
@@ -221,13 +248,11 @@ class RecordListFragment : Fragment() {
     }
 
     /*
-    When a task is completed DetailFragment->MainActivity calls this. Insert a result and when the fragment gets focus,
-    Update the view
+    When a task is completed DetailFragment->MainActivity calls this. Insert a result
+     The list is updated when the fragment regains focus(onResume)
      */
     fun taskCompleted(result: Result) {
-        Log.d("TAG", "*******REACHING HERE*********")
-        mResults.add(result)
-        Log.d("TAG", "*******m RESULTS 1*********"+mResults.size)
+        mNewlyCompletedResults.add(result)
     }
 
     private fun getRecordItemsFromPreviouslyPassedTasks(taskList: List<Task>, resultsList: List<Result>) : ArrayList<RecordItem> {
