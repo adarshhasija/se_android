@@ -32,14 +32,6 @@ public class Response implements Parcelable{
         //super();
     }
 
-    public Response(String uid, String questionId, String userId, String answer, String topicId) {
-        this.uid = uid;
-        this.questionId = questionId;
-        this.userId = userId;
-        this.answer = answer;
-        this.topicId = topicId;
-    }
-
     public Response(String question, String expectedAnswer, String answer, boolean isCorrect) {
         this.question = question;
         this.expectedAnswer = expectedAnswer;

@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Response
+import com.starsearth.one.domain.Task
 
 
 import com.starsearth.one.fragments.lists.ResponseListFragment.OnResponseListFragmentInteractionListener
@@ -26,6 +27,7 @@ class ResponseRecyclerViewAdapter(
         private val context: Context,
         private val startTime: Long,
         private val mValues: List<Response>,
+        private val hasMoreDetail: Boolean,
         private val mListener: OnResponseListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResponseRecyclerViewAdapter.ViewHolder>() {
 
@@ -36,7 +38,7 @@ class ResponseRecyclerViewAdapter(
             val item = v.tag as Response
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            //mListener?.onResponseListFragmentInteraction(item)
+            mListener?.onResponseListFragmentInteraction(item)
         }
     }
 
@@ -108,9 +110,18 @@ class ResponseRecyclerViewAdapter(
         }
         holder.mTimeTaken.text = timeTakenString
 
+        holder.mTapToViewDetails.visibility = if (hasMoreDetail) {
+            View.VISIBLE
+        }
+        else {
+            View.GONE
+        }
+
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            if (hasMoreDetail) {
+                setOnClickListener(mOnClickListener)
+            }
         }
     }
 
@@ -122,6 +133,7 @@ class ResponseRecyclerViewAdapter(
         val mActualAnswer: TextView = mView.tv_actual_answer
         val mResult: TextView = mView.tvResult
         val mTimeTaken: TextView = mView.tv_time_taken
+        val mTapToViewDetails: TextView = mView.tv_tap_to_view_details
 
         override fun toString(): String {
             return super.toString() + " '" + mQuestion.text + "'"

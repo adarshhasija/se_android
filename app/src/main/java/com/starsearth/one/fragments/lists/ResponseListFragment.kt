@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.starsearth.one.R
 import com.starsearth.one.adapter.ResponseRecyclerViewAdapter
-import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Result
 
@@ -23,7 +22,9 @@ import com.starsearth.one.domain.Result
 class ResponseListFragment : Fragment() {
 
     // TODO: Customize parameters
-    private var mResult : Any? = null
+    private var mHasMoreDetail = false
+    private var mResponses : ArrayList<Response> = ArrayList()
+    private var startTimeMillis : Long = 0
 
     private var listener: OnResponseListFragmentInteractionListener? = null
 
@@ -31,7 +32,9 @@ class ResponseListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mResult = it.getParcelable(ARG_RESPONSES)
+            mResponses.addAll(it.getParcelableArrayList(ARG_RESPONSES))
+            startTimeMillis = it.getLong(ARG_START_TIME_MILLIS)
+            mHasMoreDetail = it.getBoolean(ARG_HAS_MORE_DETAIL)
         }
     }
 
@@ -43,7 +46,7 @@ class ResponseListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = ResponseRecyclerViewAdapter(context, (mResult as Result).startTimeMillis, (mResult as Result).responses, listener)
+                adapter = ResponseRecyclerViewAdapter(context, startTimeMillis, mResponses, mHasMoreDetail, listener)
             }
         }
         return view
@@ -80,17 +83,21 @@ class ResponseListFragment : Fragment() {
     }
 
     companion object {
+        val TAG = "ResponseListFragment"
 
         // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_RESPONSES    = "responses"
+        const val ARG_START_TIME_MILLIS = "start_time_millis"
+        const val ARG_HAS_MORE_DETAIL = "has_more_detail"
 
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(result: Any) =
+        fun newInstance(responses: ArrayList<Response>, startTimeMillis: Long, hasMoreDetail: Boolean) =
                 ResponseListFragment().apply {
                     arguments = Bundle().apply {
-                        putParcelable(ARG_RESPONSES, (result as Parcelable))
+                        putParcelableArrayList(ARG_RESPONSES, responses)
+                        putLong(ARG_START_TIME_MILLIS, startTimeMillis)
+                        putBoolean(ARG_HAS_MORE_DETAIL, hasMoreDetail)
                     }
                 }
     }

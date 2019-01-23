@@ -47,6 +47,28 @@ public class Task extends SETeachingContent {
         return type;
     }
 
+    public static enum ResponseViewType {
+        CHARACTER("CHARACTER"), //View Responses at a character level
+        WORD("WORD")    //View Responses at a word level
+        ;
+        private final String value;
+
+        ResponseViewType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public static ResponseViewType fromString(String i) {
+            for (ResponseViewType responseViewType : ResponseViewType.values()) {
+                if (responseViewType.getValue().equals(i)) { return responseViewType; }
+            }
+            return null;
+        }
+    }
+
     public enum Type {
         TYPING(1),
         KEYBOARD_TEST(3),
@@ -315,6 +337,81 @@ public class Task extends SETeachingContent {
             }
         }
         return ret;
+    }
+
+    /*
+        Response view type levels can be word level->character level
+        This function will decide which is the highest level
+        This will only return a type if task is typing. Else it will return null
+     */
+    private ResponseViewType getHighestResponseViewType() {
+        ResponseViewType responseViewType = null;
+        if (type == Type.TYPING) {
+            responseViewType = ResponseViewType.CHARACTER;
+            for (String item : content) {
+                if (item.length() > 1) {
+                    responseViewType = ResponseViewType.WORD; //If even one item in the contents array has a length > 1, it means we have words in the array, not only characters
+                    break;
+                }
+            }
+        }
+
+        return responseViewType;
+    }
+
+    /*
+    Decide if we want to send hasMoreDetail flag to the next response list fragment
+    This will decide if each row will have the next see more detail...and is clickable
+     */
+    public boolean doesNextResponseListHasMoreDetail(int exitingResponseListFragments) {
+        boolean result = false;
+        ResponseViewType responseViewType = getHighestResponseViewType();
+        if (responseViewType == ResponseViewType.WORD && exitingResponseListFragments == 0) {
+            result = true;
+        }
+        return result;
+    }
+
+    private ResponseViewType getResponseViewTypeForNextFragment(int existingResponseListFragments) {
+        ResponseViewType result = null;
+        if (existingResponseListFragments == 0) {
+            result = getHighestResponseViewType();
+        }
+        else if (type == Type.TYPING == existingResponseListFragments > 0) {
+            result = ResponseViewType.CHARACTER;
+        }
+        return result;
+    }
+
+    /*
+        Returns an array of responses depending on what we want to show the user. eg: character level results or word level
+        Input: responses: List of responses at the character level, which is collected when the task is done
+     */
+    public List<Response> getResponsesForType(int exitingResponseListFragments, List<Response> responses) {
+        List<Response> retList = new ArrayList<>();
+        ResponseViewType responseViewType = getResponseViewTypeForNextFragment(exitingResponseListFragments);
+        if (responseViewType == ResponseViewType.WORD) {
+            int startIndex = 0;
+            for (String question : content) {
+                long startTimeMillis = responses.get(startIndex).timestamp;
+                boolean isCorrect = true;
+                StringBuilder sb = new StringBuilder();
+                int endIndex = startIndex + question.length();
+                while (startIndex < endIndex) {
+                    sb.append(responses.get(startIndex).answer);
+                    if (!isCorrect) isCorrect = false;
+                    startIndex++;
+                }
+                Response r = new Response(question, question, sb.toString(), isCorrect);
+                r.timestamp = startTimeMillis;
+                retList.add(r);
+            }
+        }
+        else {
+            retList.addAll(responses); //If no responseViewType provided, simply return the original
+        }
+
+        return retList;
     }
 
 }

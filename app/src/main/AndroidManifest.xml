@@ -90,6 +90,7 @@
         <activity
             android:name=".activity.TaskTwoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

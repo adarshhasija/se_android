@@ -50,6 +50,17 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
+            <TextView
+                android:id="@+id/tv_tap_to_view_details"
+                android:visibility="gone"
+                android:text="@string/tap_to_view_details"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_marginRight="10dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
         </LinearLayout>
 
 

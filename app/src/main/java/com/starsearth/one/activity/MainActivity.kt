@@ -80,18 +80,32 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onResponseListFragmentInteraction(item: Response?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var exitingResponseListFragments = 0
+        val backStackCount = supportFragmentManager.backStackEntryCount
+        //Reverse order
+        //Should be response list, then result detail
+        for (index in backStackCount - 1 downTo  0) {
+            val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+            if (backEntry.name == ResponseListFragment.TAG) {
+                exitingResponseListFragments++
+            }
+            else if (backEntry.name == ResultDetailFragment.TAG) {
+                val fragment = supportFragmentManager?.findFragmentByTag(ResultDetailFragment.TAG)
+                (fragment as? ResultDetailFragment)?.responseListItemTapped(exitingResponseListFragments)
+                break
+            }
+        }
+
     }
 
-
-    override fun onResultDetailFragmentInteraction(result: Result, task: Task, action: String) {
-        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, result.responses?.isEmpty() == false, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
-        if (result.responses?.isEmpty() == false) {
-            val fragment = ResponseListFragment.newInstance(result)
+    override fun onResultDetailFragmentInteraction(responses: ArrayList<Response>, startTimeMillis: Long, task: Task, action: String, hasMoreDetail: Boolean) {
+        (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, responses?.isEmpty() == false, action)
+        if (responses?.isEmpty() == false) {
+            val fragment = ResponseListFragment.newInstance(responses, startTimeMillis, hasMoreDetail)
             supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, ResultDetailFragment.TAG)
-                    .addToBackStack(ResultDetailFragment.TAG)
+                    .replace(R.id.fragment_container_main, fragment, ResponseListFragment.TAG)
+                    .addToBackStack(ResponseListFragment.TAG)
                     .commit()
         }
         else {
@@ -117,8 +131,8 @@ class MainActivity : AppCompatActivity(),
         val fragment = ResultDetailFragment.newInstance(task!!, result!!)
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
+                .replace(R.id.fragment_container_main, fragment, ResultDetailFragment.TAG)
+                .addToBackStack(ResultDetailFragment.TAG)
                 .commit()
     }
 

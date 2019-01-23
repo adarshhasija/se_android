@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
+import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Result
 import com.starsearth.one.domain.ResultTyping
 import com.starsearth.one.domain.Task
@@ -43,74 +44,33 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        listener?.onResultDetailFragmentInteraction(result, task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
-    }
-
-    private lateinit var task: Task
-    private lateinit var result: Result
-    private var listener: OnResultDetailFragmentInteractionListener? = null
-
-/*    private var x1: Float = 0.toFloat()
-    private var x2:Float = 0.toFloat()
-    private var y1:Float = 0.toFloat()
-    private var y2:Float = 0.toFloat()
-    private var actionDownTimestamp : Long = 0
-    internal val MIN_DISTANCE = 150
-    override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-        when (event?.getAction()) {
-            MotionEvent.ACTION_DOWN -> {
-                x1 = event?.getX()
-                y1 = event?.getY()
-                actionDownTimestamp = Calendar.getInstance().timeInMillis
-            }
-            MotionEvent.ACTION_UP -> {
-                val actionUpTimestamp = Calendar.getInstance().timeInMillis
-                x2 = event?.getX()
-                y2 = event?.getY()
-                val deltaX = x2 - x1
-                val deltaY = y2 - y1
-                if (Math.abs(deltaX) > MIN_DISTANCE || Math.abs(deltaY) > MIN_DISTANCE) {
-                    gestureSwipe()
-                } else if (Math.abs(actionUpTimestamp - actionDownTimestamp) > 500) {
-                    gestureLongPress()
-                } else {
-                    gestureTap()
-                }
-            }
-        }
-        return true
-    }
-
-    private fun gestureTap() {
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(0, mResult.responses) as ArrayList<Response>,
+                                                        mResult.startTimeMillis,
+                                                        mTask,
+                                                        AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
+                                                        mTask.doesNextResponseListHasMoreDetail(0)
+                                                    )
 
     }
 
-    private fun gestureSwipe() {
-
+    fun responseListItemTapped(exitingResponseListFragments: Int) {
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(exitingResponseListFragments, mResult.responses) as ArrayList<Response>,
+                                                        mResult.startTimeMillis,
+                                                        mTask,
+                                                            AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
+                                                            mTask.doesNextResponseListHasMoreDetail(exitingResponseListFragments)
+                                                    )
     }
 
-    private fun gestureLongPress() {
-        listener?.onResultDetailFragmentInteraction(result, task, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
-      /*  (activity?.application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, result.responses.size > 0, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
-        if (result.responses != null && result.responses.size > 0) {
-            listener?.onResultDetailFragmentInteraction(result)
-        }
-        else {
-            val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(context)
-            alertDialog.setTitle(context?.resources?.getString(R.string.error))
-            alertDialog.setMessage(context?.resources?.getString(R.string.responses_not_recorded))
-            alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                dialog.dismiss()
-            })
-            alertDialog.show()
-        }   */
-    }   */
+    private lateinit var mTask: Task
+    private lateinit var mResult: Result
+    private var mListener: OnResultDetailFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            task = it.getParcelable(ARG_TASK)
-            result = it.getParcelable(ARG_RESULT)
+            mTask = it.getParcelable(ARG_TASK)
+            mResult = it.getParcelable(ARG_RESULT)
         }
     }
 
@@ -123,21 +83,21 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvDateTime?.text = Utils.formatDateTime(result.timestamp)
+        tvDateTime?.text = Utils.formatDateTime(mResult.timestamp)
 
-        if (result is ResultTyping) {
+        if (mResult is ResultTyping) {
             tv_typing_speed?.visibility = View.VISIBLE
             tv_typing_speed?.text =
                     context?.resources?.getString(R.string.typing_speed) +
                     ":" +
                     " " +
-                    (result as ResultTyping).speedWPM
+                    (mResult as ResultTyping).speedWPM
             tv_accuracy?.visibility = View.VISIBLE
             tv_accuracy.text =
                     context?.resources?.getString(R.string.accuracy) +
                     ":" +
                     " " +
-                    (result as ResultTyping).accuracy +
+                    (mResult as ResultTyping).accuracy +
                     "%"
             tv_target_accuracy?.visibility = View.VISIBLE
             tv_target_accuracy?.text =
@@ -150,45 +110,45 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
                     context?.resources?.getString(R.string.result) +
                     ":" +
                     " " +
-                    (result as ResultTyping).getScoreSummary(context, task.isPassFail, task.passPercentage)
+                    (mResult as ResultTyping).getScoreSummary(context, mTask.isPassFail, mTask.passPercentage)
             tv_words_correct?.visibility = View.VISIBLE
             tv_words_correct?.text =
                     context?.resources?.getString(R.string.words_correct) +
                     ":" +
                     " " +
-                    (result as ResultTyping).words_correct
+                    (mResult as ResultTyping).words_correct
             tv_words_total_attempted?.visibility = View.VISIBLE
             tv_words_total_attempted?.text =
                     context?.resources?.getString(R.string.attempted) +
                     ":" +
                     " " +
-                    (result as ResultTyping).words_total_finished
+                    (mResult as ResultTyping).words_total_finished
             tv_characters_correct?.visibility = View.VISIBLE
             tv_characters_correct?.text =
                     context?.resources?.getString(R.string.characters_correct) +
                     ":" +
                     " " +
-                    (result as ResultTyping).characters_correct
+                    (mResult as ResultTyping).characters_correct
             tv_characters_total_attempted?.visibility = View.VISIBLE
             tv_characters_total_attempted?.text =
                     context?.resources?.getString(R.string.attempted) +
                     ":" +
                     " " +
-                    (result as ResultTyping).characters_total_attempted
+                    (mResult as ResultTyping).characters_total_attempted
         }
-        else if (result is Result) {
+        else if (mResult is Result) {
             tv_items_correct?.visibility = View.VISIBLE
             tv_items_correct?.text =
                                         context?.resources?.getString(R.string.correct) +
                                         ":" +
                                         " " +
-                                        result.items_correct
+                                        mResult.items_correct
             tv_items_total_attempted?.visibility = View.VISIBLE
             tv_items_total_attempted?.text =
                                         context?.resources?.getString(R.string.attempted) +
                                         ":" +
                                         " " +
-                                        result.items_attempted
+                                        mResult.items_attempted
         }
 
 
@@ -200,7 +160,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
         var contentDescription = context?.resources?.getString(R.string.move_your_finger_to_top_left_to_get_content)
 
         val isTalkbackOn = (activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn
-        if (result.responses != null && result.responses.size > 0) {
+        if (mResult.responses != null && mResult.responses.size > 0) {
             view.findViewById<TextView>(R.id.tv_long_press_responses).visibility = View.VISIBLE
             if (isTalkbackOn == true) {
                 view.findViewById<TextView>(R.id.tv_long_press_responses).text =
@@ -218,7 +178,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnResultDetailFragmentInteractionListener) {
-            listener = context
+            mListener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnResultDetailFragmentInteractionListener")
         }
@@ -226,7 +186,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        mListener = null
     }
 
     /**
@@ -241,7 +201,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(result: Result, task: Task, action: String)
+        fun onResultDetailFragmentInteraction(responses: ArrayList<Response>, startTimeMillis: Long, task: Task, action: String, hasMoreDetail: Boolean)
     }
 
     companion object {
