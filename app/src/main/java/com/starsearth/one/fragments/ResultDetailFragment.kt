@@ -12,10 +12,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.application.StarsEarthApplication
-import com.starsearth.one.domain.Response
-import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.ResultTyping
-import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.*
 import com.starsearth.one.listeners.SeOnTouchListener
 import com.starsearth.one.managers.AnalyticsManager
 import kotlinx.android.synthetic.main.fragment_result_detail.*
@@ -45,11 +42,10 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses) as ArrayList<Response>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses).children,
                                                         mResult.startTimeMillis,
                                                         mTask,
-                                                        AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
-                                                        mTask.doesNextResponseListHasMoreDetail(0)
+                                                        AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString()
                                                     )
 
     }
@@ -85,8 +81,6 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
         super.onViewCreated(view, savedInstanceState)
 
         tvDateTime?.text = Utils.formatDateTime(mResult.timestamp)
-
-        mTask.getResponsesForType(mResult.responses)
 
         if (mResult is ResultTyping) {
             tv_typing_speed?.visibility = View.VISIBLE
@@ -204,7 +198,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(responses: ArrayList<Response>, startTimeMillis: Long, task: Task, action: String, hasMoreDetail: Boolean)
+        fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTree>, startTimeMillis: Long, task: Task, action: String)
     }
 
     companion object {

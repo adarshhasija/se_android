@@ -396,19 +396,7 @@ public class Task extends SETeachingContent {
             int startIndex = 0;
             for (String question : content) {
                 responseTree.addChild(getTreeForResponses(responses, startIndex, question));
-              /*  int endIndex = startIndex + question.length();
-                long startTimeMillis = responses.get(startIndex).timestamp;
-                boolean isCorrect = true;
-                StringBuilder sb = new StringBuilder();
-                while (startIndex < endIndex) {
-                    sb.append(responses.get(startIndex).answer);
-                    if (!isCorrect) isCorrect = false;
-                    startIndex++;
-                }
-                Response r = new Response(question, question, sb.toString(), isCorrect);
-                r.timestamp = startTimeMillis;
-                ResponseTree responseTree1 = new ResponseTree(r);
-                retList.add(r); */
+                startIndex = startIndex + question.length();
             }
         }
         else {
@@ -433,18 +421,23 @@ public class Task extends SETeachingContent {
             return responseTree;
         }
 
+        int originalStartIndex = startIndex; //As startIndex will be updated in loop
         ArrayList<ResponseTree> children = new ArrayList<>();
         boolean isCorrect = true;
         StringBuilder sb = new StringBuilder();
         int endIndex = startIndex + question.length();
+        int a = question.length();
         while (startIndex < endIndex) {
             sb.append(responses.get(startIndex).answer);
             if (!responses.get(startIndex).isCorrect) isCorrect = false;
-            children.add(getTreeForResponses(responses, startIndex, question.substring(startIndex, startIndex)));
+            int indexInString = startIndex - originalStartIndex;
+            if (indexInString < question.length()) {
+                children.add(getTreeForResponses(responses, startIndex, String.valueOf(question.charAt(indexInString))));
+            }
             startIndex++;
         }
         Response r = new Response(question, question, sb.toString(), isCorrect);
-        r.timestamp = responses.get(startIndex).timestamp;
+        r.timestamp = responses.get(originalStartIndex).timestamp;
         responseTree = new ResponseTree(r);
         responseTree.addChildren(children);
 
