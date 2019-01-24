@@ -3,6 +3,7 @@ package com.starsearth.one.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(0, mResult.responses) as ArrayList<Response>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses) as ArrayList<Response>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                         AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
@@ -54,7 +55,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
     }
 
     fun responseListItemTapped(exitingResponseListFragments: Int) {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(exitingResponseListFragments, mResult.responses) as ArrayList<Response>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses) as ArrayList<Response>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                             AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
@@ -84,6 +85,8 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
         super.onViewCreated(view, savedInstanceState)
 
         tvDateTime?.text = Utils.formatDateTime(mResult.timestamp)
+
+        mTask.getResponsesForType(mResult.responses)
 
         if (mResult is ResultTyping) {
             tv_typing_speed?.visibility = View.VISIBLE

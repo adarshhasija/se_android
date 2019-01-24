@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.content.Context;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
@@ -387,16 +388,18 @@ public class Task extends SETeachingContent {
         Returns an array of responses depending on what we want to show the user. eg: character level results or word level
         Input: responses: List of responses at the character level, which is collected when the task is done
      */
-    public List<Response> getResponsesForType(int exitingResponseListFragments, List<Response> responses) {
-        List<Response> retList = new ArrayList<>();
-        ResponseViewType responseViewType = getResponseViewTypeForNextFragment(exitingResponseListFragments);
-        if (responseViewType == ResponseViewType.WORD) {
+    public ResponseTree getResponsesForType(/*int exitingResponseListFragments,*/ List<Response> responses) {
+        ResponseTree responseTree = new ResponseTree(null);
+        ResponseViewType highestResponseViewType = getHighestResponseViewType();
+        if (highestResponseViewType == ResponseViewType.WORD) {
+
             int startIndex = 0;
             for (String question : content) {
+                responseTree.addChild(getTreeForResponses(responses, startIndex, question));
+              /*  int endIndex = startIndex + question.length();
                 long startTimeMillis = responses.get(startIndex).timestamp;
                 boolean isCorrect = true;
                 StringBuilder sb = new StringBuilder();
-                int endIndex = startIndex + question.length();
                 while (startIndex < endIndex) {
                     sb.append(responses.get(startIndex).answer);
                     if (!isCorrect) isCorrect = false;
@@ -404,14 +407,48 @@ public class Task extends SETeachingContent {
                 }
                 Response r = new Response(question, question, sb.toString(), isCorrect);
                 r.timestamp = startTimeMillis;
-                retList.add(r);
+                ResponseTree responseTree1 = new ResponseTree(r);
+                retList.add(r); */
             }
         }
         else {
-            retList.addAll(responses); //If no responseViewType provided, simply return the original
+            for (Response r : responses) {
+                responseTree.addChild(new ResponseTree(r)); //If no responseViewType provided, simply return the original
+            }
+        }
+        return responseTree;
+    }
+
+    /*
+        This should only be called for tasks where a response tree applies
+        eg: TYPING
+     */
+    public ResponseTree getTreeForResponses(List<Response> responses, int startIndex, String question) {
+        ResponseTree responseTree;
+        if (question.length() == 0) {
+            return null;
+        }
+        if (question.length() == 1) {
+            responseTree = new ResponseTree(responses.get(startIndex));
+            return responseTree;
         }
 
-        return retList;
+        ArrayList<ResponseTree> children = new ArrayList<>();
+        boolean isCorrect = true;
+        StringBuilder sb = new StringBuilder();
+        int endIndex = startIndex + question.length();
+        while (startIndex < endIndex) {
+            sb.append(responses.get(startIndex).answer);
+            if (!responses.get(startIndex).isCorrect) isCorrect = false;
+            children.add(getTreeForResponses(responses, startIndex, question.substring(startIndex, startIndex)));
+            startIndex++;
+        }
+        Response r = new Response(question, question, sb.toString(), isCorrect);
+        r.timestamp = responses.get(startIndex).timestamp;
+        responseTree = new ResponseTree(r);
+        responseTree.addChildren(children);
+
+        return responseTree;
     }
 
 }
