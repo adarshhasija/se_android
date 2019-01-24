@@ -57,7 +57,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     // TODO: Rename and change types of parameters
-    private var mType : Any? = null
     private var mTeachingContent: SETeachingContent? = null
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
     private var mReturnBundle = Bundle()
@@ -148,7 +147,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
-            mType = arguments!!.getParcelable(TYPE)
          //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
@@ -482,11 +480,10 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
          * @return A new instance of fragment DetailFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(teachingContent: Parcelable?, type: Any?): DetailFragment {
+        fun newInstance(teachingContent: Parcelable?): DetailFragment {
             val fragment = DetailFragment()
             val args = Bundle()
             args.putParcelable(ARG_TEACHING_CONTENT, teachingContent)
-            args.putParcelable(TYPE, type as Parcelable?)
             //args.putParcelableArrayList(ARG_RESULTS, results)
             fragment.arguments = args
             return fragment

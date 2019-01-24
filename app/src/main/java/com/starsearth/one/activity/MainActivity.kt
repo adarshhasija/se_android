@@ -245,7 +245,7 @@ class MainActivity : AppCompatActivity(),
                     ?.commit()
         }
         else {
-            val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable, item.type)
+            val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable)
             supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
                     .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
