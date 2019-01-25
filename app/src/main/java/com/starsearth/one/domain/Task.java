@@ -364,23 +364,28 @@ public class Task extends SETeachingContent {
         Returns an tree of response nodes with each word broken up into character nodes
         Input: responses: List of responses at the character level, which is collected when the task is done
      */
-    public ResponseTreeNode getResponsesForType(List<Response> responses) {
-        ResponseTreeNode responseTreeNode = new ResponseTreeNode();
+    public ResponseTreeNode getResponsesForType(List<Response> responses, long startTimeMillis) {
+        ResponseTreeNode rootResponseTreeNode = new ResponseTreeNode();
         ResponseViewType highestResponseViewType = getHighestResponseViewType();
         if (highestResponseViewType == ResponseViewType.WORD) {
 
             int startIndex = 0;
             for (String question : content) {
-                responseTreeNode.addChild(getTreeForResponses(responses, startIndex, question));
+                ResponseTreeNode responseTreeNode = getTreeForResponses(responses, startIndex, question);
+                if (startIndex == 0) {
+                    //Getting the tree for the first question. Will add timestamp here instead of passing it into getTreeForResponses()
+                    responseTreeNode.setStartTimeMillis(startTimeMillis);
+                }
+                rootResponseTreeNode.addChild(responseTreeNode);
                 startIndex = startIndex + question.length();
             }
         }
         else {
             for (Response r : responses) {
-                responseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
+                rootResponseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }
         }
-        return responseTreeNode;
+        return rootResponseTreeNode;
     }
 
     /*
