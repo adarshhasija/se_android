@@ -59,20 +59,9 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: SETeachingContent? = null
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
-    private var mReturnBundle = Bundle()
 
     private var mListener: OnDetailFragmentInteractionListener? = null
     private var mDatabase : DatabaseReference? = null
-
-    private fun setReturnResult(result: Parcelable) {
-        val intent = Intent()
-        if (mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS") == null) {
-            mReturnBundle.putParcelableArrayList("RESULTS", ArrayList())
-        }
-        mReturnBundle.getParcelableArrayList<Parcelable>("RESULTS")?.add(result)
-        intent.putExtras(mReturnBundle)
-        activity?.setResult(Activity.RESULT_OK, intent)
-    }
 
     /*
         If a previously passed task has been repeated. Result is irreleveant. Simple add it to the array
@@ -405,8 +394,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
             (mTeachingContent as Course).getTaskById(result.task_id)
         }, result)
 
-        //2. Set return result to previous screen onActivityResult
-        //setReturnResult(result)
+        //2. Update previous fragments with new result
         mListener?.onDetailFragmentTaskCompleted(result)
 
         //3. Update the Fragment's mResults array
@@ -468,7 +456,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         val TAG = "DetailFragment"
         private val ARG_TEACHING_CONTENT = "TEACHING_CONTENT"
-        private val TYPE = "type"
 
 
         /**

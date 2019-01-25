@@ -361,68 +361,44 @@ public class Task extends SETeachingContent {
     }
 
     /*
-    Decide if we want to send hasMoreDetail flag to the next response list fragment
-    This will decide if each row will have the next see more detail...and is clickable
-     */
-    public boolean doesNextResponseListHasMoreDetail(int exitingResponseListFragments) {
-        boolean result = false;
-        ResponseViewType responseViewType = getHighestResponseViewType();
-        if (responseViewType == ResponseViewType.WORD && exitingResponseListFragments == 0) {
-            result = true;
-        }
-        return result;
-    }
-
-    private ResponseViewType getResponseViewTypeForNextFragment(int existingResponseListFragments) {
-        ResponseViewType result = null;
-        if (existingResponseListFragments == 0) {
-            result = getHighestResponseViewType();
-        }
-        else if (type == Type.TYPING == existingResponseListFragments > 0) {
-            result = ResponseViewType.CHARACTER;
-        }
-        return result;
-    }
-
-    /*
-        Returns an array of responses depending on what we want to show the user. eg: character level results or word level
+        Returns an tree of response nodes with each word broken up into character nodes
         Input: responses: List of responses at the character level, which is collected when the task is done
      */
-    public ResponseTree getResponsesForType(/*int exitingResponseListFragments,*/ List<Response> responses) {
-        ResponseTree responseTree = new ResponseTree(null);
+    public ResponseTreeNode getResponsesForType(List<Response> responses) {
+        ResponseTreeNode responseTreeNode = new ResponseTreeNode();
         ResponseViewType highestResponseViewType = getHighestResponseViewType();
         if (highestResponseViewType == ResponseViewType.WORD) {
 
             int startIndex = 0;
             for (String question : content) {
-                responseTree.addChild(getTreeForResponses(responses, startIndex, question));
+                responseTreeNode.addChild(getTreeForResponses(responses, startIndex, question));
                 startIndex = startIndex + question.length();
             }
         }
         else {
             for (Response r : responses) {
-                responseTree.addChild(new ResponseTree(r)); //If no responseViewType provided, simply return the original
+                responseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }
         }
-        return responseTree;
+        return responseTreeNode;
     }
 
     /*
         This should only be called for tasks where a response tree applies
         eg: TYPING
      */
-    public ResponseTree getTreeForResponses(List<Response> responses, int startIndex, String question) {
-        ResponseTree responseTree;
+    public ResponseTreeNode getTreeForResponses(List<Response> responses, int startIndex, String question) {
+        ResponseTreeNode responseTreeNode;
         if (question.length() == 0) {
             return null;
         }
         if (question.length() == 1) {
-            responseTree = new ResponseTree(responses.get(startIndex));
-            return responseTree;
+            responseTreeNode = new ResponseTreeNode(responses.get(startIndex));
+            return responseTreeNode;
         }
 
         int originalStartIndex = startIndex; //As startIndex will be updated in loop
-        ArrayList<ResponseTree> children = new ArrayList<>();
+        ArrayList<ResponseTreeNode> children = new ArrayList<>();
         boolean isCorrect = true;
         StringBuilder sb = new StringBuilder();
         int endIndex = startIndex + question.length();
@@ -435,13 +411,18 @@ public class Task extends SETeachingContent {
                 children.add(getTreeForResponses(responses, startIndex, String.valueOf(question.charAt(indexInString))));
             }
             startIndex++;
+
         }
         Response r = new Response(question, question, sb.toString(), isCorrect);
-        r.timestamp = responses.get(originalStartIndex).timestamp;
-        responseTree = new ResponseTree(r);
-        responseTree.addChildren(children);
+        startIndex = startIndex - 1; //startIndex was incremented before this. We need to go one back for the last element
+        r.timestamp = responses.get(startIndex).timestamp;
+        responseTreeNode = new ResponseTreeNode(r);
+        if (originalStartIndex > 0) {
+            responseTreeNode.setStartTimeMillis(responses.get(originalStartIndex - 1).timestamp);
+        }
+        responseTreeNode.addChildren(children);
 
-        return responseTree;
+        return responseTreeNode;
     }
 
 }

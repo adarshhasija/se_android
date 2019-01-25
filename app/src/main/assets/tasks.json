@@ -398,7 +398,7 @@
       "timed": false,
       "title": "Practice Keyboard Top Row",
       "instructions": "You will be shown the keys of the keyboard top row. Type them as fast as you can and see how many you got right.",
-      "content": ["qwert","yulop","qwertyuiop"],
+      "content": ["qwert","yuiop","qwertyuiop"],
       "ordered": true,
       "isPassFail": false,
       "showUserAnswerWithBackground": true,

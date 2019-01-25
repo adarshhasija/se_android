@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.starsearth.one.R
 import com.starsearth.one.adapter.ResponseRecyclerViewAdapter
 import com.starsearth.one.domain.Response
+import com.starsearth.one.domain.ResponseTreeNode
 import com.starsearth.one.domain.Result
 
 /**
@@ -22,8 +23,7 @@ import com.starsearth.one.domain.Result
 class ResponseListFragment : Fragment() {
 
     // TODO: Customize parameters
-    private var mHasMoreDetail = false
-    private var mResponses : ArrayList<Response> = ArrayList()
+    private var mResponses : ArrayList<ResponseTreeNode> = ArrayList()
     private var startTimeMillis : Long = 0
 
     private var listener: OnResponseListFragmentInteractionListener? = null
@@ -34,7 +34,6 @@ class ResponseListFragment : Fragment() {
         arguments?.let {
             mResponses.addAll(it.getParcelableArrayList(ARG_RESPONSES))
             startTimeMillis = it.getLong(ARG_START_TIME_MILLIS)
-            mHasMoreDetail = it.getBoolean(ARG_HAS_MORE_DETAIL)
         }
     }
 
@@ -46,7 +45,7 @@ class ResponseListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = ResponseRecyclerViewAdapter(context, startTimeMillis, mResponses, mHasMoreDetail, listener)
+                adapter = ResponseRecyclerViewAdapter(context, startTimeMillis, mResponses, listener)
             }
         }
         return view
@@ -79,7 +78,7 @@ class ResponseListFragment : Fragment() {
      */
     interface OnResponseListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onResponseListFragmentInteraction(item: Response?)
+        fun onResponseListFragmentInteraction(responseTreeNode: ResponseTreeNode)
     }
 
     companion object {
@@ -88,16 +87,14 @@ class ResponseListFragment : Fragment() {
         // TODO: Customize parameter argument names
         const val ARG_RESPONSES    = "responses"
         const val ARG_START_TIME_MILLIS = "start_time_millis"
-        const val ARG_HAS_MORE_DETAIL = "has_more_detail"
 
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(responses: ArrayList<Response>, startTimeMillis: Long, hasMoreDetail: Boolean) =
+        fun newInstance(responses: ArrayList<ResponseTreeNode>, startTimeMillis: Long) =
                 ResponseListFragment().apply {
                     arguments = Bundle().apply {
                         putParcelableArrayList(ARG_RESPONSES, responses)
                         putLong(ARG_START_TIME_MILLIS, startTimeMillis)
-                        putBoolean(ARG_HAS_MORE_DETAIL, hasMoreDetail)
                     }
                 }
     }

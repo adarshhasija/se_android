@@ -42,21 +42,12 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses).children,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses).children.toList() as ArrayList<ResponseTreeNode>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                         AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString()
                                                     )
 
-    }
-
-    fun responseListItemTapped(exitingResponseListFragments: Int) {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses) as ArrayList<Response>,
-                                                        mResult.startTimeMillis,
-                                                        mTask,
-                                                            AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString(),
-                                                            mTask.doesNextResponseListHasMoreDetail(exitingResponseListFragments)
-                                                    )
     }
 
     private lateinit var mTask: Task
@@ -198,7 +189,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTree>, startTimeMillis: Long, task: Task, action: String)
+        fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>, startTimeMillis: Long, task: Task, action: String)
     }
 
     companion object {

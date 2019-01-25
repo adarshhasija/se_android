@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
 import com.starsearth.one.domain.Response
+import com.starsearth.one.domain.ResponseTreeNode
 import com.starsearth.one.domain.Task
 
 
@@ -26,8 +27,7 @@ import kotlinx.android.synthetic.main.fragment_response.view.*
 class ResponseRecyclerViewAdapter(
         private val context: Context,
         private val startTime: Long,
-        private val mValues: List<Response>,
-        private val hasMoreDetail: Boolean,
+        private val mValues: List<ResponseTreeNode>,
         private val mListener: OnResponseListFragmentInteractionListener?)
     : RecyclerView.Adapter<ResponseRecyclerViewAdapter.ViewHolder>() {
 
@@ -35,10 +35,10 @@ class ResponseRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Response
+            val node = v.tag as ResponseTreeNode
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onResponseListFragmentInteraction(item)
+            mListener?.onResponseListFragmentInteraction(node)
         }
     }
 
@@ -49,7 +49,8 @@ class ResponseRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val node = mValues[position]
+        val item = node.data
         var question = context.resources.getString(R.string.question) + ":" + " "
         question += if (item.question.contains("SPELL", true)) {
             context.resources.getString(R.string.spell)
@@ -104,13 +105,13 @@ class ResponseRecyclerViewAdapter(
 
         var timeTakenString = context?.resources?.getString(R.string.time_taken) + ": "
         timeTakenString  += if (position > 0) {
-            Utils.getTimeTakenFormatted(context, item.timestamp - mValues[position - 1].timestamp)
+            Utils.getTimeTakenFormatted(context, item.timestamp - mValues[position - 1].data.timestamp)
         } else {
             Utils.getTimeTakenFormatted(context,item.timestamp - startTime)
         }
         holder.mTimeTaken.text = timeTakenString
 
-        holder.mTapToViewDetails.visibility = if (hasMoreDetail) {
+        holder.mTapToViewDetails.visibility = if (node.children.size > 0) {
             View.VISIBLE
         }
         else {
@@ -118,8 +119,8 @@ class ResponseRecyclerViewAdapter(
         }
 
         with(holder.mView) {
-            tag = item
-            if (hasMoreDetail) {
+            tag = node
+            if (node.children.size > 0) {
                 setOnClickListener(mOnClickListener)
             }
         }
