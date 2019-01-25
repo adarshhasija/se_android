@@ -317,15 +317,17 @@ class MainActivity : AppCompatActivity(),
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
-            val index = supportFragmentManager.backStackEntryCount - 1
-            val backEntry = supportFragmentManager.getBackStackEntryAt(index)
-            if (backEntry.name == DetailFragment.TAG) {
-                val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
-                (fragment as? DetailFragment)?.onEnterTapped()
-            }
-            else if (backEntry.name == LastTriedFragment.TAG) {
-                val fragment = supportFragmentManager?.findFragmentByTag(LastTriedFragment.TAG)
-                (fragment as? LastTriedFragment)?.onEnterTapped()
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                val index = supportFragmentManager.backStackEntryCount - 1
+                val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+                if (backEntry.name == DetailFragment.TAG) {
+                    val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
+                    (fragment as? DetailFragment)?.onEnterTapped()
+                }
+                else if (backEntry.name == LastTriedFragment.TAG) {
+                    val fragment = supportFragmentManager?.findFragmentByTag(LastTriedFragment.TAG)
+                    (fragment as? LastTriedFragment)?.onEnterTapped()
+                }
             }
         }
 

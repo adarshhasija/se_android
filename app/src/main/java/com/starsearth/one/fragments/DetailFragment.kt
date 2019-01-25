@@ -1,12 +1,10 @@
 package com.starsearth.one.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +18,8 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
 import com.starsearth.one.listeners.SeOnTouchListener
-import kotlinx.android.synthetic.main.fragment_task_detail.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -143,7 +140,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.fragment_task_detail, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_detail, container, false)
 
         //Setup of adRequest was done here. Remove later if not needed
 
@@ -276,10 +273,10 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         tvTapScreenToStart?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
-                    context?.resources?.getString(R.string.double_tap_screen_to_start)
+                    context?.resources?.getString(R.string.double_tap_or_enter_to_start)
                 }
                 else {
-                    context?.resources?.getString(R.string.tap_screen_to_start)
+                    context?.resources?.getString(R.string.tap_or_enter_to_start)
                 }
 
         tvSwipeToContinue?.text = ""

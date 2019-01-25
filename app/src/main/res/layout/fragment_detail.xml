@@ -66,23 +66,12 @@
             android:layout_marginTop="5dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
-            android:text="@string/tap_screen_to_start"
+            android:text="@string/tap_or_enter_to_start"
             android:textAlignment="center" />
 
         <include layout="@layout/fragment_last_tried" />
 
     </LinearLayout>
-
-
-
-    <!-- NOT USED NOW -->
-    <FrameLayout
-        android:id="@+id/fragment_container_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </FrameLayout>
-    <!-- -->
 
     <LinearLayout
         android:layout_width="match_parent"

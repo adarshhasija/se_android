@@ -356,13 +356,13 @@
     <string name="back_button_pressed">The back button was pressed</string>
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
     <string name="screenshot">Want sceenshot?\nTap for full screen view</string>
-    <string name="tap_screen_to_start">Tap screen to start</string>
+    <string name="tap_or_enter_to_start">Tap screen to start\n\nHave USB Keyboard?\nPress Enter to start</string>
     <string name="swipe_continue_next">Swipe to continue to the next item</string>
     <string name="long_press_for_more_options">Long press for more options</string>
     <string name="long_press_to_close_this_screen">Long press to close this screen</string>
     <string name="tap_screen_to_hear_text_again">Tap screen to hear text again</string>
     <string name="double_tap_screen_to_hear_text_again">Double tap screen to hear text again</string>
-    <string name="double_tap_screen_to_start">Double tap screen to start</string>
+    <string name="double_tap_or_enter_to_start">Double tap screen to start\n\nHave USB Keyboard?\nPress Enter to start</string>
     <string name="tap_and_long_press_for_more_options">Tap and long press for more options</string>
     <string name="swipe_with_2_fingers_continue_next">Swipe with 2 fingers to continue to the next item</string>
     <string name="swipe_with_2_fingers_for_keyboard_test">Swipe with 2 fingers for keyboard test</string>

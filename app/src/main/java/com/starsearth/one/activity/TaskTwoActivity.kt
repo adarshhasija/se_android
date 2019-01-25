@@ -490,6 +490,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
                     itemsAttempted++
+                    gestureSpamItemCounter++
                     if (inputCharacter?.equals('y', ignoreCase = true) == true) {
                         if (expectedAnswerGesture) {
                             itemsCorrect++
