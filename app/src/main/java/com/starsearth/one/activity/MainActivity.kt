@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>, startTimeMillis: Long, task: Task, action: String) {
+    override fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>?, startTimeMillis: Long, task: Task, action: String) {
         (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, responses?.isEmpty() == false, action)
         if (responses?.isEmpty() == false) {
             val fragment = ResponseListFragment.newInstance(responses, startTimeMillis)
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(),
 
 
     override fun onCourseProgressListFragmentInteraction(item: DummyContent.DummyItem?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onResultListFragmentInteraction(task: Task?, result: Result?) {

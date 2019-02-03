@@ -380,7 +380,7 @@ public class Task extends SETeachingContent {
                 startIndex = startIndex + question.length();
             }
         }
-        else {
+        else if (responses != null) {
             for (Response r : responses) {
                 rootResponseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }

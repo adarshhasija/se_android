@@ -33,16 +33,16 @@ private const val ARG_RESULT = "result"
 class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface {
 
     override fun gestureTap() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun gestureSwipe() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses, mResult.startTimeMillis).children.toList() as ArrayList<ResponseTreeNode>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses, mResult.startTimeMillis).children.toList() as? ArrayList<ResponseTreeNode>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                         AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString()
@@ -189,7 +189,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
      * for more information.
      */
     interface OnResultDetailFragmentInteractionListener {
-        fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>, startTimeMillis: Long, task: Task, action: String)
+        fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>?, startTimeMillis: Long, task: Task, action: String)
     }
 
     companion object {

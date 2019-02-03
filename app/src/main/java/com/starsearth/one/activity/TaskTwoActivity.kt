@@ -98,7 +98,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     }
 
     override fun gestureLongPress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     val GESTURE_SWIPE = "GESTURE_SWIPE"
