@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 
 import com.starsearth.one.R
@@ -286,8 +287,13 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuth?.addAuthStateListener(mAuthListener);
+        mAuth = FirebaseAuth.getInstance()
+        mAuth?.addAuthStateListener(mAuthListener)
+
+        FirebaseAuth.getInstance().currentUser?.let {
+            Crashlytics.log("UIID: " + it.uid)
+            Crashlytics.log("PHONE NUMBER: " + it.phoneNumber)
+        }
 
         val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
         supportFragmentManager.beginTransaction()
