@@ -158,12 +158,12 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         tts = TextToSpeech(this, null)
         tts.setLanguage(Locale.US)
 
-        cl?.requestFocus()
         if (mTask.isKeyboardRequired) {
             cl.postDelayed({
-                val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                keyboard.showSoftInput(cl, 0)
-            }, 200)
+                cl?.requestFocus()
+                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(cl, 0)
+            }, 500)
         }
         updateContent()
     }
