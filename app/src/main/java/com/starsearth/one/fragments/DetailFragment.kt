@@ -64,7 +64,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         If a previously passed task has been repeated. Result is irreleveant. Simple add it to the array
      */
     fun onTaskRepeated(result: Result) {
-        mResults.add(result)
+        addResultToQueue(result)
     }
 
 
@@ -103,7 +103,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
                     }
-                    mResults.add(newResult)
+                    addResultToQueue(newResult)
+
                 }
                 updateUI()
             }
@@ -136,6 +137,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
          //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        mDatabase = FirebaseDatabase.getInstance().getReference("results")
+        mDatabase?.keepSynced(true)
+        val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
+        //query?.addChildEventListener(mChildEventListener);
+        query?.addListenerForSingleValueEvent(mResultValuesListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -149,13 +157,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        mDatabase = FirebaseDatabase.getInstance().getReference("results")
-        mDatabase?.keepSynced(true)
-        val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
-        //query?.addChildEventListener(mChildEventListener);
-        query?.addListenerForSingleValueEvent(mResultValuesListener)
 
         clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
         updateUI() //This must remain uncommented. UI should be visible even if no results are available
@@ -358,13 +359,26 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }
     }
 
+    private fun addResultToQueue(result: Result) {
+        if (mResults.size == 0) {
+            mResults.add(result)
+        }
+        else if (mResults.size > 0 && mResults.last().task_id != result.task_id) {
+            //We must check that this result is not a duplicate of the last element
+            mResults.add(result)
+        }
+    }
+
     fun onActivityResultOK(data: Intent?) {
         data?.let {
             taskComplete(it.extras)
         }
-        if ((activity?.application as? StarsEarthApplication)?.adsManager?.shouldShowAd(mTeachingContent, mResults.last()) == true) {
-            (activity?.application as? StarsEarthApplication)?.adsManager?.showAd()
+        if (mResults.size > 0) {
+            if ((activity?.application as? StarsEarthApplication)?.adsManager?.shouldShowAd(mTeachingContent, mResults.last()) == true) {
+                (activity?.application as? StarsEarthApplication)?.adsManager?.showAd()
+            }
         }
+
     }
 
     private fun taskComplete(bundle: Bundle) {
@@ -395,7 +409,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         mListener?.onDetailFragmentTaskCompleted(result)
 
         //3. Update the Fragment's mResults array
-        mResults.add(result)
+        addResultToQueue(result)
 
         //4. If the task is passed and we have reached the end of the course, push end of course message
         if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {

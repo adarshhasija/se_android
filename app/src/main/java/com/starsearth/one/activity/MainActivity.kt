@@ -43,18 +43,20 @@ class MainActivity : AppCompatActivity(),
         val backStackCount = supportFragmentManager.backStackEntryCount
         for (index in 0 until backStackCount) {
             val backEntry = supportFragmentManager.getBackStackEntryAt(index)
-            if (backEntry.name == RecordListFragment.TAG && !recordListFragmentComplete) {
+            if (backEntry.name == RecordListFragment.TAG && !recordListFragmentComplete && index < backStackCount - 1) {
                 //Once a task has been completed, add it to the record list fragment
                 //Once we return to that screen, we will simply update the list
                 //Should only do this on the first instance of RecordListFragment. There could be another instance later for viewing completed tasks
+                //Should only do it if this instance is not the current active instance. ie: Not the last item on the stack
                 val fragment = supportFragmentManager?.findFragmentByTag(RecordListFragment.TAG)
                 (fragment as? RecordListFragment)?.taskCompleted(result)
                 recordListFragmentComplete = true
             }
-            else if (backEntry.name == DetailFragment.TAG && !detailFragmentComplete) {
+            else if (backEntry.name == DetailFragment.TAG && !detailFragmentComplete && index < backStackCount - 1) {
                 //If we have just repeated a task thats part of a course(by tapping REPEAT_PREVIOUSLY_PASSED_TASKS)
                 //Update the detail fragment with the result.
                 //This should only be done for the first instance of DetailFragment
+                //Should only do it if this instance is not the current active instance. ie: Not the last item on the stack
                 val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
                 (fragment as? DetailFragment)?.onTaskRepeated(result)
                 detailFragmentComplete = true
