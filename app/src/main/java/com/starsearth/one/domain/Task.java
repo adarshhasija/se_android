@@ -50,7 +50,8 @@ public class Task extends SETeachingContent {
 
     public static enum ResponseViewType {
         CHARACTER("CHARACTER"), //View Responses at a character level
-        WORD("WORD")    //View Responses at a word level
+        WORD("WORD"),    //Can View Responses at a word level
+        SENTENCE("SENTENCE") //Can View Responses at a sentence level
         ;
         private final String value;
 
@@ -350,7 +351,11 @@ public class Task extends SETeachingContent {
         if (type == Type.TYPING) {
             responseViewType = ResponseViewType.CHARACTER;
             for (String item : content) {
-                if (item.length() > 1) {
+                if (item.contains(" ")) {
+                    responseViewType = ResponseViewType.SENTENCE;
+                    break;
+                }
+                else if (item.length() > 1) {
                     responseViewType = ResponseViewType.WORD; //If even one item in the contents array has a length > 1, it means we have words in the array, not only characters
                     break;
                 }
@@ -367,7 +372,7 @@ public class Task extends SETeachingContent {
     public ResponseTreeNode getResponsesForType(List<Response> responses, long startTimeMillis) {
         ResponseTreeNode rootResponseTreeNode = new ResponseTreeNode();
         ResponseViewType highestResponseViewType = getHighestResponseViewType();
-        if (highestResponseViewType == ResponseViewType.WORD) {
+        if (highestResponseViewType == ResponseViewType.WORD || highestResponseViewType == ResponseViewType.SENTENCE) {
 
             int startIndex = 0;
             for (String question : content) {
@@ -385,6 +390,7 @@ public class Task extends SETeachingContent {
                 rootResponseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }
         }
+
         return rootResponseTreeNode;
     }
 
@@ -402,21 +408,64 @@ public class Task extends SETeachingContent {
             return responseTreeNode;
         }
 
-        int originalStartIndex = startIndex; //As startIndex will be updated in loop
+        List<Integer> indexesOfSpaces = new ArrayList<>();
+        int originalStartIndex = startIndex; //Retain the startIndex as startIndex will be updated in loop
         ArrayList<ResponseTreeNode> children = new ArrayList<>();
         boolean isCorrect = true;
         StringBuilder sb = new StringBuilder();
         int endIndex = startIndex + question.length();
-        int a = question.length();
         while (startIndex < endIndex) {
             sb.append(responses.get(startIndex).answer);
             if (!responses.get(startIndex).isCorrect) isCorrect = false;
             int indexInString = startIndex - originalStartIndex;
-            if (indexInString < question.length()) {
+            if (!question.contains(" ") && indexInString < question.length()) {
+                //It does not contain spaces = not a sentence
+                //For every character in a word, create a child node
                 children.add(getTreeForResponses(responses, startIndex, String.valueOf(question.charAt(indexInString))));
+            }
+            else if (question.contains(" ")) {
+                //It is a sentence. We need to save the index of the space. If the character at this index in the string is a space
+                if (question.charAt(indexInString) == ' ') {
+                    indexesOfSpaces.add(startIndex); //Save the index of the overall responses array. Will use it later
+                }
             }
             startIndex++;
 
+        }
+
+        if (question.contains(" ")) {
+            //If it is a sentence
+            //Start of string to first space
+            children.add(getTreeForResponses(responses,
+                                            originalStartIndex, //Pointer to start of sentence in responses list
+                                            question.substring(0,
+                                                                    indexesOfSpaces.get(0) - originalStartIndex //index of spaces gives index in response array. Minus starting index of this question gives index of this particular word
+                                            )
+                        ));
+            children.add(getTreeForResponses(responses,
+                                                indexesOfSpaces.get(0), //The answer for the space is at this index
+                                        " ") //Theres a space after the word
+                            );
+
+            for (int i = 0; i < indexesOfSpaces.size(); i++) {
+                if (i == indexesOfSpaces.size() - 1) {
+                    //If it the final space, take the word from the last space to the end of the string
+                    children.add(getTreeForResponses(responses,
+                            indexesOfSpaces.get(i) + 1, //That index is index of space. To get the first character of the word, take the next index
+                            question.substring(indexesOfSpaces.get(i) + 1 - originalStartIndex) //Starting index of the word. Index in the overall responses array - index of start of this sentence in responses array
+                    ));
+                    //No space needed after last word
+                }
+                else {
+                    //Get word between current space and next space
+                    children.add(getTreeForResponses(responses,
+                                                indexesOfSpaces.get(i) + 1, //Get index after space to get a word
+                                                            question.substring(indexesOfSpaces.get(i) + 1 - originalStartIndex, //Get index after the space to get a word. As this is index in whole responses array, subtract original start index to get index of this particular character. Else IndexOutOfBoundsException
+                                                                                indexesOfSpaces.get(i + 1) - originalStartIndex) //Get index of next space in order to get substring = exact word
+                                                    ));
+                    children.add(getTreeForResponses(responses, indexesOfSpaces.get(i), " ")); //Space after the word
+                }
+            }
         }
         Response r = new Response(question, question, sb.toString(), isCorrect);
         startIndex = startIndex - 1; //startIndex was incremented before this. We need to go one back for the last element
@@ -426,7 +475,6 @@ public class Task extends SETeachingContent {
             responseTreeNode.setStartTimeMillis(responses.get(originalStartIndex - 1).timestamp);
         }
         responseTreeNode.addChildren(children);
-
         return responseTreeNode;
     }
 

@@ -42,7 +42,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses, mResult.startTimeMillis).children.toList() as? ArrayList<ResponseTreeNode>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses, mResult.startTimeMillis).children as? ArrayList<ResponseTreeNode>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                         AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString()

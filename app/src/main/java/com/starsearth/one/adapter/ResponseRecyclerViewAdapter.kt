@@ -109,7 +109,8 @@ class ResponseRecyclerViewAdapter(
         } else {
             Utils.getTimeTakenFormatted(context,item.timestamp - startTime)
         }
-        holder.mTimeTaken.text = timeTakenString
+        holder.mTimeTaken.visibility = View.GONE
+        //holder.mTimeTaken.text = timeTakenString
 
         holder.mTapToViewDetails.visibility = if (node.children.size > 0) {
             View.VISIBLE
