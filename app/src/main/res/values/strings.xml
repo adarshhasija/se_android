@@ -405,4 +405,8 @@
     <string name="tap_swipe_keyboard_instructions">Using a USB keyboard?\nTap Y = True\nTap N = False\nTap Spacebar = Repeat question</string>
     <string name="backspace">Backspace</string>
     <string name="backspace_not_allowed">Backspace not allowed</string>
+    <string name="course">course</string>
+    <string name="next_character">next character</string>
+    <string name="in_order">in order</string>
+    <string name="not_in_order">not in order</string>
 </resources>

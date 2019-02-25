@@ -45,7 +45,31 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
         val teachingContent = holder.mItem?.teachingContent
         val results = holder.mItem?.results
 
-        (teachingContent as SETeachingContent)?.title?.let { holder.mTitleView.text = Utils.formatStringFirstLetterCapital(it) }
+        (teachingContent as? SETeachingContent)?.let {
+            holder.mTitleView.text = Utils.formatStringFirstLetterCapital(it.title)
+        }
+        (teachingContent as? Task)?.let {
+            val type = it.type.toString()
+            val extendedType =
+                    if (it.type == Task.Type.TYPING) {
+                        " - " + it.highestResponseViewType.toString().toLowerCase().capitalize()
+                    }
+                    else {
+                        ""
+                    }
+            var inOrder =
+                    if (it.ordered) {
+                        " - " + mContext?.getString(R.string.in_order)?.toLowerCase()?.capitalize()
+                    }
+                    else {
+                        " - " + mContext?.getString(R.string.not_in_order)?.toLowerCase()?.capitalize()
+                    }
+            holder.mTypeView.text = type + extendedType + inOrder
+        }
+        (teachingContent as? Course)?.let {
+            holder.mTypeView.text = mContext?.getString(R.string.course)?.capitalize()
+        }
+
         if (teachingContent is Task && teachingContent.timed) {
             holder.mTimedView.text = mContext?.getText(R.string.timed)
         }
@@ -167,12 +191,14 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mTitleView: TextView
+        val mTypeView: TextView
         val mTimedView: TextView
         val mLastTriedView: TextView
         var mItem: RecordItem? = null
 
         init {
             mTitleView = mView.findViewById(R.id.tv_title) as TextView
+            mTypeView = mView.findViewById(R.id.tv_type_interaction) as TextView
             mTimedView = mView.findViewById(R.id.tv_timed) as TextView
             mLastTriedView = mView.findViewById(R.id.tvTimestamp) as TextView
         }

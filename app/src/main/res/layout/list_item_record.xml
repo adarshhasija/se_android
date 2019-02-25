@@ -19,6 +19,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_type_interaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <TextView
         android:id="@+id/tv_timed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,8 +46,8 @@
         android:layout_marginTop="5dp"
         android:textColor="#000000"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@id/tv_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintStart_toStartOf="@id/tv_type_interaction"
+        app:layout_constraintTop_toBottomOf="@id/tv_type_interaction" />
 
 
 </android.support.constraint.ConstraintLayout>

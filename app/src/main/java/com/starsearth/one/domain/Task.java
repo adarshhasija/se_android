@@ -88,6 +88,30 @@ public class Task extends SETeachingContent {
             return value;
         }
 
+        @Override
+        public String toString() {
+            String result = null;
+            switch ((int) value) {
+                case 1:
+                    result = "Typing";
+                    break;
+                case 3:
+                    result = "Keyboard Test";
+                    break;
+                case 4:
+                    result = "Tap and Swipe";
+                    break;
+                case 5:
+                    result = "Spelling";
+                    break;
+
+                    default: break;
+
+            }
+
+            return result;
+        }
+
         public static Type fromInt(long i) {
             for (Type type : Type.values()) {
                 if (type.getValue() == i) { return type; }
@@ -346,7 +370,7 @@ public class Task extends SETeachingContent {
         This function will decide which is the highest level
         This will only return a type if task is typing. Else it will return null
      */
-    private ResponseViewType getHighestResponseViewType() {
+    public ResponseViewType getHighestResponseViewType() {
         ResponseViewType responseViewType = null;
         if (type == Type.TYPING) {
             responseViewType = ResponseViewType.CHARACTER;

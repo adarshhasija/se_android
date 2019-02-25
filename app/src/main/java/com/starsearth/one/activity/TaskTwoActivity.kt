@@ -307,7 +307,13 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 tvMain?.text = nextItem
                 android.os.Handler().postDelayed({
                     //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
-                    tvMain?.announceForAccessibility(nextItem.substring(0, 1))
+                    val substring = nextItem.substring(0, 1)
+                    if (substring == " ") {
+                        tvMain?.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.space))
+                    }
+                    else {
+                        tvMain?.announceForAccessibility(getString(R.string.next_character) + " " + substring)
+                    }
                 },
                         1000)
 
@@ -473,7 +479,12 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 charactersTotalAttempted++
                 val inputCharacter = event?.unicodeChar?.toChar()
                 if (inputCharacter != null) {
-                    tvMain?.announceForAccessibility(Character.toString(inputCharacter))
+                    if (inputCharacter == ' ') {
+                        tvMain?.announceForAccessibility(getString(R.string.space))
+                    }
+                    else {
+                        tvMain?.announceForAccessibility(Character.toString(inputCharacter))
+                    }
                 }
                 val expectedCharacter = expectedAnswer?.getOrNull(index)
                 if (mTask.type == Task.Type.SPELLING) {
