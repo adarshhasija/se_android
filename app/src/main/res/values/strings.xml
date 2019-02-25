@@ -403,4 +403,6 @@
     <string name="reached">Reached</string>
     <string name="not_reached">Not Reached</string>
     <string name="tap_swipe_keyboard_instructions">Using a USB keyboard?\nTap Y = True\nTap N = False\nTap Spacebar = Repeat question</string>
+    <string name="backspace">Backspace</string>
+    <string name="backspace_not_allowed">Backspace not allowed</string>
 </resources>

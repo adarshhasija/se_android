@@ -346,6 +346,14 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     }
 
     private fun flashAnswerResult(isCorrect: Boolean) {
+        tvMain?.announceForAccessibility(
+                if (isCorrect) {
+                    getString(R.string.correct)
+                } else {
+                    getString(R.string.not_correct)
+                }
+        )
+
         val imageView : ImageView = if (isCorrect) {
                             ivGreen
                         } else {
@@ -432,11 +440,13 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             KeyEvent.KEYCODE_DEL ->
                 if (mTask.isBackspaceAllowed) {
                     tvMain?.text = tvMain.text.subSequence(0, tvMain.text.length - 1)
+                    tvMain?.announceForAccessibility(getString(R.string.backspace))
                 }
                 else {
                     //Backspace not allowed, signal error.
                     beep()
                     vibrate()
+                    tvMain?.announceForAccessibility(getString(R.string.backspace_not_allowed))
                 }
             KeyEvent.KEYCODE_ENTER ->
                 if (mTask.type == Task.Type.SPELLING) {
@@ -462,6 +472,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 //All other characters
                 charactersTotalAttempted++
                 val inputCharacter = event?.unicodeChar?.toChar()
+                if (inputCharacter != null) {
+                    tvMain?.announceForAccessibility(Character.toString(inputCharacter))
+                }
                 val expectedCharacter = expectedAnswer?.getOrNull(index)
                 if (mTask.type == Task.Type.SPELLING) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
@@ -486,6 +499,13 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                                                 } else {
                                                     Color.RED
                                                 }), index, index + 1, 0)
+                    tvMain?.announceForAccessibility(
+                            if (isCorrect) {
+                                getString(R.string.correct)
+                            } else {
+                                getString(R.string.not_correct)
+                            }
+                    )
                     tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
