@@ -409,4 +409,5 @@
     <string name="next_character">next character</string>
     <string name="in_order">in order</string>
     <string name="not_in_order">not in order</string>
+    <string name="double_tap_for_next_item">double tap screen to hear next item</string>
 </resources>

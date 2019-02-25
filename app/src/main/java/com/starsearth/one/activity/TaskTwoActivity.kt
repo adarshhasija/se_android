@@ -319,6 +319,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
             }
             else {
+                tvMain?.announceForAccessibility(getString(R.string.double_tap_for_next_item))
                 tvMain?.text = ""
             }
         }
@@ -365,6 +366,24 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         } else {
                             ivRed
                         }
+        imageView?.alpha = 0f
+        imageView?.visibility = View.VISIBLE
+
+        imageView?.animate()
+                ?.alpha(1f)
+                ?.setDuration(150)
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        imageView?.visibility = View.GONE
+                    }
+                })
+    }
+
+    /*
+        Currently used to show backspace not allowed
+     */
+    private fun flashWarning() {
+        val imageView : ImageView = ivRed
         imageView?.alpha = 0f
         imageView?.visibility = View.VISIBLE
 
@@ -452,7 +471,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     //Backspace not allowed, signal error.
                     beep()
                     vibrate()
+                    flashWarning()
                     tvMain?.announceForAccessibility(getString(R.string.backspace_not_allowed))
+                    return super.onKeyDown(keyCode, event)
                 }
             KeyEvent.KEYCODE_ENTER ->
                 if (mTask.type == Task.Type.SPELLING) {
@@ -579,11 +600,11 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             //do it only if text is visible on start
             val nextExpectedCharacter = expectedAnswer?.getOrNull(index)
             if (nextExpectedCharacter == ' ') {
-                tvMain.announceForAccessibility(getString(R.string.space))
+                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.space))
             } else if (nextExpectedCharacter == '.') {
-                tvMain.announceForAccessibility(getString(R.string.full_stop))
+                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.full_stop))
             } else {
-                tvMain.announceForAccessibility(nextExpectedCharacter.toString())
+                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + nextExpectedCharacter.toString())
             }
         }
 
