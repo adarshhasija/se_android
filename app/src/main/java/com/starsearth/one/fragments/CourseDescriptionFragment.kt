@@ -78,6 +78,10 @@ class CourseDescriptionFragment : Fragment() {
                 closeFragment()
             }
         }
+        else {
+            //Hack just to ensure it can be focused in talkback mode
+            clMain?.setOnClickListener {  }
+        }
     }
 
     fun closeFragment() {
@@ -133,6 +137,7 @@ class CourseDescriptionFragment : Fragment() {
                     }
                 }
 
+        @JvmStatic
         fun newInstance(course: Parcelable, showTapToContinue: Boolean) =
                 CourseDescriptionFragment().apply {
                     arguments = Bundle().apply {

@@ -181,13 +181,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
     fun updateUIVisibility() {
         //Set visibility for all UI
-        tvCourseDescription?.visibility =
-                if (mTeachingContent is Course) {
-                    View.VISIBLE
-                }
-                else {
-                    View.GONE
-                }
         tvInstruction?.visibility = View.VISIBLE
         tvProgress?.visibility =
                 if (mTeachingContent is Course) {
@@ -227,13 +220,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     fun updateUIText() {
-        tvCourseDescription?.text =
-                if (mTeachingContent is Course) {
-                    (mTeachingContent as Course).description
-                }
-                else {
-                    ""
-                }
         tvProgress?.text =
                 if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     context?.resources?.getText(R.string.complete)
