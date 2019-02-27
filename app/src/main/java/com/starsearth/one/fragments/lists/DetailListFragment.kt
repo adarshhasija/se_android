@@ -36,6 +36,7 @@ class DetailListFragment : Fragment() {
 
     enum class ListItem constructor(val valueString: String) {
         //Course
+        COURSE_DESCRIPTION("COURSE_DESCRIPTION"),
         SEE_PROGRESS("SEE_PROGRESS"),
         KEYBOARD_TEST("KEYBOARD_TEST"),
         REPEAT_PREVIOUSLY_PASSED_TASKS("REPEAT_PREVIOUSLY_PASSED_TASKS"),  //Closest match so that we dont have to change even if the overall text changes
@@ -79,6 +80,9 @@ class DetailListFragment : Fragment() {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
             val listTitles = ArrayList<ListItem>()
+            if (mTeachingContent is Course) {
+                listTitles.add(ListItem.COURSE_DESCRIPTION)
+            }
             if (mTeachingContent is Course) {
                 listTitles.add(ListItem.SEE_PROGRESS)
             }
