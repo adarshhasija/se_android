@@ -17,6 +17,7 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
+import com.starsearth.one.fragments.CourseDescriptionFragment
 import com.starsearth.one.fragments.LastTriedFragment
 import com.starsearth.one.fragments.ResultDetailFragment
 import com.starsearth.one.fragments.DetailFragment
@@ -33,7 +34,21 @@ class MainActivity : AppCompatActivity(),
         CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener,
         ResultDetailFragment.OnResultDetailFragmentInteractionListener,
         ResponseListFragment.OnResponseListFragmentInteractionListener,
+        CourseDescriptionFragment.OnFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onCourseDescriptionFragmentInteraction(course: Course) {
+        //Get rid of CourseDescriptionFragment
+        supportFragmentManager?.popBackStackImmediate()
+
+        val fragment = DetailFragment.newInstance(course as Parcelable)
+        supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
+                .addToBackStack(DetailFragment.TAG)
+                .commit()
+
+    }
 
     override fun onDetailFragmentTaskCompleted(result: Result) {
         //We should loop through all the fragments as we could have multiple instances of each fragment
@@ -133,6 +148,14 @@ class MainActivity : AppCompatActivity(),
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailListItemTap(itemTitle.toString(), teachingContent)
         when (itemTitle) {
         //Course
+            DetailListFragment.ListItem.COURSE_DESCRIPTION -> {
+                val fragment = CourseDescriptionFragment.newInstance((teachingContent as Course))
+                getSupportFragmentManager()?.beginTransaction()
+                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                        ?.replace(R.id.fragment_container_main, fragment)
+                        ?.addToBackStack(null)
+                        ?.commit()
+            }
             DetailListFragment.ListItem.SEE_PROGRESS -> {
                 val fragment = CourseProgressListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>)
                 getSupportFragmentManager()?.beginTransaction()
@@ -228,6 +251,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
+        Log.d("TAG", "********HERE**********")
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
         if (item.type == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
             val fragment = ResultListFragment.newInstance((item.teachingContent as Task))
@@ -236,6 +260,14 @@ class MainActivity : AppCompatActivity(),
                     ?.replace(R.id.fragment_container_main, fragment)
                     ?.addToBackStack(null)
                     ?.commit()
+        }
+        else if ((item.teachingContent is Course) && item.results.size < 1) {
+            val fragment = CourseDescriptionFragment.newInstance(item.teachingContent as Parcelable, true)
+            supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    .replace(R.id.fragment_container_main, fragment, CourseDescriptionFragment.TAG)
+                    .addToBackStack(CourseDescriptionFragment.TAG)
+                    .commit()
         }
         else {
             val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable)
@@ -331,6 +363,10 @@ class MainActivity : AppCompatActivity(),
                 if (backEntry.name == DetailFragment.TAG) {
                     val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
                     (fragment as? DetailFragment)?.onEnterTapped()
+                }
+                else if (backEntry.name == CourseDescriptionFragment.TAG) {
+                    val fragment = supportFragmentManager?.findFragmentByTag(DetailFragment.TAG)
+                    (fragment as? CourseDescriptionFragment)?.closeFragment()
                 }
                 else if (backEntry.name == LastTriedFragment.TAG) {
                     val fragment = supportFragmentManager?.findFragmentByTag(LastTriedFragment.TAG)
