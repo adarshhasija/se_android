@@ -37,6 +37,12 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
         holder.mItem = itemTitle
         when (itemTitle) {
             //Course
+            DetailListFragment.ListItem.COURSE_DESCRIPTION -> {
+                holder.mHeading1.visibility = View.VISIBLE
+                holder.mHeading2.visibility = View.GONE
+                holder.mHeading1.text = context?.resources?.getString(R.string.course_description)
+                holder.mHeading2.text = ""
+            }
             DetailListFragment.ListItem.SEE_PROGRESS -> {
                 holder.mHeading1.visibility = View.VISIBLE
                 holder.mHeading2.visibility = View.GONE

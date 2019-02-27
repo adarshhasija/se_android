@@ -49,21 +49,21 @@ class RecordListFragment : Fragment() {
 
     private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val adapter = (list.adapter as MyRecordItemRecyclerViewAdapter)
+            val adapter = (list?.adapter as? MyRecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
-                    if (adapter.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
+                    if (adapter?.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
                         newResult = ResultTyping(value)
                     }
                     results.add(newResult)
                 }
                 Collections.sort(results, ComparatorMainMenuItem())
                 insertResults(results)
-                (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                (list?.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
             }
 
@@ -86,19 +86,22 @@ class RecordListFragment : Fragment() {
     /*
         This function is called when results are pulled from the server and populated
      */
-    fun insertResult(result: Result) {
-        val adapter = list.adapter
-        val itemCount = adapter.itemCount
-        for (i in 0 until itemCount) {
-            val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
-            if (menuItem.isTaskIdExists(result.task_id)) {
-                if (menuItem.isResultLatest(result)) {
-                    menuItem.results.add(result)
+    private fun insertResult(result: Result) {
+        val adapter = list?.adapter
+        val itemCount = adapter?.itemCount
+        if (adapter != null && itemCount != null) {
+            for (i in 0 until itemCount) {
+                val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
+                if (menuItem.isTaskIdExists(result.task_id)) {
+                    if (menuItem.isResultLatest(result)) {
+                        menuItem.results.add(result)
+                    }
+                    adapter.removeAt(i) //remove the entry from the list
+                    adapter.addItem(menuItem)
                 }
-                adapter.removeAt(i) //remove the entry from the list
-                adapter.addItem(menuItem)
             }
         }
+
     }
 
     /*
