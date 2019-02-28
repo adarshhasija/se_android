@@ -14,6 +14,7 @@ import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.SETeachingContent;
 import com.starsearth.one.domain.Task;
+import com.starsearth.one.domain.TaskContent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,23 +66,6 @@ public class AssetsFileManager {
         return result;
     }
 
-    private static Task newTask(HashMap<String, String> input) {
-        if (input.size() == 0) {
-            return null;
-        }
-        Task task = new Task();
-        task.id = Integer.valueOf(input.get("id"));
-        task.title = input.get("title");
-        task.instructions = input.get("instructions");
-        task.content = getContent(input.get("content"));
-        //if (input.get("type") != null) task.type = Task.Type.fromInt(Integer.valueOf(input.get("type")));
-        task.ordered = Boolean.parseBoolean(input.get("ordered"));
-        task.timed = Boolean.parseBoolean(input.get("timed"));
-        if (input.get("durationMillis") != null) task.durationMillis = Integer.valueOf(input.get("durationMillis"));
-
-        return task;
-    }
-
     private static String loadJSONFromAsset(Context context) {
         String json;
         try {
@@ -113,6 +97,7 @@ public class AssetsFileManager {
     private static List<Object> getTasks(JSONArray json) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
+        gsonBuilder.registerTypeAdapter(TaskContent.class, new TypeDeserializer() );
         Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Task>>(){}.getType();
         List<Object> list = gson.fromJson(json.toString(), type);

@@ -30,6 +30,7 @@ import com.starsearth.one.activity.FullScreenActivity.Companion.TASK
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.TaskContent
 import com.starsearth.one.listeners.SeOnTouchListener
 import kotlinx.android.synthetic.main.activity_task_two.*
 import java.util.*
@@ -301,7 +302,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         else {
                             mTask.nextItem
                         }
+        Log.d("TAG", "********HERE************"+nextItem)
         if (nextItem is String) {
+            Log.d("TAG", "********HERE 2************")
             expectedAnswer = nextItem.replace("␣", " ")
             if (mTask.isTextVisibleOnStart) {
                 tvMain?.text = nextItem
@@ -324,6 +327,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is HashMap<*, *>) {
+            Log.d("TAG", "*******HERE 3***********")
             nextItem?.forEach { text, gesture ->
                 expectedAnswerGesture = gesture as Boolean
                 tvMain?.text = text as? String
@@ -334,6 +338,16 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         1000)
 
             }
+        }
+        else if (nextItem is TaskContent) {
+            Log.d("TAG", "**********HERE 4***********")
+            expectedAnswerGesture = nextItem.isTrue
+            tvMain?.text = nextItem.question
+            android.os.Handler().postDelayed({
+                //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
+                tvMain.announceForAccessibility(nextItem.question as String)
+            },
+                    1000)
         }
     }
 

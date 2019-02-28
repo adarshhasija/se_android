@@ -26,7 +26,7 @@ public class Task extends SETeachingContent {
     public static String HOME_BUTTON_TAPPED = "home_button_tapped";
     public static String NO_MORE_CONTENT = "no_more_content";
 
-    public List<String> content = new ArrayList<>(); //Has to be List<String> to save to FirebaseManager
+    public List<Object> content = new ArrayList<>(); //Has to be List<String> to save to FirebaseManager
     public List<String> tap = new ArrayList<>();
     public List<String> swipe = new ArrayList<>();
     public Type type;
@@ -126,7 +126,7 @@ public class Task extends SETeachingContent {
 
     protected Task(Parcel in) {
         super(in);
-        content = in.readArrayList(String.class.getClassLoader());
+        content = in.readArrayList(Object.class.getClassLoader());
         tap = in.readArrayList(String.class.getClassLoader());
         swipe = in.readArrayList(String.class.getClassLoader());
         type = Type.fromInt(in.readInt());
@@ -241,6 +241,8 @@ public class Task extends SETeachingContent {
             case SPELLING:
                 ret = content.get(index % content.size());
                 break;
+            case TAP_SWIPE:
+                ret = content.get(index % content.size());
             default:
                 break;
         }
@@ -254,7 +256,11 @@ public class Task extends SETeachingContent {
     public String getNextItemTyping() {
         Random random = new Random();
         int i = random.nextInt(content.size());
-        return content.get(i);
+        Object object = content.get(i);
+        if (object instanceof TaskContent) {
+            return ((TaskContent) object).question;
+        }
+        return (String) object;
     }
 
 
@@ -265,6 +271,10 @@ public class Task extends SETeachingContent {
     public Map<String, Boolean> getNextItemGesture() {
         Map<String, Boolean> map = new HashMap<>();
         Random random = new Random();
+        if (content.size() > 0) {
+            map.put(((TaskContent)content.get(random.nextInt(content.size()))).question, ((TaskContent)content.get(random.nextInt(content.size()))).isTrue);
+            return map;
+        }
         int i = random.nextInt(2);
         if (i % 2 == 0 && tap.size() > 0) {
             map.put(tap.get(random.nextInt(tap.size())), true);
@@ -281,8 +291,22 @@ public class Task extends SETeachingContent {
         Function takes modulo and returns the exact item
         Return content at index
      */
+    public TaskContent getNextItemGesture(int index) {
+        return (TaskContent) content.get(index % content.size());
+    }
+
+    /*
+        If content is meant to be returned in order
+        Input: Exact index OR number of words completed
+        Function takes modulo and returns the exact item
+        Return content at index
+     */
     public String getNextItemTyping(int index) {
-        return content.get(index % content.size());
+        Object object = content.get(index % content.size());
+        if (object instanceof TaskContent) {
+            return (String) ((TaskContent) object).question;
+        }
+        return (String) object;
     }
 
 
@@ -374,12 +398,19 @@ public class Task extends SETeachingContent {
         ResponseViewType responseViewType = null;
         if (type == Type.TYPING) {
             responseViewType = ResponseViewType.CHARACTER;
-            for (String item : content) {
-                if (item.contains(" ")) {
+            for (Object item : content) {
+                String question = "";
+                if (item instanceof TaskContent) {
+                    question = ((TaskContent) item).question;
+                }
+                else if (item instanceof String) {
+                    question = (String) item;
+                }
+                if (question.contains(" ")) {
                     responseViewType = ResponseViewType.SENTENCE;
                     break;
                 }
-                else if (item.length() > 1) {
+                else if (question.length() > 1) {
                     responseViewType = ResponseViewType.WORD; //If even one item in the contents array has a length > 1, it means we have words in the array, not only characters
                     break;
                 }
@@ -399,7 +430,15 @@ public class Task extends SETeachingContent {
         if (highestResponseViewType == ResponseViewType.WORD || highestResponseViewType == ResponseViewType.SENTENCE) {
 
             int startIndex = 0;
-            for (String question : content) {
+            for (Object item : content) {
+                String question = "";
+                if (item instanceof TaskContent) {
+                    question = ((TaskContent) item).question;
+                }
+                else {
+                    question = (String) item;
+                }
+
                 ResponseTreeNode responseTreeNode = getTreeForResponses(responses, startIndex, question);
                 if (startIndex == 0) {
                     //Getting the tree for the first question. Will add timestamp here instead of passing it into getTreeForResponses()
