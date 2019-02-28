@@ -3,6 +3,15 @@ package com.starsearth.one.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+
 public class TaskContent implements Parcelable {
 
     public String question;
@@ -10,18 +19,29 @@ public class TaskContent implements Parcelable {
     public boolean isTrue;
     public String explanation;
 
-    TaskContent(String question) {
+    public TaskContent() {
+        super();
+    }
+
+    public TaskContent(String question) {
         this.question = question;
         this.isTapSwipe = false;
         this.isTrue = false;
         this.explanation = null;
     }
 
-    TaskContent(String question, boolean isTapSwipe, boolean isTrue, String explanation) {
+    public TaskContent(String question, boolean isTapSwipe, boolean isTrue, String explanation) {
         this.question = question;
         this.isTapSwipe = isTapSwipe;
         this.isTrue = isTrue;
         this.explanation = explanation;
+    }
+
+    public TaskContent(HashMap<String, Object> map) {
+        this.question = (String) map.get("question");
+        this.isTapSwipe = (boolean) map.get("isTapSwipe");
+        this.isTrue = (boolean) map.get("isTrue");
+        this.explanation = (String) map.get("explanation");
     }
 
 
@@ -56,4 +76,6 @@ public class TaskContent implements Parcelable {
             return new TaskContent[size];
         }
     };
+
 }
+

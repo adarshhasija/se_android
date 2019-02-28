@@ -242,7 +242,7 @@ public class Task extends SETeachingContent {
                 ret = content.get(index % content.size());
                 break;
             case TAP_SWIPE:
-                ret = content.get(index % content.size());
+                ret = new TaskContent((HashMap<String, Object>) content.get(index % content.size()));
             default:
                 break;
         }
@@ -271,10 +271,6 @@ public class Task extends SETeachingContent {
     public Map<String, Boolean> getNextItemGesture() {
         Map<String, Boolean> map = new HashMap<>();
         Random random = new Random();
-        if (content.size() > 0) {
-            map.put(((TaskContent)content.get(random.nextInt(content.size()))).question, ((TaskContent)content.get(random.nextInt(content.size()))).isTrue);
-            return map;
-        }
         int i = random.nextInt(2);
         if (i % 2 == 0 && tap.size() > 0) {
             map.put(tap.get(random.nextInt(tap.size())), true);
@@ -302,11 +298,7 @@ public class Task extends SETeachingContent {
         Return content at index
      */
     public String getNextItemTyping(int index) {
-        Object object = content.get(index % content.size());
-        if (object instanceof TaskContent) {
-            return (String) ((TaskContent) object).question;
-        }
-        return (String) object;
+        return (String) content.get(index % content.size());
     }
 
 

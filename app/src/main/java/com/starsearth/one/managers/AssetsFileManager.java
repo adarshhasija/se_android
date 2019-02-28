@@ -1,20 +1,17 @@
 package com.starsearth.one.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
+import com.starsearth.one.deserializers.TypeDeserializer;
 import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.SETeachingContent;
 import com.starsearth.one.domain.Task;
 import com.starsearth.one.domain.TaskContent;
+import com.starsearth.one.deserializers.TaskContentDeserializer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +82,7 @@ public class AssetsFileManager {
 
 
     private static List<Object> getCourses(JSONArray json) {
-        //Gson gson = new Gson();
+        //Gson gson = new Gson();T
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
         Gson gson = gsonBuilder.create();
@@ -97,7 +94,7 @@ public class AssetsFileManager {
     private static List<Object> getTasks(JSONArray json) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
-        gsonBuilder.registerTypeAdapter(TaskContent.class, new TypeDeserializer() );
+        gsonBuilder.registerTypeAdapter(TaskContent.class, new TaskContentDeserializer());
         Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Task>>(){}.getType();
         List<Object> list = gson.fromJson(json.toString(), type);
@@ -363,16 +360,5 @@ public class AssetsFileManager {
             }
         }
         return result;
-    }
-
-    private static class TypeDeserializer implements
-            JsonDeserializer<Task.Type>
-    {
-
-        @Override
-        public Task.Type deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            int typeInt = jsonElement.getAsInt();
-            return Task.Type.fromInt(typeInt);
-        }
     }
 }
