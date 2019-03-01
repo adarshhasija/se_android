@@ -19,7 +19,7 @@ public class TaskContentDeserializer implements JsonDeserializer<TaskContent> {
                 jobject.get("question").getAsString(),
                 jobject.get("isTapSwipe").getAsBoolean(),
                 jobject.get("isTrue").getAsBoolean(),
-                jobject.get("explanation").getAsString()
+                jobject.get("expectedAnswerExplanation").getAsString()
         );
     }
 }

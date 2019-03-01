@@ -24,6 +24,92 @@
       "isExitOnInterruption": true
     },
     {
+      "id": 62,
+      "type": 4,
+      "timed": false,
+      "title": "Multiplication Tables - 2",
+      "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 2, else swipe.",
+      "content": [
+        {
+          "question": "1",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "1 is an odd number"
+        },
+        {
+          "question": "2",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "2 is an even number"
+        },
+        {
+          "question": "3",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "3 is an odd number"
+        },
+        {
+          "question": "4",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "4 is an even number"
+        },
+        {
+          "question": "5",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "5 is an odd number"
+        },
+        {
+          "question": "6",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "6 is an even number"
+        },
+        {
+          "question": "7",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "7 is an odd number"
+        },
+        {
+          "question": "8",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "8 is an even number"
+        },
+        {
+          "question": "9",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "9 is an odd number"
+        },
+        {
+          "question": "10",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "10 is an even number"
+        },
+        {
+          "question": "11",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "11 is an odd number"
+        },
+        {
+          "question": "12",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "12 is an even number"
+        }
+      ],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": false,
+      "isKeyboardRequired": false,
+      "tags": ["mathematics"]
+    },
+    {
       "id": 28,
       "type": 5,
       "timed": false,
@@ -253,6 +339,7 @@
         "11:00","11:05","11:10","11:15","11:20","11:30","11:35","11:40","11:45","11:50","11:55",
         "12:00","12:05","12:10","12:15","12:20","12:25","12:35","12:40","12:45","12:50","12:55"
       ],
+      "ordered": false,
       "tags": ["mathematics","geometry","angles"],
       "isExitOnInterruption": true
     },
@@ -280,6 +367,7 @@
         "11:00","11:05","11:10","11:15","11:20","11:25","11:30","11:35","11:40","11:45","11:50",
         "12:05","12:10","12:15","12:20","12:25","12:30","12:35","12:40","12:45","12:50","12:55"
       ],
+      "ordered": false,
       "tags": ["mathematics","geometry","angles"],
       "isExitOnInterruption": true
     },
@@ -435,92 +523,6 @@
       "isBackspaceAllowed": false,
       "isKeyboardRequired": true,
       "tags": ["typing"]
-    },
-    {
-      "id": 62,
-      "type": 4,
-      "timed": false,
-      "title": "Multiplication Tables - 2",
-      "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 2, else swipe",
-      "content": [
-        {
-          "question": "1",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "2",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        },
-        {
-          "question": "3",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "4",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        },
-        {
-          "question": "5",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "6",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        },
-        {
-          "question": "7",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "8",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        },
-        {
-          "question": "9",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "10",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        },
-        {
-          "question": "11",
-          "isTapSwipe": true,
-          "isTrue": false,
-          "explanation": ""
-        },
-        {
-          "question": "12",
-          "isTapSwipe": true,
-          "isTrue": true,
-          "explanation": ""
-        }
-      ],
-      "ordered": true,
-      "isPassFail": false,
-      "showUserAnswerWithBackground": false,
-      "isKeyboardRequired": false,
-      "tags": ["mathematics"]
     }
   ],
 

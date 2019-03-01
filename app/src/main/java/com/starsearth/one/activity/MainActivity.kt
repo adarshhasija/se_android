@@ -17,10 +17,7 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
-import com.starsearth.one.fragments.CourseDescriptionFragment
-import com.starsearth.one.fragments.LastTriedFragment
-import com.starsearth.one.fragments.ResultDetailFragment
-import com.starsearth.one.fragments.DetailFragment
+import com.starsearth.one.fragments.*
 import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.lists.*
 import com.starsearth.one.managers.AnalyticsManager
@@ -35,7 +32,12 @@ class MainActivity : AppCompatActivity(),
         ResultDetailFragment.OnResultDetailFragmentInteractionListener,
         ResponseListFragment.OnResponseListFragmentInteractionListener,
         CourseDescriptionFragment.OnFragmentInteractionListener,
+        AnswerExplanationFragment.OnFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onAnswerExplanationFragmentInteraction() {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onCourseDescriptionFragmentInteraction(course: Course) {
         //Get rid of CourseDescriptionFragment
@@ -98,12 +100,25 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onResponseListFragmentInteraction(responseTreeNode: ResponseTreeNode) {
-        val fragment = ResponseListFragment.newInstance(responseTreeNode.children.toList() as ArrayList<ResponseTreeNode>, responseTreeNode.startTimeMillis)
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment, ResponseListFragment.TAG)
-                .addToBackStack(ResponseListFragment.TAG)
-                .commit()
+        //If there are children, open another ResponseList,
+        //Else if there is an explanation, open explanation screen
+        if (responseTreeNode.children.size > 0) {
+            val fragment = ResponseListFragment.newInstance(responseTreeNode.children.toList() as ArrayList<ResponseTreeNode>, responseTreeNode.startTimeMillis)
+            supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    .replace(R.id.fragment_container_main, fragment, ResponseListFragment.TAG)
+                    .addToBackStack(ResponseListFragment.TAG)
+                    .commit()
+        }
+        else if (!responseTreeNode.data.expectedAnswerExplanation.isNullOrEmpty()) {
+            val fragment = AnswerExplanationFragment.newInstance(responseTreeNode.data)
+            supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                    .replace(R.id.fragment_container_main, fragment, AnswerExplanationFragment.TAG)
+                    .addToBackStack(AnswerExplanationFragment.TAG)
+                    .commit()
+        }
+
     }
 
     override fun onResultDetailFragmentInteraction(responses: ArrayList<ResponseTreeNode>?, startTimeMillis: Long, task: Task, action: String) {

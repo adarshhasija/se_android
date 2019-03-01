@@ -19,11 +19,11 @@ public class Response implements Parcelable{
     public String questionId;
     public String topicId;
     //public long marks;
-    public String remarks;
     public long timestamp; //timestamp according to on-device clock. Only used to calculate how long user took to answer
 
     public String question;
     public String expectedAnswer;
+    public String expectedAnswerExplanation; //expectedAnswerExplanation for answer: provided by question
     public String answer;
     public boolean isCorrect;
 
@@ -37,6 +37,15 @@ public class Response implements Parcelable{
         this.expectedAnswer = expectedAnswer;
         this.answer = answer;
         this.isCorrect = isCorrect;
+        this.timestamp = System.currentTimeMillis();
+    }
+
+    public Response(String question, String expectedAnswer, String answer, boolean isCorrect, String expectedAnswerExplanation) {
+        this.question = question;
+        this.expectedAnswer = expectedAnswer;
+        this.answer = answer;
+        this.isCorrect = isCorrect;
+        this.expectedAnswerExplanation = expectedAnswerExplanation;
         this.timestamp = System.currentTimeMillis();
     }
 
@@ -54,11 +63,11 @@ public class Response implements Parcelable{
         questionId = in.readString();
         topicId = in.readString();
         //marks = in.readLong();
-        remarks = in.readString();
         timestamp = in.readLong();
 
         question = in.readString();
         expectedAnswer = in.readString();
+        expectedAnswerExplanation = in.readString();
         answer = in.readString();
         isCorrect = in.readByte() != 0;
     }
@@ -83,11 +92,11 @@ public class Response implements Parcelable{
         result.put("questionId", questionId);
         result.put("topicId", topicId);
         //result.put("marks", marks);
-        result.put("remarks", remarks);
         result.put("timestamp", timestamp);
 
         result.put("question", question);
         result.put("expectedAnswer", expectedAnswer);
+        result.put("expectedAnswerExplanation", expectedAnswerExplanation);
         result.put("answer", answer);
         result.put("isCorrect", isCorrect);
 
@@ -106,11 +115,11 @@ public class Response implements Parcelable{
         dest.writeString(questionId);
         dest.writeString(topicId);
         //dest.writeLong(marks);
-        dest.writeString(remarks);
         dest.writeLong(timestamp);
 
         dest.writeString(question);
         dest.writeString(expectedAnswer);
+        dest.writeString(expectedAnswerExplanation);
         dest.writeString(answer);
         dest.writeByte((byte) (isCorrect ? 1 : 0));
     }

@@ -41,7 +41,7 @@ public class TaskContent implements Parcelable {
         this.question = (String) map.get("question");
         this.isTapSwipe = (boolean) map.get("isTapSwipe");
         this.isTrue = (boolean) map.get("isTrue");
-        this.explanation = (String) map.get("explanation");
+        this.explanation = (String) map.get("expectedAnswerExplanation");
     }
 
 

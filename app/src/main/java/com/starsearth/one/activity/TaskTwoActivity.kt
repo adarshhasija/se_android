@@ -45,18 +45,33 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     override fun gestureTap() {
         if (mTask.type == Task.Type.TAP_SWIPE) {
             //tap means true
-            itemsAttempted++
-            gestureSpamItemCounter++
+            processGestureResponse()
             if (expectedAnswerGesture) {
                 itemsCorrect++
-                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
+                if (expectedAnswerExplanation.isNullOrEmpty()) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true, expectedAnswerExplanation))
+                }
+
             }
             else {
                 vibrate()
-                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+                if (expectedAnswerExplanation.isNullOrEmpty()) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false, expectedAnswerExplanation))
+                }
             }
             flashAnswerResult(expectedAnswerGesture)
-            updateContent()
+            if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                taskCompleted()
+            }
+            else {
+                updateContent()
+            }
         }
         else {
             val mgr = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -83,18 +98,33 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         if (mTask.type == Task.Type.TAP_SWIPE) {
             //left -> right or top ->bottom
             //swipe means false
-            itemsAttempted++
-            gestureSpamItemCounter++
+            processGestureResponse()
             if (!expectedAnswerGesture) run {
                 itemsCorrect++
-                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
+                if (expectedAnswerExplanation.isNullOrEmpty()) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true, expectedAnswerExplanation))
+                }
+
             }
             else {
                 vibrate()
-                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
+                if (expectedAnswerExplanation.isNullOrEmpty()) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false, expectedAnswerExplanation))
+                }
             }
             flashAnswerResult(!expectedAnswerGesture)
-            updateContent()
+            if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                taskCompleted()
+            }
+            else {
+                updateContent()
+            }
         }
     }
 
@@ -127,6 +157,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
+    private var expectedAnswerExplanation: String? = null
     private var itemsAttempted: Long = 0              //In TYPING, only used to see how many have been completed
     private var itemsCorrect: Long = 0
     private var itemIncorrect = false  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
@@ -302,9 +333,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         else {
                             mTask.nextItem
                         }
-        Log.d("TAG", "********HERE************"+nextItem)
         if (nextItem is String) {
-            Log.d("TAG", "********HERE 2************")
             expectedAnswer = nextItem.replace("␣", " ")
             if (mTask.isTextVisibleOnStart) {
                 tvMain?.text = nextItem
@@ -327,7 +356,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is HashMap<*, *>) {
-            Log.d("TAG", "*******HERE 3***********")
             nextItem?.forEach { text, gesture ->
                 expectedAnswerGesture = gesture as Boolean
                 tvMain?.text = text as? String
@@ -340,8 +368,8 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is TaskContent) {
-            Log.d("TAG", "**********HERE 4***********")
             expectedAnswerGesture = nextItem.isTrue
+            expectedAnswerExplanation = nextItem.explanation
             tvMain?.text = nextItem.question
             android.os.Handler().postDelayed({
                 //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
@@ -492,7 +520,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             KeyEvent.KEYCODE_ENTER ->
                 if (mTask.type == Task.Type.SPELLING) {
                     itemsAttempted++
-                    tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+                    if (mTask.ordered) {
+                        tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+                    }
                     tvMain?.text?.toString()?.let {
                         val isCorrect = it.equals(expectedAnswer, true)
                         if (isCorrect) itemsCorrect++
@@ -555,8 +585,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
-                    itemsAttempted++
-                    gestureSpamItemCounter++
+                    processGestureResponse()
                     if (inputCharacter?.equals('y', ignoreCase = true) == true) {
                         if (expectedAnswerGesture) {
                             itemsCorrect++
@@ -644,6 +673,14 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         return super.onKeyDown(keyCode, event)
 
 
+    }
+
+    private fun processGestureResponse() {
+        itemsAttempted++
+        if (mTask.ordered) {
+            tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+        }
+        gestureSpamItemCounter++
     }
 
 

@@ -30,7 +30,7 @@ public class Task extends SETeachingContent {
     public List<String> tap = new ArrayList<>();
     public List<String> swipe = new ArrayList<>();
     public Type type;
-    public boolean ordered; //should the content be shown in same order to the user
+    public boolean ordered = false; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
     public boolean isTextVisibleOnStart         = true;

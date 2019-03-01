@@ -112,16 +112,23 @@ class ResponseRecyclerViewAdapter(
         holder.mTimeTaken.visibility = View.GONE
         //holder.mTimeTaken.text = timeTakenString
 
-        holder.mTapToViewDetails.visibility = if (node.children.size > 0) {
+        //Only if it has children or an answer explanation
+        holder.mTapToViewDetails.visibility = if (node.children.size > 0 || !node.data.expectedAnswerExplanation.isNullOrEmpty()) {
             View.VISIBLE
         }
         else {
             View.GONE
         }
+        if (node.children.size > 0) {
+            holder.mTapToViewDetails.text = context?.getString(R.string.tap_to_view_details)
+        }
+        else if (!node.data.expectedAnswerExplanation.isNullOrEmpty()) {
+            holder.mTapToViewDetails.text = context?.getString(R.string.tap_to_view_explanation)
+        }
 
         with(holder.mView) {
             tag = node
-            if (node.children.size > 0) {
+            if (node.children.size > 0 || !node.data.expectedAnswerExplanation.isNullOrEmpty()) {
                 setOnClickListener(mOnClickListener)
             }
         }

@@ -383,6 +383,7 @@
     <string name="repeat_tasks_you_passed">Repeat tasks you have passed</string>
     <string name="see_results_of_tasks_you_attempted">See results of tasks you attempted</string>
     <string name="tap_to_view_details">Tap to view details</string>
+    <string name="tap_to_view_explanation">Tap to view explanation</string>
     <string name="move_your_finger_to_top_left_to_get_content">Move your finger to the top left to get content</string>
     <string name="long_press_to_view_responses">Long press to view your responses</string>
     <string name="tap_long_press_to_view_responses">Tap and long press to view your responses</string>
