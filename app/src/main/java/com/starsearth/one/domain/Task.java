@@ -256,11 +256,7 @@ public class Task extends SETeachingContent {
     public String getNextItemTyping() {
         Random random = new Random();
         int i = random.nextInt(content.size());
-        Object object = content.get(i);
-        if (object instanceof TaskContent) {
-            return ((TaskContent) object).question;
-        }
-        return (String) object;
+        return (String) content.get(i);
     }
 
 
@@ -279,16 +275,6 @@ public class Task extends SETeachingContent {
             map.put(swipe.get(random.nextInt(swipe.size())), false);
         }
         return map;
-    }
-
-    /*
-        If content is meant to be returned in order
-        Input: Exact index OR number of words completed
-        Function takes modulo and returns the exact item
-        Return content at index
-     */
-    public TaskContent getNextItemGesture(int index) {
-        return (TaskContent) content.get(index % content.size());
     }
 
     /*
@@ -445,21 +431,14 @@ public class Task extends SETeachingContent {
                 Response r = responses.get(i);
                 ResponseTreeNode responseTreeNode = new ResponseTreeNode(r);
                 if (this.ordered && this.content.size() > 0) {
-                    Log.d("TAG", "*******ONE************");
                     Object contentObject = this.content.get(i);
-                    Log.d("TAG", "*******TWO************"+contentObject);
                     if (contentObject instanceof Map) {
-                        Log.d("TAG", "********TWO POINT FIVE************");
                         TaskContent taskContent = new TaskContent((Map) contentObject);
-                        Log.d("TAG", "*******THREE************");
                         String expectedAnswerExplanation = taskContent.explanation;
-                        Log.d("TAG", "*******FOUR************"+expectedAnswerExplanation);
                         if (expectedAnswerExplanation != null && expectedAnswerExplanation.length() > 0) {
-                            Log.d("TAG", "*******FIVE************");
                             Response data = responseTreeNode.getData();
                             data.expectedAnswerExplanation = expectedAnswerExplanation;
                             responseTreeNode.setData(data);
-                            Log.d("TAG", "****** DATA IS SET********"+expectedAnswerExplanation);
                         }
                     }
                 }

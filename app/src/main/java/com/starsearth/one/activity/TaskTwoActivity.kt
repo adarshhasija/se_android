@@ -640,7 +640,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     else if (mTask.type == Task.Type.TYPING && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
                         updateContent()
                     }
-                    else if (mTask.type == Task.Type.TAP_SWIPE && mTask.timed) {
+                    else if (mTask.type == Task.Type.TAP_SWIPE) {
                         updateContent()
                     }
 

@@ -110,6 +110,178 @@
       "tags": ["mathematics"]
     },
     {
+      "id": 63,
+      "type": 4,
+      "timed": false,
+      "title": "Multiplication Tables - 3",
+      "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 3, else swipe.",
+      "content": [
+        {
+          "question": "1",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "2",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "3",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "4",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "5",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "6",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "7",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "8",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "9",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "10",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "11",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": null
+        },
+        {
+          "question": "12",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "1 + 2 = 3, which is divisble by 3."
+        }
+      ],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": false,
+      "isKeyboardRequired": false,
+      "tags": ["mathematics"]
+    },
+    {
+      "id": 64,
+      "type": 4,
+      "timed": false,
+      "title": "Multiplication Tables - 5",
+      "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 5, else swipe.",
+      "content": [
+        {
+          "question": "1",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "2",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "3",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "4",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "5",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "Number ends in 5"
+        },
+        {
+          "question": "6",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "7",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "8",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "9",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "10",
+          "isTapSwipe": true,
+          "isTrue": true,
+          "expectedAnswerExplanation": "Number ends in 0"
+        },
+        {
+          "question": "11",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        },
+        {
+          "question": "12",
+          "isTapSwipe": true,
+          "isTrue": false,
+          "expectedAnswerExplanation": "Number does not end in 0 or 5"
+        }
+      ],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": false,
+      "isKeyboardRequired": false,
+      "tags": ["mathematics"]
+    },
+    {
       "id": 28,
       "type": 5,
       "timed": false,
