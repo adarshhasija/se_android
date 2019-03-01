@@ -409,14 +409,7 @@ public class Task extends SETeachingContent {
 
             int startIndex = 0;
             for (Object item : content) {
-                String question = "";
-                if (item instanceof TaskContent) {
-                    question = ((TaskContent) item).question;
-                }
-                else {
-                    question = (String) item;
-                }
-
+                String question = (String) item;
                 ResponseTreeNode responseTreeNode = getTreeForResponses(responses, startIndex, question);
                 if (startIndex == 0) {
                     //Getting the tree for the first question. Will add timestamp here instead of passing it into getTreeForResponses()
