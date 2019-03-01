@@ -416,7 +416,7 @@ public class Task extends SETeachingContent {
         Returns an tree of response nodes with each word broken up into character nodes
         Input: responses: List of responses at the character level, which is collected when the task is done
      */
-    public ResponseTreeNode getResponsesForType(List<Response> responses, long startTimeMillis) {
+    public ResponseTreeNode getResponsesForTask(List<Response> responses, long startTimeMillis) {
         ResponseTreeNode rootResponseTreeNode = new ResponseTreeNode();
         ResponseViewType highestResponseViewType = getHighestResponseViewType();
         if (highestResponseViewType == ResponseViewType.WORD || highestResponseViewType == ResponseViewType.SENTENCE) {
@@ -441,7 +441,28 @@ public class Task extends SETeachingContent {
             }
         }
         else if (responses != null) {
-            for (Response r : responses) {
+            for (int i = 0; i < responses.size(); i++) {
+                Response r = responses.get(i);
+                ResponseTreeNode responseTreeNode = new ResponseTreeNode(r);
+                if (this.ordered && this.content.size() > 0) {
+                    Log.d("TAG", "*******ONE************");
+                    Object contentObject = this.content.get(i);
+                    Log.d("TAG", "*******TWO************"+contentObject);
+                    if (contentObject instanceof Map) {
+                        Log.d("TAG", "********TWO POINT FIVE************");
+                        TaskContent taskContent = new TaskContent((Map) contentObject);
+                        Log.d("TAG", "*******THREE************");
+                        String expectedAnswerExplanation = taskContent.explanation;
+                        Log.d("TAG", "*******FOUR************"+expectedAnswerExplanation);
+                        if (expectedAnswerExplanation != null && expectedAnswerExplanation.length() > 0) {
+                            Log.d("TAG", "*******FIVE************");
+                            Response data = responseTreeNode.getData();
+                            data.expectedAnswerExplanation = expectedAnswerExplanation;
+                            responseTreeNode.setData(data);
+                            Log.d("TAG", "****** DATA IS SET********"+expectedAnswerExplanation);
+                        }
+                    }
+                }
                 rootResponseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }
         }

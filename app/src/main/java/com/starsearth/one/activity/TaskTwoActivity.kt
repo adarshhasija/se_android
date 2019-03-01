@@ -48,22 +48,12 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (expectedAnswerGesture) {
                 itemsCorrect++
-                if (expectedAnswerExplanation.isNullOrEmpty()) {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
-                }
-                else {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true, expectedAnswerExplanation))
-                }
+                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
 
             }
             else {
                 vibrate()
-                if (expectedAnswerExplanation.isNullOrEmpty()) {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
-                }
-                else {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false, expectedAnswerExplanation))
-                }
+                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
             }
             flashAnswerResult(expectedAnswerGesture)
             if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
@@ -101,22 +91,11 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (!expectedAnswerGesture) run {
                 itemsCorrect++
-                if (expectedAnswerExplanation.isNullOrEmpty()) {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
-                }
-                else {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true, expectedAnswerExplanation))
-                }
-
+                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
             }
             else {
                 vibrate()
-                if (expectedAnswerExplanation.isNullOrEmpty()) {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
-                }
-                else {
-                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false, expectedAnswerExplanation))
-                }
+                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
             }
             flashAnswerResult(!expectedAnswerGesture)
             if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
@@ -157,7 +136,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
-    private var expectedAnswerExplanation: String? = null
     private var itemsAttempted: Long = 0              //In TYPING, only used to see how many have been completed
     private var itemsCorrect: Long = 0
     private var itemIncorrect = false  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
@@ -369,7 +347,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         }
         else if (nextItem is TaskContent) {
             expectedAnswerGesture = nextItem.isTrue
-            expectedAnswerExplanation = nextItem.explanation
             tvMain?.text = nextItem.question
             android.os.Handler().postDelayed({
                 //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things

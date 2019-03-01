@@ -266,7 +266,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
-        Log.d("TAG", "********HERE**********")
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
         if (item.type == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
             val fragment = ResultListFragment.newInstance((item.teachingContent as Task))

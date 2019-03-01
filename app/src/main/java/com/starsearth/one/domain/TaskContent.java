@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TaskContent implements Parcelable {
 
@@ -37,7 +38,7 @@ public class TaskContent implements Parcelable {
         this.explanation = explanation;
     }
 
-    public TaskContent(HashMap<String, Object> map) {
+    public TaskContent(Map<String, Object> map) {
         this.question = (String) map.get("question");
         this.isTapSwipe = (boolean) map.get("isTapSwipe");
         this.isTrue = (boolean) map.get("isTrue");

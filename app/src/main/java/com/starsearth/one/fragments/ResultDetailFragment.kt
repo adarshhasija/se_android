@@ -3,7 +3,6 @@ package com.starsearth.one.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,7 @@ class ResultDetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInte
 
 
     override fun gestureLongPress() {
-        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForType(mResult.responses, mResult.startTimeMillis).children as? ArrayList<ResponseTreeNode>,
+        mListener?.onResultDetailFragmentInteraction(mTask.getResponsesForTask(mResult.responses, mResult.startTimeMillis).children as? ArrayList<ResponseTreeNode>,
                                                         mResult.startTimeMillis,
                                                         mTask,
                                                         AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString()
