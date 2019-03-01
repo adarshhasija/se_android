@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -349,7 +350,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         if (mResults.size == 0) {
             mResults.add(result)
         }
-        else if (mResults.size > 0 && mResults.last().task_id != result.task_id) {
+        else if (mResults.size > 0 && mResults.last().uid != result.uid) {
             //We must check that this result is not a duplicate of the last element
             mResults.add(result)
         }
