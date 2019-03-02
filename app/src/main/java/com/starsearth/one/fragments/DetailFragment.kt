@@ -212,7 +212,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     View.GONE
                 }   */
         tvLongPressForMoreOptions?.visibility =
-                if (mTeachingContent is Course || mTeachingContent is Task && mResults.isNotEmpty()) {
+                if (mTeachingContent is Course || (mTeachingContent is Task && mResults.isNotEmpty())) {
                     View.VISIBLE
                 }
                 else {

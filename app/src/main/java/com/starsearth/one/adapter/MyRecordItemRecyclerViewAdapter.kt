@@ -54,6 +54,9 @@ class MyRecordItemRecyclerViewAdapter(private val mContext: Context?, private va
                     if (it.type == Task.Type.TYPING) {
                         " - " + it.highestResponseViewType.toString().toLowerCase().capitalize()
                     }
+                    else if (!it.subType.isNullOrBlank()) {
+                        " - " + it.subType.toLowerCase().capitalize()
+                    }
                     else {
                         ""
                     }

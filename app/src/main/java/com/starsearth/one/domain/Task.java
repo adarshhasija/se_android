@@ -30,6 +30,7 @@ public class Task extends SETeachingContent {
     public List<String> tap = new ArrayList<>();
     public List<String> swipe = new ArrayList<>();
     public Type type;
+    public String subType;
     public boolean ordered = false; //should the content be shown in same order to the user
     public boolean timed = false;
     public int durationMillis;
@@ -130,6 +131,7 @@ public class Task extends SETeachingContent {
         tap = in.readArrayList(String.class.getClassLoader());
         swipe = in.readArrayList(String.class.getClassLoader());
         type = Type.fromInt(in.readInt());
+        subType = in.readString();
         ordered = in.readByte() != 0;
         timed = in.readByte() != 0;
         durationMillis = in.readInt();
@@ -164,6 +166,7 @@ public class Task extends SETeachingContent {
         result.put("tap", tap);
         result.put("swipe", swipe);
         result.put("type", type.getValue());
+        result.put("subType", subType);
         result.put("ordered", ordered);
         result.put("timed", timed);
         result.put("durationMillis", durationMillis);
@@ -193,6 +196,7 @@ public class Task extends SETeachingContent {
         dest.writeList(tap);
         dest.writeList(swipe);
         dest.writeInt((int) type.getValue());
+        dest.writeString(subType);
         dest.writeByte((byte) (ordered ? 1 : 0));
         dest.writeByte((byte) (timed ? 1 : 0));
         dest.writeInt(durationMillis);

@@ -546,6 +546,7 @@
     {
       "id": 16,
       "type": 4,
+      "subType": "SPELL CHECK",
       "isOwnerWantingAds": true,
       "timed": true,
       "durationMillis": 61000,
@@ -600,6 +601,7 @@
       "type": 1,
       "timed": true,
       "durationMillis": 61000,
+      "isKeyboardRequired": true,
       "isGame": true,
       "title": "Months of the year",
       "instructions": "You will be shown the months of the year in the right order. Type them out as quickly as you can.",

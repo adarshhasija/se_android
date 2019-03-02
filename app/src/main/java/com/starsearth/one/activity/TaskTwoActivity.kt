@@ -81,6 +81,11 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 builder.setPositiveButton(resources.getString(android.R.string.ok)) { dialogInterface, i -> dialogInterface.dismiss() }
                 builder.show()
             }
+
+            if (!mTask.isTextVisibleOnStart) {
+                //If text is not visible on start, tapping the screen should flash the question to the user
+                flashQuestion()
+            }
         }
     }
 
@@ -394,6 +399,24 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         imageView?.visibility = View.GONE
+                    }
+                })
+    }
+
+    /*
+        If question is not visible to user, this will flash the question for a few seconds
+        In updateContent(), question text is set to blank. Question visibility is not changed
+     */
+    private fun flashQuestion() {
+        tvMain?.alpha = 0f
+        tvMain?.text = expectedAnswer
+
+        tvMain?.animate()
+                ?.alpha(1f)
+                ?.setDuration(2000)
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        tvMain?.text = ""
                     }
                 })
     }
