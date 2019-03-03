@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.SEOneListItem
-import com.starsearth.one.fragments.lists.SeOneListFragment
 
 import com.starsearth.one.fragments.lists.SeOneListFragment.OnSeOneListFragmentInteractionListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
@@ -17,7 +16,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
  * specified [OnSeOneListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MySeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>, private val mListener: OnSeOneListFragmentInteractionListener?) : RecyclerView.Adapter<MySeOneListItemRecyclerViewAdapter.ViewHolder>() {
+class SeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>, private val mListener: OnSeOneListFragmentInteractionListener?) : RecyclerView.Adapter<SeOneListItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

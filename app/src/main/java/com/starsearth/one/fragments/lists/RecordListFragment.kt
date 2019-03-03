@@ -16,7 +16,7 @@ import com.google.firebase.database.*
 import com.starsearth.one.managers.AssetsFileManager
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MyRecordItemRecyclerViewAdapter
+import com.starsearth.one.adapter.RecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import com.starsearth.one.comparator.ComparatorMainMenuItem
@@ -49,7 +49,7 @@ class RecordListFragment : Fragment() {
 
     private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val adapter = (list?.adapter as? MyRecordItemRecyclerViewAdapter)
+            val adapter = (list?.adapter as? RecordItemRecyclerViewAdapter)
             val map = dataSnapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
@@ -63,7 +63,7 @@ class RecordListFragment : Fragment() {
                 }
                 Collections.sort(results, ComparatorMainMenuItem())
                 insertResults(results)
-                (list?.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
             }
 
@@ -91,7 +91,7 @@ class RecordListFragment : Fragment() {
         val itemCount = adapter?.itemCount
         if (adapter != null && itemCount != null) {
             for (i in 0 until itemCount) {
-                val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
+                val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
                 if (menuItem.isTaskIdExists(result.task_id)) {
                     if (menuItem.isResultLatest(result)) {
                         menuItem.results.add(result)
@@ -116,7 +116,7 @@ class RecordListFragment : Fragment() {
         val adapter = list.adapter
         val itemCount = adapter.itemCount
         for (i in 0 until itemCount) {
-            val menuItem = (adapter as MyRecordItemRecyclerViewAdapter).getItem(i)
+            val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
             //Assuming all results returned in the array are from same course/task
             //Only need to check first item in the array
             if (menuItem.isTaskIdExists(results.get(0).task_id)) {
@@ -157,7 +157,7 @@ class RecordListFragment : Fragment() {
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
             }
-            view.list.adapter = MyRecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
+            view.list.adapter = RecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
         }
         return view
     }
@@ -183,7 +183,7 @@ class RecordListFragment : Fragment() {
             //Update list only if mPassedInResults has values
             insertNewlyCompletedResults(mNewlyCompletedResults)
             mNewlyCompletedResults.clear()
-            (list.adapter as? MyRecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+            (list.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
             list?.layoutManager?.scrollToPosition(0)
         }
 

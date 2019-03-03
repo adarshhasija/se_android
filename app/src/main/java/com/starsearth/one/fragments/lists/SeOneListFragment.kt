@@ -11,10 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MySeOneListItemRecyclerViewAdapter
+import com.starsearth.one.adapter.SeOneListItemRecyclerViewAdapter
 import com.starsearth.one.domain.SEOneListItem
 import android.support.v7.widget.DividerItemDecoration
-import com.starsearth.one.application.StarsEarthApplication
 import kotlin.collections.ArrayList
 
 
@@ -56,7 +55,7 @@ class SeOneListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            view.adapter = MySeOneListItemRecyclerViewAdapter(getData(), mListener)
+            view.adapter = SeOneListItemRecyclerViewAdapter(getData(), mListener)
         }
         return view
     }

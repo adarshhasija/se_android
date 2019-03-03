@@ -597,6 +597,20 @@
     },
     {
       "visible": true,
+      "id": 65,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Months of the year",
+      "instructions": "You will be shown the months of the year in the right order. Try to type them out correctly.",
+      "content": ["January","February","March","April","May","June","July","August","September","October","November","December"],
+      "ordered": true,
+      "tags": ["typing", "english","spelling"],
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
       "id": 1,
       "type": 1,
       "timed": true,
@@ -697,6 +711,20 @@
       "isBackspaceAllowed": false,
       "isKeyboardRequired": true,
       "tags": ["typing"]
+    },
+    {
+      "visible": true,
+      "id": 66,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Singular pronouns",
+      "instructions": "These pronouns are singular and take singular verbs. Type them out correctly.",
+      "content": ["no one","someone","everyone","anyone","none","nobody","somebody","everybody","anybody","each","nothing","something", "everything", "anything"],
+      "ordered": true,
+      "tags": ["typing", "english","spelling"],
+      "isExitOnInterruption": true
     }
   ],
 

@@ -83,7 +83,7 @@ public class ResultTyping extends Result {
     public String getScoreSummary(Context context, boolean isPassFail, int passPercentage) {
         StringBuffer result = new StringBuffer();
         if (!isPassFail) {
-            result.append(Integer.valueOf(words_correct));
+            result.append(Integer.valueOf(items_correct));
         }
         else {
             if (isPassed(passPercentage)) result.append(context.getString(R.string.passed));

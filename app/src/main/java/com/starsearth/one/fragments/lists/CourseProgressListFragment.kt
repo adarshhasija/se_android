@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.starsearth.one.R
-import com.starsearth.one.adapter.MyCourseProgressRecyclerViewAdapter
+import com.starsearth.one.adapter.CourseProgressRecyclerViewAdapter
 import com.starsearth.one.domain.Course
 import com.starsearth.one.domain.Result
 
@@ -68,7 +68,7 @@ class CourseProgressListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                mCourse?.let { adapter = MyCourseProgressRecyclerViewAdapter(context, it, mTasksAndCheckpoints, mResults, listener) }
+                mCourse?.let { adapter = CourseProgressRecyclerViewAdapter(context, it, mTasksAndCheckpoints, mResults, listener) }
 
             }
         }

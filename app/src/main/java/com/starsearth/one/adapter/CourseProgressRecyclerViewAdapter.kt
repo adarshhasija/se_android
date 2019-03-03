@@ -27,13 +27,13 @@ import java.util.ArrayList
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyCourseProgressRecyclerViewAdapter(
+class CourseProgressRecyclerViewAdapter(
         private val mContext: Context,
         private val mCourse: Course,
         private val mValues: List<Any>,   //Tasks and checkpoints
         private val mResults: ArrayList<Result>,
         private val mListener: CourseProgressListFragment.OnCourseProgressListFragmentInteractionListener?)
-    : RecyclerView.Adapter<MyCourseProgressRecyclerViewAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<CourseProgressRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 
