@@ -31,72 +31,84 @@
       "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 2, else swipe.",
       "content": [
         {
+          "id": 1,
           "question": "1",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "1 is an odd number"
         },
         {
+          "id": 2,
           "question": "2",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "2 is an even number"
         },
         {
+          "id": 3,
           "question": "3",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "3 is an odd number"
         },
         {
+          "id": 4,
           "question": "4",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "4 is an even number"
         },
         {
+          "id": 5,
           "question": "5",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "5 is an odd number"
         },
         {
+          "id": 6,
           "question": "6",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "6 is an even number"
         },
         {
+          "id": 7,
           "question": "7",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "7 is an odd number"
         },
         {
+          "id": 8,
           "question": "8",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "8 is an even number"
         },
         {
+          "id": 9,
           "question": "9",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "9 is an odd number"
         },
         {
+          "id": 10,
           "question": "10",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "10 is an even number"
         },
         {
+          "id": 11,
           "question": "11",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "11 is an odd number"
         },
         {
+          "id": 12,
           "question": "12",
           "isTapSwipe": true,
           "isTrue": true,
@@ -117,72 +129,84 @@
       "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 3, else swipe.",
       "content": [
         {
+          "id": 1,
           "question": "1",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 2,
           "question": "2",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 3,
           "question": "3",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 4,
           "question": "4",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 5,
           "question": "5",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 6,
           "question": "6",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 7,
           "question": "7",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 8,
           "question": "8",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 9,
           "question": "9",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 10,
           "question": "10",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 11,
           "question": "11",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": null
         },
         {
+          "id": 12,
           "question": "12",
           "isTapSwipe": true,
           "isTrue": true,
@@ -203,72 +227,84 @@
       "instructions": "You will be shown the numbers 1 to 12. Tap if it is divisible by 5, else swipe.",
       "content": [
         {
+          "id": 1,
           "question": "1",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 2,
           "question": "2",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 3,
           "question": "3",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 4,
           "question": "4",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 5,
           "question": "5",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "Number ends in 5"
         },
         {
+          "id": 6,
           "question": "6",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 7,
           "question": "7",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 8,
           "question": "8",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 9,
           "question": "9",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 10,
           "question": "10",
           "isTapSwipe": true,
           "isTrue": true,
           "expectedAnswerExplanation": "Number ends in 0"
         },
         {
+          "id": 11,
           "question": "11",
           "isTapSwipe": true,
           "isTrue": false,
           "expectedAnswerExplanation": "Number does not end in 0 or 5"
         },
         {
+          "id": 12,
           "question": "12",
           "isTapSwipe": true,
           "isTrue": false,

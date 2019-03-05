@@ -39,6 +39,7 @@ public class Course extends SETeachingContent {
 
     public Course(HashMap<String, Object> map) {
         super(map);
+        this.uid = map.containsKey("key") ? (String) map.get("key") : null;
         this.type = map.containsKey("type") ? (String) map.get("type") : null;
         this.description = map.containsKey("description") ? (String) map.get("description") : null;
         this.usbKeyboard = map.containsKey("usbKeyboard") ? (Boolean) map.get("usbKeyboard") : false;

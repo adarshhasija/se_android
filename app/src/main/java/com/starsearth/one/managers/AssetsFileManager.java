@@ -10,8 +10,6 @@ import com.starsearth.one.domain.Course;
 import com.starsearth.one.domain.RecordItem;
 import com.starsearth.one.domain.SETeachingContent;
 import com.starsearth.one.domain.Task;
-import com.starsearth.one.domain.TaskContent;
-import com.starsearth.one.deserializers.TaskContentDeserializer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,7 +92,6 @@ public class AssetsFileManager {
     private static List<Object> getTasks(JSONArray json) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Task.Type.class, new TypeDeserializer() );
-        gsonBuilder.registerTypeAdapter(TaskContent.class, new TaskContentDeserializer());
         Gson gson = gsonBuilder.create();
         Type type = new TypeToken<List<Task>>(){}.getType();
         List<Object> list = gson.fromJson(json.toString(), type);

@@ -48,12 +48,22 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (expectedAnswerGesture) {
                 itemsCorrect++
-                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
+                if (expectedAnswerContentId > -1) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true, expectedAnswerContentId))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true))
+                }
 
             }
             else {
                 vibrate()
-                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
+                if (expectedAnswerContentId > -1) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false, expectedAnswerContentId))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false))
+                }
             }
             flashAnswerResult(expectedAnswerGesture)
             if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
@@ -96,11 +106,22 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (!expectedAnswerGesture) run {
                 itemsCorrect++
-                responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
+                if (expectedAnswerContentId > -1) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true, expectedAnswerContentId))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true))
+                }
+
             }
             else {
                 vibrate()
-                responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+                if (expectedAnswerContentId > -1) {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false, expectedAnswerContentId))
+                }
+                else {
+                    responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false))
+                }
             }
             flashAnswerResult(!expectedAnswerGesture)
             if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
@@ -141,6 +162,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
+    private var expectedAnswerContentId: Int = -1
     private var itemsAttempted: Long = 0              //In TYPING, only used to see how many have been completed
     private var itemsCorrect: Long = 0
     private var itemIncorrect = false  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
@@ -352,6 +374,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         }
         else if (nextItem is TaskContent) {
             expectedAnswerGesture = nextItem.isTrue
+            expectedAnswerContentId = nextItem.id
             tvMain?.text = nextItem.question
             android.os.Handler().postDelayed({
                 //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
@@ -585,33 +608,57 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
-                    processGestureResponse()
                     if (inputCharacter?.equals('y', ignoreCase = true) == true) {
+                        processGestureResponse()
                         if (expectedAnswerGesture) {
                             itemsCorrect++
                         }
                         flashAnswerResult(expectedAnswerGesture)
-                        responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
-                            GESTURE_TAP
-                        } else {
-                            GESTURE_SWIPE
-                        },GESTURE_TAP, expectedAnswerGesture))  //Answer was true. If expected was true send true, else send false
+                        if (expectedAnswerContentId > -1) {
+                            responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                                GESTURE_TAP
+                            } else {
+                                GESTURE_SWIPE
+                            },GESTURE_TAP, expectedAnswerGesture, expectedAnswerContentId))  //Answer was true. If expected was true send true, else send false
+                        }
+                        else {
+                            responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                                GESTURE_TAP
+                            } else {
+                                GESTURE_SWIPE
+                            },GESTURE_TAP, expectedAnswerGesture))  //Answer was true. If expected was true send true, else send false
+                        }
+
                     }
                     else if (inputCharacter?.equals('n', ignoreCase = true) == true) {
+                        processGestureResponse()
                         if (!expectedAnswerGesture) {
                             itemsCorrect++
                         }
                         flashAnswerResult(!expectedAnswerGesture)
-                        responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
-                            GESTURE_TAP
-                        } else {
-                            GESTURE_SWIPE
-                        },GESTURE_SWIPE, !expectedAnswerGesture)) //Answer was false. If expected was false, send true
+                        if (expectedAnswerContentId > -1) {
+                            responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                                GESTURE_TAP
+                            } else {
+                                GESTURE_SWIPE
+                            },GESTURE_SWIPE, !expectedAnswerGesture, expectedAnswerContentId)) //Answer was false. If expected was false, send true
+                        }
+                        else {
+                            responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
+                                GESTURE_TAP
+                            } else {
+                                GESTURE_SWIPE
+                            },GESTURE_SWIPE, !expectedAnswerGesture)) //Answer was false. If expected was false, send true
+                        }
+
                     }
                     else if (inputCharacter?.equals(' ', true) == true) {
                         //If space was tapped, say the content on the screen
                         tts?.speak(tvMain?.text?.toString(), TextToSpeech.QUEUE_ADD, null, "1")
                         return super.onKeyDown(keyCode, event) //Exit the flow. We simply want to say what is on the screen, nothing else
+                    }
+                    else {
+                        return super.onKeyDown(keyCode, event) //Exit the flow. If it is any other character apart from the y,n or space, we do nothing
                     }
                 }
 

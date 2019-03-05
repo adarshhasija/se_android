@@ -427,17 +427,23 @@ public class Task extends SETeachingContent {
             for (int i = 0; i < responses.size(); i++) {
                 Response r = responses.get(i);
                 ResponseTreeNode responseTreeNode = new ResponseTreeNode(r);
-                if (this.ordered && this.content.size() > 0) {
-                    Object contentObject = this.content.get(i);
-                    if (contentObject instanceof Map) {
-                        TaskContent taskContent = new TaskContent((Map) contentObject);
-                        String expectedAnswerExplanation = taskContent.explanation;
-                        if (expectedAnswerExplanation != null && expectedAnswerExplanation.length() > 0) {
-                            Response data = responseTreeNode.getData();
-                            data.expectedAnswerExplanation = expectedAnswerExplanation;
-                            responseTreeNode.setData(data);
+                if (this.ordered && this.content != null && this.content.size() > 0) {
+                    for (Object contentObject : this.content) {
+                        if (contentObject instanceof Map) {
+                            TaskContent taskContent = new TaskContent((Map) contentObject);
+                            if (r.taskContentId == taskContent.id) {
+                                //The response is for this task content
+                                String expectedAnswerExplanation = taskContent.explanation;
+                                if (expectedAnswerExplanation != null && expectedAnswerExplanation.length() > 0) {
+                                    Response data = responseTreeNode.getData();
+                                    data.expectedAnswerExplanation = expectedAnswerExplanation;
+                                    responseTreeNode.setData(data);
+                                    break;
+                                }
+                            }
                         }
                     }
+
                 }
                 rootResponseTreeNode.addChild(new ResponseTreeNode(r)); //If no responseViewType provided, simply return the original
             }

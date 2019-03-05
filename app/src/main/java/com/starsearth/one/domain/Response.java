@@ -23,9 +23,10 @@ public class Response implements Parcelable{
 
     public String question;
     public String expectedAnswer;
-    public String expectedAnswerExplanation; //expectedAnswerExplanation for answer: provided by question
+    public String expectedAnswerExplanation; //This is set only at the time of displaying responses to the user
     public String answer;
     public boolean isCorrect;
+    public int taskContentId; //Used for the purposes of getting the answer explanation from the task
 
 
     public Response() {
@@ -40,13 +41,13 @@ public class Response implements Parcelable{
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(String question, String expectedAnswer, String answer, boolean isCorrect, String expectedAnswerExplanation) {
+    public Response(String question, String expectedAnswer, String answer, boolean isCorrect, int taskContentId) {
         this.question = question;
         this.expectedAnswer = expectedAnswer;
         this.answer = answer;
         this.isCorrect = isCorrect;
-        this.expectedAnswerExplanation = expectedAnswerExplanation;
         this.timestamp = System.currentTimeMillis();
+        this.taskContentId = taskContentId;
     }
 
     public Response(Map<String, Object> map) {
@@ -55,6 +56,7 @@ public class Response implements Parcelable{
         this.answer = (String) map.get("answer");
         this.isCorrect = (Boolean) map.get("isCorrect");
         this.timestamp = (Long) map.get("timestamp");
+        this.taskContentId = map.containsKey("taskContentId") ? ((Long) map.get("taskContentId")).intValue() : (int) map.get("taskContentId");
     }
 
     protected Response(Parcel in) {
@@ -70,6 +72,7 @@ public class Response implements Parcelable{
         expectedAnswerExplanation = in.readString();
         answer = in.readString();
         isCorrect = in.readByte() != 0;
+        taskContentId = in.readInt();
     }
 
     public static final Creator<Response> CREATOR = new Creator<Response>() {
@@ -99,6 +102,7 @@ public class Response implements Parcelable{
         result.put("expectedAnswerExplanation", expectedAnswerExplanation);
         result.put("answer", answer);
         result.put("isCorrect", isCorrect);
+        result.put("taskContentId", taskContentId);
 
         return result;
     }
@@ -122,6 +126,7 @@ public class Response implements Parcelable{
         dest.writeString(expectedAnswerExplanation);
         dest.writeString(answer);
         dest.writeByte((byte) (isCorrect ? 1 : 0));
+        dest.writeInt(taskContentId);
     }
 
 

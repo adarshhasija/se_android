@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 public class TaskContent implements Parcelable {
 
+    public int id;
     public String question;
     public boolean isTapSwipe;
     public boolean isTrue;
@@ -24,14 +26,8 @@ public class TaskContent implements Parcelable {
         super();
     }
 
-    public TaskContent(String question) {
-        this.question = question;
-        this.isTapSwipe = false;
-        this.isTrue = false;
-        this.explanation = null;
-    }
-
-    public TaskContent(String question, boolean isTapSwipe, boolean isTrue, String explanation) {
+    public TaskContent(int id, String question, boolean isTapSwipe, boolean isTrue, String explanation) {
+        this.id = id;
         this.question = question;
         this.isTapSwipe = isTapSwipe;
         this.isTrue = isTrue;
@@ -39,6 +35,7 @@ public class TaskContent implements Parcelable {
     }
 
     public TaskContent(Map<String, Object> map) {
+        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : (int) map.get("id"); //If type is not specified, gson will take int as double
         this.question = (String) map.get("question");
         this.isTapSwipe = (boolean) map.get("isTapSwipe");
         this.isTrue = (boolean) map.get("isTrue");
@@ -47,6 +44,7 @@ public class TaskContent implements Parcelable {
 
 
     protected TaskContent(Parcel in) {
+        id = in.readInt();
         question = in.readString();
         isTapSwipe = in.readByte() != 0;
         isTrue = in.readByte() != 0;
@@ -55,6 +53,7 @@ public class TaskContent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(question);
         dest.writeByte((byte) (isTapSwipe ? 1 : 0));
         dest.writeByte((byte) (isTrue ? 1 : 0));
