@@ -761,6 +761,124 @@
       "ordered": true,
       "tags": ["typing", "english","spelling"],
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 67,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "isKeyboardRequired": false,
+      "isGame": true,
+      "title": "Subject-Verb Agreement: is/are",
+      "instructions": "You will be shown some sentences. Tap if the subject-verb agreement is correct. Else swipe.",
+      "tap": [
+        {
+          "id": 1,
+          "question": "Earth is a planet",
+          "expectedAnswerExplanation": "Subject is Earth, which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 2,
+          "question": "The cars are parked in the garage",
+          "expectedAnswerExplanation": "Subject is cars, which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 3,
+          "question": "The fact that it rained so much today is bad.",
+          "expectedAnswerExplanation": "Subject is 'The fact', which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 4,
+          "question": "Skies are clear.",
+          "expectedAnswerExplanation": "Subject is 'skies', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 5,
+          "question": "John and Tom are going to school.",
+          "expectedAnswerExplanation": "There are 2 subjects: 'John' and 'Tom'. This is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 6,
+          "question": "The computers are for sale.",
+          "expectedAnswerExplanation": "Subject is 'computers', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 7,
+          "question": "Tom's family is moving.",
+          "expectedAnswerExplanation": "Subject is 'family', which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 8,
+          "question": "People are waiting for the leader to arrive.",
+          "expectedAnswerExplanation": "Subject is 'people', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 9,
+          "question": "Airplanes are fast",
+          "expectedAnswerExplanation": "Subject is 'airplanes', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 10,
+          "question": "Cows are grazing in the field.",
+          "expectedAnswerExplanation": "Subject is 'cows', which is plural. Therefore verb should be 'are', which is plural."
+        }
+      ],
+      "swipe": [
+        {
+          "id": 11,
+          "question": "Earth are a planet",
+          "expectedAnswerExplanation": "Subject is Earth, which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 12,
+          "question": "The car are parked in the garage",
+          "expectedAnswerExplanation": "Subject is car, which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 13,
+          "question": "The cars is parked in the garage",
+          "expectedAnswerExplanation": "Subject is 'cars', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 14,
+          "question": "The fact that it rained so much today are bad.",
+          "expectedAnswerExplanation": "Subject is 'The fact', which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 15,
+          "question": "John and Tom is going to school.",
+          "expectedAnswerExplanation": "There are 2 subjects: 'John' and 'Tom'. This is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 16,
+          "question": "The computers is for sale.",
+          "expectedAnswerExplanation": "Subject is 'computers', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 17,
+          "question": "Tom are moving.",
+          "expectedAnswerExplanation": "Subject is 'Tom', which is singular. Therefore verb should be 'is', which is singular."
+        },
+        {
+          "id": 18,
+          "question": "People is waiting for the leader to arrive.",
+          "expectedAnswerExplanation": "Subject is 'people', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 19,
+          "question": "Airplanes is fast.",
+          "expectedAnswerExplanation": "Subject is 'airplanes', which is plural. Therefore verb should be 'are', which is plural."
+        },
+        {
+          "id": 20,
+          "question": "Cows is grazing in the field.",
+          "expectedAnswerExplanation": "Subject is 'cows', which is plural. Therefore verb should be 'are', which is plural."
+        }
+      ],
+      "ordered": false,
+      "tags": ["typing", "english","spelling"],
+      "isExitOnInterruption": true
     }
   ],
 

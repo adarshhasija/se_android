@@ -27,8 +27,8 @@ public class Task extends SETeachingContent {
     public static String NO_MORE_CONTENT = "no_more_content";
 
     public List<Object> content = new ArrayList<>(); //Has to be List<String> to save to FirebaseManager
-    public List<String> tap = new ArrayList<>();
-    public List<String> swipe = new ArrayList<>();
+    public List<Object> tap = new ArrayList<>();
+    public List<Object> swipe = new ArrayList<>();
     public Type type;
     public String subType;
     public boolean ordered = false; //should the content be shown in same order to the user
@@ -226,10 +226,23 @@ public class Task extends SETeachingContent {
                 ret = new HashMap<>();
                 i = random.nextInt(2);
                 if (i % 2 == 0 && tap.size() > 0) {
-                    ((HashMap) ret).put(tap.get(random.nextInt(tap.size())), true);
+                    Object tapObj = tap.get(random.nextInt(tap.size()));
+                    if (tapObj instanceof Map) {
+                        ((HashMap) ret).put(new TaskContent((HashMap<String, Object>) tapObj), true);
+                    }
+                    else {
+                        ((HashMap) ret).put((String) tapObj, true);
+                    }
+
                 }
                 else if (swipe.size() > 0) {
-                    ((HashMap) ret).put(swipe.get(random.nextInt(swipe.size())), false);
+                    Object swipeObj = swipe.get(random.nextInt(swipe.size()));
+                    if (swipeObj instanceof Map) {
+                        ((HashMap) ret).put(new TaskContent((HashMap<String, Object>) swipeObj), false);
+                    }
+                    else {
+                        ((HashMap) ret).put((String) swipeObj, false);
+                    }
                 }
                 break;
             default:
@@ -268,15 +281,28 @@ public class Task extends SETeachingContent {
     If content should be returned in any order
     Type: gesture
      */
-    public Map<String, Boolean> getNextItemGesture() {
-        Map<String, Boolean> map = new HashMap<>();
+    public Map<Object, Boolean> getNextItemGesture() {
+        Map<Object, Boolean> map = new HashMap<>();
         Random random = new Random();
         int i = random.nextInt(2);
         if (i % 2 == 0 && tap.size() > 0) {
-            map.put(tap.get(random.nextInt(tap.size())), true);
+            Object tapObj = tap.get(random.nextInt(tap.size()));
+            if (tapObj instanceof Map) {
+                ((HashMap) map).put(new TaskContent((HashMap<String, Object>) tapObj), true);
+            }
+            else {
+                ((HashMap) map).put((String) tapObj, true);
+            }
+
         }
         else if (swipe.size() > 0) {
-            map.put(swipe.get(random.nextInt(swipe.size())), false);
+            Object swipeObj = swipe.get(random.nextInt(swipe.size()));
+            if (swipeObj instanceof Map) {
+                ((HashMap) map).put(new TaskContent((HashMap<String, Object>) swipeObj), false);
+            }
+            else {
+                ((HashMap) map).put((String) swipeObj, false);
+            }
         }
         return map;
     }
@@ -403,6 +429,30 @@ public class Task extends SETeachingContent {
     }
 
     /*
+        Different arrays are used for different content types
+        This function will return all the content in one array
+        If its tap and swipe arrays, it will add both in one array
+     */
+    private List<Object> getContentList() {
+        List<Object> returnList = new ArrayList<>();
+        if (this.content != null && this.content.size() > 0) {
+            //ordered content
+            returnList.addAll(this.content);
+        }
+        else {
+            //unordered content
+            if (this.tap != null && this.tap.size() > 0) {
+                returnList.addAll(this.tap);
+            }
+            if (this.swipe != null && this.swipe.size() > 0) {
+                returnList.addAll(this.swipe);
+            }
+        }
+
+        return returnList;
+    }
+
+    /*
         Returns an tree of response nodes with each word broken up into character nodes
         Input: responses: List of responses at the character level, which is collected when the task is done
      */
@@ -427,8 +477,9 @@ public class Task extends SETeachingContent {
             for (int i = 0; i < responses.size(); i++) {
                 Response r = responses.get(i);
                 ResponseTreeNode responseTreeNode = new ResponseTreeNode(r);
-                if (this.ordered && this.content != null && this.content.size() > 0) {
-                    for (Object contentObject : this.content) {
+                List<Object> contentList = getContentList();
+                if (contentList.size() > 0) {
+                    for (Object contentObject : contentList) {
                         if (contentObject instanceof Map) {
                             TaskContent taskContent = new TaskContent((Map) contentObject);
                             if (r.taskContentId == taskContent.id) {

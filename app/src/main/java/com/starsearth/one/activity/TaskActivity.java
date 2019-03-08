@@ -625,7 +625,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void nextItemGesture() {
-        Map<String, Boolean> map = task.getNextItemGesture();
+        Map<String, Boolean> map = null; //task.getNextItemGesture();
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();

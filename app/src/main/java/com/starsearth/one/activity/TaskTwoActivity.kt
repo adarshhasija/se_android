@@ -361,8 +361,16 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is HashMap<*, *>) {
-            nextItem?.forEach { text, gesture ->
+            nextItem?.forEach { key, gesture ->
                 expectedAnswerGesture = gesture as Boolean
+                expectedAnswerContentId = (key as? TaskContent)?.id ?: -1
+                val text =
+                        if (key is TaskContent) {
+                            key.question
+                        }
+                        else {
+                            key
+                        }
                 tvMain?.text = text as? String
                 android.os.Handler().postDelayed({
                     //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
