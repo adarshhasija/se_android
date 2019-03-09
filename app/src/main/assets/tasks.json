@@ -879,6 +879,62 @@
       "ordered": false,
       "tags": ["english"],
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 68,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Periodic table group 1",
+      "instructions": "You will be shown the elements of group 1. Try to type them out correctly.",
+      "content": ["Hydrogen","Lithium","Sodium","Potassium","Rubidium","Caesium","Francium"],
+      "ordered": true,
+      "tags": ["typing", "spelling", "science", "chemistry"],
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 69,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Periodic table group 2",
+      "instructions": "You will be shown the elements of group 1. Try to type them out correctly.",
+      "content": ["Beryllium","Magnesium","Calcium","Strontium","Barium","Radium"],
+      "ordered": true,
+      "tags": ["typing", "spelling", "science", "chemistry"],
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 70,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Periodic table halogens",
+      "instructions": "You will be shown the halogens. Try to type them out correctly.",
+      "content": ["Fluorine","Chlorine","Bromine","Iodine","Astatine","Caesium","Francium"],
+      "ordered": true,
+      "tags": ["typing", "spelling", "science", "chemistry"],
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 71,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Periodic table noble gasses",
+      "instructions": "You will be shown the elements of group 1. Try to type them out correctly.",
+      "content": ["Helium","Neon","Argon","Krypton","Xenon","Radon"],
+      "ordered": true,
+      "tags": ["typing", "spelling", "science", "chemistry"],
+      "isExitOnInterruption": true
     }
   ],
 
