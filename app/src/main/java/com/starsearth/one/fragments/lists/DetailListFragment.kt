@@ -143,6 +143,7 @@ class DetailListFragment : Fragment() {
     }
 
     companion object {
+        val TAG = "DETAIL_LIST_FRAGMENT"
         private val ARG_TEACHING_CONTENT = "teaching_content"
         private val ARG_RESULTS = "results"
 

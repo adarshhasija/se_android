@@ -106,6 +106,7 @@ class CourseProgressListFragment : Fragment() {
     }
 
     companion object {
+        val TAG = "COURSE_PROGRESS_LIST_FRAGMENT"
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"

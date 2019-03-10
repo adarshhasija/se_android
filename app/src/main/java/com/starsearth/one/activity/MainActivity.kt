@@ -6,7 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
+import android.support.v4.app.Fragment
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -44,11 +44,7 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager?.popBackStackImmediate()
 
         val fragment = DetailFragment.newInstance(course as Parcelable)
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
-                .addToBackStack(DetailFragment.TAG)
-                .commit()
+        openFragmentWithSlideToLeftEffect(fragment, DetailFragment.TAG)
 
     }
 
@@ -104,19 +100,11 @@ class MainActivity : AppCompatActivity(),
         //Else if there is an explanation, open explanation screen
         if (responseTreeNode.children.size > 0) {
             val fragment = ResponseListFragment.newInstance(responseTreeNode.children.toList() as ArrayList<ResponseTreeNode>, responseTreeNode.startTimeMillis)
-            supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, ResponseListFragment.TAG)
-                    .addToBackStack(ResponseListFragment.TAG)
-                    .commit()
+            openFragmentWithSlideToLeftEffect(fragment, ResponseListFragment.TAG)
         }
         else if (!responseTreeNode.data.expectedAnswerExplanation.isNullOrEmpty()) {
             val fragment = AnswerExplanationFragment.newInstance(responseTreeNode.data)
-            supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, AnswerExplanationFragment.TAG)
-                    .addToBackStack(AnswerExplanationFragment.TAG)
-                    .commit()
+            openFragmentWithSlideToLeftEffect(fragment, AnswerExplanationFragment.TAG)
         }
 
     }
@@ -125,11 +113,7 @@ class MainActivity : AppCompatActivity(),
         (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultsToResponses(task, responses?.isEmpty() == false, action)
         if (responses?.isEmpty() == false) {
             val fragment = ResponseListFragment.newInstance(responses, startTimeMillis)
-            supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, ResponseListFragment.TAG)
-                    .addToBackStack(ResponseListFragment.TAG)
-                    .commit()
+            openFragmentWithSlideToLeftEffect(fragment, ResponseListFragment.TAG)
         }
         else {
             val alertDialog = (application as StarsEarthApplication)?.createAlertDialog(this)
@@ -152,11 +136,7 @@ class MainActivity : AppCompatActivity(),
     override fun onResultListFragmentInteraction(task: Task?, result: Result?) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultListItemTap(task)
         val fragment = ResultDetailFragment.newInstance(task!!, result!!)
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                .replace(R.id.fragment_container_main, fragment, ResultDetailFragment.TAG)
-                .addToBackStack(ResultDetailFragment.TAG)
-                .commit()
+        openFragmentWithSlideToLeftEffect(fragment, ResultDetailFragment.TAG)
     }
 
     override fun onDetailListItemTap(itemTitle: DetailListFragment.ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
@@ -165,19 +145,11 @@ class MainActivity : AppCompatActivity(),
         //Course
             DetailListFragment.ListItem.COURSE_DESCRIPTION -> {
                 val fragment = CourseDescriptionFragment.newInstance((teachingContent as Course))
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, CourseDescriptionFragment.TAG)
             }
             DetailListFragment.ListItem.SEE_PROGRESS -> {
                 val fragment = CourseProgressListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>)
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, CourseProgressListFragment.TAG)
             }
             DetailListFragment.ListItem.KEYBOARD_TEST -> {
                 val intent = Intent(this, KeyboardActivity::class.java)
@@ -185,37 +157,21 @@ class MainActivity : AppCompatActivity(),
             }
             DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS -> {
                 val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, itemTitle)
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment, RecordListFragment.TAG)
-                        ?.addToBackStack(RecordListFragment.TAG)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, RecordListFragment.TAG)
             }
             DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS -> {
                 val fragment = RecordListFragment.newInstance((teachingContent as Course), results as ArrayList<Parcelable>, itemTitle)
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment, RecordListFragment.TAG)
-                        ?.addToBackStack(RecordListFragment.TAG)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, RecordListFragment.TAG)
             }
 
         //Task
             DetailListFragment.ListItem.ALL_RESULTS -> {
                 val fragment = ResultListFragment.newInstance((teachingContent as Task), results)
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, ResultListFragment.TAG)
             }
             DetailListFragment.ListItem.HIGH_SCORE -> {
                 val fragment = ResultDetailFragment.newInstance((teachingContent as Task), (teachingContent as Task).getHighScoreResult(results))
-                getSupportFragmentManager()?.beginTransaction()
-                        ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                        ?.replace(R.id.fragment_container_main, fragment)
-                        ?.addToBackStack(null)
-                        ?.commit()
+                openFragmentWithSlideToLeftEffect(fragment, ResultDetailFragment.TAG)
             }
             else -> {
 
@@ -242,54 +198,32 @@ class MainActivity : AppCompatActivity(),
     override fun onDetailFragmentLongPressInteraction(teachingContent: Any?, results: List<Result>) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(teachingContent, AnalyticsManager.Companion.GESTURES.LONG_PRESS.toString())
         val fragment = DetailListFragment.newInstance(teachingContent as Parcelable?, ArrayList(results))
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
-                .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
-                .commit()
+        openFragmentWithSlideUpEffect(fragment, DetailListFragment.TAG)
     }
 
     override fun onDetailFragmentShowMessage(errorTitle: String?, errorMessage: String?) {
         val fragment = LastTriedFragment.newInstance(errorTitle, errorMessage)
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_main, fragment, LastTriedFragment.TAG)
-                .addToBackStack(LastTriedFragment.TAG)
-                .commit()
+        openFragment(fragment, LastTriedFragment.TAG)
     }
 
     override fun onDetailFragmentShowLastTried(teachingContent: Any?, result: Any?) {
         val fragment = LastTriedFragment.newInstance(teachingContent as Parcelable, result as Parcelable?)
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_main, fragment, LastTriedFragment.TAG)
-                .addToBackStack(LastTriedFragment.TAG)
-                .commit()
+        openFragment(fragment, LastTriedFragment.TAG)
     }
 
     override fun onRecordListItemInteraction(item: RecordItem, index: Int) {
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForRecordListItemTap(item, index)
         if (item.type == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
             val fragment = ResultListFragment.newInstance((item.teachingContent as Task))
-            getSupportFragmentManager()?.beginTransaction()
-                    ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    ?.replace(R.id.fragment_container_main, fragment)
-                    ?.addToBackStack(null)
-                    ?.commit()
+            openFragmentWithSlideToLeftEffect(fragment, ResultListFragment.TAG)
         }
         else if ((item.teachingContent is Course) && item.results.size < 1) {
             val fragment = CourseDescriptionFragment.newInstance(item.teachingContent as Parcelable, true)
-            supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, CourseDescriptionFragment.TAG)
-                    .addToBackStack(CourseDescriptionFragment.TAG)
-                    .commit()
+            openFragmentWithSlideToLeftEffect(fragment, CourseDescriptionFragment.TAG)
         }
         else {
             val fragment = DetailFragment.newInstance(item.teachingContent as Parcelable)
-            supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
-                    .replace(R.id.fragment_container_main, fragment, DetailFragment.TAG)
-                    .addToBackStack(DetailFragment.TAG)
-                    .commit()
+            openFragmentWithSlideToLeftEffect(fragment, DetailFragment.TAG)
         }
     }
 
@@ -313,11 +247,31 @@ class MainActivity : AppCompatActivity(),
         }
         else {
             val recordsListFragment = RecordListFragment.newInstance(item.type, item.text1)
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_main, recordsListFragment, RecordListFragment.TAG)
-                    .addToBackStack(RecordListFragment.TAG)
-                    .commit()
+            openFragment(recordsListFragment, RecordListFragment.TAG)
         }
+    }
+
+    private fun openFragment(fragment: Fragment, tag: String) {
+        getSupportFragmentManager()?.beginTransaction()
+                ?.replace(R.id.fragment_container_main, fragment, tag)
+                ?.addToBackStack(tag)
+                ?.commit()
+    }
+
+    private fun openFragmentWithSlideToLeftEffect(fragment: Fragment, tag: String) {
+        getSupportFragmentManager()?.beginTransaction()
+                ?.setCustomAnimations(R.anim.slide_in_to_left, R.anim.slide_out_to_left)
+                ?.replace(R.id.fragment_container_main, fragment, tag)
+                ?.addToBackStack(tag)
+                ?.commit()
+    }
+
+    private fun openFragmentWithSlideUpEffect(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_to_up, R.anim.slide_out_to_up)
+                .replace(R.id.fragment_container_main, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
     }
 
     private var mAuth: FirebaseAuth? = null

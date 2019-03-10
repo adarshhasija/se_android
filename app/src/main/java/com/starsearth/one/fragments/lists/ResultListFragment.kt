@@ -152,7 +152,7 @@ class ResultListFragment : Fragment() {
     }
 
     companion object {
-
+        val TAG = "RESULT_LIST_FRAGMENT"
 
         const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_RESULTS_ARRAY = "results"
