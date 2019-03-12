@@ -539,6 +539,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 if (mTask.isBackspaceAllowed) {
                     tvMain?.text = tvMain.text.subSequence(0, tvMain.text.length - 1)
                     tvMain?.announceForAccessibility(getString(R.string.backspace))
+                    return super.onKeyDown(keyCode, event)
                 }
                 else {
                     //Backspace not allowed, signal error.
@@ -568,7 +569,11 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                             updateContent()
                         }
                     }
+                    return super.onKeyDown(keyCode, event)
 
+                }
+                else {
+                    return super.onKeyDown(keyCode, event)
                 }
             else -> {
                 //All other characters
