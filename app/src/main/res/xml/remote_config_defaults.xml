@@ -10,12 +10,8 @@
         <value>0</value>
     </entry>
     <entry>
-        <key>firebase_analytics</key>
-        <value>yes</value>
-    </entry>
-    <entry>
-        <key>facebook_analytics</key>
-        <value>yes</value>
+        <key>analytics</key>
+        <value>none</value>
     </entry>
     <entry>
         <key>gesture_spam_message</key>
