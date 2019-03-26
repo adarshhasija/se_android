@@ -56,7 +56,7 @@ public class Response implements Parcelable{
         this.answer = (String) map.get("answer");
         this.isCorrect = (Boolean) map.get("isCorrect");
         this.timestamp = (Long) map.get("timestamp");
-        this.taskContentId = map.containsKey("taskContentId") ? ((Long) map.get("taskContentId")).intValue() : (int) map.get("taskContentId");
+        this.taskContentId = map.containsKey("taskContentId") ? ((Long) map.get("taskContentId")).intValue() : 0;
     }
 
     protected Response(Parcel in) {
