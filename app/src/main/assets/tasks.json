@@ -935,6 +935,124 @@
       "ordered": true,
       "tags": ["typing", "spelling", "science", "chemistry"],
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 72,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "isKeyboardRequired": false,
+      "isGame": true,
+      "title": "Independent Clauses",
+      "instructions": "An independent clause is a sentence that contains a subject and a verb. You will be shown some sentences. Tap if the sentence is an independent clause. Otherwise swipe.",
+      "tap": [
+        {
+          "id": 1,
+          "question": "John likes football.",
+          "expectedAnswerExplanation": "Subject is John, verb is likes. This is an independent clause."
+        },
+        {
+          "id": 2,
+          "question": "Fish like the water.",
+          "expectedAnswerExplanation": "Subject is fish, verb is like. This is an independent clause."
+        },
+        {
+          "id": 3,
+          "question": "Airplanes go fast.",
+          "expectedAnswerExplanation": "Subject is airplanes, verb is go. This is an independent clause."
+        },
+        {
+          "id": 4,
+          "question": "He sang a song.",
+          "expectedAnswerExplanation": "Subject is he, verb is sang. This is an independent clause."
+        },
+        {
+          "id": 5,
+          "question": "They played games.",
+          "expectedAnswerExplanation": "Subject is they, verb is played. This is an independent clause."
+        },
+        {
+          "id": 6,
+          "question": "He threw the ball",
+          "expectedAnswerExplanation": "Subject is he, verb is threw. This is an independent clause."
+        },
+        {
+          "id": 7,
+          "question": "They went to the park.",
+          "expectedAnswerExplanation": "Subject is they, verb is went. This is an independent clause."
+        },
+        {
+          "id": 8,
+          "question": "He can go home.",
+          "expectedAnswerExplanation": "Subject is he, verb is can. This is an independent clause."
+        },
+        {
+          "id": 9,
+          "question": "She travelled by car.",
+          "expectedAnswerExplanation": "Subject is she, verb is travelled. This is an independent clause."
+        },
+        {
+          "id": 10,
+          "question": "Clouds appeared in the sky.",
+          "expectedAnswerExplanation": "Subject is clouds, verb is appeared. This is an independent clause."
+        }
+      ],
+      "swipe": [
+        {
+          "id": 11,
+          "question": "He a song.",
+          "expectedAnswerExplanation": "Subject is he. There is no verb. This is not an independent clause."
+        },
+        {
+          "id": 12,
+          "question": "Sang a song.",
+          "expectedAnswerExplanation": "Verb is Sang. There is no subject. This is not an independent clause."
+        },
+        {
+          "id": 13,
+          "question": "Fish water.",
+          "expectedAnswerExplanation": "Subject is fish. There is no verb. This is not an independent clause."
+        },
+        {
+          "id": 14,
+          "question": "Like water.",
+          "expectedAnswerExplanation": "Verb is Like. There is no subject. This is not an independent clause."
+        },
+        {
+          "id": 15,
+          "question": "Airplanes fast.",
+          "expectedAnswerExplanation": "Subject is airplanes. There is no verb. This is not an independent clause."
+        },
+        {
+          "id": 16,
+          "question": "John football.",
+          "expectedAnswerExplanation": "Subject is John. There is no verb. This is not an independent clause."
+        },
+        {
+          "id": 17,
+          "question": "Likes football.",
+          "expectedAnswerExplanation": "Verb is likes. There is no subject. This is not an independent clause."
+        },
+        {
+          "id": 18,
+          "question": "They the park.",
+          "expectedAnswerExplanation": "Subject is they. There is no verb. This is not an independent clause."
+        },
+        {
+          "id": 19,
+          "question": "Went to the park.",
+          "expectedAnswerExplanation": "Verb is went. There is no subject. This is not an independent clause."
+        },
+        {
+          "id": 20,
+          "question": "He the ball.",
+          "expectedAnswerExplanation": "Subject is he. There is no verb. This is not an independent clause."
+        }
+      ],
+      "ordered": false,
+      "tags": ["english"],
+      "isExitOnInterruption": true
     }
   ],
 
