@@ -3,6 +3,7 @@ package com.starsearth.one.managers
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsConstants
@@ -26,15 +27,36 @@ class AnalyticsManager(private val mContext: Context) {
 
 
     init {
+        updateAnalytics()
+    }
+
+    fun remoteConfigUpdated() {
+        updateAnalytics()
+    }
+
+    private fun updateAnalytics() {
         if (!BuildConfig.DEBUG) {
             val remoteConfigAnalytics = (mContext as StarsEarthApplication).remoteConfigAnalytics
             if (remoteConfigAnalytics.equals("all", ignoreCase = true)) {
-                initializeFirebaseAnalytics()
-                initializeFacebookAnalytics()
+                if (firebaseAnalytics == null) {
+                    initializeFirebaseAnalytics()
+                }
+                if (facebookAnalytics == null) {
+                    initializeFacebookAnalytics()
+                }
             } else if (remoteConfigAnalytics.equals("firebase", ignoreCase = true)) {
-                initializeFirebaseAnalytics()
+                if (firebaseAnalytics == null) {
+                    initializeFirebaseAnalytics()
+                }
+                facebookAnalytics = null
             } else if (remoteConfigAnalytics.equals("facebook", ignoreCase = true)) {
-                initializeFacebookAnalytics()
+                firebaseAnalytics = null
+                if (facebookAnalytics == null) {
+                    initializeFacebookAnalytics()
+                }
+            } else {
+                firebaseAnalytics = null
+                facebookAnalytics = null
             }
         }
     }

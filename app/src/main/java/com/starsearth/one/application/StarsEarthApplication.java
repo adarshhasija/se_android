@@ -64,7 +64,7 @@ public class StarsEarthApplication extends Application {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper();
+        mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper(getApplicationContext());
         mAnalyticsManager = new AnalyticsManager(getApplicationContext());
         mSeOneAccessibilityManager = new SeOneAccessibilityManager(getApplicationContext());
         mAdsManager = new AdsManager(getApplicationContext());
