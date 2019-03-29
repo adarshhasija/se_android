@@ -1053,6 +1053,129 @@
       "ordered": false,
       "tags": ["english"],
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 73,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "isKeyboardRequired": false,
+      "isGame": true,
+      "title": "Present Tense",
+      "instructions": "You will be shown some sentences. Tap if it is written in present tense. Else swipe.",
+      "tap": [
+        {
+          "id": 1,
+          "question": "John has a car.",
+          "expectedAnswerExplanation": "The verb here is has, which is the present tense of 'to have'. Therefore this is in the present tense."
+        },
+        {
+          "id": 2,
+          "question": "He drinks a glass of milk.",
+          "expectedAnswerExplanation": "The verb here is drinks, which is the present tense of 'to drink'. Therefore this is in the present tense."
+        },
+        {
+          "id": 3,
+          "question": "She plays the violin.",
+          "expectedAnswerExplanation": "The verb here is plays, which is the present tense of 'to play'. Therefore this is in the present tense."
+        },
+        {
+          "id": 4,
+          "question": "He enjoys football.",
+          "expectedAnswerExplanation": "The verb here is enjoys, which is the present tense of 'to enjoy'. Therefore this is in the present tense."
+        },
+        {
+          "id": 5,
+          "question": "He takes the bus in the morning.",
+          "expectedAnswerExplanation": "The verb here is takes, which is the present tense of 'to take'. Therefore this is in the present tense."
+        },
+        {
+          "id": 6,
+          "question": "She looks at the blue sky.",
+          "expectedAnswerExplanation": "The verb here is looks, which is the present tense of 'to look'. Therefore this is in the present tense."
+        },
+        {
+          "id": 7,
+          "question": "He goes to office everyday.",
+          "expectedAnswerExplanation": "The verb here is goes, which is the present tense of 'to go'. Therefore this is in the present tense."
+        },
+        {
+          "id": 8,
+          "question": "The flight arrives in the city now.",
+          "expectedAnswerExplanation": "The verb here is arrives, which is the present tense of 'to arrive'. Therefore this is in the present tense."
+        },
+        {
+          "id": 9,
+          "question": "The machine washes the clothes.",
+          "expectedAnswerExplanation": "The verb here is washes, which is the present tense of 'to wash'. Therefore this is in the present tense."
+        },
+        {
+          "id": 10,
+          "question": "She does her homework every evening.",
+          "expectedAnswerExplanation": "The verb here is does, which is the present tense of 'to do'. Therefore this is in the present tense."
+        }
+      ],
+      "swipe": [
+        {
+          "id": 11,
+          "question": "John had a car.",
+          "expectedAnswerExplanation": "The verb here is had, which is the past tense of 'to have'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 12,
+          "question": "He will drink a glass of milk.",
+          "expectedAnswerExplanation": "The verb here is will drink, which is the future tense of 'to drink'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 13,
+          "question": "He drank a glass a water.",
+          "expectedAnswerExplanation": "The verb here is drank, which is the past tense of 'to drink'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 14,
+          "question": "She played the violin.",
+          "expectedAnswerExplanation": "The verb here is played, which is the present tense of 'to play'. Therefore this is in the present tense."
+        },
+        {
+          "id": 15,
+          "question": "She will play the violin tomorrow.",
+          "expectedAnswerExplanation": "The verb here is will play, which is the future tense of 'to play'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 16,
+          "question": "He will take the bus in the morning.",
+          "expectedAnswerExplanation": "The verb here is will take, which is the future tense of 'to take'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 17,
+          "question": "He will go to office everyday.",
+          "expectedAnswerExplanation": "The verb here is will go, which is the future tense of 'to go'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 18,
+          "question": "The flight arrived in the city yesterday.",
+          "expectedAnswerExplanation": "The verb here is arrived, which is the past tense of 'to arrive'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 19,
+          "question": "The flight will arrive in the city tomorrow.",
+          "expectedAnswerExplanation": "The verb here is will arrive, which is the future tense of 'to arrive'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 20,
+          "question": "She did her homework last night.",
+          "expectedAnswerExplanation": "The verb here is did, which is the past tense of 'to do'. Therefore this is NOT in the present tense."
+        },
+        {
+          "id": 21,
+          "question": "She will do her homework tomorrow morning.",
+          "expectedAnswerExplanation": "The verb here is will do, which is the future tense of 'to do'. Therefore this is NOT in the present tense."
+        }
+      ],
+      "ordered": false,
+      "tags": ["english"],
+      "isExitOnInterruption": true
     }
   ],
 
