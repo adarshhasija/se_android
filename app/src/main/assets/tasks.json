@@ -1176,6 +1176,17 @@
       "ordered": false,
       "tags": ["english"],
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "id": 74,
+      "type": 6,
+      "ordered": true,
+      "title": "Autism story",
+      "content": ["Instruction 1", "Instruction 2", "Instruction 3"],
+      "instructions": "You will be shown a story. Swipe to go through the cards",
+      "isGame": false,
+      "tags": ["autism"]
     }
   ],
 

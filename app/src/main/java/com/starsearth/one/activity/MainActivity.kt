@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(),
         ResponseListFragment.OnResponseListFragmentInteractionListener,
         CourseDescriptionFragment.OnFragmentInteractionListener,
         AnswerExplanationFragment.OnFragmentInteractionListener,
+        AutismStoryFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
     override fun onAnswerExplanationFragmentInteraction() {
@@ -181,12 +182,19 @@ class MainActivity : AppCompatActivity(),
 
     override fun onDetailFragmentTapInteraction(task: Task) {
         //Only calling this here so that all interactions/transitions are in one place
-        (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
-        val intent = Intent(this@MainActivity, TaskTwoActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("task", task)
-        intent.putExtras(bundle)
-        startActivityForResult(intent, TASK_ACTIVITY_REQUEST)
+        if (task.type == Task.Type.CAROUSEL) {
+            val autismStoryFragment = AutismStoryFragment.newInstance(task)
+            openFragment(autismStoryFragment, AutismStoryFragment.TAG)
+        }
+        else {
+            (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
+            val intent = Intent(this@MainActivity, TaskTwoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable("task", task)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, TASK_ACTIVITY_REQUEST)
+        }
+
     }
 
     override fun onDetailFragmentSwipeInteraction(teachingContent: Any?) {

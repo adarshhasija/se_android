@@ -76,7 +76,8 @@ public class Task extends SETeachingContent {
         TYPING(1),
         KEYBOARD_TEST(3),
         TAP_SWIPE(4),
-        SPELLING(5)
+        SPELLING(5),
+        CAROUSEL(6)
         ;
 
         private final long value;
@@ -104,6 +105,9 @@ public class Task extends SETeachingContent {
                     break;
                 case 5:
                     result = "Spelling";
+                    break;
+                case 6:
+                    result = "Carousel";
                     break;
 
                     default: break;
