@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.MinMaxPriorityQueue;
+import com.starsearth.one.domain.datastructures.ResultComparator;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,7 +23,8 @@ public class RecordItem implements Parcelable {
     public RecordItem(Object teachingContent) {
         this.teachingContent = teachingContent;
         results = MinMaxPriorityQueue
-                .orderedBy(Comparator.comparing(Result::getTimestamp))
+                //.orderedBy(Comparator.comparing(Result::getTimestamp))
+                .orderedBy(new ResultComparator())
                 .maximumSize(1) //change this based on requirement
                 .create();
     }

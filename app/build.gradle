@@ -6,11 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.starsearth.one"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 27
-        versionCode 36
+        versionCode 37
 
-        versionName "1.0.36"
+        versionName "1.0.37"
     }
     buildTypes {
         debug {
