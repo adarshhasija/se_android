@@ -46,7 +46,7 @@ class AutismStoryFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyAutismStoryRecyclerViewAdapter(mTask.content as List<String>, listener)
+                adapter = MyAutismStoryRecyclerViewAdapter(mTask.content as List<Any>, listener)
             }
         }
         return view

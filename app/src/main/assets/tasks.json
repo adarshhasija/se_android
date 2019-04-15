@@ -1183,7 +1183,98 @@
       "type": 6,
       "ordered": true,
       "title": "Autism story",
-      "content": ["Instruction 1", "Instruction 2", "Instruction 3"],
+      "content": [
+                  {
+                    "id": 1,
+                    "title": "The secret in education lies in respecting the student"
+                  },
+                  {
+                    "id": 100 //Random id just to place it in the middle. We had forgotten about this. This card only contains an image
+                  },
+                  {
+                    "id": 2,
+                    "title": "If a child can't learn the way we teach, maybe we should teach the way they learn"
+                  },
+                  {
+                    "id": 3,
+                    "title": "When you judge someone based on a diagnosis, you miss out on their abilities, beauty, and uniqueness"
+                  },
+                  {
+                    "id": 4 //This card contains only an image
+                  },
+                  {
+                    "id": 5,
+                    "title": "The difference between well-trained and well-formed minds is",
+                    "textLine1": "If you have a well-trained mind then you can do your daily activities without any problem at all. This includes being Toilet Trained.",
+                    "textLine2": "If you have a well-formed mind then you do exactly the best way to do everything for your own sake."
+                  },
+                  {
+                    "id": 6,
+                    "title": "REACH OUT AND TOUCH SOMEONE  to overcome their sense of powerlessness"
+                  },
+                  {
+                    "id": 7,
+                    "title": "They think different",
+                    "textLine1": "Life can be much broader once you discover one simple fact, and that is - everything around you that you call life, was made up by people that were no smarter than you. And you can change it, you can influence it"
+                  },
+                  {
+                    "id": 8,
+                    "title": "They are Differently Wired",
+                    "textLine1": "Get Out of Isolation and Connect. Stop Fighting Who Your Child Is and Lean In."
+                  },
+                  {
+                    "id": 9,
+                    "title": "Because they are worth it",
+                    "textLine1": "If people want something to be wrong about you they are going to make things wrong about you.",
+                    "textLine2": "That is why it is my belief to never try and prove anything to anyone."
+                  },
+                  {
+                    "id": 10,
+                    "title": "There are some things money can’t buy",
+                    "textLine1": "Love",
+                    "textLine2": "Trust"
+                  },
+                  {
+                    "id": 11,
+                    "textLine1": "Empathy",
+                    "textLine2": "Time"
+                  },
+                  {
+                    "id": 12,
+                    "title": "Revolution with imagination",
+                    "textLine1": "Imagination",
+                    "textLine2": "There is no finish line"
+                  },
+                  {
+                    "id": 13,
+                    "title": "Why education….. Every little helps",
+                    "textLine1": "Knowledge is power"
+                  },
+                  {
+                    "id": 14,
+                    "title": "The best a child can get"
+                  },
+                  {
+                    "id": 15,
+                    "title": "Imagination at work… teach an autistic child"
+                  },
+                  {
+                    "id": 16,
+                    "title": "The last place you want to go"
+                  },
+                  {
+                    "id": 17,
+                    "title": "The Ultimate Driving machine"
+                  },
+                  {
+                    "id": 18,
+                    "title": "Your in good hands"
+                  },
+                  {
+                    "id": 19,
+                    "title": "Learning Program"
+                  }
+      ],
       "instructions": "You will be shown a story. Swipe to go through the cards",
       "isGame": false,
       "tags": ["autism"]
