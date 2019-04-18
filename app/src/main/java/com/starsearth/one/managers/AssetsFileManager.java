@@ -125,6 +125,14 @@ public class AssetsFileManager {
                 }
             }
         }
+        if (tagList.indexOf("mathematics") > -1) {
+            tagList.remove(tagList.indexOf("mathematics"));
+            tagList.add(0, "mathematics");
+        }
+        if (tagList.indexOf("english") > -1) {
+            tagList.remove(tagList.indexOf("english"));
+            tagList.add(0, "english");
+        }
         return tagList;
     }
 

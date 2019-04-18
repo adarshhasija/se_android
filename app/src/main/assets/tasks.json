@@ -1208,10 +1208,10 @@
                     "textLine1": "If you have a well-trained mind then you can do your daily activities without any problem at all. This includes being Toilet Trained.",
                     "textLine2": "If you have a well-formed mind then you do exactly the best way to do everything for your own sake."
                   },
-                  {
+               /*   {
                     "id": 6,
                     "title": "REACH OUT AND TOUCH SOMEONE  to overcome their sense of powerlessness"
-                  },
+                  },  */
                   {
                     "id": 7,
                     "title": "They think different",
@@ -1228,7 +1228,7 @@
                     "textLine1": "If people want something to be wrong about you they are going to make things wrong about you.",
                     "textLine2": "That is why it is my belief to never try and prove anything to anyone."
                   },
-                  {
+             /*     {
                     "id": 10,
                     "title": "There are some things money can’t buy",
                     "textLine1": "Love",
@@ -1238,7 +1238,7 @@
                     "id": 11,
                     "textLine1": "Empathy",
                     "textLine2": "Time"
-                  },
+                  },  */
                   {
                     "id": 12,
                     "title": "Revolution with imagination",
@@ -1273,6 +1273,32 @@
                   {
                     "id": 19,
                     "title": "Learning Program"
+                  },
+                  {
+                    "id": 20 //This contains only an image
+                  },
+                  {
+                    "id": 21,
+                    "title": "Adapted methods of learning"
+                  },
+                  {
+                    "id": 22,
+                    "title": "Multiple intelligence; multiple learning styles"
+                  },
+                  {
+                    "id": 23,
+                    "title": "Induce structural brain plasticity"
+                  },
+                  {
+                    "id": 24,
+                    "title": "Stages of mental mapping",
+                    "textLine1": "depends on how much sensory channels are open",
+                    "textLine2": "anxiety, worries, memory, obsessions, take a front stage and affect performance"
+                  },
+                  {
+                    "id": 25,
+                    "title": "Obsession becomes too difficult a cycle to break",
+                    "textLine1": "Obsession gets called as BEHAVIOUR"
                   }
       ],
       "instructions": "You will be shown a story. Swipe to go through the cards",

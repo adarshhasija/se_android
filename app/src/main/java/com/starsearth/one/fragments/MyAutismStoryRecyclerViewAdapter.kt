@@ -69,9 +69,9 @@ class MyAutismStoryRecyclerViewAdapter(
             holder.mCardView.contentDescription = contentDescription
         }
 
-        when (position) {
-            0 -> holder.mImageView.setImageResource(R.drawable.autism_1)
-            1 -> holder.mImageView.setImageResource(R.drawable.autism_1_5)
+        when (autismContent?.id) {
+            1 -> holder.mImageView.setImageResource(R.drawable.autism_1)
+            100 -> holder.mImageView.setImageResource(R.drawable.autism_1_5)
             2 -> holder.mImageView.setImageResource(R.drawable.autism_2)
             3 -> holder.mImageView.setImageResource(R.drawable.autism_3)
             4 -> holder.mImageView.setImageResource(R.drawable.autism_4)
@@ -90,6 +90,12 @@ class MyAutismStoryRecyclerViewAdapter(
             17 -> holder.mImageView.setImageResource(R.drawable.autism_17)
             18 -> holder.mImageView.setImageResource(R.drawable.autism_18)
             19 -> holder.mImageView.setImageResource(R.drawable.autism_19)
+            20 -> holder.mImageView.setImageResource(R.drawable.autism_20)
+            21 -> holder.mImageView.setImageResource(R.drawable.autism_21)
+            22 -> holder.mImageView.setImageResource(R.drawable.autism_22)
+            23 -> holder.mImageView.setImageResource(R.drawable.autism_23)
+            24 -> holder.mImageView.setImageResource(R.drawable.autism_24)
+            25 -> holder.mImageView.setImageResource(R.drawable.autism_25)
             else -> {
 
             }
