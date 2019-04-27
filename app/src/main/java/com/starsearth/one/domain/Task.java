@@ -2,7 +2,6 @@ package com.starsearth.one.domain;
 
 import android.content.Context;
 import android.os.Parcel;
-import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
@@ -73,11 +72,11 @@ public class Task extends SETeachingContent {
     }
 
     public enum Type {
-        TYPING(1),
+        TYPING(1), //Typing out the characters on the screen
         KEYBOARD_TEST(3),
         TAP_SWIPE(4),
-        SPELLING(5),
-        CAROUSEL(6)
+        DICTATION(5), //Blank screen. Type characters based on audio input
+        CAROUSEL(6) //Horizontal list of cards
         ;
 
         private final long value;
@@ -104,7 +103,7 @@ public class Task extends SETeachingContent {
                     result = "Tap and Swipe";
                     break;
                 case 5:
-                    result = "Spelling";
+                    result = "Dictation";
                     break;
                 case 6:
                     result = "Carousel";
@@ -222,7 +221,7 @@ public class Task extends SETeachingContent {
         int i;
         switch (this.type) {
             case TYPING:
-            case SPELLING:
+            case DICTATION:
                 i = random.nextInt(content.size());
                 ret = content.get(i);
                 break;
@@ -259,7 +258,7 @@ public class Task extends SETeachingContent {
         Object ret = null;
         switch (this.type) {
             case TYPING:
-            case SPELLING:
+            case DICTATION:
                 ret = content.get(index % content.size());
                 break;
             case TAP_SWIPE:

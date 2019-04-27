@@ -70,7 +70,6 @@ public class Result implements Parcelable {
     protected Result(Parcel in) {
         uid = in.readString();
         userId = in.readString();
-        //game_id = in.readInt();
         task_id = in.readLong();
         startTimeMillis = in.readLong();
         timeTakenMillis = in.readLong();
@@ -105,7 +104,6 @@ public class Result implements Parcelable {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("userId", userId);
-        //result.put("game_id", game_id);
         result.put("task_id", task_id);
         result.put("startTimeMillis", startTimeMillis);
         result.put("timeTakenMillis", timeTakenMillis);
@@ -145,7 +143,6 @@ public class Result implements Parcelable {
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(uid);
         dest.writeString(userId);
-        //dest.writeInt(game_id);
         dest.writeLong(task_id);
         dest.writeLong(startTimeMillis);
         dest.writeLong(timeTakenMillis);

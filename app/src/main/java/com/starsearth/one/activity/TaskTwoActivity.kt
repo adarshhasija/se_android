@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
@@ -12,12 +11,10 @@ import android.media.RingtoneManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -26,7 +23,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
-import com.starsearth.one.activity.FullScreenActivity.Companion.TASK
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Response
 import com.starsearth.one.domain.Task
@@ -361,7 +357,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is HashMap<*, *>) {
-            nextItem?.forEach { key, gesture ->
+            for ((key, gesture) in nextItem) {
                 expectedAnswerGesture = gesture as Boolean
                 expectedAnswerContentId = (key as? TaskContent)?.id ?: -1
                 val text =
@@ -377,7 +373,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     tvMain.announceForAccessibility(text as String)
                 },
                         1000)
-
             }
         }
         else if (nextItem is TaskContent) {
@@ -550,7 +545,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     return super.onKeyDown(keyCode, event)
                 }
             KeyEvent.KEYCODE_ENTER ->
-                if (mTask.type == Task.Type.SPELLING) {
+                if (mTask.type == Task.Type.DICTATION) {
                     itemsAttempted++
                     if (mTask.ordered) {
                         tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
@@ -562,10 +557,10 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         responses.add(Response(QUESTION_SPELL_IGNORE_CASE,expectedAnswer,it,isCorrect))
 
                         //For spelling tasks we only submit on return tapped
-                        if (mTask.type == Task.Type.SPELLING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        if (mTask.type == Task.Type.DICTATION && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                             taskCompleted()
                         }
-                        else if (mTask.type == Task.Type.SPELLING && !mTask.timed && !mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        else if (mTask.type == Task.Type.DICTATION && !mTask.timed && !mTask.isTaskItemsCompleted(itemsAttempted)) {
                             updateContent()
                         }
                     }
@@ -588,7 +583,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     }
                 }
                 val expectedCharacter = expectedAnswer?.getOrNull(index)
-                if (mTask.type == Task.Type.SPELLING) {
+                if (mTask.type == Task.Type.DICTATION) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
                 }
                 else if (mTask.type == Task.Type.TYPING) {

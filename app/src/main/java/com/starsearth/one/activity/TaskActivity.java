@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.starsearth.one.R;
 import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.domain.Response;
@@ -434,7 +433,7 @@ public class TaskActivity extends AppCompatActivity {
                 else
                 {
                     // consider as something else - a screen tap for example
-                    if (task.type == Task.Type.TYPING || task.type == Task.Type.SPELLING) {
+                    if (task.type == Task.Type.TYPING || task.type == Task.Type.DICTATION) {
                         if (expectedAnswer != null) {
                             //On screen tap, announce the next expected character
                             //If text is not visible to user, use normal TTS
@@ -607,7 +606,7 @@ public class TaskActivity extends AppCompatActivity {
      * Empty list not allowed
      */
     private void nextItem() {
-        if (task.type == Task.Type.TYPING || task.type == Task.Type.SPELLING) {
+        if (task.type == Task.Type.TYPING || task.type == Task.Type.DICTATION) {
             nextItemTyping();
         }
         else {
