@@ -431,18 +431,19 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     /*
         If question is not visible to user, this will flash the question for a few seconds
-        In updateContent(), question text is set to blank. Question visibility is not changed
      */
     private fun flashQuestion() {
-        tvMain?.alpha = 0f
-        tvMain?.text = expectedAnswer
+        tvHint?.alpha = 0f
+        tvHint?.text = expectedAnswer
+        tvHint?.visibility = View.VISIBLE
 
-        tvMain?.animate()
+        tvHint?.animate()
                 ?.alpha(1f)
                 ?.setDuration(2000)
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        tvMain?.text = ""
+                        tvHint?.text = ""
+                        tvHint?.visibility = View.GONE
                     }
                 })
     }
