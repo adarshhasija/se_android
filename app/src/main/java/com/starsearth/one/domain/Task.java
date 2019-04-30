@@ -217,17 +217,24 @@ public class Task extends SETeachingContent {
 
     public Object getNextItem() {
         Object ret = null;
+        Object taskContent = null;
         Random random = new Random();
         int i;
         switch (this.type) {
             case TYPING:
             case DICTATION:
                 i = random.nextInt(content.size());
-                ret = content.get(i);
+                taskContent = content.get(i);
+                if (taskContent instanceof  Map) {
+                    ret =  new TaskContent((HashMap<String, Object>) taskContent);
+                }
+                else if (taskContent instanceof String) {
+                    ret = (String) taskContent;
+                }
                 break;
             case TAP_SWIPE:
                 i = random.nextInt(2);
-                Object taskContent = null;
+                taskContent = null;
                 boolean isTrue = false;
                 if (i % 2 == 0 && tap.size() > 0) {
                     taskContent = tap.get(random.nextInt(tap.size()));
@@ -256,7 +263,13 @@ public class Task extends SETeachingContent {
         switch (this.type) {
             case TYPING:
             case DICTATION:
-                ret = content.get(index % content.size());
+                Object taskContent = content.get(index % content.size());
+                if (taskContent instanceof Map) {
+                    ret = new TaskContent((HashMap<String, Object>) taskContent);
+                }
+                else if (taskContent instanceof String) {
+                    ret = (String) taskContent;
+                }
                 break;
             case TAP_SWIPE:
                 ret = new TaskContent((HashMap<String, Object>) content.get(index % content.size()));

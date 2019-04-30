@@ -27,8 +27,14 @@ public class TaskContent implements Parcelable {
         super();
     }
 
+    public TaskContent(String question) {
+        this.question = question;
+        this.isTapSwipe = false;
+    }
+
     public TaskContent(String question, boolean isTrue) {
         this.question = question;
+        this.isTapSwipe = true;
         this.isTrue = isTrue;
     }
 

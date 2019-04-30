@@ -20,7 +20,7 @@
       "tap": ["Tap"],
       "swipe": ["Swipe"],
       "ordered": false,
-      "tags": ["just_fun", "english"],
+      "tags": ["just_fun"],
       "isExitOnInterruption": true
     },
     {
@@ -352,7 +352,108 @@
       "ordered": true,
       "title": "Parts of the human body",
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
-      "content": ["Eyes", "Nose", "Ears", "Mouth", "Teeth", "Tongue", "Nostrils", "Pupils", "Neck", "Arms", "Hands", "Fingers", "Elbow", "Heart", "Lungs", "Stomach", "Legs", "Knees", "Feet", "Toes"],
+      "content": [
+                  {
+                    "id": 1,
+                    "question": "Eyes",
+                    "hintAudio": "Eyes as in People see with their eyes"
+                  },
+                  {
+                    "id": 2,
+                    "question": "Nose",
+                    "hintAudio": "Nose as in We breathe through our nose"
+                  },
+                  {
+                    "id": 3,
+                    "question": "Ears",
+                    "hintAudio": "Ears as in People listen with their ears"
+                  },
+                  {
+                    "id": 4,
+                    "question": "Mouth",
+                    "hintAudio": "Mouth as in We eat with our mouth"
+                  },
+                  {
+                    "id": 5,
+                    "question": "Teeth",
+                    "hintAudio": "Teeth as in We chew with our teeth"
+                  },
+                  {
+                    "id": 6,
+                    "question": "Tongue",
+                    "hintAudio": "Tongue as in We lick ice cream with our tongue"
+                  },
+                  {
+                    "id": 7,
+                    "question": "Nostrils",
+                    "hintAudio": "Nostrils as in We breathe through our nostrils"
+                  },
+                  {
+                    "id": 8,
+                    "question": "Pupils",
+                    "hintAudio": "Pupils as in The pupil is part of the eyes"
+                  },
+                  {
+                    "id": 9,
+                    "question": "Neck",
+                    "hintAudio": "Neck as in We turn our neck to look left and right"
+                  },
+                  {
+                    "id": 10,
+                    "question": "Arms",
+                    "hintAudio": "Arms as in We pick things up with our arms"
+                  },
+                  {
+                    "id": 11,
+                    "question": "Hands",
+                    "hintAudio": "Hands as in We touch objects with our hands"
+                  },
+                  {
+                    "id": 12,
+                    "question": "Fingers",
+                    "hintAudio": "Fingers as in We type on a keyboard with our fingers"
+                  },
+                  {
+                    "id": 13,
+                    "question": "Elbow",
+                    "hintAudio": "Elbow as in He fell on the ground and hurt his elbow"
+                  },
+                  {
+                    "id": 14,
+                    "question": "Heart",
+                    "hintAudio": "Heart as in The heart pumps blood through the body"
+                  },
+                  {
+                    "id": 15,
+                    "question": "Lungs",
+                    "hintAudio": "Lungs as in The air we breathe goes into our lungs"
+                  },
+                  {
+                    "id": 16,
+                    "question": "Stomach",
+                    "hintAudio": "Stomach as in The food we eat goes into our stomach"
+                  },
+                  {
+                    "id": 17,
+                    "question": "Legs",
+                    "hintAudio": "Legs as in We walk with our legs"
+                  },
+                  {
+                    "id": 18,
+                    "question": "Knees",
+                    "hintAudio": "Knees as in We bend our knees when we sit"
+                  },
+                  {
+                    "id": 19,
+                    "question": "Feet",
+                    "hintAudio": "Feet as in We stand on two feet"
+                  },
+                  {
+                    "id": 20,
+                    "question": "Toes",
+                    "hintAudio": "Toes as in We have ten toes on our feet"
+                  }
+                ],
       "isKeyboardRequired": true,
       "tags": ["english","spelling"]
     },
@@ -428,11 +529,11 @@
       "isGame": true,
       "title": "Positive Numbers: Greater than and less than",
       "instructions": "You will be shown some statements. Tap if it is true. Swipe if it is false.",
-      "tap": ["1 < 2","1 < 3","1 < 4","1 < 5","1 < 6","1 < 7","1 < 8","1 < 9","2 < 3","2 < 4","2 < 5","2 < 6","2 < 7","2 < 8","2 < 9","3 < 4","3 < 5","3 < 6","3 < 7","3 < 8","3 < 9","4 < 5","4 < 6","4 < 7","4 < 8","4 < 9","5 < 6","5 < 7","5 < 8","5 < 9","6 < 7","6 < 8","6 < 9","7 < 8","7 < 9","8 < 9", //Smaller number first
-        "9 > 8","9 > 7","9 > 6","9 > 5","9 > 4","9 > 3","9 > 2","9 > 1","8 > 7","8 > 6","8 > 5","8 > 4","8 > 3","8 > 2","8 > 1","7 > 6","7 > 5","7 > 4","7 > 3","7 > 2","7 > 1","6 > 5","6 > 4","6 > 3","6 > 2","6 > 1","5 > 4","5 > 3","5 > 2","5 > 1","4 > 3","4 > 2","4 > 1","3 > 2","3 > 1","2 > 1" //Larger number first
+      "tap": ["1 < 2","1 < 3","1 < 4","1 < 5","1 < 6","1 < 7","1 < 8","1 < 9","2 < 3","2 < 4","2 < 5","2 < 6","2 < 7","2 < 8","2 < 9","3 < 4","3 < 5","3 < 6","3 < 7","3 < 8","3 < 9","4 < 5","4 < 6","4 < 7","4 < 8","4 < 9","5 < 6","5 < 7","5 < 8","5 < 9","6 < 7","6 < 8","6 < 9","7 < 8","7 < 9","8 < 9",
+        "9 > 8","9 > 7","9 > 6","9 > 5","9 > 4","9 > 3","9 > 2","9 > 1","8 > 7","8 > 6","8 > 5","8 > 4","8 > 3","8 > 2","8 > 1","7 > 6","7 > 5","7 > 4","7 > 3","7 > 2","7 > 1","6 > 5","6 > 4","6 > 3","6 > 2","6 > 1","5 > 4","5 > 3","5 > 2","5 > 1","4 > 3","4 > 2","4 > 1","3 > 2","3 > 1","2 > 1"
       ],
-      "swipe": ["1 > 2","1 > 3","1 > 4","1 > 5","1 > 6","1 > 7","1 > 8","1 > 9","2 > 3","2 > 4","2 > 5","2 > 6","2 > 7","2 > 8","2 > 9","3 > 4","3 > 5","3 > 6","3 > 7","3 > 8","3 > 9","4 > 5","4 > 6","4 > 7","4 > 8","4 > 9","5 > 6","5 > 7","5 > 8","5 > 9","6 > 7","6 > 8","6 > 9","7 > 8","7 > 9","8 > 9", //Smaller number first
-        "9 < 8","9 < 7","9 < 6","9 < 5","9 < 4","9 < 3","9 < 2","9 < 1","8 < 7","8 < 6","8 < 5","8 < 4","8 < 3","8 < 2","8 < 1","7 < 6","7 < 5","7 < 4","7 < 3","7 < 2","7 < 1","6 < 5","6 < 4","6 < 3","6 < 2","6 < 1","5 < 4","5 < 3","5 < 2","5 < 1","4 < 3","4 < 2","4 < 1","3 < 2","3 < 1","2 < 1"   //Larger number first
+      "swipe": ["1 > 2","1 > 3","1 > 4","1 > 5","1 > 6","1 > 7","1 > 8","1 > 9","2 > 3","2 > 4","2 > 5","2 > 6","2 > 7","2 > 8","2 > 9","3 > 4","3 > 5","3 > 6","3 > 7","3 > 8","3 > 9","4 > 5","4 > 6","4 > 7","4 > 8","4 > 9","5 > 6","5 > 7","5 > 8","5 > 9","6 > 7","6 > 8","6 > 9","7 > 8","7 > 9","8 > 9",
+        "9 < 8","9 < 7","9 < 6","9 < 5","9 < 4","9 < 3","9 < 2","9 < 1","8 < 7","8 < 6","8 < 5","8 < 4","8 < 3","8 < 2","8 < 1","7 < 6","7 < 5","7 < 4","7 < 3","7 < 2","7 < 1","6 < 5","6 < 4","6 < 3","6 < 2","6 < 1","5 < 4","5 < 3","5 < 2","5 < 1","4 < 3","4 < 2","4 < 1","3 < 2","3 < 1","2 < 1"
       ],
       "ordered": false,
       "tags": ["mathematics", "numbers"],
@@ -466,11 +567,11 @@
       "isGame": true,
       "title": "addition/subtraction 1",
       "instructions": "You will be shown some statements. Tap if the result is equal to 0. Else swipe.",
-      "tap": ["-9 + 9","-8 + 8","-7 + 7","-6 + 6","-5 + 5","-4 + 4","-3 + 3","-2 + 2","-1 + 1", //negative first
-        "9 + -9","8 + -8","7 + -7","6 + -6","5 + -5","4 + -4","3 + -3","2 + -2","1 + -1" //positive first
+      "tap": ["-9 + 9","-8 + 8","-7 + 7","-6 + 6","-5 + 5","-4 + 4","-3 + 3","-2 + 2","-1 + 1",
+        "9 + -9","8 + -8","7 + -7","6 + -6","5 + -5","4 + -4","3 + -3","2 + -2","1 + -1"
       ],
-      "swipe": ["-9 + 1","-9 + 2","-9 + 3","-9 + 4","-9 + 5","-9 + 6","-9 + 7","-9 + 8","-8 + 1","-8 + 2","-8 + 3","-8 + 4","-8 + 5","-8 + 6","-8 + 7","-8 + 9","-7 + 1","-7 + 2","-7 + 3","-7 + 4","-7 + 5","-7 + 6","-7 + 8","-7 + 9","-6 + 1","-6 + 2","-6 + 3","-6 + 4","-6 + 5","-6 + 7","-6 + 8","-6 + 9","-5 + 1","-5 + 2","-5 + 3","-5 + 4","-5 + 6","-5 + 7","-5 + 8","-5 + 9","-4 + 1","-4 + 2","-4 + 3","-4 + 5","-4 + 6","-4 + 7","-4 + 8","-4 + 9","-3 + 1","-3 + 2","-3 + 4","-3 + 5","-3 + 6","-3 + 7","-3 + 8","-3 + 9","-2 + 1","-2 + 3","-2 + 4","-2 + 5","-2 + 6","-2 + 7","-2 + 8","-2 + 9","-1 + 2","-1 + 3","-1 + 4","-1 + 5","-1 + 6","-1 + 7","-1 + 8","-1 + 9", //negatives first
-        "1 + -9","2 + -9","3 + -9","4 + -9","5 + -9","6 + -9","7 + -9","8 + -9","1 + -8","2 + -8","3 + -8","4 + -8","5 + -8","6 + -8","7 + -8","9 + -8","1 + -7","2 + -7","3 + -7","4 + -7","5 + -7","6 + -7","8 + -7","9 + -7","1 + -6","2 + -6","3 + -6","4 + -6","5 + -6","7 + -6","8 + -6","9 + -6","1 + -5","2 + -5","3 + -5","4 + -5","6 + -5","7 + -5","8 + -5","9 + -5","1 + -4","2 + -4","3 + -4","5 + -4","6 + -4","7 + -4","8 + -4","9 + -4","1 + -3","2 + -3","4 + -3","5 + -3","6 + -3","7 + -3","8 + -3","9 + -3","1 + -2","3 + -2","4 + -2","5 + -2","6 + -2","7 + -2","8 + -2","9 + -2","2 + -1","3 + -1","4 + -1","5 + -1","6 + -1","7 + -1","8 + -1","9 + -1" //positives first
+      "swipe": ["-9 + 1","-9 + 2","-9 + 3","-9 + 4","-9 + 5","-9 + 6","-9 + 7","-9 + 8","-8 + 1","-8 + 2","-8 + 3","-8 + 4","-8 + 5","-8 + 6","-8 + 7","-8 + 9","-7 + 1","-7 + 2","-7 + 3","-7 + 4","-7 + 5","-7 + 6","-7 + 8","-7 + 9","-6 + 1","-6 + 2","-6 + 3","-6 + 4","-6 + 5","-6 + 7","-6 + 8","-6 + 9","-5 + 1","-5 + 2","-5 + 3","-5 + 4","-5 + 6","-5 + 7","-5 + 8","-5 + 9","-4 + 1","-4 + 2","-4 + 3","-4 + 5","-4 + 6","-4 + 7","-4 + 8","-4 + 9","-3 + 1","-3 + 2","-3 + 4","-3 + 5","-3 + 6","-3 + 7","-3 + 8","-3 + 9","-2 + 1","-2 + 3","-2 + 4","-2 + 5","-2 + 6","-2 + 7","-2 + 8","-2 + 9","-1 + 2","-1 + 3","-1 + 4","-1 + 5","-1 + 6","-1 + 7","-1 + 8","-1 + 9",
+        "1 + -9","2 + -9","3 + -9","4 + -9","5 + -9","6 + -9","7 + -9","8 + -9","1 + -8","2 + -8","3 + -8","4 + -8","5 + -8","6 + -8","7 + -8","9 + -8","1 + -7","2 + -7","3 + -7","4 + -7","5 + -7","6 + -7","8 + -7","9 + -7","1 + -6","2 + -6","3 + -6","4 + -6","5 + -6","7 + -6","8 + -6","9 + -6","1 + -5","2 + -5","3 + -5","4 + -5","6 + -5","7 + -5","8 + -5","9 + -5","1 + -4","2 + -4","3 + -4","5 + -4","6 + -4","7 + -4","8 + -4","9 + -4","1 + -3","2 + -3","4 + -3","5 + -3","6 + -3","7 + -3","8 + -3","9 + -3","1 + -2","3 + -2","4 + -2","5 + -2","6 + -2","7 + -2","8 + -2","9 + -2","2 + -1","3 + -1","4 + -1","5 + -1","6 + -1","7 + -1","8 + -1","9 + -1"
       ],
       "ordered": false,
       "tags": ["mathematics","addition","subtraction"],
@@ -485,11 +586,11 @@
       "isGame": true,
       "title": "addition/subtraction 2",
       "instructions": "You will be shown some statements. Tap if the result is greater than 0. Else swipe.",
-      "tap": ["-8 + 9","-7 + 8","-7 + 9","-6 + 7","-6 + 8","-6 + 9","-5 + 6","-5 + 7","-5 + 8","-5 + 9","-4 + 5","-4 + 6","-4 + 7","-4 + 8","-4 + 9","-3 + 4","-3 + 5","-3 + 6","-3 + 7","-3 + 8","-3 + 9","-2 + 3","-2 + 4","-2 + 5","-2 + 6","-2 + 7","-2 + 8","-2 + 9","-1 + 2","-1 + 3","-1 + 4","-1 + 5","-1 + 6","-1 + 7","-1 + 8","-1 + 9", //negatives first
-        "9 + -8","8 + -7","9 + -7","7 + -6","8 + -6","9 + -6","6 + -5","7 + -5","8 + -5","9 + -5","5 + -4","6 + -4","7 + -4","8 + -4","9 + -4","4 + -3","5 + -3","6 + -3","7 + -3","8 + -3","9 + -3","3 + -2","4 + -2","5 + -2","6 + -2","7 + -2","8 + -2","9 + -2","2 + -1","3 + -1","4 + -1","5 + -1","6 + -1","7 + -1","8 + -1","9 + -1" //positives first
+      "tap": ["-8 + 9","-7 + 8","-7 + 9","-6 + 7","-6 + 8","-6 + 9","-5 + 6","-5 + 7","-5 + 8","-5 + 9","-4 + 5","-4 + 6","-4 + 7","-4 + 8","-4 + 9","-3 + 4","-3 + 5","-3 + 6","-3 + 7","-3 + 8","-3 + 9","-2 + 3","-2 + 4","-2 + 5","-2 + 6","-2 + 7","-2 + 8","-2 + 9","-1 + 2","-1 + 3","-1 + 4","-1 + 5","-1 + 6","-1 + 7","-1 + 8","-1 + 9",
+        "9 + -8","8 + -7","9 + -7","7 + -6","8 + -6","9 + -6","6 + -5","7 + -5","8 + -5","9 + -5","5 + -4","6 + -4","7 + -4","8 + -4","9 + -4","4 + -3","5 + -3","6 + -3","7 + -3","8 + -3","9 + -3","3 + -2","4 + -2","5 + -2","6 + -2","7 + -2","8 + -2","9 + -2","2 + -1","3 + -1","4 + -1","5 + -1","6 + -1","7 + -1","8 + -1","9 + -1"
       ],
-      "swipe": ["-9 + 1","-9 + 2","-9 + 3","-9 + 4","-9 + 5","-9 + 6","-9 + 7","-9 + 8","-8 + 1","-8 + 2","-8 + 3","-8 + 4","-8 + 5","-8 + 6","-8 + 7","-7 + 1","-7 + 2","-7 + 3","-7 + 4","-7 + 5","-7 + 6","-6 + 1","-6 + 2","-6 + 3","-6 + 4","-6 + 5","-5 + 1","-5 + 2","-5 + 3","-5 + 4","-4 + 1","-4 + 2","-4 + 3","-3 + 1","-3 + 2","-2 + 1", //negatives first
-        "1 + -9","2 + -9","3 + -9","4 + -9","5 + -9","6 + -9","7 + -9","8 + -9","1 + -8","2 + -8","3 + -8","4 + -8","5 + -8","6 + -8","7 + -8","1 + -7","2 + -7","3 + -7","4 + -7","5 + -7","6 + -7","1 + -6","2 + -6","3 + -6","4 + -6","5 + -6","1 + -5","2 + -5","3 + -5","4 + -5","1 + -4","2 + -4","3 + -4","1 + -3","2 + -3","1 + -2" //positives first
+      "swipe": ["-9 + 1","-9 + 2","-9 + 3","-9 + 4","-9 + 5","-9 + 6","-9 + 7","-9 + 8","-8 + 1","-8 + 2","-8 + 3","-8 + 4","-8 + 5","-8 + 6","-8 + 7","-7 + 1","-7 + 2","-7 + 3","-7 + 4","-7 + 5","-7 + 6","-6 + 1","-6 + 2","-6 + 3","-6 + 4","-6 + 5","-5 + 1","-5 + 2","-5 + 3","-5 + 4","-4 + 1","-4 + 2","-4 + 3","-3 + 1","-3 + 2","-2 + 1",
+        "1 + -9","2 + -9","3 + -9","4 + -9","5 + -9","6 + -9","7 + -9","8 + -9","1 + -8","2 + -8","3 + -8","4 + -8","5 + -8","6 + -8","7 + -8","1 + -7","2 + -7","3 + -7","4 + -7","5 + -7","6 + -7","1 + -6","2 + -6","3 + -6","4 + -6","5 + -6","1 + -5","2 + -5","3 + -5","4 + -5","1 + -4","2 + -4","3 + -4","1 + -3","2 + -3","1 + -2"
       ],
       "ordered": false,
       "tags": ["mathematics","addition","subtraction"],
@@ -1189,7 +1290,7 @@
                     "title": "The secret in education lies in respecting the student"
                   },
                   {
-                    "id": 100 //Random id just to place it in the middle. We had forgotten about this. This card only contains an image
+                    "id": 100
                   },
                   {
                     "id": 2,
@@ -1200,7 +1301,7 @@
                     "title": "When you judge someone based on a diagnosis, you miss out on their abilities, beauty, and uniqueness"
                   },
                   {
-                    "id": 4 //This card contains only an image
+                    "id": 4
                   },
                   {
                     "id": 5,
@@ -1208,10 +1309,6 @@
                     "textLine1": "If you have a well-trained mind then you can do your daily activities without any problem at all. This includes being Toilet Trained.",
                     "textLine2": "If you have a well-formed mind then you do exactly the best way to do everything for your own sake."
                   },
-               /*   {
-                    "id": 6,
-                    "title": "REACH OUT AND TOUCH SOMEONE  to overcome their sense of powerlessness"
-                  },  */
                   {
                     "id": 7,
                     "title": "They think different",
@@ -1228,17 +1325,6 @@
                     "textLine1": "If people want something to be wrong about you they are going to make things wrong about you.",
                     "textLine2": "That is why it is my belief to never try and prove anything to anyone."
                   },
-             /*     {
-                    "id": 10,
-                    "title": "There are some things money can’t buy",
-                    "textLine1": "Love",
-                    "textLine2": "Trust"
-                  },
-                  {
-                    "id": 11,
-                    "textLine1": "Empathy",
-                    "textLine2": "Time"
-                  },  */
                   {
                     "id": 12,
                     "title": "Revolution with imagination",
@@ -1275,7 +1361,7 @@
                     "title": "Learning Program"
                   },
                   {
-                    "id": 20 //This contains only an image
+                    "id": 20
                   },
                   {
                     "id": 21,

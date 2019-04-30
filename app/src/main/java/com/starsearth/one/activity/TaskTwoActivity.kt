@@ -78,6 +78,9 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     val expectedCharacter = expectedAnswer?.getOrNull(index)
                     expectedCharacter?.toString()?.let { tts?.speak(it, TextToSpeech.QUEUE_ADD, null, "1") }
                 }
+                else if (expectedAnswerAudioHint != null) {
+                    tts?.speak(expectedAnswerAudioHint, TextToSpeech.QUEUE_ADD, null, "1")
+                }
                 else {
                     tts?.speak(expectedAnswer, TextToSpeech.QUEUE_ADD, null, "1")
                 }
@@ -359,9 +362,16 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
         }
         else if (nextItem is TaskContent) {
+            expectedAnswer = nextItem.question
             expectedAnswerGesture = nextItem.isTrue
             expectedAnswerContentId = nextItem.id
-            tvMain?.text = nextItem.question
+            expectedAnswerAudioHint = nextItem.hintAudio
+            if (mTask.isTextVisibleOnStart) {
+                tvMain?.text = nextItem.question
+            }
+            else {
+                tvMain?.text = ""
+            }
             android.os.Handler().postDelayed({
                 //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
                 tvMain.announceForAccessibility(nextItem.question as String)
