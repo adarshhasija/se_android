@@ -15,6 +15,7 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -154,7 +155,8 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     private var wordsCorrect: Long = 0
     private var wordsTotalFinished: Long = 0
     private var wordIncorrect = false //This is used to show that 1 mistake has been made when typing a word
-    private var expectedAnswer: String? = null //for typing tasks
+    private var expectedAnswer: String? = null
+    private var expectedAnswerAudioHint: String? = null
 
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
@@ -354,25 +356,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             else {
                 tvMain?.announceForAccessibility(getString(R.string.double_tap_for_next_item))
                 tvMain?.text = ""
-            }
-        }
-        else if (nextItem is HashMap<*, *>) {
-            for ((key, gesture) in nextItem) {
-                expectedAnswerGesture = gesture as Boolean
-                expectedAnswerContentId = (key as? TaskContent)?.id ?: -1
-                val text =
-                        if (key is TaskContent) {
-                            key.question
-                        }
-                        else {
-                            key
-                        }
-                tvMain?.text = text as? String
-                android.os.Handler().postDelayed({
-                    //If it is the first content after activity open, give it a 1 second delay so that TalkBack can announce all other things
-                    tvMain.announceForAccessibility(text as String)
-                },
-                        1000)
             }
         }
         else if (nextItem is TaskContent) {

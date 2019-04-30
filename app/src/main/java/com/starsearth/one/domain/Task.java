@@ -226,26 +226,23 @@ public class Task extends SETeachingContent {
                 ret = content.get(i);
                 break;
             case TAP_SWIPE:
-                ret = new HashMap<>();
                 i = random.nextInt(2);
+                Object taskContent = null;
+                boolean isTrue = false;
                 if (i % 2 == 0 && tap.size() > 0) {
-                    Object tapObj = tap.get(random.nextInt(tap.size()));
-                    if (tapObj instanceof Map) {
-                        ((HashMap) ret).put(new TaskContent((HashMap<String, Object>) tapObj), true);
-                    }
-                    else {
-                        ((HashMap) ret).put((String) tapObj, true);
-                    }
-
+                    taskContent = tap.get(random.nextInt(tap.size()));
+                    isTrue = true;
                 }
                 else if (swipe.size() > 0) {
-                    Object swipeObj = swipe.get(random.nextInt(swipe.size()));
-                    if (swipeObj instanceof Map) {
-                        ((HashMap) ret).put(new TaskContent((HashMap<String, Object>) swipeObj), false);
-                    }
-                    else {
-                        ((HashMap) ret).put((String) swipeObj, false);
-                    }
+                    taskContent = swipe.get(random.nextInt(swipe.size()));
+                    isTrue = false;
+                }
+
+                if (taskContent instanceof String) {
+                    ret = new TaskContent((String) taskContent, isTrue);
+                }
+                else if (taskContent instanceof Map) {
+                    ret =  new TaskContent((HashMap<String, Object>) taskContent);
                 }
                 break;
             default:

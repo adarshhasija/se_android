@@ -18,6 +18,7 @@ public class TaskContent implements Parcelable {
 
     public int id;
     public String question;
+    public String hintAudio; //Audio details to help the user answer the question
     public boolean isTapSwipe;
     public boolean isTrue;
     public String explanation;
@@ -26,17 +27,15 @@ public class TaskContent implements Parcelable {
         super();
     }
 
-    public TaskContent(int id, String question, boolean isTapSwipe, boolean isTrue, String explanation) {
-        this.id = id;
+    public TaskContent(String question, boolean isTrue) {
         this.question = question;
-        this.isTapSwipe = isTapSwipe;
         this.isTrue = isTrue;
-        this.explanation = explanation;
     }
 
     public TaskContent(Map<String, Object> map) {
         this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : (int) map.get("id"); //If type is not specified, gson will take int as double
         this.question = map.containsKey("question") ? (String) map.get("question") : null;
+        this.hintAudio = map.containsKey("hintAudio") ? (String) map.get("hintAudio") : null;
         this.isTapSwipe = map.containsKey("isTapSwipe") ? (boolean) map.get("isTapSwipe") : false;
         this.isTrue = map.containsKey("isTrue") ? (boolean) map.get("isTrue") : false;
         this.explanation = map.containsKey("expectedAnswerExplanation") ? (String) map.get("expectedAnswerExplanation") : null;
@@ -46,6 +45,7 @@ public class TaskContent implements Parcelable {
     protected TaskContent(Parcel in) {
         id = in.readInt();
         question = in.readString();
+        hintAudio = in.readString();
         isTapSwipe = in.readByte() != 0;
         isTrue = in.readByte() != 0;
         explanation = in.readString();
@@ -55,6 +55,7 @@ public class TaskContent implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(question);
+        dest.writeString(hintAudio);
         dest.writeByte((byte) (isTapSwipe ? 1 : 0));
         dest.writeByte((byte) (isTrue ? 1 : 0));
         dest.writeString(explanation);
