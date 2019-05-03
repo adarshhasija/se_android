@@ -326,7 +326,68 @@
       "ordered": true,
       "title": "Months of the year",
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all 12 words to finish the exercise. Ensure your audio is not on mute for this activity.",
-      "content": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "content": [
+                  {
+                    "id": 1,
+                    "question": "January",
+                    "hintAudio": "January as in New Year is celebrated on January 1"
+                  },
+                  {
+                    "id": 2,
+                    "question": "February",
+                    "hintAudio": "February as in February is the shortest month of the year"
+                  },
+                  {
+                    "id": 3,
+                    "question": "March",
+                    "hintAudio": "March as in March is the third month of the year"
+                  },
+                  {
+                    "id": 4,
+                    "question": "April",
+                    "hintAudio": "April as in April is the fourth month of the year"
+                  },
+                  {
+                    "id": 5,
+                    "question": "May",
+                    "hintAudio": "May as in May is the fifth month of the year"
+                  },
+                  {
+                    "id": 6,
+                    "question": "June",
+                    "hintAudio": "June as in June is a very hot month"
+                  },
+                  {
+                    "id": 7,
+                    "question": "July",
+                    "hintAudio": "July as in July is the month of a big tennis tournament"
+                  },
+                  {
+                    "id": 8,
+                    "question": "August",
+                    "hintAudio": "August as in India's independence day is on 15th August"
+                  },
+                  {
+                    "id": 9,
+                    "question": "September",
+                    "hintAudio": "September as in September is the ninth month of the year"
+                  },
+                  {
+                    "id": 10,
+                    "question": "October",
+                    "hintAudio": "October as in October is the tenth month of the year"
+                  },
+                  {
+                    "id": 11,
+                    "question": "November",
+                    "hintAudio": "November as in November is the eleventh month of the year"
+                  },
+                  {
+                    "id": 12,
+                    "question": "December",
+                    "hintAudio": "December as in Christmas is celebrated on 25th December"
+                  }
+      ],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]
     },
@@ -339,7 +400,93 @@
       "ordered": true,
       "title": "Countries in Asia",
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
-      "content": ["India", "Pakistan", "Afghanistan", "Bangladesh", "Nepal", "Myanmar", "China", "Russia", "Japan", "North Korea", "South Korea", "Taiwan", "Hong Kong", "Maldives", "Indonesia", "Thailand", "Philippines"],
+      "content": [
+                  {
+                    "id": 1,
+                    "question": "India",
+                    "hintAudio": "India as in India is the largest democracy in the world"
+                  },
+                  {
+                    "id": 2,
+                    "question": "Pakistan",
+                    "hintAudio": "Pakistan as in Pakistan is a neightbour of India"
+                  },
+                  {
+                    "id": 3,
+                    "question": "Afghanistan",
+                    "hintAudio": "Afghanistan as in Afghanistan is a country that has seen lots of war for many years"
+                  },
+                  {
+                    "id": 4,
+                    "question": "Bangladesh",
+                    "hintAudio": "Bangladesh as in Bangladesh is a neighbouring of India"
+                  },
+                  {
+                    "id": 5,
+                    "question": "Nepal",
+                    "hintAudio": "Nepal as in Nepal is a small country just north of India"
+                  },
+                  {
+                    "id": 6,
+                    "question": "Myanmar",
+                    "hintAudio": "Myanmar as in Myanmar is a country that is close to Thailand"
+                  },
+                  {
+                    "id": 7,
+                    "question": "China",
+                    "hintAudio": "China as in China is a very big country in central Asia"
+                  },
+                  {
+                    "id": 8,
+                    "question": "Russia",
+                    "hintAudio": "Russia as in Russia was formerly known as the Soviet Union"
+                  },
+                  {
+                    "id": 9,
+                    "question": "Japan",
+                    "hintAudio": "Japan as in there is lots of nice technology in Japan"
+                  },
+                  {
+                    "id": 10,
+                    "question": "North Korea",
+                    "hintAudio": "North Korea as in many countries are not friends with North Korea"
+                  },
+                  {
+                    "id": 11,
+                    "question": "South Korea",
+                    "hintAudio": "South Korea as in South Korea is a neighbour of North Korea"
+                  },
+                  {
+                    "id": 12,
+                    "question": "Taiwan",
+                    "hintAudio": "Taiwan as in Taiwan is a small country that is close to China"
+                  },
+                  {
+                    "id": 13,
+                    "question": "Hong Kong",
+                    "hintAudio": "Hong Kong as in Hong Kong is a small island in South China"
+                  },
+                  {
+                    "id": 14,
+                    "question": "Maldives",
+                    "hintAudio": "Maldives as in Maldives is a nice place for holidays"
+                  },
+                  {
+                    "id": 15,
+                    "question": "Indonesia",
+                    "hintAudio": "Indonesia as in people like to go to Indonesia for shopping"
+                  },
+                  {
+                    "id": 16,
+                    "question": "Thailand",
+                    "hintAudio": "Thailand as in Thailand is a country with wonderful holiday destinations"
+                  },
+                  {
+                    "id": 17,
+                    "question": "Philippines",
+                    "hintAudio": "Philippines as in Philippines is a country in Southeast Asia"
+                  }
+      ],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]
     },
@@ -466,7 +613,108 @@
       "ordered": true,
       "title": "Major cities in the world",
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
-      "content": ["New Delhi", "Mumbai", "Bangalore", "Goa", "Ahmedebad", "Chennai", "Hyderabad", "Kolkata", "Jaipur", "Dhaka", "Colombo", "Kabul", "Beijing", "Shanghai", "Tokyo", "Seoul", "Moscow", "Manila", "Jakarta", "Bangkok", "Bali"],
+      "content": [
+                  {
+                    "id": 1,
+                    "question": "New Delhi",
+                    "hintAudio": "New Delhi as in New Delhi is the capital city of India"
+                  },
+                  {
+                    "id": 2,
+                    "question": "Mumbai",
+                    "hintAudio": "Mumbai as in Mumbai was formerly known as Bombay"
+                  },
+                  {
+                    "id": 3,
+                    "question": "Bangalore",
+                    "hintAudio": "Bangalore as in Bangalore is known as the garden city"
+                  },
+                  {
+                    "id": 4,
+                    "question": "Goa",
+                    "hintAudio": "Goa as in Goa is known as a nice holiday destination"
+                  },
+                  {
+                    "id": 5,
+                    "question": "Ahmedebad",
+                    "hintAudio": "Ahmedebad as in Ahmedebad is known as a nice place to live"
+                  },
+                  {
+                    "id": 6,
+                    "question": "Chennai",
+                    "hintAudio": "Chennai as in Chennai is a city in South India"
+                  },
+                  {
+                    "id": 7,
+                    "question": "Hyderabad",
+                    "hintAudio": "Hyderebad as in Hyderabad is a city in South India"
+                  },
+                  {
+                    "id": 8,
+                    "question": "Jaipur",
+                    "hintAudio": "Jaipur as in Jaipur is a popular tourist destination"
+                  },
+                  {
+                    "id": 9,
+                    "question": "Dhaka",
+                    "hintAudio": "Dhaka as in Dhaka is the capital city of Bangladesh"
+                  },
+                  {
+                    "id": 10,
+                    "question": "Colombo",
+                    "hintAudio": "Colombo as in Colombo is the capital city of Sri Lanka"
+                  },
+                  {
+                    "id": 11,
+                    "question": "Kabul",
+                    "hintAudio": "Kabul as in Kabul is the capital city of Afghanistan"
+                  },
+                  {
+                    "id": 12,
+                    "question": "Beijing",
+                    "hintAudio": "Beijing as in Beijing is the capital city of China"
+                  },
+                  {
+                    "id": 13,
+                    "question": "Shanghai",
+                    "hintAudio": "Shanghai as in Shanghai is a big city in China"
+                  },
+                  {
+                    "id": 14,
+                    "question": "Tokyo",
+                    "hintAudio": "Tokyo as in Tokyo is the capital city of Japan"
+                  },
+                  {
+                    "id": 15,
+                    "question": "Seoul",
+                    "hintAudio": "Seoul as in Seoul is the capital city of South Korea"
+                  },
+                  {
+                    "id": 16,
+                    "question": "Moscow",
+                    "hintAudio": "Moscow as in the capital city of Russia is Moscow"
+                  },
+                  {
+                    "id": 17,
+                    "question": "Manila",
+                    "hintAudio": "Manila as in Manila is the capital city of Phillippines"
+                  },
+                  {
+                    "id": 18,
+                    "question": "Jakarta",
+                    "hintAudio": "Jakarta as in Jakarta is the capital city of Indonesia"
+                  },
+                  {
+                    "id": 19,
+                    "question": "Bangkok",
+                    "hintAudio": "Bangkok as in Bangkok is the capital city of Thailand"
+                  },
+                  {
+                    "id": 20,
+                    "question": "Bali",
+                    "hintAudio": "Bali as in Bali is known as a famous holiday destination"
+                  }
+      ],
       "isKeyboardRequired": true,
       "tags": ["english", "spelling"]
     },
