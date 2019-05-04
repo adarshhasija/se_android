@@ -37,7 +37,7 @@
             android:visibility="gone" />
         <!-- RESULT GESTURES: END -->
 
-        <!-- RESULT TYPING: START -->
+        <!-- RESULT SEE_AND_TYPE: START -->
         <TextView
             android:id="@+id/tv_typing_speed"
             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:visibility="gone" />
-        <!-- RESULT TYPING: END -->
+        <!-- RESULT SEE_AND_TYPE: END -->
 
     </LinearLayout>
 

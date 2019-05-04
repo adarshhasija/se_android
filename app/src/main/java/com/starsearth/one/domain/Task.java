@@ -72,11 +72,11 @@ public class Task extends SETeachingContent {
     }
 
     public enum Type {
-        TYPING(1), //Typing out the characters on the screen
+        SEE_AND_TYPE(1), //Typing out the characters on the screen
         KEYBOARD_TEST(3),
         TAP_SWIPE(4),
-        DICTATION(5), //Blank screen. Type characters based on audio input
-        CAROUSEL(6) //Horizontal list of cards
+        HEAR_AND_TYPE(5), //Blank screen. Type characters based on audio input
+        SLIDES(6) //Horizontal list of cards
         ;
 
         private final long value;
@@ -94,7 +94,7 @@ public class Task extends SETeachingContent {
             String result = null;
             switch ((int) value) {
                 case 1:
-                    result = "Typing";
+                    result = "See and Type";
                     break;
                 case 3:
                     result = "Keyboard Test";
@@ -103,10 +103,10 @@ public class Task extends SETeachingContent {
                     result = "Tap and Swipe";
                     break;
                 case 5:
-                    result = "Dictation";
+                    result = "Hear and Type";
                     break;
                 case 6:
-                    result = "Carousel";
+                    result = "Slides";
                     break;
 
                     default: break;
@@ -221,8 +221,8 @@ public class Task extends SETeachingContent {
         Random random = new Random();
         int i;
         switch (this.type) {
-            case TYPING:
-            case DICTATION:
+            case SEE_AND_TYPE:
+            case HEAR_AND_TYPE:
                 i = random.nextInt(content.size());
                 taskContent = content.get(i);
                 if (taskContent instanceof  Map) {
@@ -261,8 +261,8 @@ public class Task extends SETeachingContent {
     public Object getNextItem(int index) {
         Object ret = null;
         switch (this.type) {
-            case TYPING:
-            case DICTATION:
+            case SEE_AND_TYPE:
+            case HEAR_AND_TYPE:
                 Object taskContent = content.get(index % content.size());
                 if (taskContent instanceof Map) {
                     ret = new TaskContent((HashMap<String, Object>) taskContent);
@@ -417,7 +417,7 @@ public class Task extends SETeachingContent {
      */
     public ResponseViewType getHighestResponseViewType() {
         ResponseViewType responseViewType = null;
-        if (type == Type.TYPING) {
+        if (type == Type.SEE_AND_TYPE) {
             responseViewType = ResponseViewType.CHARACTER;
             for (Object item : content) {
                 String question = "";
@@ -518,7 +518,7 @@ public class Task extends SETeachingContent {
 
     /*
         This should only be called for tasks where a response tree applies
-        eg: TYPING
+        eg: SEE_AND_TYPE
      */
     public ResponseTreeNode getTreeForResponses(List<Response> responses, int startIndex, String question) {
         ResponseTreeNode responseTreeNode;

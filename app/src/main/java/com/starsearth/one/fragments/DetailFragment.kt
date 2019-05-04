@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,7 +100,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                             continue
                         }
                     }
-                    if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.TYPING) {
+                    if ((mTeachingContent as? Course)?.getTaskById(newResult.task_id)?.type == Task.Type.SEE_AND_TYPE) {
                         newResult = ResultTyping(value)
                     }
                     addResultToQueue(newResult)
@@ -373,7 +372,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         val resultMap : HashMap<String, Any> = bundle.getSerializable("result_map") as HashMap<String, Any>
         val type = Task.Type.fromInt((resultMap["taskTypeLong"] as Long)) //Task.Type.fromInt(bundle.getLong("taskTypeLong"))
         val result =
-                if (type == Task.Type.TYPING) {
+                if (type == Task.Type.SEE_AND_TYPE) {
                     firebase.writeNewResultTyping(resultMap)
                 } else {
                     firebase.writeNewResult(resultMap)

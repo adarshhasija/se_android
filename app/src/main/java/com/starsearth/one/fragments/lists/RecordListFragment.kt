@@ -56,7 +56,7 @@ class RecordListFragment : Fragment() {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
-                    if (adapter?.getTeachingContentType(newResult.task_id) == Task.Type.TYPING) {
+                    if (adapter?.getTeachingContentType(newResult.task_id) == Task.Type.SEE_AND_TYPE) {
                         newResult = ResultTyping(value)
                     }
                     results.add(newResult)

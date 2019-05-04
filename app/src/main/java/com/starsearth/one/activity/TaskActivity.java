@@ -64,7 +64,7 @@ public class TaskActivity extends AppCompatActivity {
 
     //gesture activity
     private boolean expectedAnswerGesture;
-    private long itemsAttempted =0;              //In TYPING, only used to see how many have been completed
+    private long itemsAttempted =0;              //In SEE_AND_TYPE, only used to see how many have been completed
     private long itemsCorrect =0;
     private boolean itemIncorrect = false;  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
     private int gestureSpamItemCounter=0;
@@ -198,7 +198,7 @@ public class TaskActivity extends AppCompatActivity {
 
             public void onFinish() {
                 timeTakenMillis = timeTakenMillis + 1000; //take the last second into consideration
-                if ((task.getType() == Task.Type.TYPING && charactersTotalAttempted == 0) ||
+                if ((task.getType() == Task.Type.SEE_AND_TYPE && charactersTotalAttempted == 0) ||
                         (task.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0)) {
                     taskCancelled(Task.NO_ATTEMPT);
                 }
@@ -433,7 +433,7 @@ public class TaskActivity extends AppCompatActivity {
                 else
                 {
                     // consider as something else - a screen tap for example
-                    if (task.type == Task.Type.TYPING || task.type == Task.Type.DICTATION) {
+                    if (task.type == Task.Type.SEE_AND_TYPE || task.type == Task.Type.HEAR_AND_TYPE) {
                         if (expectedAnswer != null) {
                             //On screen tap, announce the next expected character
                             //If text is not visible to user, use normal TTS
@@ -560,7 +560,7 @@ public class TaskActivity extends AppCompatActivity {
         wordIncorrect = false; //reset the flag for the next word
     }
 
-    //Only used in type = TYPING
+    //Only used in type = SEE_AND_TYPE
     private void checkItemCorrect() {
         if (!itemIncorrect) {
             //if NO characters in item were declared incorrect, increment the items correct count
@@ -606,7 +606,7 @@ public class TaskActivity extends AppCompatActivity {
      * Empty list not allowed
      */
     private void nextItem() {
-        if (task.type == Task.Type.TYPING || task.type == Task.Type.DICTATION) {
+        if (task.type == Task.Type.SEE_AND_TYPE || task.type == Task.Type.HEAR_AND_TYPE) {
             nextItemTyping();
         }
         else {

@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onDetailFragmentTapInteraction(task: Task) {
         //Only calling this here so that all interactions/transitions are in one place
-        if (task.type == Task.Type.CAROUSEL) {
+        if (task.type == Task.Type.SLIDES) {
             val autismStoryFragment = AutismStoryFragment.newInstance(task)
             openFragment(autismStoryFragment, AutismStoryFragment.TAG)
         }

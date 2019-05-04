@@ -50,7 +50,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
         (teachingContent as? Task)?.let {
             val type = it.type.toString()
             val extendedType =
-                    if (it.type == Task.Type.TYPING) {
+                    if (it.type == Task.Type.SEE_AND_TYPE) {
                         " - " + it.highestResponseViewType.toString().toLowerCase().capitalize()
                     }
                     else if (!it.subType.isNullOrBlank()) {

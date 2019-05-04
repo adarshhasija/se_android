@@ -51,7 +51,7 @@ class ResultListFragment : Fragment() {
                     if (mTask.id != newResult.task_id) {
                         continue
                     }
-                    if (mTask.type == Task.Type.TYPING) {
+                    if (mTask.type == Task.Type.SEE_AND_TYPE) {
                         newResult = ResultTyping(value)
                     }
                     results.add(newResult)

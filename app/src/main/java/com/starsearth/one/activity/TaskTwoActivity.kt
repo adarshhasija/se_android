@@ -15,7 +15,6 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -74,7 +73,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             val mgr = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             val volume = mgr.getStreamVolume(AudioManager.STREAM_SYSTEM)
             if (volume > 0) {
-                if (mTask.type == Task.Type.TYPING) {
+                if (mTask.type == Task.Type.SEE_AND_TYPE) {
                     val expectedCharacter = expectedAnswer?.getOrNull(index)
                     expectedCharacter?.toString()?.let { tts?.speak(it, TextToSpeech.QUEUE_ADD, null, "1") }
                 }
@@ -164,7 +163,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
     private var expectedAnswerContentId: Int = -1
-    private var itemsAttempted: Long = 0              //In TYPING, only used to see how many have been completed
+    private var itemsAttempted: Long = 0              //In SEE_AND_TYPE, only used to see how many have been completed
     private var itemsCorrect: Long = 0
     private var itemIncorrect = false  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
     private var gestureSpamItemCounter = 0
@@ -269,7 +268,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
             override fun onFinish() {
                 timeTakenMillis = timeTakenMillis + 1000 //take the last second into consideration
-                if (mTask.getType() == Task.Type.TYPING && charactersTotalAttempted == 0L || mTask.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0L) {
+                if (mTask.getType() == Task.Type.SEE_AND_TYPE && charactersTotalAttempted == 0L || mTask.getType() == Task.Type.TAP_SWIPE && itemsAttempted == 0L) {
                     taskCancelled(Task.NO_ATTEMPT)
                 } else {
                     taskCompleted()
@@ -468,7 +467,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         wordIncorrect = false //reset the flag for the next word
     }
 
-    //Only used in type = TYPING
+    //Only used in type = SEE_AND_TYPE
     private fun checkItemCorrect() {
         if (!itemIncorrect) {
             //if NO characters in item were declared incorrect, increment the items correct count
@@ -539,7 +538,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     return super.onKeyDown(keyCode, event)
                 }
             KeyEvent.KEYCODE_ENTER ->
-                if (mTask.type == Task.Type.DICTATION) {
+                if (mTask.type == Task.Type.HEAR_AND_TYPE) {
                     itemsAttempted++
                     if (mTask.ordered) {
                         tvCompletedTotal.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
@@ -551,10 +550,10 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         responses.add(Response(QUESTION_SPELL_IGNORE_CASE,expectedAnswer,it,isCorrect))
 
                         //For spelling tasks we only submit on return tapped
-                        if (mTask.type == Task.Type.DICTATION && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        if (mTask.type == Task.Type.HEAR_AND_TYPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                             taskCompleted()
                         }
-                        else if (mTask.type == Task.Type.DICTATION && !mTask.timed && !mTask.isTaskItemsCompleted(itemsAttempted)) {
+                        else if (mTask.type == Task.Type.HEAR_AND_TYPE && !mTask.timed && !mTask.isTaskItemsCompleted(itemsAttempted)) {
                             updateContent()
                         }
                     }
@@ -577,10 +576,10 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     }
                 }
                 val expectedCharacter = expectedAnswer?.getOrNull(index)
-                if (mTask.type == Task.Type.DICTATION) {
+                if (mTask.type == Task.Type.HEAR_AND_TYPE) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
                 }
-                else if (mTask.type == Task.Type.TYPING) {
+                else if (mTask.type == Task.Type.SEE_AND_TYPE) {
                     val isCorrect = inputCharacter == expectedCharacter
                     if (isCorrect) {
                         charactersCorrect++
@@ -665,7 +664,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 }
 
                 //Check if we have reached the end of a word
-                if (mTask.type == Task.Type.TYPING && hasReachedEndOfWord(inputCharacter)) {
+                if (mTask.type == Task.Type.SEE_AND_TYPE && hasReachedEndOfWord(inputCharacter)) {
                     //only consider this when submit on enter is not selected
                     wordsTotalFinished++ //on spacebar, or on end of string, we have completed a word
                     checkWordCorrect()
@@ -675,7 +674,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         }
 
         //Reached the last character in the the expected answer
-        if (mTask.type == Task.Type.TYPING && index == expectedAnswer?.length?.minus(1)) {
+        if (mTask.type == Task.Type.SEE_AND_TYPE && index == expectedAnswer?.length?.minus(1)) {
             itemsAttempted++
             checkItemCorrect()
             if (!mTask.timed) {
@@ -686,7 +685,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         //Prepare for next item
         index++
 
-        if (mTask.type == Task.Type.TYPING && mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
+        if (mTask.type == Task.Type.SEE_AND_TYPE && mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
             //If we have not yet reached the end and the text is visible to the user
             //announce next character for accessibility, index has been incremented
             //do it only if text is visible on start
@@ -703,13 +702,13 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
         android.os.Handler().postDelayed({
                     //One millis delay so user can see the result of last letter before sentence changes
-                    if (mTask.type == Task.Type.TYPING && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
+                    if (mTask.type == Task.Type.SEE_AND_TYPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                         taskCompleted()
                     }
                     else if (mTask.type == Task.Type.TAP_SWIPE && !mTask.timed && mTask.isTaskItemsCompleted(itemsAttempted)) {
                         taskCompleted()
                     }
-                    else if (mTask.type == Task.Type.TYPING && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
+                    else if (mTask.type == Task.Type.SEE_AND_TYPE && !mTask.submitOnReturnTapped && index == expectedAnswer?.length) {
                         updateContent()
                     }
                     else if (mTask.type == Task.Type.TAP_SWIPE) {
