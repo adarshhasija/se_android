@@ -125,13 +125,17 @@ public class AssetsFileManager {
                 }
             }
         }
-        if (tagList.indexOf("mathematics") > -1) {
-            tagList.remove(tagList.indexOf("mathematics"));
-            tagList.add(0, "mathematics");
+        if (tagList.indexOf(SETeachingContent.TAGS.MATHEMATICS.toString()) > -1) {
+            tagList.remove(tagList.indexOf(SETeachingContent.TAGS.MATHEMATICS.toString()));
+            tagList.add(0, SETeachingContent.TAGS.MATHEMATICS.toString());
         }
-        if (tagList.indexOf("english") > -1) {
-            tagList.remove(tagList.indexOf("english"));
-            tagList.add(0, "english");
+        if (tagList.indexOf(SETeachingContent.TAGS.TYPING.toString()) > -1) {
+            tagList.remove(tagList.indexOf(SETeachingContent.TAGS.TYPING.toString()));
+            tagList.add(0, SETeachingContent.TAGS.TYPING.toString());
+        }
+        if (tagList.indexOf(SETeachingContent.TAGS.ENGLISH.toString()) > -1) {
+            tagList.remove(tagList.indexOf(SETeachingContent.TAGS.ENGLISH.toString()));
+            tagList.add(0, SETeachingContent.TAGS.ENGLISH.toString());
         }
         return tagList;
     }
@@ -292,10 +296,10 @@ public class AssetsFileManager {
         try {
 
             JSONObject root = new JSONObject(loadJSONFromAsset(context));
-            JSONArray coursesJSON = root.getJSONArray("courses");
             JSONArray tasksJSON = root.getJSONArray("tasks");
-            teachingContentList.addAll(getCourses(coursesJSON));
+            JSONArray coursesJSON = root.getJSONArray("courses");
             teachingContentList.addAll(getTasks(tasksJSON));
+            teachingContentList.addAll(getCourses(coursesJSON));
             //long highestId = getHighestId(teachingContentList);
             //boolean b = areIdsUnique(teachingContentList);
         } catch (JSONException e) {

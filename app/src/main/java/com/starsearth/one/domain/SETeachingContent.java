@@ -28,6 +28,23 @@ public class SETeachingContent implements Parcelable {
     public long timestamp;
     public List<String> tags = new ArrayList<>();
 
+    public enum TAGS {
+        ENGLISH("english"),
+        MATHEMATICS("mathematics"),
+        TYPING("typing");
+
+        private String value;
+
+        TAGS(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value.toLowerCase();
+        }
+    }
+
     public SETeachingContent() {
 
     }
