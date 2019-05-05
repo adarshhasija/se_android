@@ -2,17 +2,16 @@ package com.starsearth.one.fragments
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,7 +21,6 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
 import com.starsearth.one.listeners.SeOnTouchListener
-import kotlinx.android.synthetic.main.activity_task_two.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -293,20 +291,20 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         If the user has just submitted their first result, animate the Long press label to show that it is an option
         This does not work yet as tvLongPressForMoreOptions is null. Fragment not yet visible
      */
-    private fun flashLongPressReminder() {
+    private fun animateLongPressReminder() {
         //TODO: tvLongPressForMoreOptions is null
-        tvLongPressForMoreOptions?.alpha = 0f
-        tvLongPressForMoreOptions?.visibility = View.VISIBLE
-        tvLongPressForMoreOptions?.setTextColor(Color.RED)
+        val startSize = 18f; // Size in pixels
+        val endSize = 30f;
+        val animationDuration : Long = 2000; // Animation duration in ms
 
-        tvLongPressForMoreOptions?.animate()
-                ?.alpha(1f)
-                ?.setDuration(2000)
-                ?.setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        tvLongPressForMoreOptions?.setTextColor(Color.BLACK)
-                    }
-                })
+        val animator = ValueAnimator.ofFloat(endSize, startSize)
+        animator.setDuration(animationDuration)
+
+        animator.addUpdateListener {
+            val animatedValue : Float = it.animatedValue as Float
+            tvLongPressForMoreOptions?.textSize = animatedValue
+        }
+        animator.start()
     }
 
     fun getContentDescriptionForAccessibility() : String {
@@ -444,7 +442,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     fun lastTriedFragmentClosed() {
         if (mTeachingContent is Task && mResults.size == 1) {
             //It is the first result for the task
-            flashLongPressReminder()
+            animateLongPressReminder()
         }
     }
 
