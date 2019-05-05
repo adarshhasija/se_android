@@ -31,7 +31,9 @@ public class SETeachingContent implements Parcelable {
     public enum TAGS {
         ENGLISH("english"),
         MATHEMATICS("mathematics"),
-        TYPING("typing");
+        TYPING("typing"),
+        SPELLING("spelling")
+        ;
 
         private String value;
 

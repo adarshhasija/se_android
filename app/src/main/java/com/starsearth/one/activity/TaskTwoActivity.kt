@@ -15,6 +15,7 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -575,11 +576,14 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                         tvMain?.announceForAccessibility(Character.toString(inputCharacter))
                     }
                 }
-                val expectedCharacter = expectedAnswer?.getOrNull(index)
                 if (mTask.type == Task.Type.HEAR_AND_TYPE) {
                     tvMain?.text = tvMain?.text?.toString() + inputCharacter
                 }
                 else if (mTask.type == Task.Type.SEE_AND_TYPE) {
+                    val expectedCharacter = expectedAnswer?.getOrNull(index)
+                    if (expectedCharacter == null) {
+                        return super.onKeyDown(keyCode, event) //Exit the flow.
+                    }
                     val isCorrect = inputCharacter == expectedCharacter
                     if (isCorrect) {
                         charactersCorrect++
@@ -607,6 +611,32 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                             }
                     )
                     tvMain?.setText(spannableString, TextView.BufferType.SPANNABLE)
+
+                    //Reached the last character in the the expected answer
+                    if (index == expectedAnswer?.length?.minus(1)) {
+                        itemsAttempted++
+                        checkItemCorrect()
+                        if (!mTask.timed) {
+                            tvCompletedTotal?.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
+                        }
+                    }
+
+                    //Prepare for next item
+                    index++
+
+                    if (mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
+                        //If we have not yet reached the end and the text is visible to the user
+                        //announce next character for accessibility, index has been incremented
+                        //do it only if text is visible on start
+                        val nextExpectedCharacter = expectedAnswer?.getOrNull(index)
+                        if (nextExpectedCharacter == ' ') {
+                            tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.space))
+                        } else if (nextExpectedCharacter == '.') {
+                            tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.full_stop))
+                        } else {
+                            tvMain.announceForAccessibility(getString(R.string.next_character) + " " + nextExpectedCharacter.toString())
+                        }
+                    }
                 }
                 else if (mTask.type == Task.Type.TAP_SWIPE) {
                     if (inputCharacter?.equals('y', ignoreCase = true) == true) {
@@ -671,32 +701,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                 }
             }
 
-        }
-
-        //Reached the last character in the the expected answer
-        if (mTask.type == Task.Type.SEE_AND_TYPE && index == expectedAnswer?.length?.minus(1)) {
-            itemsAttempted++
-            checkItemCorrect()
-            if (!mTask.timed) {
-                tvCompletedTotal?.text = (itemsAttempted + 1).toString() + "/" + mTask.content.size
-            }
-        }
-
-        //Prepare for next item
-        index++
-
-        if (mTask.type == Task.Type.SEE_AND_TYPE && mTask.isTextVisibleOnStart && index < expectedAnswer?.length!!) {
-            //If we have not yet reached the end and the text is visible to the user
-            //announce next character for accessibility, index has been incremented
-            //do it only if text is visible on start
-            val nextExpectedCharacter = expectedAnswer?.getOrNull(index)
-            if (nextExpectedCharacter == ' ') {
-                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.space))
-            } else if (nextExpectedCharacter == '.') {
-                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + getString(R.string.full_stop))
-            } else {
-                tvMain.announceForAccessibility(getString(R.string.next_character) + " " + nextExpectedCharacter.toString())
-            }
         }
 
 

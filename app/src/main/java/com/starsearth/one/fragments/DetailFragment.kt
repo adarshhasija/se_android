@@ -1,10 +1,14 @@
 package com.starsearth.one.fragments
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +22,7 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
 import com.starsearth.one.listeners.SeOnTouchListener
+import kotlinx.android.synthetic.main.activity_task_two.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -236,7 +241,6 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     ""
                 }
 
-        val tv = tvInstruction
         var instructions =
                 if (mTeachingContent is Course && !(mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     //Get the instructions of next task
@@ -256,7 +260,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
             }
         }
-        (tv as TextView).text = instructions
+        tvInstruction?.text = instructions
 
         tvTapScreenToStart?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
@@ -283,6 +287,26 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }
 
         clTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
+    }
+
+    /*
+        If the user has just submitted their first result, animate the Long press label to show that it is an option
+        This does not work yet as tvLongPressForMoreOptions is null. Fragment not yet visible
+     */
+    private fun flashLongPressReminder() {
+        //TODO: tvLongPressForMoreOptions is null
+        tvLongPressForMoreOptions?.alpha = 0f
+        tvLongPressForMoreOptions?.visibility = View.VISIBLE
+        tvLongPressForMoreOptions?.setTextColor(Color.RED)
+
+        tvLongPressForMoreOptions?.animate()
+                ?.alpha(1f)
+                ?.setDuration(2000)
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        tvLongPressForMoreOptions?.setTextColor(Color.BLACK)
+                    }
+                })
     }
 
     fun getContentDescriptionForAccessibility() : String {
@@ -415,6 +439,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         //7. Show the results screen to the user
         mListener?.onDetailFragmentShowLastTried(mTeachingContent, result)
+    }
+
+    fun lastTriedFragmentClosed() {
+        if (mTeachingContent is Task && mResults.size == 1) {
+            //It is the first result for the task
+            flashLongPressReminder()
+        }
     }
 
     override fun onAttach(context: Context?) {

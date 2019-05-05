@@ -1,5 +1,47 @@
 {
   "tasks": [
+      {
+      "id": 58,
+      "type": 1,
+      "timed": false,
+      "title": "Practice Keyboard Home Row",
+      "instructions": "You will be shown the keys of the keyboard home row. Type them as fast as you can and see how many you got right.",
+      "content": ["fj","fjk","fjkl","fjkl;","fjkl;a","fjkl;as","fjkl;asd","fjkl;asdf","fg","asdfg","sdfg","dfg","jh",";lkjh","lkjh","kjh","asdfghjkl;"],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "tags": ["typing"]
+    },
+    {
+      "id": 59,
+      "type": 1,
+      "timed": false,
+      "title": "Practice Keyboard Top Row",
+      "instructions": "You will be shown the keys of the keyboard top row. Type them as fast as you can and see how many you got right.",
+      "content": ["qwert","yuiop","qwertyuiop"],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "tags": ["typing"]
+    },
+    {
+      "id": 60,
+      "type": 1,
+      "timed": false,
+      "title": "Practice Keyboard Bottom Row",
+      "instructions": "You will be shown the keys of the keyboard bottom row. Type them as fast as you can and see how many you got right.",
+      "content": ["zxcv","nm,.","zxcvb","zxcvbnm,."],
+      "ordered": true,
+      "isPassFail": false,
+      "showUserAnswerWithBackground": true,
+      "isBackspaceAllowed": false,
+      "isKeyboardRequired": true,
+      "tags": ["typing"]
+    },
     {
       "id": 12,
       "visible": false,
@@ -1039,48 +1081,7 @@
       "tags": ["english"],
       "isExitOnInterruption": true
     },
-    {
-      "id": 58,
-      "type": 1,
-      "timed": false,
-      "title": "Practice Keyboard Home Row",
-      "instructions": "You will be shown the keys of the keyboard home row. Type them as fast as you can and see how many you got right.",
-      "content": ["fj","fjk","fjkl","fjkl;","fjkl;a","fjkl;as","fjkl;asd","fjkl;asdf","fg","asdfg","sdfg","dfg","jh",";lkjh","lkjh","kjh","asdfghjkl;"],
-      "ordered": true,
-      "isPassFail": false,
-      "showUserAnswerWithBackground": true,
-      "isBackspaceAllowed": false,
-      "isKeyboardRequired": true,
-      "tags": ["typing"]
-    },
-    {
-      "id": 59,
-      "type": 1,
-      "timed": false,
-      "title": "Practice Keyboard Top Row",
-      "instructions": "You will be shown the keys of the keyboard top row. Type them as fast as you can and see how many you got right.",
-      "content": ["qwert","yuiop","qwertyuiop"],
-      "ordered": true,
-      "isPassFail": false,
-      "showUserAnswerWithBackground": true,
-      "isBackspaceAllowed": false,
-      "isKeyboardRequired": true,
-      "tags": ["typing"]
-    },
-    {
-      "id": 60,
-      "type": 1,
-      "timed": false,
-      "title": "Practice Keyboard Bottom Row",
-      "instructions": "You will be shown the keys of the keyboard bottom row. Type them as fast as you can and see how many you got right.",
-      "content": ["zxcv","nm,.","zxcvb","zxcvbnm,."],
-      "ordered": true,
-      "isPassFail": false,
-      "showUserAnswerWithBackground": true,
-      "isBackspaceAllowed": false,
-      "isKeyboardRequired": true,
-      "tags": ["typing"]
-    },
+
     {
       "id": 61,
       "type": 1,
@@ -1095,7 +1096,7 @@
       "showUserAnswerWithBackground": true,
       "isBackspaceAllowed": false,
       "isKeyboardRequired": true,
-      "tags": ["typing"]
+      "tags": ["typing", "english", "spelling"]
     },
     {
       "visible": true,

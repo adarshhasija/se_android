@@ -133,6 +133,10 @@ public class AssetsFileManager {
             tagList.remove(tagList.indexOf(SETeachingContent.TAGS.TYPING.toString()));
             tagList.add(0, SETeachingContent.TAGS.TYPING.toString());
         }
+        if (tagList.indexOf(SETeachingContent.TAGS.SPELLING.toString()) > -1) {
+            tagList.remove(tagList.indexOf(SETeachingContent.TAGS.SPELLING.toString()));
+            tagList.add(0, SETeachingContent.TAGS.SPELLING.toString());
+        }
         if (tagList.indexOf(SETeachingContent.TAGS.ENGLISH.toString()) > -1) {
             tagList.remove(tagList.indexOf(SETeachingContent.TAGS.ENGLISH.toString()));
             tagList.add(0, SETeachingContent.TAGS.ENGLISH.toString());
