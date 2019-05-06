@@ -196,7 +196,8 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         tts = TextToSpeech(this, null)
         tts.setLanguage(Locale.US)
 
-        if (mTask.isKeyboardRequired) {
+        //If isKeyboardRequred flag has been missed, can also judge from the type
+        if (mTask.isKeyboardRequired || mTask.type == Task.Type.SEE_AND_TYPE || mTask.type == Task.Type.HEAR_AND_TYPE) {
             cl.postDelayed({
                 cl?.requestFocus()
                 val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -34,7 +34,6 @@ class LastTriedFragment : Fragment() {
     private var mResult: Any? = null
     private var mTitle: String? = null      //Error or Checkpoint
     private var mMessage: String? = null    //Error message or Checkpoint message
-    private var mListener: LastTriedFragment.OnLastTriedFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,21 +43,6 @@ class LastTriedFragment : Fragment() {
             mTitle = it.getString(ARG_PARAM3)
             mMessage = it.getString(ARG_PARAM4)
         }
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is LastTriedFragment.OnLastTriedFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement OnLastTriedFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mListener?.lastTriedFragmentClosed()
-        mListener = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -200,10 +184,6 @@ class LastTriedFragment : Fragment() {
                     ((result as Result).items_correct).toString()
                 }
 
-    }
-
-    interface OnLastTriedFragmentInteractionListener {
-        fun lastTriedFragmentClosed()
     }
 
 

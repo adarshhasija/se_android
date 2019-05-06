@@ -1,7 +1,5 @@
 package com.starsearth.one.fragments
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
@@ -9,6 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +58,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     // TODO: Rename and change types of parameters
     private var mTeachingContent: SETeachingContent? = null
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
+    private var mFirstResult: Result? = null //This is used for animating the long press label
 
     private var mListener: OnDetailFragmentInteractionListener? = null
     private var mDatabase : DatabaseReference? = null
@@ -163,6 +163,11 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         clTask?.setOnTouchListener(SeOnTouchListener(this@DetailFragment))
         updateUI() //This must remain uncommented. UI should be visible even if no results are available
+
+        if (mFirstResult != null) {
+            mFirstResult = null
+            animateLongPressReminder()
+        }
     }
 
     /*
@@ -292,10 +297,10 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         This does not work yet as tvLongPressForMoreOptions is null. Fragment not yet visible
      */
     private fun animateLongPressReminder() {
-        //TODO: tvLongPressForMoreOptions is null
-        val startSize = 18f; // Size in pixels
-        val endSize = 30f;
+        val startSize = 18f // Size in pixels
+        val endSize = 30f
         val animationDuration : Long = 2000; // Animation duration in ms
+
 
         val animator = ValueAnimator.ofFloat(endSize, startSize)
         animator.setDuration(animationDuration)
@@ -437,12 +442,10 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         //7. Show the results screen to the user
         mListener?.onDetailFragmentShowLastTried(mTeachingContent, result)
-    }
 
-    fun lastTriedFragmentClosed() {
-        if (mTeachingContent is Task && mResults.size == 1) {
-            //It is the first result for the task
-            animateLongPressReminder()
+        //8. If this is the first time the task was attempted, set mFirstResult. Has to be set here as addResultToQueue is called from multiple places
+        if (mResults.size == 1) {
+            mFirstResult = result
         }
     }
 

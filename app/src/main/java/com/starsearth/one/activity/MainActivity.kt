@@ -34,18 +34,7 @@ class MainActivity : AppCompatActivity(),
         CourseDescriptionFragment.OnFragmentInteractionListener,
         AnswerExplanationFragment.OnFragmentInteractionListener,
         AutismStoryFragment.OnListFragmentInteractionListener,
-        LastTriedFragment.OnLastTriedFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
-
-    override fun lastTriedFragmentClosed() {
-        val index = supportFragmentManager.backStackEntryCount - 1
-        val backStackEntry = supportFragmentManager.getBackStackEntryAt(index)
-        val tag = backStackEntry.name
-        val fragment = supportFragmentManager.findFragmentByTag(tag)
-        if (fragment is DetailFragment) {
-            (fragment as? DetailFragment)?.lastTriedFragmentClosed()
-        }
-    }
 
 
     override fun onAnswerExplanationFragmentInteraction() {
