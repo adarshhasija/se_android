@@ -69,10 +69,14 @@ public class StarsEarthApplication extends Application {
         mSeOneAccessibilityManager = new SeOneAccessibilityManager(getApplicationContext());
         mAdsManager = new AdsManager(getApplicationContext());
 
-        //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility");
+        //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility6");
         //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         //String key = mDatabase.push().getKey();
         //mDatabase.child("skills").child(key).setValue(skill);
+
+        //Educator educator = new Educator("+91", "8050389798", Educator.Type.AUTHORIZED);
+        //String keyEducator = mDatabase.push().getKey();
+        //mDatabase.child("educators").child(keyEducator).setValue(educator);
     }
 
     public String getRemoteConfigAnalytics() {
