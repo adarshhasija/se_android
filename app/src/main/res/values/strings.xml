@@ -344,6 +344,7 @@
     <string name="not_timed">Not Timed</string>
     <string name="volume_is_mute">Your volume is mute</string>
     <string name="all_results">All results</string>
+    <string name="educators_only">Educators Only</string>
     <string name="full_course">Full course</string>
     <string name="see_progress">See progress</string>
     <string name="repeat_tasks_you_passed">Repeat tasks you have passed</string>

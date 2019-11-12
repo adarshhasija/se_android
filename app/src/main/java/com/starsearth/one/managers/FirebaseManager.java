@@ -63,11 +63,6 @@ public class FirebaseManager {
         }
     }
 
-    public void writeNewUser(String uid, boolean courseAdmin, String email) {
-        User user = new User(uid, courseAdmin, email);
-        databaseReference.child(uid).setValue(user);
-    }
-
     //Returns key of the newly created course
     public String writeNewCourse(HashMap<String, Object> map) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -156,6 +151,11 @@ public class FirebaseManager {
     public Query getDatabaseQuery(String indexOn, String item) {
         //Query query = reference.orderByChild("item").equalTo(item);
         Query query = databaseReference.orderByChild(indexOn).equalTo(item);
+        return query;
+    }
+
+    public Query getQueryForUserObject(String uid) {
+        Query query = databaseReference.child(uid);
         return query;
     }
 

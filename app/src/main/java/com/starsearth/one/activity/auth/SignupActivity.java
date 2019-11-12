@@ -17,12 +17,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.R;
+import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.managers.FirebaseManager;
 
 public class SignupActivity extends AppCompatActivity {
-
-    private String USERS_REFERENCE = "users";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -50,8 +51,9 @@ public class SignupActivity extends AppCompatActivity {
                 FirebaseUser user = result.getUser();
                 if (user != null) {
                     if (mProgressBar != null) mProgressBar.setVisibility(View.GONE);
-                    FirebaseManager firebaseManager = new FirebaseManager(USERS_REFERENCE);
-                    firebaseManager.writeNewUser(user.getUid(), false, user.getEmail());
+                    ((StarsEarthApplication) getApplication()).getAnalyticsManager().updateUserAnalyticsInfo(user.getUid());
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("users").child(user.getUid()).child("se_one").setValue(true);
                     finish();
                 }
             }

@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Educator
 import com.starsearth.one.managers.FirebaseManager
@@ -46,20 +47,14 @@ class ProfileEducatorFragment : Fragment() {
 
     private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            Log.d(TAG, "***********LINE 1**************"+dataSnapshot)
             llPleaseWait?.visibility = View.GONE
             val map = dataSnapshot?.value
             if (map != null) {
-                Log.d(TAG, "********* MAP NOT NULL *****************")
                 for (entry in (map as HashMap<*, *>).entries) {
-                        Log.d(TAG, "*********INTO FOR ***************")
                         val key = entry.key as String
-                        Log.d(TAG, "***********GOT KEY*****************")
                         val value = entry.value as Map<String, Any>
-                        Log.d(TAG, "***********GOT VALUE")
                         mEducator = Educator(key, value)
                         mEducator?.let {
-                            Log.d(TAG, "***********EDUCATOR VALID*********"+it.type)
                             if (it.type == Educator.Type.AUTHORIZED) {
                                 changeText(getString(R.string.educator_authorized_msg))
                                 btnActivate?.visibility = View.VISIBLE
@@ -150,32 +145,9 @@ class ProfileEducatorFragment : Fragment() {
                                   llPleaseWait?.visibility = View.GONE
                                   btnActivate?.visibility = View.GONE
                                   changeText(getString(R.string.educator_active_msg))
+                                  (activity as? MainActivity)?.userPropertiesUpdated()
                               }
 
-                  /*    mDatabase.child("educators").child(it.uid).child("type").setValue(Educator.Type.ACTIVE)
-
-                              .addOnFailureListener {
-                          llPleaseWait?.visibility = View.GONE
-                          val builder = (activity?.application as StarsEarthApplication).createAlertDialog(mContext)
-                          builder?.setTitle(resources.getString(R.string.error))
-                          builder?.setMessage(resources.getString(R.string.something_went_wrong))
-                          builder?.setPositiveButton(resources.getString(android.R.string.ok)) { dialogInterface, i -> dialogInterface.dismiss() }
-                          builder?.show()
-                      }.addOnSuccessListener {
-                          llPleaseWait?.visibility = View.GONE
-                          btnActivate?.visibility = View.GONE
-                          tvStatus?.animate()
-                                  ?.alpha(0f)
-                                  ?.setDuration(1000)
-                                  ?.setListener(object : AnimatorListenerAdapter() {
-                                      override fun onAnimationEnd(animation: Animator) {
-                                          tvStatus?.setText(getString(R.string.educator_active_msg))
-                                          tvStatus?.animate()
-                                                  ?.alpha(1f)
-                                                  ?.setDuration(1000)
-                                      }
-                                  })
-                      } */
                   }
             }
 

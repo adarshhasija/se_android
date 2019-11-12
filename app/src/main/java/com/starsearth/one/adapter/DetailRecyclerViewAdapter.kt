@@ -15,6 +15,8 @@ import com.starsearth.one.fragments.lists.DetailListFragment
 
 import com.starsearth.one.fragments.lists.DetailListFragment.OnTaskDetailListFragmentListener
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -89,6 +91,13 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
                     }
                     true
                 }
+            }
+            //All
+            DetailListFragment.ListItem.CHANGE_TAGS -> {
+                holder.mHeading1.visibility = View.VISIBLE
+                holder.mHeading2.visibility = View.VISIBLE
+                holder.mHeading1.text = itemTitle.toString().toLowerCase(Locale.getDefault()).capitalize().replace("_", " ", true)
+                holder.mHeading2.text = context.resources.getString(R.string.educators_only)
             }
             else -> {
             }
