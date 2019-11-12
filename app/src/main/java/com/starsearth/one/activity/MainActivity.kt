@@ -3,6 +3,7 @@ package com.starsearth.one.activity
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -34,7 +35,12 @@ class MainActivity : AppCompatActivity(),
         CourseDescriptionFragment.OnFragmentInteractionListener,
         AnswerExplanationFragment.OnFragmentInteractionListener,
         AutismStoryFragment.OnListFragmentInteractionListener,
+        ProfileEducatorFragment.OnProfileEducatorFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onProfileEducatorFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     override fun onAnswerExplanationFragmentInteraction() {
@@ -247,6 +253,10 @@ class MainActivity : AppCompatActivity(),
         else if (type == SEOneListItem.Type.PHONE_NUMBER) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)
+        }
+        else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
+            val profileEducatorFragment = ProfileEducatorFragment.newInstance("","")
+            openFragment(profileEducatorFragment, ProfileEducatorFragment.TAG)
         }
         else if (type == SEOneListItem.Type.LOGOUT) {
             FirebaseAuth.getInstance().signOut();

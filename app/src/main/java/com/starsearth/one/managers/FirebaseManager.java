@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.google.common.base.Predicates.equalTo;
+
 /**
  * Created by faimac on 11/24/16.
  */
@@ -154,6 +156,11 @@ public class FirebaseManager {
     public Query getDatabaseQuery(String indexOn, String item) {
         //Query query = reference.orderByChild("item").equalTo(item);
         Query query = databaseReference.orderByChild(indexOn).equalTo(item);
+        return query;
+    }
+
+    public Query getQueryForEducatorsByPhoneNumber(String phoneNumber) {
+        Query query = databaseReference.orderByChild("phoneNumber").endAt(phoneNumber); //equalTo not working properly so using endAt
         return query;
     }
 

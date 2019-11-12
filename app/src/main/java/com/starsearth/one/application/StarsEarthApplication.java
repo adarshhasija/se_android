@@ -2,11 +2,14 @@ package com.starsearth.one.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.starsearth.one.domain.Educator;
 import com.starsearth.one.domain.SeOneAccessibilityManager;
 import com.starsearth.one.managers.AdsManager;
 import com.starsearth.one.managers.AnalyticsManager;
@@ -70,11 +73,11 @@ public class StarsEarthApplication extends Application {
         mAdsManager = new AdsManager(getApplicationContext());
 
         //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility6");
-        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         //String key = mDatabase.push().getKey();
         //mDatabase.child("skills").child(key).setValue(skill);
 
-        //Educator educator = new Educator("+91", "8050389798", Educator.Type.AUTHORIZED);
+        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        //Educator educator = new Educator("+91", "+918050389798", Educator.Type.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
     }
@@ -99,6 +102,12 @@ public class StarsEarthApplication extends Application {
             builder = new AlertDialog.Builder(context);
         }
         return builder;
+    }
+
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 }

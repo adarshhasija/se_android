@@ -69,7 +69,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/view_please_wait"
+        android:id="@+id/llPleaseWait"
         android:orientation="vertical"
         android:visibility="gone"
         android:layout_width="match_parent"

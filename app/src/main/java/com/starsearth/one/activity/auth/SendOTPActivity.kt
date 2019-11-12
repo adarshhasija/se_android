@@ -21,7 +21,6 @@ import android.widget.TextView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
 import android.widget.Toast
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.AuthResult
 import com.starsearth.one.R
@@ -121,7 +120,7 @@ class SendOTPActivity : AppCompatActivity() {
 
         mViewOTPTimer = findViewById<LinearLayout>(R.id.view_otp_timer) as LinearLayout
         mViewSendOTPAgain = findViewById<LinearLayout>(R.id.view_send_otp_again) as LinearLayout
-        mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
+        mViewPleaseWait = findViewById<LinearLayout>(R.id.llPleaseWait) as LinearLayout
 
         startCowntDownTimer()
     }

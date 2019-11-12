@@ -117,7 +117,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         })
 
-        mViewPleaseWait = findViewById<LinearLayout>(R.id.view_please_wait) as LinearLayout
+        mViewPleaseWait = findViewById<LinearLayout>(R.id.llPleaseWait) as LinearLayout
     }
 
     override fun onBackPressed() {

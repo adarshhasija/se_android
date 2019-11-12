@@ -1,70 +1,4 @@
 <resources>
-    <string name="app_name">One</string>
-    <string name="done">DONE</string>
-    <string name="submit">SUBMIT</string>
-    <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
-    <string name="continue_label">Continue</string>
-    <string name="alert">Alert</string>
-    <string name="true_">True</string>
-    <string name="false_">False</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="action_questions_feedback">Questions/Feedback</string>
-    <string name="message_questions_feedback">You can share you questions/feedback via our Google Play Store page. Would you like to do this?</string>
-    <string name="talk_by_typing">Talk by typing</string>
-
-    <string name="swipe_left_action">Tap button or swipe left\nTo start learning typing\n*------------------------|</string>
-    <string name="tap_here_to_start_activity">TAP HERE TO START ACTIVITY</string>
-    <string name="tap_screen_to_talk">Swipe up to ask questions</string>
-    <string name="long_press_to_repeat_response">Long press screen to repeat response</string>
-    <string name="long_press_to_cancel">Long press to cancel</string>
-    <string name="talk_prompt">Talk</string>
-    <string name="type_prompt">Start typing</string>
-    <string name="what_can_i_ask">What can I ask</string>
-    <string name="please_wait">Please wait</string>
-    <string name="error">Error</string>
-    <string name="no_internet">You do not have an internet connection</string>
-    <string name="no_items_to_displayay">No items to display</string>
-
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="no_user_found">No User Found</string>
-    <string name="login_signup_access_questions">You need to login or signup to do the questions</string>
-
-
-    <string name="starting_signup_please_wait">Starting signup please wait</string>
-    <string name="signup_failed">Signup failed: </string>
-
-    <!-- Typing Activity -->
-    <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
-    <string name="keyboard_removed">Keyboard has been removed</string>
-    <string name="press_any_key">Connect a usb keyboard and press any key to know if your keyboard works with this app.</string>
-    <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
-    <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
-    <string name="continue_to_login_screen">Continue to login screen</string>
-
-    <!-- Main SE Activity -->
-    <string name="main_menu">Main Menu</string>
-    <string name="se_assistant">StarsEarth Teacher</string>
-    <string name="se_assistant_tap_here_to_begin">Tap here to begin</string>
-    <string name="se_assistant_tap_here_to_continue">Tap here to continue</string>
-    <string name="se_assistant_keyboard_test_completed">Keyboard test completed</string>
-    <string name="complete">Complete</string>
-    <string name="congratulations">Congratulations</string>
-    <string name="course_complete">Course Complete</string>
-    <string name="se_assistant_no_update">No Update</string>
-    <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing task from the main menu</string>
-    <string name="se_assistant_welcome_message">I am the StarsEarth Teacher. I will help you use this app.\nTap screen to continue</string>
-    <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
-    <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
-    <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
-    <string name="view_all">View All</string>
     <array name="se_actions_list">
         <item>Courses</item>
         <item>My Records</item>
@@ -80,6 +14,74 @@
     <array name="se_user_god_mode">
         <item>Admin Access List</item>
     </array>
+    <string name="app_name">One</string>
+    <string name="done">DONE</string>
+    <string name="submit">SUBMIT</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="continue_label">Continue</string>
+
+    <string name="alert">Alert</string>
+    <string name="true_">True</string>
+
+    <string name="false_">False</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_questions_feedback">Questions/Feedback</string>
+    <string name="message_questions_feedback">You can share you questions/feedback via our Google Play Store page. Would you like to do this?</string>
+    <string name="talk_by_typing">Talk by typing</string>
+    <string name="swipe_left_action">Tap button or swipe left\nTo start learning typing\n*------------------------|</string>
+    <string name="tap_here_to_start_activity">TAP HERE TO START ACTIVITY</string>
+    <string name="tap_screen_to_talk">Swipe up to ask questions</string>
+    <string name="long_press_to_repeat_response">Long press screen to repeat response</string>
+    <string name="long_press_to_cancel">Long press to cancel</string>
+    <string name="talk_prompt">Talk</string>
+    <string name="type_prompt">Start typing</string>
+    <string name="what_can_i_ask">What can I ask</string>
+    <string name="please_wait">Please wait</string>
+
+    <string name="error">Error</string>
+    <string name="something_went_wrong">Sorry something went wrong. Please try again later</string>
+    <string name="no_internet">You do not have an internet connection</string>
+    <string name="no_items_to_displayay">No items to display</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+
+
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="no_user_found">No User Found</string>
+
+    <!-- Typing Activity -->
+    <string name="login_signup_access_questions">You need to login or signup to do the questions</string>
+    <string name="starting_signup_please_wait">Starting signup please wait</string>
+    <string name="signup_failed">Signup failed: </string>
+    <string name="prompt_connect_keyboard">Connect a keyboard to start</string>
+    <string name="keyboard_removed">Keyboard has been removed</string>
+    <string name="press_any_key">Connect a usb keyboard and press any key to know if your keyboard works with this app.</string>
+
+    <!-- Main SE Activity -->
+    <string name="keypad_reading_mode_enabled">Keypad reading mode is now enabled</string>
+    <string name="keypad_reading_mode_already_enabled">Keypad reading mode is already enabled</string>
+    <string name="continue_to_login_screen">Continue to login screen</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="se_assistant">StarsEarth Teacher</string>
+    <string name="se_assistant_tap_here_to_begin">Tap here to begin</string>
+    <string name="se_assistant_tap_here_to_continue">Tap here to continue</string>
+    <string name="se_assistant_keyboard_test_completed">Keyboard test completed</string>
+    <string name="complete">Complete</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="course_complete">Course Complete</string>
+    <string name="se_assistant_no_update">No Update</string>
+    <string name="se_assistant_typing_games_welcome">You may now proceed to play any typing task from the main menu</string>
+    <string name="se_assistant_welcome_message">I am the StarsEarth Teacher. I will help you use this app.\nTap screen to continue</string>
+    <string name="se_assistant_keyboard_test_introduction">First we will test to see if your USB keyboard works with this app. It is helpful to have a USB keyboard when learning typing.\nTap screen to continue</string>
+    <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
+    <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
+    <string name="view_all">View All</string>
+    <string name="educator_profile">Educator Profile</string>
     <string name="logout_successful">Logout Successful</string>
 
     <!-- Login screen -->
@@ -105,74 +107,67 @@
     <!-- Add course screen -->
     <string name="enter_edit_course_details">Enter/Edit Course Details</string>
     <string name="course_type">Course type</string>
-    <string-array name="course_type">
-        <item>Typing</item>
-    </string-array>
     <string name="course_difficulty">Course difficulty</string>
-    <string-array name="course_difficulty">
-        <item>Basic</item>
-        <item>Advanced</item>
-    </string-array>
     <string name="course_description">Course description</string>
     <string name="course_description_blank">You need to provide a course description</string>
-
-    <!--Lessons list screen -->
     <string name="course_details">Course Details</string>
     <string name="edit_course">Edit Course</string>
+
+    <!--Lessons list screen -->
     <string name="delete_course">Delete Course</string>
     <string name="add_lesson">Add Lesson</string>
     <string name="lessons">Lessons</string>
     <string name="delete_course_confirm_message">Are you sure you want to delete this course? All related information will also be deleted</string>
-
-    <!--Add lesson screen-->
     <string name="enter_edit_lesson_details">Enter/Edit Lesson Details</string>
     <string name="lesson_number">Lesson Number</string>
+
+    <!--Add lesson screen-->
     <string name="lesson_title">Lesson title</string>
     <string name="lesson_name_blank">You need to provide a lesson name</string>
-
-    <!--Topics list screen-->
     <string name="lesson_details">Lesson Details</string>
     <string name="edit_lesson">Edit Lesson</string>
+
+    <!--Topics list screen-->
     <string name="delete_lesson">Delete Lesson</string>
     <string name="add_topic">Add Topic</string>
     <string name="topics">Topics</string>
     <string name="delete_lesson_confirm_message">Are you sure you want to delete this lesson? All related information will also be deleted</string>
-
-    <!--Add topic screen-->
     <string name="enter_edit_topic_details">Enter/Edit Topic Details</string>
     <string name="topic_name">Topic name</string>
+
+    <!--Add topic screen-->
     <string name="topic_description">Topic description</string>
     <string name="topic_title_blank">You need to provide a topic title</string>
     <string name="topic_description_blank">You need to provide a topic description</string>
-
-    <!--Exercises list screen-->
     <string name="topic_details">Topic Details</string>
     <string name="edit_topic">Edit Topic</string>
+
+    <!--Exercises list screen-->
     <string name="delete_topic">Delete Topic</string>
     <string name="add_exercise">Add Exercise</string>
     <string name="exercises">EXERCISES</string>
     <string name="delete_topic_confirm_message">Are you sure you want to delete this topic? All related information will also be deleted</string>
-
-    <!--Add exercise screen-->
     <string name="enter_edit_exercise_details">Enter/Edit Exercise Details</string>
     <string name="exercise_title">Exercise title</string>
+
+    <!--Add exercise screen-->
     <string name="exercise_description">Exercise description</string>
     <string name="exercise_title_blank">You need to provide an exercise title</string>
     <string name="exercise_description_blank">You need to provide an exercise description</string>
-
-    <!--Questions list screen-->
     <string name="exercise_details">Exercise Details</string>
     <string name="edit_exercise">Edit Exercise</string>
+
+    <!--Questions list screen-->
     <string name="delete_exercise">Delete Exercise</string>
     <string name="add_question">Add Question</string>
     <string name="questions">QUESTIONS</string>
     <string name="delete_exercise_confirm_message">Are you sure you want to delete this exercise? All related information will also be deleted</string>
     <string name="delete_question">Delete Question</string>
     <string name="delete_question_confirm_message">Are you sure you want to delete this question?</string>
-
-    <!--Add question screen-->
     <string name="enter_edit_question_details">Enter/Edit Question Details</string>
     <string name="question">Question</string>
+
+    <!--Add question screen-->
     <string name="answer">Answer</string>
     <string name="hint">Hint</string>
     <string name="question_instruction">Instruction</string>
@@ -185,9 +180,9 @@
     <string name="question_answer_blank">You need to provide an answer to the question</string>
     <string name="question_feedback_correct_answer_hint">You need to provide feedback for the correct answer</string>
     <string name="question_feedback_wrong_answer_hint">You need to provide feedback for the wrong answer</string>
-
     <string name="no_exercises_go_back">No exercises, go back</string>
     <string name="title_activity_question">Question</string>
+
     <string name="current_password_hint">Current Password</string>
     <string name="new_password_hint">New Password</string>
     <string name="new_password_hint_repeat">Reenter new password</string>
@@ -220,45 +215,12 @@
     <string name="continue_as_guest">Continue as guest</string>
     <string name="usb_keyboard">You need to connect a USB keyboard to the phone to use this app</string>
     <string name="question_type">Question type</string>
-    <string-array name="question_types">
-        <item>Trial</item>
-        <item>Test</item>
-    </string-array>
     <string name="course_keyboard_required">USB Keyboard required</string>
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
     <string name="space_symbol">␣</string>
     <string name="full_stop">Full stop</string>
     <string name="help">Help</string>
-    <string-array name="typing_test_sentences">
-        <item>Roses are red</item>
-        <item>Mary had a little lamb</item>
-        <item>The sun is bright</item>
-        <item>The Earth is round</item>
-        <item>The cat looked out of the window</item>
-        <item>Mickey Mouse</item>
-        <item>Donald Duck</item>
-        <item>Tom and Jerry</item>
-        <item>Scooby Doo</item>
-        <item>The horse ran fast</item>
-        <item>The door was open</item>
-        <item>Dinosaurs were very big</item>
-        <item>The grass is green</item>
-        <item>The sky is blue</item>
-        <item>The spider spun a web</item>
-        <item>Birds fly in the air</item>
-        <item>Hare and the tortoise</item>
-        <item>The giraffe has a long neck</item>
-        <item>The lion roared</item>
-        <item>The dog barked</item>
-        <item>The fish swam in the sea</item>
-        <item>The tree has leaves</item>
-        <item>The train went very fast</item>
-        <item>Elephants have long trunks</item>
-        <item>Ants are very small</item>
-        <item>Jack and Jill</item>
-        <item>They went up the hill</item>
-    </string-array>
     <string name="first_prime_minister_of_india">The first Prime Minister of India was Jawaharlal Nehru</string>
     <string name="test_complete">Test Complete</string>
     <string name="alert_typing_game" formatted="false">%d words per minute</string>
@@ -280,11 +242,11 @@
     <string name="high_score">High Score</string>
     <string name="your_score">Your Score</string>
     <string name="typing_game_cancelled">The task was cancelled</string>
-
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="only_india_numbers">Only India mobile numbers are accepted at the moment</string>
     <string name="enter_number_here">Enter number here</string>
     <string name="otp_will_be_sent">A One Time Passcode will be sent to this number</string>
+
     <string name="send_otp">Send OTP</string>
     <string name="not_entered_phone_number">You have not entered a phone number</string>
     <string name="phone_number_10_digits">Your number should have 10 digits only</string>
@@ -312,21 +274,25 @@
     <string name="speed">Speed</string>
     <string name="target_speed">Target speed: 30 words per minute</string>
     <string name="target_accuracy">Target accuracy</string>
-
     <string name="title_activity_assistant">AssistantActivity</string>
-
     <string name="good">good</string>
     <string name="not_good">not good</string>
     <string name="last_tried">Last tried</string>
+
     <string name="title_activity_full_name">FullNameActivity</string>
+
     <string name="title_activity_tabbed">One</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="educator_not_authorized_msg">Your account has not been given educator priveleges on this app. Only authorized accounts can get educator priveleges.\n\nYou must be recommended by someone to be an authorized educator.\n\nPlease email hasijaadarsh@gmail.com for doubts regarding educator priveleges</string>
+    <string name="educator_authorized_msg">You have been declared an authorized educator on this app</string>
+    <string name="educator_active_msg">You have registered as an educator on this app and have all the priveleges of an educator</string>
+    <string name="educator_blocked_msg">There was an issue with you status as an educator.\n\nPlease contact hasijaadarsh@gmail.com, you subject Educator Status Issue. Also please share your registered mobile number in the email.</string>
+    <string name="activate_educator_status">Activate Educator Status</string>
     <string name="not_attempted">Not Attempted</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="minute">minute</string>
     <string name="minutes">minutes</string>
     <string name="seconds">seconds</string>
@@ -336,25 +302,25 @@
     <string name="correct">Correct</string>
     <string name="not_correct">Not Correct</string>
     <string name="attempted">Attempted</string>
-
     <string name="typing_speed">Typing Speed</string>
     <string name="title_activity_task_gesture">TaskGestureActivity</string>
     <string name="loading">Loading</string>
     <string name="loading_complete">Loading Complete</string>
+
     <string name="yay">YAYY!!!!!</string>
-
     <string name="title_activity_google_ad">Advertisement</string>
-
-
     <string name="facebook_app_id">2064355667218856</string>
     <string name="fb_login_protocol_scheme">fb2064355667218856</string>
-
     <string name="screenshot_long_press_for_full_screen">Long press for screenshot view</string>
 
     <string name="cancelled">Cancelled</string>
+
+
     <string name="no_attempt">You did not answer any questions</string>
     <string name="back_button_pressed">The back button was pressed</string>
+
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
+
     <string name="screenshot">Want sceenshot?\nTap for full screen view</string>
     <string name="tap_or_enter_to_start">Tap screen to start\n\nHave USB Keyboard?\nPress Enter to start</string>
     <string name="swipe_continue_next">Swipe to continue to the next item</string>
@@ -411,4 +377,44 @@
     <string name="in_order">in order</string>
     <string name="not_in_order">not in order</string>
     <string name="double_tap_for_next_item">double tap screen to hear next item</string>
+    <string-array name="course_type">
+        <item>Typing</item>
+    </string-array>
+    <string-array name="course_difficulty">
+        <item>Basic</item>
+        <item>Advanced</item>
+    </string-array>
+    <string-array name="question_types">
+        <item>Trial</item>
+        <item>Test</item>
+    </string-array>
+    <string-array name="typing_test_sentences">
+        <item>Roses are red</item>
+        <item>Mary had a little lamb</item>
+        <item>The sun is bright</item>
+        <item>The Earth is round</item>
+        <item>The cat looked out of the window</item>
+        <item>Mickey Mouse</item>
+        <item>Donald Duck</item>
+        <item>Tom and Jerry</item>
+        <item>Scooby Doo</item>
+        <item>The horse ran fast</item>
+        <item>The door was open</item>
+        <item>Dinosaurs were very big</item>
+        <item>The grass is green</item>
+        <item>The sky is blue</item>
+        <item>The spider spun a web</item>
+        <item>Birds fly in the air</item>
+        <item>Hare and the tortoise</item>
+        <item>The giraffe has a long neck</item>
+        <item>The lion roared</item>
+        <item>The dog barked</item>
+        <item>The fish swam in the sea</item>
+        <item>The tree has leaves</item>
+        <item>The train went very fast</item>
+        <item>Elephants have long trunks</item>
+        <item>Ants are very small</item>
+        <item>Jack and Jill</item>
+        <item>They went up the hill</item>
+    </string-array>
 </resources>
