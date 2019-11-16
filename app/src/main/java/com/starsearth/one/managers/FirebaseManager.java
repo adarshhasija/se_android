@@ -1,5 +1,7 @@
 package com.starsearth.one.managers;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -159,9 +161,13 @@ public class FirebaseManager {
         return query;
     }
 
+    public Query getQueryForEducatorsByUserid(String userid) {
+        return databaseReference.orderByChild("userid").equalTo(userid); //if indexOn has not been set
+    }
+
     public Query getQueryForEducatorsByPhoneNumber(String phoneNumber) {
-        Query query = databaseReference.orderByChild("phoneNumber").endAt(phoneNumber); //equalTo not working properly so using endAt
-        return query;
+        return databaseReference.orderByChild("mpn").equalTo(phoneNumber); //if indexOn has not been set
+        //return databaseReference.equalTo("mpn", phoneNumber); //if indexOn has been set. Not working
     }
 
     public StorageReference getImageReference(String item, String type) {

@@ -4,19 +4,22 @@ import java.util.Map;
 
 public class Educator {
 
-    public String uid;
-    public String countryCode;
-    public String phoneNumber;
-    public Type type;
+    //WARNING: Do not use camel case or underscore for variable names. Leads to bugs on server side. Use abbreviations and explain the meaning in comments
 
-    public enum Type {
+    public String uid;
+    public String cc; //Country code
+    public String mpn; //Mobile phone number
+    public Status status;
+
+    public enum Status {
         AUTHORIZED, //Authorized to be an educator on the platform, but not registered
         ACTIVE, //Is currently an educator on the platform
-        BLOCKED //Blocked for some wrong action
+        SUSPENDED, //Suspended for some wrong action
+        DEACTIVATED
         ;
 
-        public static Type fromString(String value) {
-            Type result = null;
+        public static Status fromString(String value) {
+            Status result = null;
             switch (value.toLowerCase()) {
                 case "authorized":
                     result = AUTHORIZED;
@@ -24,8 +27,11 @@ public class Educator {
                 case "active":
                     result = ACTIVE;
                     break;
-                case "blocked":
-                    result = BLOCKED;
+                case "suspended":
+                    result = SUSPENDED;
+                    break;
+                case "deactivated":
+                    result = DEACTIVATED;
                     break;
 
                 default: break;
@@ -42,14 +48,14 @@ public class Educator {
 
     public Educator(String key, Map<String, Object> map) {
         this.uid = key;
-        this.countryCode = (String) map.get("countryCode");
-        this.type = Type.fromString((String) map.get("type"));
-        this.phoneNumber = (String) map.get("phoneNumber");
+        this.cc = (String) map.get("cc");
+        this.status = Status.fromString((String) map.get("status"));
+        this.mpn = (String) map.get("mpn");
     }
 
-    public Educator(String countryCode, String phoneNumber, Type type) {
-        this.countryCode = countryCode;
-        this.phoneNumber = phoneNumber;
-        this.type = type;
+    public Educator(String cc, String mpn, Status status) {
+        this.cc = cc;
+        this.mpn = mpn;
+        this.status = status;
     }
 }

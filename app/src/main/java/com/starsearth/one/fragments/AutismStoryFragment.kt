@@ -10,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.starsearth.one.R
+import com.starsearth.one.adapter.MyAutismStoryRecyclerViewAdapter
 import com.starsearth.one.domain.Task
-
-import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 /**
  * A fragment representing a list of Items.
@@ -78,7 +77,6 @@ class AutismStoryFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         //fun onListFragmentInteraction(item: DummyItem?)
     }
 

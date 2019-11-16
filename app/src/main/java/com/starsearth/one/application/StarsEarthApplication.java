@@ -77,9 +77,10 @@ public class StarsEarthApplication extends Application {
         //mDatabase.child("skills").child(key).setValue(skill);
 
         //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        //Educator educator = new Educator("+91", "+918050389798", Educator.Type.AUTHORIZED);
+        //Educator educator = new Educator("+91", "+919743500069", Educator.Status.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
+        //mDatabase.child("educators").child("-Ltnicznn4ZtGijtggPw").child("status").setValue("ACTIVE");
     }
 
     public String getRemoteConfigAnalytics() {

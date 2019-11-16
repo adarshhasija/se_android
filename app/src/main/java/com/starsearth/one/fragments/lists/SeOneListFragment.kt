@@ -93,7 +93,6 @@ class SeOneListFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnSeOneListFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onSeOneListFragmentInteraction(item: SEOneListItem, index: Int)
     }
 

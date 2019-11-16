@@ -77,7 +77,6 @@ class ResponseListFragment : Fragment() {
      * for more information.
      */
     interface OnResponseListFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onResponseListFragmentInteraction(responseTreeNode: ResponseTreeNode)
     }
 

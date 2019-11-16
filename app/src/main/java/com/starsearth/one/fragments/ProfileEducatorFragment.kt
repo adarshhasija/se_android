@@ -3,7 +3,6 @@ package com.starsearth.one.fragments
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,9 +45,15 @@ class ProfileEducatorFragment : Fragment() {
     private var mEducator : Educator? = null
     private var listener: OnProfileEducatorFragmentInteractionListener? = null
 
-    private val mResultValuesListener = object : ValueEventListener {
+    private val mValueListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             llPleaseWait?.visibility = View.GONE
+            if (mEducator != null) {
+                //At the moment, this is called from 2 places. One for uid and one for phone number. One of them will return a object.
+                //Therefore mEducator will not be done for the other call.
+                //Once we move to Cloud Firestore and can do OR calls we can remove this IF statement
+                return
+            }
             val map = dataSnapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
@@ -55,21 +61,26 @@ class ProfileEducatorFragment : Fragment() {
                         val value = entry.value as Map<String, Any>
                         mEducator = Educator(key, value)
                         mEducator?.let {
-                            if (it.type == Educator.Type.AUTHORIZED) {
+                            if (it.status == Educator.Status.AUTHORIZED) {
                                 changeText(getString(R.string.educator_authorized_msg))
-                                btnActivate?.visibility = View.VISIBLE
+                                btnActivate?.let { toggleButtonWithAnimation(it, true) }
                             }
-                            else if (it.type == Educator.Type.ACTIVE) {
+                            else if (it.status == Educator.Status.ACTIVE) {
                                 changeText(getString(R.string.educator_active_msg))
-                                btnActivate?.visibility = View.GONE
+                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
                             }
-                            else if (it.type == Educator.Type.BLOCKED) {
-                                changeText(getString(R.string.educator_blocked_msg))
-                                btnActivate?.visibility = View.GONE
+                            else if (it.status == Educator.Status.SUSPENDED) {
+                                changeText(getString(R.string.educator_suspended_msg))
+                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
+                            }
+                            else if (it.status == Educator.Status.DEACTIVATED) {
+                                //TODO: Add this at a later time
+                                //changeText(getString(R.string.educator_deactivated_msg))
+                                //btnActivate?.let { toggleButtonWithAnimation(it, false) }
                             }
                             else {
                                 changeText(getString(R.string.educator_not_authorized_msg))
-                                btnActivate?.visibility = View.GONE
+                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
                             }
                         }
 
@@ -81,7 +92,7 @@ class ProfileEducatorFragment : Fragment() {
         override fun onCancelled(p0: DatabaseError?) {
             llPleaseWait?.visibility = View.GONE
             changeText(getString(R.string.educator_not_authorized_msg))
-            btnActivate?.visibility = View.GONE
+            btnActivate?.let { toggleButtonWithAnimation(it, false) }
         }
 
     }
@@ -106,10 +117,14 @@ class ProfileEducatorFragment : Fragment() {
 
         llPleaseWait?.visibility = View.VISIBLE
         val currentUser = FirebaseAuth.getInstance().currentUser
-        currentUser?.phoneNumber?.let {
+        currentUser?.let {
             val firebaseManager = FirebaseManager("educators") //Since the UI has to be made visible first, this call must be made here
-            val query = firebaseManager.getQueryForEducatorsByPhoneNumber(it)
-            query.addListenerForSingleValueEvent(mResultValuesListener)
+            val queryUid = firebaseManager.getQueryForEducatorsByUserid(it.uid)
+            queryUid.addListenerForSingleValueEvent(mValueListener)
+            val queryPn = firebaseManager.getQueryForEducatorsByPhoneNumber(it.phoneNumber)
+            queryPn.addListenerForSingleValueEvent(mValueListener)
+
+
         }
 
 
@@ -122,15 +137,16 @@ class ProfileEducatorFragment : Fragment() {
                 builder?.show()
             }
             else {
-
                   mEducator?.let {
+                      val localScopeEducator = it //New variable as it will be used in multiple places
                       llPleaseWait?.visibility = View.VISIBLE
                       val mDatabase = FirebaseDatabase.getInstance().reference
                       mDatabase.run {
-                          this.child("educators").child(it.uid).child("type").setValue(Educator.Type.ACTIVE)
+                          this.child("educators").child(localScopeEducator.uid).child("status").setValue(Educator.Status.ACTIVE) //it = mEducator
                           val currentUser = FirebaseAuth.getInstance().currentUser
                           currentUser?.let {
-                              this.child("users").child(it.uid).child("educator").setValue(Educator.Type.ACTIVE)
+                              this.child("educators").child(localScopeEducator.uid).child("userid").setValue(it.uid) //setting userid is first preference over phone number. User can always change the phone number
+                              this.child("users").child(it.uid).child("educator").setValue(Educator.Status.ACTIVE) //Set the record in the user profile as well
                           }
                       }
                               ?.addOnFailureListener {
@@ -184,6 +200,30 @@ class ProfileEducatorFragment : Fragment() {
                 })
     }
 
+    //Will made the activate button fade in/fade out with animation
+    private fun toggleButtonWithAnimation(button : Button, shouldMakeVisible : Boolean) {
+        if (button.visibility == View.GONE && shouldMakeVisible) {
+            button.animate()
+                    ?.alpha(1f)
+                    ?.setDuration(1500) //Because text takes 2 seconds to change
+                    ?.setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            btnActivate?.visibility = View.VISIBLE
+                        }
+                    })
+        }
+        else if (button.visibility == View.VISIBLE && !shouldMakeVisible) {
+            button.animate()
+                    ?.alpha(0f)
+                    ?.setDuration(1500) //Because text takes 2 seconds to change
+                    ?.setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            btnActivate?.visibility = View.GONE
+                        }
+                    })
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -196,7 +236,7 @@ class ProfileEducatorFragment : Fragment() {
      * for more information.
      */
     interface OnProfileEducatorFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TODO: Update argument status and name
         fun onProfileEducatorFragmentInteraction(uri: Uri)
     }
 

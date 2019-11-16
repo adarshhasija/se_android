@@ -39,7 +39,7 @@ public class TaskContent implements Parcelable {
     }
 
     public TaskContent(Map<String, Object> map) {
-        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : (int) map.get("id"); //If type is not specified, gson will take int as double
+        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : (int) map.get("id"); //If status is not specified, gson will take int as double
         this.question = map.containsKey("question") ? (String) map.get("question") : null;
         this.hintAudio = map.containsKey("hintAudio") ? (String) map.get("hintAudio") : null;
         this.isTapSwipe = map.containsKey("isTapSwipe") ? (boolean) map.get("isTapSwipe") : false;

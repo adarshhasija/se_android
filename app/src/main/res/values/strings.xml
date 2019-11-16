@@ -106,7 +106,7 @@
 
     <!-- Add course screen -->
     <string name="enter_edit_course_details">Enter/Edit Course Details</string>
-    <string name="course_type">Course type</string>
+    <string name="course_type">Course status</string>
     <string name="course_difficulty">Course difficulty</string>
     <string name="course_description">Course description</string>
     <string name="course_description_blank">You need to provide a course description</string>
@@ -204,8 +204,8 @@
     <string name="go_back_to_lessons">Go back to lessons</string>
     <string name="lesson_last_topic_no_questions">This is the last topic. It has no questions. Go back.</string>
     <string name="press_spacebar">Good, now press Spacebar</string>
-    <string name="correct_comma_type">Correct, type</string>
-    <string name="no_type">No, type</string>
+    <string name="correct_comma_type">Correct, status</string>
+    <string name="no_type">No, status</string>
     <string name="next_question">Next Question</string>
     <string name="guest_authentication_failed">Guest authentication failed</string>
     <string name="i_have_account">I have an account</string>
@@ -214,7 +214,7 @@
     <string name="guest_account_info">If you continue as a guest, you must signup later to save your data</string>
     <string name="continue_as_guest">Continue as guest</string>
     <string name="usb_keyboard">You need to connect a USB keyboard to the phone to use this app</string>
-    <string name="question_type">Question type</string>
+    <string name="question_type">Question status</string>
     <string name="course_keyboard_required">USB Keyboard required</string>
     <string name="account_with_ngo">You need to have an account with an NGO to use this app</string>
     <string name="space">Space</string>
@@ -286,7 +286,8 @@
     <string name="educator_not_authorized_msg">Your account has not been given educator priveleges on this app. Only authorized accounts can get educator priveleges.\n\nYou must be recommended by someone to be an authorized educator.\n\nPlease email hasijaadarsh@gmail.com for doubts regarding educator priveleges</string>
     <string name="educator_authorized_msg">You have been declared an authorized educator on this app</string>
     <string name="educator_active_msg">You have registered as an educator on this app and have all the priveleges of an educator</string>
-    <string name="educator_blocked_msg">There was an issue with you status as an educator.\n\nPlease contact hasijaadarsh@gmail.com, you subject Educator Status Issue. Also please share your registered mobile number in the email.</string>
+    <string name="educator_suspended_msg">There was an issue with you status as an educator.\n\nPlease contact hasijaadarsh@gmail.com, with subject Educator Status Issue. Also please share your registered mobile number in the email.</string>
+    <string name="educator_deactivated_msg">You have successfuly deactivated your Educator profile. Your profile will not be made available for education services on the platform.\n\nYou can reactivate at any time to make your services available.</string>
     <string name="activate_educator_status">Activate Educator Status</string>
     <string name="not_attempted">Not Attempted</string>
     <string name="passed">Passed</string>

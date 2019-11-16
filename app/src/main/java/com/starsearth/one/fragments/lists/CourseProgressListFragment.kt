@@ -101,7 +101,6 @@ class CourseProgressListFragment : Fragment() {
      * for more information.
      */
     interface OnCourseProgressListFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onCourseProgressListFragmentInteraction(item: DummyItem?)
     }
 

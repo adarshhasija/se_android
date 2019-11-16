@@ -1,4 +1,4 @@
-package com.starsearth.one.fragments
+package com.starsearth.one.adapter
 
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_autismstory.view.*
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 class MyAutismStoryRecyclerViewAdapter(
         private val mValues: List<Any>,

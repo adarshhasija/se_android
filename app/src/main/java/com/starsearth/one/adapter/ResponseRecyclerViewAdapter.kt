@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_response.view.*
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnResponseListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 class ResponseRecyclerViewAdapter(
         private val context: Context,

@@ -296,7 +296,6 @@ class RecordListFragment : Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnRecordListFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onRecordListItemInteraction(recordItem: RecordItem, index: Int)
     }
 

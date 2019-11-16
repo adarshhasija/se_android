@@ -10,14 +10,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseError
 
 import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.DetailRecyclerViewAdapter
 import com.starsearth.one.domain.*
-import com.starsearth.one.managers.FirebaseManager
 import kotlin.collections.ArrayList
 
 
@@ -109,7 +106,7 @@ class DetailListFragment : Fragment() {
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
                 listTitles.add(ListItem.HIGH_SCORE)
             }
-            if ((activity as? MainActivity)?.mUser?.educator == Educator.Type.ACTIVE) {
+            if ((activity as? MainActivity)?.mUser?.educator == Educator.Status.ACTIVE) {
                 listTitles.add(ListItem.CHANGE_TAGS)
             }
 

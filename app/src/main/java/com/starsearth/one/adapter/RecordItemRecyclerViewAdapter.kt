@@ -16,7 +16,7 @@ import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnRecordListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?) : RecyclerView.Adapter<RecordItemRecyclerViewAdapter.ViewHolder>() {
 

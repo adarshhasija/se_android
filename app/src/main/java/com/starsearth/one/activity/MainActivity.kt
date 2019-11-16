@@ -8,11 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -20,7 +18,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.auth.SignupActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
@@ -188,6 +185,17 @@ class MainActivity : AppCompatActivity(),
                 val fragment = ResultDetailFragment.newInstance((teachingContent as Task), (teachingContent as Task).getHighScoreResult(results))
                 openFragmentWithSlideToLeftEffect(fragment, ResultDetailFragment.TAG)
             }
+
+        //All
+            DetailListFragment.ListItem.CHANGE_TAGS -> {
+                if (mUser?.educator == Educator.Status.ACTIVE) {
+
+                }
+                else if (mUser?.educator == Educator.Status.AUTHORIZED) {
+                    val fragment = ProfileEducatorFragment.newInstance("","")
+                    openFragmentWithSlideToLeftEffect(fragment, ProfileEducatorFragment.TAG)
+                }
+            }
             else -> {
 
             }
@@ -312,21 +320,11 @@ class MainActivity : AppCompatActivity(),
 
     private val mUserValueChangeListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            Log.d("TAG", "*******snapshot**********"+dataSnapshot)
             val key = dataSnapshot?.key
             val value = dataSnapshot?.value as Map<String, Any>
             if (key != null) {
                 mUser = User(key, value)
             }
-          /*  val map = dataSnapshot?.value
-            if (map != null) {
-                for (entry in (map as HashMap<*, *>).entries) {
-                    val key = entry.key as String
-                    val value = entry.value as Map<String, Any>
-                    mUser = User(key, value)
-                }
-
-            }   */
         }
 
         override fun onCancelled(p0: DatabaseError?) {
