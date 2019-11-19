@@ -21,6 +21,8 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Educator
+import com.starsearth.one.domain.SETeachingContent
+import com.starsearth.one.fragments.lists.DetailListFragment
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
 
@@ -236,8 +238,7 @@ class ProfileEducatorFragment : Fragment() {
      * for more information.
      */
     interface OnProfileEducatorFragmentInteractionListener {
-        // TODO: Update argument status and name
-        fun onProfileEducatorFragmentInteraction(uri: Uri)
+        fun onProfileEducatorStatusChanged(parentItemSelected : DetailListFragment.ListItem, teachingContent: SETeachingContent?)
     }
 
     companion object {

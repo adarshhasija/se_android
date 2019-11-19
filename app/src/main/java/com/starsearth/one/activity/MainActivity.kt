@@ -3,7 +3,6 @@ package com.starsearth.one.activity
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -40,10 +39,32 @@ class MainActivity : AppCompatActivity(),
         AnswerExplanationFragment.OnFragmentInteractionListener,
         AutismStoryFragment.OnListFragmentInteractionListener,
         ProfileEducatorFragment.OnProfileEducatorFragmentInteractionListener,
+        TagListFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
-    override fun onProfileEducatorFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onTagListItemSelected(item: Tag) {
+
+    }
+
+
+    override fun onProfileEducatorStatusChanged(parentItemSelected : DetailListFragment.ListItem, teachingContent: SETeachingContent?) {
+        val backStackCount = supportFragmentManager.backStackEntryCount
+        val lastFragment = supportFragmentManager.getBackStackEntryAt(backStackCount - 1)
+        if (lastFragment.name == DetailListFragment.TAG && mUser?.educator == Educator.Status.ACTIVE) {
+            //As the back fragment is DetailList, it means the user has declared themselves active as part of a task modifying flow
+            supportFragmentManager.popBackStackImmediate()
+            //Open the next fragment based on the item the user had selected
+            //Cannot call already existing function that opens ListItem as it will result in a double analytical event
+            when (parentItemSelected) {
+                DetailListFragment.ListItem.CHANGE_TAGS -> {
+                    val fragment = TagListFragment.newInstance(1)
+                    openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
+                }
+                else -> {
+
+                }
+            }
+        }
     }
 
 
@@ -189,7 +210,8 @@ class MainActivity : AppCompatActivity(),
         //All
             DetailListFragment.ListItem.CHANGE_TAGS -> {
                 if (mUser?.educator == Educator.Status.ACTIVE) {
-
+                    val fragment = TagListFragment.newInstance(1)
+                    openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }
                 else if (mUser?.educator == Educator.Status.AUTHORIZED) {
                     val fragment = ProfileEducatorFragment.newInstance("","")

@@ -170,6 +170,10 @@ public class FirebaseManager {
         //return databaseReference.equalTo("mpn", phoneNumber); //if indexOn has been set. Not working
     }
 
+    public Query getQueryForTags() {
+        return databaseReference.orderByChild("seone").equalTo(true);
+    }
+
     public StorageReference getImageReference(String item, String type) {
         String fullPath = getImagePath(item, type);
         if (fullPath != null && !fullPath.isEmpty()) {

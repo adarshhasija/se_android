@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.one.domain.Educator;
 import com.starsearth.one.domain.SeOneAccessibilityManager;
+import com.starsearth.one.domain.Tag;
 import com.starsearth.one.managers.AdsManager;
 import com.starsearth.one.managers.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
@@ -65,7 +66,7 @@ public class StarsEarthApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true); //This causes bugs. Data from server does not update on client
 
         mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper(getApplicationContext());
         mAnalyticsManager = new AnalyticsManager(getApplicationContext());
@@ -77,10 +78,14 @@ public class StarsEarthApplication extends Application {
         //mDatabase.child("skills").child(key).setValue(skill);
 
         //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        //Educator educator = new Educator("+91", "+919743500069", Educator.Status.AUTHORIZED);
+        //Educator educator = new Educator("+91", "+918050389798", Educator.Status.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
         //mDatabase.child("educators").child("-Ltnicznn4ZtGijtggPw").child("status").setValue("ACTIVE");
+
+        //Tag tag = new Tag("Class 3", true);
+        //String key = mDatabase.push().getKey();
+        //mDatabase.child("tags").child(key).setValue(tag);
     }
 
     public String getRemoteConfigAnalytics() {
