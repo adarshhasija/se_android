@@ -40,10 +40,20 @@ class MainActivity : AppCompatActivity(),
         AutismStoryFragment.OnListFragmentInteractionListener,
         ProfileEducatorFragment.OnProfileEducatorFragmentInteractionListener,
         TagListFragment.OnListFragmentInteractionListener,
+        ProfileEducatorPermissionsListFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onProfileEducatorPermissionsListFragmentInteraction() {
+
+    }
 
     override fun onTagListItemSelected(item: Tag) {
 
+    }
+
+    override fun onViewPermissionsBtnTapped(educator: Educator) {
+        val fragment = ProfileEducatorPermissionsListFragment.newInstance(educator)
+        openFragment(fragment, ProfileEducatorPermissionsListFragment.TAG)
     }
 
 
@@ -446,6 +456,7 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
+
 
 
 }

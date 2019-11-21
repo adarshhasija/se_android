@@ -63,27 +63,7 @@ class ProfileEducatorFragment : Fragment() {
                         val value = entry.value as Map<String, Any>
                         mEducator = Educator(key, value)
                         mEducator?.let {
-                            if (it.status == Educator.Status.AUTHORIZED) {
-                                changeText(getString(R.string.educator_authorized_msg))
-                                btnActivate?.let { toggleButtonWithAnimation(it, true) }
-                            }
-                            else if (it.status == Educator.Status.ACTIVE) {
-                                changeText(getString(R.string.educator_active_msg))
-                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
-                            }
-                            else if (it.status == Educator.Status.SUSPENDED) {
-                                changeText(getString(R.string.educator_suspended_msg))
-                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
-                            }
-                            else if (it.status == Educator.Status.DEACTIVATED) {
-                                //TODO: Add this at a later time
-                                //changeText(getString(R.string.educator_deactivated_msg))
-                                //btnActivate?.let { toggleButtonWithAnimation(it, false) }
-                            }
-                            else {
-                                changeText(getString(R.string.educator_not_authorized_msg))
-                                btnActivate?.let { toggleButtonWithAnimation(it, false) }
-                            }
+                            updateUI(it)
                         }
 
                 }
@@ -117,19 +97,6 @@ class ProfileEducatorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        llPleaseWait?.visibility = View.VISIBLE
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        currentUser?.let {
-            val firebaseManager = FirebaseManager("educators") //Since the UI has to be made visible first, this call must be made here
-            val queryUid = firebaseManager.getQueryForEducatorsByUserid(it.uid)
-            queryUid.addListenerForSingleValueEvent(mValueListener)
-            val queryPn = firebaseManager.getQueryForEducatorsByPhoneNumber(it.phoneNumber)
-            queryPn.addListenerForSingleValueEvent(mValueListener)
-
-
-        }
-
-
         btnActivate?.setOnClickListener {
             if ((activity?.application as? StarsEarthApplication)?.isNetworkConnected != true) {
                 val builder = (activity?.application as StarsEarthApplication).createAlertDialog(mContext)
@@ -145,6 +112,10 @@ class ProfileEducatorFragment : Fragment() {
                       val mDatabase = FirebaseDatabase.getInstance().reference
                       mDatabase.run {
                           this.child("educators").child(localScopeEducator.uid).child("status").setValue(Educator.Status.ACTIVE) //it = mEducator
+                          //Set all out-of-the-box permissions
+                          this.child("educators").child(localScopeEducator.uid).child("tagging").setValue(true) //it = mEducator
+                          //End of permissions list
+
                           val currentUser = FirebaseAuth.getInstance().currentUser
                           currentUser?.let {
                               this.child("educators").child(localScopeEducator.uid).child("userid").setValue(it.uid) //setting userid is first preference over phone number. User can always change the phone number
@@ -161,15 +132,40 @@ class ProfileEducatorFragment : Fragment() {
                               }
                               ?.addOnSuccessListener {
                                   llPleaseWait?.visibility = View.GONE
-                                  btnActivate?.visibility = View.GONE
-                                  changeText(getString(R.string.educator_active_msg))
                                   (activity as? MainActivity)?.userPropertiesUpdated()
+                                  mEducator?.let {
+                                      it.registrationSuccessful()
+                                      updateUI(it)
+                                  }
+
                               }
 
                   }
             }
 
         }
+
+        btnPermissions?.setOnClickListener {
+            mEducator?.let {
+                listener?.onViewPermissionsBtnTapped(it)
+            }
+        }
+
+        if (mEducator == null) {
+            llPleaseWait?.visibility = View.VISIBLE
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            currentUser?.let {
+                val firebaseManager = FirebaseManager("educators") //Since the UI has to be made visible first, this call must be made here
+                val queryUid = firebaseManager.getQueryForEducatorsByUserid(it.uid)
+                queryUid.addListenerForSingleValueEvent(mValueListener)
+                val queryPn = firebaseManager.getQueryForEducatorsByPhoneNumber(it.phoneNumber)
+                queryPn.addListenerForSingleValueEvent(mValueListener)
+            }
+        }
+        else {
+            updateUI(mEducator!!)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -210,7 +206,7 @@ class ProfileEducatorFragment : Fragment() {
                     ?.setDuration(1500) //Because text takes 2 seconds to change
                     ?.setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            btnActivate?.visibility = View.VISIBLE
+                            button?.visibility = View.VISIBLE
                         }
                     })
         }
@@ -220,9 +216,37 @@ class ProfileEducatorFragment : Fragment() {
                     ?.setDuration(1500) //Because text takes 2 seconds to change
                     ?.setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            btnActivate?.visibility = View.GONE
+                            button?.visibility = View.GONE
                         }
                     })
+        }
+    }
+
+    private fun updateUI(educator: Educator) {
+        if (educator.status == Educator.Status.AUTHORIZED) {
+            changeText(getString(R.string.educator_authorized_msg))
+            btnActivate?.let { toggleButtonWithAnimation(it, true) }
+            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+        }
+        else if (educator.status == Educator.Status.ACTIVE) {
+            changeText(getString(R.string.educator_active_msg))
+            btnActivate?.let { toggleButtonWithAnimation(it, false) }
+            btnPermissions?.let { toggleButtonWithAnimation(it, true) }
+        }
+        else if (educator.status == Educator.Status.SUSPENDED) {
+            changeText(getString(R.string.educator_suspended_msg))
+            btnActivate?.let { toggleButtonWithAnimation(it, false) }
+            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+        }
+        else if (educator.status == Educator.Status.DEACTIVATED) {
+            //TODO: Add this at a later time
+            //changeText(getString(R.string.educator_deactivated_msg))
+            //btnActivate?.let { toggleButtonWithAnimation(it, false) }
+        }
+        else {
+            changeText(getString(R.string.educator_not_authorized_msg))
+            btnActivate?.let { toggleButtonWithAnimation(it, false) }
+            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
         }
     }
 
@@ -239,6 +263,7 @@ class ProfileEducatorFragment : Fragment() {
      */
     interface OnProfileEducatorFragmentInteractionListener {
         fun onProfileEducatorStatusChanged(parentItemSelected : DetailListFragment.ListItem, teachingContent: SETeachingContent?)
+        fun onViewPermissionsBtnTapped(educator: Educator)
     }
 
     companion object {

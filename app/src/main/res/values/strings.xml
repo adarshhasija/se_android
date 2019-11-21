@@ -285,10 +285,14 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="educator_not_authorized_msg">Your account has not been given educator priveleges on this app. Only authorized accounts can get educator priveleges.\n\nYou must be recommended by someone to be an authorized educator.\n\nPlease email hasijaadarsh@gmail.com for doubts regarding educator priveleges</string>
     <string name="educator_authorized_msg">You have been declared an authorized educator on this app</string>
-    <string name="educator_active_msg">You have registered as an educator on this app and have all the priveleges of an educator</string>
+    <string name="educator_active_msg">You have registered as an educator on this app</string>
     <string name="educator_suspended_msg">There was an issue with you status as an educator.\n\nPlease contact hasijaadarsh@gmail.com, with subject Educator Status Issue. Also please share your registered mobile number in the email.</string>
     <string name="educator_deactivated_msg">You have successfuly deactivated your Educator profile. Your profile will not be made available for education services on the platform.\n\nYou can reactivate at any time to make your services available.</string>
     <string name="activate_educator_status">Activate Educator Status</string>
+    <string name="view_permissions">View Permissions</string>
+    <string name="tagging">Tagging</string>
+    <string name="tagging_explanation_yes">You have permission to tag the content on this app</string>
+    <string name="tagging_explanation_no">You do not have permission to tag content on this app. Contact hasijaadarsh@gmail.com for more info.</string>
     <string name="not_attempted">Not Attempted</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
