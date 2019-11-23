@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    override fun onTagListItemSelected(item: Tag) {
+    override fun onTagListItemSelected(tagListItem: TagListItem) {
 
     }
 
@@ -57,12 +56,12 @@ class MainActivity : AppCompatActivity(),
         openFragment(fragment, ProfileEducatorPermissionsListFragment.TAG)
     }
 
-    override fun onProfileEducatorCTATapped(parentItemSelected: DetailListFragment.ListItem, educator: Educator) {
+    override fun onProfileEducatorCTATapped(parentItemSelected: DetailListFragment.ListItem, educator: Educator, teacingContent: SETeachingContent) {
         supportFragmentManager.popBackStackImmediate()
         when (parentItemSelected) {
             DetailListFragment.ListItem.CHANGE_TAGS -> {
                 if (educator.status == Educator.Status.ACTIVE && educator.tagging == true) {
-                    val fragment = TagListFragment.newInstance(1)
+                    val fragment = TagListFragment.newInstance(teacingContent)
                     openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }
             }
@@ -220,11 +219,11 @@ class MainActivity : AppCompatActivity(),
         //All
             DetailListFragment.ListItem.CHANGE_TAGS -> {
                 if (mEducator?.status == Educator.Status.ACTIVE && mEducator?.tagging == true) {
-                    val fragment = TagListFragment.newInstance(1)
+                    val fragment = TagListFragment.newInstance(teachingContent as Parcelable)
                     openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }
                 else if (mEducator?.status == Educator.Status.AUTHORIZED || mEducator?.status == Educator.Status.DEACTIVATED) {
-                    val fragment = ProfileEducatorFragment.newInstance(itemTitle)
+                    val fragment = ProfileEducatorFragment.newInstance(itemTitle, teachingContent as Parcelable)
                     openFragmentWithSlideToLeftEffect(fragment, ProfileEducatorFragment.TAG)
                 }
             }
@@ -302,7 +301,7 @@ class MainActivity : AppCompatActivity(),
             startActivity(intent)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
-            val profileEducatorFragment = ProfileEducatorFragment.newInstance(null)
+            val profileEducatorFragment = ProfileEducatorFragment.newInstance()
             openFragment(profileEducatorFragment, ProfileEducatorFragment.TAG)
         }
         else if (type == SEOneListItem.Type.LOGOUT) {

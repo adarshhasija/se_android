@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +17,17 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Educator
+import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.fragments.lists.DetailListFragment
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
 
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "list-item"
+private const val ARG_LIST_ITEM = "list-item"
+private const val ARG_TEACHING_CONTENT = "teaching-content"
 
 /**
  * A simple [Fragment] subclass.
@@ -38,6 +39,7 @@ private const val ARG_PARAM1 = "list-item"
  */
 class ProfileEducatorFragment : Fragment() {
     private var listItem: DetailListFragment.ListItem? = null
+    private var mTeachingContent: SETeachingContent? = null
     private lateinit var mContext : Context
     private var mEducator : Educator? = null
     private var listener: OnProfileEducatorFragmentInteractionListener? = null
@@ -77,8 +79,11 @@ class ProfileEducatorFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (it.containsKey(ARG_PARAM1)) {
-                listItem = DetailListFragment.ListItem.fromString(it.getString(ARG_PARAM1)!!)
+            if (it.containsKey(ARG_LIST_ITEM)) {
+                listItem = DetailListFragment.ListItem.fromString(it.getString(ARG_LIST_ITEM)!!)
+            }
+            if (it.containsKey(ARG_TEACHING_CONTENT)) {
+                mTeachingContent = it.getParcelable(ARG_TEACHING_CONTENT)
             }
         }
 
@@ -147,8 +152,8 @@ class ProfileEducatorFragment : Fragment() {
             }
         }
         btnCTA?.setOnClickListener {
-            if (listItem != null && mEducator != null) {
-                listener?.onProfileEducatorCTATapped(listItem!!, mEducator!!)
+            if (listItem != null && mEducator != null && mTeachingContent != null) {
+                listener?.onProfileEducatorCTATapped(listItem!!, mEducator!!, mTeachingContent!!)
             }
         }
 
@@ -275,7 +280,7 @@ class ProfileEducatorFragment : Fragment() {
      * for more information.
      */
     interface OnProfileEducatorFragmentInteractionListener {
-        fun onProfileEducatorCTATapped(parentItemSelected : DetailListFragment.ListItem, educator: Educator)
+        fun onProfileEducatorCTATapped(parentItemSelected : DetailListFragment.ListItem, educator: Educator, teachingContent: SETeachingContent)
         fun onProfileEducatorStatusChanged()
         fun onViewPermissionsBtnTapped(educator: Educator)
     }
@@ -290,12 +295,17 @@ class ProfileEducatorFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ProfileEducatorFragment.
          */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
-        fun newInstance(listItem: DetailListFragment.ListItem?) =
+        fun newInstance() =
+                ProfileEducatorFragment()
+
+        @JvmStatic
+        fun newInstance(listItem: DetailListFragment.ListItem?, teachingContent: Parcelable) =
                 ProfileEducatorFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, listItem.toString())
+                        putString(ARG_LIST_ITEM, listItem.toString())
+                        putParcelable(ARG_TEACHING_CONTENT, teachingContent)
                     }
                 }
     }

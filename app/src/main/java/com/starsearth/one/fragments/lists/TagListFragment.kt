@@ -2,12 +2,12 @@ package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyTagRecyclerViewAdapter
-import com.starsearth.one.domain.Tag
+import com.starsearth.one.domain.SETeachingContent
+import com.starsearth.one.domain.TagListItem
 
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_autismstory_list.*
@@ -32,6 +33,7 @@ class TagListFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
+    private lateinit var mTeachingContent: SETeachingContent
 
     private var listener: OnListFragmentInteractionListener? = null
 
@@ -43,7 +45,7 @@ class TagListFragment : Fragment() {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val key = entry.key as String
                     val value = entry.value as Map<String, Any>
-                    var newTag = Tag(key, value)
+                    var newTag = TagListItem(key, value)
                     (list?.adapter as MyTagRecyclerViewAdapter).addItem(newTag)
                 }
                 (list?.adapter as MyTagRecyclerViewAdapter).notifyDataSetChanged()
@@ -62,7 +64,7 @@ class TagListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            mTeachingContent = it.getParcelable(ARG_TEACHING_CONTENT)
         }
     }
 
@@ -79,8 +81,8 @@ class TagListFragment : Fragment() {
                 }
                 view.list.addItemDecoration(DividerItemDecoration(context,
                         DividerItemDecoration.VERTICAL))
-                var dummyArray = ArrayList<Tag>()
-                adapter = MyTagRecyclerViewAdapter(dummyArray, listener)
+                var dummyArray = ArrayList<TagListItem>()
+                adapter = MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
             }
         }
         return view
@@ -102,7 +104,7 @@ class TagListFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException(context.toString() + " must implement OnTagListFragmentInteractionListener")
         }
     }
 
@@ -123,21 +125,21 @@ class TagListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onTagListItemSelected(item: Tag)
+        fun onTagListItemSelected(tagListItem: TagListItem)
     }
 
     companion object {
         val TAG = "TAG_LIST_FRAG"
 
         // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        const val ARG_TEACHING_CONTENT = "teaching-content"
 
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int) =
+        fun newInstance(teachingContent: Parcelable) =
                 TagListFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_COLUMN_COUNT, columnCount)
+                        putParcelable(ARG_TEACHING_CONTENT, teachingContent)
                     }
                 }
     }

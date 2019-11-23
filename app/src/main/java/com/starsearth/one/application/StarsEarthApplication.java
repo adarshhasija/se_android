@@ -7,11 +7,7 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.starsearth.one.domain.Educator;
 import com.starsearth.one.domain.SeOneAccessibilityManager;
-import com.starsearth.one.domain.Tag;
 import com.starsearth.one.managers.AdsManager;
 import com.starsearth.one.managers.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
@@ -83,7 +79,7 @@ public class StarsEarthApplication extends Application {
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
         //mDatabase.child("educators").child("-LuEFLKyquYUkh64ZGR-").child("status").setValue(Educator.Status.AUTHORIZED);
 
-        //Tag tag = new Tag("Class 3", true);
+        //TagListItem tag = new TagListItem("Class 3", true);
         //String key = mDatabase.push().getKey();
         //mDatabase.child("tags").child(key).setValue(tag);
     }
