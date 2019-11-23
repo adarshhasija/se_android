@@ -51,14 +51,17 @@ class DetailListFragment : Fragment() {
         CHANGE_TAGS("CHANGE_TAGS")
         ;
 
-        fun fromString(i: String): ListItem? {
-            for (type in ListItem.values()) {
-                if (type.valueString == i) {
-                    return type
+        companion object {
+            fun fromString(i: String): ListItem? {
+                for (type in ListItem.values()) {
+                    if (type.valueString == i) {
+                        return type
+                    }
                 }
+                return null
             }
-            return null
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,12 +109,12 @@ class DetailListFragment : Fragment() {
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
                 listTitles.add(ListItem.HIGH_SCORE)
             }
-            if ((activity as? MainActivity)?.mUser?.educator == Educator.Status.ACTIVE) {
+            if ((activity as? MainActivity)?.mEducator != null) {
                 listTitles.add(ListItem.CHANGE_TAGS)
             }
 
 
-            view.adapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, mListener)
+            view.adapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, (activity as? MainActivity)?.mEducator, mListener)
         }
 
         return view

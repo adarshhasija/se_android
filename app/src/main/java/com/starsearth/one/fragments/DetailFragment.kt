@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
@@ -219,7 +220,10 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     View.GONE
                 }   */
         tvLongPressForMoreOptions?.visibility =
-                if (mTeachingContent is Course || (mTeachingContent is Task && mResults.isNotEmpty())) {
+                if (mTeachingContent is Course
+                        || (activity as? MainActivity)?.mEducator != null
+                        || (mTeachingContent is Task && mResults.isNotEmpty())
+                ) {
                     View.VISIBLE
                 }
                 else {

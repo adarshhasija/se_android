@@ -3,7 +3,6 @@ package com.starsearth.one.fragments
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -21,15 +20,13 @@ import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Educator
-import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.fragments.lists.DetailListFragment
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
 
-// TODO: Rename parameter arguments, choose names that match
+
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "list-item"
 
 /**
  * A simple [Fragment] subclass.
@@ -40,9 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ProfileEducatorFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var listItem: DetailListFragment.ListItem? = null
     private lateinit var mContext : Context
     private var mEducator : Educator? = null
     private var listener: OnProfileEducatorFragmentInteractionListener? = null
@@ -82,8 +77,9 @@ class ProfileEducatorFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            if (it.containsKey(ARG_PARAM1)) {
+                listItem = DetailListFragment.ListItem.fromString(it.getString(ARG_PARAM1)!!)
+            }
         }
 
     }
@@ -132,7 +128,7 @@ class ProfileEducatorFragment : Fragment() {
                               }
                               ?.addOnSuccessListener {
                                   llPleaseWait?.visibility = View.GONE
-                                  (activity as? MainActivity)?.userPropertiesUpdated()
+                                  listener?.onProfileEducatorStatusChanged()
                                   mEducator?.let {
                                       it.registrationSuccessful()
                                       updateUI(it)
@@ -148,6 +144,11 @@ class ProfileEducatorFragment : Fragment() {
         btnPermissions?.setOnClickListener {
             mEducator?.let {
                 listener?.onViewPermissionsBtnTapped(it)
+            }
+        }
+        btnCTA?.setOnClickListener {
+            if (listItem != null && mEducator != null) {
+                listener?.onProfileEducatorCTATapped(listItem!!, mEducator!!)
             }
         }
 
@@ -227,16 +228,27 @@ class ProfileEducatorFragment : Fragment() {
             changeText(getString(R.string.educator_authorized_msg))
             btnActivate?.let { toggleButtonWithAnimation(it, true) }
             btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+            btnCTA?.let { toggleButtonWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.ACTIVE) {
             changeText(getString(R.string.educator_active_msg))
             btnActivate?.let { toggleButtonWithAnimation(it, false) }
-            btnPermissions?.let { toggleButtonWithAnimation(it, true) }
+            if (listItem != null) {
+                btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+                btnCTA?.text = mContext.getString(R.string.continue_label)
+                btnCTA?.let { toggleButtonWithAnimation(it, true) }
+            }
+            else {
+                btnActivate?.let { toggleButtonWithAnimation(it, false) }
+                btnPermissions?.let { toggleButtonWithAnimation(it, true) }
+                btnCTA?.let { toggleButtonWithAnimation(it, false) }
+            }
         }
         else if (educator.status == Educator.Status.SUSPENDED) {
             changeText(getString(R.string.educator_suspended_msg))
             btnActivate?.let { toggleButtonWithAnimation(it, false) }
             btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+            btnCTA?.let { toggleButtonWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.DEACTIVATED) {
             //TODO: Add this at a later time
@@ -247,6 +259,7 @@ class ProfileEducatorFragment : Fragment() {
             changeText(getString(R.string.educator_not_authorized_msg))
             btnActivate?.let { toggleButtonWithAnimation(it, false) }
             btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+            btnCTA?.let { toggleButtonWithAnimation(it, false) }
         }
     }
 
@@ -262,7 +275,8 @@ class ProfileEducatorFragment : Fragment() {
      * for more information.
      */
     interface OnProfileEducatorFragmentInteractionListener {
-        fun onProfileEducatorStatusChanged(parentItemSelected : DetailListFragment.ListItem, teachingContent: SETeachingContent?)
+        fun onProfileEducatorCTATapped(parentItemSelected : DetailListFragment.ListItem, educator: Educator)
+        fun onProfileEducatorStatusChanged()
         fun onViewPermissionsBtnTapped(educator: Educator)
     }
 
@@ -272,17 +286,16 @@ class ProfileEducatorFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
+         * @param listItem If this call came from DetailListFragment, need to know which card was tapped
          * @param param2 Parameter 2.
          * @return A new instance of fragment ProfileEducatorFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(listItem: DetailListFragment.ListItem?) =
                 ProfileEducatorFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putString(ARG_PARAM1, listItem.toString())
                     }
                 }
     }

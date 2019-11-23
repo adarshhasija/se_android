@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -56,25 +57,24 @@ class MainActivity : AppCompatActivity(),
         openFragment(fragment, ProfileEducatorPermissionsListFragment.TAG)
     }
 
-
-    override fun onProfileEducatorStatusChanged(parentItemSelected : DetailListFragment.ListItem, teachingContent: SETeachingContent?) {
-        val backStackCount = supportFragmentManager.backStackEntryCount
-        val lastFragment = supportFragmentManager.getBackStackEntryAt(backStackCount - 1)
-        if (lastFragment.name == DetailListFragment.TAG && mUser?.educator == Educator.Status.ACTIVE) {
-            //As the back fragment is DetailList, it means the user has declared themselves active as part of a task modifying flow
-            supportFragmentManager.popBackStackImmediate()
-            //Open the next fragment based on the item the user had selected
-            //Cannot call already existing function that opens ListItem as it will result in a double analytical event
-            when (parentItemSelected) {
-                DetailListFragment.ListItem.CHANGE_TAGS -> {
+    override fun onProfileEducatorCTATapped(parentItemSelected: DetailListFragment.ListItem, educator: Educator) {
+        supportFragmentManager.popBackStackImmediate()
+        when (parentItemSelected) {
+            DetailListFragment.ListItem.CHANGE_TAGS -> {
+                if (educator.status == Educator.Status.ACTIVE && educator.tagging == true) {
                     val fragment = TagListFragment.newInstance(1)
                     openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }
-                else -> {
+            }
+            else -> {
 
-                }
             }
         }
+    }
+
+
+    override fun onProfileEducatorStatusChanged() {
+        updatedEducatorProperties()
     }
 
 
@@ -219,12 +219,12 @@ class MainActivity : AppCompatActivity(),
 
         //All
             DetailListFragment.ListItem.CHANGE_TAGS -> {
-                if (mUser?.educator == Educator.Status.ACTIVE) {
+                if (mEducator?.status == Educator.Status.ACTIVE && mEducator?.tagging == true) {
                     val fragment = TagListFragment.newInstance(1)
                     openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }
-                else if (mUser?.educator == Educator.Status.AUTHORIZED) {
-                    val fragment = ProfileEducatorFragment.newInstance("","")
+                else if (mEducator?.status == Educator.Status.AUTHORIZED || mEducator?.status == Educator.Status.DEACTIVATED) {
+                    val fragment = ProfileEducatorFragment.newInstance(itemTitle)
                     openFragmentWithSlideToLeftEffect(fragment, ProfileEducatorFragment.TAG)
                 }
             }
@@ -302,7 +302,7 @@ class MainActivity : AppCompatActivity(),
             startActivity(intent)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
-            val profileEducatorFragment = ProfileEducatorFragment.newInstance("","")
+            val profileEducatorFragment = ProfileEducatorFragment.newInstance(null)
             openFragment(profileEducatorFragment, ProfileEducatorFragment.TAG)
         }
         else if (type == SEOneListItem.Type.LOGOUT) {
@@ -352,10 +352,29 @@ class MainActivity : AppCompatActivity(),
 
     private val mUserValueChangeListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val key = dataSnapshot?.key
+          /*  val key = dataSnapshot?.key
             val value = dataSnapshot?.value as Map<String, Any>
             if (key != null) {
                 mUser = User(key, value)
+            }   */
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+
+        }
+
+    }
+
+    private val mEducatorValueChangeListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            val map = dataSnapshot?.value
+            if (map != null) {
+                for (entry in (map as HashMap<*, *>).entries) {
+                    val key = entry.key as String
+                    val value = entry.value as Map<String, Any>
+                    mEducator = Educator(key, value)
+                }
+
             }
         }
 
@@ -365,8 +384,8 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    //This is called from any fragment whenever user properties are updated
-    fun userPropertiesUpdated() {
+    //This is called from any fragment whenever User object is updated
+    fun updatedUserProperties() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         currentUser?.let {
             val firebaseManager = FirebaseManager("users")
@@ -375,8 +394,19 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    //This is called from any fragment whenever Educator object is updated
+    private fun updatedEducatorProperties() {
+        //Not a guarantee that userid will work. Only on activation will userid be added
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.phoneNumber?.let {
+            val firebaseManager = FirebaseManager("educators")
+            val query = firebaseManager.getQueryForEducatorsByPhoneNumber(it)
+            query.addValueEventListener(mEducatorValueChangeListener)
+        }
+    }
 
-    var mUser : User? = null //This object will be updated as and when there is a change to the user object. This way fragments can easily take the user object from activity to get data
+
+    var mEducator : Educator? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -389,8 +419,8 @@ class MainActivity : AppCompatActivity(),
             Crashlytics.log("PHONE NUMBER: " + it.phoneNumber)
         }
 
-        if (mUser == null) {
-            userPropertiesUpdated()
+        if (mEducator == null) {
+            updatedEducatorProperties()
         }
 
         val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)

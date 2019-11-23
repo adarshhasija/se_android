@@ -81,7 +81,7 @@ public class StarsEarthApplication extends Application {
         //Educator educator = new Educator("+91", "+918050389798", Educator.Status.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
-        //mDatabase.child("educators").child("-Ltnicznn4ZtGijtggPw").child("status").setValue("ACTIVE");
+        //mDatabase.child("educators").child("-LuEFLKyquYUkh64ZGR-").child("status").setValue(Educator.Status.AUTHORIZED);
 
         //Tag tag = new Tag("Class 3", true);
         //String key = mDatabase.push().getKey();
