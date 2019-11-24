@@ -3,20 +3,25 @@ package com.starsearth.one.fragments
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.Educator
 import com.starsearth.one.domain.SETeachingContent
@@ -204,6 +209,24 @@ class ProfileEducatorFragment : Fragment() {
                 })
     }
 
+    private fun updateProfile() {
+        (activity as? MainActivity)?.mUser?.name?.let {
+            tvName?.text = it
+        }
+
+        (activity as? MainActivity)?.mUser?.pic?.let {
+            var profilePicRef = FirebaseStorage.getInstance().reference.child(it)
+
+            val ONE_MEGABYTE: Long = 1024 * 1024
+            profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+                val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                imgProfile?.setImageBitmap(bitmap)
+            }.addOnFailureListener {
+                // Handle any errors
+            }
+        }
+    }
+
     //Will made the activate button fade in/fade out with animation
     private fun toggleButtonWithAnimation(button : Button, shouldMakeVisible : Boolean) {
         if (button.visibility == View.GONE && shouldMakeVisible) {
@@ -237,6 +260,7 @@ class ProfileEducatorFragment : Fragment() {
         }
         else if (educator.status == Educator.Status.ACTIVE) {
             changeText(getString(R.string.educator_active_msg))
+            updateProfile()
             btnActivate?.let { toggleButtonWithAnimation(it, false) }
             if (listItem != null) {
                 btnPermissions?.let { toggleButtonWithAnimation(it, false) }

@@ -28,6 +28,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+    <string name="name">Name</string>
 
     <string name="action_questions_feedback">Questions/Feedback</string>
     <string name="message_questions_feedback">You can share you questions/feedback via our Google Play Store page. Would you like to do this?</string>
@@ -288,6 +289,7 @@
     <string name="educator_active_msg">You have registered as an educator on this app</string>
     <string name="educator_suspended_msg">There was an issue with you status as an educator.\n\nPlease contact hasijaadarsh@gmail.com, with subject Educator Status Issue. Also please share your registered mobile number in the email.</string>
     <string name="educator_deactivated_msg">You have successfuly deactivated your Educator profile. Your profile will not be made available for education services on the platform.\n\nYou can reactivate at any time to make your services available.</string>
+    <string name="name_add_edit">Please write to hasijaadarsh@gmail.com if you wish to add/edit your name or profile picture</string>
     <string name="activate_educator_status">Activate Educator Status</string>
     <string name="view_permissions">View Permissions</string>
     <string name="tagging">Tagging</string>

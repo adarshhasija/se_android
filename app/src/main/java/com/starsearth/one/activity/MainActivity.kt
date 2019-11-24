@@ -351,11 +351,11 @@ class MainActivity : AppCompatActivity(),
 
     private val mUserValueChangeListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-          /*  val key = dataSnapshot?.key
-            val value = dataSnapshot?.value as Map<String, Any>
+            val key = dataSnapshot?.key
+            val value = dataSnapshot?.value as Map<String, Any?>
             if (key != null) {
                 mUser = User(key, value)
-            }   */
+            }
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -370,7 +370,7 @@ class MainActivity : AppCompatActivity(),
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val key = entry.key as String
-                    val value = entry.value as Map<String, Any>
+                    val value = entry.value as Map<String, Any?>
                     mEducator = Educator(key, value)
                 }
 
@@ -405,6 +405,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
+    var mUser: User? = null //These act as global variables that any fragment can access
     var mEducator : Educator? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -418,6 +419,9 @@ class MainActivity : AppCompatActivity(),
             Crashlytics.log("PHONE NUMBER: " + it.phoneNumber)
         }
 
+        if (mUser == null) {
+            updatedUserProperties()
+        }
         if (mEducator == null) {
             updatedEducatorProperties()
         }
