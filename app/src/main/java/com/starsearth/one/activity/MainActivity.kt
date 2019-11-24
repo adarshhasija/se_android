@@ -51,6 +51,15 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    override fun onProfilePicTapped(imgByteArray: ByteArray) {
+        val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
+        val bundle = Bundle()
+        bundle.putByteArray(FullScreenActivity.IMG_BYTE_ARRAY, imgByteArray)
+        bundle.putString(FullScreenActivity.VIEW_TYPE, FullScreenActivity.VIEW_TYPE_PROFILE_PIC)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
     override fun onViewPermissionsBtnTapped(educator: Educator) {
         val fragment = ProfileEducatorPermissionsListFragment.newInstance(educator)
         openFragment(fragment, ProfileEducatorPermissionsListFragment.TAG)

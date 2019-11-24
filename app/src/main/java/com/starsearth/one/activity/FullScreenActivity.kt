@@ -8,13 +8,21 @@ import android.os.Parcelable
 import android.view.View
 import com.starsearth.one.R
 import com.starsearth.one.fragments.HighScoreFragment
+import com.starsearth.one.fragments.ProfilePicFragment
 import kotlinx.android.synthetic.main.activity_full_screen.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class FullScreenActivity : AppCompatActivity(), HighScoreFragment.OnFragmentInteractionListener {
+class FullScreenActivity : AppCompatActivity(),
+        ProfilePicFragment.OnFragmentInteractionListener,
+        HighScoreFragment.OnFragmentInteractionListener {
+
+    override fun onProfilePicFragmentInteraction() {
+
+    }
+
     override fun onFragmentInteraction(uri: Uri) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -77,6 +85,14 @@ class FullScreenActivity : AppCompatActivity(), HighScoreFragment.OnFragmentInte
             val fragment = HighScoreFragment.newInstance((mTask as Parcelable), (mResult as Parcelable))
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container_main, fragment).commit()
+        }
+        else if (view_type == VIEW_TYPE_PROFILE_PIC) {
+            extras.getByteArray(IMG_BYTE_ARRAY)?.let {
+                val fragment = ProfilePicFragment.newInstance(it)
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container_main, fragment).commit()
+            }
+
         }
 
     }
@@ -153,5 +169,8 @@ class FullScreenActivity : AppCompatActivity(), HighScoreFragment.OnFragmentInte
         val VIEW_TYPE_HIGH_SCORE = "view_type_high_score"
         val TASK = "task"
         val RESULT = "result"
+
+        val VIEW_TYPE_PROFILE_PIC = "view_type_profile_pic"
+        val IMG_BYTE_ARRAY = "img_byte_array"
     }
 }

@@ -7,13 +7,11 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -47,6 +45,7 @@ class ProfileEducatorFragment : Fragment() {
     private var mTeachingContent: SETeachingContent? = null
     private lateinit var mContext : Context
     private var mEducator : Educator? = null
+    private var mImgByteArray : ByteArray? = null
     private var listener: OnProfileEducatorFragmentInteractionListener? = null
 
     private val mValueListener = object : ValueEventListener {
@@ -162,6 +161,12 @@ class ProfileEducatorFragment : Fragment() {
             }
         }
 
+        ivProfile?.setOnClickListener {
+            mImgByteArray?.let {
+                listener?.onProfilePicTapped(it)
+            }
+        }
+
         if (mEducator == null) {
             llPleaseWait?.visibility = View.VISIBLE
             val currentUser = FirebaseAuth.getInstance().currentUser
@@ -219,8 +224,9 @@ class ProfileEducatorFragment : Fragment() {
 
             val ONE_MEGABYTE: Long = 1024 * 1024
             profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+                mImgByteArray = it
                 val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                imgProfile?.setImageBitmap(bitmap)
+                ivProfile?.setImageBitmap(bitmap)
             }.addOnFailureListener {
                 // Handle any errors
             }
@@ -307,6 +313,7 @@ class ProfileEducatorFragment : Fragment() {
         fun onProfileEducatorCTATapped(parentItemSelected : DetailListFragment.ListItem, educator: Educator, teachingContent: SETeachingContent)
         fun onProfileEducatorStatusChanged()
         fun onViewPermissionsBtnTapped(educator: Educator)
+        fun onProfilePicTapped(imgByteArray: ByteArray)
     }
 
     companion object {
