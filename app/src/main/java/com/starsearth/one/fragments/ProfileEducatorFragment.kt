@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -75,7 +74,7 @@ class ProfileEducatorFragment : Fragment() {
         override fun onCancelled(p0: DatabaseError?) {
             llPleaseWait?.visibility = View.GONE
             changeText(getString(R.string.educator_not_authorized_msg))
-            btnActivate?.let { toggleButtonWithAnimation(it, false) }
+            btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
         }
 
     }
@@ -234,24 +233,24 @@ class ProfileEducatorFragment : Fragment() {
     }
 
     //Will made the activate button fade in/fade out with animation
-    private fun toggleButtonWithAnimation(button : Button, shouldMakeVisible : Boolean) {
-        if (button.visibility == View.GONE && shouldMakeVisible) {
-            button.animate()
+    private fun toggleVisibilityWithAnimation(view : View, shouldMakeVisible : Boolean) {
+        if (view.visibility == View.GONE && shouldMakeVisible) {
+            view.animate()
                     ?.alpha(1f)
                     ?.setDuration(1500) //Because text takes 2 seconds to change
                     ?.setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            button?.visibility = View.VISIBLE
+                            view.visibility = View.VISIBLE
                         }
                     })
         }
-        else if (button.visibility == View.VISIBLE && !shouldMakeVisible) {
-            button.animate()
+        else if (view.visibility == View.VISIBLE && !shouldMakeVisible) {
+            view.animate()
                     ?.alpha(0f)
                     ?.setDuration(1500) //Because text takes 2 seconds to change
                     ?.setListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
-                            button?.visibility = View.GONE
+                            view.visibility = View.GONE
                         }
                     })
         }
@@ -260,30 +259,33 @@ class ProfileEducatorFragment : Fragment() {
     private fun updateUI(educator: Educator) {
         if (educator.status == Educator.Status.AUTHORIZED) {
             changeText(getString(R.string.educator_authorized_msg))
-            btnActivate?.let { toggleButtonWithAnimation(it, true) }
-            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
-            btnCTA?.let { toggleButtonWithAnimation(it, false) }
+            llProfile?.let { toggleVisibilityWithAnimation(it, false) }
+            btnActivate?.let { toggleVisibilityWithAnimation(it, true) }
+            btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.ACTIVE) {
             changeText(getString(R.string.educator_active_msg))
+            llProfile?.let { toggleVisibilityWithAnimation(it, true) }
             updateProfile()
-            btnActivate?.let { toggleButtonWithAnimation(it, false) }
+            btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
             if (listItem != null) {
-                btnPermissions?.let { toggleButtonWithAnimation(it, false) }
+                btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
                 btnCTA?.text = mContext.getString(R.string.continue_label)
-                btnCTA?.let { toggleButtonWithAnimation(it, true) }
+                btnCTA?.let { toggleVisibilityWithAnimation(it, true) }
             }
             else {
-                btnActivate?.let { toggleButtonWithAnimation(it, false) }
-                btnPermissions?.let { toggleButtonWithAnimation(it, true) }
-                btnCTA?.let { toggleButtonWithAnimation(it, false) }
+                btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
+                btnPermissions?.let { toggleVisibilityWithAnimation(it, true) }
+                btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
             }
         }
         else if (educator.status == Educator.Status.SUSPENDED) {
             changeText(getString(R.string.educator_suspended_msg))
-            btnActivate?.let { toggleButtonWithAnimation(it, false) }
-            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
-            btnCTA?.let { toggleButtonWithAnimation(it, false) }
+            llProfile?.let { toggleVisibilityWithAnimation(it, true) }
+            btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
+            btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.DEACTIVATED) {
             //TODO: Add this at a later time
@@ -292,9 +294,10 @@ class ProfileEducatorFragment : Fragment() {
         }
         else {
             changeText(getString(R.string.educator_not_authorized_msg))
-            btnActivate?.let { toggleButtonWithAnimation(it, false) }
-            btnPermissions?.let { toggleButtonWithAnimation(it, false) }
-            btnCTA?.let { toggleButtonWithAnimation(it, false) }
+            llProfile?.let { toggleVisibilityWithAnimation(it, false) }
+            btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
+            btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
     }
 
