@@ -1,21 +1,29 @@
 package com.starsearth.one.fragments.lists
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.DetailRecyclerViewAdapter
-import com.starsearth.one.domain.*
-import kotlin.collections.ArrayList
+import com.starsearth.one.domain.Course
+import com.starsearth.one.domain.Result
+import com.starsearth.one.domain.SETeachingContent
+import com.starsearth.one.domain.Task
+import com.starsearth.one.managers.FirebaseManager
 
 
 /**
@@ -33,6 +41,9 @@ class DetailListFragment : Fragment() {
     private var mColumnCount = 1
     private var mTeachingContent: SETeachingContent? = null
     private var mResults = ArrayList<Result>()
+    private lateinit var mAdapter : DetailRecyclerViewAdapter
+    private var mCreatorName: String? = null
+    private var mCreatorProfilePic: ByteArray? = null
     private var mListener: OnTaskDetailListFragmentListener? = null
 
     enum class ListItem constructor(val valueString: String) {
@@ -48,6 +59,7 @@ class DetailListFragment : Fragment() {
         HIGH_SCORE("HIGH_SCORE"),
 
         //Both
+        CREATOR("CREATOR"),
         CHANGE_TAGS("CHANGE_TAGS")
         ;
 
@@ -88,6 +100,10 @@ class DetailListFragment : Fragment() {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
             val listTitles = ArrayList<ListItem>()
+            listTitles.add(ListItem.CREATOR) //Creator must be there for all tasks
+            if ((activity as? MainActivity)?.mEducator != null) {
+                listTitles.add(ListItem.CHANGE_TAGS)
+            }
             if (mTeachingContent is Course) {
                 listTitles.add(ListItem.COURSE_DESCRIPTION)
             }
@@ -109,12 +125,9 @@ class DetailListFragment : Fragment() {
             if (mTeachingContent is Task && mResults.isNotEmpty() && (mTeachingContent as Task).isGame) {
                 listTitles.add(ListItem.HIGH_SCORE)
             }
-            if ((activity as? MainActivity)?.mEducator != null) {
-                listTitles.add(ListItem.CHANGE_TAGS)
-            }
 
-
-            view.adapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, (activity as? MainActivity)?.mEducator, mListener)
+            mAdapter = DetailRecyclerViewAdapter(context.applicationContext, mTeachingContent, listTitles, mResults, (activity as? MainActivity)?.mEducator, mListener)
+            view.adapter = mAdapter
         }
 
         return view
@@ -123,6 +136,47 @@ class DetailListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.announceForAccessibility(getString(R.string.more_options_screen_opened))
+
+        if (mCreatorName != null && mCreatorProfilePic != null) {
+            mAdapter.updateCreatorName(mCreatorName!!)
+            mAdapter.updateCreatorProfilePic(mCreatorProfilePic!!)
+        }
+        else {
+            //Get creator details
+            mTeachingContent?.creator?.let {
+                val firebaseManager = FirebaseManager("users")
+                val query = firebaseManager.getQueryForUserObject(it)
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val key = dataSnapshot.key
+                        val value = dataSnapshot.value as? Map<String, Any?>
+                        if (value?.containsKey("name") == true) {
+                            mCreatorName = value.get("name") as String
+                            mAdapter.updateCreatorName(mCreatorName!!)
+
+                            if (value.containsKey("pic") == true) {
+                                val picUrl = value.get("pic") as String
+                                var profilePicRef = FirebaseStorage.getInstance().reference.child(picUrl)
+
+                                val ONE_MEGABYTE: Long = 1024 * 1024
+                                profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+                                    mCreatorProfilePic = it
+                                    mAdapter.updateCreatorProfilePic(it)
+                                }.addOnFailureListener {
+                                    // Handle any errors
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) { // Getting Post failed, log a message
+
+                    }
+                })
+            }
+        }
+
+
     }
 
 

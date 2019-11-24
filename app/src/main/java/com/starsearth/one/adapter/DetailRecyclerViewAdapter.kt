@@ -1,18 +1,18 @@
 package com.starsearth.one.adapter
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.domain.Educator
-import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.SETeachingContent
-import com.starsearth.one.domain.Task
+import com.starsearth.one.activity.MainActivity
+import com.starsearth.one.domain.*
 import com.starsearth.one.fragments.lists.DetailListFragment
 
 import com.starsearth.one.fragments.lists.DetailListFragment.OnTaskDetailListFragmentListener
@@ -27,6 +27,9 @@ import kotlin.collections.ArrayList
  */
 class DetailRecyclerViewAdapter(private val context: Context, private val mTeachingContent : SETeachingContent?, private val mListTitles: ArrayList<DetailListFragment.ListItem>, private val mResults: ArrayList<Result>, private val educator: Educator?, private val mListener: OnTaskDetailListFragmentListener?) : RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHolder>() {
 
+    private var mCreatorName : String? = null
+    private var mCreatorProfilePic : ByteArray? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var layoutId = R.layout.task_detail_list_item
 
@@ -40,6 +43,30 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
         val itemTitle = mListTitles[position]
         holder.mItem = itemTitle
         when (itemTitle) {
+            //Both: Course + Task
+            DetailListFragment.ListItem.CREATOR -> {
+                holder.mCreatorProfilePic.visibility = View.VISIBLE
+                holder.mCreatedByLabel.visibility = View.VISIBLE
+                holder.mCreatorName.visibility = View.VISIBLE
+                //This data will be loaded asynchronously as it has to be pulled from server
+                mCreatorName?.let { holder.mCreatorName.text = it }
+                mCreatorProfilePic?.let {
+                    val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                    holder.mCreatorProfilePic.setImageBitmap(bitmap)
+                }
+            }
+            DetailListFragment.ListItem.CHANGE_TAGS -> {
+                holder.mHeading1.visibility = View.VISIBLE
+                holder.mHeading2.visibility = View.VISIBLE
+                holder.mHeading1.text = itemTitle.toString().toLowerCase(Locale.getDefault()).capitalize().replace("_", " ", true)
+                if (educator?.tagging == true) {
+                    holder.mHeading2.text = context.resources.getString(R.string.educators_only)
+                }
+                else if (educator?.status == Educator.Status.SUSPENDED || educator?.tagging == false) {
+                    holder.mHeading2.text = context.resources.getString(R.string.tagging_explanation_no)
+                    holder.mView.setBackgroundColor(Color.GRAY)
+                }
+            }
             //Course
             DetailListFragment.ListItem.COURSE_DESCRIPTION -> {
                 holder.mHeading1.visibility = View.VISIBLE
@@ -94,19 +121,6 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
                     true
                 }
             }
-            //All
-            DetailListFragment.ListItem.CHANGE_TAGS -> {
-                holder.mHeading1.visibility = View.VISIBLE
-                holder.mHeading2.visibility = View.VISIBLE
-                holder.mHeading1.text = itemTitle.toString().toLowerCase(Locale.getDefault()).capitalize().replace("_", " ", true)
-                if (educator?.tagging == true) {
-                    holder.mHeading2.text = context.resources.getString(R.string.educators_only)
-                }
-                else if (educator?.status == Educator.Status.SUSPENDED || educator?.tagging == false) {
-                    holder.mHeading2.text = context.resources.getString(R.string.tagging_explanation_no)
-                    holder.mView.setBackgroundColor(Color.GRAY)
-                }
-            }
             else -> {
             }
         }
@@ -119,7 +133,23 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
         return mListTitles.size
     }
 
+    fun updateCreatorName(name: String) {
+        mCreatorName = name
+        notifyDataSetChanged()
+    }
+
+    fun updateCreatorProfilePic(imgByteArray: ByteArray) {
+        mCreatorProfilePic = imgByteArray
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        //CREATOR: Start
+        val mCreatorProfilePic: ImageView
+        val mCreatedByLabel: TextView
+        val mCreatorName: TextView
+        //CREATOR: End
+
         //SEE ALL RESULTS: Start
         val mHeading1: TextView
         val mHeading2: TextView
@@ -144,6 +174,10 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
         var mItem: DetailListFragment.ListItem? = null
 
         init {
+            mCreatorProfilePic = mView.findViewById(R.id.ivCreatorProfile) as ImageView
+            mCreatedByLabel = mView.findViewById(R.id.tvCreatedByLabel) as TextView
+            mCreatorName = mView.findViewById(R.id.tvCreatorName) as TextView
+
             mHeading1 = mView.findViewById<TextView>(R.id.tvHeading1) as TextView
             mHeading2 = mView.findViewById<TextView>(R.id.tvHeading2) as TextView
 

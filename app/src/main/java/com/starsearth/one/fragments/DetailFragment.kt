@@ -219,8 +219,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }   */
-        tvLongPressForMoreOptions?.visibility =
-                if (mTeachingContent is Course
+        tvLongPressForMoreOptions?.visibility = View.VISIBLE //At minimum, user must always be able to see creator's name
+            /*    if (mTeachingContent is Course
                         || (activity as? MainActivity)?.mEducator != null
                         || (mTeachingContent is Task && mResults.isNotEmpty())
                 ) {
@@ -228,7 +228,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }
                 else {
                     View.GONE
-                }
+                }   */
     }
 
     fun updateUIText() {

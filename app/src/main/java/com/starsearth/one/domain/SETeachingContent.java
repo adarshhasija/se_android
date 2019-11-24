@@ -18,10 +18,10 @@ public class SETeachingContent implements Parcelable {
 
     public long id; //local id
     public String uid;
+    public String creator;
     public String title;
     public String instructions;
     public boolean visible = true; //visible to the user
-    public String createdBy;
     public String updatedBy;
     public String parentType;
     public String parentId;
@@ -53,10 +53,10 @@ public class SETeachingContent implements Parcelable {
 
     public SETeachingContent(HashMap<String, Object> map) {
         this.id =  map.containsKey("id") ? (Long) map.get("id") : -1;
+        this.creator = map.containsKey("creator") ? (String) map.get("creator") : null;
         this.title = map.containsKey("title") ? (String) map.get("title") : null;
         this.instructions = map.containsKey("instructions") ? (String) map.get("instructions") : null;
         this.visible = map.containsKey ("visible") ? (Boolean) map.get("visible") : false;
-        this.createdBy = map.containsKey("createdBy") ? (String) map.get("createdBy") : null;
         this.updatedBy = map.containsKey("updatedBy") ? (String) map.get("updatedBy") : null;
         this.parentType = map.containsKey("parentType") ? (String) map.get("parentType") : null;
         this.parentId = map.containsKey("parentId") ? (String) map.get("parentId") : null;
@@ -77,10 +77,10 @@ public class SETeachingContent implements Parcelable {
     protected SETeachingContent(Parcel in) {
         id = in.readLong();
         uid = in.readString();
+        creator = in.readString();
         title = in.readString();
         instructions = in.readString();
         visible = in.readByte() != 0;
-        createdBy = in.readString();
         updatedBy = in.readString();
         parentType = in.readString();
         parentId = in.readString();
@@ -104,8 +104,8 @@ public class SETeachingContent implements Parcelable {
         return uid;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getCreator() {
+        return creator;
     }
 
     public String getTitle() {
@@ -129,10 +129,10 @@ public class SETeachingContent implements Parcelable {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("uid", uid);
+        result.put("creator", creator);
         result.put("title", title);
         result.put("instructions", instructions);
         result.put("visible", visible);
-        result.put("createdBy", createdBy);
         result.put("updatedBy", updatedBy);
         result.put("parentType", parentType);
         result.put("parentId", parentId);
@@ -151,10 +151,10 @@ public class SETeachingContent implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(uid);
+        dest.writeString(creator);
         dest.writeString(title);
         dest.writeString(instructions);
         dest.writeByte((byte) (visible ? 1 : 0));
-        dest.writeString(createdBy);
         dest.writeString(updatedBy);
         dest.writeString(parentType);
         dest.writeString(parentId);

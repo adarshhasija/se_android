@@ -16,6 +16,45 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/clMain" android:padding="10dp">
 
+        <!-- CREATOR PROFILE : START -->
+        <ImageView
+            android:id="@+id/ivCreatorProfile"
+            android:visibility="gone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_computer"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCreatorName"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toTopOf="@id/ivCreatorProfile"
+            app:layout_constraintBottom_toBottomOf="@id/ivCreatorProfile"
+            app:layout_constraintLeft_toRightOf="@id/ivCreatorProfile" />
+
+        <TextView
+            android:id="@+id/tvCreatedByLabel"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/created_by"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintLeft_toLeftOf="@id/tvCreatorName"
+            app:layout_constraintBottom_toTopOf="@id/tvCreatorName" />
+
+        <!-- CREATOR PROFILE : END -->
+
+
+
         <!-- HIGH SCORE: START -->
 
         <TextView
