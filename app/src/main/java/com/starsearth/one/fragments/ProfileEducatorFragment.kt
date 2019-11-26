@@ -115,13 +115,9 @@ class ProfileEducatorFragment : Fragment() {
                       llPleaseWait?.visibility = View.VISIBLE
                       val mDatabase = FirebaseDatabase.getInstance().reference
                       mDatabase.run {
-                          this.child("educators").child(localScopeEducator.uid).child("status").setValue(Educator.Status.ACTIVE) //it = mEducator
-                          //Set all out-of-the-box permissions
-                          this.child("educators").child(localScopeEducator.uid).child("tagging").setValue(true) //it = mEducator
-                          //End of permissions list
-
                           val currentUser = FirebaseAuth.getInstance().currentUser
                           currentUser?.let {
+                              this.child("educators").child(localScopeEducator.uid).child("status").setValue(Educator.Status.ACTIVE) //it = mEducator
                               this.child("educators").child(localScopeEducator.uid).child("userid").setValue(it.uid) //setting userid is first preference over phone number. User can always change the phone number
                               this.child("users").child(it.uid).child("educator").setValue(Educator.Status.ACTIVE) //Set the record in the user profile as well
                           }

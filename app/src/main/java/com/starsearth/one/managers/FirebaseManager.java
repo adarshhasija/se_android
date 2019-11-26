@@ -170,6 +170,22 @@ public class FirebaseManager {
         //return databaseReference.equalTo("mpn", phoneNumber); //if indexOn has been set. Not working
     }
 
+    //Returns all tags selected by a particular user for a certain teaching content id
+    public Query getQueryForTagsByUserId(String teachingContentId, String userId) {
+        return databaseReference.child(teachingContentId).child("tags").orderByChild(userId).equalTo(true);
+    }
+
+    //Returns all teaching content associated with a particular tag
+    public Query getQueryForTeachingContentByTag(String tag) {
+        return databaseReference.child(tag).child("teachingcontent");
+    }
+
+    //Returns Teaching content under a particular tag that has been tagged by a particular person
+    public Query getQueryForTeachingContentTaggedByUserId(String tag, String userId) {
+        return databaseReference.child(tag).child("teachingcontent").orderByChild(userId).equalTo(true);
+    }
+
+
     public Query getQueryForTags() {
         return databaseReference.orderByChild("seone").equalTo(true);
     }

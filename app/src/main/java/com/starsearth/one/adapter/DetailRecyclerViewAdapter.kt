@@ -9,9 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.starsearth.one.R
 import com.starsearth.one.Utils
-import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.domain.*
 import com.starsearth.one.fragments.lists.DetailListFragment
 
@@ -19,6 +20,7 @@ import com.starsearth.one.fragments.lists.DetailListFragment.OnTaskDetailListFra
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.E
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -40,6 +42,7 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
         val itemTitle = mListTitles[position]
         holder.mItem = itemTitle
         when (itemTitle) {
@@ -57,13 +60,25 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
             }
             DetailListFragment.ListItem.CHANGE_TAGS -> {
                 holder.mHeading1.visibility = View.VISIBLE
-                holder.mHeading2.visibility = View.VISIBLE
                 holder.mHeading1.text = itemTitle.toString().toLowerCase(Locale.getDefault()).capitalize().replace("_", " ", true)
-                if (educator?.tagging == true) {
-                    holder.mHeading2.text = context.resources.getString(R.string.educators_only)
+                if (educator?.tagging == Educator.PERMISSIONS.TAGGING_ALL) {
+                    //Allowed. No sub heading explanation needed here
+                    holder.mHeading2.visibility = View.VISIBLE
+                    holder.mHeading2.text = context.getString(R.string.as_an_educator)
                 }
-                else if (educator?.status == Educator.Status.SUSPENDED || educator?.tagging == false) {
-                    holder.mHeading2.text = context.resources.getString(R.string.tagging_explanation_no)
+                else if (educator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && mTeachingContent?.creator == currentUser?.uid) {
+                    //Allowed. No sub heading explanation needed here
+                    holder.mHeading2.visibility = View.VISIBLE
+                    holder.mHeading2.text = context.getString(R.string.as_an_educator)
+                }
+                else if (educator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && mTeachingContent?.creator != currentUser?.uid) {
+                    holder.mHeading2.visibility = View.VISIBLE
+                    holder.mHeading2.text = context.getString(R.string.you_are_not_creator)
+                    holder.mView.setBackgroundColor(Color.GRAY)
+                }
+                else if (educator?.status == Educator.Status.SUSPENDED || educator?.tagging == Educator.PERMISSIONS.TAGGING_NONE) {
+                    holder.mHeading2.visibility = View.VISIBLE
+                    holder.mHeading2.text = context.resources.getString(R.string.tagging_none)
                     holder.mView.setBackgroundColor(Color.GRAY)
                 }
             }

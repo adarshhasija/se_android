@@ -8,21 +8,23 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.MyTagRecyclerViewAdapter
 import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.domain.TagListItem
-
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_autismstory_list.*
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
 import kotlinx.android.synthetic.main.fragment_tag_list.view.*
+
 
 /**
  * A fragment representing a list of Items.
@@ -31,13 +33,35 @@ import kotlinx.android.synthetic.main.fragment_tag_list.view.*
  */
 class TagListFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
     private lateinit var mTeachingContent: SETeachingContent
+    private var tagsMap = HashMap<String, Any>()
 
     private var listener: OnListFragmentInteractionListener? = null
 
-    private val mValuesListener = object : ValueEventListener {
+    private val mSelectedTagsListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            llPleaseWait?.visibility = View.GONE
+            val key = dataSnapshot?.key
+            val map = dataSnapshot?.value
+            Log.d(TAG, "********key is: "+key+"************* value is: "+map)
+            if (map != null) {
+                for (entry in (map as HashMap<*, *>).entries) {
+                    val tagName = entry.key as String
+                    (view?.list?.adapter as MyTagRecyclerViewAdapter).setSelected(tagName)
+                }
+
+            }
+            (view?.list?.adapter as MyTagRecyclerViewAdapter).notifyDataSetChanged()
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            llPleaseWait?.visibility = View.GONE
+        }
+
+    }
+
+    private val mTagsListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             llPleaseWait?.visibility = View.GONE
             val map = dataSnapshot?.value
@@ -50,6 +74,13 @@ class TagListFragment : Fragment() {
                 }
                 (list?.adapter as MyTagRecyclerViewAdapter).notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
+
+                //Now we look for the ones that were selected
+                (activity as? MainActivity)?.mUser?.uid?.let {
+                    val firebaseManager = FirebaseManager("teachingcontent")
+                    val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent.id.toString(), it)
+                    query.addListenerForSingleValueEvent(mSelectedTagsListener)
+                }
             }
             list?.visibility = View.VISIBLE
         }
@@ -62,6 +93,7 @@ class TagListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         arguments?.let {
             mTeachingContent = it.getParcelable(ARG_TEACHING_CONTENT)
@@ -96,7 +128,7 @@ class TagListFragment : Fragment() {
 
         val firebaseManager = FirebaseManager("tags")
         val query = firebaseManager.queryForTags
-        query.addListenerForSingleValueEvent(mValuesListener)
+        query.addListenerForSingleValueEvent(mTagsListener)
     }
 
     override fun onAttach(context: Context) {
@@ -111,6 +143,55 @@ class TagListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater?.inflate(R.menu.fragment_tags_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item!!.itemId) {
+            R.id.done -> {
+                val tagListItems = (view?.list?.adapter as MyTagRecyclerViewAdapter).getAllItems()
+                val childUpdates = HashMap<String, Any?>()
+                for (tagListItem in tagListItems) {
+                    val userId = (activity as? MainActivity)?.mUser?.uid
+                    if (userId != null) {
+                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.id.toString() + "/tags/" + tagListItem.name + "/" + userId, if (tagListItem.checked) {
+                            true
+                        } else {
+                            null
+                        })
+                        childUpdates.put("tags" + "/" + tagListItem.name + "/teachingcontent/" + mTeachingContent.id.toString() + "/" + userId, if (tagListItem.checked) {
+                            true
+                        } else {
+                            null
+                        })
+                    }
+
+                }
+
+                val mDatabase = FirebaseDatabase.getInstance().reference
+                mDatabase.updateChildren(childUpdates)
+                        ?.addOnFailureListener {
+
+                        }
+                        ?.addOnSuccessListener {
+
+
+                        }
+
+                return true
+            }
+            else -> {
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     /**

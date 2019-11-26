@@ -1,20 +1,17 @@
 package com.starsearth.one.adapter
 
+
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.domain.TagListItem
-
-
 import com.starsearth.one.fragments.lists.TagListFragment.OnListFragmentInteractionListener
-
-
 import kotlinx.android.synthetic.main.fragment_tag.view.*
 
 /**
@@ -48,23 +45,23 @@ class MyTagRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.mContentView.text = item.name
-        if (item.tcid != null) {
-            holder.mView.setBackgroundColor(Color.BLUE)
+        if (item.checked) {
+            holder.mTickIcon.visibility = View.VISIBLE
         }
-        else if (item.tcid == null) {
-            holder.mView.setBackgroundColor(Color.WHITE)
+        else if (!item.checked) {
+            holder.mTickIcon.visibility = View.GONE
         }
 
         with(holder.mView) {
             tag = item
             setOnClickListener {
-                if (mValues[position].tcid != null) {
-                    mValues[position].tcid = null
-                    holder.mView.setBackgroundColor(Color.WHITE)
+                if (mValues[position].checked) {
+                    mValues[position].checked = false
+                    holder.mTickIcon.visibility = View.GONE
                 }
                 else {
-                    mValues[position].tcid = mTeachingContent.id.toString()
-                    holder.mView.setBackgroundColor(Color.BLUE)
+                    mValues[position].checked = true
+                    holder.mTickIcon.visibility = View.VISIBLE
                 }
             }
             //setOnClickListener(mOnClickListener)
@@ -75,10 +72,23 @@ class MyTagRecyclerViewAdapter(
         mValues.add(tagListItem)
     }
 
+    fun setSelected(tagName: String) {
+        for (i in 0 until mValues.size) {
+            if (tagName == mValues[i].name) {
+                mValues[i].checked = true
+            }
+        }
+    }
+
+    fun getAllItems() : ArrayList<TagListItem> {
+        return mValues
+    }
+
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mContentView: TextView = mView.content
+        val mTickIcon: ImageView = mView.ivTick
 
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"

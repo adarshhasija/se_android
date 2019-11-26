@@ -16,13 +16,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.starsearth.one.R;
+import com.starsearth.one.domain.Educator;
 import com.starsearth.one.domain.SeOneAccessibilityManager;
+import com.starsearth.one.domain.TagListItem;
 import com.starsearth.one.managers.AdsManager;
 import com.starsearth.one.managers.AnalyticsManager;
 import com.starsearth.one.domain.FirebaseRemoteConfigWrapper;
 import com.starsearth.one.domain.User;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 /**
  * Created by faimac on 11/28/16.
@@ -88,8 +91,9 @@ public class StarsEarthApplication extends Application {
         //Educator educator = new Educator("+91", "+918050389798", Educator.Status.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
-        //mDatabase.child("educators").child("-LuEFLKyquYUkh64ZGR-").child("status").setValue(Educator.Status.AUTHORIZED);
+        //mDatabase.child("educators").child("RycAhfhPsXOrUdbO8GOJqucktAA3").child("tagging").setValue(Educator.PERMISSIONS.TAGGING_OWN);
         //mDatabase.child("users").child("RycAhfhPsXOrUdbO8GOJqucktAA3").child("name").setValue("Adarsh Hasija");
+
         //StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/RycAhfhPsXOrUdbO8GOJqucktAA3.jpg");
         //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.profilepic);
         //ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -105,9 +109,10 @@ public class StarsEarthApplication extends Application {
         }); */
 
 
-        //TagListItem tag = new TagListItem("Class 3", true);
-        //String key = mDatabase.push().getKey();
-        //mDatabase.child("tags").child(key).setValue(tag);
+        //HashMap<String, Object> tagMap = new HashMap<>();
+        //tagMap.put("tags/Class 6/seone", true);
+        //tagMap.put("tags/Class 7/seone", true);
+        //mDatabase.updateChildren(tagMap);
     }
 
     public String getRemoteConfigAnalytics() {

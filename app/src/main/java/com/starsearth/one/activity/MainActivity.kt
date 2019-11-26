@@ -69,10 +69,8 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.popBackStackImmediate()
         when (parentItemSelected) {
             DetailListFragment.ListItem.CHANGE_TAGS -> {
-                if (educator.status == Educator.Status.ACTIVE && educator.tagging == true) {
-                    val fragment = TagListFragment.newInstance(teacingContent)
-                    openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
-                }
+                val fragment = TagListFragment.newInstance(teacingContent)
+                openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
             }
             else -> {
 
@@ -227,7 +225,13 @@ class MainActivity : AppCompatActivity(),
 
         //All
             DetailListFragment.ListItem.CHANGE_TAGS -> {
-                if (mEducator?.status == Educator.Status.ACTIVE && mEducator?.tagging == true) {
+                if (mEducator?.status == Educator.Status.ACTIVE && mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL) {
+                    val fragment = TagListFragment.newInstance(teachingContent as Parcelable)
+                    openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
+                }
+                else if (mEducator?.status == Educator.Status.ACTIVE
+                        && (mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && teachingContent?.creator == FirebaseAuth.getInstance().currentUser?.uid)
+                ) {
                     val fragment = TagListFragment.newInstance(teachingContent as Parcelable)
                     openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
                 }

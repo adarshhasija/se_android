@@ -13,7 +13,7 @@ public class Educator implements Parcelable {
     public String cc; //Country code
     public String mpn; //Mobile phone number
     public Status status;
-    public boolean tagging = false;
+    public PERMISSIONS tagging;
 
     public enum Status {
         AUTHORIZED, //Authorized to be an educator on the platform, but not registered
@@ -47,8 +47,30 @@ public class Educator implements Parcelable {
     };
 
     public enum PERMISSIONS {
-        TAGGING
+        TAGGING_ALL, //Allowed to add/edit tags for all teaching content
+        TAGGING_OWN, //Allowed to tag only content you have created
+        TAGGING_NONE //Not allowed to tag any content
         ;
+
+        public static PERMISSIONS fromString(String value) {
+            PERMISSIONS result = null;
+            switch (value.toLowerCase()) {
+                case "tagging_all":
+                    result = TAGGING_ALL;
+                    break;
+                case "tagging_own":
+                    result = TAGGING_OWN;
+                    break;
+                case "tagging_none":
+                    result = TAGGING_NONE;
+                    break;
+
+                default: break;
+
+            }
+
+            return result;
+        }
     }
 
     public Educator() {
@@ -60,7 +82,7 @@ public class Educator implements Parcelable {
         this.cc = (String) map.get("cc");
         this.status = Status.fromString((String) map.get("status"));
         this.mpn = (String) map.get("mpn");
-        this.tagging = map.containsKey("tagging") && (boolean) map.get("tagging");
+        this.tagging = map.containsKey("tagging") ? PERMISSIONS.fromString((String) map.get("tagging")) : null;
     }
 
     public Educator(String cc, String mpn, Status status) {
@@ -72,13 +94,14 @@ public class Educator implements Parcelable {
     //Update permissions depending on what educator should get out of the box
     public void registrationSuccessful() {
         this.status = Status.ACTIVE;
-        this.tagging = true;
     }
 
     protected Educator(Parcel in) {
         uid = in.readString();
         cc = in.readString();
         mpn = in.readString();
+        status = Status.fromString(in.readString());
+        tagging = PERMISSIONS.fromString(in.readString());
     }
 
     @Override
@@ -86,6 +109,8 @@ public class Educator implements Parcelable {
         dest.writeString(uid);
         dest.writeString(cc);
         dest.writeString(mpn);
+        dest.writeString(status.toString());
+        dest.writeString(tagging.toString());
     }
 
     @Override

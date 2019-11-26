@@ -6,6 +6,7 @@
         android:id="@+id/done"
         android:orderInCategory="100"
         android:title="@string/done"
-        android:visible="false"
-        app:showAsAction="never" />
+        android:icon="@drawable/baseline_done_all_black_48"
+        android:visible="true"
+        app:showAsAction="always" />
 </menu>

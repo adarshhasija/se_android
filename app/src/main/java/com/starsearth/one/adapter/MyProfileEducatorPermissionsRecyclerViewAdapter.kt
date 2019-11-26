@@ -47,15 +47,20 @@ class MyProfileEducatorPermissionsRecyclerViewAdapter(
 
         holder.mHeading1.visibility = View.VISIBLE
         holder.mHeading1.text = itemTitle.toString()
-        if (itemTitle == Educator.PERMISSIONS.TAGGING) {
+        if (itemTitle == Educator.PERMISSIONS.TAGGING_ALL) {
             holder.mView.setBackgroundColor(Color.GRAY)
             holder.mHeading2.visibility = View.VISIBLE
-            holder.mHeading2.text = context.getString(R.string.tagging_explanation_yes)
+            holder.mHeading2.text = context.getString(R.string.tagging_all)
+        }
+        else if (itemTitle == Educator.PERMISSIONS.TAGGING_OWN) {
+            holder.mView.setBackgroundColor(Color.GRAY)
+            holder.mHeading2.visibility = View.VISIBLE
+            holder.mHeading2.text = context.getString(R.string.tagging_own)
         }
         else {
             holder.mView.setBackgroundColor(Color.GRAY)
             holder.mHeading2.visibility = View.VISIBLE
-            holder.mHeading2.text = context.getString(R.string.tagging_explanation_no)
+            holder.mHeading2.text = context.getString(R.string.tagging_none)
         }
 
 

@@ -47,9 +47,8 @@ class ProfileEducatorPermissionsListFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
                 val listTitles = ArrayList<Educator.PERMISSIONS>()
-                if (mProfileEducator.tagging == true) {
-                    listTitles.add(Educator.PERMISSIONS.TAGGING)
-                }
+                listTitles.add(mProfileEducator.tagging)
+
                 adapter = MyProfileEducatorPermissionsRecyclerViewAdapter(mContext.applicationContext, mProfileEducator, listTitles, listener)
             }
         }

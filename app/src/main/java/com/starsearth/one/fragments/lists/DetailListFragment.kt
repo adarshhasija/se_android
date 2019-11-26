@@ -19,10 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.DetailRecyclerViewAdapter
-import com.starsearth.one.domain.Course
-import com.starsearth.one.domain.Result
-import com.starsearth.one.domain.SETeachingContent
-import com.starsearth.one.domain.Task
+import com.starsearth.one.domain.*
 import com.starsearth.one.managers.FirebaseManager
 
 
@@ -101,7 +98,9 @@ class DetailListFragment : Fragment() {
             }
             val listTitles = ArrayList<ListItem>()
             listTitles.add(ListItem.CREATOR) //Creator must be there for all tasks
-            if ((activity as? MainActivity)?.mEducator != null) {
+            if ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL
+                    || (activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN
+                    ) {
                 listTitles.add(ListItem.CHANGE_TAGS)
             }
             if (mTeachingContent is Course) {

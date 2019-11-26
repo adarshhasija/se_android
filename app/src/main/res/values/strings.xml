@@ -293,9 +293,12 @@
     <string name="name_add_edit">Please write to hasijaadarsh@gmail.com if you wish to add/edit your name or profile picture</string>
     <string name="activate_educator_status">Activate Educator Status</string>
     <string name="view_permissions">View Permissions</string>
+    <string name="view_your_content">View Your Content</string>
     <string name="tagging">Tagging</string>
-    <string name="tagging_explanation_yes">You have permission to tag the content on this app</string>
-    <string name="tagging_explanation_no">You do not have permission to tag content on this app. Contact hasijaadarsh@gmail.com for more info.</string>
+    <string name="tagging_all">You have permission to tag any content on this app</string>
+    <string name="tagging_own">You have permission to tag content you have created on this app</string>
+    <string name="tagging_none">You do not have permission to tag content on this app. Contact hasijaadarsh@gmail.com for more info.</string>
+    <string name="you_are_not_creator">You are not the creator of this content. You only have permission to change tags for content you have created</string>
     <string name="not_attempted">Not Attempted</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
@@ -352,7 +355,7 @@
     <string name="not_timed">Not Timed</string>
     <string name="volume_is_mute">Your volume is mute</string>
     <string name="all_results">All results</string>
-    <string name="educators_only">Educators Only</string>
+    <string name="as_an_educator">As a registered educator on this app, you are able to access this option</string>
     <string name="full_course">Full course</string>
     <string name="see_progress">See progress</string>
     <string name="repeat_tasks_you_passed">Repeat tasks you have passed</string>
