@@ -56,6 +56,9 @@ class DetailRecyclerViewAdapter(private val context: Context, private val mTeach
                 mCreatorProfilePic?.let {
                     val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                     holder.mCreatorProfilePic.setImageBitmap(bitmap)
+                    holder.mCreatorProfilePic.setOnClickListener {
+                        mListener?.onDetailListItemProfilePicTap(mCreatorProfilePic!!)
+                    }
                 }
             }
             DetailListFragment.ListItem.CHANGE_TAGS -> {

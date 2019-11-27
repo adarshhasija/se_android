@@ -47,8 +47,13 @@ class MainActivity : AppCompatActivity(),
 
     }
 
-    override fun onTagListItemSelected(tagListItem: TagListItem) {
-
+    override fun onTagsSaveCompleted() {
+        supportFragmentManager?.popBackStackImmediate()
+        val alertDialog = (application as? StarsEarthApplication)?.createAlertDialog(this)
+        alertDialog?.setTitle(getString(R.string.saved))
+        alertDialog?.setMessage(getString(R.string.save_successful))
+        alertDialog?.setPositiveButton(getString(android.R.string.ok), null)
+        alertDialog?.show()
     }
 
     override fun onProfilePicTapped(imgByteArray: ByteArray) {
@@ -186,6 +191,15 @@ class MainActivity : AppCompatActivity(),
         (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForResultListItemTap(task)
         val fragment = ResultDetailFragment.newInstance(task!!, result!!)
         openFragmentWithSlideToLeftEffect(fragment, ResultDetailFragment.TAG)
+    }
+
+    override fun onDetailListItemProfilePicTap(imgByteArray: ByteArray) {
+        val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
+        val bundle = Bundle()
+        bundle.putByteArray(FullScreenActivity.IMG_BYTE_ARRAY, imgByteArray)
+        bundle.putString(FullScreenActivity.VIEW_TYPE, FullScreenActivity.VIEW_TYPE_PROFILE_PIC)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     override fun onDetailListItemTap(itemTitle: DetailListFragment.ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>) {
@@ -366,7 +380,7 @@ class MainActivity : AppCompatActivity(),
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             val key = dataSnapshot?.key
             val value = dataSnapshot?.value as Map<String, Any?>
-            if (key != null) {
+            if (key != null && value != null) {
                 mUser = User(key, value)
             }
         }

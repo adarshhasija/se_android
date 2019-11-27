@@ -1,7 +1,6 @@
 package com.starsearth.one.adapter
 
 
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -29,10 +28,10 @@ class MyTagRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as TagListItem
+            //val item = v.tag as TagListItem
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onTagListItemSelected(item)
+            //mListener?.onTagsSaveCompleted(item)
         }
     }
 

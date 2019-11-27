@@ -91,8 +91,8 @@ public class StarsEarthApplication extends Application {
         //Educator educator = new Educator("+91", "+918050389798", Educator.Status.AUTHORIZED);
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
-        //mDatabase.child("educators").child("RycAhfhPsXOrUdbO8GOJqucktAA3").child("tagging").setValue(Educator.PERMISSIONS.TAGGING_OWN);
-        //mDatabase.child("users").child("RycAhfhPsXOrUdbO8GOJqucktAA3").child("name").setValue("Adarsh Hasija");
+        //mDatabase.child("educators").child("-LtnpPKKKK4Un92RZ5Zy").child("tagging").setValue(Educator.PERMISSIONS.TAGGING_ALL);
+        //mDatabase.child("users").child("0jLuro6wfcSCMtsYkdj8AaiMkgW2").child("name").setValue("Akanksha Mishra");
 
         //StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/RycAhfhPsXOrUdbO8GOJqucktAA3.jpg");
         //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.profilepic);
@@ -110,8 +110,7 @@ public class StarsEarthApplication extends Application {
 
 
         //HashMap<String, Object> tagMap = new HashMap<>();
-        //tagMap.put("tags/Class 6/seone", true);
-        //tagMap.put("tags/Class 7/seone", true);
+        //tagMap.put("tags/Class 10/seone", true);
         //mDatabase.updateChildren(tagMap);
     }
 

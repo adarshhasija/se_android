@@ -1,6 +1,7 @@
 package com.starsearth.one.fragments.lists
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
@@ -18,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.MyTagRecyclerViewAdapter
+import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.domain.TagListItem
 import com.starsearth.one.managers.FirebaseManager
@@ -35,7 +37,7 @@ class TagListFragment : Fragment() {
 
     private var columnCount = 1
     private lateinit var mTeachingContent: SETeachingContent
-    private var tagsMap = HashMap<String, Any>()
+    private lateinit var mContext: Context
 
     private var listener: OnListFragmentInteractionListener? = null
 
@@ -44,7 +46,6 @@ class TagListFragment : Fragment() {
             llPleaseWait?.visibility = View.GONE
             val key = dataSnapshot?.key
             val map = dataSnapshot?.value
-            Log.d(TAG, "********key is: "+key+"************* value is: "+map)
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val tagName = entry.key as String
@@ -77,6 +78,7 @@ class TagListFragment : Fragment() {
 
                 //Now we look for the ones that were selected
                 (activity as? MainActivity)?.mUser?.uid?.let {
+                    llPleaseWait?.visibility = View.VISIBLE
                     val firebaseManager = FirebaseManager("teachingcontent")
                     val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent.id.toString(), it)
                     query.addListenerForSingleValueEvent(mSelectedTagsListener)
@@ -135,6 +137,7 @@ class TagListFragment : Fragment() {
         super.onAttach(context)
         if (context is OnListFragmentInteractionListener) {
             listener = context
+            mContext = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnTagListFragmentInteractionListener")
         }
@@ -156,11 +159,16 @@ class TagListFragment : Fragment() {
 
         when (item!!.itemId) {
             R.id.done -> {
+                if (llPleaseWait?.visibility == View.VISIBLE) {
+                    return false //In case the user is pressing it multiple times
+                }
+
                 val tagListItems = (view?.list?.adapter as MyTagRecyclerViewAdapter).getAllItems()
                 val childUpdates = HashMap<String, Any?>()
                 for (tagListItem in tagListItems) {
                     val userId = (activity as? MainActivity)?.mUser?.uid
                     if (userId != null) {
+                        llPleaseWait?.visibility = View.VISIBLE
                         childUpdates.put("teachingcontent" + "/" + mTeachingContent.id.toString() + "/tags/" + tagListItem.name + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
@@ -178,11 +186,16 @@ class TagListFragment : Fragment() {
                 val mDatabase = FirebaseDatabase.getInstance().reference
                 mDatabase.updateChildren(childUpdates)
                         ?.addOnFailureListener {
-
+                            llPleaseWait?.visibility = View.GONE
+                            val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
+                            alertDialog?.setTitle(mContext.getString(R.string.error))
+                            alertDialog?.setMessage(mContext.getString(R.string.something_went_wrong))
+                            alertDialog?.setPositiveButton(getString(android.R.string.ok), null)
+                            alertDialog?.show()
                         }
                         ?.addOnSuccessListener {
-
-
+                            llPleaseWait?.visibility = View.GONE
+                            listener?.onTagsSaveCompleted()
                         }
 
                 return true
@@ -206,7 +219,7 @@ class TagListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onTagListItemSelected(tagListItem: TagListItem)
+        fun onTagsSaveCompleted()
     }
 
     companion object {

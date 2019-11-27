@@ -306,13 +306,13 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                     View.GONE
                 }
 
-        tvTapSwipeKeyboardInstructions?.visibility =
-                if (mTask.type == Task.Type.TAP_SWIPE) {
+        tvTapSwipeKeyboardInstructions?.visibility = View.GONE
+            /*    if (mTask.type == Task.Type.TAP_SWIPE) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */
 
     }
 

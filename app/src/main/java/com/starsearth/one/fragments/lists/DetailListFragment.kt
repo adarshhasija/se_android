@@ -99,7 +99,7 @@ class DetailListFragment : Fragment() {
             val listTitles = ArrayList<ListItem>()
             listTitles.add(ListItem.CREATOR) //Creator must be there for all tasks
             if ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL
-                    || (activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN
+                    || ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && (activity as? MainActivity)?.mUser?.uid == mTeachingContent?.id.toString())
                     ) {
                 listTitles.add(ListItem.CHANGE_TAGS)
             }
@@ -205,6 +205,7 @@ class DetailListFragment : Fragment() {
     interface OnTaskDetailListFragmentListener {
         fun onDetailListItemTap(itemTitle: ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>)
         fun onDetailListItemLongPress(itemTitle: ListItem, teachingContent: SETeachingContent?, results: ArrayList<Result>)
+        fun onDetailListItemProfilePicTap(imgByteArray: ByteArray)
     }
 
     companion object {

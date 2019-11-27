@@ -96,6 +96,8 @@
     <string name="login_failed">Login failed </string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
+    <string name="saved">Saved</string>
+    <string name="save_successful">Save Successful</string>
 
     <!--Admin console-->
     <string name="admin">Admin</string>
