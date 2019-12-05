@@ -145,6 +145,10 @@ class ProfileEducatorFragment : Fragment() {
 
         }
 
+        btnContent?.setOnClickListener {
+            listener?.onViewContentBtnTapped()
+        }
+
         btnPermissions?.setOnClickListener {
             mEducator?.let {
                 listener?.onViewPermissionsBtnTapped(it)
@@ -258,6 +262,7 @@ class ProfileEducatorFragment : Fragment() {
             llProfile?.let { toggleVisibilityWithAnimation(it, false) }
             btnActivate?.let { toggleVisibilityWithAnimation(it, true) }
             btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnContent?.let { toggleVisibilityWithAnimation(it, false) }
             btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.ACTIVE) {
@@ -267,12 +272,14 @@ class ProfileEducatorFragment : Fragment() {
             btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
             if (listItem != null) {
                 btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+                btnContent?.let { toggleVisibilityWithAnimation(it, false) }
                 btnCTA?.text = mContext.getString(R.string.continue_label)
                 btnCTA?.let { toggleVisibilityWithAnimation(it, true) }
             }
             else {
                 btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
                 btnPermissions?.let { toggleVisibilityWithAnimation(it, true) }
+                btnContent?.let { toggleVisibilityWithAnimation(it, true) }
                 btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
             }
         }
@@ -281,6 +288,7 @@ class ProfileEducatorFragment : Fragment() {
             llProfile?.let { toggleVisibilityWithAnimation(it, true) }
             btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
             btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnContent?.let { toggleVisibilityWithAnimation(it, false) }
             btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
         else if (educator.status == Educator.Status.DEACTIVATED) {
@@ -293,6 +301,7 @@ class ProfileEducatorFragment : Fragment() {
             llProfile?.let { toggleVisibilityWithAnimation(it, false) }
             btnActivate?.let { toggleVisibilityWithAnimation(it, false) }
             btnPermissions?.let { toggleVisibilityWithAnimation(it, false) }
+            btnContent?.let { toggleVisibilityWithAnimation(it, false) }
             btnCTA?.let { toggleVisibilityWithAnimation(it, false) }
         }
     }
@@ -312,6 +321,7 @@ class ProfileEducatorFragment : Fragment() {
         fun onProfileEducatorCTATapped(parentItemSelected : DetailListFragment.ListItem, educator: Educator, teachingContent: SETeachingContent)
         fun onProfileEducatorStatusChanged()
         fun onViewPermissionsBtnTapped(educator: Educator)
+        fun onViewContentBtnTapped()
         fun onProfilePicTapped(imgByteArray: ByteArray)
     }
 

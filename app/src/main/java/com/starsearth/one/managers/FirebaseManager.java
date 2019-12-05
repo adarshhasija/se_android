@@ -185,6 +185,10 @@ public class FirebaseManager {
         return databaseReference.child(tag).child("teachingcontent").orderByChild(userId).equalTo(true);
     }
 
+    public Query getQueryForTeachingContentCreatedByUserId(String userId) {
+        return databaseReference.orderByChild("creator").equalTo(userId);
+    }
+
 
     public Query getQueryForTags() {
         return databaseReference.orderByChild("seone").equalTo(true);

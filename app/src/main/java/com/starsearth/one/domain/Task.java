@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.content.Context;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 import com.starsearth.one.R;
@@ -72,6 +73,7 @@ public class Task extends SETeachingContent {
     }
 
     public enum Type {
+        UNKNOWN(-1),
         SEE_AND_TYPE(1), //Typing out the characters on the screen
         KEYBOARD_TEST(3),
         TAP_SWIPE(4),
@@ -93,6 +95,9 @@ public class Task extends SETeachingContent {
         public String toString() {
             String result = null;
             switch ((int) value) {
+                case -1:
+                    result = "Unknown";
+                    break;
                 case 1:
                     result = "See and Type";
                     break;
@@ -126,6 +131,37 @@ public class Task extends SETeachingContent {
 
     public Task() {
         super();
+    }
+
+    public Task(String key, HashMap<String, Object> map) {
+        super(key, map);
+        ArrayList<Object> mpArrayListContent = (ArrayList<Object>) map.get("content");
+        if (mpArrayListContent != null) {
+            this.content.addAll(mpArrayListContent);
+        }
+        ArrayList<Object> mpArrayListTap = (ArrayList<Object>) map.get("tap");
+        if (mpArrayListTap != null) {
+            this.tap.addAll(mpArrayListTap);
+        }
+        ArrayList<Object> mpArrayListSwipe = (ArrayList<Object>) map.get("swipe");
+        if (mpArrayListSwipe != null) {
+            this.swipe.addAll(mpArrayListSwipe);
+        }
+        this.type = map.containsKey("type") ? Type.fromInt(((Long) map.get("type")).intValue()) : Type.UNKNOWN;
+        this.subType = map.containsKey("subType") ? (String) map.get("subType") : null;
+        this.ordered = map.containsKey("ordered") ? (Boolean) map.get("ordered") : false;
+        this.timed = map.containsKey("timed") ? (Boolean) map.get("timed") : false;
+        this.durationMillis = map.containsKey("durationMillis") ? ((Long) map.get("durationMillis")).intValue() : -1;
+        this.isTextVisibleOnStart = map.containsKey("isTextVisibleOnStart") ? (Boolean) map.get("isTextVisibleOnStart") : true;
+        this.submitOnReturnTapped = map.containsKey("submitOnReturnTapped") ? (Boolean) map.get("submitOnReturnTapped") : false;
+        this.isPassFail = map.containsKey("isPassFail") ? (Boolean) map.get("isPassFail") : false;
+        this.passPercentage = map.containsKey("passPercentage") ? ((Long) map.get("passPercentage")).intValue() : 0;
+        this.showUserAnswerWithBackground = map.containsKey("showUserAnswerWithBackground") ? (Boolean) map.get("showUserAnswerWithBackground") : false;
+        this.isBackspaceAllowed = map.containsKey("isBackspaceAllowed") ? (Boolean) map.get("isBackspaceAllowed") : true;
+        this.isKeyboardRequired = map.containsKey("isKeyboardRequired") ? (Boolean) map.get("isKeyboardRequired") : false;
+        this.isExitOnInterruption = map.containsKey("isExitOnInterruption") ? (Boolean) map.get("isExitOnInterruption") : false;
+        this.isGame = map.containsKey("isGame") ? (Boolean) map.get("isGame") : false;
+        this.isOwnerWantingAds = map.containsKey("isOwnerWantingAds") ? (Boolean) map.get("isOwnerWantingAds") : false;
     }
 
     protected Task(Parcel in) {

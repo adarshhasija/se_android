@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 
@@ -51,6 +52,11 @@ public class SETeachingContent implements Parcelable {
 
     }
 
+    public SETeachingContent(String key, HashMap<String, Object> map) {
+        this(map);
+        this.uid = key;
+    }
+
     public SETeachingContent(HashMap<String, Object> map) {
         this.id =  map.containsKey("id") ? (Long) map.get("id") : -1;
         this.creator = map.containsKey("creator") ? (String) map.get("creator") : null;
@@ -61,7 +67,7 @@ public class SETeachingContent implements Parcelable {
         this.parentType = map.containsKey("parentType") ? (String) map.get("parentType") : null;
         this.parentId = map.containsKey("parentId") ? (String) map.get("parentId") : null;
         this.timestamp = map.containsKey("timestamp") ? (Long) map.get("timestamp") : -1;
-        ////Set tags list
+     /*   ////Set tags list
         ArrayList<String> mpArrayListTags = (ArrayList<String>) map.get("tags");
         if (mpArrayListTags != null) {
             this.tags = new ArrayList<>();
@@ -71,7 +77,14 @@ public class SETeachingContent implements Parcelable {
                 }
             }
         }
-        ////
+        ////    */
+        HashMap<String, Object> mpArrayListTags = (HashMap<String, Object>) map.get("tags");
+        if (mpArrayListTags != null) {
+            for (Map.Entry<String,Object> entry : mpArrayListTags.entrySet()) {
+                this.tags.add(entry.getKey());
+            }
+        }
+
     }
 
     protected SETeachingContent(Parcel in) {

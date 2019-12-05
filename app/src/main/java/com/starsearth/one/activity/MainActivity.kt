@@ -41,7 +41,12 @@ class MainActivity : AppCompatActivity(),
         ProfileEducatorFragment.OnProfileEducatorFragmentInteractionListener,
         TagListFragment.OnListFragmentInteractionListener,
         ProfileEducatorPermissionsListFragment.OnListFragmentInteractionListener,
+        EducatorContentFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onEducatorContentListFragmentInteraction(teachingContent: Parcelable) {
+
+    }
 
     override fun onProfileEducatorPermissionsListFragmentInteraction() {
 
@@ -63,6 +68,11 @@ class MainActivity : AppCompatActivity(),
         bundle.putString(FullScreenActivity.VIEW_TYPE, FullScreenActivity.VIEW_TYPE_PROFILE_PIC)
         intent.putExtras(bundle)
         startActivity(intent)
+    }
+
+    override fun onViewContentBtnTapped() {
+        val fragment = EducatorContentFragment.newInstance()
+        openFragment(fragment, EducatorContentFragment.TAG)
     }
 
     override fun onViewPermissionsBtnTapped(educator: Educator) {
@@ -516,7 +526,6 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
-
 
 
 }

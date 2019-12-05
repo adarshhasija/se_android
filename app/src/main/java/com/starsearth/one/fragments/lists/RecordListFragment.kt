@@ -72,7 +72,7 @@ class RecordListFragment : Fragment() {
         }
 
         override fun onCancelled(p0: DatabaseError?) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            progressBar?.visibility = View.GONE
         }
 
     }
