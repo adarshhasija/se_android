@@ -42,7 +42,19 @@ class MainActivity : AppCompatActivity(),
         TagListFragment.OnListFragmentInteractionListener,
         ProfileEducatorPermissionsListFragment.OnListFragmentInteractionListener,
         EducatorContentFragment.OnListFragmentInteractionListener,
+        SearchFragment.OnFragmentInteractionListener,
+        SearchResultItemFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun onSearchResultListFragmentInteraction(selectedItem: Parcelable) {
+        val recordsListFragment = RecordListFragment.newInstance(selectedItem)
+        openFragment(recordsListFragment, RecordListFragment.TAG)
+    }
+
+    override fun onSearchResultsObtained(resultsList: java.util.ArrayList<Parcelable>) {
+        val fragment = SearchResultItemFragment.newInstance(resultsList)
+        openFragmentWithSlideToLeftEffect(fragment, SearchResultItemFragment.TAG)
+    }
 
     override fun onEducatorContentListFragmentInteraction(teachingContent: Parcelable) {
 
@@ -336,6 +348,10 @@ class MainActivity : AppCompatActivity(),
         else if (type == SEOneListItem.Type.PHONE_NUMBER) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)
+        }
+        else if (type == SEOneListItem.Type.EDUCATOR_SEARCH) {
+            val searchFragment = SearchFragment.newInstance()
+            openFragment(searchFragment, SearchFragment.TAG)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
             val profileEducatorFragment = ProfileEducatorFragment.newInstance()

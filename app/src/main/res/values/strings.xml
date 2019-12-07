@@ -48,6 +48,9 @@
     <string name="something_went_wrong">Sorry something went wrong. Please try again later</string>
     <string name="no_internet">You do not have an internet connection</string>
     <string name="no_items_to_displayay">No items to display</string>
+    <string name="you_did_not_enter_search">You did not enter any search query</string>
+    <string name="no_search_results">No search results found</string>
+    <string name="no_educator_content_found">No content found that has been created by you. Please reach out to hasijaadarsh@gmail.com to add education content</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -83,6 +86,7 @@
     <string name="se_assistant_keyboard_test_start">I will now show you the keyboard test. If you have a USB keyboard, connect it when the keyboard test opens. Press any key. If the keyboard recognizes the key, the keyboard works. If you do not have a USB keyboard, simply press back to exit the keyboard test screen.\nTap screen to open keyboard test</string>
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <string name="view_all">View All</string>
+    <string name="educator_search">Educator Search</string>
     <string name="educator_profile">Educator Profile</string>
     <string name="logout_successful">Logout Successful</string>
 
@@ -391,6 +395,7 @@
     <string name="in_order">in order</string>
     <string name="not_in_order">not in order</string>
     <string name="double_tap_for_next_item">double tap screen to hear next item</string>
+    <string name="search">Search</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="course_type">
         <item>Typing</item>

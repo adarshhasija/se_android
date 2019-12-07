@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,8 @@ import com.starsearth.one.domain.SETeachingContent
 import com.starsearth.one.fragments.lists.DetailListFragment
 import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
+import java.util.*
+import kotlin.collections.HashMap
 
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -215,7 +218,15 @@ class ProfileEducatorFragment : Fragment() {
 
     private fun updateProfile() {
         (activity as? MainActivity)?.mUser?.name?.let {
-            tvName?.text = it
+            var split = it.split("\\s".toRegex(), 0).toMutableList()
+            for (i in 0 until split.size) {
+                split[i] = split[i].toLowerCase(Locale.getDefault()).capitalize()
+            }
+            var finalText = "" //Append all the words of the name together
+            for (word in split) {
+                finalText += " " + word
+            }
+            tvName?.text = finalText.trim()
         }
 
         (activity as? MainActivity)?.mUser?.pic?.let {

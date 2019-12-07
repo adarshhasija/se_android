@@ -499,7 +499,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
     private fun taskCompleted() {
         mCountDownTimer?.cancel()
         val map = HashMap<String, Any>()
-        map["task_id"] = mTask.id
+        map["task_id"] = if (mTask.uid != null) { mTask.uid } else { mTask.id }
         map["taskTypeLong"] = mTask.type.getValue()
         map["startTimeMillis"] = startTimeMillis
         map["timeTakenMillis"] = calculateTimeTaken()

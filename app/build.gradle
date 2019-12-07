@@ -65,6 +65,8 @@ dependencies {
     //Currently not in use as app id not approved by Facebook
     implementation 'com.facebook.android:audience-network-sdk:4.28.1'
 
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+
 
 }
 

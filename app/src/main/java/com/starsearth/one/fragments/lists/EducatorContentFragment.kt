@@ -73,13 +73,14 @@ class EducatorContentFragment : Fragment() {
         val firebaseManager = FirebaseManager("teachingcontent")
         val currentUser = (activity as? MainActivity)?.mUser?.uid
         if (currentUser != null) {
+            llPleaseWait?.visibility = View.VISIBLE
             val query = firebaseManager.getQueryForTeachingContentCreatedByUserId(currentUser)
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot?) {
                     val adapter = (list?.adapter as? EducatorContentRecyclerViewAdapter)
                     val map = dataSnapshot?.value
-                    if (map != null) {
-                        for (entry in (map as HashMap<*, *>).entries) {
+                    if (map != null && (map as HashMap<*, *>).entries.size > 0) {
+                        for (entry in map.entries) {
                             val key = entry.key.toString()
                             val value = entry.value as HashMap<String, Any>
                             if (value.containsKey("dummy") == false) {
@@ -87,16 +88,24 @@ class EducatorContentFragment : Fragment() {
                                 val task = Task(key, value)
                                 adapter?.addItem(task)
                             }
-
                         }
                         adapter?.notifyDataSetChanged()
+                        llPleaseWait?.visibility = View.GONE
+                        list?.visibility = View.VISIBLE
+                        tvEmptyList?.visibility = View.GONE
                     }
-                    llPleaseWait?.visibility = View.GONE
-                    list?.visibility = View.VISIBLE
+                    else {
+                        llPleaseWait?.visibility = View.GONE
+                        list?.visibility = View.GONE
+                        tvEmptyList?.visibility = View.VISIBLE
+                    }
+
                 }
 
                 override fun onCancelled(p0: DatabaseError?) {
                     llPleaseWait?.visibility = View.GONE
+                    list?.visibility = View.GONE
+                    tvEmptyList?.visibility = View.VISIBLE
                 }
 
             })

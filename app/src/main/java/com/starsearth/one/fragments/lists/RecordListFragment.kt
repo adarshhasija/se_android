@@ -308,6 +308,15 @@ class RecordListFragment : Fragment() {
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TYPE = "TYPE"
         private val ARG_CONTENT = "CONTENT"
+        private val ARG_CREATOR = "CREATOR"
+
+        fun newInstance(creator: Parcelable) : RecordListFragment {
+            val fragment = RecordListFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CREATOR, creator)
+            fragment.arguments = args
+            return fragment
+        }
 
         fun newInstance(type: SEOneListItem.Type, content: String?): RecordListFragment {
             val fragment = RecordListFragment()
