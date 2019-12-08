@@ -26,6 +26,9 @@ import com.starsearth.one.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_autismstory_list.*
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
 import kotlinx.android.synthetic.main.fragment_tag_list.view.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 /**
@@ -49,7 +52,7 @@ class TagListFragment : Fragment() {
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val tagName = entry.key as String
-                    (view?.list?.adapter as MyTagRecyclerViewAdapter).setSelected(tagName)
+                    (view?.list?.adapter as MyTagRecyclerViewAdapter).setSelected(tagName.toLowerCase(Locale.getDefault()).capitalize())
                 }
 
             }
@@ -169,12 +172,12 @@ class TagListFragment : Fragment() {
                     val userId = (activity as? MainActivity)?.mUser?.uid
                     if (userId != null) {
                         llPleaseWait?.visibility = View.VISIBLE
-                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.id.toString() + "/tags/" + tagListItem.name + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.id.toString() + "/tags/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null
                         })
-                        childUpdates.put("tags" + "/" + tagListItem.name + "/teachingcontent/" + mTeachingContent.id.toString() + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("tags" + "/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/teachingcontent/" + mTeachingContent.id.toString() + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null

@@ -17,6 +17,7 @@ import com.starsearth.one.fragments.SearchResultItemFragment.OnListFragmentInter
 import com.starsearth.one.fragments.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_searchresultitem.view.*
+import java.util.*
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
@@ -55,7 +56,7 @@ class MySearchResultItemRecyclerViewAdapter(
         }
         else if (item is TagListItem) {
             holder.mTitleView.visibility = View.VISIBLE
-            holder.mTitleView.text = item.name
+            holder.mTitleView.text = item.name.toLowerCase(Locale.getDefault()).capitalize()
         }
 
         with(holder.mView) {

@@ -277,7 +277,7 @@ class RecordListFragment : Fragment() {
         }
 
         //view has to exist by the time this is called
-     /*   if (mPassedInResults.isEmpty()) {
+      /*  if (mPassedInResults.isEmpty()) {
             //Only call from FirebaseManager if there are no results passed in
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
         }   */
@@ -392,7 +392,7 @@ class RecordListFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 val map = dataSnapshot?.value
                 if (map != null) {
-                    val map1 =  (map as HashMap<*, *>).get("Class 1")
+                    val map1 =  (map as HashMap<*, *>).get(tagListItem.name.toUpperCase(Locale.getDefault()))
                     val tcMap =  (map1 as HashMap<*, *>).get("teachingcontent")
                     if (tcMap != null && tcMap is HashMap<*,*>) {
                         mExpentedTCs = tcMap.entries.size

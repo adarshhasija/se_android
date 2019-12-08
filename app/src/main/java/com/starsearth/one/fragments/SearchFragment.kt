@@ -201,14 +201,14 @@ class SearchFragment : Fragment() {
         btnSubmit?.setOnClickListener {
             if (llPleaseWait?.visibility != View.VISIBLE) {
                 //Should only proceed if a search is not currently in progress
-                val searchText = etSearch?.text.toString().trim()
+                val searchText = etSearch?.text.toString().trim().toUpperCase(Locale.getDefault())
                 if (searchText.length > 0) {
                     val imm = activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(etSearch.windowToken, 0) //Close keyboard
 
                     llPleaseWait?.visibility = View.VISIBLE
                     val refEducators = FirebaseDatabase.getInstance().getReference("users")
-                    val educatorsQuery = refEducators.orderByChild("name").equalTo(searchText.toUpperCase(Locale.getDefault()))
+                    val educatorsQuery = refEducators.orderByChild("name").equalTo(searchText)
                     educatorsQuery.addListenerForSingleValueEvent(mEducatorValuesListener)
 
                     val refTags = FirebaseDatabase.getInstance().getReference("tags")
