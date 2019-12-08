@@ -50,6 +50,7 @@
     <string name="no_items_to_displayay">No items to display</string>
     <string name="you_did_not_enter_search">You did not enter any search query</string>
     <string name="no_search_results">No search results found</string>
+    <string name="no_content_found">No content found</string>
     <string name="no_educator_content_found">No content found that has been created by you. Please reach out to hasijaadarsh@gmail.com to add education content</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>

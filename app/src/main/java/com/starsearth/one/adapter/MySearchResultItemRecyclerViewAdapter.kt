@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
+import com.starsearth.one.domain.TagListItem
 import com.starsearth.one.domain.User
 
 
@@ -48,6 +49,10 @@ class MySearchResultItemRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         if (item is User) {
+            holder.mTitleView.visibility = View.VISIBLE
+            holder.mTitleView.text = item.name
+        }
+        else if (item is TagListItem) {
             holder.mTitleView.visibility = View.VISIBLE
             holder.mTitleView.text = item.name
         }

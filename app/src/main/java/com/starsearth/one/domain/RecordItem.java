@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.common.collect.MinMaxPriorityQueue;
 import com.starsearth.one.domain.datastructures.ResultComparator;
@@ -36,13 +37,13 @@ public class RecordItem implements Parcelable {
         return true;
     }
 
-    public boolean isTaskIdExists(long taskId) {
+    public boolean isTaskIdExists(String taskId) {
         boolean result = false;
         if (teachingContent instanceof Course) {
             result = ((Course) teachingContent).isTaskExists(taskId);
         }
         else if (teachingContent instanceof Task) {
-            if (taskId == ((Task) teachingContent).id) {
+            if (taskId.equals(((Task) teachingContent).uid)) {
                 result = true;
             }
         }

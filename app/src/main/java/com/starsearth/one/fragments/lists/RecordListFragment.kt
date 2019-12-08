@@ -44,8 +44,47 @@ class RecordListFragment : Fragment() {
     private var mNewlyCompletedResults = ArrayList<Result>() //For newly created results that are returned back from fragments
     private var mType : Any? = null
     private var mContent : String? = null
+    private var mCreator : User? = null
+    private var mTag : TagListItem? = null
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
+
+    private val mTeachingContentListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            val map = dataSnapshot?.value
+            if (map != null && (map as HashMap<*, *>).entries.size > 0) {
+                val tcList = ArrayList<SETeachingContent>()
+                for (entry in map.entries) {
+                    val key = entry.key as String
+                    val value = entry.value as HashMap<String, Any>
+                    if (value.containsKey("dummy") == false) {
+                        //The dummy is not an actual task. It was put in the backend to ensure the Firebase returned a HashMap
+                        var tc = Task(key, value)
+                        tcList.add(tc)
+                    }
+                }
+                insertTeachingContentItems(tcList)
+                (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                list?.layoutManager?.scrollToPosition(0)
+                //progressBar?.visibility = View.GONE
+                //list?.visibility = View.VISIBLE
+                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+            }
+            else {
+                progressBar?.visibility = View.GONE
+                list?.visibility = View.GONE
+                tvEmptyList?.visibility = View.VISIBLE
+            }
+
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            progressBar?.visibility = View.GONE
+            list?.visibility = View.GONE
+            tvEmptyList?.visibility = View.VISIBLE
+        }
+
+    }
 
     private val mResultValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -69,18 +108,36 @@ class RecordListFragment : Fragment() {
 
             progressBar?.visibility = View.GONE
             list?.visibility = View.VISIBLE
+            tvEmptyList?.visibility = View.GONE
         }
 
         override fun onCancelled(p0: DatabaseError?) {
             progressBar?.visibility = View.GONE
+            list?.visibility = View.VISIBLE
+            tvEmptyList?.visibility = View.GONE
         }
 
+    }
+
+    fun insertTeachingContentItems(tcItems: List<SETeachingContent>) {
+        for (tc in tcItems) {
+            insertTCItem(tc)
+        }
     }
 
     fun insertResults(results: List<Result>) {
         for (result in results) {
             insertResult(result)
         }
+    }
+
+    private fun insertTCItem(tc: SETeachingContent) {
+        val adapter = list?.adapter
+        if (adapter != null) {
+            val recordItem = RecordItem(tc)
+            (adapter as RecordItemRecyclerViewAdapter).addItem(recordItem)
+        }
+
     }
 
     /*
@@ -92,7 +149,7 @@ class RecordListFragment : Fragment() {
         if (adapter != null && itemCount != null) {
             for (i in 0 until itemCount) {
                 val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
-                if (menuItem.isTaskIdExists(result.task_id)) {
+                if (menuItem.isTaskIdExists(result.task_id.toString())) {
                     if (menuItem.isResultLatest(result)) {
                         menuItem.results.add(result)
                     }
@@ -119,7 +176,7 @@ class RecordListFragment : Fragment() {
             val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
             //Assuming all results returned in the array are from same course/task
             //Only need to check first item in the array
-            if (menuItem.isTaskIdExists(results.get(0).task_id)) {
+            if (menuItem.isTaskIdExists(results.get(0).task_id.toString())) {
                 menuItem.results.addAll(results)
                 adapter.removeAt(i)
                 adapter.addItem(menuItem)
@@ -132,14 +189,20 @@ class RecordListFragment : Fragment() {
 
         mPassedInResults = ArrayList()
         if (arguments != null) {
-            mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
-                    ?:
-                    DetailListFragment.ListItem.valueOf(arguments!!.getString(ARG_TYPE)) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
+         /*   mType = if (arguments!!.containsKey(ARG_TYPE) == true) {
+                        SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
+                        ?:
+                        DetailListFragment.ListItem.valueOf(arguments!!.getString(ARG_TYPE)!!) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
+                    }
+                    else {
+                        null
+                    }   */
             mContent = arguments!!.getString(ARG_CONTENT)
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
             arguments!!.getParcelableArrayList<Result>(ARG_RESULTS)?.let {
                 mPassedInResults.addAll(it)
             }
+            mCreator = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
 
         }
     }
@@ -153,7 +216,7 @@ class RecordListFragment : Fragment() {
             view.list.layoutManager = LinearLayoutManager(context)
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            var mainMenuItems = getData(mType)
+            var mainMenuItems = ArrayList<RecordItem>() //getData(mType)
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
             }
@@ -165,11 +228,15 @@ class RecordListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mCreator?.let {
+            setupTeachingContentListener(it)
+        }
+
         //view has to exist by the time this is called
-        if (mPassedInResults.isEmpty()) {
+     /*   if (mPassedInResults.isEmpty()) {
             //Only call from FirebaseManager if there are no results passed in
             FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
-        }
+        }   */
 
     }
 
@@ -260,6 +327,16 @@ class RecordListFragment : Fragment() {
         return mainMenuItems
     }
 
+    private fun setupTeachingContentListener(creator: User) {
+        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("teachingcontent")
+        mDatabaseResultsReference?.keepSynced(true)
+        val query = mDatabaseResultsReference?.orderByChild("creator")?.equalTo(creator.uid)
+        //query?.addChildEventListener(mResultsChildListener)
+        progressBar?.visibility = View.VISIBLE
+        list?.visibility = View.GONE
+        query?.addListenerForSingleValueEvent(mTeachingContentListener)
+    }
+
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
@@ -308,12 +385,13 @@ class RecordListFragment : Fragment() {
         private val ARG_RESULTS = "RESULTS"
         private val ARG_TYPE = "TYPE"
         private val ARG_CONTENT = "CONTENT"
-        private val ARG_CREATOR = "CREATOR"
+        private val ARG_SELECTED_SEARCH_ITEM = "SELECTED_SEARCH_ITEM"
+        private val ARG_SEARCH_TYPE = "SEARCH_TYPE"
 
-        fun newInstance(creator: Parcelable) : RecordListFragment {
+        fun newInstance(selectedSearchItem: Parcelable) : RecordListFragment {
             val fragment = RecordListFragment()
             val args = Bundle()
-            args.putParcelable(ARG_CREATOR, creator)
+            args.putParcelable(ARG_SELECTED_SEARCH_ITEM, selectedSearchItem)
             fragment.arguments = args
             return fragment
         }

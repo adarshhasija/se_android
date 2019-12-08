@@ -99,7 +99,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                         }
                     }
                     if (mTeachingContent is Course) {
-                        if (!(mTeachingContent as Course).isTaskExists(newResult.task_id)) {
+                        if (!(mTeachingContent as Course).isTaskExists(newResult.task_id.toString())) {
                             //Only proceed if result belongs to this course
                             continue
                         }

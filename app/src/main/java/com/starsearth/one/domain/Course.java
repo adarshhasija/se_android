@@ -177,10 +177,10 @@ public class Course extends SETeachingContent {
         dest.writeByte((byte) (isOwnerWantingAds? 1 : 0));
     }
 
-    public boolean isTaskExists(long taskId) {
+    public boolean isTaskExists(String taskId) {
         boolean result = false;
         for (Task t : safe(tasks)) {
-            if (t.id == taskId) {
+            if (t.uid.equals(taskId)) {
                 result = true;
                 break;
             }

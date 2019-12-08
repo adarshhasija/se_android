@@ -110,7 +110,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
     }
 
     fun addItem(recordItem: RecordItem) {
-        val lastTriedMillis = recordItem.results.peek().timestamp
+        //val lastTriedMillis = recordItem.results.peek().timestamp
         val index = 0; //indexToInsert(lastTriedMillis)
         mValues.add(index, recordItem)
     }
