@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,8 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var mContext: Context
-    private var mUserResultsFound : Boolean = false
-    private var mTagResultsFound : Boolean = false
+    private var mUserResultsFound : Boolean? = null
+    private var mTagResultsFound : Boolean? = null
     private var listener: OnFragmentInteractionListener? = null
 
     private val mEducatorValuesListener = object : ValueEventListener {
@@ -50,22 +51,37 @@ class SearchFragment : Fragment() {
                     }
                 }
                 if (resultsArray.size > 0) {
+                    mUserResultsFound = true
                     listener?.onSearchResultsObtained(resultsList = resultsArray)
                 }
-                else {
+                else if (mTagResultsFound == false) {
+                    //Tags query has already returned with no results. Display error
                     val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
                     alertDialog?.setTitle(mContext.getString(R.string.error))
                     alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
                     alertDialog?.setPositiveButton(android.R.string.ok, null)
                     alertDialog?.show()
+                    mUserResultsFound = null
+                    mTagResultsFound = null
+                }
+                else {
+                    //Tags query is yet to return. Simply set the boolean and let the tag listener make the final decision
+                    mUserResultsFound = false
                 }
             }
-            else {
+            else if (mTagResultsFound == false) {
+                //Tags query has already returned with no results. Display error
                 val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
                 alertDialog?.setTitle(mContext.getString(R.string.error))
                 alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
                 alertDialog?.setPositiveButton(android.R.string.ok, null)
                 alertDialog?.show()
+                mUserResultsFound = null
+                mTagResultsFound = null
+            }
+            else {
+                //Tags query is yet to return. Simply set the boolean and let the tag listener make the final decision
+                mUserResultsFound = false
             }
 
             llPleaseWait?.visibility = View.GONE
@@ -73,11 +89,18 @@ class SearchFragment : Fragment() {
 
         override fun onCancelled(p0: DatabaseError?) {
             llPleaseWait?.visibility = View.GONE
-            val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
-            alertDialog?.setTitle(mContext.getString(R.string.error))
-            alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
-            alertDialog?.setPositiveButton(android.R.string.ok, null)
-            alertDialog?.show()
+            if (mTagResultsFound == false) {
+                val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog?.setTitle(mContext.getString(R.string.error))
+                alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
+                alertDialog?.setPositiveButton(android.R.string.ok, null)
+                alertDialog?.show()
+                mUserResultsFound = null
+                mTagResultsFound = null
+            }
+            else {
+                mUserResultsFound = false
+            }
         }
 
     }
@@ -95,22 +118,33 @@ class SearchFragment : Fragment() {
                     resultsArray.add(tag)
                 }
                 if (resultsArray.size > 0) {
+                    mTagResultsFound = true
                     listener?.onSearchResultsObtained(resultsList = resultsArray)
                 }
-                else {
+                else if (mUserResultsFound == false) {
                     val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
                     alertDialog?.setTitle(mContext.getString(R.string.error))
                     alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
                     alertDialog?.setPositiveButton(android.R.string.ok, null)
                     alertDialog?.show()
+                    mUserResultsFound = null
+                    mTagResultsFound = null
+                }
+                else {
+                    mTagResultsFound = false
                 }
             }
-            else {
+            else if (mUserResultsFound == false) {
                 val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
                 alertDialog?.setTitle(mContext.getString(R.string.error))
                 alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
                 alertDialog?.setPositiveButton(android.R.string.ok, null)
                 alertDialog?.show()
+                mUserResultsFound = null
+                mTagResultsFound = null
+            }
+            else {
+                mTagResultsFound = false
             }
 
             llPleaseWait?.visibility = View.GONE
@@ -118,11 +152,19 @@ class SearchFragment : Fragment() {
 
         override fun onCancelled(p0: DatabaseError?) {
             llPleaseWait?.visibility = View.GONE
-            val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
-            alertDialog?.setTitle(mContext.getString(R.string.error))
-            alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
-            alertDialog?.setPositiveButton(android.R.string.ok, null)
-            alertDialog?.show()
+            if (mUserResultsFound == false) {
+                val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog?.setTitle(mContext.getString(R.string.error))
+                alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
+                alertDialog?.setPositiveButton(android.R.string.ok, null)
+                alertDialog?.show()
+                mUserResultsFound = null
+                mTagResultsFound = null
+            }
+            else {
+                mTagResultsFound = false
+            }
+
         }
 
     }
@@ -159,19 +201,19 @@ class SearchFragment : Fragment() {
         btnSubmit?.setOnClickListener {
             if (llPleaseWait?.visibility != View.VISIBLE) {
                 //Should only proceed if a search is not currently in progress
-                val searchText = etSearch?.text.toString().trim().toUpperCase(Locale.getDefault())
+                val searchText = etSearch?.text.toString().trim()
                 if (searchText.length > 0) {
                     val imm = activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(etSearch.windowToken, 0) //Close keyboard
 
                     llPleaseWait?.visibility = View.VISIBLE
                     val refEducators = FirebaseDatabase.getInstance().getReference("users")
-                    val educatorsQuery = refEducators.orderByChild("name").equalTo(searchText)
+                    val educatorsQuery = refEducators.orderByChild("name").equalTo(searchText.toUpperCase(Locale.getDefault()))
                     educatorsQuery.addListenerForSingleValueEvent(mEducatorValuesListener)
 
                     val refTags = FirebaseDatabase.getInstance().getReference("tags")
                     val tagsQuery = refTags.orderByKey().equalTo(searchText)
-                    //tagsQuery.addListenerForSingleValueEvent(mEducatorValuesListener)
+                    tagsQuery.addListenerForSingleValueEvent(mTagValuesListener)
                 }
                 else {
                     val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
