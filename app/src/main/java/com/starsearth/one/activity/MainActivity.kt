@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity(),
         SearchResultItemFragment.OnListFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
-    override fun onSearchResultListFragmentInteraction(selectedItem: Parcelable) {
-        val recordsListFragment = RecordListFragment.newInstance(selectedItem)
+    override fun onSearchResultListFragmentInteraction(selectedItem: Parcelable, type: String?) {
+        val recordsListFragment = RecordListFragment.newInstance(selectedItem, type)
         openFragment(recordsListFragment, RecordListFragment.TAG)
     }
 
-    override fun onSearchResultsObtained(resultsList: java.util.ArrayList<Parcelable>) {
-        val fragment = SearchResultItemFragment.newInstance(resultsList)
+    override fun onSearchResultsObtained(resultsList: java.util.ArrayList<Parcelable>, type: String) {
+        val fragment = SearchResultItemFragment.newInstance(resultsList, type)
         openFragmentWithSlideToLeftEffect(fragment, SearchResultItemFragment.TAG)
     }
 

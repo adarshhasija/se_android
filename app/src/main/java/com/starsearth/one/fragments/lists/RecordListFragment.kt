@@ -19,6 +19,7 @@ import com.starsearth.one.R
 import com.starsearth.one.adapter.RecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import android.util.Log
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
@@ -46,9 +47,13 @@ class RecordListFragment : Fragment() {
     private var mContent : String? = null
     private var mCreator : User? = null
     private var mTag : TagListItem? = null
+    private var mExpentedTCs : Int? = null //This is used when fetching TCs based on tag search. We have to fetch TCs 1-by-1 one as the Tag object only returns TC id. We use this variable to keep track of how many TCs are fetched so that we can then call the results listener
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
 
+    /*
+        This is called when displaying teaching content belonging to an educator
+     */
     private val mTeachingContentListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
             val map = dataSnapshot?.value
@@ -77,11 +82,41 @@ class RecordListFragment : Fragment() {
             }
 
         }
-
         override fun onCancelled(p0: DatabaseError?) {
             progressBar?.visibility = View.GONE
             list?.visibility = View.GONE
             tvEmptyList?.visibility = View.VISIBLE
+        }
+
+    }
+
+
+    private val mSingleTCItemListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            if (mExpentedTCs != null) mExpentedTCs = mExpentedTCs!! - 1
+            val key = dataSnapshot?.key
+            val map = dataSnapshot?.value as HashMap<String, Any>
+            if (key != null && map != null) {
+                val task = Task(key, map)
+                (list?.adapter as? RecordItemRecyclerViewAdapter)?.addItem(RecordItem(task))
+            }
+            if (mExpentedTCs != null && mExpentedTCs!! < 1) {
+                mExpentedTCs = null
+                (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                list?.layoutManager?.scrollToPosition(0)
+                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+            }
+
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            if (mExpentedTCs != null) mExpentedTCs = mExpentedTCs!! - 1
+            if (mExpentedTCs != null && mExpentedTCs!! < 1) {
+                mExpentedTCs = null
+                (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
+                list?.layoutManager?.scrollToPosition(0)
+                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+            }
         }
 
     }
@@ -189,20 +224,26 @@ class RecordListFragment : Fragment() {
 
         mPassedInResults = ArrayList()
         if (arguments != null) {
-         /*   mType = if (arguments!!.containsKey(ARG_TYPE) == true) {
+            mType = if (arguments!!.containsKey(ARG_TYPE) == true) {
                         SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
                         ?:
                         DetailListFragment.ListItem.valueOf(arguments!!.getString(ARG_TYPE)!!) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
                     }
                     else {
                         null
-                    }   */
+                    }
             mContent = arguments!!.getString(ARG_CONTENT)
             mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
             arguments!!.getParcelableArrayList<Result>(ARG_RESULTS)?.let {
                 mPassedInResults.addAll(it)
             }
-            mCreator = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
+            val searchType = arguments!!.getString(ARG_SEARCH_TYPE)
+            if (searchType == "EDUCATOR") {
+                mCreator = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
+            }
+            else if (searchType == "TAG") {
+                mTag = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
+            }
 
         }
     }
@@ -230,6 +271,9 @@ class RecordListFragment : Fragment() {
 
         mCreator?.let {
             setupTeachingContentListener(it)
+        }
+        mTag?.let {
+            setupTCByTagListener(it)
         }
 
         //view has to exist by the time this is called
@@ -337,6 +381,51 @@ class RecordListFragment : Fragment() {
         query?.addListenerForSingleValueEvent(mTeachingContentListener)
     }
 
+    private fun setupTCByTagListener(tagListItem: TagListItem) {
+        mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("tags")
+        mDatabaseResultsReference?.keepSynced(true)
+        val query = mDatabaseResultsReference?.orderByKey()?.equalTo(tagListItem.name)
+        //query?.addChildEventListener(mResultsChildListener)
+        progressBar?.visibility = View.VISIBLE
+        list?.visibility = View.GONE
+        query?.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                val map = dataSnapshot?.value
+                if (map != null) {
+                    val map1 =  (map as HashMap<*, *>).get("Class 1")
+                    val tcMap =  (map1 as HashMap<*, *>).get("teachingcontent")
+                    if (tcMap != null && tcMap is HashMap<*,*>) {
+                        mExpentedTCs = tcMap.entries.size
+                        for (tcEntry in tcMap.entries) {
+                            val key = tcEntry.key as String
+                            val databaseRef = FirebaseDatabase.getInstance().getReference("teachingcontent")
+                            databaseRef.child(key).addListenerForSingleValueEvent(mSingleTCItemListener)
+                        }
+                    }
+                    else {
+                        progressBar?.visibility = View.GONE
+                        list?.visibility = View.GONE
+                        tvEmptyList?.visibility = View.VISIBLE
+                    }
+
+                }
+                else {
+                    progressBar?.visibility = View.GONE
+                    list?.visibility = View.GONE
+                    tvEmptyList?.visibility = View.VISIBLE
+                }
+
+            }
+
+            override fun onCancelled(p0: DatabaseError?) {
+                progressBar?.visibility = View.GONE
+                list?.visibility = View.GONE
+                tvEmptyList?.visibility = View.VISIBLE
+            }
+
+        })
+    }
+
     private fun setupResultsListener(currentUser: FirebaseUser) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
@@ -388,10 +477,11 @@ class RecordListFragment : Fragment() {
         private val ARG_SELECTED_SEARCH_ITEM = "SELECTED_SEARCH_ITEM"
         private val ARG_SEARCH_TYPE = "SEARCH_TYPE"
 
-        fun newInstance(selectedSearchItem: Parcelable) : RecordListFragment {
+        fun newInstance(selectedSearchItem: Parcelable, type: String?) : RecordListFragment {
             val fragment = RecordListFragment()
             val args = Bundle()
             args.putParcelable(ARG_SELECTED_SEARCH_ITEM, selectedSearchItem)
+            args.putString(ARG_SEARCH_TYPE, type)
             fragment.arguments = args
             return fragment
         }

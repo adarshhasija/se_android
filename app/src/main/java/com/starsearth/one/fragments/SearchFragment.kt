@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
                 }
                 if (resultsArray.size > 0) {
                     mUserResultsFound = true
-                    listener?.onSearchResultsObtained(resultsList = resultsArray)
+                    listener?.onSearchResultsObtained(resultsArray, "EDUCATOR")
                 }
                 else if (mTagResultsFound == false) {
                     //Tags query has already returned with no results. Display error
@@ -119,7 +119,7 @@ class SearchFragment : Fragment() {
                 }
                 if (resultsArray.size > 0) {
                     mTagResultsFound = true
-                    listener?.onSearchResultsObtained(resultsList = resultsArray)
+                    listener?.onSearchResultsObtained(resultsArray, "TAG")
                 }
                 else if (mUserResultsFound == false) {
                     val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
@@ -234,7 +234,7 @@ class SearchFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onSearchResultsObtained(resultsList: ArrayList<Parcelable>)
+        fun onSearchResultsObtained(resultsList: ArrayList<Parcelable>, type: String)
     }
 
 }

@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_searchresultitem.view.*
 class MySearchResultItemRecyclerViewAdapter(
         private val mContext: Context,
         private val mValues: List<Parcelable>,
+        private val mResultType: String?,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<MySearchResultItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -36,7 +37,7 @@ class MySearchResultItemRecyclerViewAdapter(
             val item = v.tag as Parcelable
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onSearchResultListFragmentInteraction(item)
+            mListener?.onSearchResultListFragmentInteraction(item, mResultType)
         }
     }
 

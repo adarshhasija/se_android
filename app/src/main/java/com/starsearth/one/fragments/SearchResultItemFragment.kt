@@ -25,6 +25,7 @@ class SearchResultItemFragment : Fragment() {
 
     private var columnCount = 1
     private lateinit var mContext: Context
+    private var resultType: String? = null
 
     private var resultsList : ArrayList<Parcelable> = ArrayList()
 
@@ -35,6 +36,7 @@ class SearchResultItemFragment : Fragment() {
 
         arguments?.let {
             resultsList.addAll(it.getParcelableArrayList<Parcelable>(ARG_RESULTS))
+            resultType = it.getString(ARG_TYPE)
         }
     }
 
@@ -49,7 +51,7 @@ class SearchResultItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MySearchResultItemRecyclerViewAdapter(mContext, resultsList, listener)
+                adapter = MySearchResultItemRecyclerViewAdapter(mContext, resultsList, resultType, listener)
             }
         }
         return view
@@ -83,20 +85,22 @@ class SearchResultItemFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
 
-        fun onSearchResultListFragmentInteraction(selectedItem: Parcelable)
+        fun onSearchResultListFragmentInteraction(selectedItem: Parcelable, type: String?)
     }
 
     companion object {
 
         val TAG = "SEARCH_RESULTS_FRAG"
         const val ARG_RESULTS = "results"
+        const val ARG_TYPE = "type"
 
 
         @JvmStatic
-        fun newInstance(resultsList: ArrayList<Parcelable>) =
+        fun newInstance(resultsList: ArrayList<Parcelable>, type: String) =
                 SearchResultItemFragment().apply {
                     arguments = Bundle().apply {
                         putParcelableArrayList(ARG_RESULTS, resultsList)
+                        putString(ARG_TYPE, type)
                     }
                 }
     }
