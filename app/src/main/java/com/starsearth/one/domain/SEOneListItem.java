@@ -20,10 +20,14 @@ public class SEOneListItem {
 
     public static List<SEOneListItem> populateBaseList(Context context) {
         List<SEOneListItem> list = new ArrayList<>();
-        list.add(new SEOneListItem(context.getResources().getString(R.string.timed), Type.TIMED));
-        list.add(new SEOneListItem(context.getResources().getString(R.string.games), Type.GAME));
-        list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
+        //list.add(new SEOneListItem(context.getResources().getString(R.string.timed), Type.TIMED));
+        //list.add(new SEOneListItem(context.getResources().getString(R.string.games), Type.GAME));
+        //list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.typing), Type.TAG));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.english), Type.TAG));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.mathematics), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.educator_search), Type.EDUCATOR_SEARCH));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.search_by_class), Type.SEARCH_BY_CLASS));
         list.add(new SEOneListItem(context.getResources().getString(R.string.educator_profile), Type.EDUCATOR_PROFILE));
         list.add(new SEOneListItem(context.getResources().getString(R.string.keyboard_test), Type.KEYBOARD_TEST));
         list.add(new SEOneListItem(context.getResources().getString(R.string.phone_number), Type.PHONE_NUMBER));
@@ -56,6 +60,7 @@ public class SEOneListItem {
             KEYBOARD_TEST("KEYBOARD_TEST"),
             PHONE_NUMBER("PHONE_NUMBER"),
             EDUCATOR_SEARCH("EDUCATOR_SEARCH"),
+            SEARCH_BY_CLASS("SEARCH_BY_CLASS"),
             EDUCATOR_PROFILE("EDUCATOR_PROFILE"),
             GAME("GAME"),
             TIMED("TIMED"),

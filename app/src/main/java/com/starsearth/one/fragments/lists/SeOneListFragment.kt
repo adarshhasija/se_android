@@ -62,7 +62,7 @@ class SeOneListFragment : Fragment() {
 
     fun getData(): ArrayList<SEOneListItem> {
         val menuItems = ArrayList<SEOneListItem>()
-        menuItems.addAll(SEOneListItem.returnListForType(context, mType))
+        //menuItems.addAll(SEOneListItem.returnListForType(context, mType))
         menuItems.addAll(SEOneListItem.populateBaseList(context))
 
         return menuItems

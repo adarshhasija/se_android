@@ -257,7 +257,7 @@ class RecordListFragment : Fragment() {
             view.list.layoutManager = LinearLayoutManager(context)
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            var mainMenuItems = ArrayList<RecordItem>() //getData(mType)
+            var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
             }
@@ -272,8 +272,12 @@ class RecordListFragment : Fragment() {
         mCreator?.let {
             setupTeachingContentListener(it)
         }
-        mTag?.let {
+        mTag?.name?.let {
             setupTCByTagListener(it)
+        }
+        mType?.let {
+            val tagAsString = it.toString().toUpperCase(Locale.getDefault())
+            setupTCByTagListener(tagAsString)
         }
 
         //view has to exist by the time this is called
@@ -346,7 +350,11 @@ class RecordListFragment : Fragment() {
         return returnList
     }
 
-    private fun getData(tag: Any?): ArrayList<RecordItem> {
+    /*
+        This function is used when getting data locally from tasks.json
+        If we are coming from search flow, tag will be null and this will return an empty array
+     */
+    private fun getDataFromLocalFile(tag: Any?): ArrayList<RecordItem> {
         val mainMenuItems =
                 if (tag == SEOneListItem.Type.TAG) {
                     AssetsFileManager.getItemsByTag(context, mContent)
@@ -357,15 +365,20 @@ class RecordListFragment : Fragment() {
                 else if (tag == SEOneListItem.Type.TIMED) {
                     AssetsFileManager.getAllTimedItems(context)
                 }
+                else if (tag == SEOneListItem.Type.ALL) {
+                    AssetsFileManager.getAllItems(context)
+                }
                 else if (tag == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+                    //Courses only
                     getRecordItemsFromPreviouslyPassedTasks((mTeachingContent as Course).tasks, mPassedInResults)
                 }
                 else if (tag == DetailListFragment.ListItem.SEE_RESULTS_OF_ATTEMPTED_TASKS) {
+                    //Courses only
                     getRecordItemsFromPreviouslyAttemptedTasks((mTeachingContent as Course).tasks, mPassedInResults)
                 }
                 else {
-                    //Show everything
-                    AssetsFileManager.getAllItems(context)
+                    //Return empty array
+                    ArrayList()
                 }
 
         return mainMenuItems
@@ -381,10 +394,10 @@ class RecordListFragment : Fragment() {
         query?.addListenerForSingleValueEvent(mTeachingContentListener)
     }
 
-    private fun setupTCByTagListener(tagListItem: TagListItem) {
+    private fun setupTCByTagListener(tagName: String) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("tags")
         mDatabaseResultsReference?.keepSynced(true)
-        val query = mDatabaseResultsReference?.orderByKey()?.equalTo(tagListItem.name)
+        val query = mDatabaseResultsReference?.orderByKey()?.equalTo(tagName.toUpperCase(Locale.getDefault()))
         //query?.addChildEventListener(mResultsChildListener)
         progressBar?.visibility = View.VISIBLE
         list?.visibility = View.GONE
@@ -392,7 +405,7 @@ class RecordListFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 val map = dataSnapshot?.value
                 if (map != null) {
-                    val map1 =  (map as HashMap<*, *>).get(tagListItem.name.toUpperCase(Locale.getDefault()))
+                    val map1 =  (map as HashMap<*, *>).get(tagName.toUpperCase(Locale.getDefault()))
                     val tcMap =  (map1 as HashMap<*, *>).get("teachingcontent")
                     if (tcMap != null && tcMap is HashMap<*,*>) {
                         mExpentedTCs = tcMap.entries.size

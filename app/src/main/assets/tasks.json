@@ -1685,7 +1685,7 @@
 
   "courses": [
     {
-      "visible": true,
+      "visible": false,
       "id": 38,
       "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
       "title": "Learn Keyboard Middle Row",

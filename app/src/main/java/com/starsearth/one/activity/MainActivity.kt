@@ -350,7 +350,11 @@ class MainActivity : AppCompatActivity(),
             startActivity(intent)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_SEARCH) {
-            val searchFragment = SearchFragment.newInstance()
+            val searchFragment = SearchFragment.newInstance("EDUCATOR")
+            openFragment(searchFragment, SearchFragment.TAG)
+        }
+        else if (type == SEOneListItem.Type.SEARCH_BY_CLASS) {
+            val searchFragment = SearchFragment.newInstance("CLASS")
             openFragment(searchFragment, SearchFragment.TAG)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
@@ -364,7 +368,9 @@ class MainActivity : AppCompatActivity(),
             startActivity(intent)
         }
         else {
-            val recordsListFragment = RecordListFragment.newInstance(item.type, item.text1)
+            //val recordsListFragment = RecordListFragment.newInstance(item.type, item.text1)
+            //openFragment(recordsListFragment, RecordListFragment.TAG)
+            val recordsListFragment = RecordListFragment.newInstance(TagListItem(item.text1) as Parcelable, "TAG")
             openFragment(recordsListFragment, RecordListFragment.TAG)
         }
     }

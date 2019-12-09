@@ -29,10 +29,17 @@ class SearchFragment : Fragment() {
     companion object {
         val TAG = "SEARCH_FRAG"
         fun newInstance() = SearchFragment()
+        fun newInstance(type: String) =
+                SearchFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("TYPE", type)
+                    }
+                }
     }
 
     private lateinit var viewModel: SearchViewModel
     private lateinit var mContext: Context
+    private var mSearchType : String? = null //This is so that we have 2 different search options on main screen. Can be removed later
     private var mUserResultsFound : Boolean? = null
     private var mTagResultsFound : Boolean? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -169,6 +176,14 @@ class SearchFragment : Fragment() {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            mSearchType = it.getString("TYPE")
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.search_fragment, container, false)
@@ -225,6 +240,14 @@ class SearchFragment : Fragment() {
             }
 
         }
+
+        etSearch?.hint =
+                if (mSearchType == "CLASS") {
+                    mContext.getString(R.string.search_by_class_hint)
+                }
+                else {
+                    mContext.getString(R.string.enter_educator_name)
+                }
 
         etSearch.postDelayed({
             etSearch?.requestFocus()

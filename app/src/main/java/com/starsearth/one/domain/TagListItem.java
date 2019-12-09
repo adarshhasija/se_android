@@ -20,6 +20,10 @@ public class TagListItem implements Parcelable {
         this.seone = map.containsKey("seone") && (boolean) map.get("seone");
     }
 
+    public TagListItem(String name) {
+        this.name = name;
+    }
+
 
     protected TagListItem(Parcel in) {
         name = in.readString();

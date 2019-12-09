@@ -89,6 +89,11 @@
     <string name="view_all">View All</string>
     <string name="educator_search">Educator Search</string>
     <string name="educator_profile">Educator Profile</string>
+    <string name="typing">Typing</string>
+    <string name="english">English</string>
+    <string name="mathematics">Mathematics</string>
+    <string name="search_by_class">Search By Class</string>
+    <string name="search_by_class_hint">Enter class. eg: Class 1</string>
     <string name="logout_successful">Logout Successful</string>
 
     <!-- Login screen -->
