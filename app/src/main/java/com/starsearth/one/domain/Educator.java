@@ -79,10 +79,10 @@ public class Educator implements Parcelable {
 
     public Educator(String key, Map<String, Object> map) {
         this.uid = key;
-        this.cc = (String) map.get("cc");
-        this.status = Status.fromString((String) map.get("status"));
-        this.mpn = (String) map.get("mpn");
-        this.tagging = map.containsKey("tagging") ? PERMISSIONS.fromString((String) map.get("tagging")) : null;
+        this.cc = map.containsKey("cc") ? (String) map.get("cc") : null;
+        this.status = map.containsKey("status") ? Status.fromString((String) map.get("status")) : null;
+        this.mpn = map.containsKey("mpn") ? (String) map.get("mpn") : null;
+        this.tagging = map.containsKey("tagging") ? PERMISSIONS.fromString((String) map.get("tagging")) : PERMISSIONS.TAGGING_NONE;
     }
 
     public Educator(String cc, String mpn, Status status) {

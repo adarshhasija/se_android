@@ -98,9 +98,13 @@ class DetailListFragment : Fragment() {
             }
             val listTitles = ArrayList<ListItem>()
             listTitles.add(ListItem.CREATOR) //Creator must be there for all tasks
-            if ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL
+            if (
+                    (activity as? MainActivity)?.mEducator != null
+                 /*   (activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL
                     || ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && (activity as? MainActivity)?.mUser?.uid == mTeachingContent?.id.toString())
-                    ) {
+                    */
+                    )
+            {
                 listTitles.add(ListItem.CHANGE_TAGS)
             }
             if (mTeachingContent is Course) {
