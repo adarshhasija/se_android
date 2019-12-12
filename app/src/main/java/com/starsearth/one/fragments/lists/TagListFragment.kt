@@ -83,7 +83,7 @@ class TagListFragment : Fragment() {
                 (activity as? MainActivity)?.mUser?.uid?.let {
                     llPleaseWait?.visibility = View.VISIBLE
                     val firebaseManager = FirebaseManager("teachingcontent")
-                    val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent.id.toString(), it)
+                    val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent.uid.toString(), it)
                     query.addListenerForSingleValueEvent(mSelectedTagsListener)
                 }
             }
@@ -172,12 +172,12 @@ class TagListFragment : Fragment() {
                     val userId = (activity as? MainActivity)?.mUser?.uid
                     if (userId != null) {
                         llPleaseWait?.visibility = View.VISIBLE
-                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.id.toString() + "/tags/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.uid.toString() + "/tags/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null
                         })
-                        childUpdates.put("tags" + "/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/teachingcontent/" + mTeachingContent.id.toString() + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("tags" + "/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/teachingcontent/" + mTeachingContent.uid.toString() + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null

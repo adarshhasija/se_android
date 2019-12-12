@@ -99,7 +99,7 @@ class DetailListFragment : Fragment() {
             val listTitles = ArrayList<ListItem>()
             listTitles.add(ListItem.CREATOR) //Creator must be there for all tasks
             if (
-                    (activity as? MainActivity)?.mEducator != null
+                    (activity as? MainActivity)?.mEducator?.status == Educator.Status.ACTIVE
                  /*   (activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_ALL
                     || ((activity as? MainActivity)?.mEducator?.tagging == Educator.PERMISSIONS.TAGGING_OWN && (activity as? MainActivity)?.mUser?.uid == mTeachingContent?.id.toString())
                     */
