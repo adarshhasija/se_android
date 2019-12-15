@@ -195,6 +195,19 @@ class SearchFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (mSearchType.equals("EDUCATOR", true)) {
+            tvInstruction?.visibility = View.VISIBLE
+            tvInstruction?.text = mContext.getString(R.string.educator_search_hint)
+        }
+        else if (mSearchType.equals("CLASS", true)) {
+            tvInstruction?.visibility = View.VISIBLE
+            tvInstruction?.text = mContext.getString(R.string.class_search_hint)
+        }
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
