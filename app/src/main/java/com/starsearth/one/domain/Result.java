@@ -2,6 +2,7 @@ package com.starsearth.one.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -23,7 +24,7 @@ public class Result implements Parcelable {
     public String uid;
     public String userId;
     //public int game_id; //id for task as INT old
-    public long task_id;
+    public String task_id;
     public long startTimeMillis;
     public long timeTakenMillis;
     public long timestamp;
@@ -42,8 +43,10 @@ public class Result implements Parcelable {
     public Result(Map<String, Object> map) {
         this.uid = (String) map.get("uid");
         this.userId = (String) map.get("userId");
-        this.task_id = map.containsKey("game_id") ? (Long) map.get("game_id") : //If game_id exists, take game_id
-                        map.containsKey("task_id") ? (Long) map.get("task_id") : 0;  //Else take task_id
+        this.task_id = (map.containsKey("game_id") && map.get("game_id") instanceof Long) ? Long.toString((Long) map.get("game_id")) : //If game_id exists, take game_id
+                        (map.containsKey("task_id") && map.get("task_id") instanceof Long) ? Long.toString((Long) map.get("task_id")) : //Else take task_id. But it will be a Long. Convert it to string
+                        (map.containsKey("task_id") && map.get("task_id") instanceof String) ? (String) map.get("task_id") : //Else its a string
+                        "";
         this.startTimeMillis = map.containsKey("startTimeMillis") ? (Long) map.get("startTimeMillis") : -1 ;
         this.timeTakenMillis = (Long) map.get("timeTakenMillis");
         this.timestamp = map.containsKey ("timestamp") ? (Long) map.get("timestamp") : Calendar.getInstance().getTimeInMillis();
@@ -70,7 +73,7 @@ public class Result implements Parcelable {
     protected Result(Parcel in) {
         uid = in.readString();
         userId = in.readString();
-        task_id = in.readLong();
+        task_id = in.readString();
         startTimeMillis = in.readLong();
         timeTakenMillis = in.readLong();
         timestamp = in.readLong();
@@ -91,11 +94,11 @@ public class Result implements Parcelable {
         }
     };
 
-    public long getTask_id() {
+    public String getTask_id() {
         return task_id;
     }
 
-    public void setGame_id(int game_id) {
+    public void setGame_id(String game_id) {
         this.task_id = game_id;
     }
 
@@ -143,7 +146,7 @@ public class Result implements Parcelable {
     public void writeToParcel(Parcel dest, int i) {
         dest.writeString(uid);
         dest.writeString(userId);
-        dest.writeLong(task_id);
+        dest.writeString(task_id);
         dest.writeLong(startTimeMillis);
         dest.writeLong(timeTakenMillis);
         dest.writeLong(timestamp);

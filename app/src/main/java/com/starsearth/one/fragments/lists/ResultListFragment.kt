@@ -48,7 +48,7 @@ class ResultListFragment : Fragment() {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
-                    if (mTask.id != newResult.task_id) {
+                    if (mTask.uid != newResult.task_id) {
                         continue
                     }
                     if (mTask.type == Task.Type.SEE_AND_TYPE) {

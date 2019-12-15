@@ -59,6 +59,9 @@ public class SETeachingContent implements Parcelable {
 
     public SETeachingContent(HashMap<String, Object> map) {
         this.id =  map.containsKey("id") ? (Long) map.get("id") : -1;
+        this.uid = (map.containsKey("uid") && map.get("uid") instanceof Long) ? Long.toString((Long) map.get("uid")) :
+                (map.containsKey("uid") && map.get("uid") instanceof String) ? (String) map.get("uid") :
+                    "";
         this.creator = map.containsKey("creator") ? (String) map.get("creator") : null;
         this.title = map.containsKey("title") ? (String) map.get("title") : null;
         this.instructions = map.containsKey("instructions") ? (String) map.get("instructions") : null;

@@ -29,7 +29,7 @@ public class Course extends SETeachingContent {
     public Map<String, SENestedObject> lessons = new HashMap<>();
     public List<Task> tasks;
     public String attemptedByUserId = null; //The user who started an attempt on this Course
-    public HashMap<Long, Checkpoint> checkpoints; //Checkpoint after task with key == id
+    public HashMap<String, Checkpoint> checkpoints; //Checkpoint after task with key == id
     public Boolean isOwnerWantingAds = false;
 
     public Course() {
@@ -57,10 +57,10 @@ public class Course extends SETeachingContent {
         }
         ////
         ////Set checkpoints map
-        HashMap<Long, Checkpoint> mpCheckpoints = (HashMap<Long, Checkpoint>) map.get("checkpoints");
+        HashMap<String, Checkpoint> mpCheckpoints = (HashMap<String, Checkpoint>) map.get("checkpoints");
         if (mpCheckpoints != null) {
             this.checkpoints = new HashMap<>();
-            for (Map.Entry<Long, Checkpoint> entry : mpCheckpoints.entrySet())
+            for (Map.Entry<String, Checkpoint> entry : mpCheckpoints.entrySet())
             {
                 this.checkpoints.put(entry.getKey(), entry.getValue());
             }
@@ -188,10 +188,10 @@ public class Course extends SETeachingContent {
         return result;
     }
 
-    public Task getTaskById(long id) {
+    public Task getTaskById(String id) {
         Task result = null;
         for (Task t : safe(tasks)) {
-            if (t.id == id) {
+            if (t.uid.equals(id)) {
                 result = t;
                 break;
             }

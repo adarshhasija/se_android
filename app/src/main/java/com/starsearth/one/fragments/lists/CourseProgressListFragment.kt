@@ -54,8 +54,8 @@ class CourseProgressListFragment : Fragment() {
         mCourse?.let {
             for (task in it.tasks) {
                 mTasksAndCheckpoints.add(task)
-                if (it.checkpoints?.containsKey(task.id) == true) {
-                    mTasksAndCheckpoints.add((mCourse?.checkpoints?.get(task.id) as Any))
+                if (it.checkpoints?.containsKey(task.uid) == true) {
+                    mTasksAndCheckpoints.add((mCourse?.checkpoints?.get(task.uid) as Any))
                 }
             }
         }

@@ -83,7 +83,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
         }
 
         holder.mLastTriedView.text = if (results?.isNotEmpty()!!) {
-            formatLatTriedTime(results?.peek())
+            formatLatTriedTime(results.peek())
         } else {
             ""
         }
@@ -167,14 +167,14 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
         return timestamp
     }
 
-    public fun getTeachingContentType(inputTaskId: Long): Task.Type? {
+    public fun getTeachingContentType(inputTaskId: String): Task.Type? {
         var ret : Task.Type? = null
         for (mainMenuItem in mValues) {
             val teachingContent = mainMenuItem.teachingContent
             if (teachingContent is Course) {
                 val tasks = teachingContent.tasks
                 for (task in tasks) {
-                    val taskId = task.id
+                    val taskId = task.uid
                     if (taskId == inputTaskId) {
                         ret = task.type
                         break
@@ -182,7 +182,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
                 }
             }
             else if (teachingContent is Task) {
-                val taskId = teachingContent.id
+                val taskId = teachingContent.uid
                 if (taskId == inputTaskId) {
                     ret = teachingContent.type
                 }

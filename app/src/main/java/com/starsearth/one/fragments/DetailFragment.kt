@@ -93,7 +93,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     val value = entry.value as Map<String, Any>
                     var newResult = Result(value)
                     if (mTeachingContent is Task) {
-                        if ((mTeachingContent as Task)?.id != newResult.task_id) {
+                        if ((mTeachingContent as Task)?.uid != newResult.task_id) {
                             //Only proceed if result belongs to this task
                             continue
                         }

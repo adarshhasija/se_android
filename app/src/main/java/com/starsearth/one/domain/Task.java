@@ -394,7 +394,7 @@ public class Task extends SETeachingContent {
         boolean ret = false;
         for (Object result : results) {
             if (result instanceof ResultTyping) {
-                if (((ResultTyping) result).task_id == id) {
+                if (((ResultTyping) result).task_id.equals(uid)) {
                     ret = true;
                     break;
                 }
@@ -406,7 +406,7 @@ public class Task extends SETeachingContent {
     public boolean isPassed(List<Result> results) {
         boolean ret = false;
         for (Result result : results) {
-            if (result.task_id == id) {
+            if (result.task_id.equals(uid)) {
                 if (result instanceof ResultTyping) {
                     int accuracy = ((ResultTyping) result).getAccuracy();
                     if (accuracy >= passPercentage) {
@@ -424,7 +424,7 @@ public class Task extends SETeachingContent {
 
     public boolean isPassed(Result result) {
         boolean ret = false;
-        if (result instanceof ResultTyping && ((ResultTyping) result).task_id == id) {
+        if (result instanceof ResultTyping && ((ResultTyping) result).task_id.equals(uid)) {
             int accuracy = ((ResultTyping) result).getAccuracy();
             if (accuracy >= passPercentage) {
                 ret = true;

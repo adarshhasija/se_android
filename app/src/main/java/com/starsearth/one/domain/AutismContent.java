@@ -18,7 +18,9 @@ public class AutismContent implements Parcelable {
     }
 
     public AutismContent(Map<String, Object> map) {
-        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : (int) map.get("id"); //If type is not specified, gson will take int as double
+        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() :
+                (map.get("id") instanceof Long)? ((Long) map.get("id")).intValue() : //If its from Firebase
+                (int) map.get("id"); //It is likely from the local file
         this.title = map.containsKey("title") ? (String) map.get("title") : null;
         this.textLine1 = map.containsKey("textLine1") ? (String) map.get("textLine1") : null;
         this.textLine2 = map.containsKey("textLine2") ? (String) map.get("textLine2") : null;
