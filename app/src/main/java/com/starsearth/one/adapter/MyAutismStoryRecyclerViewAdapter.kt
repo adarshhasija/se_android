@@ -102,7 +102,7 @@ class MyAutismStoryRecyclerViewAdapter(
             754 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_4)
             755 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_5)
             else -> {
-
+                holder.mImageView.setImageDrawable(null)
             }
 
         }

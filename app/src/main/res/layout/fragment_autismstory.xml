@@ -19,7 +19,6 @@
             android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:padding="15dp"
             android:background="#80FFFFFF"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -41,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:inputType="textMultiLine"
-                android:maxLines="3"/>
+                android:maxLines="4"/>
 
             <TextView
                 android:id="@+id/tvLine2"

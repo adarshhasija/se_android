@@ -1691,12 +1691,12 @@
       "content": [
         {
           "id": 751,
-          "textLine1": "Effective Parenting is an ability to interact and engage with the child in such a way learn and grow into remarkable adults. Parents need to take daily effort to connect with children on a meaningful and personal level."
+          "title": "Effective Parenting is to take daily efforts to connect with children on a meaningful and personal level."
         },
         {
           "id": 75100,
           "title": "How to discipline child without yelling?",
-          "textLine1": "1. Establish Clear Rules\n2. Discuss negative consequences ahead of time\n3. Provide positive reinforcement\n4. Offer warnings when appropriate and follow through with consequences\n5. Praise your child for good behavior\n\nRemember: Children learn by watching what parents do"
+          "textLine1": "1. Establish Clear Rules\n2. Discuss negatives beforehand\n3. Provide positive reinforcement\n4. Offer warnings when appropriate and follow through with consequences\n5. Praise your child for good behavior\n\nRemember: Children learn by watching what parents do"
         },
         {
           "id": 752,
@@ -1716,7 +1716,6 @@
         {
           "id": 755,
           "title": "Lastly, try to be an authoritative parent",
-          "textLine1": "Warm, attuned and nurturing, listen to child's point of view",
           "textLine2": "Allow autonomy and encourage independence\nReason with children instead of demanding blind obedience\nSet clear limit on behavior"
         }
       ],
