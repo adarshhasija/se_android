@@ -186,6 +186,7 @@ class RecordListFragment : Fragment() {
                 val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
                 if (menuItem.isTaskIdExists(result.task_id.toString())) {
                     if (menuItem.isResultLatest(result)) {
+                        if (menuItem.results.size > 0) menuItem.results.clear() //We only want to keep 1 record here
                         menuItem.results.add(result)
                     }
                     adapter.removeAt(i) //remove the entry from the list

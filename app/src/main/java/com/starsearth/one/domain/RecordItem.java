@@ -26,7 +26,7 @@ public class RecordItem implements Parcelable {
         results = MinMaxPriorityQueue
                 //.orderedBy(Comparator.comparing(Result::getTimestamp))
                 .orderedBy(new ResultComparator())
-                .maximumSize(1) //change this based on requirement
+                .maximumSize(1) //change this based on requirement. This line is not really needed as we are checking for queue size when inserting items in the results array
                 .create();
     }
 
