@@ -1680,6 +1680,48 @@
       "instructions": "You will be shown a story. Swipe to go through the cards",
       "isGame": false,
       "tags": ["autism"]
+    },
+    {
+      "visible": true,
+      "id": 75,
+      "creator": "0jLuro6wfcSCMtsYkdj8AaiMkgW2",
+      "type": 6,
+      "ordered": true,
+      "title": "Effective Parenting",
+      "content": [
+        {
+          "id": 751,
+          "textLine1": "Effective Parenting is an ability to interact and engage with the child in such a way learn and grow into remarkable adults. Parents need to take daily effort to connect with children on a meaningful and personal level."
+        },
+        {
+          "id": 75100,
+          "title": "How to discipline child without yelling?",
+          "textLine1": "1. Establish Clear Rules\n2. Discuss negative consequences ahead of time\n3. Provide positive reinforcement\n4. Offer warnings when appropriate and follow through with consequences\n5. Praise your child for good behavior\n\nRemember: Children learn by watching what parents do"
+        },
+        {
+          "id": 752,
+          "title": "How does a parent reward a child?",
+          "textLine1": "1. Plan a trip to a park.\n2. Pick a movie for the weekend\n3. Allow them to decide dinner menu\n4. A family activity\n5. 30 mins of extra screen time"
+        },
+        {
+          "id": 753,
+          "title": "How to punish children for bad behavior",
+          "textLine1": "1. Do not hit them\n2. Do not yell or shout at them\n3. Rather turn the punishment into problem solving\n4. Give them tasks to finish the bad behavior\n5. Cut short the perks(eg: 30 mins less screen time)"
+        },
+        {
+          "id": 754,
+          "title": "How to discipline a toddler?",
+          "textLine1": "1. Avoid stressful situations\n2. You must think like a toddler\n3. Practice the art of distraction\n4. Give the child a break\n5. Stay Calm\n6. Know when to give in\n7. Be consistent"
+        },
+        {
+          "id": 755,
+          "title": "Lastly, try to be an authoritative parent",
+          "textLine1": "Warm, attuned and nurturing, listen to child's point of view",
+          "textLine2": "Allow autonomy and encourage independence\nReason with children instead of demanding blind obedience\nSet clear limit on behavior"
+        }
+      ],
+      "instructions": "Parent's behavior influences their child's social and emotional skills directly and indirectly. Parent's interactions influence their child's future behavior.",
+      "isGame": false
     }
   ],
 

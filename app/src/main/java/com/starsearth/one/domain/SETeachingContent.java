@@ -143,8 +143,8 @@ public class SETeachingContent implements Parcelable {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
-        result.put("uid", uid);
+        //result.put("id", id);
+        //result.put("uid", uid);
         result.put("creator", creator);
         result.put("title", title);
         result.put("instructions", instructions);
@@ -152,8 +152,8 @@ public class SETeachingContent implements Parcelable {
         result.put("updatedBy", updatedBy);
         result.put("parentType", parentType);
         result.put("parentId", parentId);
-        result.put("timestamp", timestamp);
-        result.put("tags", tags);
+        //result.put("timestamp", timestamp);
+        //result.put("tags", tags);
 
         return result;
     }

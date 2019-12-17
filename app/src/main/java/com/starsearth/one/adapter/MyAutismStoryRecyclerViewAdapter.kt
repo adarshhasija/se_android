@@ -96,6 +96,11 @@ class MyAutismStoryRecyclerViewAdapter(
             23 -> holder.mImageView.setImageResource(R.drawable.autism_23)
             24 -> holder.mImageView.setImageResource(R.drawable.autism_24)
             25 -> holder.mImageView.setImageResource(R.drawable.autism_25)
+            75100 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_1)
+            752 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_2)
+            753 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_3)
+            754 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_4)
+            755 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_5)
             else -> {
 
             }
