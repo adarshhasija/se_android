@@ -258,6 +258,16 @@ class RecordListFragment : Fragment() {
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
+         /*   var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
+            for (mainMenuItem in mainMenuItems) {
+                if ((mainMenuItem.teachingContent as Task).uid == 75.toString()) {
+                    val map = (mainMenuItem.teachingContent as Task).toMap()
+                    val calendar = Calendar.getInstance()
+                    map.put("created", calendar.timeInMillis)
+                    val databaseReference = FirebaseDatabase.getInstance().reference
+                    databaseReference.child((mainMenuItem.teachingContent as Task).uid).setValue(map)
+                }
+            }   */
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
                 mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
             }
