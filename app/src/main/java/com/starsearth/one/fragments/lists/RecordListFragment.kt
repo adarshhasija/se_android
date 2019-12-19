@@ -212,7 +212,10 @@ class RecordListFragment : Fragment() {
             return
         }
         val adapter = list.adapter
-        val itemCount = adapter.itemCount
+        val itemCount = adapter?.itemCount ?: 0
+        if (itemCount < 1) {
+            return
+        }
         for (i in 0 until itemCount) {
             val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
             //Assuming all results returned in the array are from same course/task

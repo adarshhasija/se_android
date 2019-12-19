@@ -74,7 +74,6 @@ class MyAutismStoryRecyclerViewAdapter(
         }
 
         if (autismContent?.hasImage == true) {
-            Log.d("TAG", "*******KEY IS: "+autismContent.id.toString())
             if (mDownloadedImages?.containsKey(autismContent.id.toString()) == true) {
                 val byteArray = mDownloadedImages!!.get(autismContent.id.toString())
                 if (byteArray != null) {
