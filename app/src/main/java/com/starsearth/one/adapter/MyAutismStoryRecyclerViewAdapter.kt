@@ -1,11 +1,14 @@
 package com.starsearth.one.adapter
 
+import android.graphics.BitmapFactory
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.domain.AutismContent
@@ -27,6 +30,7 @@ class MyAutismStoryRecyclerViewAdapter(
     : RecyclerView.Adapter<MyAutismStoryRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
+    private var mDownloadedImages: HashMap<String, ByteArray?>? = null
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -69,33 +73,61 @@ class MyAutismStoryRecyclerViewAdapter(
             holder.mCardView.contentDescription = contentDescription
         }
 
-        when (autismContent?.id) {
-            1 -> holder.mImageView.setImageResource(R.drawable.autism_1)
-            100 -> holder.mImageView.setImageResource(R.drawable.autism_1_5)
-            2 -> holder.mImageView.setImageResource(R.drawable.autism_2)
-            3 -> holder.mImageView.setImageResource(R.drawable.autism_3)
-            4 -> holder.mImageView.setImageResource(R.drawable.autism_4)
-            5 -> holder.mImageView.setImageResource(R.drawable.autism_5)
-            6 -> holder.mImageView.setImageResource(R.drawable.autism_6)
-            7 -> holder.mImageView.setImageResource(R.drawable.autism_7)
-            8 -> holder.mImageView.setImageResource(R.drawable.autism_8)
-            9 -> holder.mImageView.setImageResource(R.drawable.autism_9)
-            10 -> holder.mImageView.setImageResource(R.drawable.autism_10)
-            11 -> holder.mImageView.setImageResource(R.drawable.autism_11)
-            12 -> holder.mImageView.setImageResource(R.drawable.autism_12)
-            13 -> holder.mImageView.setImageResource(R.drawable.autism_13)
-            14 -> holder.mImageView.setImageResource(R.drawable.autism_14)
-            15 -> holder.mImageView.setImageResource(R.drawable.autism_15)
-            16 -> holder.mImageView.setImageResource(R.drawable.autism_16)
-            17 -> holder.mImageView.setImageResource(R.drawable.autism_17)
-            18 -> holder.mImageView.setImageResource(R.drawable.autism_18)
-            19 -> holder.mImageView.setImageResource(R.drawable.autism_19)
-            20 -> holder.mImageView.setImageResource(R.drawable.autism_20)
-            21 -> holder.mImageView.setImageResource(R.drawable.autism_21)
-            22 -> holder.mImageView.setImageResource(R.drawable.autism_22)
-            23 -> holder.mImageView.setImageResource(R.drawable.autism_23)
-            24 -> holder.mImageView.setImageResource(R.drawable.autism_24)
-            25 -> holder.mImageView.setImageResource(R.drawable.autism_25)
+        if (autismContent?.hasImage == true) {
+            Log.d("TAG", "*******KEY IS: "+autismContent.id.toString())
+            if (mDownloadedImages?.containsKey(autismContent.id.toString()) == true) {
+                val byteArray = mDownloadedImages!!.get(autismContent.id.toString())
+                if (byteArray != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                    holder.mImageView.setImageBitmap(bitmap)
+                    holder.mImageLoadingIcon.visibility = View.GONE
+                    holder.mImageLoadingError.visibility = View.GONE
+                }
+                else {
+                    holder.mImageView.setImageBitmap(null)
+                    holder.mImageView.visibility = View.GONE
+                    holder.mImageLoadingIcon.visibility = View.GONE
+                    holder.mImageLoadingError.visibility = View.VISIBLE
+                }
+            }
+            else {
+                holder.mImageLoadingIcon.visibility = View.VISIBLE
+            }
+        }
+        else {
+            holder.mImageLoadingIcon.visibility = View.GONE
+            holder.mImageLoadingError.visibility = View.GONE
+            holder.mImageView.setImageBitmap(null)
+            holder.mImageView.visibility = View.GONE
+        }
+
+     /*   when (autismContent?.id) {
+            741 -> holder.mImageView.setImageResource(R.drawable.autism_1)
+            74100 -> holder.mImageView.setImageResource(R.drawable.autism_1_5)
+            742 -> holder.mImageView.setImageResource(R.drawable.autism_2)
+            743 -> holder.mImageView.setImageResource(R.drawable.autism_3)
+            744 -> holder.mImageView.setImageResource(R.drawable.autism_4)
+            745 -> holder.mImageView.setImageResource(R.drawable.autism_5)
+            746 -> holder.mImageView.setImageResource(R.drawable.autism_6)
+            747 -> holder.mImageView.setImageResource(R.drawable.autism_7)
+            748 -> holder.mImageView.setImageResource(R.drawable.autism_8)
+            749 -> holder.mImageView.setImageResource(R.drawable.autism_9)
+            7410 -> holder.mImageView.setImageResource(R.drawable.autism_10)
+            7411 -> holder.mImageView.setImageResource(R.drawable.autism_11)
+            7412 -> holder.mImageView.setImageResource(R.drawable.autism_12)
+            7413 -> holder.mImageView.setImageResource(R.drawable.autism_13)
+            7414 -> holder.mImageView.setImageResource(R.drawable.autism_14)
+            7415 -> holder.mImageView.setImageResource(R.drawable.autism_15)
+            7416 -> holder.mImageView.setImageResource(R.drawable.autism_16)
+            7417 -> holder.mImageView.setImageResource(R.drawable.autism_17)
+            7418 -> holder.mImageView.setImageResource(R.drawable.autism_18)
+            7419 -> holder.mImageView.setImageResource(R.drawable.autism_19)
+            7420 -> holder.mImageView.setImageResource(R.drawable.autism_20)
+            7421 -> holder.mImageView.setImageResource(R.drawable.autism_21)
+            7422 -> holder.mImageView.setImageResource(R.drawable.autism_22)
+            7423 -> holder.mImageView.setImageResource(R.drawable.autism_23)
+            7424 -> holder.mImageView.setImageResource(R.drawable.autism_24)
+            7425 -> holder.mImageView.setImageResource(R.drawable.autism_25)
             75100 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_1)
             752 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_2)
             753 -> holder.mImageView.setImageResource(R.drawable.effective_parenting_3)
@@ -105,7 +137,7 @@ class MyAutismStoryRecyclerViewAdapter(
                 holder.mImageView.setImageDrawable(null)
             }
 
-        }
+        }   */
 
         holder.mImageView.visibility = View.VISIBLE
 
@@ -117,12 +149,22 @@ class MyAutismStoryRecyclerViewAdapter(
 
     override fun getItemCount(): Int = mValues.size
 
+    fun addImage(contentId: String, byteArray: ByteArray?) {
+        if (mDownloadedImages == null) {
+            mDownloadedImages = HashMap()
+        }
+        mDownloadedImages?.put(contentId, byteArray)
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mCardView: CardView = mView.cvMain
         val mImageView: ImageView = mView.ivMain
         val mTextViewMain: TextView = mView.tvMain
         val mTextViewLine1: TextView = mView.tvLine1
         val mTextViewLine2: TextView = mView.tvLine2
+        val mImageLoadingIcon: RelativeLayout = mView.rlLoading
+        val mImageLoadingError: RelativeLayout = mView.rlLoadingError
 
         override fun toString(): String {
             return super.toString() + " '" + mTextViewMain.text + "'"

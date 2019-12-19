@@ -1576,105 +1576,128 @@
       "title": "Autism story",
       "content": [
                   {
-                    "id": 1,
-                    "title": "The secret in education lies in respecting the student"
+                    "id": 741,
+                    "title": "The secret in education lies in respecting the student",
+                    "hasImage": true
                   },
                   {
-                    "id": 100
+                    "id": 74100,
+                    "hasImage": true
                   },
                   {
-                    "id": 2,
-                    "title": "If a child can't learn the way we teach, maybe we should teach the way they learn"
+                    "id": 742,
+                    "title": "If a child can't learn the way we teach, maybe we should teach the way they learn",
+                    "hasImage": true
                   },
                   {
-                    "id": 3,
-                    "title": "When you judge someone based on a diagnosis, you miss out on their abilities, beauty, and uniqueness"
+                    "id": 743,
+                    "title": "When you judge someone based on a diagnosis, you miss out on their abilities, beauty, and uniqueness",
+                    "hasImage": true
                   },
                   {
-                    "id": 4
+                    "id": 744,
+                    "hasImage": true
                   },
                   {
-                    "id": 5,
+                    "id": 745,
                     "title": "The difference between well-trained and well-formed minds is",
                     "textLine1": "If you have a well-trained mind then you can do your daily activities without any problem at all. This includes being Toilet Trained.",
-                    "textLine2": "If you have a well-formed mind then you do exactly the best way to do everything for your own sake."
+                    "textLine2": "If you have a well-formed mind then you do exactly the best way to do everything for your own sake.",
+                    "hasImage": true
                   },
                   {
-                    "id": 7,
+                    "id": 747,
                     "title": "They think different",
-                    "textLine1": "Life can be much broader once you discover one simple fact, and that is - everything around you that you call life, was made up by people that were no smarter than you. And you can change it, you can influence it"
+                    "textLine1": "Life can be much broader once you discover one simple fact, and that is - everything around you that you call life, was made up by people that were no smarter than you. And you can change it, you can influence it",
+                    "hasImage": true
                   },
                   {
-                    "id": 8,
+                    "id": 748,
                     "title": "They are Differently Wired",
-                    "textLine1": "Get Out of Isolation and Connect. Stop Fighting Who Your Child Is and Lean In."
+                    "textLine1": "Get Out of Isolation and Connect. Stop Fighting Who Your Child Is and Lean In.",
+                    "hasImage": true
                   },
                   {
-                    "id": 9,
+                    "id": 749,
                     "title": "Because they are worth it",
                     "textLine1": "If people want something to be wrong about you they are going to make things wrong about you.",
-                    "textLine2": "That is why it is my belief to never try and prove anything to anyone."
+                    "textLine2": "That is why it is my belief to never try and prove anything to anyone.",
+                    "hasImage": true
                   },
                   {
-                    "id": 12,
+                    "id": 7412,
                     "title": "Revolution with imagination",
                     "textLine1": "Imagination",
-                    "textLine2": "There is no finish line"
+                    "textLine2": "There is no finish line",
+                    "hasImage": true
                   },
                   {
-                    "id": 13,
+                    "id": 7413,
                     "title": "Why education….. Every little helps",
-                    "textLine1": "Knowledge is power"
+                    "textLine1": "Knowledge is power",
+                    "hasImage": true
                   },
                   {
-                    "id": 14,
-                    "title": "The best a child can get"
+                    "id": 7414,
+                    "title": "The best a child can get",
+                    "hasImage": true
                   },
                   {
-                    "id": 15,
-                    "title": "Imagination at work… teach an autistic child"
+                    "id": 7415,
+                    "title": "Imagination at work… teach an autistic child",
+                    "hasImage": true
                   },
                   {
-                    "id": 16,
-                    "title": "The last place you want to go"
+                    "id": 7416,
+                    "title": "The last place you want to go",
+                    "hasImage": true
                   },
                   {
-                    "id": 17,
-                    "title": "The Ultimate Driving machine"
+                    "id": 7417,
+                    "title": "The Ultimate Driving machine",
+                    "hasImage": true
                   },
                   {
-                    "id": 18,
-                    "title": "Your in good hands"
+                    "id": 7418,
+                    "title": "Your in good hands",
+                    "hasImage": true
                   },
                   {
-                    "id": 19,
-                    "title": "Learning Program"
+                    "id": 7419,
+                    "title": "Learning Program",
+                    "hasImage": true
                   },
                   {
-                    "id": 20
+                    "id": 7420,
+                    "hasImage": true
                   },
                   {
-                    "id": 21,
-                    "title": "Adapted methods of learning"
+                    "id": 7421,
+                    "title": "Adapted methods of learning",
+                    "hasImage": true
                   },
                   {
-                    "id": 22,
-                    "title": "Multiple intelligence; multiple learning styles"
+                    "id": 7422,
+                    "title": "Multiple intelligence; multiple learning styles",
+                    "hasImage": true
                   },
                   {
-                    "id": 23,
-                    "title": "Induce structural brain plasticity"
+                    "id": 7423,
+                    "title": "Induce structural brain plasticity",
+                    "hasImage": true
                   },
                   {
-                    "id": 24,
+                    "id": 7424,
                     "title": "Stages of mental mapping",
                     "textLine1": "depends on how much sensory channels are open",
-                    "textLine2": "anxiety, worries, memory, obsessions, take a front stage and affect performance"
+                    "textLine2": "anxiety, worries, memory, obsessions, take a front stage and affect performance",
+                    "hasImage": true
                   },
                   {
-                    "id": 25,
+                    "id": 7425,
                     "title": "Obsession becomes too difficult a cycle to break",
-                    "textLine1": "Obsession gets called as BEHAVIOUR"
+                    "textLine1": "Obsession gets called as BEHAVIOUR",
+                    "hasImage": true
                   }
       ],
       "instructions": "You will be shown a story. Swipe to go through the cards",

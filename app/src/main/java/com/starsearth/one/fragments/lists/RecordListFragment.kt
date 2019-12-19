@@ -266,16 +266,16 @@ class RecordListFragment : Fragment() {
             var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
         /*    var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
             for (mainMenuItem in mainMenuItems) {
-                if ((mainMenuItem.teachingContent as Task).id == 75.toLong()) {
+                if ((mainMenuItem.teachingContent as Task).id == 74.toLong()) {
                     val map = (mainMenuItem.teachingContent as Task).toMap()
                     val calendar = Calendar.getInstance()
                     map.put("created", calendar.timeInMillis)
                     val databaseReference = FirebaseDatabase.getInstance().reference
                     val key = (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
-                    //databaseReference.child("teachingcontent").child(key).setValue(map)
+                    databaseReference.child("teachingcontent").child(key).setValue(map)
 
-                    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_75100.jpg");
-                    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.effective_parenting_1);
+                    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_741.jpg");
+                    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.autism_1);
                     val baos = ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                     val data = baos.toByteArray();

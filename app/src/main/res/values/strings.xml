@@ -46,6 +46,7 @@
 
     <string name="error">Error</string>
     <string name="something_went_wrong">Sorry something went wrong. Please try again later</string>
+    <string name="error_downloading_image">Error downloading image</string>
     <string name="no_internet">You do not have an internet connection</string>
     <string name="no_items_to_displayay">No items to display</string>
     <string name="you_did_not_enter_search">You did not enter any search query</string>

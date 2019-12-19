@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.storage.FirebaseStorage
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyAutismStoryRecyclerViewAdapter
 import com.starsearth.one.domain.Task
@@ -23,6 +25,7 @@ class AutismStoryFragment : Fragment() {
     // TODO: Customize parameters
     private var columnCount = 1
     private lateinit var mTask : Task
+    private var mAdapter: MyAutismStoryRecyclerViewAdapter? = null
 
     private var listener: OnListFragmentInteractionListener? = null
 
@@ -45,10 +48,31 @@ class AutismStoryFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyAutismStoryRecyclerViewAdapter(mTask.content as List<Any>, listener)
+                mAdapter = MyAutismStoryRecyclerViewAdapter(mTask.content as List<Any>, listener)
+                adapter = mAdapter
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val contentList = mTask.content as List<Map<String, Any>>
+        for (content in contentList) {
+            val hasImage = content.containsKey("hasImage") && (content.get("hasImage") as Boolean)
+            if (hasImage) {
+                val contentId = content["id"].toString()
+                var picRef = FirebaseStorage.getInstance().reference.child("images/tc_"+contentId+".jpg")
+                val ONE_MEGABYTE: Long = 1024 * 1024
+                picRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+                    mAdapter?.addImage(contentId, it)
+                }.addOnFailureListener {
+                    // Handle any errors
+                    mAdapter?.addImage(contentId, null)
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
