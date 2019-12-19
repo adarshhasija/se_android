@@ -2,6 +2,8 @@ package com.starsearth.one.fragments.lists
 
 //import android.app.Fragment
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
@@ -20,10 +22,13 @@ import com.starsearth.one.adapter.RecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
 import kotlinx.android.synthetic.main.fragment_records_list.view.*
+import java.io.ByteArrayOutputStream
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -266,8 +271,15 @@ class RecordListFragment : Fragment() {
                     val calendar = Calendar.getInstance()
                     map.put("created", calendar.timeInMillis)
                     val databaseReference = FirebaseDatabase.getInstance().reference
-                    val key = databaseReference.push().getKey();
-                    databaseReference.child("teachingcontent").child(key).setValue(map)
+                    val key = (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
+                    //databaseReference.child("teachingcontent").child(key).setValue(map)
+
+                    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_75100.jpg");
+                    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.effective_parenting_1);
+                    val baos = ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                    val data = baos.toByteArray();
+                    storageRef.putBytes(data);
                 }
             }   */
             if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {

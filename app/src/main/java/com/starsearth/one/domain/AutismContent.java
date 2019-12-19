@@ -12,6 +12,7 @@ public class AutismContent implements Parcelable {
     public String title;
     public String textLine1;
     public String textLine2;
+    public boolean hasImage;
 
     public AutismContent(String title) {
         this.title = title;
@@ -24,6 +25,7 @@ public class AutismContent implements Parcelable {
         this.title = map.containsKey("title") ? (String) map.get("title") : null;
         this.textLine1 = map.containsKey("textLine1") ? (String) map.get("textLine1") : null;
         this.textLine2 = map.containsKey("textLine2") ? (String) map.get("textLine2") : null;
+        this.hasImage = map.containsKey("hasImage") && (boolean) map.get("hasImage");
     }
 
     protected AutismContent(Parcel in) {
@@ -31,6 +33,7 @@ public class AutismContent implements Parcelable {
         title = in.readString();
         textLine1 = in.readString();
         textLine2 = in.readString();
+        hasImage = in.readByte() != 0;
     }
 
     public static final Creator<AutismContent> CREATOR = new Creator<AutismContent>() {
@@ -56,5 +59,6 @@ public class AutismContent implements Parcelable {
         dest.writeString(title);
         dest.writeString(textLine1);
         dest.writeString(textLine2);
+        dest.writeByte((byte) (hasImage ? 1 : 0));
     }
 }

@@ -2,6 +2,7 @@ package com.starsearth.one.managers;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -130,7 +131,12 @@ public class FirebaseManager {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, values);
 
-        databaseReference.updateChildren(childUpdates);
+        databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("FIREBASE_MANAGER", "****** TYPING RESULT SAVED. KEY IS: "+key);
+            }
+        });
         return testResult;
     }
 
@@ -145,7 +151,12 @@ public class FirebaseManager {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, values);
 
-        databaseReference.updateChildren(childUpdates);
+        databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("FIREBASE_MANAGER", "****** RESULT SAVED. KEY IS: "+key);
+            }
+        });
         return testResult;
     }
 

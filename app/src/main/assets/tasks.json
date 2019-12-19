@@ -1696,27 +1696,32 @@
         {
           "id": 75100,
           "title": "How to discipline child without yelling?",
-          "textLine1": "1. Establish Clear Rules\n2. Discuss negatives beforehand\n3. Provide positive reinforcement\n4. Offer warnings when appropriate and follow through with consequences\n5. Praise your child for good behavior\n\nRemember: Children learn by watching what parents do"
+          "textLine1": "1. Establish Clear Rules\n2. Discuss negatives beforehand\n3. Provide positive reinforcement\n4. Offer warnings when appropriate and follow through with consequences\n5. Praise your child for good behavior\n\nRemember: Children learn by watching what parents do",
+          "hasImage": true
         },
         {
           "id": 752,
           "title": "How does a parent reward a child?",
-          "textLine1": "1. Plan a trip to a park.\n2. Pick a movie for the weekend\n3. Allow them to decide dinner menu\n4. A family activity\n5. 30 mins of extra screen time"
+          "textLine1": "1. Plan a trip to a park.\n2. Pick a movie for the weekend\n3. Allow them to decide dinner menu\n4. A family activity\n5. 30 mins of extra screen time",
+          "hasImage": true
         },
         {
           "id": 753,
           "title": "How to punish children for bad behavior",
-          "textLine1": "1. Do not hit them\n2. Do not yell or shout at them\n3. Rather turn the punishment into problem solving\n4. Give them tasks to finish the bad behavior\n5. Cut short the perks(eg: 30 mins less screen time)"
+          "textLine1": "1. Do not hit them\n2. Do not yell or shout at them\n3. Rather turn the punishment into problem solving\n4. Give them tasks to finish the bad behavior\n5. Cut short the perks(eg: 30 mins less screen time)",
+          "hasImage": true
         },
         {
           "id": 754,
           "title": "How to discipline a toddler?",
-          "textLine1": "1. Avoid stressful situations\n2. You must think like a toddler\n3. Practice the art of distraction\n4. Give the child a break\n5. Stay Calm\n6. Know when to give in\n7. Be consistent"
+          "textLine1": "1. Avoid stressful situations\n2. You must think like a toddler\n3. Practice the art of distraction\n4. Give the child a break\n5. Stay Calm\n6. Know when to give in\n7. Be consistent",
+          "hasImage": true
         },
         {
           "id": 755,
           "title": "Lastly, try to be an authoritative parent",
-          "textLine2": "Allow autonomy and encourage independence\nReason with children instead of demanding blind obedience\nSet clear limit on behavior"
+          "textLine2": "Allow autonomy and encourage independence\nReason with children instead of demanding blind obedience\nSet clear limit on behavior",
+          "hasImage": true
         }
       ],
       "instructions": "Parent's behavior influences their child's social and emotional skills directly and indirectly. Parent's interactions influence their child's future behavior.",
