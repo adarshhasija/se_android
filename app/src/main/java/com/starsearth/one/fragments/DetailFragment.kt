@@ -257,16 +257,16 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     //Course or Task, get the normal instructions
                     (mTeachingContent as SETeachingContent)?.instructions
                 }
-        if (mTeachingContent is Task) {
-            if ((mTeachingContent as Task)?.durationMillis > 0) {
+    /*    if (mTeachingContent is Task) {
+            if ((mTeachingContent as Task).durationMillis > 0) {
                 instructions +=
                         context?.resources?.getString(R.string.complete_as_many_as) +
-                        " " + (mTeachingContent as Task)?.getTimeLimitAsString(context)
+                        " " + (mTeachingContent as Task).getTimeLimitAsString(context)
             }
             if ((mTeachingContent as Task).isExitOnInterruption) {
                 instructions += context?.resources?.getString(R.string.activity_will_end_if_interrupted)
             }
-        }
+        }   */
         tvInstruction?.text = instructions
 
         tvTapScreenToStart?.text =
