@@ -348,8 +348,14 @@
 
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
 
-    <string name="screenshot">Want sceenshot?\nTap for full screen view</string>
-    <string name="tap_or_enter_to_start">Tap screen to start\n\nHave USB Keyboard?\nPress Enter to start</string>
+    <string name="tap">tap</string>
+    <string name="true_label">true</string>
+    <string name="swipe">swipe</string>
+    <string name="false_label">false</string>
+    <string name="equals">=</string>
+    <string name="screenshot">Want screenshot?\nTap for full screen view</string>
+    <string name="tap_screen_to_start">Tap screen to start</string>
+    <string name="have_usb_keyboard_press_enter">Have USB Keyboard?\nPress Enter to start</string>
     <string name="swipe_continue_next">Swipe to continue to the next item</string>
     <string name="long_press_for_more_options">Long press for more options</string>
     <string name="long_press_to_close_this_screen">Long press to close this screen</string>

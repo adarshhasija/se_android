@@ -3,11 +3,9 @@ package com.starsearth.one.fragments
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
-import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
@@ -191,6 +188,27 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     fun updateUIVisibility() {
         //Set visibility for all UI
         tvInstruction?.visibility = View.VISIBLE
+        llTap?.visibility =
+                if ((mTeachingContent as? Task)?.type == Task.Type.TAP_SWIPE) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        llTimeLimit?.visibility =
+                if ((mTeachingContent as? Task)?.timed == true) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        llSwipe?.visibility =
+                if ((mTeachingContent as? Task)?.type == Task.Type.TAP_SWIPE) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
         tvProgress?.visibility =
                 if (mTeachingContent is Course) {
                     View.VISIBLE
@@ -269,12 +287,20 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }   */
         tvInstruction?.text = instructions
 
+        tvTimeLimit?.text =
+                if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 0) {
+                    (((mTeachingContent as Task).durationMillis/1000)/60).toString() + " " + "m"
+                }
+                else {
+                    "0"
+                }
+
         tvTapScreenToStart?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     context?.resources?.getString(R.string.double_tap_or_enter_to_start)
                 }
                 else {
-                    context?.resources?.getString(R.string.tap_or_enter_to_start)
+                    context?.resources?.getString(R.string.tap_screen_to_start)
                 }
 
         tvSwipeToContinue?.text = ""
