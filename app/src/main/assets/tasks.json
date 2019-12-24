@@ -376,7 +376,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Months of the year",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all 12 words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
                   {
                     "id": 1,
@@ -451,7 +451,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Countries in Asia",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
                   {
                     "id": 1,
@@ -551,7 +551,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Parts of the human body",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
                   {
                     "id": 1,
@@ -666,7 +666,7 @@
       "submitOnReturnTapped": true,
       "ordered": true,
       "title": "Major cities in the world",
-      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter. Complete all words to finish the exercise. Ensure your audio is not on mute for this activity.",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
                   {
                     "id": 1,
@@ -874,7 +874,7 @@
       "durationMillis": 61000,
       "isGame": true,
       "title": "addition/subtraction 1",
-      "instructions": "You will be shown some statements where 2 numbers are being added. True = result = 0. False = result is not = 0",
+      "instructions": "You will be shown some statements where 2 numbers are being added. True is when result = 0. False is when result is not = 0",
       "tap": ["-9 + 9","-8 + 8","-7 + 7","-6 + 6","-5 + 5","-4 + 4","-3 + 3","-2 + 2","-1 + 1",
         "9 + -9","8 + -8","7 + -7","6 + -6","5 + -5","4 + -4","3 + -3","2 + -2","1 + -1"
       ],
@@ -894,7 +894,7 @@
       "durationMillis": 61000,
       "isGame": true,
       "title": "addition/subtraction 2",
-      "instructions": "You will be shown some statements where 2 numbers are being added. True = result > 0. False = result is <= 0",
+      "instructions": "You will be shown some statements where 2 numbers are being added. True is when result > 0. False is when result is <= 0",
       "tap": ["-8 + 9","-7 + 8","-7 + 9","-6 + 7","-6 + 8","-6 + 9","-5 + 6","-5 + 7","-5 + 8","-5 + 9","-4 + 5","-4 + 6","-4 + 7","-4 + 8","-4 + 9","-3 + 4","-3 + 5","-3 + 6","-3 + 7","-3 + 8","-3 + 9","-2 + 3","-2 + 4","-2 + 5","-2 + 6","-2 + 7","-2 + 8","-2 + 9","-1 + 2","-1 + 3","-1 + 4","-1 + 5","-1 + 6","-1 + 7","-1 + 8","-1 + 9",
         "9 + -8","8 + -7","9 + -7","7 + -6","8 + -6","9 + -6","6 + -5","7 + -5","8 + -5","9 + -5","5 + -4","6 + -4","7 + -4","8 + -4","9 + -4","4 + -3","5 + -3","6 + -3","7 + -3","8 + -3","9 + -3","3 + -2","4 + -2","5 + -2","6 + -2","7 + -2","8 + -2","9 + -2","2 + -1","3 + -1","4 + -1","5 + -1","6 + -1","7 + -1","8 + -1","9 + -1"
       ],
@@ -1119,7 +1119,7 @@
       "type": 1,
       "timed": false,
       "title": "Months of the year",
-      "instructions": "You will be shown 12 sentences about months of the year. Type them out correctly. When you have finished all 12, we will show how many characters you got right.",
+      "instructions": "You will be shown sentences about months of the year. Type them out correctly",
       "content": ["January is the first month","February is the second month","March is the third month","April is the fourth month",
                   "May is the fifth month", "June is the sixth month", "July is the seventh month", "August is the eighth month",
                   "September is the ninth month", "October is the tenth month", "November is the eleventh month", "December is the twelfth month"],
@@ -1334,7 +1334,7 @@
       "isKeyboardRequired": false,
       "isGame": true,
       "title": "Independent Clauses",
-      "instructions": "An independent clause is a sentence that contains a subject and a verb. You will be shown some sentences. Tap if the sentence is an independent clause. Otherwise swipe.",
+      "instructions": "You will be shown some sentences. Tap if the sentence is an independent clause. Else swipe.",
       "tap": [
         {
           "id": 1,

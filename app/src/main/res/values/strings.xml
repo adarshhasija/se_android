@@ -348,11 +348,13 @@
 
     <string name="gesture_spam_detected">Gesture Spam Detected</string>
 
+    <string name="unknown">unknown</string>
     <string name="tap">tap</string>
     <string name="true_label">true</string>
     <string name="swipe">swipe</string>
     <string name="false_label">false</string>
-    <string name="equals">=</string>
+    <string name="audio">audio</string>
+    <string name="items">items</string>
     <string name="screenshot">Want screenshot?\nTap for full screen view</string>
     <string name="tap_screen_to_start">Tap screen to start</string>
     <string name="have_usb_keyboard_press_enter">Have USB Keyboard?\nPress Enter to start</string>

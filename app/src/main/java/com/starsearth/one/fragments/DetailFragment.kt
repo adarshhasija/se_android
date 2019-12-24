@@ -53,7 +53,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }
     }
 
-    // TODO: Rename and change types of parameters
+    private lateinit var mContext: Context
     private var mTeachingContent: SETeachingContent? = null
     private var mResults: Queue<Result> = LinkedList() //Queue = So that we know which is first result and which is last result
     private var mFirstResult: Result? = null //This is used for animating the long press label
@@ -202,6 +202,27 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }
+        llContentLength?.visibility =
+                if ((mTeachingContent as? Task)?.ordered == true) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        llAudio?.visibility =
+                if ((mTeachingContent as? Task)?.type == Task.Type.HEAR_AND_TYPE) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
+        llTyping?.visibility =
+                if ((mTeachingContent as? Task)?.isKeyboardRequired == true) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
         llSwipe?.visibility =
                 if ((mTeachingContent as? Task)?.type == Task.Type.TAP_SWIPE) {
                     View.VISIBLE
@@ -287,6 +308,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }   */
         tvInstruction?.text = instructions
 
+        tvContentLength?.text =
+                if ((mTeachingContent as? Task)?.ordered == true) {
+                    (mTeachingContent as? Task)?.content?.size.toString()
+                }
+                else {
+                    mContext.getText(R.string.unknown).toString().toLowerCase().capitalize()
+                }
         tvTimeLimit?.text =
                 if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 0) {
                     (((mTeachingContent as Task).durationMillis/1000)/60).toString() + " " + "m"
@@ -483,6 +511,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         super.onAttach(context)
         if (context is OnDetailFragmentInteractionListener) {
             mListener = context
+            mContext = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnDetailFragmentInteractionListener")
         }
