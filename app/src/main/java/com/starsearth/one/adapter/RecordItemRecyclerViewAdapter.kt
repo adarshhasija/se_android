@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.one.R
 import com.starsearth.one.Utils
@@ -72,7 +73,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             holder.mTypeView.text = mContext?.getString(R.string.course)?.capitalize()
         }
 
-        if (teachingContent is Task && teachingContent.timed) {
+     /*   if (teachingContent is Task && teachingContent.timed) {
             holder.mTimedView.text = mContext?.getText(R.string.timed)
         }
 
@@ -80,7 +81,20 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             mContext?.getText(R.string.timed)
         } else {
             ""
-        }
+        }   */
+
+        holder.mTimedImageView.visibility =
+                if (teachingContent is Task && teachingContent.timed) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+        holder.mTimedImageView.contentDescription =
+                if (teachingContent is Task && teachingContent.timed) {
+                    mContext?.getText(R.string.timed)
+                } else {
+                    ""
+                }
 
         holder.mLastTriedView.text = if (results?.isNotEmpty()!!) {
             formatLatTriedTime(results.peek())
@@ -194,19 +208,21 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mTitleView: TextView
         val mTypeView: TextView
-        val mTimedView: TextView
+        //val mTimedView: TextView
+        val mTimedImageView: ImageView
         val mLastTriedView: TextView
         var mItem: RecordItem? = null
 
         init {
             mTitleView = mView.findViewById(R.id.tv_title) as TextView
             mTypeView = mView.findViewById(R.id.tv_type_interaction) as TextView
-            mTimedView = mView.findViewById(R.id.tv_timed) as TextView
+            //mTimedView = mView.findViewById(R.id.tv_timed) as TextView
+            mTimedImageView = mView.findViewById(R.id.ivTimed) as ImageView
             mLastTriedView = mView.findViewById(R.id.tvTimestamp) as TextView
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + mTitleView.text + "'"  + " '" + mTimedView.text + "'" + " '" + mLastTriedView.text + "'"
+            return super.toString() + " '" + mTitleView.text + "'"  + " '" + mTimedImageView.contentDescription + "'" + " '" + mLastTriedView.text + "'"
         }
     }
 }
