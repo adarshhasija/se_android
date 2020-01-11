@@ -216,6 +216,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }
+        llOrdered?.visibility =
+                if ((mTeachingContent as? Task)?.ordered == true) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
         llTyping?.visibility =
                 if ((mTeachingContent as? Task)?.isKeyboardRequired == true) {
                     View.VISIBLE
