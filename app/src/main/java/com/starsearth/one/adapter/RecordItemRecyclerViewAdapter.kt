@@ -52,10 +52,12 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             val type = it.type.toString()
             val extendedType =
                     if (it.type == Task.Type.SEE_AND_TYPE) {
-                        " - " + it.highestResponseViewType.toString().toLowerCase().capitalize()
+                        //" - " +
+                                it.highestResponseViewType.toString().toLowerCase().capitalize()
                     }
                     else if (!it.subType.isNullOrBlank()) {
-                        " - " + it.subType.toLowerCase().capitalize()
+                        //" - " +
+                                it.subType.toLowerCase().capitalize()
                     }
                     else {
                         ""
@@ -67,7 +69,54 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
                     else {
                         " - " + mContext?.getString(R.string.not_in_order)?.toLowerCase()?.capitalize()
                     }
-            holder.mTypeView.text = type + extendedType + inOrder
+            if (extendedType.length > 0) {
+                holder.mTypeView.visibility = View.VISIBLE
+                holder.mTypeView.text = extendedType //type + extendedType + inOrder
+            }
+
+
+            holder.mSlidesImageView.visibility =
+                    if (it.type == Task.Type.SLIDES) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+            holder.mTapImageView.visibility =
+                    if (it.type == Task.Type.TAP_SWIPE) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+            holder.mSwipeImageView.visibility =
+                    if (it.type == Task.Type.TAP_SWIPE) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+            holder.mAudioImageView.visibility =
+                    if (it.type == Task.Type.HEAR_AND_TYPE) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+            holder.mTypingImageView.visibility =
+                    if (it.type == Task.Type.HEAR_AND_TYPE || it.type == Task.Type.SEE_AND_TYPE) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+            holder.mOrderedImageView.visibility =
+                    if (it.ordered) {
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
         }
         (teachingContent as? Course)?.let {
             holder.mTypeView.text = mContext?.getString(R.string.course)?.capitalize()
@@ -209,6 +258,12 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
         val mTitleView: TextView
         val mTypeView: TextView
         //val mTimedView: TextView
+        val mSlidesImageView: ImageView
+        val mTapImageView: ImageView
+        val mSwipeImageView: ImageView
+        val mAudioImageView: ImageView
+        val mTypingImageView: ImageView
+        val mOrderedImageView: ImageView
         val mTimedImageView: ImageView
         val mLastTriedView: TextView
         var mItem: RecordItem? = null
@@ -217,6 +272,12 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             mTitleView = mView.findViewById(R.id.tv_title) as TextView
             mTypeView = mView.findViewById(R.id.tv_type_interaction) as TextView
             //mTimedView = mView.findViewById(R.id.tv_timed) as TextView
+            mSlidesImageView = mView.findViewById(R.id.ivSlides) as ImageView
+            mTapImageView = mView.findViewById(R.id.ivTap) as ImageView
+            mSwipeImageView = mView.findViewById(R.id.ivSwipe) as ImageView
+            mAudioImageView = mView.findViewById(R.id.ivAudio) as ImageView
+            mTypingImageView = mView.findViewById(R.id.ivTyping) as ImageView
+            mOrderedImageView = mView.findViewById(R.id.ivOrdered) as ImageView
             mTimedImageView = mView.findViewById(R.id.ivTimed) as ImageView
             mLastTriedView = mView.findViewById(R.id.tvTimestamp) as TextView
         }

@@ -195,6 +195,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }
+        llSlides?.visibility =
+                if ((mTeachingContent as? Task)?.type == Task.Type.SLIDES) {
+                    View.VISIBLE
+                }
+                else {
+                    View.GONE
+                }
         llTimeLimit?.visibility =
                 if ((mTeachingContent as? Task)?.timed == true) {
                     View.VISIBLE
@@ -224,7 +231,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     View.GONE
                 }
         llTyping?.visibility =
-                if ((mTeachingContent as? Task)?.isKeyboardRequired == true) {
+                if ((mTeachingContent as? Task)?.type == Task.Type.HEAR_AND_TYPE || (mTeachingContent as? Task)?.type == Task.Type.SEE_AND_TYPE) {
                     View.VISIBLE
                 }
                 else {
