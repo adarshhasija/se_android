@@ -9,11 +9,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.managers.FirebaseManager
 import com.starsearth.one.domain.*
@@ -139,12 +140,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
 
-        val currentUser = FirebaseAuth.getInstance().currentUser
         mDatabase = FirebaseDatabase.getInstance().getReference("results")
         mDatabase?.keepSynced(true)
-        val query = mDatabase?.orderByChild("userId")?.equalTo(currentUser!!.uid)
-        //query?.addChildEventListener(mChildEventListener);
-        query?.addListenerForSingleValueEvent(mResultValuesListener)
+        (mContext as? MainActivity)?.mUser?.uid?.let {
+            val query = mDatabase?.orderByChild("userId")?.equalTo(it)
+            //query?.addChildEventListener(mChildEventListener);
+            query?.addListenerForSingleValueEvent(mResultValuesListener)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -164,7 +166,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         if (mFirstResult != null) {
             mFirstResult = null
-            animateLongPressReminder()
+            //If its the first result, we animate the long press option to let the user know its there
+            tvLongPressForMoreOptions?.let { animateTextViewLarge(it) }
         }
     }
 
@@ -338,7 +341,11 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }
 
         tvTapScreenToStart?.text =
-                if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+                if ((context as? MainActivity)?.mUser == null && (mTeachingContent as? Task)?.type != Task.Type.SLIDES) {
+                    context?.resources?.getString(R.string.tap_screen_to_login)
+                }
+                else if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+                    //Assuming the user is logged in
                     context?.resources?.getString(R.string.double_tap_or_enter_to_start)
                 }
                 else {
@@ -365,10 +372,9 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     /*
-        If the user has just submitted their first result, animate the Long press label to show that it is an option
-        This does not work yet as tvLongPressForMoreOptions is null. Fragment not yet visible
+        If a particular textview needs to be shown large in size and animated down in order to draw attention to it
      */
-    private fun animateLongPressReminder() {
+    private fun animateTextViewLarge(textView: TextView) {
         val startSize = 18f // Size in pixels
         val endSize = 30f
         val animationDuration : Long = 2000; // Animation duration in ms
@@ -379,7 +385,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
 
         animator.addUpdateListener {
             val animatedValue : Float = it.animatedValue as Float
-            tvLongPressForMoreOptions?.textSize = animatedValue
+            textView.textSize = animatedValue
         }
         animator.start()
     }
@@ -451,6 +457,31 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         else if (mResults.size > 0 && mResults.last().uid != result.uid) {
             //We must check that this result is not a duplicate of the last element
             mResults.add(result)
+        }
+    }
+
+    //If a user has entered the app through a public channel without logging in, eg: search option on the login screen
+    //It means they can reach any task without login. If login is required, MainActivity will call this function at the
+    //end of the flow to confirm to the fragment that login is complete
+    fun onLoginComplete(uid : String) {
+        if (uid != null) {
+            tvTapScreenToStart?.text =
+                    if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+                        //Assuming the user is logged in
+                        context?.resources?.getString(R.string.double_tap_or_enter_to_start)
+                    }
+                    else {
+                        context?.resources?.getString(R.string.tap_screen_to_start)
+                    }
+
+            tvTapScreenToStart?.visibility = View.VISIBLE
+            tvTapScreenToStart?.let { animateTextViewLarge(it) }
+
+            mDatabase = FirebaseDatabase.getInstance().getReference("results")
+            mDatabase?.keepSynced(true)
+            val query = mDatabase?.orderByChild("userId")?.equalTo(uid)
+            //query?.addChildEventListener(mChildEventListener);
+            query?.addListenerForSingleValueEvent(mResultValuesListener)
         }
     }
 

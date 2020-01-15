@@ -1,6 +1,7 @@
 package com.starsearth.one.activity.auth
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -214,8 +215,12 @@ class SendOTPActivity : AppCompatActivity() {
         return builder
     }
 
-    private fun phoneNumberVerificationSuccessful() {
-        setResult(Activity.RESULT_OK)
+    private fun phoneNumberVerificationSuccessful(userId : String) {
+        val bundle = Bundle()
+        bundle.putString("userId", userId)
+        val intent = Intent()
+        intent.putExtras(bundle)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
@@ -240,7 +245,7 @@ class SendOTPActivity : AppCompatActivity() {
                         mViewPleaseWait?.visibility = View.GONE
                         if (task.isSuccessful) {
                             Log.d(TAG, "Phone number updated.")
-                            phoneNumberVerificationSuccessful()
+                            phoneNumberVerificationSuccessful(user.uid)
                         }
                         else {
                             Log.d(TAG, "updatedWithPhoneNumber: failure", task.exception)
@@ -275,7 +280,7 @@ class SendOTPActivity : AppCompatActivity() {
                         Log.d(TAG, "signInWithCredential:success")
 
                         val user = task.result.user
-                        phoneNumberVerificationSuccessful()
+                        phoneNumberVerificationSuccessful(user.uid)
                     } else {
                         // Sign in failed, display a message and update the UI
                         Log.w(TAG, "signInWithCredential:failure", task.exception)

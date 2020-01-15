@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,11 +17,13 @@ import com.starsearth.one.R;
 import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity;
 import com.starsearth.one.activity.auth.LoginActivity;
 import com.starsearth.one.application.StarsEarthApplication;
+import com.starsearth.one.domain.SEOneListItem;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     public static int LOGIN_WITH_PHONE_NUMBER_REQUEST = 0;
     public static int LOGIN_WITH_EMAIL_ADDRESS_REQUEST = 1;
+    public static int PUBLIC_SEARCH = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +31,20 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_one);
         getSupportActionBar().hide();
 
+        ImageView btnSearch = (ImageView) findViewById(R.id.ivSearch);
         Button btnLoginPhone = (Button) findViewById(R.id.btn_login_phone);
         Button btnLoginEmail = (Button) findViewById(R.id.btn_login_email);
         Button btnKeyboard = (Button) findViewById(R.id.btn_keyboard);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("action", SEOneListItem.Type.EDUCATOR_SEARCH.toString());
+                intent.putExtras(bundle);
+                startActivityForResult(intent, PUBLIC_SEARCH);
+            }
+        });
         btnLoginPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,11 +89,20 @@ public class WelcomeActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == LOGIN_WITH_PHONE_NUMBER_REQUEST) {
                 Toast.makeText(getApplicationContext(), R.string.phone_number_verified, Toast.LENGTH_LONG).show();
+                redirectToMainMenu();
             }
             else if (requestCode == LOGIN_WITH_EMAIL_ADDRESS_REQUEST) {
                 Toast.makeText(getApplicationContext(), R.string.email_address_verified, Toast.LENGTH_LONG).show();
+                redirectToMainMenu();
             }
-            redirectToMainMenu();
+            else if (requestCode == PUBLIC_SEARCH) {
+                //User logged in during the flow of the app. This screen is not needed anymore
+                Bundle extras = data.getExtras();
+                boolean containsKey = extras.containsKey("isLoggedIn");
+                if (containsKey && extras.getBoolean("isLoggedIn") == true) {
+                    finish();
+                }
+            }
         }
 
     }

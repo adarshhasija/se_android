@@ -357,6 +357,7 @@
     <string name="items">items</string>
     <string name="slides">slides</string>
     <string name="screenshot">Want screenshot?\nTap for full screen view</string>
+    <string name="tap_screen_to_login">Tap screen to login</string>
     <string name="tap_screen_to_start">Tap screen to start</string>
     <string name="have_usb_keyboard_press_enter">Have USB Keyboard?\nPress Enter to start</string>
     <string name="swipe_continue_next">Swipe to continue to the next item</string>

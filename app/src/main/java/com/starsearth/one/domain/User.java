@@ -20,6 +20,10 @@ public class User implements Parcelable {
         // Default constructor required for calls to DataSnapshot.getValueString(User.class)
     }
 
+    public User(String key) {
+        this.uid = key;
+    }
+
     public User(String key, Map<String, Object> map) {
         this.uid = key;
         this.educator = map.containsKey("educator") ? Educator.Status.fromString((String) map.get("educator")) : null;

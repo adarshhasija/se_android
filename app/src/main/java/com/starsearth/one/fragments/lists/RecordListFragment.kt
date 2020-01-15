@@ -24,6 +24,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.comparator.ComparatorMainMenuItem
 import com.starsearth.one.domain.*
 import kotlinx.android.synthetic.main.fragment_records_list.*
@@ -45,6 +46,7 @@ import kotlin.collections.HashMap
  * fragment (e.g. upon screen orientation changes).
  */
 class RecordListFragment : Fragment() {
+    private lateinit var mContext : Context
     private var mTeachingContent : SETeachingContent? = null
     private lateinit var mPassedInResults : ArrayList<Result> //Passed in results if screen is for a course
     private var mNewlyCompletedResults = ArrayList<Result>() //For newly created results that are returned back from fragments
@@ -76,9 +78,17 @@ class RecordListFragment : Fragment() {
                 insertTeachingContentItems(tcList)
                 (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
-                //progressBar?.visibility = View.GONE
-                //list?.visibility = View.VISIBLE
-                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+                progressBar?.visibility = View.GONE
+                if (tcList.size > 0) {
+                    tvEmptyList?.visibility = View.GONE
+                    list?.visibility = View.VISIBLE
+                    (mContext as? MainActivity)?.mUser?.let { setupResultsListener(it) }
+                }
+                else {
+                    tvEmptyList?.visibility = View.VISIBLE
+                    list?.visibility = View.GONE
+                }
+
             }
             else {
                 progressBar?.visibility = View.GONE
@@ -109,7 +119,7 @@ class RecordListFragment : Fragment() {
                 mExpentedTCs = null
                 (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
-                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+                (mContext as? MainActivity)?.mUser?.let { setupResultsListener(it) }
             }
 
         }
@@ -120,7 +130,7 @@ class RecordListFragment : Fragment() {
                 mExpentedTCs = null
                 (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
-                FirebaseAuth.getInstance().currentUser?.let { setupResultsListener(it) }
+                (mContext as? MainActivity)?.mUser?.let { setupResultsListener(it) }
             }
         }
 
@@ -466,7 +476,7 @@ class RecordListFragment : Fragment() {
         })
     }
 
-    private fun setupResultsListener(currentUser: FirebaseUser) {
+    private fun setupResultsListener(currentUser: User) {
         mDatabaseResultsReference = FirebaseDatabase.getInstance().getReference("results")
         mDatabaseResultsReference?.keepSynced(true)
         val query = mDatabaseResultsReference?.orderByChild("userId")?.equalTo(currentUser.uid)
@@ -481,6 +491,7 @@ class RecordListFragment : Fragment() {
         super.onAttach(context)
         if (context is OnRecordListFragmentInteractionListener) {
             mListener = context
+            mContext = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
         }

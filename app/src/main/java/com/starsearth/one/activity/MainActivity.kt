@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 import com.starsearth.one.R
+import com.starsearth.one.activity.auth.AddEditPhoneNumberActivity
 import com.starsearth.one.activity.profile.PhoneNumberActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.*
@@ -288,6 +289,11 @@ class MainActivity : AppCompatActivity(),
             val autismStoryFragment = AutismStoryFragment.newInstance(task)
             openFragment(autismStoryFragment, AutismStoryFragment.TAG)
         }
+        else if (mUser == null) {
+            //redirect to login
+            val intent = Intent(this@MainActivity, AddEditPhoneNumberActivity::class.java)
+            startActivityForResult(intent, LOGIN_REQUEST)
+        }
         else {
             (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
             val intent = Intent(this@MainActivity, TaskTwoActivity::class.java)
@@ -400,12 +406,12 @@ class MainActivity : AppCompatActivity(),
 
     private var mAuth: FirebaseAuth? = null
     private val mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-        val user = firebaseAuth.currentUser
+     /*   val user = firebaseAuth.currentUser
         if (user == null) {
             val intent = Intent(this@MainActivity, WelcomeActivity::class.java)
             startActivity(intent)
             finish()
-        }
+        }   */
     }
 
     private val mUserValueChangeListener = object : ValueEventListener {
@@ -466,6 +472,7 @@ class MainActivity : AppCompatActivity(),
 
     var mUser: User? = null //These act as global variables that any fragment can access
     var mEducator : Educator? = null
+    var inputAction : String? = null //If there was an inputAction passed into MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -485,9 +492,18 @@ class MainActivity : AppCompatActivity(),
             updatedEducatorProperties()
         }
 
-        val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
-        supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container_main, seOneListFragment).commit()
+        val extras = intent.extras
+        if (extras?.get("action") == SEOneListItem.Type.EDUCATOR_SEARCH.toString()) {
+            inputAction = extras.getString("action")
+            val searchFragment = SearchFragment.newInstance("EDUCATOR")
+            openFragment(searchFragment, SearchFragment.TAG)
+        }
+        else {
+            val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container_main, seOneListFragment).commit()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -508,6 +524,24 @@ class MainActivity : AppCompatActivity(),
         //}
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        if (supportFragmentManager.backStackEntryCount < 1) {
+            //All fragments removed so screen will be blank. Close the activity itself
+            if (mUser == null) {
+                //No user logged in, close activity and back to login page
+                finish()
+            }
+            else if (mUser != null && inputAction == SEOneListItem.Type.EDUCATOR_SEARCH.toString()){
+                //User is logged in and the last fragment was search. That means we came from the search flow on the login screen
+                val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container_main, seOneListFragment).commit()
+            }
+        }
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
@@ -535,6 +569,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     val TASK_ACTIVITY_REQUEST = 100
+    val LOGIN_REQUEST = 200
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -545,6 +580,23 @@ class MainActivity : AppCompatActivity(),
             }
             if (resultCode == Activity.RESULT_OK) {
                 (fragment as? DetailFragment)?.onActivityResultOK(data)
+            }
+        }
+        else if (requestCode == LOGIN_REQUEST) {
+            updatedUserProperties()
+
+            //This will be returned to WelcomeActivity whenever LoginActivity closes. This is so that when the user taps back, WelcomeActivity also closes
+            val intent = Intent()
+            val bundle = Bundle()
+            bundle.putBoolean("isLoggedIn", true)
+            intent.putExtras(bundle)
+            setResult(Activity.RESULT_OK, intent)
+
+            val userId = data?.extras?.getString("userId")
+            userId?.let {
+                //Have to use Firebase user here as our local copy mUser is not yet updated
+                val fragments = supportFragmentManager?.fragments
+                (fragments?.getOrNull(fragments.lastIndex) as? DetailFragment)?.onLoginComplete(it)
             }
         }
     }

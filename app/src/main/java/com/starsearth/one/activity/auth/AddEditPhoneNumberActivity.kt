@@ -136,7 +136,15 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             //If OTP login was successful
-            phoneNumberVerificationSuccessful()
+            val userId = data?.extras?.getString("userId")
+            if (userId != null) {
+                phoneNumberVerificationSuccessful(userId)
+            }
+            else {
+                val builder = createAlertDialog()
+                builder.setMessage(R.string.error)
+                builder.show()
+            }
         }
     }
 
@@ -181,8 +189,12 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
         return builder
     }
 
-    private fun phoneNumberVerificationSuccessful() {
-        setResult(Activity.RESULT_OK)
+    private fun phoneNumberVerificationSuccessful(userId : String) {
+        val intent = Intent()
+        val bundle = Bundle()
+        bundle.putString("userId", userId)
+        intent.putExtras(bundle)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
@@ -204,7 +216,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         mViewPleaseWait?.visibility = View.GONE
                         if (task.isSuccessful) {
                             Log.d(TAG, "Phone number updated.")
-                            phoneNumberVerificationSuccessful()
+                            phoneNumberVerificationSuccessful(user.uid)
                             (application as StarsEarthApplication)?.analyticsManager?.sendAnalyticsForUpdatedPhoneNumber("EditPhoneNumber")
                         }
                         else {
@@ -232,7 +244,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         builder.setMessage(R.string.login_successful)
                                 .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
                                 .show()
-                        phoneNumberVerificationSuccessful()
+                        phoneNumberVerificationSuccessful(user.uid)
                         // ...
                     } else {
                         // Sign in failed, display a message and update the UI
