@@ -26,6 +26,7 @@ public class SETeachingContent implements Parcelable {
     public String updatedBy;
     public String parentType;
     public String parentId;
+    public String views; //The number of times this piece of content was viewed. Applies only to stories as of March 2020
     public long timestamp;
     public List<String> tags = new ArrayList<>();
 
@@ -69,6 +70,7 @@ public class SETeachingContent implements Parcelable {
         this.updatedBy = map.containsKey("updatedBy") ? (String) map.get("updatedBy") : null;
         this.parentType = map.containsKey("parentType") ? (String) map.get("parentType") : null;
         this.parentId = map.containsKey("parentId") ? (String) map.get("parentId") : null;
+        this.views = map.containsKey("views") ? (String) map.get("views") : null;
         this.timestamp = map.containsKey("timestamp") ? (Long) map.get("timestamp") : -1;
      /*   ////Set tags list
         ArrayList<String> mpArrayListTags = (ArrayList<String>) map.get("tags");
@@ -100,6 +102,7 @@ public class SETeachingContent implements Parcelable {
         updatedBy = in.readString();
         parentType = in.readString();
         parentId = in.readString();
+        views = in.readString();
         timestamp = in.readLong();
         tags = in.readArrayList(String.class.getClassLoader());
     }
@@ -152,6 +155,7 @@ public class SETeachingContent implements Parcelable {
         result.put("updatedBy", updatedBy);
         result.put("parentType", parentType);
         result.put("parentId", parentId);
+        result.put("views", views);
         //result.put("timestamp", timestamp);
         //result.put("tags", tags);
 
@@ -174,6 +178,7 @@ public class SETeachingContent implements Parcelable {
         dest.writeString(updatedBy);
         dest.writeString(parentType);
         dest.writeString(parentId);
+        dest.writeString(views);
         dest.writeLong(timestamp);
         dest.writeList(tags);
     }

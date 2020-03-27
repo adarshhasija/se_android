@@ -85,6 +85,14 @@ class EducatorContentRecyclerViewAdapter(
                     ""
                 }
 
+        holder.mViewsView.text =
+                if (teachingContent is Task && teachingContent.views != null && teachingContent.views.toInt() > 0) {
+                    "Times Viewed: " + teachingContent.views
+                } else {
+                    ""
+                }
+
+
         holder.mView.setBackgroundColor(Color.LTGRAY)
         with(holder.mView) {
             tag = teachingContent
@@ -102,6 +110,7 @@ class EducatorContentRecyclerViewAdapter(
         val mTitleView: TextView = mView.tvTitle
         val mTypeInteractionView: TextView = mView.tvTypeInteraction
         val mTimedView: TextView = mView.tvTimed
+        val mViewsView: TextView = mView.tvViews
         var mItem: SETeachingContent? = null
 
         override fun toString(): String {

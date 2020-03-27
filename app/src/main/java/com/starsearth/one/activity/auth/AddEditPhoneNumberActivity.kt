@@ -94,10 +94,10 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
             val available = availability.isGooglePlayServicesAvailable(applicationContext)
             if (available == ConnectionResult.SUCCESS) {
                 var etText = etPhoneNumber.text.toString()
-                etText = etText.replace("+0", "")
-                etText = etText.replace("+91", "")
+                //etText = etText.replace("+0", "")
+                //etText = etText.replace("+91", "")
                 if (!isFormatIncorrect(etText)) {
-                    phoneNumber = "+91" + etText
+                    phoneNumber = /*"+91" +*/ etText
                     val builder = createAlertDialog()
                     builder.setTitle(R.string.correct_number_question)
                             .setMessage(phoneNumber)
@@ -155,10 +155,10 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
             builder.setMessage(R.string.not_entered_phone_number)
             result = true
         }
-        else if (phoneNumber.length != 10) {
+     /*   else if (phoneNumber.length != 10) {
             builder.setMessage(R.string.phone_number_10_digits)
             result = true
-        }
+        }   */
 
         if (result) {
             builder.setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }

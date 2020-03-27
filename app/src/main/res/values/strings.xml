@@ -263,6 +263,7 @@
     <string name="typing_game_cancelled">The task was cancelled</string>
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="only_india_numbers">Only India mobile numbers are accepted at the moment</string>
+    <string name="country_code_and_number">Please enter your full number starting with your country code. Eg: +911092834890</string>
     <string name="enter_number_here">Enter number here</string>
     <string name="otp_will_be_sent">A One Time Passcode will be sent to this number</string>
 
