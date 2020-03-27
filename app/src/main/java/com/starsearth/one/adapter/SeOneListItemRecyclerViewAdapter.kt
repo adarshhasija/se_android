@@ -1,5 +1,6 @@
 package com.starsearth.one.adapter
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,10 @@ class SeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mItem = mValues[position]
         holder.mTitleView.text = mValues[position].text1?.replace("_", " ", true)?.capitalize()
+
+        if (mValues[position].text1.toLowerCase() == "covid-19") {
+            holder.mView.setBackgroundColor(Color.RED)
+        }
 
         holder.mView.setOnClickListener {
             holder.mItem?.let {

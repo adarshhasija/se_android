@@ -23,6 +23,7 @@ public class SEOneListItem {
         //list.add(new SEOneListItem(context.getResources().getString(R.string.timed), Type.TIMED));
         //list.add(new SEOneListItem(context.getResources().getString(R.string.games), Type.GAME));
         //list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.covid19), Type.CORONA_DASHBOARD));
         list.add(new SEOneListItem(context.getResources().getString(R.string.typing), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.english), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.mathematics), Type.TAG));
@@ -66,6 +67,7 @@ public class SEOneListItem {
             GAME("GAME"),
             TIMED("TIMED"),
             ALL("ALL"),
+            CORONA_DASHBOARD("CORONA_DASHBOARD"),
             TAG("TAG")
             ;
 

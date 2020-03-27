@@ -92,6 +92,7 @@
     <string name="educator_profile">Educator Profile</string>
     <string name="educator_search_hint">If you know someone who is an Educator on this app, enter their full name here</string>
     <string name="class_search_hint">You can search Class 1, Class 2, Class 3, Class 8 etc</string>
+    <string name="covid19">Covid-19</string>
     <string name="fun">Fun</string>
     <string name="typing">Typing</string>
     <string name="english">English</string>
