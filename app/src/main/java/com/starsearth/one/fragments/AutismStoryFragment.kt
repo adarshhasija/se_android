@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.starsearth.one.R
 import com.starsearth.one.adapter.MyAutismStoryRecyclerViewAdapter
@@ -57,6 +58,15 @@ class AutismStoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val newViewsCount : String = if (mTask.views != null) {
+            (mTask.views.toInt() + 1).toString()
+        } else {
+            "1" //views was null. This is the first view.
+        }
+        val mDatabase = FirebaseDatabase.getInstance().getReference()
+        mDatabase.child("teachingcontent").child(mTask.uid).child("views").setValue(newViewsCount);
+
 
         val contentList = mTask.content as List<Map<String, Any>>
         for (content in contentList) {

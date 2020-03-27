@@ -11,13 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/only_india_numbers" />
+        android:gravity="center"
+        android:text="@string/country_code_and_number" />
 
     <EditText
         android:id="@+id/et_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="phone"
         android:hint="@string/enter_number_here"/>
 
     <TextView
