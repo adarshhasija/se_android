@@ -101,6 +101,16 @@
     <string name="search_by_class_hint">Enter class. eg: Class 1</string>
     <string name="logout_successful">Logout Successful</string>
 
+
+    <!-- Corona section -->
+    <string name="corona_help_requests">Help Requests</string>
+    <string name="corona_my_help_requests">My Help Requests</string>
+    <!-- End of Corona section -->
+
+    <!-- Cities served for Corona -->
+    <string name="bengaluru">Bengaluru</string>
+    <!-- END -->
+
     <!-- Login screen -->
     <string name="email">Email</string>
     <string name="password">Password</string>

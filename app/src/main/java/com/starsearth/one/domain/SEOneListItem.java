@@ -1,7 +1,10 @@
 package com.starsearth.one.domain;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import com.starsearth.one.application.StarsEarthApplication;
 import com.starsearth.one.managers.AssetsFileManager;
 import com.starsearth.one.BuildConfig;
 import com.starsearth.one.R;
@@ -13,17 +16,36 @@ import java.util.List;
  * Created by faimac on 2/27/18.
  */
 
-public class SEOneListItem {
+public class SEOneListItem implements Parcelable {
 
     public static String TYPE_LABEL = "TYPE";
     public static String CONTENT = "CONTENT";
+
+    protected SEOneListItem(Parcel in) {
+        text1 = in.readString();
+        text2 = in.readString();
+        Type.fromString(in.readString());
+    }
+
+    public static final Creator<SEOneListItem> CREATOR = new Creator<SEOneListItem>() {
+        @Override
+        public SEOneListItem createFromParcel(Parcel in) {
+            return new SEOneListItem(in);
+        }
+
+        @Override
+        public SEOneListItem[] newArray(int size) {
+            return new SEOneListItem[size];
+        }
+    };
 
     public static List<SEOneListItem> populateBaseList(Context context) {
         List<SEOneListItem> list = new ArrayList<>();
         //list.add(new SEOneListItem(context.getResources().getString(R.string.timed), Type.TIMED));
         //list.add(new SEOneListItem(context.getResources().getString(R.string.games), Type.GAME));
         //list.add(new SEOneListItem(context.getResources().getString(R.string.view_all), Type.ALL));
-        list.add(new SEOneListItem(context.getResources().getString(R.string.covid19), Type.CORONA_DASHBOARD));
+        String sosText = ((StarsEarthApplication) context.getApplicationContext()).getFirebaseRemoteConfigWrapper().getSOSButtonText();
+        if (sosText != null && sosText.equals("covid-19")) list.add(new SEOneListItem(context.getResources().getString(R.string.covid19), Type.CORONA_DASHBOARD));
         list.add(new SEOneListItem(context.getResources().getString(R.string.typing), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.english), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.mathematics), Type.TAG));
@@ -36,6 +58,21 @@ public class SEOneListItem {
         if (BuildConfig.DEBUG) {
             list.add(new SEOneListItem(context.getResources().getString(R.string.logout), Type.LOGOUT));
         }
+
+        return list;
+    }
+
+    public static List<SEOneListItem> populateCoronaMenuList(Context context) {
+        List<SEOneListItem> list = new ArrayList<>();
+        list.add(new SEOneListItem(context.getResources().getString(R.string.corona_help_requests), Type.CORONA_HELP_REQUESTS));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.corona_my_help_requests), Type.CORONA_MY_HELP_REQUESTS));
+
+        return list;
+    }
+
+    public static List<SEOneListItem> populateCoronaCitiesList(Context context) {
+        List<SEOneListItem> list = new ArrayList<>();
+        list.add(new SEOneListItem(context.getResources().getString(R.string.bengaluru), Type.CORONA_HELP_REQUESTS_FOR_CITY));
 
         return list;
     }
@@ -57,6 +94,18 @@ public class SEOneListItem {
         return returnList;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(text1);
+        parcel.writeString(text2);
+        parcel.writeString(type.toString());
+    }
+
     public enum Type {
             LOGOUT("LOGOUT"),
             KEYBOARD_TEST("KEYBOARD_TEST"),
@@ -68,6 +117,9 @@ public class SEOneListItem {
             TIMED("TIMED"),
             ALL("ALL"),
             CORONA_DASHBOARD("CORONA_DASHBOARD"),
+            CORONA_HELP_REQUESTS("CORONA_HELP_REQUESTS"),
+            CORONA_MY_HELP_REQUESTS("CORONA_MY_HELP_REQUESTS"),
+            CORONA_HELP_REQUESTS_FOR_CITY("CORONA_HELP_REQUESTS_FOR_CITY"),
             TAG("TAG")
             ;
 

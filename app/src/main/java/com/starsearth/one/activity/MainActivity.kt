@@ -1,12 +1,18 @@
 package com.starsearth.one.activity
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +51,38 @@ class MainActivity : AppCompatActivity(),
         EducatorContentFragment.OnListFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
         SearchResultItemFragment.OnListFragmentInteractionListener,
+        CoronaHelpRequestsFragment.OnListFragmentInteractionListener,
+        CoronaHelpRequestFormFragment.OnFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
+
+    override fun requestCompleted() {
+        //Request has been declared complete. Close the form
+        supportFragmentManager?.popBackStackImmediate()
+    }
+
+    override fun requestLocationToViewHelpRequests() {
+        requestLocationPermission()
+    }
+
+    override fun requestLocationForHelpRequest() {
+        requestLocationPermission()
+    }
+
+    override fun onNewHelpRequestMade() {
+        supportFragmentManager.popBackStackImmediate()
+        val lastFragment = supportFragmentManager.fragments.last()
+        //(lastFragment as? CoronaHelpRequestsFragment)?.loadHelpRequests() //Currently gets called on onViewCreated
+    }
+
+    override fun onCoronaHelpListFragmentAddButtonTapped() {
+        val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance("", "")
+        openFragment(helpRequestFormFragment, CoronaHelpRequestFormFragment.TAG)
+    }
+
+    override fun onCoronaHelpListFragmentInteraction(item: HelpRequest) {
+        val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance(item)
+        openFragment(helpRequestFormFragment, CoronaHelpRequestFormFragment.TAG)
+    }
 
     override fun onSearchResultListFragmentInteraction(selectedItem: Parcelable, type: String?) {
         val recordsListFragment = RecordListFragment.newInstance(selectedItem, type)
@@ -351,6 +388,27 @@ class MainActivity : AppCompatActivity(),
             intent = Intent(this, KeyboardActivity::class.java)
             startActivity(intent)
         }
+        // START: CORONA
+        else if (type == SEOneListItem.Type.CORONA_DASHBOARD) {
+            val coronaList = SEOneListItem.populateCoronaMenuList(this) as ArrayList<Parcelable>
+            val coronaMainMenuListFragment = SeOneListFragment.newInstance(coronaList)
+            openFragmentWithSlideToLeftEffect(coronaMainMenuListFragment, SeOneListFragment.TAG)
+        }
+        else if (type == SEOneListItem.Type.CORONA_HELP_REQUESTS) {
+            val coronaCitiesList = SEOneListItem.populateCoronaCitiesList(this) as ArrayList<Parcelable>
+            val coronaCitiesListFragment = SeOneListFragment.newInstance(coronaCitiesList)
+            openFragmentWithSlideToLeftEffect(coronaCitiesListFragment, SeOneListFragment.TAG)
+        }
+        else if (type == SEOneListItem.Type.CORONA_HELP_REQUESTS_FOR_CITY) {
+            val coronaHelpRequestsFragment = CoronaHelpRequestsFragment.newInstance(1, null)
+            openFragmentWithSlideToLeftEffect(coronaHelpRequestsFragment, CoronaHelpRequestsFragment.TAG)
+        }
+        else if (type == SEOneListItem.Type.CORONA_MY_HELP_REQUESTS) {
+            val coronaHelpRequestsFragment = CoronaHelpRequestsFragment.newInstance(1, mUser)
+            openFragmentWithSlideToLeftEffect(coronaHelpRequestsFragment, CoronaHelpRequestsFragment.TAG)
+        }
+
+        // END: CORONA
         else if (type == SEOneListItem.Type.PHONE_NUMBER) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)
@@ -450,6 +508,7 @@ class MainActivity : AppCompatActivity(),
 
     //This is called from any fragment whenever User object is updated
     fun updatedUserProperties() {
+        Log.d("TAG", "*******RECHES HERE*********")
         val currentUser = FirebaseAuth.getInstance().currentUser
         currentUser?.let {
             val firebaseManager = FirebaseManager("users")
@@ -570,6 +629,7 @@ class MainActivity : AppCompatActivity(),
 
     val TASK_ACTIVITY_REQUEST = 100
     val LOGIN_REQUEST = 200
+    val LOCATION_PERMISSION_ID = 300
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -599,6 +659,29 @@ class MainActivity : AppCompatActivity(),
                 (fragments?.getOrNull(fragments.lastIndex) as? DetailFragment)?.onLoginComplete(it)
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == LOCATION_PERMISSION_ID) {
+            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                // Granted. Start getting the city information
+                val lastFragment = supportFragmentManager?.fragments?.last()
+
+                //Either of these could request location
+                (lastFragment as? CoronaHelpRequestFormFragment)?.locationPermissionReceived()
+                (lastFragment as? CoronaHelpRequestsFragment)?.locationPermissionReceived()
+            }
+        }
+    }
+
+
+    fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_ID
+        )
     }
 
 

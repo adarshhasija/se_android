@@ -69,4 +69,10 @@ public class FirebaseRemoteConfigWrapper {
     public String getGestureSpamMessage() {
         return mFirebaseRemoteConfig.getString("gesture_spam_message");
     }
+
+    //The top item on the list can always become a red SOS button for emergencies, eg: coronavirus
+    //If this function returns a specific text, we will show the button
+    public String getSOSButtonText() {
+        return mFirebaseRemoteConfig.getString("sos_button_text");
+    }
 }

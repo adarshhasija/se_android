@@ -2,6 +2,7 @@ package com.starsearth.one.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -32,6 +33,7 @@ class SeOneListFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
     private var mType : SEOneListItem.Type? = null
+    private var mList : ArrayList<SEOneListItem> = ArrayList()
     private var mListener: OnSeOneListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,8 @@ class SeOneListFragment : Fragment() {
 
         if (arguments != null) {
             mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE))
+            val array : ArrayList<SEOneListItem>? = arguments!!.getParcelableArrayList(ARG_LIST)
+            array?.let { mList.addAll(it) }
         }
     }
 
@@ -63,7 +67,14 @@ class SeOneListFragment : Fragment() {
     fun getData(): ArrayList<SEOneListItem> {
         val menuItems = ArrayList<SEOneListItem>()
         //menuItems.addAll(SEOneListItem.returnListForType(context, mType))
-        menuItems.addAll(SEOneListItem.populateBaseList(context))
+        menuItems.addAll(
+                if (mList != null && mList.size > 0) {
+                            mList
+                         } else {
+                            SEOneListItem.populateBaseList(context)
+                         }
+                )
+
 
         return menuItems
     }
@@ -99,13 +110,23 @@ class SeOneListFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
+        val TAG = "SE_ONE_LIST_FRAGMENT"
         private val ARG_TYPE = "type"
+        private val ARG_LIST = "se-one-items-list"
 
         // TODO: Customize parameter initialization
         fun newInstance(type: SEOneListItem.Type): SeOneListFragment {
             val fragment = SeOneListFragment()
             val args = Bundle()
             args.putString(ARG_TYPE, type.toString())
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(list: ArrayList<Parcelable>): SeOneListFragment {
+            val fragment = SeOneListFragment()
+            val args = Bundle()
+            args.putParcelableArrayList(ARG_LIST, list)
             fragment.arguments = args
             return fragment
         }
