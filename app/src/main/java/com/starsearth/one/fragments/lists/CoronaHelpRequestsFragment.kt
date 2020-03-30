@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.android.gms.location.*
@@ -45,17 +46,19 @@ import kotlin.collections.HashMap
  * Activities containing this fragment MUST implement the
  * [CoronaHelpRequestsFragment.OnListFragmentInteractionListener] interface.
  */
-class CoronaHelpRequestsFragment : Fragment() {
+class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     // TODO: Customize parameters
     private var columnCount = 1
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var mContext : Context
-    private var mAddressFromPhone : SEAddress? = null //Used for the dropdown
+    private lateinit var mSelectedLocality : String
+    private var mSelectedSubLocality : String? = null //Used for the dropdown
     private var mSelectedDateMillis : Long = -1
+    private var mSpinnerArrayAdapter : ArrayAdapter<Any>? = null
     private var mCopyOfUser : User? = null
-    private var mSubAdminAreas : HashMap<String, Int> = HashMap()
+    private var mSubLocalities : LinkedHashMap<String, Int> = LinkedHashMap()
     private var listener: OnListFragmentInteractionListener? = null
 
     private val mHelpRequestsListener = object : ValueEventListener {
@@ -66,26 +69,40 @@ class CoronaHelpRequestsFragment : Fragment() {
             if (map != null) {
                 //First clear the list so we can repopulate
                 ((view?.list as RecyclerView)?.adapter as CoronaHelpRequestsRecyclerViewAdapter).removeAllItems()
-
+                for ((key, value) in mSubLocalities) {
+                    mSubLocalities[key] = 0 //Resettings all counts to 0
+                }
                 for (entry in (map as HashMap<*, *>).entries) {
                     val key = entry.key as String
                     val value = entry.value as HashMap<String, Any>
                     var newHelpRequest = HelpRequest(key, value)
-                    if (mAddressFromPhone?.subAdminArea != newHelpRequest.address.subAdminArea) {
-                        //Not the same locality
-                        var currentCount : Int = mSubAdminAreas[newHelpRequest.address.subAdminArea] ?: 0
-                        currentCount = currentCount + 1
-                        mSubAdminAreas.put(newHelpRequest.address.subAdminArea, currentCount)
-                        continue
-                    }
+
                     // Check if date is same as the selected date
                     if (!isDateMatching(newHelpRequest.timestamp)) {
+                        Log.d("TAG", "********DATE NOT MATCHING************")
                         continue
                     }
                     if (newHelpRequest.status != "ACTIVE") {
+                        Log.d("TAG", "********NOT ACTIVE************")
                         //If it belongs to the same area but is not active, let it go
                         continue
                     }
+
+                    // Keep a record of the admin area. Will be needed to pupulate the dropdown
+                    var currentCount : Int = mSubLocalities[newHelpRequest.address.subLocality] ?: 0
+                    currentCount = currentCount + 1
+                    mSubLocalities.put(newHelpRequest.address.subLocality, currentCount)
+
+                    if (mSelectedSubLocality == null) {
+                        Log.d(TAG, "************THREE**************")
+                        mSelectedSubLocality = newHelpRequest.address.subLocality
+                    } //If it has no value, we will give it the first value
+                    if (mSelectedSubLocality != newHelpRequest.address.subLocality) {
+                        Log.d("TAG", "********NOT SAME LOCALITY************"+mSelectedSubLocality)
+                        //Not the same locality. We do not want to save the HelpRequest in a local data structure
+                        continue
+                    }
+
                     isListEmpty = false
                     ((view?.list as RecyclerView)?.adapter as CoronaHelpRequestsRecyclerViewAdapter).addItem(newHelpRequest)
                 }
@@ -94,6 +111,7 @@ class CoronaHelpRequestsFragment : Fragment() {
                 if (isListEmpty) {
                     list?.visibility = View.GONE
                     tvEmptyList?.visibility = View.VISIBLE
+                    getLastLocation() //As we do not have any requests to display, just use the user's default location
                 }
                 else {
                     list?.visibility = View.VISIBLE
@@ -104,8 +122,20 @@ class CoronaHelpRequestsFragment : Fragment() {
             else {
                 list?.visibility = View.GONE
                 tvEmptyList?.visibility = View.VISIBLE
+                getLastLocation() //As we do not have any requests to display, just use the user's default location
             }
 
+            mSpinnerArrayAdapter?.clear()
+            var indexOfSelected = -1
+            for ((key, value) in mSubLocalities) {
+                println("$key = $value")
+                val str = key + "(" + value + ")"
+                mSpinnerArrayAdapter?.add(str)
+                indexOfSelected++
+                Log.d(TAG, "*******SELECTED SUBLOCALITY IS: "+mSelectedSubLocality)
+                if (key == mSelectedSubLocality) spinnerLocality?.setSelection(indexOfSelected) //The selected sub locality does not change. Therefore we need to find its position in the list and set it as selected
+            }
+            mSpinnerArrayAdapter?.notifyDataSetChanged()
         }
 
         override fun onCancelled(p0: DatabaseError?) {
@@ -116,9 +146,25 @@ class CoronaHelpRequestsFragment : Fragment() {
 
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            Log.d("TAG", " ********** LOCATION CALLBACK ***********"+ locationResult)
-            val mLastLocation = locationResult.lastLocation
-            //tvCity?.text = mLastLocation.latitude.toString() + " " + mLastLocation.longitude.toString()
+            if (mSelectedSubLocality != null) {
+                //We really dont need this
+                return
+            }
+            Log.d("TAG", " ********** LOCATION CALLBACK ***********")
+            val location = locationResult.lastLocation
+            location?.let {
+                getAddressFromLocation(it).get(0)?.let {
+                    Log.d(TAG, "************ONE**************")
+                    mSelectedSubLocality = it.subLocality as String
+                    mSelectedSubLocality?.let {
+                        mSubLocalities[it] = mSubLocalities[it] ?: 1
+                        mSpinnerArrayAdapter?.add(it)
+                        mSpinnerArrayAdapter?.notifyDataSetChanged()
+                    }
+                    mSelectedLocality = it.locality
+                    //loadHelpRequests(mSelectedLocality) //This call is not needed as the spinner.add() call above triggers the loadHelpRequests calls
+                }
+            }
         }
     }
 
@@ -171,6 +217,11 @@ class CoronaHelpRequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mSpinnerArrayAdapter = ArrayAdapter(mContext,android.R.layout.simple_spinner_item, ArrayList<String>().toMutableList() as List<Any>)
+        mSpinnerArrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLocality.setAdapter(mSpinnerArrayAdapter)
+        spinnerLocality?.onItemSelectedListener = this
+
         btnDate?.setOnClickListener {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = mSelectedDateMillis
@@ -188,7 +239,8 @@ class CoronaHelpRequestsFragment : Fragment() {
                             val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
                             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
                             btnDate?.text = dateFormat.format(cal2.time)
-                            mAddressFromPhone?.let { loadHelpRequests(it) } //Need to reload the list for the same address to get entries for the new date
+                            Log.d(TAG, "*******DATE PICKER*************")
+                            mSelectedLocality?.let { loadHelpRequests(it) } //Need to reload the list for the same address to get entries for the new date
                         }, year, month, day);
                 picker.show();
         }
@@ -199,9 +251,26 @@ class CoronaHelpRequestsFragment : Fragment() {
         llPleaseWait?.visibility = View.VISIBLE
     }
 
-    fun loadHelpRequests(address: SEAddress) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        val selectedItem : String = parent.getItemAtPosition(pos) as String
+        var fullText = selectedItem.split("(")
+        Log.d(TAG, "************TWO**************")
+        mSelectedSubLocality = fullText?.get(0)?.trim()
+        Log.d(TAG, "**********ON ITEM SELECTED**********"+mSelectedSubLocality)
+        loadHelpRequests(mSelectedLocality)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Another interface callback
+    }
+
+
+    fun loadHelpRequests(locality: String) {
+        Log.d(TAG, "********* LOAD HELP REQUESTS CALLED ************" + locality)
         val firebaseManager = FirebaseManager("help_requests")
-        val query = firebaseManager.getQueryForLocation(address.subLocality)
+        val query = firebaseManager.getQueryForLocation(locality)
         query.addListenerForSingleValueEvent(mHelpRequestsListener)
 
     }
@@ -243,8 +312,8 @@ class CoronaHelpRequestsFragment : Fragment() {
 
     //@SuppressLint("MissingPermission")
     fun locationPermissionReceived() {
-        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
-        mFusedLocationClient.lastLocation
+        requestNewLocationData()
+     /*   mFusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
                     // Got last known city. In some rare situations this can be null.
                     if (location == null) {
@@ -252,6 +321,7 @@ class CoronaHelpRequestsFragment : Fragment() {
                     }
                     location?.let {
                         getAddressFromLocation(it).get(0)?.let {
+                            Log.d("TAG", "******* ADDRESS IS: " + it.subLocality)
                             mAddressFromPhone = SEAddress(it)
                             mSubAdminAreas[mAddressFromPhone!!.subLocality] = mSubAdminAreas[mAddressFromPhone!!.subLocality] ?: 1
                             var list = ArrayList<String>()
@@ -266,7 +336,7 @@ class CoronaHelpRequestsFragment : Fragment() {
                             loadHelpRequests(mAddressFromPhone!!)
                         }
                     }
-                }
+                }   */
 
         //val mLocationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
         //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1.0f, mLocationListener);
@@ -300,7 +370,6 @@ class CoronaHelpRequestsFragment : Fragment() {
         val geocoder: Geocoder
         val addresses: List<Address>
         geocoder = Geocoder(mContext, Locale.getDefault())
-
         addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1) // Here 1 represent max city result to returned, by documents it recommended 1 to 5
         //tvCity?.text = addresses.size.toString()
         return addresses
@@ -355,7 +424,7 @@ class CoronaHelpRequestsFragment : Fragment() {
     companion object {
 
         // TODO: Customize parameter argument names
-        val TAG = "CORONA_HELP_REQ_FRAGMENT"
+        val TAG = "CORONA_HELP_REQ_FRAG"
         const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_USER = "user"
 
