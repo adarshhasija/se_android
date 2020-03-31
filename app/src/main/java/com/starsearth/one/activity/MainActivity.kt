@@ -55,6 +55,17 @@ class MainActivity : AppCompatActivity(),
         CoronaHelpRequestFormFragment.OnFragmentInteractionListener,
         SeOneListFragment.OnSeOneListFragmentInteractionListener {
 
+    override fun onBehalfOfDetailsEntered(phone: String, name: String) {
+        supportFragmentManager?.popBackStackImmediate()
+        val lastFragment = supportFragmentManager?.fragments?.last()
+        (lastFragment as? CoronaHelpRequestFormFragment)?.updateOnBehalfOfPersonDetails(phone, name)
+    }
+
+    override fun onBehalfOfFormRequested(hostPhone: String, hostName: String, guestPhone: String?, guestName: String?) {
+        val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance(hostPhone, hostName, guestPhone, guestName)
+        openFragment(helpRequestFormFragment, CoronaHelpRequestFormFragment.TAG)
+    }
+
     override fun requestCompleted() {
         //Request has been declared complete. Close the form
         supportFragmentManager?.popBackStackImmediate()
@@ -75,7 +86,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCoronaHelpListFragmentAddButtonTapped() {
-        val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance("", "")
+        val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance()
         openFragment(helpRequestFormFragment, CoronaHelpRequestFormFragment.TAG)
     }
 

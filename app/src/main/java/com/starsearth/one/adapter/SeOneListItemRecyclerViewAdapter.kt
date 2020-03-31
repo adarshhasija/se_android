@@ -31,6 +31,7 @@ class SeOneListItemRecyclerViewAdapter(private val mValues: List<SEOneListItem>,
 
         if (mValues[position].text1.toLowerCase() == "covid-19") {
             holder.mView.setBackgroundColor(Color.RED)
+            holder.mTitleView.setTextColor(Color.WHITE)
         }
 
         holder.mView.setOnClickListener {

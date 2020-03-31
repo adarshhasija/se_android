@@ -38,8 +38,10 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvPhoneNumberLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:text="Phone Number from account" />
 
@@ -47,12 +49,23 @@
                 android:id="@+id/tvPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginBottom="5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+            <EditText
+                android:id="@+id/etPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:visibility="gone"
+                android:hint="Person Phone Number" />
+
             <TextView
+                android:id="@+id/tvLocationLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:text="Locality from GPS" />
 
@@ -60,6 +73,7 @@
                 android:id="@+id/tvSublocality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginBottom="5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -67,6 +81,7 @@
                 android:id="@+id/tvNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:text="Name obtained from account" />
 
@@ -74,19 +89,38 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/name" />
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginBottom="5dp"
-                android:hint="Full name" />
+                android:hint="Your name" />
+
+            <Button
+                android:id="@+id/btnOnBehalf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:textColor="#FFFFFF"
+                android:background="#000000"
+                android:text="For Someone Else" />
+
+            <TextView
+                android:id="@+id/tvOnBehalfOf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp" />
 
             <TextView
                 android:id="@+id/tvLandmarkLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:text="Landmark" />
 
@@ -94,26 +128,24 @@
                 android:id="@+id/etLandmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:hint="Landmark" />
 
             <TextView
                 android:id="@+id/tvLandmarkEnetered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginBottom="5dp" />
 
 
 
-            <!--<EditText
-                android:id="@+id/etRequest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="What help? eg: Food or Groceries or Medical"
-                android:lines="5" />    -->
 
             <TextView
+                android:id="@+id/tvNeedHelpWithLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:text="Need help with" />
 
@@ -121,6 +153,7 @@
                 android:id="@+id/spinnerRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp" />
 
@@ -147,6 +180,7 @@
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/submit"
                 android:textColor="#FFFFFF"
                 android:background="#008000" />

@@ -11,6 +11,8 @@ public class HelpRequest implements Parcelable {
     public String uid;
     public String phone;
     public String name;
+    public String guestName;
+    public String guestPhone;
     public String landmark;
     public String request;
     public SEAddress address;
@@ -25,6 +27,8 @@ public class HelpRequest implements Parcelable {
         this.uid =  key != null ? key : null;
         this.phone = map.containsKey("phone") ? (String) map.get("phone") : null;
         this.name = map.containsKey("name") ? (String) map.get("name") : null;
+        this.guestPhone = map.containsKey("guest_phone") ? (String) map.get("guest_phone") : null;
+        this.guestName = map.containsKey("guest_name") ? (String) map.get("guest_name") : null;
         this.landmark = map.containsKey("landmark") ? (String) map.get("landmark") : null;
         this.request = map.containsKey("request") ? (String) map.get("request") : null;
         this.address = map.containsKey("address") ? new SEAddress((HashMap<String, Object>) map.get("address")) : null;
@@ -36,6 +40,8 @@ public class HelpRequest implements Parcelable {
         uid = in.readString();
         phone = in.readString();
         name = in.readString();
+        guestName = in.readString();
+        guestPhone = in.readString();
         landmark = in.readString();
         request = in.readString();
         address = in.readParcelable(ClassLoader.getSystemClassLoader());
@@ -65,6 +71,8 @@ public class HelpRequest implements Parcelable {
         parcel.writeString(uid);
         parcel.writeString(phone);
         parcel.writeString(name);
+        parcel.writeString(guestName);
+        parcel.writeString(guestPhone);
         parcel.writeString(landmark);
         parcel.writeString(request);
         parcel.writeParcelable(address, 0);

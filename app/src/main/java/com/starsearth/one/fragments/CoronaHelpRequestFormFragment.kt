@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -32,7 +33,6 @@ import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.HelpRequest
 import com.starsearth.one.domain.SEAddress
 import kotlinx.android.synthetic.main.fragment_corona_help_request_form.*
-import kotlinx.android.synthetic.main.fragment_coronahelprequests.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -40,8 +40,10 @@ import kotlin.collections.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_HOST_NUMBER = "host_number"
+private const val ARG_HOST_NAME = "host_name"
+private const val ARG_GUEST_NUMBER = "guest_number"
+private const val ARG_GUEST_NAME = "guest_name"
 private const val ARG_HELP_REQUEST = "help_request"
 
 /**
@@ -55,8 +57,10 @@ private const val ARG_HELP_REQUEST = "help_request"
 class CoronaHelpRequestFormFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var mContext : Context
-    private var param1: String? = null
-    private var param2: String? = null
+    private var mHostPhone: String? = null //If we are re-opening the form in "onBehalfOf" mode.
+    private var mHostName: String? = null
+    private var mGuestPhone: String? = null
+    private var mGuestName: String? = null
     private var mHelpRequest : HelpRequest? = null
     private var mAddressFromPhone : SEAddress? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -95,8 +99,25 @@ class CoronaHelpRequestFormFragment : Fragment() {
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             Log.d("TAG", " ********** LOCATION CALLBACK ***********"+ locationResult)
-            val mLastLocation = locationResult.lastLocation
-            //tvCity?.text = mLastLocation.latitude.toString() + " " + mLastLocation.longitude.toString()
+            val lastLocation = locationResult.lastLocation
+            lastLocation?.let {
+                getAddressFromLocation(it).get(0)?.let {
+                    mAddressFromPhone = SEAddress(it)
+                    val addressLine =   it.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    val city = it.locality
+                    val state = it.adminArea
+                    val country = it.countryName
+                    val postalCode = it.postalCode
+                    val knownName = it.featureName // Only if available else return NULL
+                    val locality = it.locality
+                    val subLocality = it.subLocality // This is the area
+                    val premesis = it.premises
+                    val subAdminArea = it.subAdminArea
+                    tvSublocality?.text = addressLine + "\n" + city + "\n" + state + "\n" + country + "\n" + postalCode
+                    tvSublocality?.visibility = View.VISIBLE
+                    tvLocationLbl?.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -105,8 +126,10 @@ class CoronaHelpRequestFormFragment : Fragment() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
 
         arguments?.let {
-            //param1 = it.getString(ARG_PARAM1)
-            //param2 = it.getString(ARG_PARAM2)
+            mHostPhone = it.getString(ARG_HOST_NUMBER)
+            mHostName = it.getString(ARG_HOST_NAME)
+            mGuestPhone = it.getString(ARG_GUEST_NUMBER)
+            mGuestName = it.getString(ARG_GUEST_NAME)
             mHelpRequest = it.getParcelable(ARG_HELP_REQUEST)
         }
     }
@@ -121,13 +144,27 @@ class CoronaHelpRequestFormFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (mHelpRequest != null) {
+            //It is an existing request. Populate
+            tvPhoneNumberLbl?.visibility = View.VISIBLE
             tvPhoneNumber?.text = mHelpRequest!!.phone
+            tvPhoneNumber?.visibility = View.VISIBLE
+            tvLocationLbl?.visibility = View.VISIBLE
             tvSublocality?.text = mHelpRequest!!.address.addressLine + "\n" + mHelpRequest!!.address.locality + "\n" + mHelpRequest!!.address.adminArea + "\n" + mHelpRequest!!.address.countryName + "\n" + mHelpRequest!!.address.postalCode
+            tvSublocality?.visibility = View.VISIBLE
             etName?.visibility = View.GONE
+            tvNameLabel?.visibility = View.VISIBLE
             tvName?.text = mHelpRequest!!.name
+            tvName?.visibility = View.VISIBLE
+            if (mHelpRequest!!.guestPhone != null || mHelpRequest!!.guestName != null) {
+                mGuestPhone = mHelpRequest!!.guestPhone
+                mGuestName = mHelpRequest!!.guestName
+                tvOnBehalfOf?.text = "ON BEHALF OF:\n" + mGuestPhone + "\n" + mGuestName
+                tvOnBehalfOf?.visibility = View.VISIBLE
+            }
             etLandmark?.visibility = View.GONE
             tvLandmarkEnetered?.visibility = View.VISIBLE
             tvLandmarkEnetered?.text = mHelpRequest!!.landmark
+            tvLandmarkEnetered?.visibility = View.VISIBLE
             tvSelectedRequest?.text = mHelpRequest!!.request
             tvSelectedRequest?.visibility = View.VISIBLE
             spinnerRequest?.visibility = View.GONE
@@ -170,10 +207,28 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
             return
         }
+        else if (mHostPhone != null && mHostName != null) {
+            //Original form is being filled on behalf of someone.
+            //Therefore show only fields related to name, phone and location
+            etPhoneNumber?.visibility = View.VISIBLE
+            etPhoneNumber?.setText(mGuestPhone, TextView.BufferType.EDITABLE)
+            etName?.visibility = View.VISIBLE
+            etName?.setText(mGuestName, TextView.BufferType.EDITABLE)
+            btnSubmit?.visibility = View.VISIBLE
+            btnSubmit?.text = "DONE"
+            btnSubmit?.setOnClickListener {
+                val phone = etPhoneNumber?.text?.toString() ?: ""
+                val name = etName?.text?.toString() ?: ""
+                listener?.onBehalfOfDetailsEntered(phone, name)
+            }
+            return
+        }
 
         getLastLocation()
         val phoneNumber = FirebaseAuth.getInstance().currentUser?.phoneNumber
         phoneNumber?.let {
+            tvPhoneNumberLbl?.visibility = View.VISIBLE
+            tvPhoneNumber?.visibility = View.VISIBLE
             tvPhoneNumber?.text = phoneNumber
         }
         val userName = (activity as? MainActivity)?.mUser?.name
@@ -188,6 +243,12 @@ class CoronaHelpRequestFormFragment : Fragment() {
             tvName.text = userName
             etName.visibility = View.GONE
         }
+        btnOnBehalf?.setOnClickListener {
+            val pn = tvPhoneNumber?.text?.toString() ?: ""
+            val name = tvName?.text?.toString() ?: ""
+            listener?.onBehalfOfFormRequested(pn, name, mGuestPhone, mGuestName)
+        }
+        btnOnBehalf?.visibility = View.VISIBLE
         val spinnerList = ArrayList<String>()
         spinnerList.add("Food")
         spinnerList.add("Groceries")
@@ -199,6 +260,8 @@ class CoronaHelpRequestFormFragment : Fragment() {
         //Setting the ArrayAdapter data on the Spinner
         spinnerRequest.setAdapter(aa);
         spinnerRequest.setSelection(0)
+        tvNeedHelpWithLbl?.visibility = View.VISIBLE
+        spinnerRequest?.visibility = View.VISIBLE
 
         btnSubmit?.setOnClickListener {
             val userName = (activity as? MainActivity)?.mUser?.name
@@ -224,6 +287,8 @@ class CoronaHelpRequestFormFragment : Fragment() {
             map.put("landmark", landmark)
             map.put("request", request)
             map.put("status", "ACTIVE")
+            mGuestPhone?.let { map.put("guest_phone", it) }
+            mGuestName?.let { map.put("guest_name", it) }
             map["timestamp"] = ServerValue.TIMESTAMP //testResult has local timestamp, values has sever timestamp
 
             val childUpdates: MutableMap<String, Any> = HashMap()
@@ -248,6 +313,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
                 alertDialog.show()
             }
         }
+        btnSubmit?.visibility = View.VISIBLE
     }
 
 
@@ -268,8 +334,8 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
     //@SuppressLint("MissingPermission")
     fun locationPermissionReceived() {
-        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
-        mFusedLocationClient.lastLocation
+        requestNewLocationData()
+     /*   mFusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
                     // Got last known city. In some rare situations this can be null.
                     if (location == null) {
@@ -291,7 +357,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
                             tvSublocality?.text = addressLine + "\n" + city + "\n" + state + "\n" + country + "\n" + postalCode
                         }
                     }
-                }
+                }   */
 
         //val mLocationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
         //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1.0f, mLocationListener);
@@ -347,6 +413,13 @@ class CoronaHelpRequestFormFragment : Fragment() {
         }
     }
 
+    fun updateOnBehalfOfPersonDetails(phone: String, name: String) {
+        mGuestPhone = phone
+        mGuestName = name
+        tvOnBehalfOf?.text = "ON BEHALF OF: \n" + phone + "\n" + name
+        tvOnBehalfOf?.visibility = View.VISIBLE
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -363,6 +436,8 @@ class CoronaHelpRequestFormFragment : Fragment() {
         fun onNewHelpRequestMade()
         fun requestLocationForHelpRequest()
         fun requestCompleted()
+        fun onBehalfOfFormRequested(hostPhone: String, hostName: String, guestPhone: String?, guestName: String?)
+        fun onBehalfOfDetailsEntered(name : String, phone : String)
     }
 
     companion object {
@@ -378,11 +453,17 @@ class CoronaHelpRequestFormFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
+                CoronaHelpRequestFormFragment()
+
+        @JvmStatic
+        fun newInstance(hostNumber: String, hostName: String, guestPhone: String?, guestName: String?) =
                 CoronaHelpRequestFormFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        putString(ARG_HOST_NUMBER, hostNumber)
+                        putString(ARG_HOST_NAME, hostName)
+                        putString(ARG_GUEST_NUMBER, guestPhone)
+                        putString(ARG_GUEST_NAME, guestName)
                     }
                 }
 

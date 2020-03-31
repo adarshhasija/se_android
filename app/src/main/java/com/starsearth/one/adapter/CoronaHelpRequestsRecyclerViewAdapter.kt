@@ -43,7 +43,12 @@ class CoronaHelpRequestsRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mNameView.text = item.name
+        holder.mNameView.text =
+                if (!item.guestName.isNullOrBlank()) {
+                    item.guestName
+                } else {
+                    item.name
+                }
         holder.mHelpNeededView.text = item.request
 
         with(holder.mView) {
