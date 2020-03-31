@@ -259,6 +259,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
             listener?.onBehalfOfFormRequested(pn, name, mGuestPhone, mGuestName)
         }
         btnOnBehalf?.visibility = View.VISIBLE
+        etLandmark?.visibility = View.VISIBLE
         val spinnerList = ArrayList<String>()
         spinnerList.add("Food")
         spinnerList.add("Groceries")
