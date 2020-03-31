@@ -170,7 +170,14 @@ class CoronaHelpRequestFormFragment : Fragment() {
             spinnerRequest?.visibility = View.GONE
             btnSubmit?.visibility = View.GONE
             btnMap?.visibility = View.VISIBLE
-            btnComplete?.visibility = View.VISIBLE
+            btnComplete?.visibility =
+                    if (FirebaseAuth.getInstance().currentUser?.phoneNumber == mHelpRequest!!.phone) { //Only the creator is allowed to declare it complete
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
+
 
             btnMap?.setOnClickListener {
                 val uri = String.format(Locale.ENGLISH, "geo:%f,%f", mHelpRequest!!.address.latitude, mHelpRequest!!.address.longitude);
@@ -225,11 +232,14 @@ class CoronaHelpRequestFormFragment : Fragment() {
         }
 
         getLastLocation()
+        tvPhoneNumberLbl?.visibility = View.VISIBLE
         val phoneNumber = FirebaseAuth.getInstance().currentUser?.phoneNumber
-        phoneNumber?.let {
-            tvPhoneNumberLbl?.visibility = View.VISIBLE
+        if (phoneNumber != null) {
             tvPhoneNumber?.visibility = View.VISIBLE
             tvPhoneNumber?.text = phoneNumber
+        }
+        else {
+            etPhoneNumber?.visibility = View.VISIBLE
         }
         val userName = (activity as? MainActivity)?.mUser?.name
         if (userName.isNullOrEmpty()) {
