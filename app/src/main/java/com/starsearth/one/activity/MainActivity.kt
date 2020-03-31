@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(),
     override fun onNewHelpRequestMade() {
         supportFragmentManager.popBackStackImmediate()
         val lastFragment = supportFragmentManager.fragments.last()
-        //(lastFragment as? CoronaHelpRequestsFragment)?.loadHelpRequests() //Currently gets called on onViewCreated
+        //(lastFragment as? CoronaHelpRequestsFragment)?.loadHelpRequests() //Currently gets called on onViewCreated of CoronaHelpRequestsFragment
     }
 
     override fun onCoronaHelpListFragmentAddButtonTapped() {
@@ -407,8 +407,11 @@ class MainActivity : AppCompatActivity(),
             val coronaHelpRequestsFragment = CoronaHelpRequestsFragment.newInstance(1, mUser)
             openFragmentWithSlideToLeftEffect(coronaHelpRequestsFragment, CoronaHelpRequestsFragment.TAG)
         }
-
+        else if (type == SEOneListItem.Type.CORONA_NEW_HELP_REQUEST) {
+            onCoronaHelpListFragmentAddButtonTapped()
+        }
         // END: CORONA
+
         else if (type == SEOneListItem.Type.PHONE_NUMBER) {
             intent = Intent(this, PhoneNumberActivity::class.java)
             startActivity(intent)

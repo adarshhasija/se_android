@@ -105,6 +105,7 @@
     <!-- Corona section -->
     <string name="corona_help_requests">Help Requests</string>
     <string name="corona_my_help_requests">My Help Requests</string>
+    <string name="corona_make_new_help_request">Make New Help Request</string>
     <!-- End of Corona section -->
 
     <!-- Cities served for Corona -->

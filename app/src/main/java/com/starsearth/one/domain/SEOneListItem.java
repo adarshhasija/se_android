@@ -66,6 +66,7 @@ public class SEOneListItem implements Parcelable {
         List<SEOneListItem> list = new ArrayList<>();
         list.add(new SEOneListItem(context.getResources().getString(R.string.corona_help_requests), Type.CORONA_HELP_REQUESTS));
         list.add(new SEOneListItem(context.getResources().getString(R.string.corona_my_help_requests), Type.CORONA_MY_HELP_REQUESTS));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.corona_make_new_help_request), Type.CORONA_NEW_HELP_REQUEST));
 
         return list;
     }
@@ -120,6 +121,7 @@ public class SEOneListItem implements Parcelable {
             CORONA_HELP_REQUESTS("CORONA_HELP_REQUESTS"),
             CORONA_MY_HELP_REQUESTS("CORONA_MY_HELP_REQUESTS"),
             CORONA_HELP_REQUESTS_FOR_CITY("CORONA_HELP_REQUESTS_FOR_CITY"),
+            CORONA_NEW_HELP_REQUEST("CORONA_NEW_HELP_REQUEST"),
             TAG("TAG")
             ;
 

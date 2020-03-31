@@ -87,14 +87,13 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                         //If it belongs to the same area but is not active, let it go
                         continue
                     }
-
+                    Log.d(TAG, "*********SUBLOCALITY of new request: " + newHelpRequest.address.subLocality)
                     // Keep a record of the admin area. Will be needed to pupulate the dropdown
                     var currentCount : Int = mSubLocalities[newHelpRequest.address.subLocality] ?: 0
                     currentCount = currentCount + 1
                     mSubLocalities.put(newHelpRequest.address.subLocality, currentCount)
 
                     if (mSelectedSubLocality == null) {
-                        Log.d(TAG, "************THREE**************")
                         mSelectedSubLocality = newHelpRequest.address.subLocality
                     } //If it has no value, we will give it the first value
                     if (mSelectedSubLocality != newHelpRequest.address.subLocality) {
@@ -147,14 +146,14 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             if (mSelectedSubLocality != null) {
-                //We really dont need this
+                Log.d(TAG, "**********mSelectedSubLocality IS: "+mSelectedSubLocality)
+                //We really dont need this logic processed again if we already have a locality saved. Call should only happen once
                 return
             }
-            Log.d("TAG", " ********** LOCATION CALLBACK ***********")
+            Log.d(TAG, " ********** LOCATION CALLBACK ***********")
             val location = locationResult.lastLocation
             location?.let {
                 getAddressFromLocation(it).get(0)?.let {
-                    Log.d(TAG, "************ONE**************")
                     mSelectedSubLocality = it.subLocality as String
                     mSelectedSubLocality?.let {
                         mSubLocalities[it] = mSubLocalities[it] ?: 1
@@ -189,7 +188,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
             mCopyOfUser = it.getParcelable(ARG_USER)
 
             if ((mContext as? MainActivity)?.mUser?.uid == mCopyOfUser?.uid) {
-                setHasOptionsMenu(true)
+                //setHasOptionsMenu(true) //We are not giving add option inside this fragment
             }
         }
     }
@@ -197,6 +196,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_coronahelprequests_list, container, false)
+        Log.d(TAG, "**********ON CREATE VIEW************")
 
         // Set the adapter
         if (view.list is RecyclerView) {
@@ -216,10 +216,11 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "**********ON VIEW CREATED**************")
 
         mSpinnerArrayAdapter = ArrayAdapter(mContext,android.R.layout.simple_spinner_item, ArrayList<String>().toMutableList() as List<Any>)
-        mSpinnerArrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLocality.setAdapter(mSpinnerArrayAdapter)
+        mSpinnerArrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerLocality?.setAdapter(mSpinnerArrayAdapter)
         spinnerLocality?.onItemSelectedListener = this
 
         btnDate?.setOnClickListener {
@@ -245,10 +246,17 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                 picker.show();
         }
 
-        getLastLocation()
         list?.visibility = View.GONE
         btnDate?.text = getFormattedDate(mSelectedDateMillis)
         llPleaseWait?.visibility = View.VISIBLE
+        if (mSelectedSubLocality == null) {
+            getLastLocation()
+        }
+        else {
+            mSubLocalities[mSelectedSubLocality!!] = mSubLocalities[mSelectedSubLocality!!] ?: 1
+            mSpinnerArrayAdapter?.add(mSelectedSubLocality!!)
+            mSpinnerArrayAdapter?.notifyDataSetChanged()
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -256,7 +264,6 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         // parent.getItemAtPosition(pos)
         val selectedItem : String = parent.getItemAtPosition(pos) as String
         var fullText = selectedItem.split("(")
-        Log.d(TAG, "************TWO**************")
         mSelectedSubLocality = fullText?.get(0)?.trim()
         Log.d(TAG, "**********ON ITEM SELECTED**********"+mSelectedSubLocality)
         loadHelpRequests(mSelectedLocality)
@@ -354,6 +361,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
+        Log.d(TAG, "************REQUEST NEW LOCATION DATA*********s")
         val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
@@ -388,6 +396,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
     }
 
     private fun getLastLocation() {
+        Log.d(TAG, "********GET LAST LOCATION************")
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 locationPermissionReceived()

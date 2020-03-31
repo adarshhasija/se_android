@@ -238,6 +238,14 @@ class CoronaHelpRequestFormFragment : Fragment() {
             mDatabase.updateChildren(childUpdates).addOnSuccessListener {
                 llPleaseWait?.visibility = View.GONE
                 listener?.onNewHelpRequestMade()
+            }.addOnFailureListener {
+                val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog.setTitle(getString(R.string.error))
+                alertDialog.setMessage("Could not save. Please try again")
+                alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                alertDialog.show()
             }
         }
     }
