@@ -300,7 +300,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
             map.put("status", "ACTIVE")
             mGuestPhone?.let { map.put("guest_phone", it) }
             mGuestName?.let { map.put("guest_name", it) }
-            map["timestamp"] = ServerValue.TIMESTAMP //testResult has local timestamp, values has sever timestamp
+            map["timestamp"] = ServerValue.TIMESTAMP 
 
             val childUpdates: MutableMap<String, Any> = HashMap()
             childUpdates["help_requests/"+key] = map

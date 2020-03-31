@@ -23,6 +23,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.android.gms.location.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -58,6 +59,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
     private var mSelectedDateMillis : Long = -1
     private var mSpinnerArrayAdapter : ArrayAdapter<Any>? = null
     private var mCopyOfUser : User? = null
+    private var mHostPhoneNumber : String? = FirebaseAuth.getInstance().currentUser?.phoneNumber
     private var mSubLocalities : LinkedHashMap<String, Int> = LinkedHashMap()
     private var listener: OnListFragmentInteractionListener? = null
 
@@ -77,6 +79,11 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                     val value = entry.value as HashMap<String, Any>
                     var newHelpRequest = HelpRequest(key, value)
 
+                    if (mCopyOfUser != null && mHostPhoneNumber != newHelpRequest.phone) {
+                        //Currently mCopyOfUser decides if we are in the right CONTEXT of viewing our own data only
+                        //We are in the context of viewing only our own requests and if the request was not created by us we should ignore it.
+                        continue
+                    }
                     // Check if date is same as the selected date
                     if (!isDateMatching(newHelpRequest.timestamp)) {
                         Log.d("TAG", "********DATE NOT MATCHING************")
