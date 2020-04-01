@@ -184,6 +184,13 @@ class CoronaHelpRequestFormFragment : Fragment() {
                     else {
                         View.GONE
                     }
+            btnCancel?.visibility =
+                    if (FirebaseAuth.getInstance().currentUser?.phoneNumber == mHelpRequest!!.phone) { //Only the creator is allowed to declare it complete
+                        View.VISIBLE
+                    }
+                    else {
+                        View.GONE
+                    }
 
 
             btnMap?.setOnClickListener {
@@ -217,6 +224,32 @@ class CoronaHelpRequestFormFragment : Fragment() {
                 })
                 alertDialog.show()
 
+            }
+
+            btnCancel?.setOnClickListener {
+                val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog.setTitle("Are you sure?")
+                alertDialog.setMessage("This cannot be undone")
+                alertDialog.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+
+                    val mDatabase = FirebaseDatabase.getInstance().getReference("help_requests/" + mHelpRequest!!.uid)
+                    mDatabase.removeValue().addOnSuccessListener {
+                        listener?.requestCompleted()
+                    }.addOnFailureListener {
+                        val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                        alertDialog2.setTitle("Error")
+                        alertDialog2.setMessage("Failed to delete. Please try again")
+                        alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                        alertDialog2.show()
+                    }
+                })
+                alertDialog.setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                alertDialog.show()
             }
 
             return
@@ -294,7 +327,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
             val userName = (activity as? MainActivity)?.mUser?.name
             val volunteerOrganization = (activity as? MainActivity)?.mUser?.volunteerOrganization
             val name = if (userName.isNullOrEmpty()) {
-                tvName?.text.toString().toUpperCase()
+                etName?.text.toString().toUpperCase()
                 }
                 else {
                     userName
@@ -324,12 +357,13 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
             val childUpdates: MutableMap<String, Any> = HashMap()
             childUpdates["help_requests/"+key] = map
-            if (userName.isNullOrBlank()) {
+            if (userName.isNullOrBlank() && !name.isNullOrBlank()) {
                 //User had not set username before. Should save it now for future convinience
+                //As per logic above, if username is black, then name is the value from the edittext
                 (activity as? MainActivity)?.mUser?.name = name
                 childUpdates["users/"+userId+"/name"] = name
             }
-            if (volunteerOrganization.isNullOrBlank()) {
+            if (volunteerOrganization.isNullOrBlank() && !newlyEnteredOrganization.isNullOrBlank()) {
                 //User has not set their volunteer organization yet. Should save it now for future convinience
                 (activity as? MainActivity)?.mUser?.volunteerOrganization = newlyEnteredOrganization
                 childUpdates["users/"+userId+"/volunteer_organization"] = newlyEnteredOrganization
