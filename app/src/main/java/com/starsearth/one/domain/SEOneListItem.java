@@ -64,16 +64,17 @@ public class SEOneListItem implements Parcelable {
 
     public static List<SEOneListItem> populateCoronaMenuList(Context context) {
         List<SEOneListItem> list = new ArrayList<>();
-        list.add(new SEOneListItem(context.getResources().getString(R.string.corona_help_requests), Type.CORONA_HELP_REQUESTS));
         list.add(new SEOneListItem(context.getResources().getString(R.string.corona_my_help_requests), Type.CORONA_MY_HELP_REQUESTS));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.corona_help_requests), Type.CORONA_HELP_REQUESTS));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.search_by_organization), Type.CORONA_ORGANIZATION_SEARCH));
         list.add(new SEOneListItem(context.getResources().getString(R.string.corona_make_new_help_request), Type.CORONA_NEW_HELP_REQUEST));
 
         return list;
     }
 
-    public static List<SEOneListItem> populateCoronaCitiesList(Context context) {
+    public static List<SEOneListItem> populateCoronaStatesList(Context context) {
         List<SEOneListItem> list = new ArrayList<>();
-        list.add(new SEOneListItem(context.getResources().getString(R.string.bengaluru), Type.CORONA_HELP_REQUESTS_FOR_CITY));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.karnataka), Type.CORONA_HELP_REQUESTS_FOR_STATES));
 
         return list;
     }
@@ -118,9 +119,10 @@ public class SEOneListItem implements Parcelable {
             TIMED("TIMED"),
             ALL("ALL"),
             CORONA_DASHBOARD("CORONA_DASHBOARD"),
+            CORONA_ORGANIZATION_SEARCH("CORONA_ORGANIZATION_SEARCH"),
             CORONA_HELP_REQUESTS("CORONA_HELP_REQUESTS"),
             CORONA_MY_HELP_REQUESTS("CORONA_MY_HELP_REQUESTS"),
-            CORONA_HELP_REQUESTS_FOR_CITY("CORONA_HELP_REQUESTS_FOR_CITY"),
+            CORONA_HELP_REQUESTS_FOR_STATES("CORONA_HELP_REQUESTS_FOR_STATES"),
             CORONA_NEW_HELP_REQUEST("CORONA_NEW_HELP_REQUEST"),
             TAG("TAG")
             ;

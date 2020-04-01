@@ -165,8 +165,15 @@ class CoronaHelpRequestFormFragment : Fragment() {
             tvLandmarkEnetered?.visibility = View.VISIBLE
             tvLandmarkEnetered?.text = mHelpRequest!!.landmark
             tvLandmarkEnetered?.visibility = View.VISIBLE
+            tvNeedHelpWithLbl?.visibility = View.VISIBLE
             tvSelectedRequest?.text = mHelpRequest!!.request
             tvSelectedRequest?.visibility = View.VISIBLE
+            mHelpRequest!!.volunteerOrganization?.let {
+                tvYourOrganizationLbl?.visibility = View.VISIBLE
+                tvYourOrganization?.visibility = View.VISIBLE
+                tvYourOrganization?.text = it
+                etOrganization?.visibility = View.GONE
+            }
             spinnerRequest?.visibility = View.GONE
             btnSubmit?.visibility = View.GONE
             btnMap?.visibility = View.VISIBLE
@@ -233,7 +240,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
         getLastLocation()
         tvPhoneNumberLbl?.visibility = View.VISIBLE
-        val phoneNumber = FirebaseAuth.getInstance().currentUser?.phoneNumber
+        val phoneNumber = FirebaseAuth.getInstance().currentUser?.phoneNumber ?: ""
         if (phoneNumber != null) {
             tvPhoneNumber?.visibility = View.VISIBLE
             tvPhoneNumber?.text = phoneNumber
@@ -258,6 +265,15 @@ class CoronaHelpRequestFormFragment : Fragment() {
             val name = tvName?.text?.toString() ?: ""
             listener?.onBehalfOfFormRequested(pn, name, mGuestPhone, mGuestName)
         }
+        val volunteerOrganization = (activity as? MainActivity)?.mUser?.volunteerOrganization
+        if (volunteerOrganization != null) {
+            tvYourOrganizationLbl?.visibility = View.VISIBLE
+            tvYourOrganization?.visibility = View.VISIBLE
+            tvYourOrganization?.text = volunteerOrganization
+        }
+        else {
+            etOrganization?.visibility = View.VISIBLE
+        }
         btnOnBehalf?.visibility = View.VISIBLE
         etLandmark?.visibility = View.VISIBLE
         val spinnerList = ArrayList<String>()
@@ -276,15 +292,18 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
         btnSubmit?.setOnClickListener {
             val userName = (activity as? MainActivity)?.mUser?.name
+            val volunteerOrganization = (activity as? MainActivity)?.mUser?.volunteerOrganization
             val name = if (userName.isNullOrEmpty()) {
                 tvName?.text.toString().toUpperCase()
                 }
                 else {
                     userName
                 }
-            val city = tvSublocality?.text.toString().toUpperCase()
-            val landmark = etLandmark?.text.toString()
-            val request = (spinnerRequest?.selectedItem as String).toUpperCase()
+
+            val city = tvSublocality?.text?.toString()?.toUpperCase(Locale.getDefault())
+            val landmark = etLandmark?.text.toString().toUpperCase(Locale.getDefault())
+            val newlyEnteredOrganization = etOrganization?.text.toString().toUpperCase(Locale.getDefault())
+            val request = (spinnerRequest?.selectedItem as String).toUpperCase(Locale.getDefault())
 
             val mDatabase = FirebaseDatabase.getInstance().getReference()
             val key: String = mDatabase.push().getKey()
@@ -296,6 +315,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
             map.put("name", name)
             mAddressFromPhone?.let { map.put("address", it) }
             map.put("landmark", landmark)
+            map.put("volunteer_organization", volunteerOrganization ?: newlyEnteredOrganization)
             map.put("request", request)
             map.put("status", "ACTIVE")
             mGuestPhone?.let { map.put("guest_phone", it) }
@@ -306,8 +326,16 @@ class CoronaHelpRequestFormFragment : Fragment() {
             childUpdates["help_requests/"+key] = map
             if (userName.isNullOrBlank()) {
                 //User had not set username before. Should save it now for future convinience
-                (activity as? MainActivity)?.mUser?.name = name.toUpperCase()
-                childUpdates["users/"+userId+"/name"] = name.toUpperCase()
+                (activity as? MainActivity)?.mUser?.name = name
+                childUpdates["users/"+userId+"/name"] = name
+            }
+            if (volunteerOrganization.isNullOrBlank()) {
+                //User has not set their volunteer organization yet. Should save it now for future convinience
+                (activity as? MainActivity)?.mUser?.volunteerOrganization = newlyEnteredOrganization
+                childUpdates["users/"+userId+"/volunteer_organization"] = newlyEnteredOrganization
+                childUpdates["organizations/"+newlyEnteredOrganization+"/exists"] = true
+                childUpdates["organizations/"+newlyEnteredOrganization+"/people/"+userId+"/name"] = name
+                childUpdates["organizations/"+newlyEnteredOrganization+"/people/"+userId+"/phone"] = phoneNumber
             }
 
             llPleaseWait?.visibility = View.VISIBLE

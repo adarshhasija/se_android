@@ -205,9 +205,9 @@ public class FirebaseManager {
         return databaseReference.orderByChild("seone").equalTo(true);
     }
 
-    // Search by city
-    public Query getQueryForLocation(String locality) {
-        return databaseReference.orderByChild("address/locality").equalTo(locality);
+    // Search by state
+    public Query getQueryForState(String adminArea) {
+        return databaseReference.orderByChild("address/adminArea").equalTo(adminArea);
     }
 
     public StorageReference getImageReference(String item, String type) {

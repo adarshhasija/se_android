@@ -15,6 +15,7 @@ public class User implements Parcelable {
     public Educator.Status educator;
     public String name;
     public String pic;
+    public String volunteerOrganization;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValueString(User.class)
@@ -29,6 +30,7 @@ public class User implements Parcelable {
         this.educator = map.containsKey("educator") ? Educator.Status.fromString((String) map.get("educator")) : null;
         this.name = map.containsKey("name") ? (String) map.get("name") : null;
         this.pic = map.containsKey("pic") ? (String) map.get("pic") : null;
+        this.volunteerOrganization = map.containsKey("volunteer_organization") ? (String) map.get("volunteer_organization") : null;
     }
 
 
@@ -37,6 +39,7 @@ public class User implements Parcelable {
         educator = Educator.Status.fromString(in.readString());
         name = in.readString();
         pic = in.readString();
+        volunteerOrganization = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -62,5 +65,6 @@ public class User implements Parcelable {
         dest.writeString(educator.toString());
         dest.writeString(name);
         dest.writeString(pic);
+        dest.writeString(volunteerOrganization);
     }
 }

@@ -1,6 +1,5 @@
 package com.starsearth.one.domain;
 
-import android.location.Address;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,6 +13,7 @@ public class HelpRequest implements Parcelable {
     public String guestName;
     public String guestPhone;
     public String landmark;
+    public String volunteerOrganization;
     public String request;
     public SEAddress address;
     public String status; //ACTIVE / COMPLETE / CANCELLED
@@ -30,6 +30,7 @@ public class HelpRequest implements Parcelable {
         this.guestPhone = map.containsKey("guest_phone") ? (String) map.get("guest_phone") : null;
         this.guestName = map.containsKey("guest_name") ? (String) map.get("guest_name") : null;
         this.landmark = map.containsKey("landmark") ? (String) map.get("landmark") : null;
+        this.volunteerOrganization = map.containsKey("volunteer_organization") ? (String) map.get("volunteer_organization") : null;
         this.request = map.containsKey("request") ? (String) map.get("request") : null;
         this.address = map.containsKey("address") ? new SEAddress((HashMap<String, Object>) map.get("address")) : null;
         this.status = map.containsKey("status") ? (String) map.get("status") : null;
@@ -43,6 +44,7 @@ public class HelpRequest implements Parcelable {
         guestName = in.readString();
         guestPhone = in.readString();
         landmark = in.readString();
+        volunteerOrganization = in.readString();
         request = in.readString();
         address = in.readParcelable(ClassLoader.getSystemClassLoader());
         status = in.readString();
@@ -74,6 +76,7 @@ public class HelpRequest implements Parcelable {
         parcel.writeString(guestName);
         parcel.writeString(guestPhone);
         parcel.writeString(landmark);
+        parcel.writeString(volunteerOrganization);
         parcel.writeString(request);
         parcel.writeParcelable(address, 0);
         parcel.writeString(status);

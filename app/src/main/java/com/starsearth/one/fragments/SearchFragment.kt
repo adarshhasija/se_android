@@ -42,7 +42,34 @@ class SearchFragment : Fragment() {
     private var mSearchType : String? = null //This is so that we have 2 different search options on main screen. Can be removed later
     private var mUserResultsFound : Boolean? = null
     private var mTagResultsFound : Boolean? = null
+    private var mSearchText: String? = null
     private var listener: OnFragmentInteractionListener? = null
+
+    private val mVolunteerOrganizationValuesListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+            llPleaseWait?.visibility = View.GONE
+            val value = dataSnapshot?.value
+            if (value == true) {
+                mSearchText?.let { listener?.onOrganizationFoundThroughSearch(it) }
+            }
+            else {
+                val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog?.setTitle(mContext.getString(R.string.error))
+                alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
+                alertDialog?.setPositiveButton(android.R.string.ok, null)
+                alertDialog?.show()
+            }
+        }
+
+        override fun onCancelled(p0: DatabaseError?) {
+            llPleaseWait?.visibility = View.GONE
+            val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
+            alertDialog?.setTitle(mContext.getString(R.string.error))
+            alertDialog?.setMessage(mContext.getString(R.string.no_search_results))
+            alertDialog?.setPositiveButton(android.R.string.ok, null)
+            alertDialog?.show()
+        }
+    }
 
     private val mEducatorValuesListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -201,6 +228,7 @@ class SearchFragment : Fragment() {
         if (mSearchType.equals("EDUCATOR", true)) {
             tvInstruction?.visibility = View.VISIBLE
             tvInstruction?.text = mContext.getString(R.string.educator_search_hint)
+            etSearch?.hint = mContext.getString(R.string.enter_educator_name)
         }
         else if (mSearchType.equals("CLASS", true)) {
             tvInstruction?.visibility = View.VISIBLE
@@ -229,19 +257,26 @@ class SearchFragment : Fragment() {
         btnSubmit?.setOnClickListener {
             if (llPleaseWait?.visibility != View.VISIBLE) {
                 //Should only proceed if a search is not currently in progress
-                val searchText = etSearch?.text.toString().trim().toUpperCase(Locale.getDefault())
-                if (searchText.length > 0) {
+                mSearchText = etSearch?.text.toString().trim().toUpperCase(Locale.getDefault())
+                if (mSearchText != null && mSearchText!!.length > 0) {
                     val imm = activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(etSearch.windowToken, 0) //Close keyboard
 
                     llPleaseWait?.visibility = View.VISIBLE
-                    val refEducators = FirebaseDatabase.getInstance().getReference("users")
-                    val educatorsQuery = refEducators.orderByChild("name").equalTo(searchText)
-                    educatorsQuery.addListenerForSingleValueEvent(mEducatorValuesListener)
+                    if (mSearchType == "CORONA_ORGANIZATION_SEARCH") {
+                        val refOrgs = FirebaseDatabase.getInstance().getReference("organizations")
+                        refOrgs.child(mSearchText!! + "/exists").addListenerForSingleValueEvent(mVolunteerOrganizationValuesListener)
+                    }
+                    else {
+                        val refEducators = FirebaseDatabase.getInstance().getReference("users")
+                        val educatorsQuery = refEducators.orderByChild("name").equalTo(mSearchText!!)
+                        educatorsQuery.addListenerForSingleValueEvent(mEducatorValuesListener)
 
-                    val refTags = FirebaseDatabase.getInstance().getReference("tags")
-                    val tagsQuery = refTags.orderByKey().equalTo(searchText)
-                    tagsQuery.addListenerForSingleValueEvent(mTagValuesListener)
+                        val refTags = FirebaseDatabase.getInstance().getReference("tags")
+                        val tagsQuery = refTags.orderByKey().equalTo(mSearchText!!)
+                        tagsQuery.addListenerForSingleValueEvent(mTagValuesListener)
+                    }
+
                 }
                 else {
                     val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
@@ -258,8 +293,11 @@ class SearchFragment : Fragment() {
                 if (mSearchType == "CLASS") {
                     mContext.getString(R.string.search_by_class_hint)
                 }
-                else {
+                else if (mSearchType == "EDUCATOR") {
                     mContext.getString(R.string.enter_educator_name)
+                }
+                else {
+                    mContext.getString(R.string.search)
                 }
 
         etSearch.postDelayed({
@@ -271,6 +309,7 @@ class SearchFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onSearchResultsObtained(resultsList: ArrayList<Parcelable>, type: String)
+        fun onOrganizationFoundThroughSearch(orgName: String)
     }
 
 }

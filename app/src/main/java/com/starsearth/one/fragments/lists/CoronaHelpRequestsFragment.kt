@@ -28,10 +28,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.starsearth.one.R
-import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.CoronaHelpRequestsRecyclerViewAdapter
 import com.starsearth.one.domain.HelpRequest
-import com.starsearth.one.domain.SEAddress
 import com.starsearth.one.domain.User
 import com.starsearth.one.managers.FirebaseManager
 
@@ -54,7 +52,8 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var mContext : Context
-    private lateinit var mSelectedLocality : String
+    private lateinit var mSelectedAdminArea : String
+    private var mVolunteerOrg : String? = null
     private var mSelectedSubLocality : String? = null //Used for the dropdown
     private var mSelectedDateMillis : Long = -1
     private var mSpinnerArrayAdapter : ArrayAdapter<Any>? = null
@@ -78,10 +77,16 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                     val key = entry.key as String
                     val value = entry.value as HashMap<String, Any>
                     var newHelpRequest = HelpRequest(key, value)
-
+                    Log.d(TAG, "*******NEW REQUEST IS: "+newHelpRequest.uid)
                     if (mCopyOfUser != null && mHostPhoneNumber != newHelpRequest.phone) {
                         //Currently mCopyOfUser decides if we are in the right CONTEXT of viewing our own data only
                         //We are in the context of viewing only our own requests and if the request was not created by us we should ignore it.
+                        Log.d(TAG, "*********PHONE NUMBER NOT A MATCH************")
+                        continue
+                    }
+                    if (mVolunteerOrg != null && mVolunteerOrg != newHelpRequest.volunteerOrganization) {
+                        //Volunteer org is a condition and the help request was not posted by a member of this volunteer org
+                        Log.d(TAG, "***********VOLUNTEER ORG NOT A MATCH************")
                         continue
                     }
                     // Check if date is same as the selected date
@@ -111,6 +116,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
 
                     isListEmpty = false
                     ((view?.list as RecyclerView)?.adapter as CoronaHelpRequestsRecyclerViewAdapter).addItem(newHelpRequest)
+                    Log.d(TAG, "***********NEW HELP REQUEST ADDED TO LIST: "+newHelpRequest)
                 }
                 ((view?.list as RecyclerView)?.adapter as CoronaHelpRequestsRecyclerViewAdapter).notifyDataSetChanged()
                 (view?.list as RecyclerView)?.layoutManager?.scrollToPosition(0)
@@ -167,7 +173,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                         mSpinnerArrayAdapter?.add(it)
                         mSpinnerArrayAdapter?.notifyDataSetChanged()
                     }
-                    mSelectedLocality = it.locality
+                    mSelectedAdminArea = it.adminArea
                     //loadHelpRequests(mSelectedLocality) //This call is not needed as the spinner.add() call above triggers the loadHelpRequests calls
                 }
             }
@@ -193,10 +199,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             mCopyOfUser = it.getParcelable(ARG_USER)
-
-            if ((mContext as? MainActivity)?.mUser?.uid == mCopyOfUser?.uid) {
-                //setHasOptionsMenu(true) //We are not giving add option inside this fragment
-            }
+            mVolunteerOrg = it.getString(ARG_ORG)
         }
     }
 
@@ -248,7 +251,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
                             btnDate?.text = dateFormat.format(cal2.time)
                             Log.d(TAG, "*******DATE PICKER*************")
-                            mSelectedLocality?.let { loadHelpRequests(it) } //Need to reload the list for the same address to get entries for the new date
+                            mSelectedAdminArea?.let { loadHelpRequests(it) } //Need to reload the list for the same address to get entries for the new date
                         }, year, month, day);
                 picker.show();
         }
@@ -273,7 +276,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         var fullText = selectedItem.split("(")
         mSelectedSubLocality = fullText?.get(0)?.trim()
         Log.d(TAG, "**********ON ITEM SELECTED**********"+mSelectedSubLocality)
-        loadHelpRequests(mSelectedLocality)
+        loadHelpRequests(mSelectedAdminArea)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -281,10 +284,11 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
     }
 
 
-    fun loadHelpRequests(locality: String) {
-        Log.d(TAG, "********* LOAD HELP REQUESTS CALLED ************" + locality)
+    //adminArea = State
+    fun loadHelpRequests(adminArea: String) {
+        Log.d(TAG, "********* LOAD HELP REQUESTS CALLED ************" + adminArea)
         val firebaseManager = FirebaseManager("help_requests")
-        val query = firebaseManager.getQueryForLocation(locality)
+        val query = firebaseManager.getQueryForState(adminArea)
         query.addListenerForSingleValueEvent(mHelpRequestsListener)
 
     }
@@ -443,6 +447,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         val TAG = "CORONA_HELP_REQ_FRAG"
         const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_USER = "user"
+        const val ARG_ORG = "org"
 
         // TODO: Customize parameter initialization
         @JvmStatic
@@ -451,6 +456,14 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                     arguments = Bundle().apply {
                         putInt(ARG_COLUMN_COUNT, columnCount)
                         putParcelable(ARG_USER, user)
+                    }
+                }
+
+        @JvmStatic
+        fun newInstance(volunteerOrg: String) =
+                CoronaHelpRequestsFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_ORG, volunteerOrg)
                     }
                 }
     }

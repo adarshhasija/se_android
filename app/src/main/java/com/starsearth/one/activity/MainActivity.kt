@@ -2,11 +2,9 @@ package com.starsearth.one.activity
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -93,6 +91,11 @@ class MainActivity : AppCompatActivity(),
     override fun onCoronaHelpListFragmentInteraction(item: HelpRequest) {
         val helpRequestFormFragment = CoronaHelpRequestFormFragment.newInstance(item)
         openFragment(helpRequestFormFragment, CoronaHelpRequestFormFragment.TAG)
+    }
+
+    override fun onOrganizationFoundThroughSearch(orgName: String) {
+        val coronaHelpRequestsFragment = CoronaHelpRequestsFragment.newInstance(orgName)
+        openFragmentWithSlideToLeftEffect(coronaHelpRequestsFragment, CoronaHelpRequestsFragment.TAG)
     }
 
     override fun onSearchResultListFragmentInteraction(selectedItem: Parcelable, type: String?) {
@@ -406,11 +409,11 @@ class MainActivity : AppCompatActivity(),
             openFragmentWithSlideToLeftEffect(coronaMainMenuListFragment, SeOneListFragment.TAG)
         }
         else if (type == SEOneListItem.Type.CORONA_HELP_REQUESTS) {
-            val coronaCitiesList = SEOneListItem.populateCoronaCitiesList(this) as ArrayList<Parcelable>
+            val coronaCitiesList = SEOneListItem.populateCoronaStatesList(this) as ArrayList<Parcelable>
             val coronaCitiesListFragment = SeOneListFragment.newInstance(coronaCitiesList)
             openFragmentWithSlideToLeftEffect(coronaCitiesListFragment, SeOneListFragment.TAG)
         }
-        else if (type == SEOneListItem.Type.CORONA_HELP_REQUESTS_FOR_CITY) {
+        else if (type == SEOneListItem.Type.CORONA_HELP_REQUESTS_FOR_STATES) {
             val coronaHelpRequestsFragment = CoronaHelpRequestsFragment.newInstance(1, null)
             openFragmentWithSlideToLeftEffect(coronaHelpRequestsFragment, CoronaHelpRequestsFragment.TAG)
         }
@@ -420,6 +423,10 @@ class MainActivity : AppCompatActivity(),
         }
         else if (type == SEOneListItem.Type.CORONA_NEW_HELP_REQUEST) {
             onCoronaHelpListFragmentAddButtonTapped()
+        }
+        else if (type == SEOneListItem.Type.CORONA_ORGANIZATION_SEARCH) {
+            val searchFragment = SearchFragment.newInstance("CORONA_ORGANIZATION_SEARCH")
+            openFragment(searchFragment, SearchFragment.TAG)
         }
         // END: CORONA
 
