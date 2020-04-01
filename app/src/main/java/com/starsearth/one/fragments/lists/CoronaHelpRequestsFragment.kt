@@ -101,9 +101,12 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                     }
                     Log.d(TAG, "*********SUBLOCALITY of new request: " + newHelpRequest.address.subLocality)
                     // Keep a record of the admin area. Will be needed to pupulate the dropdown
-                    var currentCount : Int = mSubLocalities[newHelpRequest.address.subLocality] ?: 0
-                    currentCount = currentCount + 1
-                    mSubLocalities.put(newHelpRequest.address.subLocality, currentCount)
+                    newHelpRequest?.address?.subLocality?.let {
+                        var currentCount : Int = mSubLocalities[it] ?: 0
+                        currentCount = currentCount + 1
+                        mSubLocalities.put(it, currentCount)
+                    }
+
 
                     if (mSelectedSubLocality == null) {
                         mSelectedSubLocality = newHelpRequest.address.subLocality
