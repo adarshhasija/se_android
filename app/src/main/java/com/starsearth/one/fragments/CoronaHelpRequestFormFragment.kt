@@ -145,6 +145,10 @@ class CoronaHelpRequestFormFragment : Fragment() {
 
         if (mHelpRequest != null) {
             //It is an existing request. Populate
+            llLogoTitle?.visibility = View.VISIBLE
+            if (mHelpRequest!!.status == "COMPLETE") {
+                llDeliveryStatus?.visibility = View.VISIBLE
+            }
             tvPhoneNumberLbl?.visibility = View.VISIBLE
             tvPhoneNumber?.text = mHelpRequest!!.phone
             tvPhoneNumber?.visibility = View.VISIBLE

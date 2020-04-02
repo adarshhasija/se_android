@@ -37,6 +37,79 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/llLogoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_computer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"
+                    android:text="One Volunteer Network" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDeliveryStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvDeliveryStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#008000"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:text="DELIVERY COMPLETE" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPicOfCompletion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivPicOfCompletion"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvPicError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Sorry, could not show the picture" />
+
+                <ProgressBar
+                    android:id="@+id/pbPicShow"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvPhoneNumberLbl"
                 android:layout_width="wrap_content"
