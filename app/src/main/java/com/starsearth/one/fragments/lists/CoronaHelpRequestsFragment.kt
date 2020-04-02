@@ -28,6 +28,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.starsearth.one.R
+import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.adapter.CoronaHelpRequestsRecyclerViewAdapter
 import com.starsearth.one.domain.HelpRequest
 import com.starsearth.one.domain.User
@@ -94,11 +95,11 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
                         Log.d("TAG", "********DATE NOT MATCHING************")
                         continue
                     }
-                    if (newHelpRequest.status != "ACTIVE") {
+                /*    if (newHelpRequest.status != "ACTIVE") {
                         Log.d("TAG", "********NOT ACTIVE************")
                         //If it belongs to the same area but is not active, let it go
                         continue
-                    }
+                    }   */
                     Log.d(TAG, "*********SUBLOCALITY of new request: " + newHelpRequest.address.subLocality)
                     // Keep a record of the admin area. Will be needed to pupulate the dropdown
                     newHelpRequest?.address?.subLocality?.let {
@@ -260,7 +261,7 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         }
 
         list?.visibility = View.GONE
-        btnDate?.text = getFormattedDate(mSelectedDateMillis)
+        btnDate?.text = (activity as? MainActivity)?.getFormattedDate(mSelectedDateMillis)
         llPleaseWait?.visibility = View.VISIBLE
         if (mSelectedSubLocality == null) {
             getLastLocation()
@@ -362,16 +363,6 @@ class CoronaHelpRequestsFragment : Fragment(), AdapterView.OnItemSelectedListene
         //val mLocationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
         //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1.0f, mLocationListener);
     }
-
-    private fun getFormattedDate(dateTimeMillis : Long?) : String {
-        val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        val today = Calendar.getInstance().time
-        if (dateTimeMillis != null) {
-            today.time = dateTimeMillis
-        }
-        return dateFormat.format(today);
-}
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {

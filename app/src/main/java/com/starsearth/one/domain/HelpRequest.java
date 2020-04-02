@@ -18,6 +18,7 @@ public class HelpRequest implements Parcelable {
     public SEAddress address;
     public String status; //ACTIVE / COMPLETE / CANCELLED
     public String picCompleteUrl;
+    public long timestampCompletion;
     public long timestamp;
 
     public HelpRequest() {
@@ -36,6 +37,7 @@ public class HelpRequest implements Parcelable {
         this.address = map.containsKey("address") ? new SEAddress((HashMap<String, Object>) map.get("address")) : null;
         this.status = map.containsKey("status") ? (String) map.get("status") : null;
         this.picCompleteUrl = map.containsKey("pic_complete_url") ? (String) map.get("pic_complete_url") : null;
+        this.timestampCompletion = map.containsKey("timestamp_completion") ? (long) map.get("timestamp_completion") : 0;
         this.timestamp = map.containsKey("timestamp") ? (long) map.get("timestamp") : 0;
     }
 
@@ -51,6 +53,7 @@ public class HelpRequest implements Parcelable {
         address = in.readParcelable(ClassLoader.getSystemClassLoader());
         status = in.readString();
         picCompleteUrl = in.readString();
+        timestampCompletion = in.readLong();
         timestamp = in.readLong();
     }
 
@@ -84,6 +87,7 @@ public class HelpRequest implements Parcelable {
         parcel.writeParcelable(address, 0);
         parcel.writeString(status);
         parcel.writeString(picCompleteUrl);
+        parcel.writeLong(timestampCompletion);
         parcel.writeLong(timestamp);
     }
 }

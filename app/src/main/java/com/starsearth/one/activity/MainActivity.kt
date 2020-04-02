@@ -5,11 +5,16 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
@@ -30,6 +35,11 @@ import com.starsearth.one.fragments.dummy.DummyContent
 import com.starsearth.one.fragments.lists.*
 import com.starsearth.one.managers.AnalyticsManager
 import com.starsearth.one.managers.FirebaseManager
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity(),
@@ -67,6 +77,26 @@ class MainActivity : AppCompatActivity(),
     override fun requestCompleted() {
         //Request has been declared complete. Close the form
         supportFragmentManager?.popBackStackImmediate()
+    }
+
+    override fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                //val photo = File(Environment.getExternalStorageDirectory(),  "one_help_request_complete.jpg")
+                    //intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                //Uri.fromFile(photo));
+                //mImageUri = Uri.fromFile(photo);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+
+    }
+
+    override fun requestCameraAccessToConfirmCompletionOfHelpRequest() {
+        ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_ID)
+
     }
 
     override fun requestLocationToViewHelpRequests() {
@@ -648,9 +678,12 @@ class MainActivity : AppCompatActivity(),
         return super.onKeyUp(keyCode, event)
     }
 
+    private var mImageUri : Uri? = null
     val TASK_ACTIVITY_REQUEST = 100
     val LOGIN_REQUEST = 200
     val LOCATION_PERMISSION_ID = 300
+    val CAMERA_PERMISSION_ID = 400
+    val REQUEST_IMAGE_CAPTURE = 500
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -680,6 +713,27 @@ class MainActivity : AppCompatActivity(),
                 (fragments?.getOrNull(fragments.lastIndex) as? DetailFragment)?.onLoginComplete(it)
             }
         }
+        else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            //val selectedImage = mImageUri
+            //getContentResolver().notifyChange(selectedImage, null);
+            //val cr = getContentResolver()
+            //var imageBitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage)
+
+            val imageBitmap = data?.extras?.get("data") as? Bitmap
+            if (imageBitmap != null) {
+                val lastFragment = supportFragmentManager.fragments.last()
+                (lastFragment as? CoronaHelpRequestFormFragment)?.receivedImageBitmap(imageBitmap)
+            }
+            else {
+                val alertDialog = (application as StarsEarthApplication)?.createAlertDialog(this)
+                alertDialog.setTitle("Error")
+                alertDialog.setMessage("We could not save the image. Please try again")
+                alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                alertDialog.show()
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -694,6 +748,33 @@ class MainActivity : AppCompatActivity(),
                 (lastFragment as? CoronaHelpRequestFormFragment)?.locationPermissionReceived()
                 (lastFragment as? CoronaHelpRequestsFragment)?.locationPermissionReceived()
             }
+            else {
+                val alertDialog = (application as StarsEarthApplication)?.createAlertDialog(this)
+                alertDialog.setTitle("Error")
+                alertDialog.setMessage("We did not get location permission")
+                alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                alertDialog.show()
+            }
+        }
+        else if (requestCode == CAMERA_PERMISSION_ID) {
+            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                // Granted. Start getting the city information
+                val lastFragment = supportFragmentManager?.fragments?.last()
+
+                //Either of these could request location
+                (lastFragment as? CoronaHelpRequestFormFragment)?.cameraPermissionReceived()
+            }
+            else {
+                val alertDialog = (application as StarsEarthApplication)?.createAlertDialog(this)
+                alertDialog.setTitle("Error")
+                alertDialog.setMessage("We did not get camera permission")
+                alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                alertDialog.show()
+            }
         }
     }
 
@@ -705,5 +786,14 @@ class MainActivity : AppCompatActivity(),
         )
     }
 
+    fun getFormattedDate(dateTimeMillis : Long?) : String {
+        val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        val today = Calendar.getInstance().time
+        if (dateTimeMillis != null) {
+            today.time = dateTimeMillis
+        }
+        return dateFormat.format(today);
+    }
 
 }

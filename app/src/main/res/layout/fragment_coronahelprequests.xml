@@ -8,6 +8,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
         android:textAppearance="?attr/textAppearanceListItem" />
@@ -16,6 +17,7 @@
         android:id="@+id/helpNeeded"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

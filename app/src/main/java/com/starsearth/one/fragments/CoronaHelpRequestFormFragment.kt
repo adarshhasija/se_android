@@ -6,12 +6,15 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,12 +30,15 @@ import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.starsearth.one.R
 import com.starsearth.one.activity.MainActivity
 import com.starsearth.one.application.StarsEarthApplication
 import com.starsearth.one.domain.HelpRequest
 import com.starsearth.one.domain.SEAddress
 import kotlinx.android.synthetic.main.fragment_corona_help_request_form.*
+import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -146,8 +152,10 @@ class CoronaHelpRequestFormFragment : Fragment() {
         if (mHelpRequest != null) {
             //It is an existing request. Populate
             llLogoTitle?.visibility = View.VISIBLE
-            if (mHelpRequest!!.status == "COMPLETE") {
+            if (mHelpRequest!!.status == "COMPLETE" && mHelpRequest!!.timestampCompletion > 0) {
                 llDeliveryStatus?.visibility = View.VISIBLE
+                tvDeliveryDate?.visibility = View.VISIBLE
+                tvDeliveryDate?.text = (activity as? MainActivity)?.getFormattedDate(mHelpRequest!!.timestampCompletion)
             }
             tvPhoneNumberLbl?.visibility = View.VISIBLE
             tvPhoneNumber?.text = mHelpRequest!!.phone
@@ -203,57 +211,85 @@ class CoronaHelpRequestFormFragment : Fragment() {
                 mContext.startActivity(intent)
             }
 
-            btnComplete?.setOnClickListener {
-                val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
-                alertDialog.setTitle("Is this complete?")
-                //alertDialog.setMessage(getString(R.string.responses_not_recorded))
-                alertDialog.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
+            if (mHelpRequest!!.status == "COMPLETE") {
+                btnComplete?.visibility = View.GONE
+            }
+            else {
+                btnComplete?.visibility = View.VISIBLE
+                btnComplete?.setOnClickListener {
+                    val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                    alertDialog.setTitle("Open camera?")
+                    alertDialog.setMessage("To declare this complete, you must click a selfie with the items you are delivering and the people you are delivering to. Shall we open the camera?")
+                    alertDialog.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
 
-                    val mDatabase = FirebaseDatabase.getInstance().getReference("help_requests/" + mHelpRequest!!.uid)
-                    mDatabase.child("status").setValue("COMPLETE").addOnSuccessListener {
-                        listener?.requestCompleted()
-                    }.addOnFailureListener {
-                        val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
-                        alertDialog2.setTitle("Error")
-                        alertDialog2.setMessage("Failed to save. Please try again")
-                        alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                            dialog.dismiss()
-                        })
-                        alertDialog2.show()
-                    }
-                })
-                alertDialog.setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
-                })
-                alertDialog.show()
+                        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // Permission is not granted
+                            listener?.requestCameraAccessToConfirmCompletionOfHelpRequest()
+                        }
+                        else {
+                            cameraPermissionReceived()
+                        }
+                    })
+                    alertDialog.setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    alertDialog.show()
 
+                }
             }
 
-            btnCancel?.setOnClickListener {
-                val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
-                alertDialog.setTitle("Are you sure?")
-                alertDialog.setMessage("This cannot be undone")
-                alertDialog.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
 
-                    val mDatabase = FirebaseDatabase.getInstance().getReference("help_requests/" + mHelpRequest!!.uid)
-                    mDatabase.removeValue().addOnSuccessListener {
-                        listener?.requestCompleted()
-                    }.addOnFailureListener {
-                        val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
-                        alertDialog2.setTitle("Error")
-                        alertDialog2.setMessage("Failed to delete. Please try again")
-                        alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                            dialog.dismiss()
-                        })
-                        alertDialog2.show()
-                    }
-                })
-                alertDialog.setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, which ->
-                    dialog.dismiss()
-                })
-                alertDialog.show()
+            if (mHelpRequest!!.status == "COMPLETE") {
+                btnCancel?.visibility = View.GONE
+            }
+            else {
+                btnCancel?.visibility = View.VISIBLE
+                btnCancel?.setOnClickListener {
+                    val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                    alertDialog.setTitle("Are you sure?")
+                    alertDialog.setMessage("This cannot be undone")
+                    alertDialog.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+
+                        val mDatabase = FirebaseDatabase.getInstance().getReference("help_requests/" + mHelpRequest!!.uid)
+                        mDatabase.removeValue().addOnSuccessListener {
+                            listener?.requestCompleted()
+                        }.addOnFailureListener {
+                            val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                            alertDialog2.setTitle("Error")
+                            alertDialog2.setMessage("Failed to delete. Please try again")
+                            alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                                dialog.dismiss()
+                            })
+                            alertDialog2.show()
+                        }
+                    })
+                    alertDialog.setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    alertDialog.show()
+                }
+            }
+
+
+            mHelpRequest!!.picCompleteUrl?.let {
+                llPicOfCompletion?.visibility = View.VISIBLE
+                pbPicShow?.visibility = View.VISIBLE
+                var profilePicRef = FirebaseStorage.getInstance().reference.child(it)
+
+                val ONE_MEGABYTE: Long = 1024 * 1024
+                profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+                    pbPicShow?.visibility = View.GONE
+                    ivPicOfCompletion?.visibility = View.VISIBLE
+                    val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                    ivPicOfCompletion?.setImageBitmap(bitmap)
+                }.addOnFailureListener {
+                    // Handle any errors
+                    pbPicShow?.visibility = View.GONE
+                    tvPicError?.visibility = View.VISIBLE
+                }
             }
 
             return
@@ -317,6 +353,7 @@ class CoronaHelpRequestFormFragment : Fragment() {
         spinnerList.add("Food")
         spinnerList.add("Groceries")
         spinnerList.add("Medical")
+        //spinnerList.add("Distribution")
 
         //Creating the ArrayAdapter instance having the country list
         val aa = ArrayAdapter(mContext,android.R.layout.simple_spinner_item,spinnerList.toArray())
@@ -336,6 +373,17 @@ class CoronaHelpRequestFormFragment : Fragment() {
                 else {
                     userName
                 }
+            if (name.isNullOrBlank()) {
+                val alertDialog = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                alertDialog.setTitle("No name entered")
+                alertDialog.setMessage("Please enter your full name")
+                alertDialog.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                    etName?.requestFocus()
+                })
+                alertDialog.show()
+                return@setOnClickListener
+            }
 
             val city = tvSublocality?.text?.toString()?.toUpperCase(Locale.getDefault())
             val landmark = etLandmark?.text.toString().toUpperCase(Locale.getDefault())
@@ -440,6 +488,59 @@ class CoronaHelpRequestFormFragment : Fragment() {
         //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1.0f, mLocationListener);
     }
 
+    fun cameraPermissionReceived() {
+        listener?.dispatchTakePictureIntent()
+    }
+
+    fun receivedImageBitmap(bitmap: Bitmap) {
+        ivPicOfCompletion?.setImageBitmap(bitmap)
+        llPicOfCompletion?.visibility = View.VISIBLE
+        ivPicOfCompletion?.visibility = View.VISIBLE
+
+        mHelpRequest?.let {
+            llPleaseWait?.visibility = View.VISIBLE
+            val storageReference = FirebaseStorage.getInstance().reference.child("images/help_requests/"+it.uid+".jpg")
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+            val data = baos.toByteArray()
+            val uploadTask = storageReference.putBytes(data)
+            uploadTask.addOnSuccessListener {
+                val childUpdates: MutableMap<String, Any> = HashMap()
+                childUpdates["help_requests/" + mHelpRequest!!.uid + "/status"] = "COMPLETE"
+                childUpdates["help_requests/" + mHelpRequest!!.uid + "/pic_complete_url"] = "images/help_requests/"+mHelpRequest!!.uid+".jpg"
+                childUpdates["help_requests/" + mHelpRequest!!.uid + "/timestamp_completion"] = ServerValue.TIMESTAMP
+                val mDatabase = FirebaseDatabase.getInstance().getReference()
+                mDatabase.updateChildren(childUpdates).addOnSuccessListener {
+                    llPleaseWait?.visibility = View.GONE
+                    listener?.requestCompleted()
+                }.addOnFailureListener {
+                    llPleaseWait?.visibility = View.GONE
+                    val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                    alertDialog2.setTitle("Error")
+                    alertDialog2.setMessage("Failed to save. Please try again")
+                    alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    alertDialog2.show()
+                }
+            }
+                    .addOnFailureListener {
+                        llPleaseWait?.visibility = View.GONE
+                        val alertDialog2 = (activity?.application as StarsEarthApplication)?.createAlertDialog(mContext)
+                        alertDialog2.setTitle("Error")
+                        alertDialog2.setMessage("Failed to save. Please try again")
+                        alertDialog2.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                        alertDialog2.show()
+                    }
+        }
+
+
+
+
+    }
+
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
         val mLocationRequest = LocationRequest()
@@ -515,6 +616,8 @@ class CoronaHelpRequestFormFragment : Fragment() {
         fun requestCompleted()
         fun onBehalfOfFormRequested(hostPhone: String, hostName: String, guestPhone: String?, guestName: String?)
         fun onBehalfOfDetailsEntered(name : String, phone : String)
+        fun requestCameraAccessToConfirmCompletionOfHelpRequest()
+        fun dispatchTakePictureIntent()
     }
 
     companion object {
