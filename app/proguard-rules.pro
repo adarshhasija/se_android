@@ -16,6 +16,6 @@
 #   public *;
 #}
 
--keepnames class com.starsearth.one.fragments.*
--keepclassmembers class com.starsearth.one.domain.* { <fields>; }
+-keepnames class com.starsearth.two.fragments.*
+-keepclassmembers class com.starsearth.two.domain.* { <fields>; }
 

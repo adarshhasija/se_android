@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.starsearth.one.activity.profile.FullNameActivity">
+    tools:context="com.starsearth.two.activity.profile.FullNameActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

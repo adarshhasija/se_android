@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.starsearth.one.activity.auth.AddEditPhoneNumberActivity">
+    tools:context="com.starsearth.two.activity.auth.AddEditPhoneNumberActivity">
 
     <TextView
         android:layout_width="wrap_content"

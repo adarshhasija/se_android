@@ -8,12 +8,36 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:215757859591:android:593f122dcab7617f",
+        "mobilesdk_app_id": "1:215757859591:android:de8ab42918c7db5153f3a2",
         "android_client_info": {
-          "package_name": "com.adarshhasija.starsearth"
+          "package_name": "com.starsearth.five"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "215757859591-dlqssqqjois9tq6mhbdga93eoupemgoj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.five",
+            "certificate_hash": "d7d88e091ade7de77a9971935733121a908fcf28"
+          }
+        },
+        {
+          "client_id": "215757859591-rd8jah70va88pjliuatsb4g06ndg0qst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.five",
+            "certificate_hash": "a27dab4bd5f9c52228f09ef24b5fc3456be19fba"
+          }
+        },
+        {
+          "client_id": "215757859591-optj6ru7epngm5e7alf4c89jg1ab6gji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.five",
+            "certificate_hash": "a40bc903368a2ad4b753dd7f6a1c51ce0465d2a6"
+          }
+        },
         {
           "client_id": "215757859591-jl5okctgo7v9ektqvb7ttev8g76gatbg.apps.googleusercontent.com",
           "client_type": 3
@@ -25,15 +49,20 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215757859591-22kh4csg763i2stncb73hqnleqbrifnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "215757859591-k97ng04806sdhbscth8nqcvn8i2p30ba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starsearth.four"
+              }
+            }
+          ]
         }
       }
     },
@@ -46,6 +75,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "215757859591-scej1etju45gaa11a2vtkn8e591soann.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.one",
+            "certificate_hash": "d7d88e091ade7de77a9971935733121a908fcf28"
+          }
+        },
+        {
+          "client_id": "215757859591-aqam9t0m0rl275rpkc7r37nb2jjit7h0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.one",
+            "certificate_hash": "a40bc903368a2ad4b753dd7f6a1c51ce0465d2a6"
+          }
+        },
+        {
+          "client_id": "215757859591-icqtq2d65llp4hs95193taoqh396kv03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.starsearth.one",
+            "certificate_hash": "a27dab4bd5f9c52228f09ef24b5fc3456be19fba"
+          }
+        },
+        {
           "client_id": "215757859591-jl5okctgo7v9ektqvb7ttev8g76gatbg.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -56,15 +109,92 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215757859591-22kh4csg763i2stncb73hqnleqbrifnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "215757859591-k97ng04806sdhbscth8nqcvn8i2p30ba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starsearth.four"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215757859591:android:3382163f820a542b",
+        "android_client_info": {
+          "package_name": "com.starsearth.three"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215757859591-jl5okctgo7v9ektqvb7ttev8g76gatbg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQcoAuwEbU_RsV3064XvKwpvD-xvF8RCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215757859591-22kh4csg763i2stncb73hqnleqbrifnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "215757859591-k97ng04806sdhbscth8nqcvn8i2p30ba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starsearth.four"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215757859591:android:f2c55d4bf96d2df253f3a2",
+        "android_client_info": {
+          "package_name": "com.starsearth.two"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215757859591-jl5okctgo7v9ektqvb7ttev8g76gatbg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQcoAuwEbU_RsV3064XvKwpvD-xvF8RCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215757859591-22kh4csg763i2stncb73hqnleqbrifnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "215757859591-k97ng04806sdhbscth8nqcvn8i2p30ba.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starsearth.four"
+              }
+            }
+          ]
         }
       }
     }

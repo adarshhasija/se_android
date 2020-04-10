@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.starsearth.one">
+    package="com.starsearth.two">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -12,26 +12,26 @@
         android:value="@string/facebook_app_id" />
 
     <application
-        android:name=".application.StarsEarthApplication"
+        android:name="com.starsearth.two.application.StarsEarthApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_computer"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.KeyboardActivity"
+            android:name="com.starsearth.two.activity.KeyboardActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenLayout|smallestScreenSize|navigation|locale|layoutDirection|fontScale"
             android:label="@string/keyboard_test" />
         <activity
-            android:name=".activity.auth.LoginActivity"
+            android:name="com.starsearth.two.activity.auth.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.AdminModeActivity" />
-        <activity android:name=".activity.auth.SignupActivity" />
+        <activity android:name="com.starsearth.two.activity.AdminModeActivity" />
+        <activity android:name="com.starsearth.two.activity.auth.SignupActivity" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.starsearth.two.activity.MainActivity"
             android:label="@string/app_name" />
-        <activity android:name=".activity.auth.ChangePasswordActivity" />
-        <activity android:name=".activity.WelcomeActivity">
+        <activity android:name="com.starsearth.two.activity.auth.ChangePasswordActivity" />
+        <activity android:name="com.starsearth.two.activity.WelcomeActivity">
 
             <!-- Welcome intent goes here -->
             <intent-filter>
@@ -41,33 +41,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.TaskActivity"
+            android:name="com.starsearth.two.activity.TaskActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.auth.AddEditPhoneNumberActivity"
+            android:name="com.starsearth.two.activity.auth.AddEditPhoneNumberActivity"
             android:label="@string/enter_phone_number"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.auth.SendOTPActivity"
+            android:name="com.starsearth.two.activity.auth.SendOTPActivity"
             android:configChanges="orientation"
             android:label="@string/enter_otp"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.profile.PhoneNumberActivity"
+            android:name="com.starsearth.two.activity.profile.PhoneNumberActivity"
             android:label="@string/phone_number" />
         <activity
-            android:name=".activity.profile.FullNameActivity"
+            android:name="com.starsearth.two.activity.profile.FullNameActivity"
             android:label="@string/title_activity_full_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.TabbedActivity"
+            android:name="com.starsearth.two.activity.TabbedActivity"
             android:label="@string/title_activity_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.FullScreenActivity"
+            android:name="com.starsearth.two.activity.FullScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_google_ad"
             android:theme="@style/FullscreenTheme" />
@@ -88,7 +88,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.TaskTwoActivity"
+            android:name="com.starsearth.two.activity.TaskTwoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
