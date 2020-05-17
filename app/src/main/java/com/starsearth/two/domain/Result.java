@@ -102,7 +102,7 @@ public class Result implements Parcelable {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
+        //result.put("uid", uid);
         result.put("userId", userId);
         result.put("task_id", task_id);
         result.put("startTimeMillis", startTimeMillis);

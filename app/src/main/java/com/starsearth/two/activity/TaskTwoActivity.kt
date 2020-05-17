@@ -45,7 +45,6 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (expectedAnswerGesture) {
                 itemsCorrect++
-                Log.d("TAG", "**********sREACHES HERE****************")
                 if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true, expectedAnswerContentId))
                 }

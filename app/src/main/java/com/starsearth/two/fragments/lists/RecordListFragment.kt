@@ -269,15 +269,15 @@ class RecordListFragment : Fragment() {
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
             var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
-        /*    var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
+         /*   var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
             for (mainMenuItem in mainMenuItems) {
-                if ((mainMenuItem.teachingContent as Task).id == 2.toLong()) {
+                if ((mainMenuItem.teachingContent as Task).id == 76.toLong()) {
                     val map = (mainMenuItem.teachingContent as Task).toMap()
                     val calendar = Calendar.getInstance()
                 //    map.put("created", calendar.timeInMillis)
                     val databaseReference = FirebaseDatabase.getInstance().reference
-                    val key = (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
-                //    databaseReference.child("teachingcontent").child(key).child("instructions").setValue(map.get("instructions").toString())
+                    val key = "_" + (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
+                    databaseReference.child("teachingcontent").child(key).setValue(map)
 
                 //    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_741.jpg");
                 //    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.autism_1);
