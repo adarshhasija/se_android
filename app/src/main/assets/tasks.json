@@ -1789,6 +1789,251 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 77,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words related to time",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_771",
+          "question": "Second",
+          "hintAudio": "Second is a unit of time"
+        },
+        {
+          "id": "_772",
+          "question": "Minute",
+          "hintAudio": "Sixty seconds makes a minute"
+        },
+        {
+          "id": "_773",
+          "question": "Hour",
+          "hintAudio": "There are 24 hours in a day"
+        },
+        {
+          "id": "_774",
+          "question": "Time",
+          "hintAudio": "Time is a period necessary or available for a given activity as in I have no time for golf"
+        },
+        {
+          "id": "_775",
+          "question": "Day",
+          "hintAudio": "Owls sleep during the day"
+        },
+        {
+          "id": "_776",
+          "question": "Week",
+          "hintAudio": "There are 7 days in a week"
+        },
+        {
+          "id": "_777",
+          "question": "Fortnight",
+          "hintAudio": "a fortnight is 2 weeks"
+        },
+        {
+          "id": "_778",
+          "question": "Month",
+          "hintAudio": "There are 12 months in a year"
+        },
+        {
+          "id": "_779",
+          "question": "Year",
+          "hintAudio": "A year has 365 days"
+        },
+        {
+          "id": "_780",
+          "question": "Decade",
+          "hintAudio": "A period of 10 years is called a decade"
+        },
+        {
+          "id": "_781",
+          "question": "Century",
+          "hintAudio": "A period of 100 years is called a century"
+        },
+        {
+          "id": "_782",
+          "question": "Millennium",
+          "hintAudio": "A span of 1000 years is called a millenium"
+        },
+        {
+          "id": "_783",
+          "question": "Dawn",
+          "hintAudio": "The time at which daylight first begins is called dawn"
+        },
+        {
+          "id": "_784",
+          "question": "Dusk",
+          "hintAudio": "Dusk is the time just after the sun sets"
+        },
+        {
+          "id": "_785",
+          "question": "Morning",
+          "hintAudio": "Morning is the early part of the day from sunrise to noon"
+        },
+        {
+          "id": "_786",
+          "question": "Afternoon",
+          "hintAudio": "Afternoon is the period of the day between noon and evening when we have our lunch"
+        },
+        {
+          "id": "_787",
+          "question": "Night",
+          "hintAudio": "The time between bedtime and morning when people sleep"
+        },
+        {
+          "id": "_788",
+          "question": "Today",
+          "hintAudio": "I ate bread and jam today"
+        },
+        {
+          "id": "_789",
+          "question": "Tomorrow",
+          "hintAudio": "Tomorrow I will eat breakfast with you"
+        },
+        {
+          "id": "_790",
+          "question": "Yesterday",
+          "hintAudio": "Yesterday I had breakfast with my friend"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 78,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Cardinal Numbers",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_781",
+          "question": "One",
+          "hintAudio": "There is one apple in the bag"
+        },
+        {
+          "id": "_782",
+          "question": "Two",
+          "hintAudio": "There are two people in the lift"
+        },
+        {
+          "id": "_783",
+          "question": "Three",
+          "hintAudio": "There are three boats in the water"
+        },
+        {
+          "id": "_784",
+          "question": "Four",
+          "hintAudio": "There are four chairs in the office"
+        },
+        {
+          "id": "_785",
+          "question": "Five",
+          "hintAudio": "There are five bags in the room"
+        },
+        {
+          "id": "_786",
+          "question": "Six",
+          "hintAudio": "There are six cars on the road"
+        },
+        {
+          "id": "_787",
+          "question": "Seven",
+          "hintAudio": "There are seven days in a week"
+        },
+        {
+          "id": "_788",
+          "question": "Eight",
+          "hintAudio": "Dinner is at 8 PM"
+        },
+        {
+          "id": "_789",
+          "question": "Nine",
+          "hintAudio": "Nine is the highest single digit"
+        },
+        {
+          "id": "_790",
+          "question": "Ten",
+          "hintAudio": "There are ten people in the team"
+        },
+        {
+          "id": "_791",
+          "question": "Thirty",
+          "hintAudio": "It is thirty degrees today"
+        },
+        {
+          "id": "_792",
+          "question": "Forty",
+          "hintAudio": "My teacher is fourty years old"
+        },
+        {
+          "id": "_793",
+          "question": "Fifty",
+          "hintAudio": "My dad is 50 years old"
+        },
+        {
+          "id": "_794",
+          "question": "Sixty",
+          "hintAudio": "There are sixty trees on this road"
+        },
+        {
+          "id": "_795",
+          "question": "Seventy",
+          "hintAudio": "There are 70 houses near my office"
+        },
+        {
+          "id": "_796",
+          "question": "Eighty",
+          "hintAudio": "My grand mother is 80 years old"
+        },
+        {
+          "id": "_797",
+          "question": "Ninety",
+          "hintAudio": "There are 90 students in my school"
+        },
+        {
+          "id": "_798",
+          "question": "Hundred",
+          "hintAudio": "I scored hundred in maths"
+        },
+        {
+          "id": "_799",
+          "question": "Thousand",
+          "hintAudio": "One has to climb a thousand steps to reach the temple"
+        },
+        {
+          "id": "_800",
+          "question": "Ten thousand",
+          "hintAudio": "The destination is 10 thousand kilometers away"
+        },
+        {
+          "id": "_801",
+          "question": "Lakh",
+          "hintAudio": "There are a lakh people in the city"
+        },
+        {
+          "id": "_802",
+          "question": "Million",
+          "hintAudio": "There are more than a million leaves on the tree"
+        },
+        {
+          "id": "_803",
+          "question": "Billion",
+          "hintAudio": "The universe has more than a billion stars"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
