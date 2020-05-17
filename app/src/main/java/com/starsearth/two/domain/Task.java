@@ -530,7 +530,7 @@ public class Task extends SETeachingContent {
                     for (Object contentObject : contentList) {
                         if (contentObject instanceof Map) {
                             TaskContent taskContent = new TaskContent((Map) contentObject);
-                            if (r.taskContentId == taskContent.id) {
+                            if (r.taskContentId.equals(taskContent.id)) {
                                 //The response is for this task content
                                 String expectedAnswerExplanation = taskContent.explanation;
                                 if (expectedAnswerExplanation != null && expectedAnswerExplanation.length() > 0) {

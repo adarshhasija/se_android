@@ -7,6 +7,8 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.starsearth.two.domain.SeOneAccessibilityManager;
 import com.starsearth.two.managers.AdsManager;
 import com.starsearth.two.managers.AnalyticsManager;
@@ -78,7 +80,7 @@ public class StarsEarthApplication extends Application {
         //String keyEducator = mDatabase.push().getKey();
         //mDatabase.child("educators").child(keyEducator).setValue(educator);
         //mDatabase.child("educators").child("-LtnpPKKKK4Un92RZ5Zy").child("tagging").setValue(Educator.PERMISSIONS.TAGGING_ALL);
-        //mDatabase.child("users").child("0jLuro6wfcSCMtsYkdj8AaiMkgW2").child("name").setValue("Akanksha Mishra");
+        //mDatabase.child("users").child("yVtWhLZNrOWylnKQkZOZSDCjlod2").child("educator").setValue("ACTIVE");
 
         //StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/RycAhfhPsXOrUdbO8GOJqucktAA3.jpg");
         //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.profilepic);
@@ -98,6 +100,10 @@ public class StarsEarthApplication extends Application {
         //HashMap<String, Object> tagMap = new HashMap<>();
         //tagMap.put("tags/Class 10/seone", true);
         //mDatabase.updateChildren(tagMap);
+
+        //started at: 75
+        //highest id: 75
+        //spelling type = 5
     }
 
     public String getRemoteConfigAnalytics() {

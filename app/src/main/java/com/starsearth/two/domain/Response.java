@@ -26,7 +26,7 @@ public class Response implements Parcelable{
     public String expectedAnswerExplanation; //This is set only at the time of displaying responses to the user
     public String answer;
     public boolean isCorrect;
-    public int taskContentId; //Used for the purposes of getting the answer explanation from the task
+    public String taskContentId; //Used for the purposes of getting the answer explanation from the task
 
 
     public Response() {
@@ -41,7 +41,7 @@ public class Response implements Parcelable{
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(String question, String expectedAnswer, String answer, boolean isCorrect, int taskContentId) {
+    public Response(String question, String expectedAnswer, String answer, boolean isCorrect, String taskContentId) {
         this.question = question;
         this.expectedAnswer = expectedAnswer;
         this.answer = answer;
@@ -51,12 +51,15 @@ public class Response implements Parcelable{
     }
 
     public Response(Map<String, Object> map) {
-        this.question = (String) map.get("question");
-        this.expectedAnswer = (String) map.get("expectedAnswer");
-        this.answer = (String) map.get("answer");
-        this.isCorrect = (Boolean) map.get("isCorrect");
-        this.timestamp = (Long) map.get("timestamp");
-        this.taskContentId = map.containsKey("taskContentId") ? ((Long) map.get("taskContentId")).intValue() : 0;
+        this.question = map.containsKey("question") ? (String) map.get("question") : null;
+        this.expectedAnswer = map.containsKey("expectedAnswer") ? (String) map.get("expectedAnswer") : null;
+        this.answer = map.containsKey("answer") ? (String) map.get("answer") : null;
+        this.isCorrect = map.containsKey("isCorrect") ? (Boolean) map.get("isCorrect") : false;
+        this.timestamp = map.containsKey("timestamp") ? (Long) map.get("timestamp") : -1;
+        //this.taskContentId = map.containsKey("taskContentId") ? ((Long) map.get("taskContentId")).intValue() : 0;
+        this.taskContentId = map.containsKey("taskContentId") ?
+                            (map.get("taskContentId") instanceof Long) ? (map.get("taskContentId")).toString() :
+                            (String) map.get("taskContentId") : null;
     }
 
     protected Response(Parcel in) {
@@ -72,7 +75,7 @@ public class Response implements Parcelable{
         expectedAnswerExplanation = in.readString();
         answer = in.readString();
         isCorrect = in.readByte() != 0;
-        taskContentId = in.readInt();
+        taskContentId = in.readString();
     }
 
     public static final Creator<Response> CREATOR = new Creator<Response>() {
@@ -126,7 +129,7 @@ public class Response implements Parcelable{
         dest.writeString(expectedAnswerExplanation);
         dest.writeString(answer);
         dest.writeByte((byte) (isCorrect ? 1 : 0));
-        dest.writeInt(taskContentId);
+        dest.writeString(taskContentId);
     }
 
 

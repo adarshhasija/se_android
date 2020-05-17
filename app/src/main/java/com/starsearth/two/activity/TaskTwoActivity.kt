@@ -15,6 +15,7 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -44,7 +45,8 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (expectedAnswerGesture) {
                 itemsCorrect++
-                if (expectedAnswerContentId > -1) {
+                Log.d("TAG", "**********sREACHES HERE****************")
+                if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_TAP,true, expectedAnswerContentId))
                 }
                 else {
@@ -54,7 +56,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
             else {
                 vibrate()
-                if (expectedAnswerContentId > -1) {
+                if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false, expectedAnswerContentId))
                 }
                 else {
@@ -105,7 +107,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             processGestureResponse()
             if (!expectedAnswerGesture) run {
                 itemsCorrect++
-                if (expectedAnswerContentId > -1) {
+                if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_SWIPE,true, expectedAnswerContentId))
                 }
                 else {
@@ -115,7 +117,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
             }
             else {
                 vibrate()
-                if (expectedAnswerContentId > -1) {
+                if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false, expectedAnswerContentId))
                 }
                 else {
@@ -162,7 +164,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
 
     //gesture activity
     private var expectedAnswerGesture: Boolean = false
-    private var expectedAnswerContentId: Int = -1
+    private var expectedAnswerContentId: String? = null
     private var itemsAttempted: Long = 0              //In SEE_AND_TYPE, only used to see how many have been completed
     private var itemsCorrect: Long = 0
     private var itemIncorrect = false  //This is used to show that 1 mistake has been made when typing an item(character/word/sentence)
@@ -652,7 +654,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                             itemsCorrect++
                         }
                         flashAnswerResult(expectedAnswerGesture)
-                        if (expectedAnswerContentId > -1) {
+                        if (expectedAnswerContentId != null) {
                             responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
                                 GESTURE_TAP
                             } else {
@@ -674,7 +676,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
                             itemsCorrect++
                         }
                         flashAnswerResult(!expectedAnswerGesture)
-                        if (expectedAnswerContentId > -1) {
+                        if (expectedAnswerContentId != null) {
                             responses.add(Response(tvMain.text.toString(),if (expectedAnswerGesture) {
                                 GESTURE_TAP
                             } else {

@@ -304,7 +304,7 @@ public class AssetsFileManager {
             JSONArray coursesJSON = root.getJSONArray("courses");
             teachingContentList.addAll(getTasks(tasksJSON));
             teachingContentList.addAll(getCourses(coursesJSON));
-            //long highestId = getHighestId(teachingContentList);
+            long highestId = getHighestId(teachingContentList);
             //boolean b = areIdsUnique(teachingContentList);
         } catch (JSONException e) {
             e.printStackTrace();

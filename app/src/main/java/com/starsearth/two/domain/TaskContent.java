@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TaskContent implements Parcelable {
 
-    public int id;
+    public String id;
     public String question;
     public String hintAudio; //Audio details to help the user answer the question
     public boolean isTapSwipe;
@@ -30,9 +30,13 @@ public class TaskContent implements Parcelable {
     }
 
     public TaskContent(Map<String, Object> map) {
-        this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).intValue() : //If we are getting it from the local file, gson will take int as double
+      /*  this.id = (map.get("id") instanceof Double)? ((Double) map.get("id")).toString() : //If we are getting it from the local file, gson will take int as double
                 (map.get("id") instanceof Long) ? ((Long) map.get("id")).intValue() : //If we are getting it from Firebase its a Long
-                (int) map.get("id");
+                (int) map.get("id");    */
+        this.id = map.containsKey("id") ?
+                (map.get("id") instanceof Double)? (map.get("id")).toString() : //If we are getting it from the local file, gson will take int as double
+                        (map.get("id") instanceof Long) ? (map.get("id")).toString() : //If we are getting it from Firebase its a Long
+                                (String) map.get("id") : null;
         this.question = map.containsKey("question") ? (String) map.get("question") : null;
         this.hintAudio = map.containsKey("hintAudio") ? (String) map.get("hintAudio") : null;
         this.isTapSwipe = map.containsKey("isTapSwipe") ? (boolean) map.get("isTapSwipe") : false;
@@ -42,7 +46,7 @@ public class TaskContent implements Parcelable {
 
 
     protected TaskContent(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         question = in.readString();
         hintAudio = in.readString();
         isTapSwipe = in.readByte() != 0;
@@ -52,7 +56,7 @@ public class TaskContent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(question);
         dest.writeString(hintAudio);
         dest.writeByte((byte) (isTapSwipe ? 1 : 0));

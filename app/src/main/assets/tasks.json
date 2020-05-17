@@ -1749,6 +1749,46 @@
       ],
       "instructions": "Parent's behavior influences their child's social and emotional skills directly and indirectly. Parent's interactions influence their child's future behavior.",
       "isGame": false
+    },
+    {
+      "id": 76,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Seasons",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": 761,
+          "question": "Spring",
+          "hintAudio": "Colourful flowers blossom in spring"
+        },
+        {
+          "id": 762,
+          "question": "Summer",
+          "hintAudio": "It is very hot in summer season"
+        },
+        {
+          "id": 763,
+          "question": "Autumn",
+          "hintAudio": "During autumn season, the dry leaves on the trees start falling"
+        },
+        {
+          "id": 764,
+          "question": "Winter",
+          "hintAudio": "It is very cold in winter"
+        },
+        {
+          "id": 765,
+          "question": "Monsoon",
+          "hintAudio": "Carry your umbrella in monsoon season"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
