@@ -2034,6 +2034,476 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 79,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Better ways to spell through phonics grade 1",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_791",
+          "question": "Am",
+          "hintAudio": "I am fine"
+        },
+        {
+          "id": "_792",
+          "question": "An",
+          "hintAudio": "I ate an apple"
+        },
+        {
+          "id": "_793",
+          "question": "At",
+          "hintAudio": "Meet me at the bus stop"
+        },
+        {
+          "id": "_794",
+          "question": "As",
+          "hintAudio": "Come as soon as you can"
+        },
+        {
+          "id": "_795",
+          "question": "Can",
+          "hintAudio": "You can come and sit with me"
+        },
+        {
+          "id": "_796",
+          "question": "Has",
+          "hintAudio": "The actor has a good voice"
+        },
+        {
+          "id": "_797",
+          "question": "Fan",
+          "hintAudio": "Switch on the fan"
+        },
+        {
+          "id": "_798",
+          "question": "Man",
+          "hintAudio": "A man came to fix the fan"
+        },
+        {
+          "id": "_799",
+          "question": "Pan",
+          "hintAudio": "I can cook in a pan"
+        },
+        {
+          "id": "_800",
+          "question": "Ran",
+          "hintAudio": "I ran to the bus stop"
+        },
+        {
+          "id": "_801",
+          "question": "Ban",
+          "hintAudio": "There is a ban on smoking in public places"
+        },
+        {
+          "id": "_802",
+          "question": "Bat",
+          "hintAudio": "Cricket is played with bat and ball"
+        },
+        {
+          "id": "_803",
+          "question": "Cat",
+          "hintAudio": "The cat has a long tail"
+        },
+        {
+          "id": "_804",
+          "question": "Fat",
+          "hintAudio": "He is very fat because he eats too much"
+        },
+        {
+          "id": "_805",
+          "question": "Hat",
+          "hintAudio": "The hat protects my hair from the sun"
+        },
+        {
+          "id": "_806",
+          "question": "Mat",
+          "hintAudio": "I do yoga exercises on a mat"
+        },
+        {
+          "id": "_807",
+          "question": "Pat",
+          "hintAudio": "He got a pat on his back for his fine work"
+        },
+        {
+          "id": "_808",
+          "question": "Rat",
+          "hintAudio": "The rat is afraid of the cat"
+        },
+        {
+          "id": "_809",
+          "question": "Sat",
+          "hintAudio": "He sat down because he was tired"
+        },
+        {
+          "id": "_810",
+          "question": "Gas",
+          "hintAudio": "I cook on a gas stove"
+        },
+        {
+          "id": "_811",
+          "question": "Flat",
+          "hintAudio": "The paper is flat"
+        },
+        {
+          "id": "_812",
+          "question": "Back",
+          "hintAudio": "I will come back soon"
+        },
+        {
+          "id": "_813",
+          "question": "Black",
+          "hintAudio": "My hair is black"
+        },
+        {
+          "id": "_814",
+          "question": "That",
+          "hintAudio": "This is a good book but that book is boring"
+        },
+        {
+          "id": "_815",
+          "question": "Fast",
+          "hintAudio": "I can run fast"
+        },
+        {
+          "id": "_816",
+          "question": "Let",
+          "hintAudio": "Let us go out"
+        },
+        {
+          "id": "_817",
+          "question": "Wet",
+          "hintAudio": "My hair is wet"
+        },
+        {
+          "id": "_818",
+          "question": "Get",
+          "hintAudio": "Get me a pen"
+        },
+        {
+          "id": "_819",
+          "question": "Hen",
+          "hintAudio": "A hen is a bird"
+        },
+        {
+          "id": "_820",
+          "question": "Ten",
+          "hintAudio": "I have ten books in my bag"
+        },
+        {
+          "id": "_821",
+          "question": "Pen",
+          "hintAudio": "This pen has no ink"
+        },
+        {
+          "id": "_822",
+          "question": "Tell",
+          "hintAudio": "Tell me the truth"
+        },
+        {
+          "id": "_823",
+          "question": "Yes",
+          "hintAudio": "Yes I would like to go for the movie"
+        },
+        {
+          "id": "_824",
+          "question": "Red",
+          "hintAudio": "I like the color red"
+        },
+        {
+          "id": "_825",
+          "question": "Got",
+          "hintAudio": "I got a gift"
+        },
+        {
+          "id": "_826",
+          "question": "Dot",
+          "hintAudio": "Letter i has a dot on the top"
+        },
+        {
+          "id": "_827",
+          "question": "Not",
+          "hintAudio": "It is not difficult to learn English"
+        },
+        {
+          "id": "_828",
+          "question": "Hot",
+          "hintAudio": "I like hot food"
+        },
+        {
+          "id": "_829",
+          "question": "Of",
+          "hintAudio": "The broken cup is of no use"
+        },
+        {
+          "id": "_830",
+          "question": "Off",
+          "hintAudio": "Please switch off the fan"
+        },
+        {
+          "id": "_831",
+          "question": "Top",
+          "hintAudio": "I am sitting on top of a hill"
+        },
+        {
+          "id": "_832",
+          "question": "Stop",
+          "hintAudio": "We must stop wasting time and get back to work"
+        },
+        {
+          "id": "_833",
+          "question": "Long",
+          "hintAudio": "I had to wait a long time"
+        },
+        {
+          "id": "_834",
+          "question": "String",
+          "hintAudio": "I like strong coffee"
+        },
+        {
+          "id": "_835",
+          "question": "Up",
+          "hintAudio": "They walked up the mountain path"
+        },
+        {
+          "id": "_836",
+          "question": "Us",
+          "hintAudio": "You can come with us"
+        },
+        {
+          "id": "_837",
+          "question": "Run",
+          "hintAudio": "You can run with us"
+        },
+        {
+          "id": "_838",
+          "question": "Fun",
+          "hintAudio": "I had fun at the farewell party"
+        },
+        {
+          "id": "_839",
+          "question": "But",
+          "hintAudio": "I want to see the movie but I have to study"
+        },
+        {
+          "id": "_840",
+          "question": "Bun",
+          "hintAudio": "Bun is a small round bread"
+        },
+        {
+          "id": "_841",
+          "question": "Gun",
+          "hintAudio": "The guard had a gun"
+        },
+        {
+          "id": "_842",
+          "question": "Sun",
+          "hintAudio": "Do not look directly at the sun"
+        },
+        {
+          "id": "_843",
+          "question": "Cut",
+          "hintAudio": "I cut my finger while cutting fruits"
+        },
+        {
+          "id": "_844",
+          "question": "Bus",
+          "hintAudio": "The bus came late"
+        },
+        {
+          "id": "_845",
+          "question": "Luck",
+          "hintAudio": "It was my good luck that I got promoted"
+        },
+        {
+          "id": "_846",
+          "question": "Tuck",
+          "hintAudio": "Please tuck your shirt in"
+        },
+        {
+          "id": "_847",
+          "question": "Stuck",
+          "hintAudio": "I was stuck in a traffic jam"
+        },
+        {
+          "id": "_848",
+          "question": "Truck",
+          "hintAudio": "They were loading the truck with furniture"
+        },
+        {
+          "id": "_849",
+          "question": "Bug",
+          "hintAudio": "There is a bug in my computer"
+        },
+        {
+          "id": "_850",
+          "question": "Hug",
+          "hintAudio": "I like to hug my mother"
+        },
+        {
+          "id": "_851",
+          "question": "Jug",
+          "hintAudio": "Fill the jug with water"
+        },
+        {
+          "id": "_852",
+          "question": "Mug",
+          "hintAudio": "I would like a mug of coffee"
+        },
+        {
+          "id": "_853",
+          "question": "Tug",
+          "hintAudio": "The child gave a tug and the rack of books fell down"
+        },
+        {
+          "id": "_854",
+          "question": "Rug",
+          "hintAudio": "The dog sleeps on the rug"
+        },
+        {
+          "id": "_855",
+          "question": "If",
+          "hintAudio": "Give me milk if it is hot"
+        },
+        {
+          "id": "_856",
+          "question": "In",
+          "hintAudio": "I am in the class"
+        },
+        {
+          "id": "_857",
+          "question": "Bin",
+          "hintAudio": "I put the paper in the bin"
+        },
+        {
+          "id": "_858",
+          "question": "Is",
+          "hintAudio": "She is happy"
+        },
+        {
+          "id": "_859",
+          "question": "His",
+          "hintAudio": "The his his book"
+        },
+        {
+          "id": "_860",
+          "question": "Pin",
+          "hintAudio": "The dress was fastened with a pin"
+        },
+        {
+          "id": "_861",
+          "question": "Win",
+          "hintAudio": "Everyone plays to win"
+        },
+        {
+          "id": "_862",
+          "question": "It",
+          "hintAudio": "It is my book"
+        },
+        {
+          "id": "_863",
+          "question": "Its",
+          "hintAudio": "The dog cared for its pups"
+        },
+        {
+          "id": "_864",
+          "question": "Fits",
+          "hintAudio": "The new dress fits well"
+        },
+        {
+          "id": "_865",
+          "question": "Hit",
+          "hintAudio": "The child started crying as the ball hit him hard"
+        },
+        {
+          "id": "_866",
+          "question": "Lit",
+          "hintAudio": "The candles were lit"
+        },
+        {
+          "id": "_867",
+          "question": "Pit",
+          "hintAudio": "The pup was stuck in a pit"
+        },
+        {
+          "id": "_868",
+          "question": "Sit",
+          "hintAudio": "It is difficult for children to sit for long"
+        },
+        {
+          "id": "_869",
+          "question": "Did",
+          "hintAudio": "I did my homework"
+        },
+        {
+          "id": "_870",
+          "question": "Bid",
+          "hintAudio": "We bid our friends goodbye"
+        },
+        {
+          "id": "_871",
+          "question": "Him",
+          "hintAudio": "Give him the birthday gift"
+        },
+        {
+          "id": "_872",
+          "question": "Be",
+          "hintAudio": "You have to be here on time"
+        },
+        {
+          "id": "_873",
+          "question": "He",
+          "hintAudio": "He is a tall man"
+        },
+        {
+          "id": "_874",
+          "question": "Me",
+          "hintAudio": "Give me a break"
+        },
+        {
+          "id": "_875",
+          "question": "We",
+          "hintAudio": "We went on a holiday"
+        },
+        {
+          "id": "_876",
+          "question": "Do",
+          "hintAudio": "Do you work regularly"
+        },
+        {
+          "id": "_877",
+          "question": "Got",
+          "hintAudio": "I got a little pup"
+        },
+        {
+          "id": "_878",
+          "question": "No",
+          "hintAudio": "Say no to plastics"
+        },
+        {
+          "id": "_879",
+          "question": "So",
+          "hintAudio": "I love sweets so can we buy some today"
+        },
+        {
+          "id": "_880",
+          "question": "To",
+          "hintAudio": "I love to go out once a week"
+        },
+        {
+          "id": "_881",
+          "question": "Too",
+          "hintAudio": "It is too hot to go out"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
