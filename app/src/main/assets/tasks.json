@@ -2689,6 +2689,236 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 82,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Office stationery",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_821",
+          "question": "Appointment book",
+          "hintAudio": "You can meet the chairman only if your name is in the appointment book"
+        },
+        {
+          "id": "_822",
+          "question": "Ball point pen",
+          "hintAudio": "Buy a ball point pen to write in this register"
+        },
+        {
+          "id": "_823",
+          "question": "Binder clips",
+          "hintAudio": "Use binder clips to keep the papers together"
+        },
+        {
+          "id": "_824",
+          "question": "Bookends",
+          "hintAudio": "Bookends help keep the books in place"
+        },
+        {
+          "id": "_825",
+          "question": "Cartridges",
+          "hintAudio": "Buy branded color cartidges for the printer"
+        },
+        {
+          "id": "_826",
+          "question": "Cello tape",
+          "hintAudio": "Cello tape is strickly tape used to stick something"
+        },
+        {
+          "id": "_827",
+          "question": "Clip",
+          "hintAudio": "Clip is used to hold something like papers or cards together"
+        },
+        {
+          "id": "_828",
+          "question": "Clipboard",
+          "hintAudio": "A clipboard is a hard board with a clip to hold papers together"
+        },
+        {
+          "id": "_829",
+          "question": "Correction fluid",
+          "hintAudio": "Correction fluid is popularly known as whitener"
+        },
+        {
+          "id": "_830",
+          "question": "Correction tape",
+          "hintAudio": "Correction tape is used to paste over errors on paper"
+        },
+        {
+          "id": "_831",
+          "question": "Desk pad",
+          "hintAudio": "Desk pad is handy for writing messages and notes"
+        },
+        {
+          "id": "_832",
+          "question": "Desk tray",
+          "hintAudio": "Desk tray is used to keep things in an organized manner on the desk"
+        },
+        {
+          "id": "_833",
+          "question": "Duct tape",
+          "hintAudio": "Duct tape is used to hold things in place especially cardboard boxes for packing"
+        },
+        {
+          "id": "_834",
+          "question": "Eraser",
+          "hintAudio": "An eraser is a piece of rubber used for rubbing out pencil and pen marks"
+        },
+        {
+          "id": "_835",
+          "question": "Expanding files",
+          "hintAudio": "Expanding files are plastic folders with pockets to carry papers"
+        },
+        {
+          "id": "_836",
+          "question": "Folder",
+          "hintAudio": "A plastic or cloth file that is used to keep papers"
+        },
+        {
+          "id": "_837",
+          "question": "Fountain pen",
+          "hintAudio": "A pen with a metal nib that needs to be filled before using"
+        },
+        {
+          "id": "_838",
+          "question": "Glue",
+          "hintAudio": "A sticky liquid used for sticking materials together"
+        },
+        {
+          "id": "_839",
+          "question": "Gluestick",
+          "hintAudio": "Gluesticks are solid adhesives in twist or push up tubes"
+        },
+        {
+          "id": "_840",
+          "question": "Highlighter",
+          "hintAudio": "A highlighter is a pen used to mark important sentences"
+        },
+        {
+          "id": "_841",
+          "question": "Letter opener",
+          "hintAudio": "Letter opener is a knife like object used to open envelopes"
+        },
+        {
+          "id": "_842",
+          "question": "Log book",
+          "hintAudio": "A log book is used to record hours of service"
+        },
+        {
+          "id": "_843",
+          "question": "Marker pens",
+          "hintAudio": "Marker pens are colored pens used to mark text in a book"
+        },
+        {
+          "id": "_844",
+          "question": "Paper",
+          "hintAudio": "Paper is thin material used for writing upon or printing upon"
+        },
+        {
+          "id": "_845",
+          "question": "Paper clips",
+          "hintAudio": "Paper clips are metal or plastic wires used to hold papers together"
+        },
+        {
+          "id": "_846",
+          "question": "Paper punch",
+          "hintAudio": "Paper punch is a small machine used to punch holes in paper"
+        },
+        {
+          "id": "_847",
+          "question": "Pens",
+          "hintAudio": "There are a variety of pens in the market"
+        },
+        {
+          "id": "_848",
+          "question": "Pencil",
+          "hintAudio": "Pencil is a tool for writing"
+        },
+        {
+          "id": "_849",
+          "question": "Pencil sharpener",
+          "hintAudio": "A pencil sharpener is a blade in a plastic case to sharpen pencils"
+        },
+        {
+          "id": "_850",
+          "question": "Printer paper",
+          "hintAudio": "Printer paper is the kind of paper used in computer printers"
+        },
+        {
+          "id": "_851",
+          "question": "Ring binder",
+          "hintAudio": "A ring binder is a plastic or metal wire that is wound like a spring to hold papers together"
+        },
+        {
+          "id": "_852",
+          "question": "Rubber stamp",
+          "hintAudio": "A rubber stamp is used to imprint names or dates"
+        },
+        {
+          "id": "_853",
+          "question": "Ruler",
+          "hintAudio": "A ruler is used to draw straight lines"
+        },
+        {
+          "id": "_854",
+          "question": "Self adhesive labels",
+          "hintAudio": "Self adhesive labels are pieces of paper with matter printed on them"
+        },
+        {
+          "id": "_855",
+          "question": "Sketch pens",
+          "hintAudio": "Sketch pens are colored pens and are also called markers"
+        },
+        {
+          "id": "_856",
+          "question": "Stamp rack",
+          "hintAudio": "Stamp rack can hold 4 or 6 rubber stamps"
+        },
+        {
+          "id": "_857",
+          "question": "Staple remover",
+          "hintAudio": "Staple remover is used to remove staple pins"
+        },
+        {
+          "id": "_858",
+          "question": "Stapler",
+          "hintAudio": "Heavy duty stapler is used by book binders"
+        },
+        {
+          "id": "_859",
+          "question": "Staples",
+          "hintAudio": "Staples are pins used in staplers to put papers together"
+        },
+        {
+          "id": "_860",
+          "question": "Tape dispenser",
+          "hintAudio": "Cello tape rolls are easier to use if you have a tape dispenser"
+        },
+        {
+          "id": "_861",
+          "question": "White board",
+          "hintAudio": "White boards are used to avoid the use of traditional chalk boards"
+        },
+        {
+          "id": "_862",
+          "question": "Whitener",
+          "hintAudio": "Whitener has replaced ink erasers"
+        },
+        {
+          "id": "_863",
+          "question": "Writing pads",
+          "hintAudio": "Writing pads are used in offices and have office logos on them"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
