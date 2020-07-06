@@ -2504,6 +2504,191 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 80,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Better way to spell through phonics grade 2",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_801",
+          "question": "Came",
+          "hintAudio": "He came late to office yesterday"
+        },
+        {
+          "id": "_802",
+          "question": "Name",
+          "hintAudio": "What is your name?"
+        },
+        {
+          "id": "_803",
+          "question": "Game",
+          "hintAudio": "Football is an interesting game"
+        },
+        {
+          "id": "_804",
+          "question": "Same",
+          "hintAudio": "The sisters have the same haircut"
+        },
+        {
+          "id": "_805",
+          "question": "Lame",
+          "hintAudio": "The dog has become lame after a car hit him"
+        },
+        {
+          "id": "_806",
+          "question": "Blame",
+          "hintAudio": "The leader always takes the blame for the team's poor performance"
+        },
+        {
+          "id": "_807",
+          "question": "Flame",
+          "hintAudio": "The meat has to be cooked on a low flame"
+        },
+        {
+          "id": "_808",
+          "question": "Home",
+          "hintAudio": "I love staying at home in the evenings"
+        },
+        {
+          "id": "_809",
+          "question": "Dome",
+          "hintAudio": "Taj Mahal has a large dome"
+        },
+        {
+          "id": "_810",
+          "question": "Here",
+          "hintAudio": "The boy had fainted here"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 81,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Public places",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_811",
+          "question": "Hostel",
+          "hintAudio": "A hostel has both boarding and lodging"
+        },
+        {
+          "id": "_812",
+          "question": "Restaurant",
+          "hintAudio": "This restaurant serves good Chinese food"
+        },
+        {
+          "id": "_813",
+          "question": "Bank",
+          "hintAudio": "HDFC and ICICI and private banks"
+        },
+        {
+          "id": "_814",
+          "question": "School",
+          "hintAudio": "I studied in a good school"
+        },
+        {
+          "id": "_815",
+          "question": "College",
+          "hintAudio": "This college offers many courses"
+        },
+        {
+          "id": "_816",
+          "question": "Hospital",
+          "hintAudio": "Apollo Hospital has branches in many cities"
+        },
+        {
+          "id": "_817",
+          "question": "Park",
+          "hintAudio": "Cubbon Park is a popular park for joggers"
+        },
+        {
+          "id": "_818",
+          "question": "Cafe",
+          "hintAudio": "Cafe Coffee Day is a popular cafe"
+        },
+        {
+          "id": "_819",
+          "question": "Club",
+          "hintAudio": "This club has a heated swimming pool"
+        },
+        {
+          "id": "_820",
+          "question": "Car park",
+          "hintAudio": "There is a car park near the mall"
+        },
+        {
+          "id": "_821",
+          "question": "Cafeteria",
+          "hintAudio": "This cafeteria serves tasty snacks"
+        },
+        {
+          "id": "_822",
+          "question": "Police station",
+          "hintAudio": "The bus driver was taken to the police station for rash driving"
+        },
+        {
+          "id": "_823",
+          "question": "Cinema",
+          "hintAudio": "Multiplexes are cinema complexes"
+        },
+        {
+          "id": "_824",
+          "question": "Theatre",
+          "hintAudio": "All theatres have emergency exits"
+        },
+        {
+          "id": "_825",
+          "question": "Airport",
+          "hintAudio": "Bangalore has a new airport"
+        },
+        {
+          "id": "_826",
+          "question": "Bus station",
+          "hintAudio": "The bus station is not well maintained"
+        },
+        {
+          "id": "_827",
+          "question": "Shopping centre",
+          "hintAudio": "A shopping centre has many shops selling clothes and other items"
+        },
+        {
+          "id": "_828",
+          "question": "Shopping mall",
+          "hintAudio": "A shopping mall is a good place to do window shopping"
+        },
+        {
+          "id": "_829",
+          "question": "Fly over",
+          "hintAudio": "A new fly over is being constructed to reduce traffic"
+        },
+        {
+          "id": "_830",
+          "question": "Travel agency",
+          "hintAudio": "You can book a holiday package through a travel agency"
+        },
+        {
+          "id": "_831",
+          "question": "Eateries",
+          "hintAudio": "There are many eateries serving food"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
