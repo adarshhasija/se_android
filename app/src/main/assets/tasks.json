@@ -3084,6 +3084,136 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 84,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'LE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_841",
+          "question": "Fiddle",
+          "hintAudio": "To fiddle is to fuss around"
+        },
+        {
+          "id": "_842",
+          "question": "Apple",
+          "hintAudio": "An apple is good for health"
+        },
+        {
+          "id": "_843",
+          "question": "Bottle",
+          "hintAudio": "The bottle is empty"
+        },
+        {
+          "id": "_844",
+          "question": "Bubble",
+          "hintAudio": "I blew a big soap bubble"
+        },
+        {
+          "id": "_845",
+          "question": "Cattle",
+          "hintAudio": "Cow,sheep and other such farm animals are called cattle"
+        },
+        {
+          "id": "_846",
+          "question": "Circle",
+          "hintAudio": "We stood in a circle and sang for our teacher"
+        },
+        {
+          "id": "_847",
+          "question": "Cuddle",
+          "hintAudio": "To cuddle means to hug or hold someone close with affection"
+        },
+        {
+          "id": "_848",
+          "question": "Giggle",
+          "hintAudio": "Giggle means to laugh in a silly often high pitched way"
+        },
+        {
+          "id": "_849",
+          "question": "Guzzle",
+          "hintAudio": "Guzzle means to eat or drink something greedily or fast"
+        },
+        {
+          "id": "_850",
+          "question": "Hobble",
+          "hintAudio": "Hobble means to walk with a limp"
+        },
+        {
+          "id": "_851",
+          "question": "Kettle",
+          "hintAudio": "A kettle is a metal container in which people boil liquids"
+        },
+        {
+          "id": "_852",
+          "question": "Little",
+          "hintAudio": "Little is small in quantity,amount and quality"
+        },
+        {
+          "id": "_853",
+          "question": "Middle",
+          "hintAudio": "Put the desk in the middle of the room"
+        },
+        {
+          "id": "_854",
+          "question": "Muddle",
+          "hintAudio": "Muddle means mixed up or confused"
+        },
+        {
+          "id": "_855",
+          "question": "Nozzle",
+          "hintAudio": "A nozzle helps to pour petrol without spilling"
+        },
+        {
+          "id": "_856",
+          "question": "Paddle",
+          "hintAudio": "Paddle is a long or short piece of wood with a flat end to help in pushing or mixing"
+        },
+        {
+          "id": "_857",
+          "question": "Puddle",
+          "hintAudio": "Puddle is a small pool of water"
+        },
+        {
+          "id": "_858",
+          "question": "Ripple",
+          "hintAudio": "Ripple means small waves"
+        },
+        {
+          "id": "_859",
+          "question": "Rubble",
+          "hintAudio": "Rubble means broken bits and pieces of anything"
+        },
+        {
+          "id": "_860",
+          "question": "Saddle",
+          "hintAudio": "Saddle means to burden someone with something"
+        },
+        {
+          "id": "_861",
+          "question": "Sizzle",
+          "hintAudio": "If you put something in hot oil,it will sizzle"
+        },
+        {
+          "id": "_862",
+          "question": "Wobble",
+          "hintAudio": "The chair will wobble because it is broken"
+        },
+        {
+          "id": "_863",
+          "question": "Wriggle",
+          "hintAudio": "It was so crowded that I had to wriggle my way through"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
