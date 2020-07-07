@@ -3214,6 +3214,86 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 85,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'BLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_851",
+          "question": "Audible",
+          "hintAudio": "Please talk louder,you are not audible"
+        },
+        {
+          "id": "_852",
+          "question": "Cable",
+          "hintAudio": "The cable connects my computer to the switchboard"
+        },
+        {
+          "id": "_853",
+          "question": "Credible",
+          "hintAudio": "Credible is something that is trustworthy or reliable"
+        },
+        {
+          "id": "_854",
+          "question": "Double",
+          "hintAudio": "This room is double the size of my previous room"
+        },
+        {
+          "id": "_855",
+          "question": "Entangle",
+          "hintAudio": "He got entangled in the wire"
+        },
+        {
+          "id": "_856",
+          "question": "Feeble",
+          "hintAudio": "Feeble means weak"
+        },
+        {
+          "id": "_857",
+          "question": "Flexible",
+          "hintAudio": "Flexible is something that is capable of being bent without breaking"
+        },
+        {
+          "id": "_858",
+          "question": "Gamble",
+          "hintAudio": "To gamble means to put your money or property at stake over a game"
+        },
+        {
+          "id": "_859",
+          "question": "Grumble",
+          "hintAudio": "To grumble means to complain in a low voice"
+        },
+        {
+          "id": "_860",
+          "question": "Humble",
+          "hintAudio": "Humble is opposite of being proud"
+        },
+        {
+          "id": "_861",
+          "question": "Rumble",
+          "hintAudio": "Rumble is a low and deep sound"
+        },
+        {
+          "id": "_862",
+          "question": "Trouble",
+          "hintAudio": "He is in financial trouble"
+        },
+        {
+          "id": "_863",
+          "question": "Tumble",
+          "hintAudio": "Tumble is to fall down or roll down"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
