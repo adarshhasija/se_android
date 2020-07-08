@@ -3294,6 +3294,196 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 86,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'IBLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_861",
+          "question": "Accessible",
+          "hintAudio": "Keep all the toys on the lower shelf so that they are easily accessible"
+        },
+        {
+          "id": "_862",
+          "question": "Admissible",
+          "hintAudio": "Fake certificates are not admissible in any company"
+        },
+        {
+          "id": "_863",
+          "question": "Compatible",
+          "hintAudio": "I cannot work with this software as it is not compatible with the screen reader"
+        },
+        {
+          "id": "_864",
+          "question": "Digestible",
+          "hintAudio": "The food is not cooked properly. It is not digestible."
+        },
+        {
+          "id": "_865",
+          "question": "Edible",
+          "hintAudio": "The canteen food is so bad that it is not edible"
+        },
+        {
+          "id": "_866",
+          "question": "Feasible",
+          "hintAudio": "Feasible means capable of being done or executed"
+        },
+        {
+          "id": "_867",
+          "question": "Flexible",
+          "hintAudio": "Flexible is something that is capable of being bent without breaking"
+        },
+        {
+          "id": "_868",
+          "question": "Horrible",
+          "hintAudio": "I had a small accident today. It was a horrible experience"
+        },
+        {
+          "id": "_869",
+          "question": "Inaccessible",
+          "hintAudio": "They have blocked the road to the office.It is inaccessible by bus"
+        },
+        {
+          "id": "_870",
+          "question": "Legible",
+          "hintAudio": "Your handwriting is not legible.I cannot understand what you have written"
+        },
+        {
+          "id": "_871",
+          "question": "Mobile",
+          "hintAudio": "My mobile phone is lost"
+        },
+        {
+          "id": "_872",
+          "question": "Negligible",
+          "hintAudio": "The error is negligible.You need not change the document"
+        },
+        {
+          "id": "_873",
+          "question": "Permissible",
+          "hintAudio": "Please get the original copy.Xerox is not permissible"
+        },
+        {
+          "id": "_874",
+          "question": "Possible",
+          "hintAudio": "Is it possible to get 2 tickets for this train?"
+        },
+        {
+          "id": "_875",
+          "question": "Responsible",
+          "hintAudio": "I am responsible for locking the office everyday"
+        },
+        {
+          "id": "_876",
+          "question": "Sensible",
+          "hintAudio": "He will not do anything foolish as he is very sensible"
+        },
+        {
+          "id": "_877",
+          "question": "Terrible",
+          "hintAudio": "I have made a terrible mistake by leaving the office keys in the shop"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 87,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'ABLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_871",
+          "question": "Able",
+          "hintAudio": "To be able is to have necessary skill or qualification"
+        },
+        {
+          "id": "_872",
+          "question": "Acceptable",
+          "hintAudio": "To be acceptable is to be suitable or upto standard"
+        },
+        {
+          "id": "_873",
+          "question": "Accountable",
+          "hintAudio": "He is accountable to the company"
+        },
+        {
+          "id": "_874",
+          "question": "Advisable",
+          "hintAudio": "It is advisable to carry a raincoat during monsoons"
+        },
+        {
+          "id": "_875",
+          "question": "Affable",
+          "hintAudio": "An affable person is someone who is kind and friendly"
+        },
+        {
+          "id": "_876",
+          "question": "Attachable",
+          "hintAudio": "Attachable is something that can be hooked on or removed when not needed"
+        },
+        {
+          "id": "_877",
+          "question": "Attainable",
+          "hintAudio": "Attainable is that which is within reach"
+        },
+        {
+          "id": "_878",
+          "question": "Avoidable",
+          "hintAudio": "Avoidable is that which is ignored as it is not needed"
+        },
+        {
+          "id": "_879",
+          "question": "Detachable",
+          "hintAudio": "Being detachable is to be removable or separable"
+        },
+        {
+          "id": "_880",
+          "question": "Editable",
+          "hintAudio": "Editable is that which can be changed or altered"
+        },
+        {
+          "id": "_881",
+          "question": "Enjoyable",
+          "hintAudio": "Enjoyable is that which is capable of giving joy or pleasure"
+        },
+        {
+          "id": "_882",
+          "question": "Moveable",
+          "hintAudio": "Moveable is that which can be moved or shifted"
+        },
+        {
+          "id": "_883",
+          "question": "Navigable",
+          "hintAudio": "Nagivable is that which can be steered or guided"
+        },
+        {
+          "id": "_884",
+          "question": "Preferable",
+          "hintAudio": "Preferable is something that a person would choose if given a chance"
+        },
+        {
+          "id": "_885",
+          "question": "Reliable",
+          "hintAudio": "Being reliable is to be trustworthy or dependable"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
