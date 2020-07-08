@@ -3484,6 +3484,416 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 88,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'PLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_881",
+          "question": "Couple",
+          "hintAudio": "Couple means a pair"
+        },
+        {
+          "id": "_882",
+          "question": "People",
+          "hintAudio": "People are a group of human beings"
+        },
+        {
+          "id": "_883",
+          "question": "Principle",
+          "hintAudio": "Principle is a rule of law or belief"
+        },
+        {
+          "id": "_884",
+          "question": "Sample",
+          "hintAudio": "They conducted a test on a sample of the people"
+        },
+        {
+          "id": "_885",
+          "question": "Simple",
+          "hintAudio": "That task was so simple"
+        },
+        {
+          "id": "_886",
+          "question": "Staple",
+          "hintAudio": "Staple is a pin used to hold papers together"
+        },
+        {
+          "id": "_887",
+          "question": "Temple",
+          "hintAudio": "A temple is a place where people go to pray"
+        },
+        {
+          "id": "_888",
+          "question": "Trample",
+          "hintAudio": "To trample is to stamp or walk roughly"
+        },
+        {
+          "id": "_889",
+          "question": "Triple",
+          "hintAudio": "Triple is that which consists of 3 parts"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 89,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'DLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_891",
+          "question": "Bundle",
+          "hintAudio": "A bundle is a package or pack"
+        },
+        {
+          "id": "_892",
+          "question": "Candle",
+          "hintAudio": "A candle is something we burn to give light"
+        },
+        {
+          "id": "_893",
+          "question": "Handle",
+          "hintAudio": "A handle is something we use to keep out balance"
+        },
+        {
+          "id": "_894",
+          "question": "Huddle",
+          "hintAudio": "A huddle means a small group of people"
+        },
+        {
+          "id": "_895",
+          "question": "Idle",
+          "hintAudio": "Idle means not working or being used"
+        },
+        {
+          "id": "_896",
+          "question": "Ladle",
+          "hintAudio": "A ladle is a wooden spoon"
+        },
+        {
+          "id": "_897",
+          "question": "Middle",
+          "hintAudio": "Middle is the central point"
+        },
+        {
+          "id": "_898",
+          "question": "Meddle",
+          "hintAudio": "To meddle means to interfere in things that are not your responsibility"
+        },
+        {
+          "id": "_899",
+          "question": "Manhandle",
+          "hintAudio": "To manhandle means to touch or hold something roughly or with force"
+        },
+        {
+          "id": "_900",
+          "question": "Noodles",
+          "hintAudio": "Noodles are ribbon shaped dough that can be boiled or served as vegetables"
+        },
+        {
+          "id": "_901",
+          "question": "Riddle",
+          "hintAudio": "Riddle means a question which describes things in a confusing way"
+        },
+        {
+          "id": "_902",
+          "question": "Swindle",
+          "hintAudio": "Swindle means to cheat"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 90,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'CLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_901",
+          "question": "Article",
+          "hintAudio": "The newspaper article was very interesting"
+        },
+        {
+          "id": "_902",
+          "question": "Circle",
+          "hintAudio": "Please stand in a circle"
+        },
+        {
+          "id": "_903",
+          "question": "Cubicle",
+          "hintAudio": "A cubicle is a small private space with walls or curtains around it"
+        },
+        {
+          "id": "_904",
+          "question": "Encircle",
+          "hintAudio": "Encircle means to surround or form a circle around something"
+        },
+        {
+          "id": "_905",
+          "question": "Miracle",
+          "hintAudio": "Miracle is an amazing or wonderful event"
+        },
+        {
+          "id": "_906",
+          "question": "Muscle",
+          "hintAudio": "The human body is made up of different muscles"
+        },
+        {
+          "id": "_907",
+          "question": "Obstacle",
+          "hintAudio": "Obstacle is something that blocks movement or action"
+        },
+        {
+          "id": "_908",
+          "question": "Recycle",
+          "hintAudio": "My computer has a recycle bin where the deleted documents are collected"
+        },
+        {
+          "id": "_909",
+          "question": "Semicircle",
+          "hintAudio": "A semicircle is a half circle"
+        },
+        {
+          "id": "_910",
+          "question": "Spectacle",
+          "hintAudio": "Spectacle means a grand public show"
+        },
+        {
+          "id": "_911",
+          "question": "Uncle",
+          "hintAudio": "Uncle is a brother of one's father or mother"
+        },
+        {
+          "id": "_912",
+          "question": "Vehicle",
+          "hintAudio": "Road vehicles include cars,busses and trucks"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 91,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'CKLE'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_911",
+          "question": "Tickle",
+          "hintAudio": "He tickled the baby boy to make him laugh"
+        },
+        {
+          "id": "_912",
+          "question": "Fickle",
+          "hintAudio": "Fickle is someone who is changeable and not constant"
+        },
+        {
+          "id": "_913",
+          "question": "Cackle",
+          "hintAudio": "Cackle is to utter a shrill sound or cry"
+        },
+        {
+          "id": "_914",
+          "question": "Buckle",
+          "hintAudio": "A buckle is a clasp used for fastening together 2 ends of a belt"
+        },
+        {
+          "id": "_915",
+          "question": "Chuckle",
+          "hintAudio": "Chuckle means to laugh quietly"
+        },
+        {
+          "id": "_916",
+          "question": "Crackle",
+          "hintAudio": "The chocolate paper crackles when you crush it"
+        },
+        {
+          "id": "_917",
+          "question": "Knuckle",
+          "hintAudio": "Knuckle is the joint in your hand where your fingers bend"
+        },
+        {
+          "id": "_918",
+          "question": "Pickle",
+          "hintAudio": "I like to eat pickle"
+        },
+        {
+          "id": "_919",
+          "question": "Trickle",
+          "hintAudio": "Tears trickled down the baby's cheeks"
+        },
+        {
+          "id": "_920",
+          "question": "Prickle",
+          "hintAudio": "Prickle is a tingling sensation"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 92,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'LESS'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_921",
+          "question": "Less",
+          "hintAudio": "He ate less to stay healthy"
+        },
+        {
+          "id": "_922",
+          "question": "Bless",
+          "hintAudio": "The priest blessed the family"
+        },
+        {
+          "id": "_923",
+          "question": "Ageless",
+          "hintAudio": "That tree appears to be ageless"
+        },
+        {
+          "id": "_924",
+          "question": "Aimless",
+          "hintAudio": "Aimless is having no goal or purpose"
+        },
+        {
+          "id": "_925",
+          "question": "Endless",
+          "hintAudio": "Endless is having or seeming to have no end or conclusion"
+        },
+        {
+          "id": "_926",
+          "question": "Jobless",
+          "hintAudio": "I have been jobless since I resigned last year"
+        },
+        {
+          "id": "_927",
+          "question": "Baseless",
+          "hintAudio": "The charges against him are baseless so he will be set free"
+        },
+        {
+          "id": "_928",
+          "question": "Careless",
+          "hintAudio": "He made careless mistakes in his exam"
+        },
+        {
+          "id": "_929",
+          "question": "Clueless",
+          "hintAudio": "He is clueless in the new city and does not know where to go"
+        },
+        {
+          "id": "_930",
+          "question": "Fearless",
+          "hintAudio": "He is fearless and can even catch a snake"
+        },
+        {
+          "id": "_931",
+          "question": "Painless",
+          "hintAudio": "The laser treatment was painless"
+        },
+        {
+          "id": "_932",
+          "question": "Heartless",
+          "hintAudio": "Hitting the dog with a stone showed how heartless the man was"
+        },
+        {
+          "id": "_933",
+          "question": "Limitless",
+          "hintAudio": "The opportunities in this field of work are limitless"
+        },
+        {
+          "id": "_934",
+          "question": "Noiseless",
+          "hintAudio": "These shoes are noiseless and thats why you cannot hear me coming"
+        },
+        {
+          "id": "_935",
+          "question": "Orderless",
+          "hintAudio": "The class was orderless and there was chaos"
+        },
+        {
+          "id": "_936",
+          "question": "Paperless",
+          "hintAudio": "Many companies are trying to achieve a paperless environment"
+        },
+        {
+          "id": "_937",
+          "question": "Sleepless",
+          "hintAudio": "I had a sleepless night because of the insects"
+        },
+        {
+          "id": "_938",
+          "question": "Sugarless",
+          "hintAudio": "I want sugarless tea"
+        },
+        {
+          "id": "_939",
+          "question": "Tasteless",
+          "hintAudio": "The food was tasteless"
+        },
+        {
+          "id": "_940",
+          "question": "Voiceless",
+          "hintAudio": "The leader spoke for the millions of poor voiceless people"
+        },
+        {
+          "id": "_941",
+          "question": "Breathless",
+          "hintAudio": "The place was so beautiful that it left me breathless for a moment"
+        },
+        {
+          "id": "_942",
+          "question": "Regardless",
+          "hintAudio": "I will go to visit him regardless of the long journey"
+        },
+        {
+          "id": "_943",
+          "question": "Relentless",
+          "hintAudio": "The rain was relentless"
+        },
+        {
+          "id": "_944",
+          "question": "Defenseless",
+          "hintAudio": "The child was defenseless when the senior boys started bothering him"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
