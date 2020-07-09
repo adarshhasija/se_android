@@ -3894,6 +3894,371 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 93,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'NESS'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_931",
+          "question": "Dryness",
+          "hintAudio": "Dryness can be avoided by putting lotion on your hands"
+        },
+        {
+          "id": "_932",
+          "question": "Fitness",
+          "hintAudio": "Fitness is important if you want to play sport regularly"
+        },
+        {
+          "id": "_933",
+          "question": "Fulness",
+          "hintAudio": "Fulness indicates that something is filled to capacity"
+        },
+        {
+          "id": "_934",
+          "question": "Illness",
+          "hintAudio": "He was weak after his illness"
+        },
+        {
+          "id": "_935",
+          "question": "Madness",
+          "hintAudio": "In an act of madness the thief broke the glass window"
+        },
+        {
+          "id": "_936",
+          "question": "Newness",
+          "hintAudio": "The newness of the place made me uncomfortable"
+        },
+        {
+          "id": "_937",
+          "question": "Oneness",
+          "hintAudio": "We feel the oneness of the group as they are united about a cause"
+        },
+        {
+          "id": "_938",
+          "question": "Sadness",
+          "hintAudio": "We could see the sadness on her face as her best friend went away"
+        },
+        {
+          "id": "_939",
+          "question": "Business",
+          "hintAudio": "His business is doing well"
+        },
+        {
+          "id": "_940",
+          "question": "Calmness",
+          "hintAudio": "I can feel the calmness at night when everyone is sleeping"
+        },
+        {
+          "id": "_941",
+          "question": "Idleness",
+          "hintAudio": "Idleness is when someone is not occupied"
+        },
+        {
+          "id": "_942",
+          "question": "Kindness",
+          "hintAudio": "Show kindness to animals"
+        },
+        {
+          "id": "_943",
+          "question": "Laziness",
+          "hintAudio": "Laziness sets in when we have nothing to do"
+        },
+        {
+          "id": "_944",
+          "question": "Likeness",
+          "hintAudio": "Likeness is the similarities of two people who look or behave in the same way"
+        },
+        {
+          "id": "_945",
+          "question": "Neatness",
+          "hintAudio": "Neatness is important in whatever we do"
+        },
+        {
+          "id": "_946",
+          "question": "Sickness",
+          "hintAudio": "Sickness is more in dirty places"
+        },
+        {
+          "id": "_947",
+          "question": "Restless",
+          "hintAudio": "I was restless when I was waiting for the bus"
+        },
+        {
+          "id": "_948",
+          "question": "Awareness",
+          "hintAudio": "Awareness is being alert and conscious"
+        },
+        {
+          "id": "_949",
+          "question": "Happiness",
+          "hintAudio": "There is alot of happiness around during festivals"
+        },
+        {
+          "id": "_950",
+          "question": "Sweetness",
+          "hintAudio": "Sweetness is found in sweets and also in sweet natured people"
+        },
+        {
+          "id": "_951",
+          "question": "Bitterness",
+          "hintAudio": "Bitter gourd is full of bitterness"
+        },
+        {
+          "id": "_952",
+          "question": "Steadiness",
+          "hintAudio": "Steadiness is a quality in reliable people"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 94,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'FT'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_941",
+          "question": "Gift",
+          "hintAudio": "People will give you a gift on your birthday"
+        },
+        {
+          "id": "_942",
+          "question": "Left",
+          "hintAudio": "Left is the opposite of right"
+        },
+        {
+          "id": "_943",
+          "question": "Soft",
+          "hintAudio": "Cotton is soft to touch"
+        },
+        {
+          "id": "_944",
+          "question": "Draft",
+          "hintAudio": "Draft is an outline or a brief sketch of a plan"
+        },
+        {
+          "id": "_945",
+          "question": "Shift",
+          "hintAudio": "Shift is to move or relocate"
+        },
+        {
+          "id": "_946",
+          "question": "Swift",
+          "hintAudio": "Swift means speedy fast or quick"
+        },
+        {
+          "id": "_947",
+          "question": "Theft",
+          "hintAudio": "There were police all over the office because of the theft"
+        },
+        {
+          "id": "_948",
+          "question": "Aircraft",
+          "hintAudio": "There are many kinds of aircraft"
+        },
+        {
+          "id": "_949",
+          "question": "Spendthrift",
+          "hintAudio": "A spendthrift finds it difficult to save money"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 95,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'LT'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_951",
+          "question": "Belt",
+          "hintAudio": "A belt is a strap to secure something"
+        },
+        {
+          "id": "_952",
+          "question": "Bolt",
+          "hintAudio": "Bolt is a latch and it can also mean to run away"
+        },
+        {
+          "id": "_953",
+          "question": "Colt",
+          "hintAudio": "A colt is a young male horse"
+        },
+        {
+          "id": "_954",
+          "question": "Felt",
+          "hintAudio": "I felt a cold breeze"
+        },
+        {
+          "id": "_955",
+          "question": "Halt",
+          "hintAudio": "There was a policeman to halt the vehicles"
+        },
+        {
+          "id": "_956",
+          "question": "Jolt",
+          "hintAudio": "A jolt is a sudden shock"
+        },
+        {
+          "id": "_957",
+          "question": "Melt",
+          "hintAudio": "Ice cream melts quickly in the summer"
+        },
+        {
+          "id": "_958",
+          "question": "Salt",
+          "hintAudio": "Salt is an ingredient that makes food tasty"
+        },
+        {
+          "id": "_959",
+          "question": "Adult",
+          "hintAudio": "An adult is a fully developed and mature living thing"
+        },
+        {
+          "id": "_960",
+          "question": "Built",
+          "hintAudio": "The house has been built"
+        },
+        {
+          "id": "_961",
+          "question": "Dealt",
+          "hintAudio": "The police officer dealt severely with the thief"
+        },
+        {
+          "id": "_962",
+          "question": "Fault",
+          "hintAudio": "A fault is an error"
+        },
+        {
+          "id": "_963",
+          "question": "Guilt",
+          "hintAudio": "Guilt is awareness of having done something wrong"
+        },
+        {
+          "id": "_964",
+          "question": "Result",
+          "hintAudio": "A result is an outcome"
+        },
+        {
+          "id": "_965",
+          "question": "Revolt",
+          "hintAudio": "To revolt is to oppose something"
+        },
+        {
+          "id": "_966",
+          "question": "Spoilt",
+          "hintAudio": "The fruits in that basket are spoilt"
+        },
+        {
+          "id": "_967",
+          "question": "Default",
+          "hintAudio": "The phone has been reset to its default settings"
+        },
+        {
+          "id": "_968",
+          "question": "Rebuilt",
+          "hintAudio": "The old house is ready to be rebuilt"
+        },
+        {
+          "id": "_969",
+          "question": "Inbuilt",
+          "hintAudio": "Mobile phones have inbuilt games"
+        },
+        {
+          "id": "_970",
+          "question": "Difficult",
+          "hintAudio": "Maths is difficult for many people"
+        },
+        {
+          "id": "_971",
+          "question": "Consult",
+          "hintAudio": "Consult is to seek advice or information"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 96,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending in 'MP'",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_961",
+          "question": "Bump",
+          "hintAudio": "He fell on the ground and got a bump on his head"
+        },
+        {
+          "id": "_962",
+          "question": "Camp",
+          "hintAudio": "Camp is to sleep outdoors"
+        },
+        {
+          "id": "_963",
+          "question": "Damp",
+          "hintAudio": "Damp means wet or moist"
+        },
+        {
+          "id": "_964",
+          "question": "Jump",
+          "hintAudio": "He tried to jump from a great height"
+        },
+        {
+          "id": "_965",
+          "question": "Lamp",
+          "hintAudio": "People light lamps for Diwali"
+        },
+        {
+          "id": "_966",
+          "question": "Limp",
+          "hintAudio": "To limp is to move unsteadily"
+        },
+        {
+          "id": "_967",
+          "question": "Slump",
+          "hintAudio": "The sale of mobile phones has slumped"
+        },
+        {
+          "id": "_968",
+          "question": "Stamp",
+          "hintAudio": "To stamp is to walk with forcible and heavy steps"
+        },
+        {
+          "id": "_969",
+          "question": "Plump",
+          "hintAudio": "To call someone plump is to call them fat"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
