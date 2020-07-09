@@ -2013,11 +2013,6 @@
           "hintAudio": "One has to climb a thousand steps to reach the temple"
         },
         {
-          "id": "_800",
-          "question": "Ten thousand",
-          "hintAudio": "The destination is 10 thousand kilometers away"
-        },
-        {
           "id": "_801",
           "question": "Lakh",
           "hintAudio": "There are a lakh people in the city"
@@ -2628,19 +2623,9 @@
           "hintAudio": "This club has a heated swimming pool"
         },
         {
-          "id": "_820",
-          "question": "Car park",
-          "hintAudio": "There is a car park near the mall"
-        },
-        {
           "id": "_821",
           "question": "Cafeteria",
           "hintAudio": "This cafeteria serves tasty snacks"
-        },
-        {
-          "id": "_822",
-          "question": "Police station",
-          "hintAudio": "The bus driver was taken to the police station for rash driving"
         },
         {
           "id": "_823",
@@ -2656,31 +2641,6 @@
           "id": "_825",
           "question": "Airport",
           "hintAudio": "Bangalore has a new airport"
-        },
-        {
-          "id": "_826",
-          "question": "Bus station",
-          "hintAudio": "The bus station is not well maintained"
-        },
-        {
-          "id": "_827",
-          "question": "Shopping centre",
-          "hintAudio": "A shopping centre has many shops selling clothes and other items"
-        },
-        {
-          "id": "_828",
-          "question": "Shopping mall",
-          "hintAudio": "A shopping mall is a good place to do window shopping"
-        },
-        {
-          "id": "_829",
-          "question": "Fly over",
-          "hintAudio": "A new fly over is being constructed to reduce traffic"
-        },
-        {
-          "id": "_830",
-          "question": "Travel agency",
-          "hintAudio": "You can book a holiday package through a travel agency"
         },
         {
           "id": "_831",
@@ -2703,21 +2663,6 @@
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
         {
-          "id": "_821",
-          "question": "Appointment book",
-          "hintAudio": "You can meet the chairman only if your name is in the appointment book"
-        },
-        {
-          "id": "_822",
-          "question": "Ball point pen",
-          "hintAudio": "Buy a ball point pen to write in this register"
-        },
-        {
-          "id": "_823",
-          "question": "Binder clips",
-          "hintAudio": "Use binder clips to keep the papers together"
-        },
-        {
           "id": "_824",
           "question": "Bookends",
           "hintAudio": "Bookends help keep the books in place"
@@ -2726,11 +2671,6 @@
           "id": "_825",
           "question": "Cartridges",
           "hintAudio": "Buy branded color cartidges for the printer"
-        },
-        {
-          "id": "_826",
-          "question": "Cello tape",
-          "hintAudio": "Cello tape is strickly tape used to stick something"
         },
         {
           "id": "_827",
@@ -2743,49 +2683,14 @@
           "hintAudio": "A clipboard is a hard board with a clip to hold papers together"
         },
         {
-          "id": "_829",
-          "question": "Correction fluid",
-          "hintAudio": "Correction fluid is popularly known as whitener"
-        },
-        {
-          "id": "_830",
-          "question": "Correction tape",
-          "hintAudio": "Correction tape is used to paste over errors on paper"
-        },
-        {
-          "id": "_831",
-          "question": "Desk pad",
-          "hintAudio": "Desk pad is handy for writing messages and notes"
-        },
-        {
-          "id": "_832",
-          "question": "Desk tray",
-          "hintAudio": "Desk tray is used to keep things in an organized manner on the desk"
-        },
-        {
-          "id": "_833",
-          "question": "Duct tape",
-          "hintAudio": "Duct tape is used to hold things in place especially cardboard boxes for packing"
-        },
-        {
           "id": "_834",
           "question": "Eraser",
           "hintAudio": "An eraser is a piece of rubber used for rubbing out pencil and pen marks"
         },
         {
-          "id": "_835",
-          "question": "Expanding files",
-          "hintAudio": "Expanding files are plastic folders with pockets to carry papers"
-        },
-        {
           "id": "_836",
           "question": "Folder",
           "hintAudio": "A plastic or cloth file that is used to keep papers"
-        },
-        {
-          "id": "_837",
-          "question": "Fountain pen",
-          "hintAudio": "A pen with a metal nib that needs to be filled before using"
         },
         {
           "id": "_838",
@@ -2803,34 +2708,9 @@
           "hintAudio": "A highlighter is a pen used to mark important sentences"
         },
         {
-          "id": "_841",
-          "question": "Letter opener",
-          "hintAudio": "Letter opener is a knife like object used to open envelopes"
-        },
-        {
-          "id": "_842",
-          "question": "Log book",
-          "hintAudio": "A log book is used to record hours of service"
-        },
-        {
-          "id": "_843",
-          "question": "Marker pens",
-          "hintAudio": "Marker pens are colored pens used to mark text in a book"
-        },
-        {
           "id": "_844",
           "question": "Paper",
           "hintAudio": "Paper is thin material used for writing upon or printing upon"
-        },
-        {
-          "id": "_845",
-          "question": "Paper clips",
-          "hintAudio": "Paper clips are metal or plastic wires used to hold papers together"
-        },
-        {
-          "id": "_846",
-          "question": "Paper punch",
-          "hintAudio": "Paper punch is a small machine used to punch holes in paper"
         },
         {
           "id": "_847",
@@ -2843,49 +2723,9 @@
           "hintAudio": "Pencil is a tool for writing"
         },
         {
-          "id": "_849",
-          "question": "Pencil sharpener",
-          "hintAudio": "A pencil sharpener is a blade in a plastic case to sharpen pencils"
-        },
-        {
-          "id": "_850",
-          "question": "Printer paper",
-          "hintAudio": "Printer paper is the kind of paper used in computer printers"
-        },
-        {
-          "id": "_851",
-          "question": "Ring binder",
-          "hintAudio": "A ring binder is a plastic or metal wire that is wound like a spring to hold papers together"
-        },
-        {
-          "id": "_852",
-          "question": "Rubber stamp",
-          "hintAudio": "A rubber stamp is used to imprint names or dates"
-        },
-        {
           "id": "_853",
           "question": "Ruler",
           "hintAudio": "A ruler is used to draw straight lines"
-        },
-        {
-          "id": "_854",
-          "question": "Self adhesive labels",
-          "hintAudio": "Self adhesive labels are pieces of paper with matter printed on them"
-        },
-        {
-          "id": "_855",
-          "question": "Sketch pens",
-          "hintAudio": "Sketch pens are colored pens and are also called markers"
-        },
-        {
-          "id": "_856",
-          "question": "Stamp rack",
-          "hintAudio": "Stamp rack can hold 4 or 6 rubber stamps"
-        },
-        {
-          "id": "_857",
-          "question": "Staple remover",
-          "hintAudio": "Staple remover is used to remove staple pins"
         },
         {
           "id": "_858",
@@ -2898,24 +2738,9 @@
           "hintAudio": "Staples are pins used in staplers to put papers together"
         },
         {
-          "id": "_860",
-          "question": "Tape dispenser",
-          "hintAudio": "Cello tape rolls are easier to use if you have a tape dispenser"
-        },
-        {
-          "id": "_861",
-          "question": "White board",
-          "hintAudio": "White boards are used to avoid the use of traditional chalk boards"
-        },
-        {
           "id": "_862",
           "question": "Whitener",
           "hintAudio": "Whitener has replaced ink erasers"
-        },
-        {
-          "id": "_863",
-          "question": "Writing pads",
-          "hintAudio": "Writing pads are used in offices and have office logos on them"
         }
       ],
       "isKeyboardRequired": true
@@ -2949,136 +2774,91 @@
         },
         {
           "id": "_834",
-          "question": "Digital signature",
-          "hintAudio": "Digital signature is a way of adding your name to an email to prove your identity"
-        },
-        {
-          "id": "_835",
           "question": "Dot",
           "hintAudio": "Dot is the symbol of a period written in an email address"
         },
         {
-          "id": "_836",
+          "id": "_835",
           "question": "Email",
           "hintAudio": "Email is an electronic mail. It is a system for sending messages from one computer to another"
         },
         {
-          "id": "_837",
-          "question": "Email address",
-          "hintAudio": "Email address is an individual name that you can use to receive email through the internet"
-        },
-        {
-          "id": "_838",
+          "id": "_836",
           "question": "Emoticon",
           "hintAudio": "An emoticon is a symbol you type in your email to express your feelings"
         },
         {
-          "id": "_839",
+          "id": "_837",
           "question": "Flame",
           "hintAudio": "Flame is to send an angry or insulting message over the internet"
         },
         {
-          "id": "_840",
+          "id": "_838",
           "question": "Forward",
           "hintAudio": "To forward is to send an email that has been sent to you to someone else's address"
         },
         {
-          "id": "_841",
+          "id": "_839",
           "question": "Inbox",
           "hintAudio": "The inbox is the place in an email application where new messages arrive"
         },
         {
-          "id": "_842",
-          "question": "Key pal",
-          "hintAudio": "Key pal is someone who regularly emails someone else"
-        },
-        {
-          "id": "_843",
+          "id": "_840",
           "question": "Mailer",
           "hintAudio": "A mailer is a computer program for sending emails"
         },
         {
-          "id": "_844",
-          "question": "Mail server",
-          "hintAudio": "A mail server is a central computer that controls the sending and receiving of emails"
-        },
-        {
-          "id": "_845",
+          "id": "_841",
           "question": "Message",
           "hintAudio": "A message is a piece of information that you send through mail"
         },
         {
-          "id": "_846",
+          "id": "_842",
           "question": "Outbox",
           "hintAudio": "Outbox is a place where emails are stored before you send them"
         },
         {
-          "id": "_847",
-          "question": "Push mail",
-          "hintAudio": "Push mail is an email sent to a particular group of people to advertise a product or service"
-        },
-        {
-          "id": "_848",
+          "id": "_843",
           "question": "Send",
           "hintAudio": "To send is to arrange for a message to be delivered to a person by email"
         },
         {
-          "id": "_849",
+          "id": "_844",
           "question": "Smiley",
           "hintAudio": "A smiley is a symbol used in emails to express your emotions"
         },
         {
-          "id": "_850",
+          "id": "_845",
           "question": "Spam",
           "hintAudio": "Spam is unwanted/unsolicited junk email sent to a large number of recipients"
         },
         {
-          "id": "_851",
-          "question": "Subject header",
-          "hintAudio": "Subject header is the place in an email which describes what the email is about"
-        },
-        {
-          "id": "_852",
+          "id": "_846",
           "question": "Block",
           "hintAudio": "Block is an action by an Internet Service Provider to prevent email messages from being forwarded"
         },
         {
-          "id": "_853",
+          "id": "_847",
           "question": "Download",
           "hintAudio": "To download is to transfer a copy of a file from an internet server to one's own computer"
         },
         {
-          "id": "_854",
-          "question": "Email header",
-          "hintAudio": "Email header is the section of an email that contains the sender's and recipient's email address"
-        },
-        {
-          "id": "_855",
+          "id": "_848",
           "question": "Freeware",
           "hintAudio": "Freeware is a free computer program made available on the internet"
         },
         {
-          "id": "_856",
+          "id": "_849",
           "question": "Internet",
           "hintAudio": "Internet is the largest worldwide computer network"
         },
         {
-          "id": "_857",
+          "id": "_850",
           "question": "Intranet",
           "hintAudio": "Intranet is a private network inside a company or organization"
         },
         {
-          "id": "_858",
-          "question": "Mail merge",
-          "hintAudio": "Mail merge is the process that enables the delivery of personalized messages to a large number of people"
-        },
-        {
-          "id": "_859",
-          "question": "Plain text",
-          "hintAudio": "Plain text is the text in an email message that contains no formatting elements"
-        },
-        {
-          "id": "_860",
+          "id": "_851",
           "question": "Shareware",
           "hintAudio": "Shareware refers to software that is available on public networks"
         }
@@ -3604,8 +3384,8 @@
         },
         {
           "id": "_900",
-          "question": "Noodles",
-          "hintAudio": "Noodles are ribbon shaped dough that can be boiled or served as vegetables"
+          "question": "Noodle",
+          "hintAudio": "Noodle is a ribbon shaped dough that can be boiled or served as vegetables"
         },
         {
           "id": "_901",
@@ -4256,6 +4036,96 @@
           "id": "_969",
           "question": "Plump",
           "hintAudio": "To call someone plump is to call them fat"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 97,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words ending with silent K",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_971",
+          "question": "Knack",
+          "hintAudio": "Knack is a skilful or resourceful way of doing something"
+        },
+        {
+          "id": "_972",
+          "question": "Knead",
+          "hintAudio": "We knead the dough to make bread"
+        },
+        {
+          "id": "_973",
+          "question": "Knees",
+          "hintAudio": "The child was crawling on its knees"
+        },
+        {
+          "id": "_974",
+          "question": "Jump",
+          "hintAudio": "He tried to jump from a great height"
+        },
+        {
+          "id": "_975",
+          "question": "Kneel",
+          "hintAudio": "To kneel is to go down on one's knees"
+        },
+        {
+          "id": "_976",
+          "question": "Knelt",
+          "hintAudio": "The man knelt before the priest"
+        },
+        {
+          "id": "_977",
+          "question": "Knew",
+          "hintAudio": "I knew the man was a thief"
+        },
+        {
+          "id": "_978",
+          "question": "Knife",
+          "hintAudio": "A knife is a tool used to cut things"
+        },
+        {
+          "id": "_979",
+          "question": "Knight",
+          "hintAudio": "A knight is a title given to someone for personal merit or service to the country"
+        },
+        {
+          "id": "_980",
+          "question": "Knit",
+          "hintAudio": "To knit is to make fabric by interweaving thread or wool"
+        },
+        {
+          "id": "_981",
+          "question": "Knob",
+          "hintAudio": "A knob is a rounded handle on a door"
+        },
+        {
+          "id": "_982",
+          "question": "Knot",
+          "hintAudio": "It is good to learn to tie a knot"
+        },
+        {
+          "id": "_983",
+          "question": "Know",
+          "hintAudio": "I know five languages"
+        },
+        {
+          "id": "_984",
+          "question": "Knowledge",
+          "hintAudio": "Knowledge can be acquired through reading and listening"
+        },
+        {
+          "id": "_985",
+          "question": "Knuckle",
+          "hintAudio": "A knuckle is a joint of a finger"
         }
       ],
       "isKeyboardRequired": true
