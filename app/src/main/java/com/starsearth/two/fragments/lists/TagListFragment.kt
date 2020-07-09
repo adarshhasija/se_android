@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,7 +50,7 @@ class TagListFragment : Fragment() {
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val tagName = entry.key as String
-                    (view?.list?.adapter as MyTagRecyclerViewAdapter).setSelected(tagName.toLowerCase(Locale.getDefault()).capitalize())
+                    (view?.list?.adapter as MyTagRecyclerViewAdapter).setSelected(tagName.toUpperCase(Locale.getDefault()))
                 }
 
             }
