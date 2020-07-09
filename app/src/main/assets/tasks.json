@@ -4049,7 +4049,7 @@
       "isTextVisibleOnStart": false,
       "submitOnReturnTapped": true,
       "ordered": true,
-      "title": "Words ending with silent K",
+      "title": "Words with silent K",
       "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
       "content": [
         {
@@ -4126,6 +4126,881 @@
           "id": "_985",
           "question": "Knuckle",
           "hintAudio": "A knuckle is a joint of a finger"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 98,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words with silent GN",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_981",
+          "question": "Gnarl",
+          "hintAudio": "To gnarl is the same as to snarl or growl"
+        },
+        {
+          "id": "_982",
+          "question": "Gnash",
+          "hintAudio": "He gnashed his teeth in anger"
+        },
+        {
+          "id": "_983",
+          "question": "Gnaw",
+          "hintAudio": "To gnaw is to bite or crew tirelessly"
+        },
+        {
+          "id": "_984",
+          "question": "Gnu",
+          "hintAudio": "A gnu is a large African antelope"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 99,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words with silent W followed by R",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_991",
+          "question": "Wrangle",
+          "hintAudio": "The two companies have been in a legal wrangle for the past five years"
+        },
+        {
+          "id": "_992",
+          "question": "Wrap",
+          "hintAudio": "I need to wrap the gift"
+        },
+        {
+          "id": "_993",
+          "question": "Wrapper",
+          "hintAudio": "The chocolate wrapper is attractive"
+        },
+        {
+          "id": "_994",
+          "question": "Wrath",
+          "hintAudio": "They will feel his wrath for disobeying him"
+        },
+        {
+          "id": "_995",
+          "question": "Wreath",
+          "hintAudio": "The followers laid a wreath on the leader's coffin"
+        },
+        {
+          "id": "_996",
+          "question": "Wreck",
+          "hintAudio": "To wreck something is to destroy something"
+        },
+        {
+          "id": "_997",
+          "question": "Wrench",
+          "hintAudio": "A wrench is a tool. It also means to twist or turn violently"
+        },
+        {
+          "id": "_998",
+          "question": "Wrest",
+          "hintAudio": "To wrest is to forcibly pull something from someone"
+        },
+        {
+          "id": "_999",
+          "question": "Wrestle",
+          "hintAudio": "To wrestle is to fight with someone else as a sport"
+        },
+        {
+          "id": "_1000",
+          "question": "Wriggle",
+          "hintAudio": "I saw a worm wriggle out of an apple"
+        },
+        {
+          "id": "_1001",
+          "question": "Wring",
+          "hintAudio": "I wring the clothes so that they dry fast"
+        },
+        {
+          "id": "_1002",
+          "question": "Wrinkles",
+          "hintAudio": "Wrinkles are folds or lines on the skin or clothes"
+        },
+        {
+          "id": "_1003",
+          "question": "Wrist",
+          "hintAudio": "Wrist is the joint in our hand that is below the palm"
+        },
+        {
+          "id": "_1004",
+          "question": "Writ",
+          "hintAudio": "Writ is a written order from the court"
+        },
+        {
+          "id": "_1005",
+          "question": "Write",
+          "hintAudio": "The old man is ready to write a will"
+        },
+        {
+          "id": "_1006",
+          "question": "Writings",
+          "hintAudio": "There are old writings on the walls of the temple"
+        },
+        {
+          "id": "_1007",
+          "question": "Writhe",
+          "hintAudio": "I saw a child writhe in pain"
+        },
+        {
+          "id": "_1008",
+          "question": "Wrong",
+          "hintAudio": "It is wrong to accuse someone without proof"
+        },
+        {
+          "id": "_1009",
+          "question": "Wrote",
+          "hintAudio": "I wrote a long letter to my friend"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 100,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Silent B in words ending with MB",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1001",
+          "question": "Aplomb",
+          "hintAudio": "He spoke with aplomb means he spoke with confidence"
+        },
+        {
+          "id": "_1002",
+          "question": "Bomb",
+          "hintAudio": "The fire cracker sounded like a blomb blast"
+        },
+        {
+          "id": "_1003",
+          "question": "Climb",
+          "hintAudio": "It is difficult to climb a hill"
+        },
+        {
+          "id": "_1004",
+          "question": "Comb",
+          "hintAudio": "Comb your hair"
+        },
+        {
+          "id": "_1005",
+          "question": "Crumb",
+          "hintAudio": "The birds come to eat crumbs in the park"
+        },
+        {
+          "id": "_1006",
+          "question": "Dumb",
+          "hintAudio": "Someone is dumb when they do not have the ability to speak"
+        },
+        {
+          "id": "_1007",
+          "question": "Lamb",
+          "hintAudio": "A young sheep is called a lamb"
+        },
+        {
+          "id": "_1008",
+          "question": "Limb",
+          "hintAudio": "A hand or a leg is called a limb"
+        },
+        {
+          "id": "_1009",
+          "question": "Numb",
+          "hintAudio": "The child was too numb with fear to even cry out"
+        },
+        {
+          "id": "_1010",
+          "question": "Plumb",
+          "hintAudio": "Plumb is a tool used by a carpenter or a mason"
+        },
+        {
+          "id": "_1011",
+          "question": "Plumber",
+          "hintAudio": "A plumber is someone who fixes taps and water pipes"
+        },
+        {
+          "id": "_1012",
+          "question": "Succumb",
+          "hintAudio": "The soldier succumbed to his wounds"
+        },
+        {
+          "id": "_1013",
+          "question": "Thumb",
+          "hintAudio": "A human being uses his or her thumb alot"
+        },
+        {
+          "id": "_1014",
+          "question": "Tomb",
+          "hintAudio": "The tombs of the praraohs are in Egypt"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 101,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Silent W in WH words",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1011",
+          "question": "Who",
+          "hintAudio": "Who is there?"
+        },
+        {
+          "id": "_1012",
+          "question": "Whose",
+          "hintAudio": "Whose book is this?"
+        },
+        {
+          "id": "_1013",
+          "question": "Whom",
+          "hintAudio": "To whom should I report, sir?"
+        },
+        {
+          "id": "_1014",
+          "question": "Whole",
+          "hintAudio": "I ate a whole apple as I was very hungry"
+        },
+        {
+          "id": "_1015",
+          "question": "Wholesome",
+          "hintAudio": "Wholesome food is good for health"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 102,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "T is not pronounced in these common words",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1021",
+          "question": "Ballet",
+          "hintAudio": "Ballet is a form of dance"
+        },
+        {
+          "id": "_1022",
+          "question": "Bustle",
+          "hintAudio": "There is alot of bustle in the marketplace"
+        },
+        {
+          "id": "_1023",
+          "question": "Castle",
+          "hintAudio": "There is a beautiful castle on the hill"
+        },
+        {
+          "id": "_1024",
+          "question": "Catch",
+          "hintAudio": "Catch the ball"
+        },
+        {
+          "id": "_1025",
+          "question": "Chestnut",
+          "hintAudio": "Chestnut is a kind of tree"
+        },
+        {
+          "id": "_1026",
+          "question": "Christmas",
+          "hintAudio": "Christmas is celebrated on December 25"
+        },
+        {
+          "id": "_1027",
+          "question": "Debut",
+          "hintAudio": "Debut is the first public performance of a performer, actor or sportsperson"
+        },
+        {
+          "id": "_1028",
+          "question": "Depot",
+          "hintAudio": "A depot is a station where transport vehicles load or unload passengers or goods"
+        },
+        {
+          "id": "_1029",
+          "question": "Fasten",
+          "hintAudio": "To fasten is to attach or fix something"
+        },
+        {
+          "id": "_1030",
+          "question": "Glisten",
+          "hintAudio": "The pearl was glistening in the sun"
+        },
+        {
+          "id": "_1031",
+          "question": "Gourmet",
+          "hintAudio": "A gourmet is a person who enjoys good food and drink"
+        },
+        {
+          "id": "_1032",
+          "question": "Hustle",
+          "hintAudio": "To hustle is to push one's way through or to move in a hurry"
+        },
+        {
+          "id": "_1033",
+          "question": "Kitchen",
+          "hintAudio": "I like to cook in a neat kitchen"
+        },
+        {
+          "id": "_1034",
+          "question": "Listen",
+          "hintAudio": "I listen to all kinds of music"
+        },
+        {
+          "id": "_1035",
+          "question": "Moisten",
+          "hintAudio": "She took a sip of water to moisten her dry throat"
+        },
+        {
+          "id": "_1036",
+          "question": "Mortgage",
+          "hintAudio": "Mortgage is a pledge that allows a lender to take possession of a property if the borrower fails to payback the loan"
+        },
+        {
+          "id": "_1037",
+          "question": "Nestle",
+          "hintAudio": "The cat nestled among the pillows"
+        },
+        {
+          "id": "_1038",
+          "question": "Often",
+          "hintAudio": "I often go to the market to buy fresh vegetables"
+        },
+        {
+          "id": "_1039",
+          "question": "Rustle",
+          "hintAudio": "There was a rustle when the window blew the dry leaves on the ground"
+        },
+        {
+          "id": "_1040",
+          "question": "Soften",
+          "hintAudio": "Use a fabric softener to soften the clothes"
+        },
+        {
+          "id": "_1041",
+          "question": "Valet",
+          "hintAudio": "A valet is an employee at a hotel who helps the guests"
+        },
+        {
+          "id": "_1042",
+          "question": "Watch",
+          "hintAudio": "I like to watch a movie on Saturdays"
+        },
+        {
+          "id": "_1043",
+          "question": "Whistle",
+          "hintAudio": "My dog comes running when I whistle"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 103,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words beginning with a silent H",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1031",
+          "question": "Hour",
+          "hintAudio": "An hour has sixty minutes"
+        },
+        {
+          "id": "_1032",
+          "question": "Honest",
+          "hintAudio": "We must all try to be honest and truthful at all times"
+        },
+        {
+          "id": "_1033",
+          "question": "Heir",
+          "hintAudio": "An heir is a successor or one who inherits something"
+        },
+        {
+          "id": "_1034",
+          "question": "Herb",
+          "hintAudio": "Most herbs have medicinal properties"
+        },
+        {
+          "id": "_1035",
+          "question": "Heiress",
+          "hintAudio": "The heiress was wearing a diamond necklace"
+        },
+        {
+          "id": "_1036",
+          "question": "Homage",
+          "hintAudio": "We pay homage to Gandhi on October 2"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 104,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Silent E ending words",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1041",
+          "question": "Ate",
+          "hintAudio": "I ate a pizza for lunch"
+        },
+        {
+          "id": "_1042",
+          "question": "Bathe",
+          "hintAudio": "It is good to bathe in warm water"
+        },
+        {
+          "id": "_1043",
+          "question": "Bite",
+          "hintAudio": "I love to bite into a juicy burger"
+        },
+        {
+          "id": "_1044",
+          "question": "Cape",
+          "hintAudio": "The child had a new red cape for winter"
+        },
+        {
+          "id": "_1045",
+          "question": "Cone",
+          "hintAudio": "I like my ice cream in a cone"
+        },
+        {
+          "id": "_1046",
+          "question": "Crave",
+          "hintAudio": "To crave is to long for something"
+        },
+        {
+          "id": "_1047",
+          "question": "Cube",
+          "hintAudio": "I need an ice cube in my glass"
+        },
+        {
+          "id": "_1048",
+          "question": "Doze",
+          "hintAudio": "Many people doze in the bus"
+        },
+        {
+          "id": "_1049",
+          "question": "Drive",
+          "hintAudio": "It is lovely to drive in the evenings"
+        },
+        {
+          "id": "_1050",
+          "question": "Hope",
+          "hintAudio": "I hope I will get good marks"
+        },
+        {
+          "id": "_1051",
+          "question": "Huge",
+          "hintAudio": "A huge tree gives shelter to many birds"
+        },
+        {
+          "id": "_1052",
+          "question": "Made",
+          "hintAudio": "He made rice and curry"
+        },
+        {
+          "id": "_1053",
+          "question": "Note",
+          "hintAudio": "Take note of the time"
+        },
+        {
+          "id": "_1054",
+          "question": "Pine",
+          "hintAudio": "Most mothers pine for their children when they are abroad"
+        },
+        {
+          "id": "_1055",
+          "question": "Quite",
+          "hintAudio": "It is quite a distance to walk"
+        },
+        {
+          "id": "_1056",
+          "question": "Rage",
+          "hintAudio": "Strong winds rage during a cyclone"
+        },
+        {
+          "id": "_1057",
+          "question": "Ride",
+          "hintAudio": "I love to ride a motorbike"
+        },
+        {
+          "id": "_1058",
+          "question": "Scrape",
+          "hintAudio": "Scrape the carrots while I peel the potatoes"
+        },
+        {
+          "id": "_1059",
+          "question": "Site",
+          "hintAudio": "This is the famous site of the war"
+        },
+        {
+          "id": "_1060",
+          "question": "Slime",
+          "hintAudio": "There is alot of slime on the roads after heavy rains"
+        },
+        {
+          "id": "_1061",
+          "question": "Slope",
+          "hintAudio": "The slope of the mountain is very steep"
+        },
+        {
+          "id": "_1062",
+          "question": "Spine",
+          "hintAudio": "The erect spine helps humans walk upright"
+        },
+        {
+          "id": "_1063",
+          "question": "Stripe",
+          "hintAudio": "The red stripe on the shirt is standing out"
+        },
+        {
+          "id": "_1064",
+          "question": "Wipe",
+          "hintAudio": "I need to wipe the glasses"
+        },
+        {
+          "id": "_1065",
+          "question": "Tube",
+          "hintAudio": "I need to buy a tube of toothpaste"
+        },
+        {
+          "id": "_1066",
+          "question": "Wage",
+          "hintAudio": "Everyone works for a wage"
+        },
+        {
+          "id": "_1067",
+          "question": "Wade",
+          "hintAudio": "He loves to wade in shallow water"
+        },
+        {
+          "id": "_1068",
+          "question": "Vote",
+          "hintAudio": "Every citizen must vote in an election"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 105,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "GH is silent before T and also at the end of many words",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1051",
+          "question": "Bought",
+          "hintAudio": "I bought a new sweater"
+        },
+        {
+          "id": "_1052",
+          "question": "Bright",
+          "hintAudio": "The light is too bright"
+        },
+        {
+          "id": "_1053",
+          "question": "Brought",
+          "hintAudio": "My friend brought his cousin to the party"
+        },
+        {
+          "id": "_1054",
+          "question": "Caught",
+          "hintAudio": "He caught a big fish"
+        },
+        {
+          "id": "_1055",
+          "question": "Daughter",
+          "hintAudio": "He has a daughter who lives abroad"
+        },
+        {
+          "id": "_1056",
+          "question": "Delight",
+          "hintAudio": "It is a delight to play with my baby sister"
+        },
+        {
+          "id": "_1057",
+          "question": "Drought",
+          "hintAudio": "A drought is a long period of abnormally low rainfall"
+        },
+        {
+          "id": "_1058",
+          "question": "Eight",
+          "hintAudio": "I have eight new books to read"
+        },
+        {
+          "id": "_1059",
+          "question": "Eighteen",
+          "hintAudio": "My colleague has completed eighteen years of service"
+        },
+        {
+          "id": "_1060",
+          "question": "Englighten",
+          "hintAudio": "To enlighten is to give information or knowledge"
+        },
+        {
+          "id": "_1061",
+          "question": "Farsighted",
+          "hintAudio": "Farsighted people plan for their future"
+        },
+        {
+          "id": "_1062",
+          "question": "Flight",
+          "hintAudio": "The birds look beautiful in flight"
+        },
+        {
+          "id": "_1063",
+          "question": "Foresight",
+          "hintAudio": "People with foresight are better prepared for future problems"
+        },
+        {
+          "id": "_1064",
+          "question": "Forthright",
+          "hintAudio": "Being forthright is to be straightforward"
+        },
+        {
+          "id": "_1065",
+          "question": "Fortnight",
+          "hintAudio": "A fortnight is 2 weeks"
+        },
+        {
+          "id": "_1066",
+          "question": "Fought",
+          "hintAudio": "The soldier fought till his last breath"
+        },
+        {
+          "id": "_1067",
+          "question": "Fright",
+          "hintAudio": "I got a fright when I heard a rat squeaking in the room"
+        },
+        {
+          "id": "_1068",
+          "question": "Frightened",
+          "hintAudio": "The little child was frightened to go home alone"
+        },
+        {
+          "id": "_1069",
+          "question": "Height",
+          "hintAudio": "I hate to look down from a great height"
+        },
+        {
+          "id": "_1070",
+          "question": "Light",
+          "hintAudio": "Turn off the lights before you leave the room"
+        },
+        {
+          "id": "_1071",
+          "question": "Limelight",
+          "hintAudio": "To be in the limelight is to be the focus of attention"
+        },
+        {
+          "id": "_1072",
+          "question": "Moonlight",
+          "hintAudio": "There is bright moonlight today"
+        },
+        {
+          "id": "_1073",
+          "question": "Naughty",
+          "hintAudio": "Young children are often very naughty"
+        },
+        {
+          "id": "_1074",
+          "question": "Oversight",
+          "hintAudio": "Oversight is to make a mistake unintentionally"
+        },
+        {
+          "id": "_1075",
+          "question": "Plight",
+          "hintAudio": "The plight of the stranded passengers was pitiful"
+        },
+        {
+          "id": "_1076",
+          "question": "Right",
+          "hintAudio": "It is right to help someone in need"
+        },
+        {
+          "id": "_1077",
+          "question": "Slight",
+          "hintAudio": "A slight mistake in calculations can result in huge losses"
+        },
+        {
+          "id": "_1078",
+          "question": "Taught",
+          "hintAudio": "I was taught not to talk loudly"
+        },
+        {
+          "id": "_1079",
+          "question": "Thought",
+          "hintAudio": "I thought the movie was great"
+        },
+        {
+          "id": "_1080",
+          "question": "Weight",
+          "hintAudio": "We need to watch our weight"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 106,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words with silent L",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1061",
+          "question": "Almond",
+          "hintAudio": "I like almond chocolate"
+        },
+        {
+          "id": "_1062",
+          "question": "Calf",
+          "hintAudio": "This calf is completely white"
+        },
+        {
+          "id": "_1063",
+          "question": "Calm",
+          "hintAudio": "The sea is very calm today"
+        },
+        {
+          "id": "_1064",
+          "question": "Chalk",
+          "hintAudio": "A teacher uses chalk to write on the board"
+        },
+        {
+          "id": "_1065",
+          "question": "Folk",
+          "hintAudio": "I like folk music"
+        },
+        {
+          "id": "_1066",
+          "question": "Half",
+          "hintAudio": "He ate half of the pizza"
+        },
+        {
+          "id": "_1067",
+          "question": "Salmon",
+          "hintAudio": "Salmon is a kind of fish"
+        },
+        {
+          "id": "_1068",
+          "question": "Should",
+          "hintAudio": "He should walk everyday to keep fit"
+        },
+        {
+          "id": "_1069",
+          "question": "Talk",
+          "hintAudio": "You talk alot"
+        },
+        {
+          "id": "_1070",
+          "question": "Would",
+          "hintAudio": "I would love to go out"
+        },
+        {
+          "id": "_1071",
+          "question": "Yolk",
+          "hintAudio": "It is better to avoid eating the yolk of an egg"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 107,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Silent N in words with MN",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1071",
+          "question": "Autumn",
+          "hintAudio": "Autumn is a season when the leaves turn brown"
+        },
+        {
+          "id": "_1072",
+          "question": "Hymn",
+          "hintAudio": "Hymn is a song of praise sung to God"
+        },
+        {
+          "id": "_1073",
+          "question": "Solemn",
+          "hintAudio": "The ministers took a solemn oath before returning to office"
+        },
+        {
+          "id": "_1074",
+          "question": "Condemn",
+          "hintAudio": "To condemn is to express strong disapproval of something"
+        },
+        {
+          "id": "_1075",
+          "question": "Column",
+          "hintAudio": "A column is a pillar"
         }
       ],
       "isKeyboardRequired": true
