@@ -5004,6 +5004,96 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 108,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words related to career",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1081",
+          "question": "Interest",
+          "hintAudio": "I have alot of interest in playing music"
+        },
+        {
+          "id": "_1082",
+          "question": "Ability",
+          "hintAudio": "Ability is a natural or acquired skill like singing or painting"
+        },
+        {
+          "id": "_1083",
+          "question": "Skill",
+          "hintAudio": "Skill is a developed talent or ability acquired by training like driving a car"
+        },
+        {
+          "id": "_1084",
+          "question": "Potential",
+          "hintAudio": "Potential is having the ability to do something well"
+        },
+        {
+          "id": "_1085",
+          "question": "Aptitude",
+          "hintAudio": "Aptitude is a person's natural ability or knack to learn something new"
+        },
+        {
+          "id": "_1086",
+          "question": "Job",
+          "hintAudio": "Job is the duty that one performs in their workplace"
+        },
+        {
+          "id": "_1087",
+          "question": "Needs",
+          "hintAudio": "One must always ensure that they can afford their basic needs"
+        },
+        {
+          "id": "_1088",
+          "question": "Occupation",
+          "hintAudio": "Occupation is a group of similar jobs found in various organizations"
+        },
+        {
+          "id": "_1089",
+          "question": "Profession",
+          "hintAudio": "Profession is a career that requires specialized training or academic preparation"
+        },
+        {
+          "id": "_1090",
+          "question": "Leisure",
+          "hintAudio": "Leisure is the time free from work or duties"
+        },
+        {
+          "id": "_1091",
+          "question": "Trade",
+          "hintAudio": "Trade is an accupation that requires manual or mechanical skills"
+        },
+        {
+          "id": "_1092",
+          "question": "Values",
+          "hintAudio": "His thought process is guided by strong values"
+        },
+        {
+          "id": "_1093",
+          "question": "Vocation",
+          "hintAudio": "Vocation is the work that someone does to earn a living"
+        },
+        {
+          "id": "_1094",
+          "question": "Entrepreneur",
+          "hintAudio": "He decided to become an entrepreneur and started his own business"
+        },
+        {
+          "id": "_1095",
+          "question": "Myth",
+          "hintAudio": "Myth is an idea or story that is not supported by fact"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
