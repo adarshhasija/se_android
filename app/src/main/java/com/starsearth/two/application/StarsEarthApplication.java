@@ -98,11 +98,11 @@ public class StarsEarthApplication extends Application {
 
 
         //HashMap<String, Object> tagMap = new HashMap<>();
-        //tagMap.put("tags/Class 10/seone", true);
+        //tagMap.put("tags/SCIENCE/seone", true);
         //mDatabase.updateChildren(tagMap);
 
         //started at: 75
-        //highest id: 108
+        //highest id: 118
         //spelling type = 5
     }
 

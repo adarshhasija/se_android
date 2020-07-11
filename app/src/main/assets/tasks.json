@@ -5094,6 +5094,1186 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 109,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Urinary System",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1091",
+          "question": "Arteriole",
+          "hintAudio": "Arteriole is a small artery"
+        },
+        {
+          "id": "_1092",
+          "question": "Catheter",
+          "hintAudio": "Catheter is a tool for injecting or removing fluid"
+        },
+        {
+          "id": "_1093",
+          "question": "Cortex",
+          "hintAudio": "The Renal Cortex is the outer region of the kidney"
+        },
+        {
+          "id": "_1094",
+          "question": "Creatinine",
+          "hintAudio": "Nitrogenous waste excreted in urine"
+        },
+        {
+          "id": "_1095",
+          "question": "Electrolyte",
+          "hintAudio": "An electrolyte is a chemical that carries electrical charge in a solution"
+        },
+        {
+          "id": "_1096",
+          "question": "Erythropoietin",
+          "hintAudio": "Erythropoietin is a hormone secreted by the kidney to simulate the production of red blood cells"
+        },
+        {
+          "id": "_1097",
+          "question": "Filter",
+          "hintAudio": "Blood pressure forces materials through a filter"
+        },
+        {
+          "id": "_1098",
+          "question": "Meatus",
+          "hintAudio": "Meatus is an opening or canal"
+        },
+        {
+          "id": "_1099",
+          "question": "Medulla",
+          "hintAudio": "The renal medulla is the inner region of the kidney"
+        },
+        {
+          "id": "_1100",
+          "question": "Reabsorption",
+          "hintAudio": "Reabsorption is the process of taking back or accepting again"
+        },
+        {
+          "id": "_1101",
+          "question": "Renin",
+          "hintAudio": "Renin is a hormone synthesized,stored and secreted by the kidney"
+        },
+        {
+          "id": "_1102",
+          "question": "Sodium",
+          "hintAudio": "Sodium is a salt regulated in the blood and urine by the kidneys"
+        },
+        {
+          "id": "_1103",
+          "question": "Trigone",
+          "hintAudio": "Trigone is the triangular area in the bladder where the urethra exits"
+        },
+        {
+          "id": "_1104",
+          "question": "Urea",
+          "hintAudio": "Urea is major nitrogenous waste product excreted in urine"
+        },
+        {
+          "id": "_1105",
+          "question": "Ureter",
+          "hintAudio": "Ureter is the tube leading from each kidney to the bladder"
+        },
+        {
+          "id": "_1106",
+          "question": "Voiding",
+          "hintAudio": "Voiding is expelling urine from the bladder"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 110,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Nervous System",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1101",
+          "question": "Acetylcholine",
+          "hintAudio": "Acetylcholine is a neurotransmitter chemical released at the ends of some nerve cells"
+        },
+        {
+          "id": "_1102",
+          "question": "Astrocyte",
+          "hintAudio": "Astrocyte is a typed of supporting cell of the nervous system"
+        },
+        {
+          "id": "_1103",
+          "question": "Axon",
+          "hintAudio": "Axon is a microscopic fiber that carries the nervous impulse along the nerve cell"
+        },
+        {
+          "id": "_1107",
+          "question": "Brainstem",
+          "hintAudio": "Brainstem is the lower portion of the brain that connects the cerebrum with the spinal cord"
+        },
+        {
+          "id": "_1108",
+          "question": "Cerebellum",
+          "hintAudio": "Cerebellum is the part of the brain that coordinates muscle movements and maintains balance"
+        },
+        {
+          "id": "_1109",
+          "question": "Hypothalamus",
+          "hintAudio": "The hypothalamus controls sleep,appetite,body temperature and secretions from the pituitary gland"
+        },
+        {
+          "id": "_1110",
+          "question": "Meninges",
+          "hintAudio": "Meninges are three protective membranes surrounding the brain and spinal cord"
+        },
+        {
+          "id": "_1111",
+          "question": "Nerve",
+          "hintAudio": "People are able to feel touch because of the reaction of a nerve"
+        },
+        {
+          "id": "_1112",
+          "question": "Neuron",
+          "hintAudio": "Neuron is a nerve cell that carries impulses through the body"
+        },
+        {
+          "id": "_1113",
+          "question": "Neurotransmitter",
+          "hintAudio": "Neurotransmitter is a chemical messenger released at the end of a nerve cell"
+        },
+        {
+          "id": "_1114",
+          "question": "Parenchyma",
+          "hintAudio": "Parenchyma is a thin delicate inner membrane of the meninges"
+        },
+        {
+          "id": "_1115",
+          "question": "Plexus",
+          "hintAudio": "Plexus is an organ that receives a nervous stimulation and passes it on to the body. Exmaples include skin,ears,eyes and taste buds"
+        },
+        {
+          "id": "_1116",
+          "question": "Pons",
+          "hintAudio": "Pons carry messages to the brain and spinal cord form a receptor"
+        },
+        {
+          "id": "_1117",
+          "question": "Synapse",
+          "hintAudio": "Synapse is the space through which an nervous impulse is transmitted from one neuron to another"
+        },
+        {
+          "id": "_1118",
+          "question": "Thalamus",
+          "hintAudio": "Thalamus is the main relay center of the brain"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 111,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Cardiology",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1111",
+          "question": "Aorta",
+          "hintAudio": "Aorta is the largest artery in the body"
+        },
+        {
+          "id": "_1112",
+          "question": "Arteriole",
+          "hintAudio": "Arteriole is a small artery"
+        },
+        {
+          "id": "_1113",
+          "question": "Artery",
+          "hintAudio": "Artery is the largest type of blood vessel that carries blood away from the heart to all parts of the body"
+        },
+        {
+          "id": "_1114",
+          "question": "Cipallary",
+          "hintAudio": "Capillary is the smallest blood vessel"
+        },
+        {
+          "id": "_1115",
+          "question": "Diastole",
+          "hintAudio": "Diastole is the relaxation phase of the heartbeat"
+        },
+        {
+          "id": "_1116",
+          "question": "Endocardium",
+          "hintAudio": "Endocardium is the inner lining of the heart"
+        },
+        {
+          "id": "_1117",
+          "question": "Endothelium",
+          "hintAudio": "Endothelium is the innermost lining of the blood vessel"
+        },
+        {
+          "id": "_1118",
+          "question": "Murmur",
+          "hintAudio": "Murmur is an abnormal heart sound caused by the improper closure of the heart valves"
+        },
+        {
+          "id": "_1119",
+          "question": "Myocardium",
+          "hintAudio": "Myocardium is the muscle layer of the heart"
+        },
+        {
+          "id": "_1120",
+          "question": "Oxygen",
+          "hintAudio": "Oxygen is what we breathe"
+        },
+        {
+          "id": "_1121",
+          "question": "Pacemaker",
+          "hintAudio": "Pacemaker is the sensitive tissue in the right atrium that begins the heartbeat"
+        },
+        {
+          "id": "_1122",
+          "question": "Pericardium",
+          "hintAudio": "Pericardium is a sack like membrane surrounding the heart"
+        },
+        {
+          "id": "_1123",
+          "question": "Pulse",
+          "hintAudio": "Pulse is the beat of the heart as felt through the walls of the arteries"
+        },
+        {
+          "id": "_1124",
+          "question": "Sphygmomanometer",
+          "hintAudio": "Sphygmomanometer is an instrument to measure blood pressure"
+        },
+        {
+          "id": "_1125",
+          "question": "Systole",
+          "hintAudio": "Systole is the contraction phase of the heartbeat"
+        },
+        {
+          "id": "_1126",
+          "question": "Valve",
+          "hintAudio": "Valve is a structure in veins or in the heart that temporarily closes an opening so that blood flows in only one direction"
+        },
+        {
+          "id": "_1127",
+          "question": "Vein",
+          "hintAudio": "Vein is the thin-walled blood vessel that carries blood from the body tissues and lungs to the heart"
+        },
+        {
+          "id": "_1128",
+          "question": "Ventricle",
+          "hintAudio": "Ventricle is the lower and larger chamber of the heart"
+        },
+        {
+          "id": "_1129",
+          "question": "Venule",
+          "hintAudio": "Venule is a small vein"
+        },
+        {
+          "id": "_1130",
+          "question": "Auscultation",
+          "hintAudio": "Auscultation means listening with a stethoscope"
+        },
+        {
+          "id": "_1131",
+          "question": "Bruit",
+          "hintAudio": "Bruit is an abnormal sound heard on auscultation"
+        },
+        {
+          "id": "_1132",
+          "question": "Claudication",
+          "hintAudio": "Claudication is pain,tension,and weakness in a leg after walking has begun, but with no pain felt anywhere else on the body"
+        },
+        {
+          "id": "_1133",
+          "question": "Digoxin",
+          "hintAudio": "Digoxin is a drug used to correct arrhythmias and improve the strength of the heartbeat"
+        },
+        {
+          "id": "_1134",
+          "question": "Infarction",
+          "hintAudio": "Infarction is an area of dead tissue"
+        },
+        {
+          "id": "_1135",
+          "question": "Nitrates",
+          "hintAudio": "Nitrates are drugs used in the treatment of angina pectoris. They dilate blood vessels, so that a patient is less likely to develop myocardial oxygen deficit"
+        },
+        {
+          "id": "_1136",
+          "question": "Nitroglycerin",
+          "hintAudio": "Nitroglycerin is a nitrate drug used in the treatment of angina pectoris"
+        },
+        {
+          "id": "_1137",
+          "question": "Occlusion",
+          "hintAudio": "Occlusion is the closure of a blood vessel"
+        },
+        {
+          "id": "_1138",
+          "question": "Palpitations",
+          "hintAudio": "Palpitations are uncomfortable sensations in the chest related to cardiac arrhythmias"
+        },
+        {
+          "id": "_1139",
+          "question": "Petechiae",
+          "hintAudio": "Petechiae are small,point hemorrhages"
+        },
+        {
+          "id": "_1140",
+          "question": "Thrill",
+          "hintAudio": "Thrill is a vibration felt on palpation of the chest"
+        },
+        {
+          "id": "_1141",
+          "question": "Vegetations",
+          "hintAudio": "Vegetations are collections of platelets, clotting proteins, microorganisms, and red blood cells that attach to the endocardium in conditions such as bacterial endocarditis and rheumatic heart disease."
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 112,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Respiratory System",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1121",
+          "question": "Adenoids",
+          "hintAudio": "Adenoids are a collection of lymph tissue in the nasopharynx; also called pharyngeal tonsils"
+        },
+        {
+          "id": "_1122",
+          "question": "Bronchioles",
+          "hintAudio": "Bronchioles are the smallest branches of the bronchi"
+        },
+        {
+          "id": "_1123",
+          "question": "Cilia",
+          "hintAudio": "Cilia are thin hairs attached to the mucous membrane epithelium lining the respiratory tract"
+        },
+        {
+          "id": "_1124",
+          "question": "Diaphragm",
+          "hintAudio": "Diaphragm is the muscle separating the chest and abdomen. It is the most important muscle for breathing"
+        },
+        {
+          "id": "_1125",
+          "question": "Epiglottis",
+          "hintAudio": "Epiglottis is the lid-like piece of cartilage that covers the larynx"
+        },
+        {
+          "id": "_1126",
+          "question": "Exhalation",
+          "hintAudio": "Exhalation means breathing out"
+        },
+        {
+          "id": "_1127",
+          "question": "Glottis",
+          "hintAudio": "Glottis is the opening of the larynx"
+        },
+        {
+          "id": "_1128",
+          "question": "Inhalation",
+          "hintAudio": "Inhalation means breathing in"
+        },
+        {
+          "id": "_1129",
+          "question": "Larynx",
+          "hintAudio": "Larynx is the voice box"
+        },
+        {
+          "id": "_1130",
+          "question": "Lobes",
+          "hintAudio": "Lobes are the division of the lungs"
+        },
+        {
+          "id": "_1131",
+          "question": "Mediastinum",
+          "hintAudio": "Mediastinum is the region between lungs in the chest cavity. It contains the trachea, heart, aorta, esophagus, and bronchial tubes"
+        },
+        {
+          "id": "_1132",
+          "question": "Oxygen",
+          "hintAudio": "Oxygen is gas that passes into the bloodstream at the lungs and travels to all body cells"
+        },
+        {
+          "id": "_1133",
+          "question": "Pharynx",
+          "hintAudio": "Pharynx is the throat;composed of the nasopharynx,oropharynx,and laryngopharynx"
+        },
+        {
+          "id": "_1134",
+          "question": "Pleura",
+          "hintAudio": "Pleura is the double folded membrane surrounding each lung"
+        },
+        {
+          "id": "_1135",
+          "question": "Trachea",
+          "hintAudio": "Trachea is the wind pipe"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 113,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Lymphatic and Immune System",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1131",
+          "question": "Adenoids",
+          "hintAudio": "Adenoids are masses of lymph tissue in the nasopharynx"
+        },
+        {
+          "id": "_1132",
+          "question": "Antibodies",
+          "hintAudio": "Antibodies are proteins produced by plasma cells that destroy antigens"
+        },
+        {
+          "id": "_1133",
+          "question": "Immunoglobulins",
+          "hintAudio": "Immunoglobulins are antibodies (gamma globlulins) such as IgA, IgE, IgG, IgM, and IgD that are secreted by plasma cells in humoral immunity"
+        },
+        {
+          "id": "_1134",
+          "question": "Interferons",
+          "hintAudio": "Interferons are antiviral proteins secreted by T cells; they also stimulate macrophages to ingest bacteria"
+        },
+        {
+          "id": "_1135",
+          "question": "Interleukins",
+          "hintAudio": "Interleukins are proteins that stimulate the growth of B- or T-cell lymphocytes and activate specific components of the immune response"
+        },
+        {
+          "id": "_1136",
+          "question": "Lymph",
+          "hintAudio": "Lymph is fluid found within lymphatic vessels and collected from tissues throughout the body"
+        },
+        {
+          "id": "_1137",
+          "question": "Macrophage",
+          "hintAudio": "Macrophage is a large phagocyte found in lymph nodes and other tissues of the body"
+        },
+        {
+          "id": "_1138",
+          "question": "Spleen",
+          "hintAudio": "Spleen is an organ near the stomach that produces, stores, and eliminates blood cells"
+        },
+        {
+          "id": "_1139",
+          "question": "Tonsils",
+          "hintAudio": "Tonsils are masses of lymph tissue in the back of the oropharynx"
+        },
+        {
+          "id": "_1140",
+          "question": "Toxin",
+          "hintAudio": "Toxin is a poison; a protein produced by certain bacteria,animals,and plants"
+        },
+        {
+          "id": "_1141",
+          "question": "Vaccination",
+          "hintAudio": "You need to get a vaccination before travelling"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 114,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Musculoskeletal System",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1141",
+          "question": "Acetabulum",
+          "hintAudio": "Acetabulum is a rounded depression, or socket, in the pelvis, which joins the femur (thigh bone), forming the hip joint"
+        },
+        {
+          "id": "_1142",
+          "question": "Acromion",
+          "hintAudio": "Acromion outward extension of the shoulder bone forming the pint of the shoulder. It overlies the shoulder joint and articulates with the clavicle"
+        },
+        {
+          "id": "_1143",
+          "question": "Bone",
+          "hintAudio": "Dense,hard,connective tissue that makes up the skeleton"
+        },
+        {
+          "id": "_1144",
+          "question": "Calcium",
+          "hintAudio": "Calcium is one of the mineral constituents of bones"
+        },
+        {
+          "id": "_1145",
+          "question": "Collagen",
+          "hintAudio": "Collagen is dense connective tissue strands found in bone"
+        },
+        {
+          "id": "_1146",
+          "question": "Condyle",
+          "hintAudio": "Condyle is a knuckle-like process at the end of a bone near the joint"
+        },
+        {
+          "id": "_1147",
+          "question": "Diaphysis",
+          "hintAudio": "Diaphysis is the midportion of a long bone"
+        },
+        {
+          "id": "_1148",
+          "question": "Epiphysis",
+          "hintAudio": "Epiphysis is each end of a long bone"
+        },
+        {
+          "id": "_1149",
+          "question": "Fissure",
+          "hintAudio": "Fissure is a narrow,slit-like opening in or between bones."
+        },
+        {
+          "id": "_1150",
+          "question": "Fontanelle",
+          "hintAudio": "Fontanelle is the soft incomplete bone formation between the skull bones of an infant."
+        },
+        {
+          "id": "_1151",
+          "question": "Foramen",
+          "hintAudio": "Foramen is an opening or passage in bones where blood vessels, nerves, or both enter and leave. The foramen magnum is the opening of the occipital bone through which the spinal cord passes"
+        },
+        {
+          "id": "_1152",
+          "question": "Fossa",
+          "hintAudio": "Fossa is the shallow cavity in a bone"
+        },
+        {
+          "id": "_1153",
+          "question": "Malleolus",
+          "hintAudio": "Malleolus is the round process on both sides of the ankle joint. The lateral malleolus is part of the fibula, and the medial malleolus is part of the tibia"
+        },
+        {
+          "id": "_1154",
+          "question": "Manubrium",
+          "hintAudio": "Manubrium is the upper portion of the sternum"
+        },
+        {
+          "id": "_1155",
+          "question": "Metaphysis",
+          "hintAudio": "Metaphysis is the flared portion of a long bone"
+        },
+        {
+          "id": "_1156",
+          "question": "Olecranon",
+          "hintAudio": "Olecranon is the large process on the proximal end of the ulna; the point of flexed elbow"
+        },
+        {
+          "id": "_1157",
+          "question": "Ossification",
+          "hintAudio": "Ossification is the process of bone formation"
+        },
+        {
+          "id": "_1158",
+          "question": "Osteoblast",
+          "hintAudio": "Osteoblast is bone cell that helps form bone tissue"
+        },
+        {
+          "id": "_1159",
+          "question": "Osteoclast",
+          "hintAudio": "Osteoclast is bone cell that absorbs or removes unwanted bone tissue"
+        },
+        {
+          "id": "_1160",
+          "question": "Periosteum",
+          "hintAudio": "Periosteum is membrane surrounding bones"
+        },
+        {
+          "id": "_1161",
+          "question": "Phosphorus",
+          "hintAudio": "Phosphorus is mineral substance found in bones in combination with calcium"
+        },
+        {
+          "id": "_1162",
+          "question": "Ribs",
+          "hintAudio": "Ribs are 24 elongated, curved bones form the bony wall of the chest. True ribs are the first 7 pairs, false ribs pairs 8-10, floating ribs are pairs 11 & 12"
+        },
+        {
+          "id": "_1163",
+          "question": "Sinus",
+          "hintAudio": "Sinus is the hollow cavity within a bone"
+        },
+        {
+          "id": "_1164",
+          "question": "Suture",
+          "hintAudio": "Suture is the joint between bones"
+        },
+        {
+          "id": "_1165",
+          "question": "Trabeculae",
+          "hintAudio": "Trabeculae means the supporting bundles of bony fibers in spongy bone"
+        },
+        {
+          "id": "_1166",
+          "question": "Trochanter",
+          "hintAudio": "Trochanter is the large process on lateral proximal aspect of the femur; attachment site for muscles and tendons"
+        },
+        {
+          "id": "_1167",
+          "question": "Tubercle",
+          "hintAudio": "Tubercle is the round process on a bone"
+        },
+        {
+          "id": "_1168",
+          "question": "Tuberosity",
+          "hintAudio": "Tuberosity is rounded process on bone; attachment site for muscles and tendons"
+        },
+        {
+          "id": "_1169",
+          "question": "Vertebra",
+          "hintAudio": "Vertebra is an individual backbone composed of the vertebral body, vertebral arch, spinous process, transverse process, lamina, and neural canal"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 115,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "About the skin",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1151",
+          "question": "Albino",
+          "hintAudio": "Albino is a person with a skin deficiency in pigment"
+        },
+        {
+          "id": "_1152",
+          "question": "Collagen",
+          "hintAudio": "Collagen is structural protein found in the skin and connective tissue"
+        },
+        {
+          "id": "_1153",
+          "question": "Cuticle",
+          "hintAudio": "Cuticle is the band of epidermis at the base and sides of the nail plate."
+        },
+        {
+          "id": "_1154",
+          "question": "Dermis",
+          "hintAudio": "Dermis is the middle layer of the skin"
+        },
+        {
+          "id": "_1155",
+          "question": "Epidermis",
+          "hintAudio": "Epidermis is the outermost layer of the skin"
+        },
+        {
+          "id": "_1156",
+          "question": "Epithelium",
+          "hintAudio": "Epithelium is the layer of skin cells forming the outer and inner surfaces of the body"
+        },
+        {
+          "id": "_1157",
+          "question": "Keratin",
+          "hintAudio": "Keratin is a hard protein material found in the epidermis, hair, and nails. Keratin means horn and is commonly found in the horns of animals"
+        },
+        {
+          "id": "_1158",
+          "question": "Lipocyte",
+          "hintAudio": "Lipocyte is a fat cell"
+        },
+        {
+          "id": "_1159",
+          "question": "Lunula",
+          "hintAudio": "Lunula is the half-moon shaped,white area at the base of a nail"
+        },
+        {
+          "id": "_1160",
+          "question": "Melanin",
+          "hintAudio": "Melanin is a pigment that gives the skin color. It is formed by melanocytes in the epidermis"
+        },
+        {
+          "id": "_1161",
+          "question": "Sebum",
+          "hintAudio": "Sebum is an oily substance secreted by sebaceous glands"
+        },
+        {
+          "id": "_1162",
+          "question": "Stratified",
+          "hintAudio": "Stratified means arranged in layers"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 116,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Words related to the eye and ear",
+      "instructions": "Tap the screen to hear the word. Then try to spell it. Once you have finished spelling the word, press enter",
+      "content": [
+        {
+          "id": "_1161",
+          "question": "Accommodation",
+          "hintAudio": "Accommodation is the normal adjustment of the eye for seeing objects at various distances"
+        },
+        {
+          "id": "_1162",
+          "question": "Biconvex",
+          "hintAudio": "The lens of the eye is a biconvex body"
+        },
+        {
+          "id": "_1163",
+          "question": "Cones",
+          "hintAudio": "Cones are responsible for color and central vision"
+        },
+        {
+          "id": "_1164",
+          "question": "Conjunctiva",
+          "hintAudio": "Conjunctiva is a delicate membrane lining the eyelid and covering anterior eyeball."
+        },
+        {
+          "id": "_1165",
+          "question": "Cornea",
+          "hintAudio": "Cornea is the fibrous transparent layer of the clear tissue that extents over the anterior portion of the eyeball"
+        },
+        {
+          "id": "_1166",
+          "question": "Iris",
+          "hintAudio": "Iris is the colored portion of the eye"
+        },
+        {
+          "id": "_1167",
+          "question": "Lens",
+          "hintAudio": "Lens is a transparent, biconvex body behind the pupil of the eye. It bends light rays to bring them into focus of the retina"
+        },
+        {
+          "id": "_1168",
+          "question": "Macula",
+          "hintAudio": "Macula is a yellowish region on the retina lateral to and slightly below the optic disc; contains the fovea centralis"
+        },
+        {
+          "id": "_1169",
+          "question": "Pupil",
+          "hintAudio": "Pupil is the dark opening of the eye through which light rays pass"
+        },
+        {
+          "id": "_1170",
+          "question": "Refraction",
+          "hintAudio": "Refraction is the bending of light rays by the cornea,lens,and fluids of the eye to bring the rays into focus on the retina"
+        },
+        {
+          "id": "_1171",
+          "question": "Retina",
+          "hintAudio": "Retina is the light-sensitive nerve cell layer of the eye that contains receptor cells called rods and cones"
+        },
+        {
+          "id": "_1172",
+          "question": "Rods",
+          "hintAudio": "Rods are photosensitive receptor cells of the retina that are essential for vision in dim light and for peripheral vision"
+        },
+        {
+          "id": "_1173",
+          "question": "Sclera",
+          "hintAudio": "Sclera is the tough, white outer coat of the eyeball"
+        },
+        {
+          "id": "_1174",
+          "question": "Auricle",
+          "hintAudio": "Auricle is the flap of the ear"
+        },
+        {
+          "id": "_1175",
+          "question": "Cerumen",
+          "hintAudio": "Cerumen is ear wax"
+        },
+        {
+          "id": "_1176",
+          "question": "Cochlea",
+          "hintAudio": "Cochlea is a snail-shaped, spirally wound tube in the inner ear; contains hearing-sensitive receptor cells"
+        },
+        {
+          "id": "_1177",
+          "question": "Endolymph",
+          "hintAudio": "Endolymph is fluid within the labyrinth of the inner ear"
+        },
+        {
+          "id": "_1178",
+          "question": "Incus",
+          "hintAudio": "Incus is the second bone of the middle ear"
+        },
+        {
+          "id": "_1179",
+          "question": "Labyrinth",
+          "hintAudio": "Labyrinth is the maze-like series of canals of the inner ear. This includes the cochlea, vestibule, and semicircular canals"
+        },
+        {
+          "id": "_1180",
+          "question": "Malleus",
+          "hintAudio": "Malleus is the first ossicle of the middle ear"
+        },
+        {
+          "id": "_1181",
+          "question": "Ossicle",
+          "hintAudio": "Ossicle is the small bone of the ear"
+        },
+        {
+          "id": "_1182",
+          "question": "Perilymph",
+          "hintAudio": "Perilymph is fluid contained in the labyrinth of the inner ear"
+        },
+        {
+          "id": "_1183",
+          "question": "Pinna",
+          "hintAudio": "Pinna,like auricle,also refers to the flap of the ear"
+        },
+        {
+          "id": "_1184",
+          "question": "Stapes",
+          "hintAudio": "The third ossicle of the middle ear. Stapes means stirrup"
+        },
+        {
+          "id": "_1185",
+          "question": "Vestibule",
+          "hintAudio": "The central cavity of the labyrinth, connecting the semicircular canals and the cochlea. The vestibule contains two structures, the saccule and utricle, that help to maintain equilibrium"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 117,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Endocrine System",
+      "instructions": "The endocrine system is the collection of glands that produce hormones that regulate metabolism, growth and development, tissue function, sexual function, reproduction, sleep, and mood, among other things",
+      "content": [
+        {
+          "id": "_1171",
+          "question": "Ovaries",
+          "hintAudio": "Ovaries are two endocrine glands in a female’s lower abdomen; Responsible for egg production and estrogen and progesterone secretion"
+        },
+        {
+          "id": "_1172",
+          "question": "Pancreas",
+          "hintAudio": "Pancreas is the Endocrine gland behind the stomach.Islet cells secrete hormones from the pancreas"
+        },
+        {
+          "id": "_1173",
+          "question": "Testes",
+          "hintAudio": "Testes are two endocrine glands enclosed in the scrotal sac of a male; responsible for sperm production and testosterone secretion"
+        },
+        {
+          "id": "_1174",
+          "question": "Adrenaline",
+          "hintAudio": "Produced by the adrenal medulla; also called epinephrine Adrenaline increases neart rate and blood pressure"
+        },
+        {
+          "id": "_1175",
+          "question": "Aldosterone",
+          "hintAudio": "Aldosterone is produced by the adrenal cortex; increases salt reabsorption"
+        },
+        {
+          "id": "_1176",
+          "question": "Androgen",
+          "hintAudio": "Male hormone produced by the testes and to a lesser extent by the adrenal cortex; testosterone is an example"
+        },
+        {
+          "id": "_1177",
+          "question": "Calcitonin",
+          "hintAudio": "Produced by the thyroid gland. Calcitonin lowers blood calcium. Also called thyrocalcitonin"
+        },
+        {
+          "id": "_1178",
+          "question": "Cortisol",
+          "hintAudio": "Cortisol is produced by the adrenal cortex; increases blood sugar"
+        },
+        {
+          "id": "_1179",
+          "question": "Epinephrine",
+          "hintAudio": "Epinephrine produced by the adrenal medulla; also called adrenaline. epinephrine increases heart rate and blood pressure and dilates airways"
+        },
+        {
+          "id": "_1180",
+          "question": "Estrogen",
+          "hintAudio": "Estrogen is female hormone produced by the ovaries and to a lesser extent b y the adrenal cortex"
+        },
+        {
+          "id": "_1181",
+          "question": "Glucagon",
+          "hintAudio": "Glucagon is a hormone produced by the islet cells of the pancreas; increases Blood sugar by conversion of glycogen to glucose"
+        },
+        {
+          "id": "_1182",
+          "question": "Insulin",
+          "hintAudio": "Insulin lowers blood sugar by transport and Conversion of glucose to glycogen"
+        },
+        {
+          "id": "_1183",
+          "question": "Norepinephrine",
+          "hintAudio": "Norepinephrine increases heart rate and blood pressure"
+        },
+        {
+          "id": "_1184",
+          "question": "Oxytocin",
+          "hintAudio": "Oxytocin stimulates contraction of the uterus during labor and child birth"
+        },
+        {
+          "id": "_1185",
+          "question": "Progesterone",
+          "hintAudio": "Produced by the ovaries.Progesterone prepares the uterus for pregnancy"
+        },
+        {
+          "id": "_1186",
+          "question": "Somatotropin",
+          "hintAudio": "Produced by the anterior lobe of the pituitary gland; also called growth hormone."
+        },
+        {
+          "id": "_1187",
+          "question": "Testosterone",
+          "hintAudio": "Male hormone produced by the testes"
+        },
+        {
+          "id": "_1188",
+          "question": "Thyroxine",
+          "hintAudio": "Produced by the thyroid gland; Thyroxine increases metabolism in cells."
+        },
+        {
+          "id": "_1189",
+          "question": "Triiadithyronine",
+          "hintAudio": "Triiadithyronine increases metabolism in cells"
+        },
+        {
+          "id": "_1190",
+          "question": "Vasopressin",
+          "hintAudio": "Vasopressin is secreted by the posterior lobe of the pituitary gland; also called antidiuretic hormone."
+        },
+        {
+          "id": "_1191",
+          "question": "Catecholamines",
+          "hintAudio": "Hormones derived from an amino acid and secreted by the adrenal medulla. Epinephrine is a catecholamine"
+        },
+        {
+          "id": "_1192",
+          "question": "Corticosteroids",
+          "hintAudio": "Corticosteroids are hormones produced by the adrenal cortex. Glucocorticoids and mineralocorticoids are examples."
+        },
+        {
+          "id": "_1193",
+          "question": "Electrolyte",
+          "hintAudio": "A mineral salt found in the blood and tissues and necessary for Proper functioning of cells; potassium, sodium and calcium are examples."
+        },
+        {
+          "id": "_1194",
+          "question": "Glucocorticoid",
+          "hintAudio": "Necessary for use of sugars, fats and proteins by the body and for the body’s normal response to stress"
+        },
+        {
+          "id": "_1195",
+          "question": "Homeostasis",
+          "hintAudio": "Homeostasis is the tendency of an organism to maintain a constant internal environment."
+        },
+        {
+          "id": "_1196",
+          "question": "Hormone",
+          "hintAudio": "Hormone is a substance that is produced by an endocrine gland and that travels through the blood to a distant organ or gland where it gland"
+        },
+        {
+          "id": "_1197",
+          "question": "Hypothalamus",
+          "hintAudio": "Hypothalamus is a region of the brain that lies below the thalamus and above the pituitary gland. It produces releasing factors that stimulate the pituitary gland to release hormones"
+        },
+        {
+          "id": "_1198",
+          "question": "Mineralocorticoid",
+          "hintAudio": "Mineralocorticoid is a steroid hormone produced by the adrenal cortex to regulate the mineral salts (electrolytes) and water balance in the body. aldosterone is an example"
+        },
+        {
+          "id": "_1199",
+          "question": "Sympathomimetic",
+          "hintAudio": "Pertaining to mimicking or copying the effect of the Sympathetic nervous system. Adrenaline is a sympathomimetic hormone"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 118,
+      "creator": "yVtWhLZNrOWylnKQkZOZSDCjlod2",
+      "org_name": "ENABLE_INDIA",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Radiology",
+      "instructions": "Radiology is the medical discipline that uses medical imaging to diagnose and treat diseases",
+      "content": [
+        {
+          "id": "_1181",
+          "question": "Betatron",
+          "hintAudio": "Betatron is a machine used in radiotherapy to deliver a dose of radiation to a patient"
+        },
+        {
+          "id": "_1182",
+          "question": "Brachytherapy",
+          "hintAudio": "Brachytherapy is radiation therapy using an implanted radioisotope radiation source"
+        },
+        {
+          "id": "_1183",
+          "question": "Cineradiography",
+          "hintAudio": "Cineradiography is the use of motion picture techniques to record a series of x-ray images during fluoroscopy"
+        },
+        {
+          "id": "_1184",
+          "question": "Fluorescence",
+          "hintAudio": "Fluorescence is the emission of glowing light that results from exposure to and absorption of radiation from x-rays"
+        },
+        {
+          "id": "_1185",
+          "question": "Fluoroscopy",
+          "hintAudio": "Fluoroscopy is the process of using x-rays to produce a fluorescent image on a screen"
+        },
+        {
+          "id": "_1186",
+          "question": "Ionization",
+          "hintAudio": "Ionization is the separation of stable substances into charged particles called ions"
+        },
+        {
+          "id": "_1187",
+          "question": "Irradiation",
+          "hintAudio": "Irradiation is the process of administering radiation treatment to a patient"
+        },
+        {
+          "id": "_1188",
+          "question": "Lethal",
+          "hintAudio": "That amount of medication maybe lethal to the patient"
+        },
+        {
+          "id": "_1189",
+          "question": "Megavoltage",
+          "hintAudio": "Megavoltage is high-energy radiation generated by a machine and used in curative x-ray therapy for cancer"
+        },
+        {
+          "id": "_1190",
+          "question": "Orthovoltage",
+          "hintAudio": "Orthovoltage is low-energy radiation used in palliative radiation therapy and superficial skin cancers"
+        },
+        {
+          "id": "_1191",
+          "question": "Palliative",
+          "hintAudio": "Palliative means relieving symptoms, but not curing"
+        },
+        {
+          "id": "_1192",
+          "question": "Rad",
+          "hintAudio": "Radiation absorbed dose; a unit of absorbed radiation in the body."
+        },
+        {
+          "id": "_1193",
+          "question": "Radioimmunoassay",
+          "hintAudio": "Radioimmunoassay is a test that combines the use of radioactive chemicals and antibodies to detect minute quantities of substances in a patients blood"
+        },
+        {
+          "id": "_1194",
+          "question": "Radioisotope",
+          "hintAudio": "Radioisotope is a radioactive form of a substance; radionuclide"
+        },
+        {
+          "id": "_1195",
+          "question": "Radionuclide",
+          "hintAudio": "Radionuclide is a radioactive chemical element that gives off energy in the form of radiation; radioisotope"
+        },
+        {
+          "id": "_1196",
+          "question": "Radiolucent",
+          "hintAudio": "Radiolucent structures appear black on x-ray film."
+        },
+        {
+          "id": "_1197",
+          "question": "Radiopaque",
+          "hintAudio": "Radiopaque structures appear white on the x-ray film."
+        },
+        {
+          "id": "_1198",
+          "question": "Radiopharmaceutical",
+          "hintAudio": "Radiopharmaceutical is a radioactive drug that is administered safely for diagnostic and therapeutic purposes"
+        },
+        {
+          "id": "_1199",
+          "question": "Scan",
+          "hintAudio": "A scan is a general term for images of organ parts"
+        },
+        {
+          "id": "_1200",
+          "question": "Scintiscanner",
+          "hintAudio": "Scintiscanner is a machine used to detect radiopharmaceuticals in the body for diagnostic imaging"
+        },
+        {
+          "id": "_1201",
+          "question": "Tagging",
+          "hintAudio": "Attaching a radionuclide to a chemical and following its course in the body"
+        },
+        {
+          "id": "_1202",
+          "question": "Ultrasound",
+          "hintAudio": "An ultrasound is a diagnostic technique that projects and retrieves high-frequency sound waves as they echo off of parts of the body"
+        },
+        {
+          "id": "_1203",
+          "question": "Uptake",
+          "hintAudio": "Uptake is the rate of absorption of a radionuclide into an organ or tissue"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
