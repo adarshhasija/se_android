@@ -6274,6 +6274,148 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 119,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": false,
+      "title": "Money in US",
+      "instructions": "The following words relate to money in the US",
+      "content": [
+        {
+          "id": "_1191",
+          "question": "Penny",
+          "hintAudio": "One penny is one cent"
+        },
+        {
+          "id": "_1192",
+          "question": "Nickel",
+          "hintAudio": "One nickel is 5 cents"
+        },
+        {
+          "id": "_1193",
+          "question": "Dime",
+          "hintAudio": "A dime is 10 cents"
+        },
+        {
+          "id": "_1194",
+          "question": "Quarter",
+          "hintAudio": "A quarter is 25 cents"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 120,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": false,
+      "title": "Measurements",
+      "instructions": "These words relate to measurements in the US",
+      "content": [
+        {
+          "id": "_1201",
+          "question": "Pound",
+          "hintAudio": "He weighed 200 pounds"
+        },
+        {
+          "id": "_1202",
+          "question": "Mile",
+          "hintAudio": "They had to walk a mile"
+        },
+        {
+          "id": "_1203",
+          "question": "Yard",
+          "hintAudio": "They had to make the wall a yard long"
+        },
+        {
+          "id": "_1204",
+          "question": "Gallon",
+          "hintAudio": "They had to fill a gallon of water"
+        },
+        {
+          "id": "_1205",
+          "question": "Quart",
+          "hintAudio": "A quart is a quarter of a gallon"
+        },
+        {
+          "id": "_1206",
+          "question": "Pint",
+          "hintAudio": "A pint is one eighth of a gallon"
+        },
+        {
+          "id": "_1207",
+          "question": "Cup",
+          "hintAudio": "The boy had a cup of juice"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 121,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": false,
+      "title": "Place and Spaces in a house",
+      "instructions": "These words relate to places in a house",
+      "content": [
+        {
+          "id": "_1211",
+          "question": "Attic",
+          "hintAudio": "The attic is upstairs"
+        },
+        {
+          "id": "_1212",
+          "question": "Backyard",
+          "hintAudio": "The child are playing in the backyard"
+        },
+        {
+          "id": "_1213",
+          "question": "Cellar",
+          "hintAudio": "The wine bottles are in the cellar"
+        },
+        {
+          "id": "_1214",
+          "question": "Chimney",
+          "hintAudio": "Smoke came out of the chimney"
+        },
+        {
+          "id": "_1215",
+          "question": "Crawlspace",
+          "hintAudio": "The insects are coming through the crawlspace"
+        },
+        {
+          "id": "_1216",
+          "question": "Deck",
+          "hintAudio": "They are having lunch on the deck"
+        },
+        {
+          "id": "_1217",
+          "question": "Garage",
+          "hintAudio": "The car was parked in the garage"
+        },
+        {
+          "id": "_1218",
+          "question": "Greenhouse",
+          "hintAudio": "Greenhouse is good for the environment"
+        },
+        {
+          "id": "_1219",
+          "question": "Patio",
+          "hintAudio": "The house had a nice patio"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
