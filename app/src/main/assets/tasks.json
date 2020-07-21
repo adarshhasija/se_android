@@ -6416,6 +6416,533 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 122,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "States on the US West Coast",
+      "instructions": "These are the states that form the US west coast",
+      "content": [
+        {
+          "id": "_1221",
+          "question": "Alaska",
+          "hintAudio": "Alaska is very cold"
+        },
+        {
+          "id": "_1222",
+          "question": "Washington",
+          "hintAudio": "Washington state is not the same as Washington DC"
+        },
+        {
+          "id": "_1223",
+          "question": "Oregon",
+          "hintAudio": "The state of Oregon is close to the state of California"
+        },
+        {
+          "id": "_1224",
+          "question": "California",
+          "hintAudio": "California has many famous cities like Los Angeles and San Francisco"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 123,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "States on the US East Coast",
+      "instructions": "These are the states that form the US east coast",
+      "content": [
+        {
+          "id": "_1231",
+          "question": "Connecticut",
+          "hintAudio": "Connecticut can be pronounced connect icut"
+        },
+        {
+          "id": "_1232",
+          "question": "Delaware",
+          "hintAudio": "Delaware is a state on the US east coast"
+        },
+        {
+          "id": "_1233",
+          "question": "Maine",
+          "hintAudio": "Maine is a state known for seafood"
+        },
+        {
+          "id": "_1234",
+          "question": "New Hampshire",
+          "hintAudio": "New Hampshire is a state on the East Coast"
+        },
+        {
+          "id": "_1235",
+          "question": "Massachusetts",
+          "hintAudio": "The state of Massachusetts is known to have world class universities"
+        },
+        {
+          "id": "_1236",
+          "question": "Rhode Island",
+          "hintAudio": "Rhode Island has a very well known design school"
+        },
+        {
+          "id": "_1237",
+          "question": "New York",
+          "hintAudio": "The city of New York is part of the state of New York"
+        },
+        {
+          "id": "_1238",
+          "question": "New Jersey",
+          "hintAudio": "The state of New Jersey is close to the state of New York"
+        },
+        {
+          "id": "_1239",
+          "question": "Pennsylvania",
+          "hintAudio": "The state of Pennsylvania is know for good universities"
+        },
+        {
+          "id": "_1240",
+          "question": "Maryland",
+          "hintAudio": "Maryland is in the east coast of the US"
+        },
+        {
+          "id": "_1241",
+          "question": "Virginia",
+          "hintAudio": "Virginia is in the east coast of the US"
+        },
+        {
+          "id": "_1242",
+          "question": "North Carolina",
+          "hintAudio": "North Carolina is in the east coast of the US"
+        },
+        {
+          "id": "_1243",
+          "question": "South Carolina",
+          "hintAudio": "South Carolina is in the east coast of the US"
+        },
+        {
+          "id": "_1244",
+          "question": "Georgia",
+          "hintAudio": "Georgia is in the east coast of the US"
+        },
+        {
+          "id": "_1245",
+          "question": "Florida",
+          "hintAudio": "Florida is known as a great place for a holiday"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 124,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "States in Central US",
+      "instructions": "These are the states that form the central part of US",
+      "content": [
+        {
+          "id": "_1241",
+          "question": "North Dakota",
+          "hintAudio": "North Dakota is in central US"
+        },
+        {
+          "id": "_1242",
+          "question": "South Dakota",
+          "hintAudio": "South Dakota is in central US"
+        },
+        {
+          "id": "_1243",
+          "question": "Nebraska",
+          "hintAudio": "Nebraska is known for famous inventions"
+        },
+        {
+          "id": "_1244",
+          "question": "Kansas",
+          "hintAudio": "Kansas is a state in central US"
+        },
+        {
+          "id": "_1245",
+          "question": "Oklahoma",
+          "hintAudio": "Oklahoma is a state in central US"
+        },
+        {
+          "id": "_1246",
+          "question": "Texas",
+          "hintAudio": "Texas is known for cowboys"
+        },
+        {
+          "id": "_1247",
+          "question": "Minnesota",
+          "hintAudio": "Minnesota is a state in central US"
+        },
+        {
+          "id": "_1248",
+          "question": "Iowa",
+          "hintAudio": "Iowa is a swing state in US elections"
+        },
+        {
+          "id": "_1249",
+          "question": "Missouri",
+          "hintAudio": "Missouri is a state in central US"
+        },
+        {
+          "id": "_1250",
+          "question": "Arkansas",
+          "hintAudio": "Arkansas is a state in central US"
+        },
+        {
+          "id": "_1251",
+          "question": "Louisiana",
+          "hintAudio": "Louisiana is a state in central US"
+        },
+        {
+          "id": "_1252",
+          "question": "Wisconsin",
+          "hintAudio": "Wisconsin is a state in central US"
+        },
+        {
+          "id": "_1253",
+          "question": "Illinois",
+          "hintAudio": "Former US President Barack Obama is from Illinois"
+        },
+        {
+          "id": "_1254",
+          "question": "Michigan",
+          "hintAudio": "Michigan state is the home of the well known University of Michigan"
+        },
+        {
+          "id": "_1255",
+          "question": "Indiana",
+          "hintAudio": "The state of Indiana is in central US"
+        },
+        {
+          "id": "_1256",
+          "question": "Ohio",
+          "hintAudio": "The state of Ohio is in central US"
+        },
+        {
+          "id": "_1257",
+          "question": "Kentucky",
+          "hintAudio": "The fast food chain KFC is headquartered in Kentucky"
+        },
+        {
+          "id": "_1258",
+          "question": "Tennessee",
+          "hintAudio": "The state of Tennessee is in central US"
+        },
+        {
+          "id": "_1259",
+          "question": "West Virginia",
+          "hintAudio": "The state of West Virginia is in central US"
+        },
+        {
+          "id": "_1260",
+          "question": "Mississippi",
+          "hintAudio": "It takes 1 second to say Mississippi"
+        },
+        {
+          "id": "_1261",
+          "question": "Alabama",
+          "hintAudio": "Alabama is a state in central US"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 125,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "States in US",
+      "instructions": "These are some of the states of US",
+      "content": [
+        {
+          "id": "_1251",
+          "question": "North Dakota",
+          "hintAudio": "North Dakota is in central US"
+        },
+        {
+          "id": "_1252",
+          "question": "South Dakota",
+          "hintAudio": "South Dakota is in central US"
+        },
+        {
+          "id": "_1253",
+          "question": "Nebraska",
+          "hintAudio": "Nebraska is known for famous inventions"
+        },
+        {
+          "id": "_1254",
+          "question": "Kansas",
+          "hintAudio": "Kansas is a state in central US"
+        },
+        {
+          "id": "_1255",
+          "question": "Oklahoma",
+          "hintAudio": "Oklahoma is a state in central US"
+        },
+        {
+          "id": "_1256",
+          "question": "Texas",
+          "hintAudio": "Texas is known for cowboys"
+        },
+        {
+          "id": "_1257",
+          "question": "Minnesota",
+          "hintAudio": "Minnesota is a state in central US"
+        },
+        {
+          "id": "_1258",
+          "question": "Iowa",
+          "hintAudio": "Iowa is a swing state in US elections"
+        },
+        {
+          "id": "_1259",
+          "question": "Missouri",
+          "hintAudio": "Missouri is a state in central US"
+        },
+        {
+          "id": "_1260",
+          "question": "Arkansas",
+          "hintAudio": "Arkansas is a state in central US"
+        },
+        {
+          "id": "_1261",
+          "question": "Louisiana",
+          "hintAudio": "Louisiana is a state in central US"
+        },
+        {
+          "id": "_1262",
+          "question": "Wisconsin",
+          "hintAudio": "Wisconsin is a state in central US"
+        },
+        {
+          "id": "_1263",
+          "question": "Illinois",
+          "hintAudio": "Former US President Barack Obama is from Illinois"
+        },
+        {
+          "id": "_1264",
+          "question": "Michigan",
+          "hintAudio": "Michigan state is the home of the well known University of Michigan"
+        },
+        {
+          "id": "_1265",
+          "question": "Indiana",
+          "hintAudio": "The state of Indiana is in central US"
+        },
+        {
+          "id": "_1266",
+          "question": "Ohio",
+          "hintAudio": "The state of Ohio is in central US"
+        },
+        {
+          "id": "_1267",
+          "question": "Kentucky",
+          "hintAudio": "The fast food chain KFC is headquartered in Kentucky"
+        },
+        {
+          "id": "_1268",
+          "question": "Tennessee",
+          "hintAudio": "The state of Tennessee is in central US"
+        },
+        {
+          "id": "_1269",
+          "question": "West Virginia",
+          "hintAudio": "The state of West Virginia is in central US"
+        },
+        {
+          "id": "_1270",
+          "question": "Mississippi",
+          "hintAudio": "It takes 1 second to say Mississippi"
+        },
+        {
+          "id": "_1271",
+          "question": "Alabama",
+          "hintAudio": "Alabama is a state in central US"
+        },
+        {
+          "id": "_1272",
+          "question": "Connecticut",
+          "hintAudio": "Connecticut can be pronounced connect icut"
+        },
+        {
+          "id": "_1273",
+          "question": "Delaware",
+          "hintAudio": "Delaware is a state on the US east coast"
+        },
+        {
+          "id": "_1274",
+          "question": "Maine",
+          "hintAudio": "Maine is a state known for seafood"
+        },
+        {
+          "id": "_1275",
+          "question": "New Hampshire",
+          "hintAudio": "New Hampshire is a state on the East Coast"
+        },
+        {
+          "id": "_1276",
+          "question": "Massachusetts",
+          "hintAudio": "The state of Massachusetts is known to have world class universities"
+        },
+        {
+          "id": "_1277",
+          "question": "Rhode Island",
+          "hintAudio": "Rhode Island has a very well known design school"
+        },
+        {
+          "id": "_1278",
+          "question": "New York",
+          "hintAudio": "The city of New York is part of the state of New York"
+        },
+        {
+          "id": "_1279",
+          "question": "New Jersey",
+          "hintAudio": "The state of New Jersey is close to the state of New York"
+        },
+        {
+          "id": "_1280",
+          "question": "Pennsylvania",
+          "hintAudio": "The state of Pennsylvania is know for good universities"
+        },
+        {
+          "id": "_1281",
+          "question": "Maryland",
+          "hintAudio": "Maryland is in the east coast of the US"
+        },
+        {
+          "id": "_1282",
+          "question": "Virginia",
+          "hintAudio": "Virginia is in the east coast of the US"
+        },
+        {
+          "id": "_1283",
+          "question": "North Carolina",
+          "hintAudio": "North Carolina is in the east coast of the US"
+        },
+        {
+          "id": "_1284",
+          "question": "South Carolina",
+          "hintAudio": "South Carolina is in the east coast of the US"
+        },
+        {
+          "id": "_1285",
+          "question": "Georgia",
+          "hintAudio": "Georgia is in the east coast of the US"
+        },
+        {
+          "id": "_1286",
+          "question": "Florida",
+          "hintAudio": "Florida is known as a great place for a holiday"
+        },
+        {
+          "id": "_1287",
+          "question": "Alaska",
+          "hintAudio": "Alaska is very cold"
+        },
+        {
+          "id": "_1288",
+          "question": "Washington",
+          "hintAudio": "Washington state is not the same as Washington DC"
+        },
+        {
+          "id": "_1289",
+          "question": "Oregon",
+          "hintAudio": "The state of Oregon is close to the state of California"
+        },
+        {
+          "id": "_1290",
+          "question": "California",
+          "hintAudio": "California has many famous cities like Los Angeles and San Francisco"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 126,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "isKeyboardRequired": false,
+      "isGame": true,
+      "title": "States in central US",
+      "instructions": "You will be shown some States in US. Tap if the State is part of central US. Else swipe.",
+      "tap": ["North Dakota","South Dakota","Nebraska","Kansas","Oklahoma","Texas","Minnesota","Iowa","Missouri","Arkansas","Louisiana","Wisconsin",
+      "Illinois","Michigan","Indiana","Ohio","Kentucky","Tennessee","West Virginia","Mississippi","Alabama"],
+      "swipe": ["Connecticut","Delaware","Maine","New Hampshire","Massachusetts",
+        "Rhode Island","New York","New Jersey","Pennsylvania","Maryland",
+        "Virginia","North Carolina","South Carolina","Gerogia","Florida",
+        "Alaska", "Washington","Oregon","California"],
+      "ordered": false,
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 127,
+      "type": 4,
+      "timed": true,
+      "durationMillis": 61000,
+      "isKeyboardRequired": false,
+      "isGame": true,
+      "title": "States on the US East Coast",
+      "instructions": "You will be shown some States in US. Tap if the State is on the US East Coast. Else swipe.",
+      "tap": ["Connecticut","Delaware","Maine","New Hampshire","Massachusetts",
+        "Rhode Island","New York","New Jersey","Pennsylvania","Maryland",
+        "Virginia","North Carolina","South Carolina","Gerogia","Florida"],
+      "swipe": ["North Dakota","South Dakota","Nebraska","Kansas","Oklahoma","Texas","Minnesota","Iowa","Missouri","Arkansas","Louisiana","Wisconsin",
+        "Illinois","Michigan","Indiana","Ohio","Kentucky","Tennessee","West Virginia","Mississippi","Alabama",
+        "Alaska", "Washington","Oregon","California"],
+      "ordered": false,
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 128,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "States on the US East Coast",
+      "instructions": "You will be shown the states of the US East Coast. Try to type them out correctly.",
+      "content": ["Connecticut","Delaware","Maine","New Hampshire","Massachusetts",
+        "Rhode Island","New York","New Jersey","Pennsylvania","Maryland",
+        "Virginia","North Carolina","South Carolina","Georgia","Florida"],
+      "ordered": true,
+      "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 129,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "States in central US",
+      "instructions": "You will be shown the states that make up central US. Try to type them out correctly.",
+      "content": ["North Dakota","South Dakota","Nebraska","Kansas","Oklahoma","Texas","Minnesota","Iowa","Missouri","Arkansas","Louisiana","Wisconsin",
+        "Illinois","Michigan","Indiana","Ohio","Kentucky","Tennessee","West Virginia","Mississippi","Alabama"],
+      "ordered": true,
+      "isExitOnInterruption": true
     }
   ],
 
