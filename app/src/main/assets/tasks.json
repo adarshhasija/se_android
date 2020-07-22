@@ -6957,6 +6957,256 @@
       "content": ["Eastern Standard Time","Central Standard Time","Mountain Standard Time","Pacific Standard Time"],
       "ordered": true,
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 131,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Ethnic Groups and Nationalities",
+      "instructions": "You will be shown the names of some ethnic groups. Try to type them out correctly.",
+      "content": ["African American","Asian American","Canadian","Caribbean","Central American","Chicano",
+      "Dominican","El Salvadorian","Filipino","Greek","Hispanic","Laotian","Mexican American","Native American",
+      "Polish","South American", "Taiwanese"],
+      "ordered": true,
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 132,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Ethnic Groups and Nationalities",
+      "instructions": "These words relate to different groups and nationalities in the world. Spell them out correctly",
+      "content": [
+        {
+          "id": "_1321",
+          "question": "African American",
+          "hintAudio": "Former US President Barack Obama is African American"
+        },
+        {
+          "id": "_1322",
+          "question": "Asian American",
+          "hintAudio": "An Asian American is someone who is part Asian and part American"
+        },
+        {
+          "id": "_1323",
+          "question": "Canadian",
+          "hintAudio": "A Canadian is someone who is from Canada"
+        },
+        {
+          "id": "_1324",
+          "question": "Caribbean",
+          "hintAudio": "A Caribbean person hails from one of the 13 independent countries just south of the US"
+        },
+        {
+          "id": "_1325",
+          "question": "Central American",
+          "hintAudio": "Someone who is central American hails from one of the 7 countries that make up the central Americas, like Costa Rica"
+        },
+        {
+          "id": "_1326",
+          "question": "Chicano",
+          "hintAudio": "A Chicano is a man or boy or Mexican origin"
+        },
+        {
+          "id": "_1327",
+          "question": "Dominican",
+          "hintAudio": "A Dominican is someone who hails from the Dominican Republic,a Caribbean nation"
+        },
+        {
+          "id": "_1328",
+          "question": "El Salvadorian",
+          "hintAudio": "An El Salvadorian is someone who hails from El Salvadore"
+        },
+        {
+          "id": "_1329",
+          "question": "Filipino",
+          "hintAudio": "A Filipino is someone who hails from the Philippines"
+        },
+        {
+          "id": "_1330",
+          "question": "Greek",
+          "hintAudio": "A Greek is someone who hails from Greece"
+        },
+        {
+          "id": "_1331",
+          "question": "Hispanic",
+          "hintAudio": "Hispanics are people who hail from Spain and Latin America"
+        },
+        {
+          "id": "_1332",
+          "question": "Laotian",
+          "hintAudio": "Laotian are the majority ethnic group of Laos"
+        },
+        {
+          "id": "_1333",
+          "question": "Mexican American",
+          "hintAudio": "Mexican Americans are Americans who have full or partial ancestry from Mexico"
+        },
+        {
+          "id": "_1334",
+          "question": "Native American",
+          "hintAudio": "Native Americans are indigenous people of the US"
+        },
+        {
+          "id": "_1335",
+          "question": "Polish",
+          "hintAudio": "A Polish person hails from the country of Poland"
+        },
+        {
+          "id": "_1336",
+          "question": "South American",
+          "hintAudio": "South Americans are people who hail from countries in the Southern Western Hemisphere like Brazil and Argentina"
+        },
+        {
+          "id": "_1337",
+          "question": "Taiwanese",
+          "hintAudio": "Taiwanese people hail from Taiwan"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 133,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Global Languages",
+      "instructions": "You will be shown the names of some languages spoken around the world. Try to type them out correctly.",
+      "content": ["Amharie","Cebuano","Czech","Igbo","Javanese","Malagasy","Malay","Mandarin","Cantonese",
+        "Serbo Croatian","Somali","Spanish","Tagalog","Khmer","Ukranian","Uzbek","Zulu",
+        "English","Hindi", "French", "Japanese"],
+      "ordered": true,
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 134,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Global Languages",
+      "instructions": "These words relate to different languages spoken around the world. Spell them out correctly",
+      "content": [
+        {
+          "id": "_1341",
+          "question": "Amharie",
+          "hintAudio": "Amharie is spoken as a first language in Ethiopia"
+        },
+        {
+          "id": "_1342",
+          "question": "Cebuano",
+          "hintAudio": "Cebuano is a language spoken in some regions of southern Philippines"
+        },
+        {
+          "id": "_1343",
+          "question": "Czech",
+          "hintAudio": "Czech is the official language of the Czech Republic"
+        },
+        {
+          "id": "_1344",
+          "question": "Igbo",
+          "hintAudio": "Igbo is a language spoken in Southern Nigeria"
+        },
+        {
+          "id": "_1345",
+          "question": "Javanese",
+          "hintAudio": "Javanese is spoken by people from the Central and Eastern parts of Java, in Indonesia"
+        },
+        {
+          "id": "_1346",
+          "question": "Malagasy",
+          "hintAudio": "Malagasy is the national language of Madagascar"
+        },
+        {
+          "id": "_1347",
+          "question": "Malay",
+          "hintAudio": "Malay is a language commonly spoken in Brunei,Indonesia,Malaysia,Singapore and parts of Thailand"
+        },
+        {
+          "id": "_1348",
+          "question": "Mandarin",
+          "hintAudio": "Mandarin is the national language of China"
+        },
+        {
+          "id": "_1349",
+          "question": "Cantonese",
+          "hintAudio": "Cantonese is the language of Hong Kong"
+        },
+        {
+          "id": "_1350",
+          "question": "Serbo Croatian",
+          "hintAudio": "Serbo Croatian is the primary language of Serbia, Croatia, Bosnia and Herzegovina, and Montenegro"
+        },
+        {
+          "id": "_1351",
+          "question": "Somali",
+          "hintAudio": "Somali is the official language of Somalia"
+        },
+        {
+          "id": "_1352",
+          "question": "Spanish",
+          "hintAudio": "Spanish is the official language of Spain"
+        },
+        {
+          "id": "_1353",
+          "question": "Tagalog",
+          "hintAudio": "Tagalog is a language spoken in the Philippines"
+        },
+        {
+          "id": "_1354",
+          "question": "Khmer",
+          "hintAudio": "Khmer is the official language of Cambodia"
+        },
+        {
+          "id": "_1355",
+          "question": "Ukranian",
+          "hintAudio": "Ukranian is the official language of Ukraine"
+        },
+        {
+          "id": "_1356",
+          "question": "Uzbek",
+          "hintAudio": "Uzbek is the official language of Uzbekistan"
+        },
+        {
+          "id": "_1357",
+          "question": "Zulu",
+          "hintAudio": "Zulu is commonly spoken by Zulu people, who are typically from the southern part of Africa"
+        },
+        {
+          "id": "_1358",
+          "question": "English",
+          "hintAudio": "English is a language that originated from the United Kingdom"
+        },
+        {
+          "id": "_1359",
+          "question": "Hindi",
+          "hintAudio": "Hindi is a language native to India"
+        },
+        {
+          "id": "_1360",
+          "question": "French",
+          "hintAudio": "French is a language that originated in France"
+        },
+        {
+          "id": "_1361",
+          "question": "Japanese",
+          "hintAudio": "Japanese is a language that originated in Japan"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
