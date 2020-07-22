@@ -6943,6 +6943,20 @@
         "Illinois","Michigan","Indiana","Ohio","Kentucky","Tennessee","West Virginia","Mississippi","Alabama"],
       "ordered": true,
       "isExitOnInterruption": true
+    },
+    {
+      "visible": true,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "id": 130,
+      "type": 1,
+      "timed": false,
+      "isKeyboardRequired": true,
+      "isGame": false,
+      "title": "Time Zones in US",
+      "instructions": "You will be shown the names of time zones in US. Try to type them out correctly.",
+      "content": ["Eastern Standard Time","Central Standard Time","Mountain Standard Time","Pacific Standard Time"],
+      "ordered": true,
+      "isExitOnInterruption": true
     }
   ],
 
