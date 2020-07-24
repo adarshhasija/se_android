@@ -7207,6 +7207,185 @@
         }
       ],
       "isKeyboardRequired": true
+    },
+    {
+      "id": 135,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Items in the Yard",
+      "instructions": "These words relate to things you find in the yard. Spell them out correctly",
+      "content": [
+        {
+          "id": "_1351",
+          "question": "Chain saw",
+          "hintAudio": "He used the chain saw to cut the wooden log"
+        },
+        {
+          "id": "_1352",
+          "question": "Gardening shears"
+        },
+        {
+          "id": "_1353",
+          "question": "Lawn mower",
+          "hintAudio": "He moved the lawn with the lawn mower"
+        },
+        {
+          "id": "_1354",
+          "question": "Orchard"
+        },
+        {
+          "id": "_1355",
+          "question": "Power saw"
+        },
+        {
+          "id": "_1356",
+          "question": "Rake",
+          "hintAudio": "She cleaned the yard with a rake"
+        },
+        {
+          "id": "_1357",
+          "question": "Shrubs"
+        },
+        {
+          "id": "_1358",
+          "question": "Snow blower",
+          "hintAudio": "They cleared the snow with a snow blower"
+        },
+        {
+          "id": "_1359",
+          "question": "Sprinkler",
+          "hintAudio": "The sprinkler turned on and wet the grass"
+        },
+        {
+          "id": "_1360",
+          "question": "Weed whacker"
+        },
+        {
+          "id": "_1361",
+          "question": "Snow shovel",
+          "hintAudio": "One can shovel snow with a snow shovel"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 136,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Items in a kitchen",
+      "instructions": "These words relate to things you find in the kitchen. Spell them out correctly",
+      "content": [
+        {
+          "id": "_1361",
+          "question": "Blender"
+        },
+        {
+          "id": "_1362",
+          "question": "Cookbook",
+          "hintAudio": "He searched the cookbook for a new recipe"
+        },
+        {
+          "id": "_1363",
+          "question": "Dishwashing liquid",
+          "hintAudio": "Some people use dishwashing liquid to wash their dishes"
+        },
+        {
+          "id": "_1364",
+          "question": "Freezer",
+          "hintAudio": "He kept the ice cream in the freezer"
+        },
+        {
+          "id": "_1365",
+          "question": "Spatula"
+        },
+        {
+          "id": "_1366",
+          "question": "Thermos",
+          "hintAudio": "He took he tea in a thermos in preparation for the long drive"
+        },
+        {
+          "id": "_1367",
+          "question": "Corkscrew",
+          "hintAudio": "He opened the wine bottle with a corkscrew"
+        },
+        {
+          "id": "_1368",
+          "question": "Meat grinder"
+        },
+        {
+          "id": "_1369",
+          "question": "Cheese grater",
+          "hintAudio": "He grated the cheese with a chesse grater"
+        },
+        {
+          "id": "_1370",
+          "question": "Blender"
+        }
+      ],
+      "isKeyboardRequired": true
+    },
+    {
+      "id": 137,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 5,
+      "timed": false,
+      "isTextVisibleOnStart": false,
+      "submitOnReturnTapped": true,
+      "ordered": true,
+      "title": "Laundry Room",
+      "instructions": "These words relate to things you find in a laundry room. Spell them out correctly",
+      "content": [
+        {
+          "id": "_1371",
+          "question": "Clothespin"
+        },
+        {
+          "id": "_1372",
+          "question": "Drier",
+          "hintAudio": "After the washer completed, he transferred the clothes to the drier"
+        },
+        {
+          "id": "_1373",
+          "question": "Dust buster"
+        },
+        {
+          "id": "_1374",
+          "question": "Hoover"
+        },
+        {
+          "id": "_1375",
+          "question": "Laundry detergent",
+          "hintAudio": "He put laundry detergent in the washer and started the washing cycle"
+        },
+        {
+          "id": "_1376",
+          "question": "Laundromat",
+          "hintAudio": "Because the washer at home was broken, they had to take their clothes to the laundromat"
+        },
+        {
+          "id": "_1377",
+          "question": "Vacuum cleaner",
+          "hintAudio": "She cleaned the carpet with a vacuum cleaner"
+        },
+        {
+          "id": "_1378",
+          "question": "Fabric softener"
+        },
+        {
+          "id": "_1379",
+          "question": "Dirt devil",
+          "hintAudio": "Dirt devil is a brand of vacuum cleaner"
+        }
+      ],
+      "isKeyboardRequired": true
     }
   ],
 
