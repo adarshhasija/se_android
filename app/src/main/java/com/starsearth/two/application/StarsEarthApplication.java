@@ -102,7 +102,7 @@ public class StarsEarthApplication extends Application {
         //mDatabase.updateChildren(tagMap);
 
         //started at: 75
-        //highest id: 137
+        //highest id: 158
         //spelling type = 5
     }
 
