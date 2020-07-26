@@ -18,10 +18,19 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/svMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_overlay"
+        app:defaultQueryHint="Filter by title"
+        app:iconifiedByDefault="false" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/svMain"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/fragment_mainmenuitem" />
 

@@ -17,6 +17,7 @@ import com.starsearth.two.R
 import com.starsearth.two.adapter.RecordItemRecyclerViewAdapter
 import java.util.*
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.SearchView
 import com.starsearth.two.activity.MainActivity
 import com.starsearth.two.comparator.ComparatorMainMenuItem
 import com.starsearth.two.domain.*
@@ -308,6 +309,17 @@ class RecordListFragment : Fragment() {
             val tagAsString = it.toString().toUpperCase(Locale.getDefault())
             setupTCByTagListener(tagAsString)
         }
+
+        svMain.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                (view.list.adapter as? RecordItemRecyclerViewAdapter)?.filter?.filter(newText)
+                return false
+            }
+        })
 
         //view has to exist by the time this is called
       /*  if (mPassedInResults.isEmpty()) {

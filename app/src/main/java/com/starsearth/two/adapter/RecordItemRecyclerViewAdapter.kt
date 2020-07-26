@@ -2,9 +2,12 @@ package com.starsearth.two.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.two.R
@@ -13,13 +16,15 @@ import com.starsearth.two.domain.*
 
 import com.starsearth.two.fragments.lists.RecordListFragment.OnRecordListFragmentInteractionListener
 import com.starsearth.two.fragments.dummy.DummyContent.DummyItem
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnRecordListFragmentInteractionListener].
  *
  */
-class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?) : RecyclerView.Adapter<RecordItemRecyclerViewAdapter.ViewHolder>() {
+class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val mValues: ArrayList<RecordItem>, private val mListener: OnRecordListFragmentInteractionListener?) : RecyclerView.Adapter<RecordItemRecyclerViewAdapter.ViewHolder>(), Filterable {
 
 
     var mValuesFiltered : ArrayList<RecordItem> = ArrayList() //For search filter purposes
@@ -40,7 +45,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.mItem = mValues[position]
+        holder.mItem = mValuesFiltered[position] //mValues[position] //Restore this if you want to remove filtering
         //val course = holder.mItem?.course
         val teachingContent = holder.mItem?.teachingContent
         val results = holder.mItem?.results
@@ -157,7 +162,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
     }
 
     override fun getItemCount(): Int {
-        return mValues.size
+        return mValuesFiltered.size
     }
 
     fun getItem(index: Int): RecordItem {
@@ -284,6 +289,34 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
 
         override fun toString(): String {
             return super.toString() + " '" + mTitleView.text + "'"  + " '" + mTimedImageView.contentDescription + "'" + " '" + mLastTriedView.text + "'"
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    mValuesFiltered = mValues
+                }
+                else {
+                    val resultsList = ArrayList<RecordItem>()
+                    for (row in mValues) {
+                        if ((row.teachingContent as SETeachingContent).title.contains(charSearch, true)) {
+                            resultsList.add(row)
+                        }
+                    }
+                    mValuesFiltered = resultsList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = mValuesFiltered
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                mValuesFiltered = results?.values as ArrayList<RecordItem>
+                notifyDataSetChanged()
+            }
         }
     }
 }
