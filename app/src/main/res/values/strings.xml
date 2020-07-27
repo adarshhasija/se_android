@@ -89,7 +89,7 @@
     <string name="se_assistant_keyboard_test_end">The keyboard test was %s. You can open the keyboard test at any time by swiping right at the top of the main menu.\nTap screen to continue</string>
     <string name="view_all">View All</string>
     <string name="educator_search">Educator Search</string>
-    <string name="educator_profile">Educator Profile</string>
+    <string name="educator_profile">Your Educator Profile</string>
     <string name="educator_search_hint">If you know someone who is an Educator on this app, enter their full name here</string>
     <string name="class_search_hint">You can search Class 1, Class 2, Class 3, Class 8 etc</string>
     <string name="fun">Fun</string>

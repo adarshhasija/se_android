@@ -31,6 +31,7 @@ import kotlin.collections.ArrayList
 class SeOneListFragment : Fragment() {
     // TODO: Customize parameters
     private var mColumnCount = 1
+    private lateinit var mContext: Context
     private var mType : SEOneListItem.Type? = null
     private var mListener: OnSeOneListFragmentInteractionListener? = null
 
@@ -55,7 +56,7 @@ class SeOneListFragment : Fragment() {
             } else {
                 view.layoutManager = GridLayoutManager(context, mColumnCount)
             }
-            view.adapter = SeOneListItemRecyclerViewAdapter(getData(), mListener)
+            view.adapter = SeOneListItemRecyclerViewAdapter(context, getData(), mListener)
         }
         return view
     }
@@ -73,6 +74,7 @@ class SeOneListFragment : Fragment() {
         super.onAttach(context)
         if (context is OnSeOneListFragmentInteractionListener) {
             mListener = context
+            mContext = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
         }
