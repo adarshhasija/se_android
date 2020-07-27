@@ -227,10 +227,15 @@ class AnalyticsManager(private val mContext: Context) {
                index: to know if the user had to scroll down to find item
      */
     fun sendAnalyticsForRecordListItemTap(selected: RecordItem, index: Int) {
-        val bundle = Bundle()
+      /*  val bundle = Bundle()
         bundle.putString("title", (selected.teachingContent as? SETeachingContent)?.title)
         bundle.putInt("index", index)
-        logActionEvent("se1_record_list_item_tap", bundle)
+        logActionEvent("se1_record_list_item_tap", bundle)  */
+
+        //Doing this as we do not want to see many different events in Firebase. We will see only one and see what title was clicked
+        (selected.teachingContent as? SETeachingContent)?.title?.let {
+            sendAnalyticsForListItemTap(it, index)
+        }
     }
 
     /*
