@@ -165,6 +165,10 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
         return mValuesFiltered.size
     }
 
+    fun getFilteredItem(index: Int): RecordItem {
+        return mValuesFiltered.get(index)
+    }
+
     fun getItem(index: Int): RecordItem {
         return mValues.get(index)
     }

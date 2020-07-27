@@ -40,7 +40,7 @@ class TagListFragment : Fragment() {
     private var columnCount = 1
     private var mTeachingContent: SETeachingContent? = null
     private var mIsModeMultiSelect = false //true = When we are selecting tags for a particular teaching content
-    private lateinit var mAdapter : MyTagRecyclerViewAdapter
+    private lateinit var mAdapter : MyTagRecyclerViewAdapter //We are using this because we do not want the list to be recreated when we return to it from another fragment
     private lateinit var mContext: Context
 
     private var listener: OnListFragmentInteractionListener? = null
@@ -145,7 +145,7 @@ class TagListFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                (mAdapter as? MyTagRecyclerViewAdapter)?.filter?.filter(newText)
+                (view.list.adapter as? MyTagRecyclerViewAdapter)?.filter?.filter(newText)
                 return false
             }
         })

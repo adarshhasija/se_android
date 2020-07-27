@@ -50,6 +50,7 @@ class RecordListFragment : Fragment() {
     private var mExpentedTCs : Int? = null //This is used when fetching TCs based on tag search. We have to fetch TCs 1-by-1 one as the Tag object only returns TC id. We use this variable to keep track of how many TCs are fetched so that we can then call the results listener
     private var mListener: OnRecordListFragmentInteractionListener? = null
     private var mDatabaseResultsReference: DatabaseReference? = null
+    private lateinit var mAdapter: RecordItemRecyclerViewAdapter //We are using this because we do not want the list recreated whenever we return to it from another fragment
 
     /*
         This is called when displaying teaching content belonging to an educator
@@ -220,7 +221,7 @@ class RecordListFragment : Fragment() {
             return
         }
         for (i in 0 until itemCount) {
-            val menuItem = (adapter as RecordItemRecyclerViewAdapter).getItem(i)
+            val menuItem = (adapter as RecordItemRecyclerViewAdapter).getFilteredItem(i)
             //Assuming all results returned in the array are from same course/task
             //Only need to check first item in the array
             if (menuItem.isTaskIdExists(results.get(0).task_id.toString())) {
@@ -258,6 +259,29 @@ class RecordListFragment : Fragment() {
             }
 
         }
+        var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
+        /*   var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
+           for (mainMenuItem in mainMenuItems) {
+               if ((mainMenuItem.teachingContent as Task).id == 76.toLong()) {
+                   val map = (mainMenuItem.teachingContent as Task).toMap()
+                   val calendar = Calendar.getInstance()
+               //    map.put("created", calendar.timeInMillis)
+                   val databaseReference = FirebaseDatabase.getInstance().reference
+                   val key = "_" + (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
+                   databaseReference.child("teachingcontent").child(key).setValue(map)
+
+               //    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_741.jpg");
+               //    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.autism_1);
+               //    val baos = ByteArrayOutputStream();
+               //    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+               //    val data = baos.toByteArray();
+               //    storageRef.putBytes(data);
+               }
+           }   */
+        if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
+            mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
+        }
+        mAdapter = RecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -269,29 +293,7 @@ class RecordListFragment : Fragment() {
             view.list.layoutManager = LinearLayoutManager(context)
             view.list.addItemDecoration(DividerItemDecoration(context,
                     DividerItemDecoration.VERTICAL))
-            var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
-         /*   var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
-            for (mainMenuItem in mainMenuItems) {
-                if ((mainMenuItem.teachingContent as Task).id == 76.toLong()) {
-                    val map = (mainMenuItem.teachingContent as Task).toMap()
-                    val calendar = Calendar.getInstance()
-                //    map.put("created", calendar.timeInMillis)
-                    val databaseReference = FirebaseDatabase.getInstance().reference
-                    val key = "_" + (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
-                    databaseReference.child("teachingcontent").child(key).setValue(map)
-
-                //    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_741.jpg");
-                //    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.autism_1);
-                //    val baos = ByteArrayOutputStream();
-                //    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                //    val data = baos.toByteArray();
-                //    storageRef.putBytes(data);
-                }
-            }   */
-            if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
-                mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
-            }
-            view.list.adapter = RecordItemRecyclerViewAdapter(getContext(), mainMenuItems, mListener)
+            view.list.adapter = mAdapter
         }
         return view
     }
@@ -299,15 +301,18 @@ class RecordListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mCreator?.let {
-            setupTeachingContentListener(it)
-        }
-        mTag?.name?.let {
-            setupTCByTagListener(it)
-        }
-        mType?.let {
-            val tagAsString = it.toString().toUpperCase(Locale.getDefault())
-            setupTCByTagListener(tagAsString)
+        if (mAdapter.itemCount < 1) {
+            //Setup listeners only if adapter has not been populated before
+            mCreator?.let {
+                setupTeachingContentListener(it)
+            }
+            mTag?.name?.let {
+                setupTCByTagListener(it)
+            }
+            mType?.let {
+                val tagAsString = it.toString().toUpperCase(Locale.getDefault())
+                setupTCByTagListener(tagAsString)
+            }
         }
 
         svMain.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -335,8 +340,8 @@ class RecordListFragment : Fragment() {
         if (mTeachingContent == null && mNewlyCompletedResults.size > 0) {
             //This means we are not looking at a course specific list of tasks
             //We are looking at a general list of records and so we should update the list to show last updates
-            //mPassedInResults contains latest updates of just attempted tasks
-            //Update list only if mPassedInResults has values
+            //mNewlyCompletedResults contains latest updates of just attempted tasks
+            //Update list only if mNewlyCompletedResults has values
             insertNewlyCompletedResults(mNewlyCompletedResults)
             mNewlyCompletedResults.clear()
             (list.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
