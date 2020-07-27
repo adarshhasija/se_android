@@ -2,6 +2,7 @@ package com.starsearth.two.adapter
 
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +21,12 @@ import kotlinx.android.synthetic.main.fragment_tag.view.*
  */
 class MyTagRecyclerViewAdapter(
         private val mValues: ArrayList<TagListItem>,
-        private val mTeachingContent: SETeachingContent,
+        private val mTeachingContent: SETeachingContent?,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<MyTagRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
+    private var mIsModeMultiSelect: Boolean
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -33,6 +35,7 @@ class MyTagRecyclerViewAdapter(
             // one) that an item has been selected.
             //mListener?.onTagsSaveCompleted(item)
         }
+        mIsModeMultiSelect = mTeachingContent != null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -54,13 +57,18 @@ class MyTagRecyclerViewAdapter(
         with(holder.mView) {
             tag = item
             setOnClickListener {
-                if (mValues[position].checked) {
-                    mValues[position].checked = false
-                    holder.mTickIcon.visibility = View.GONE
+                if (mIsModeMultiSelect) {
+                    if (mValues[position].checked) {
+                        mValues[position].checked = false
+                        holder.mTickIcon.visibility = View.GONE
+                    }
+                    else {
+                        mValues[position].checked = true
+                        holder.mTickIcon.visibility = View.VISIBLE
+                    }
                 }
                 else {
-                    mValues[position].checked = true
-                    holder.mTickIcon.visibility = View.VISIBLE
+                    mListener?.onTagListItemSelected(tag as TagListItem)
                 }
             }
             //setOnClickListener(mOnClickListener)

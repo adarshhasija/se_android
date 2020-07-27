@@ -37,7 +37,8 @@ import kotlin.collections.HashMap
 class TagListFragment : Fragment() {
 
     private var columnCount = 1
-    private lateinit var mTeachingContent: SETeachingContent
+    private var mTeachingContent: SETeachingContent? = null
+    private var mIsModeMultiSelect = false //true = When we are selecting tags for a particular teaching content
     private lateinit var mContext: Context
 
     private var listener: OnListFragmentInteractionListener? = null
@@ -77,13 +78,17 @@ class TagListFragment : Fragment() {
                 (list?.adapter as MyTagRecyclerViewAdapter).notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
 
-                //Now we look for the ones that were selected
-                (activity as? MainActivity)?.mUser?.uid?.let {
-                    llPleaseWait?.visibility = View.VISIBLE
-                    val firebaseManager = FirebaseManager("teachingcontent")
-                    val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent.uid.toString(), it)
-                    query.addListenerForSingleValueEvent(mSelectedTagsListener)
+                if (mTeachingContent != null) {
+                    //Call this only if we have a teaching content
+                    //Now we look for the ones that were selected
+                    (activity as? MainActivity)?.mUser?.uid?.let {
+                        llPleaseWait?.visibility = View.VISIBLE
+                        val firebaseManager = FirebaseManager("teachingcontent")
+                        val query = firebaseManager.getQueryForTagsByUserId(mTeachingContent!!.uid.toString(), it)
+                        query.addListenerForSingleValueEvent(mSelectedTagsListener)
+                    }
                 }
+
             }
             list?.visibility = View.VISIBLE
         }
@@ -100,6 +105,9 @@ class TagListFragment : Fragment() {
 
         arguments?.let {
             mTeachingContent = it.getParcelable(ARG_TEACHING_CONTENT)
+            if (mTeachingContent != null) {
+                mIsModeMultiSelect = true
+            }
         }
     }
 
@@ -118,6 +126,7 @@ class TagListFragment : Fragment() {
                         DividerItemDecoration.VERTICAL))
                 var dummyArray = ArrayList<TagListItem>()
                 adapter = MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
+
             }
         }
         return view
@@ -153,7 +162,7 @@ class TagListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater?.inflate(R.menu.fragment_tags_list, menu)
+        if (mIsModeMultiSelect) inflater?.inflate(R.menu.fragment_tags_list, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -170,12 +179,12 @@ class TagListFragment : Fragment() {
                     val userId = (activity as? MainActivity)?.mUser?.uid
                     if (userId != null) {
                         llPleaseWait?.visibility = View.VISIBLE
-                        childUpdates.put("teachingcontent" + "/" + mTeachingContent.uid.toString() + "/tags/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("teachingcontent" + "/" + mTeachingContent?.uid.toString() + "/tags/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null
                         })
-                        childUpdates.put("tags" + "/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/teachingcontent/" + mTeachingContent.uid.toString() + "/" + userId, if (tagListItem.checked) {
+                        childUpdates.put("tags" + "/" + tagListItem.name.toUpperCase(Locale.getDefault()) + "/teachingcontent/" + mTeachingContent?.uid.toString() + "/" + userId, if (tagListItem.checked) {
                             true
                         } else {
                             null
@@ -221,6 +230,7 @@ class TagListFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         fun onTagsSaveCompleted()
+        fun onTagListItemSelected(tagListItem: TagListItem)
     }
 
     companion object {
@@ -237,5 +247,9 @@ class TagListFragment : Fragment() {
                         putParcelable(ARG_TEACHING_CONTENT, teachingContent)
                     }
                 }
+
+        @JvmStatic
+        fun newInstance() =
+                TagListFragment()
     }
 }

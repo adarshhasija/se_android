@@ -74,6 +74,11 @@ class MainActivity : AppCompatActivity(),
         alertDialog?.show()
     }
 
+    override fun onTagListItemSelected(tagListItem: TagListItem) {
+        val recordsListFragment = RecordListFragment.newInstance(tagListItem, "TAG")
+        openFragment(recordsListFragment, RecordListFragment.TAG)
+    }
+
     override fun onProfilePicTapped(imgByteArray: ByteArray) {
         val intent = Intent(this@MainActivity, FullScreenActivity::class.java)
         val bundle = Bundle()
@@ -362,6 +367,10 @@ class MainActivity : AppCompatActivity(),
         else if (type == SEOneListItem.Type.SEARCH_BY_CLASS) {
             val searchFragment = SearchFragment.newInstance("CLASS")
             openFragment(searchFragment, SearchFragment.TAG)
+        }
+        else if (type == SEOneListItem.Type.ALL_TAGS) {
+            val fragment = TagListFragment.newInstance()
+            openFragmentWithSlideToLeftEffect(fragment, TagListFragment.TAG)
         }
         else if (type == SEOneListItem.Type.EDUCATOR_PROFILE) {
             val profileEducatorFragment = ProfileEducatorFragment.newInstance()

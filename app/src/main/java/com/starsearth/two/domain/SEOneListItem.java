@@ -26,9 +26,10 @@ public class SEOneListItem {
         list.add(new SEOneListItem(context.getResources().getString(R.string.typing), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.english), Type.TAG));
         list.add(new SEOneListItem(context.getResources().getString(R.string.mathematics), Type.TAG));
-        list.add(new SEOneListItem(context.getResources().getString(R.string.educator_search), Type.EDUCATOR_SEARCH));
-        list.add(new SEOneListItem(context.getResources().getString(R.string.search_by_class), Type.SEARCH_BY_CLASS));
         list.add(new SEOneListItem(context.getResources().getString(R.string.fun), Type.TAG));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.all_tags), Type.ALL_TAGS));
+        list.add(new SEOneListItem(context.getResources().getString(R.string.educator_search), Type.EDUCATOR_SEARCH));
+        //list.add(new SEOneListItem(context.getResources().getString(R.string.search_by_class), Type.SEARCH_BY_CLASS));
         list.add(new SEOneListItem(context.getResources().getString(R.string.educator_profile), Type.EDUCATOR_PROFILE));
         list.add(new SEOneListItem(context.getResources().getString(R.string.keyboard_test), Type.KEYBOARD_TEST));
         list.add(new SEOneListItem(context.getResources().getString(R.string.phone_number), Type.PHONE_NUMBER));
@@ -66,6 +67,7 @@ public class SEOneListItem {
             GAME("GAME"),
             TIMED("TIMED"),
             ALL("ALL"),
+            ALL_TAGS("ALL_TAGS"),
             TAG("TAG")
             ;
 

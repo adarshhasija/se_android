@@ -98,6 +98,7 @@
     <string name="mathematics">Mathematics</string>
     <string name="search_by_class">Search By Class</string>
     <string name="search_by_class_hint">Enter class. eg: Class 1</string>
+    <string name="all_tags">All Tags</string>
     <string name="logout_successful">Logout Successful</string>
 
     <!-- Login screen -->
