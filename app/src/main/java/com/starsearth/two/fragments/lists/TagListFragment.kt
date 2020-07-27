@@ -4,10 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.*
 import android.util.Log
 import android.view.*
 import com.google.firebase.database.DataSnapshot
@@ -22,8 +19,12 @@ import com.starsearth.two.domain.SETeachingContent
 import com.starsearth.two.domain.TagListItem
 import com.starsearth.two.managers.FirebaseManager
 import kotlinx.android.synthetic.main.fragment_autismstory_list.*
+import kotlinx.android.synthetic.main.fragment_autismstory_list.list
 import kotlinx.android.synthetic.main.fragment_profile_educator.*
+import kotlinx.android.synthetic.main.fragment_records_list.*
+import kotlinx.android.synthetic.main.fragment_records_list.view.*
 import kotlinx.android.synthetic.main.fragment_tag_list.view.*
+import kotlinx.android.synthetic.main.fragment_tag_list.view.list
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -137,6 +138,17 @@ class TagListFragment : Fragment() {
 
         list?.visibility = View.GONE
         llPleaseWait?.visibility = View.VISIBLE
+
+        svMain.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                (view.list.adapter as? MyTagRecyclerViewAdapter)?.filter?.filter(newText)
+                return false
+            }
+        })
 
         val firebaseManager = FirebaseManager("tags")
         val query = firebaseManager.queryForTags

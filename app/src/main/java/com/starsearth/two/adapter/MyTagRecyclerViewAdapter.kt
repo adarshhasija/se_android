@@ -6,9 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import com.starsearth.two.R
+import com.starsearth.two.domain.RecordItem
 import com.starsearth.two.domain.SETeachingContent
 import com.starsearth.two.domain.TagListItem
 import com.starsearth.two.fragments.lists.TagListFragment.OnListFragmentInteractionListener
@@ -23,10 +26,15 @@ class MyTagRecyclerViewAdapter(
         private val mValues: ArrayList<TagListItem>,
         private val mTeachingContent: SETeachingContent?,
         private val mListener: OnListFragmentInteractionListener?)
-    : RecyclerView.Adapter<MyTagRecyclerViewAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<MyTagRecyclerViewAdapter.ViewHolder>(), Filterable {
 
     private val mOnClickListener: View.OnClickListener
     private var mIsModeMultiSelect: Boolean
+
+    var mValuesFiltered : ArrayList<TagListItem> = ArrayList() //For search filter purposes
+    init {
+        mValuesFiltered = mValues
+    }
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -45,7 +53,7 @@ class MyTagRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = mValuesFiltered[position] //mValues[position] //Restore this if you want to remove filtering
         holder.mContentView.text = item.name
         if (item.checked) {
             holder.mTickIcon.visibility = View.VISIBLE
@@ -91,7 +99,7 @@ class MyTagRecyclerViewAdapter(
         return mValues
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = mValuesFiltered.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mContentView: TextView = mView.content
@@ -99,6 +107,34 @@ class MyTagRecyclerViewAdapter(
 
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    mValuesFiltered = mValues
+                }
+                else {
+                    val resultsList = ArrayList<TagListItem>()
+                    for (row in mValues) {
+                        if (row.name.contains(charSearch, true)) {
+                            resultsList.add(row)
+                        }
+                    }
+                    mValuesFiltered = resultsList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = mValuesFiltered
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                mValuesFiltered = results?.values as ArrayList<TagListItem>
+                notifyDataSetChanged()
+            }
         }
     }
 }

@@ -10,10 +10,19 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".fragments.lists.TagListFragment" >
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/svMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_overlay"
+        app:defaultQueryHint="Filter by tag name"
+        app:iconifiedByDefault="false" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/svMain"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/fragment_tag" />
 
