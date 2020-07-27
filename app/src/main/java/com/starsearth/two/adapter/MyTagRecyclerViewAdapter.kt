@@ -66,12 +66,12 @@ class MyTagRecyclerViewAdapter(
             tag = item
             setOnClickListener {
                 if (mIsModeMultiSelect) {
-                    if (mValues[position].checked) {
-                        mValues[position].checked = false
+                    if (mValuesFiltered[position].checked) {
+                        mValuesFiltered[position].checked = false
                         holder.mTickIcon.visibility = View.GONE
                     }
                     else {
-                        mValues[position].checked = true
+                        mValuesFiltered[position].checked = true
                         holder.mTickIcon.visibility = View.VISIBLE
                     }
                 }
@@ -97,6 +97,10 @@ class MyTagRecyclerViewAdapter(
 
     fun getAllItems() : ArrayList<TagListItem> {
         return mValues
+    }
+
+    fun getAllFilteredItems() : ArrayList<TagListItem> {
+        return mValuesFiltered
     }
 
     override fun getItemCount(): Int = mValuesFiltered.size

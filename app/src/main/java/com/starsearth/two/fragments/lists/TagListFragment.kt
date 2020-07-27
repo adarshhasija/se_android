@@ -40,6 +40,7 @@ class TagListFragment : Fragment() {
     private var columnCount = 1
     private var mTeachingContent: SETeachingContent? = null
     private var mIsModeMultiSelect = false //true = When we are selecting tags for a particular teaching content
+    private lateinit var mAdapter : MyTagRecyclerViewAdapter
     private lateinit var mContext: Context
 
     private var listener: OnListFragmentInteractionListener? = null
@@ -110,6 +111,8 @@ class TagListFragment : Fragment() {
                 mIsModeMultiSelect = true
             }
         }
+        var dummyArray = ArrayList<TagListItem>()
+        mAdapter = MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -125,8 +128,8 @@ class TagListFragment : Fragment() {
                 }
                 view.list.addItemDecoration(DividerItemDecoration(context,
                         DividerItemDecoration.VERTICAL))
-                var dummyArray = ArrayList<TagListItem>()
-                adapter = MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
+                //var dummyArray = ArrayList<TagListItem>()
+                adapter = mAdapter //MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
 
             }
         }
@@ -136,23 +139,26 @@ class TagListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list?.visibility = View.GONE
-        llPleaseWait?.visibility = View.VISIBLE
-
         svMain.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                (view.list.adapter as? MyTagRecyclerViewAdapter)?.filter?.filter(newText)
+                (mAdapter as? MyTagRecyclerViewAdapter)?.filter?.filter(newText)
                 return false
             }
         })
 
-        val firebaseManager = FirebaseManager("tags")
-        val query = firebaseManager.queryForTags
-        query.addListenerForSingleValueEvent(mTagsListener)
+        if (mAdapter.itemCount < 1) {
+            //Adapter was already populated before. We are simply returning back to the fragment. No need to repopulate
+            list?.visibility = View.GONE
+            llPleaseWait?.visibility = View.VISIBLE
+            val firebaseManager = FirebaseManager("tags")
+            val query = firebaseManager.queryForTags
+            query.addListenerForSingleValueEvent(mTagsListener)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -185,7 +191,7 @@ class TagListFragment : Fragment() {
                     return false //In case the user is pressing it multiple times
                 }
 
-                val tagListItems = (view?.list?.adapter as MyTagRecyclerViewAdapter).getAllItems()
+                val tagListItems = (view?.list?.adapter as MyTagRecyclerViewAdapter).getAllFilteredItems()
                 val childUpdates = HashMap<String, Any?>()
                 for (tagListItem in tagListItems) {
                     val userId = (activity as? MainActivity)?.mUser?.uid
