@@ -6282,7 +6282,7 @@
       "timed": false,
       "isTextVisibleOnStart": false,
       "submitOnReturnTapped": true,
-      "ordered": false,
+      "ordered": true,
       "title": "Money in US",
       "instructions": "The following words relate to money in the US",
       "content": [
@@ -6316,7 +6316,7 @@
       "timed": false,
       "isTextVisibleOnStart": false,
       "submitOnReturnTapped": true,
-      "ordered": false,
+      "ordered": true,
       "title": "Measurements",
       "instructions": "These words relate to measurements in the US",
       "content": [
