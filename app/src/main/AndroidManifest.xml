@@ -25,7 +25,6 @@
         <activity
             android:name="com.starsearth.two.activity.auth.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.starsearth.two.activity.AdminModeActivity" />
         <activity android:name="com.starsearth.two.activity.auth.SignupActivity" />
         <activity
             android:name="com.starsearth.two.activity.MainActivity"
