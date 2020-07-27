@@ -301,7 +301,7 @@ class MainActivity : AppCompatActivity(),
         }
         else {
             (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
-            val intent = Intent(this@MainActivity, TaskTwoActivity::class.java)
+            val intent = Intent(this@MainActivity, TaskActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("task", task)
             intent.putExtras(bundle)

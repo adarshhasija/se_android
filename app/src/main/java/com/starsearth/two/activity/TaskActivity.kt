@@ -15,7 +15,6 @@ import android.os.Vibrator
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.Window
@@ -29,7 +28,7 @@ import com.starsearth.two.domain.Response
 import com.starsearth.two.domain.Task
 import com.starsearth.two.domain.TaskContent
 import com.starsearth.two.listeners.SeOnTouchListener
-import kotlinx.android.synthetic.main.activity_task_two.*
+import kotlinx.android.synthetic.main.activity_task.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -37,7 +36,7 @@ import kotlin.collections.HashMap
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInterface {
+class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInterface {
 
     override fun gestureTap() {
         if (mTask.type == Task.Type.TAP_SWIPE) {
@@ -175,7 +174,7 @@ class TaskTwoActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListener
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        setContentView(R.layout.activity_task_two)
+        setContentView(R.layout.activity_task)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
 

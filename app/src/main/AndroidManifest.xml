@@ -41,11 +41,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.starsearth.two.activity.TaskActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.starsearth.two.activity.auth.AddEditPhoneNumberActivity"
             android:label="@string/enter_phone_number"
             android:windowSoftInputMode="stateVisible" />
@@ -88,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.starsearth.two.activity.TaskTwoActivity"
+            android:name="com.starsearth.two.activity.TaskActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
