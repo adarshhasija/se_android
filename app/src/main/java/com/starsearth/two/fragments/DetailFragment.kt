@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,8 +84,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     private val mResultValuesListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val value = entry.value as Map<String, Any>
@@ -112,21 +112,21 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
             }
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
 
     private val mTeachingContentListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null) {
                 //TODO: Process TeachingContent here. Map contains values of a single object
                 //var result = Result((map as Map<String, Any>))
             }
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
@@ -135,7 +135,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
+            mTeachingContent = requireArguments().getParcelable(ARG_TEACHING_CONTENT)
          //   val parcelableArrayList : ArrayList<Parcelable>? = arguments?.getParcelableArrayList<Parcelable>(ARG_RESULTS)
          //   parcelableArrayList?.forEach { mResults.add((it as Result)) }
         }
@@ -191,13 +191,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     fun updateUIVisibility() {
         //Set visibility for all UI
         tvInstruction?.visibility = View.VISIBLE
-        llTap?.visibility =
+    /*    llTap?.visibility =
                 if ((mTeachingContent as? Task)?.type == Task.Type.TAP_SWIPE) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */ //Sept 2022: Hiding this as true/false will now be handled using standard buttons. For Accessibility.
         llSlides?.visibility =
                 if ((mTeachingContent as? Task)?.type == Task.Type.SLIDES) {
                     View.VISIBLE
@@ -240,13 +240,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }
-        llSwipe?.visibility =
+    /*    llSwipe?.visibility =
                 if ((mTeachingContent as? Task)?.type == Task.Type.TAP_SWIPE) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */ //Sept 2022: Hiding this as true/false will now be handled using standard buttons. For Accessibility.
         tvProgress?.visibility =
                 if (mTeachingContent is Course) {
                     View.VISIBLE
@@ -254,13 +254,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }
-        tvSingleTapToRepeat?.visibility =
-                if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+        tvSingleTapToRepeat?.visibility = View.GONE
+            /*    if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */
         tvTapScreenToStart?.visibility =
                 if (mTeachingContent is Course && (mTeachingContent as Course).isCourseComplete(mResults.toList())) {
                     View.GONE
@@ -275,7 +275,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 else {
                     View.GONE
                 }   */
-        tvLongPressForMoreOptions?.visibility = View.VISIBLE //At minimum, user must always be able to see creator's name
+        tvLongPressForMoreOptions?.visibility = View.GONE //Sept 2022: Not giving this right now  //View.VISIBLE //At minimum, user must always be able to see creator's name
             /*    if (mTeachingContent is Course
                         || (activity as? MainActivity)?.mEducator != null
                         || (mTeachingContent is Task && mResults.isNotEmpty())
@@ -334,14 +334,16 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }
         tvTimeLimit?.text =
                 if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 0) {
-                    (((mTeachingContent as Task).durationMillis/1000)/60).toString() + " " + "m"
+                    (((mTeachingContent as Task).durationMillis/1000)/60).toString() + " " + "minute"
                 }
                 else {
                     "0"
                 }
 
-        tvTapScreenToStart?.text =
-                if ((context as? MainActivity)?.mUser == null && (mTeachingContent as? Task)?.type != Task.Type.SLIDES) {
+
+
+        tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start) //Uncomment this if user auth is not being used
+            /*    if ((context as? MainActivity)?.mUser == null && (mTeachingContent as? Task)?.type != Task.Type.SLIDES) {
                     context?.resources?.getString(R.string.tap_screen_to_login)
                 }
                 else if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
@@ -350,7 +352,7 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                 }
                 else {
                     context?.resources?.getString(R.string.tap_screen_to_start)
-                }
+                }   */ //Uncomment this if user authentication is being used and we need to notify user to login
 
         tvSwipeToContinue?.text = ""
              /*   if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true && mTeachingContent is Course && (mTeachingContent as Course).hasKeyboardTest) {
@@ -360,13 +362,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     context?.resources?.getString(R.string.swipe_for_keyboard_test)
                 }   */
 
-        tvLongPressForMoreOptions?.text =
-                if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+        tvLongPressForMoreOptions?.text = context?.resources?.getString(R.string.long_press_for_more_options)
+            /*    if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     context?.resources?.getString(R.string.tap_and_long_press_for_more_options)
                 }
                 else {
                     context?.resources?.getString(R.string.long_press_for_more_options)
-                }
+                }   */
 
         clTask?.contentDescription = getContentDescriptionForAccessibility() //set for accessibility
     }
@@ -465,14 +467,14 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     //end of the flow to confirm to the fragment that login is complete
     fun onLoginComplete(uid : String) {
         if (uid != null) {
-            tvTapScreenToStart?.text =
-                    if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+            tvTapScreenToStart?.text = context?.resources?.getString(R.string.tap_screen_to_start)
+               /*     if ((activity?.application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                         //Assuming the user is logged in
                         context?.resources?.getString(R.string.double_tap_or_enter_to_start)
                     }
                     else {
                         context?.resources?.getString(R.string.tap_screen_to_start)
-                    }
+                    }   */
 
             tvTapScreenToStart?.visibility = View.VISIBLE
             tvTapScreenToStart?.let { animateTextViewLarge(it) }
@@ -486,8 +488,8 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
     }
 
     fun onActivityResultOK(data: Intent?) {
-        data?.let {
-            taskComplete(it.extras)
+        data?.extras?.let {
+            taskComplete(it)
         }
         if (mResults.size > 0) {
             if ((activity?.application as? StarsEarthApplication)?.adsManager?.shouldShowAd(mTeachingContent, mResults.last()) == true) {
@@ -552,13 +554,13 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnDetailFragmentInteractionListener) {
             mListener = context
             mContext = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnDetailFragmentInteractionListener")
+            throw RuntimeException(requireContext().toString() + " must implement OnDetailFragmentInteractionListener")
         }
     }
 

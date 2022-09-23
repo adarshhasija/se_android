@@ -3,15 +3,15 @@ package com.starsearth.two.activity
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -294,12 +294,7 @@ class MainActivity : AppCompatActivity(),
             val autismStoryFragment = AutismStoryFragment.newInstance(task)
             openFragment(autismStoryFragment, AutismStoryFragment.TAG)
         }
-        else if (mUser == null) {
-            //redirect to login
-            val intent = Intent(this@MainActivity, AddEditPhoneNumberActivity::class.java)
-            startActivityForResult(intent, LOGIN_REQUEST)
-        }
-        else {
+        else  {
             (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
             val intent = Intent(this@MainActivity, TaskActivity::class.java)
             val bundle = Bundle()
@@ -307,6 +302,20 @@ class MainActivity : AppCompatActivity(),
             intent.putExtras(bundle)
             startActivityForResult(intent, TASK_ACTIVITY_REQUEST)
         }
+        //Sept 2022: We are removing authentication. These conditions below come into play if there is authentication. And the above else condition should be removed if there is authentication
+     /*   else if (mUser != null) {
+            (application as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForDetailScreenGesture(task, AnalyticsManager.Companion.GESTURES.TAP.toString())
+            val intent = Intent(this@MainActivity, TaskActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable("task", task)
+            intent.putExtras(bundle)
+            startActivityForResult(intent, TASK_ACTIVITY_REQUEST)
+        }
+        else {
+            //redirect to login
+            val intent = Intent(this@MainActivity, AddEditPhoneNumberActivity::class.java)
+            startActivityForResult(intent, LOGIN_REQUEST)
+        }   */
 
     }
 
@@ -424,23 +433,23 @@ class MainActivity : AppCompatActivity(),
     }
 
     private val mUserValueChangeListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val key = dataSnapshot?.key
-            val value = dataSnapshot?.value as Map<String, Any?>
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val key = snapshot?.key
+            val value = snapshot?.value as Map<String, Any?>
             if (key != null && value != null) {
                 mUser = User(key, value)
             }
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
 
         }
 
     }
 
     private val mEducatorValueChangeListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val key = entry.key as String
@@ -451,7 +460,7 @@ class MainActivity : AppCompatActivity(),
             }
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
 
         }
 
@@ -490,8 +499,10 @@ class MainActivity : AppCompatActivity(),
         mAuth?.addAuthStateListener(mAuthListener)
 
         FirebaseAuth.getInstance().currentUser?.let {
-            Crashlytics.log("UIID: " + it.uid)
-            Crashlytics.log("PHONE NUMBER: " + it.phoneNumber)
+            //Crashlytics.log("UIID: " + it.uid)
+            //Crashlytics.log("PHONE NUMBER: " + it.phoneNumber)
+            FirebaseCrashlytics.getInstance().log("UIID: " + it.uid)
+            FirebaseCrashlytics.getInstance().log("PHONE NUMBER: " + it.phoneNumber)
         }
 
         if (mUser == null) {
@@ -508,9 +519,11 @@ class MainActivity : AppCompatActivity(),
             openFragment(searchFragment, SearchFragment.TAG)
         }
         else {
-            val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_main, seOneListFragment).commit()
+         //   val seOneListFragment = SeOneListFragment.newInstance(SEOneListItem.Type.TAG)
+         //   supportFragmentManager.beginTransaction()
+         //           .add(R.id.fragment_container_main, seOneListFragment).commit()
+            val recordsListFragment = RecordListFragment.newInstance(SEOneListItem.Type.TAG, "social_media")
+            openFragment(recordsListFragment, RecordListFragment.TAG)
         }
 
     }

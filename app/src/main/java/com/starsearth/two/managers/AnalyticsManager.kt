@@ -8,7 +8,7 @@ import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.starsearth.two.BuildConfig
+//import com.starsearth.two.BuildConfig
 import com.starsearth.two.R
 import com.starsearth.two.application.StarsEarthApplication
 import com.starsearth.two.domain.*
@@ -34,7 +34,7 @@ class AnalyticsManager(private val mContext: Context) {
     }
 
     private fun updateAnalytics() {
-        if (!BuildConfig.DEBUG) {
+        if (/*!BuildConfig.DEBUG*/ false) { //BuildConfig caused compiling issues. We dont want this block right now.
             val remoteConfigAnalytics = (mContext as StarsEarthApplication).remoteConfigAnalytics
             if (remoteConfigAnalytics.equals("all", ignoreCase = true)) {
                 if (firebaseAnalytics == null) {
@@ -264,6 +264,11 @@ class AnalyticsManager(private val mContext: Context) {
         bundle.putBoolean("task_timed", task?.timed ?: false)
         bundle.putBoolean("task_isGame", task?.isGame ?: false)
         logActionEvent("se1_task_cancelled", bundle)
+    }
+
+    fun sendAnalyticsForTaskComplete() {
+        val bundle = Bundle()
+        logActionEvent("se1_task_complete", bundle)
     }
 
 

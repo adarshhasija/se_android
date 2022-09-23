@@ -1,7 +1,7 @@
 package com.starsearth.two.domain;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,11 +20,11 @@ public class FirebaseRemoteConfigWrapper {
         mFirebaseRemoteConfig = com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings.Builder configSettingsBuilder = new FirebaseRemoteConfigSettings.Builder();
         if (BuildConfig.DEBUG) {
-            configSettingsBuilder.setDeveloperModeEnabled(BuildConfig.DEBUG);
+            //configSettingsBuilder.setMinimumFetchIntervalInSeconds(3600);
         }
         FirebaseRemoteConfigSettings configSettings = configSettingsBuilder.build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
         updateRemoteConfigs();
     }
 
@@ -46,7 +46,7 @@ public class FirebaseRemoteConfigWrapper {
 
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
-                            mFirebaseRemoteConfig.activateFetched();
+                            mFirebaseRemoteConfig.activate();
                             ((StarsEarthApplication) mContext).getAnalyticsManager().remoteConfigUpdated();
                         }
                     }

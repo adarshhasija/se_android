@@ -9016,7 +9016,174 @@
         }
       ],
       "isKeyboardRequisred": true
+    },
+    {
+      "id": 159,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Commonwealth Games",
+      "instructions": "Is the CWG host and year correct?",
+      "tap": ["Birmingham 2022","Gold  Coast 2018","Glasgow 2014","Delhi 2010","Melbourne 2006","Manchester 2002","Kuala Lumpur 1998","Victoria 1994","Auckland 1990",
+        "Edinburgh 1986","Brisbane 1982","Edmonton 1978","Christchurch 1974","Edinburgh 1970","Kingston 1966","Perth 1962","Cardiff 1958","Vancouver 1954", "Auckland 1950"
+      ],
+      "swipe": ["Glasgow 2022","Delhi 2018","Edinburgh 2014","Gold Coast 2010","Birmingham 2006","Christchurch 2002","Glasgow 1998",
+        "Auckland 1994","Perth 1990","Brisbane 1986","Jamaica 1984","Mumbai 1980","Auckland 1976","Gold Coast 1974","Cardiff 1970",
+        "Manchester 1966","Vancouver 1962","Sydney 1958","Kuala Lumpur 1954","Glasgow 1950"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 160,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Indian Independence",
+      "instructions": "Are these statements regarding Indian independence correct?",
+      "tap": ["Sepoy Mutiny happened in 1857", "Indian National Congress established 1885", "Gandhi returned to India in 1915", "non-Cooperation Movement started in 1920", "Dandi March was in 1930", "Quit India Movement started in 1942", "Royal Navy Strike was in 1946", "India became independent in 1947", "Purna Swaraj was 1930", "Champaran Satyagraha was in 1917", "Lucknow Pact was in 1916", "Jallianwala Bagh Massacre was in 1919"
+      ],
+      "swipe": ["Sepoy Mutiny happened in 1860", "Sepoy Mutiny happened in 1856", "Indian National Congress established 1890", "Indian National Congress established 1880", "Gandhi returned to India in 1919", "Royal Navy Strike was in 1945", "non-Cooperation Movement started in 1921", "non-Cooperation Movement started in 1922", "Dandi March was in 1929", "Dandi March was in 1931", "Quit India Movement started in 1941", "Quit India Movement started in 1943", "Royal Navy Strike was in 1944", "Gandhi returned to India in 1910",  "India became independent in 1946", "India became independent in 1948", "Purna Swaraj was 1931", "Purna Swaraj was 1932", "Champaran Satyagraha was in 1918", "Champaran Satyagraha was in 1919", "Lucknow Pact was in 1917", "Lucknow Pact was in 1918", "Sepoy Mutiny happened in 1870", "Indian National Congress established 1870", "Quit India Movement started in 1946", "Gandhi returned to India in 1910", "Jallianwala Bagh Massacre was in 1921", "Jallianwala Bagh Massacre was in 1923", "Jallianwala Bagh Massacre was in 1924", "non-Cooperation Movement started in 1925", "Lucknow Pact was in 1921"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 161,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Asia Cup Hosts",
+      "instructions": "Is the Asia Cup host and year correct?",
+      "tap": ["India 2018", "Pakistan 2018", "SriLanka 2018", "Bangladesh 2018", "UAE 2016", "Pakistan 2016", "India 2016", "SriLanka 2016", "SriLanka 2014", "UAE 2014", "Pakistan 2014", "India 2014", "SriLanka 2014", "UAE 2012", "Pakistan 2012", "India 2012", "SriLanka 2012", "UAE 2010", "Pakistan 2010", "India 2010", "Bangladesh 2010", "UAE 2008", "Bangladesh 2008", "India 2008", "SriLanka 2008", "UAE 2004", "Pakistan 2004", "India 2004", "Bangladesh 2004", "UAE 2000", "Pakistan 2000", "India 2000", "SriLanka 2000", "UAE 1997", "Pakistan 1997", "India 1997", "Bangladesh 1997", "Bangladesh 1995", "Pakistan 1995", "India 1995", "SriLanka 1995", "UAE 1990", "Pakistan 1990", "Bangladesh 1990", "SriLanka 1990", "UAE 1988", "Pakistan 1988", "India 1988", "SriLanka 1988", "UAE 1986", "Pakistan 1986", "India 1986", "Bangladesh 1986", "Bangladesh 1984", "Pakistan 1984", "India 1984", "SriLanka 1984" 
+      ],
+      "swipe": ["Sepoy Mutiny happened in 1860", "Sepoy Mutiny happened in 1856", "Indian National Congress established 1890", "Indian National Congress established 1880", "Gandhi returned to India in 1919", "Royal Navy Strike was in 1945", "non-Cooperation Movement started in 1921", "non-Cooperation Movement started in 1922", "Dandi March was in 1929", "Dandi March was in 1931", "Quit India Movement started in 1941", "Quit India Movement started in 1943", "Royal Navy Strike was in 1944", "Gandhi returned to India in 1910",  "India became independent in 1946", "India became independent in 1948", "Purna Swaraj was 1931", "Purna Swaraj was 1932", "Champaran Satyagraha was in 1918", "Champaran Satyagraha was in 1919", "Lucknow Pact was in 1917", "Lucknow Pact was in 1918", "Sepoy Mutiny happened in 1870", "Indian National Congress established 1870", "Quit India Movement started in 1946", "Gandhi returned to India in 1910", "Jallianwala Bagh Massacre was in 1921", "Jallianwala Bagh Massacre was in 1923", "Jallianwala Bagh Massacre was in 1924", "non-Cooperation Movement started in 1925", "Lucknow Pact was in 1921"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 162,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Asia Cup Winners",
+      "instructions": "Is the Asia Cup winner and year correct?",
+      "tap": ["India 2018","India 2016","SriLanka 2014","Pakistan 2012","India 2010","SriLanka 2008"
+      ],
+      "swipe": ["UAE 2018", "Pakistan 2018", "SriLanka 2018", "Bangladesh 2018", "Australia 2018", "England 2018", "Zimbabwe 2018", "UAE 2016", "Australia 2016", "Bangladesh 2016", "SriLanka 2016", "England 2016", "Australia 2014", "England 2014", "UAE 2014", "Pakistan 2014", "India 2014", "UAE 2012", "Bangladesh 2012", "India 2012", "SriLanka 2012", "Ireland 2012", "Zimbabwe 2012", "UAE 2010", "Pakistan 2010", "Zimbabwe 2010", "Bangladesh 2010", "Australia 2010", "UAE 2008", "Bangladesh 2008", "India 2008", "Pakistan 2008", "Australia 2008", "England 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 163,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "US Open tennis Winners",
+      "instructions": "Is the US Open tennis winner and year correct?",
+      "tap": ["Medvedev 2021","Thiem 2020","Nadal 2019","Djokovic 2018","Nadal 2017","Wawrinka 2016","Djokovic 2015","Cilic 2014","Nadal 2013",
+      "Murray 2012","Djokovic 2011","Nadal 2010","Del Potro 2009","Federer 2008", "Federer 2007", "Federer 2006", "Federer 2005", "Federer 2004", "Roddick 2003", "Sampras 2002", "Hewitt 2001", "Safin 2000"
+      ],
+      "swipe": ["Djokovic 2021", "Borg 2021", "Federer 2021", "Sampras 2021", "Djokovic 2020", "Nadal 2020", "Federer 2020", "Sampras 2020", "Agassi 2020", "Djokovic 2019", "Federer 2019", "Sampras 2019", "Agassi 2019", "Nadal 2018", "Federer 2018", "Borg 2018", "Sampras 2018", "Agassi 2018", "Djokovic 2017", "Federer 2017", "McEnroe 2017", "Sampras 2017", "Djokovic 2016", "Nadal 2016", "Federer 2016", "Sampras 2016", "Agassi 2016", "Nadal 2015", "Federer 2015", "Laver 2015", "Borg 2015", "McEnroe 2014", "Nadal 2014", "Federer 2014", "Sampras 2014", "Djokovic 2013", "Federer 2013", "Sampras 2013", "Henman 2013", "Laver 2013", "Djokovic 2012", "Nadal 2012", "McEnroe 2012", "Sampras 2012", "Agassi 2012", "Sampras 2011", "Federer 2011", "Roddick 2011", "Borg 2011", "Djokovic 2010", "Federer 2010", "Roddick 2010", "McEnroe 2010", "Borg 2010", "McEnroe 2009", "Nadal 2009", "Federer 2009", "Sampras 2009", "Roddick 2009", "Nadal 2008", "Roddick 2008", "Murray 2008", "Djokovic 2008", "Borg 2008", "McEnroe 2008", "Laver 2008", "Roddick 2007", "Sampras 2007", "Djokovic 2007", "Agassi 2007", "Borg 2007", "McEnroe 2007", "Roddick 2006", "Sampras 2006", "Djokovic 2006", "Agassi 2006", "Borg 2006", "McEnroe 2006", "Roddick 2005", "Sampras 2005", "Djokovic 2005", "Agassi 2005", "Borg 2005", "McEnroe 2005", "Roddick 2004", "Sampras 2004", "Djokovic 2004", "Agassi 2004", "Borg 2004", "McEnroe 2004", "Federer 2003", "Murray 2003", "Djokovic 2003", "Sampras 2003", "Agassi 2003", "McEnroe 2003", "Borg 2002", "Nadal 2002", "Agassi 2002", "Hewitt 2002", "Roddick 2002", "Sampras 2001", "Agassi 2001", "Roddick 2001", "Kyrgios 2001", "McEnroe 2001", "Sampras 2000", "Agassi 2000", "Roddick 2000", "McEnroe 2000", "Borg 2000" 
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 164,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Apple Event 2021",
+      "instructions": "Were these products announced in Apple's event in September 2021?",
+      "tap": ["iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max", "Apple Watch Series 7", "iPad mini", "iPad", "Fall detection for cycling", "Bike riding detection", "Guided meditations", "Pilates workout"
+      ],
+      "swipe": ["iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 12 XXL", "iPhone 14", "iPhone 14 mini", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 14 XXL", "iPhone X", "Apple Watch Series 8", "Apple Watch Series 6", "Apple Watch Series 5", "iPad Pro", "iPad Air", "Swimming workout", "Running workout", "Breathe app", "MacBook Pro", "MacBook Air", "MacBook", "Mac Pro", "AirPod", "AirPod Pro", "CarPlay", "Apple Pay", "iPhone SE", "iPhone 5C", "iSocks", "iCar", "iPad 2", "iShoes", "Apple Glasses", "Apple Spectacles", "Apple drone", "HomePod", "HomePod mini"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 165,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "UK Monarchs",
+      "instructions": "Are these British Monarchs and their time period correct?",
+      "tap": ["Charles III 2022 to Present", "Elizabeth II 1953 to 2022", "George VI 1936 to 1952", "George V 1910 to 1936", "Edward VII 1901 to 1910", "Victoria 1800s", "Charles I early 1600s", "Charles II late 1600s", "Elizabeth I late 1500s", "Mary I mid 1500s", "Henry VIII early 1500s"    
+      ],
+      "swipe": ["Charles III 2000 to 2010", "Charles III 1950 to 2000", "Elizabeth II 1900 to 2022", "Elizabeth II 1990 to 2022", "Elizabeth II 2010 to 2022", "George VI 1850 to 1900", "George VI 1970 to 2000", "George VI 1950 to 1960", "George V 1850 to 1900", "George V 1950 to 1960", "George V 1990 to 2022", "Edward VII 1800 to 1850", "Edward VII 1950 to 2000", "Edward VII 1850 to 1900", "Victoria early 1700s", "Victoria late 1700s", "Charles I 1850 to 1900", "Charles I 1700s", "Charles I 1500s",  "Charles II 1850 to 1900", "Charles II 1700s", "Charles II 1500s", "Elizabeth I late 1800s", "Elizabeth I early 1800s", "Elizabeth I early 1900s", "Mary I 1750 to 1800", "Mary I 1700 to 1750", "Mary I 1601 to 1649", "Mary I 1650 to 1700", "Henry VIII 1460 to 1499", "Henry VIII 1401 to 1449", "Henry VIII 1650 to 1700", "Henry VIII 1720 to 1745"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 166,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "iPhone Models",
+      "instructions": "Are these iPhone models and release year correct?",
+      "tap": ["iPhone 4s 2011", "iPhone 5 2012", "iPhone 5C 2013", "iPhone 5S 2013", "iPhone 6 2014", "iPhone 6S 2015", "iPhone 7 2016", "iPhone 8 2017", "iPhone X 2017", "iPhone XR 2018", "iPhone XS 2018", "iPhone 11 2019", "iPhone 12 2020", "iPhone 13 2021"
+      ],
+      "swipe": ["iPhone 4s 2010", "iPhone 4s 2018", "iPhone 5 2010", "iPhone 5 2019", "iPhone 5 2013", "iPhone 5S 2012", "iPhone 5S 2009", "iPhone 5C 2012", "iPhone 5C 2009", "iPhone 6 2010", "iPhone 6 2013", "iPhone 6 2015", "iPhone 6S 2013", "iPhone 6S 2011", "iPhone 6S 2016", "iPhone 7 2014", "iPhone 7 2011", "iPhone 7 2017", "iPhone 8 2011", "iPhone 8 2016", "iPhone 8 2018", "iPhone X 2012", "iPhone X 2016", "iPhone XR 2016", "iPhone XR 2017", "iPhone XS 2014", "iPhone XS 2015", "iPhone 11 2018", "iPhone 11 2015", "iPhone 12 2019", "iPhone 12 2014", "iPhone 13 2020", "iPhone 13 2013"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 167,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Roger Federer",
+      "instructions": "Did Federer win this tournament in this year?",
+      "tap": ["Australian Open 2018", "Wimbledon 2017", "Australian Open 2017", "Wimbledon 2012", "Australian Open 2010", "Wimbledon 2009", "French Open 2009", "US Open 2008", "US Open 2007", "Wimbledon 2007", "Australian Open 2007", "US Open 2006", "Wimbledon 2006", "Australian Open 2006", "US Open 2005", "Wimbledon 2005", "US Open 2004", "Wimbledon 2004", "Australian Open 2004", "Wimbledon 2003"
+      ],
+      "swipe": ["Wimbledon 2019", "Wimbledon 2021", "Wimbledon 2022", "US Open 2015", "Wimbledon 2015", "French Open 2019", "French Open 2018", "French Open 2017", "French Open 2011", "Wimbledon 2000", "Wimbledon 1995", "Wimbledon 1994", "Wimbledon 1990", "Wimbledon 1988", "Australian Open 2005", "French Open 2006", "Australian Open 2008", "US Open 2009", "French Open 2008", "Wimbledon 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
+    
   ],
 
   "courses": [

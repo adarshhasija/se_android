@@ -6,7 +6,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +50,7 @@ class ProfileEducatorFragment : Fragment() {
     private var listener: OnProfileEducatorFragmentInteractionListener? = null
 
     private val mValueListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             llPleaseWait?.visibility = View.GONE
             if (mEducator != null) {
                 //At the moment, this is called from 2 places. One for uid and one for phone number. One of them will return a object.
@@ -58,7 +58,7 @@ class ProfileEducatorFragment : Fragment() {
                 //Once we move to Cloud Firestore and can do OR calls we can remove this IF statement
                 return
             }
-            val map = dataSnapshot?.value
+            val map = snapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                         val key = entry.key as String
@@ -73,7 +73,7 @@ class ProfileEducatorFragment : Fragment() {
             }
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             llPleaseWait?.visibility = View.GONE
             changeText(getString(R.string.educator_not_authorized_msg))
             btnActivate?.let { toggleVisibilityWithAnimation(it, false) }

@@ -3,10 +3,10 @@ package com.starsearth.two.activity.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -71,10 +71,10 @@ class SendOTPActivity : AppCompatActivity() {
                     .show()
         }
 
-        override fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken?) {
-            super.onCodeSent(verificationId, token)
-            mVerificationId = verificationId
-            mToken = token
+        override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
+            super.onCodeSent(p0, p1)
+            mVerificationId = p0
+            mToken = p1
         }
     }
 
@@ -145,14 +145,14 @@ class SendOTPActivity : AppCompatActivity() {
                 mCallbacks);        // OnVerificationStateChangedCallbacks
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (outState != null) {
             outState.putString("verificationId", mVerificationId)
         }
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         mVerificationId = savedInstanceState?.getString("verificationId")
     }
@@ -280,7 +280,7 @@ class SendOTPActivity : AppCompatActivity() {
                         Log.d(TAG, "signInWithCredential:success")
 
                         val user = task.result.user
-                        phoneNumberVerificationSuccessful(user.uid)
+                        if (user != null) { phoneNumberVerificationSuccessful(user.uid) }
                     } else {
                         // Sign in failed, display a message and update the UI
                         Log.w(TAG, "signInWithCredential:failure", task.exception)

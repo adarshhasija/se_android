@@ -2,9 +2,9 @@ package com.starsearth.two.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +29,10 @@ class ResponseListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            mResponses.addAll(it.getParcelableArrayList(ARG_RESPONSES))
             startTimeMillis = it.getLong(ARG_START_TIME_MILLIS)
+        }
+        arguments?.getParcelableArrayList<ResponseTreeNode>(ARG_RESPONSES)?.let {
+            mResponses.addAll(it as Collection<ResponseTreeNode>)
         }
     }
 
@@ -41,7 +43,8 @@ class ResponseListFragment : Fragment() {
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager =
+                    LinearLayoutManager(context)
                 adapter = ResponseRecyclerViewAdapter(context, startTimeMillis, mResponses, listener)
             }
         }

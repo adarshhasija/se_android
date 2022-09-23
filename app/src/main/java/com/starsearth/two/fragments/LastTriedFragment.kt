@@ -3,7 +3,7 @@ package com.starsearth.two.fragments
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,14 +57,14 @@ class LastTriedFragment : Fragment() {
         else if (mTeachingContent is Course) {
             setLastTriedUI(mTeachingContent, (mResult as Result))
         }   */
-        tvTitle?.visibility = View.VISIBLE
-        tvTimestamp?.visibility =
-                if (mTeachingContent != null) {
+        tvQuestion?.visibility = View.VISIBLE
+        tvTimestamp?.visibility = View.GONE //Sept 2022: Dont  see the  need for it
+            /*    if (mTeachingContent != null) {
                     View.VISIBLE
                 }
                 else {
                     View.GONE
-                }
+                }   */
         tvMessage?.visibility =
                 if (!mMessage.isNullOrEmpty()) {
                     View.VISIBLE
@@ -79,14 +79,12 @@ class LastTriedFragment : Fragment() {
                 else {
                     View.GONE
                 }
+        tvTitle?.visibility = View.VISIBLE
         tvLongPressCloseScreen?.visibility = View.VISIBLE
 
-        tvTitle?.text =
-                if (!mTitle.isNullOrEmpty()) {
-                    mTitle
-                }
-                else if (mTeachingContent != null && mResult != null) {
-                    context?.resources?.getString(R.string.result)
+        tvQuestion?.text =
+                if ((mTeachingContent as? SETeachingContent)?.instructions?.isNullOrEmpty() == false) {
+                    (mTeachingContent as? SETeachingContent)!!.instructions
                 }
                 else {
                     ""
@@ -115,6 +113,16 @@ class LastTriedFragment : Fragment() {
                 else {
                     ""
                 }
+        tvTitle?.text =
+            if (!mTitle.isNullOrEmpty()) {
+                mTitle
+            }
+            else if (mTeachingContent != null && mResult != null) {
+                context?.resources?.getString(R.string.result)
+            }
+            else {
+                ""
+            }
         tvLongPressCloseScreen?.text =
                 if ((activity?.application as StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     context?.resources?.getText(R.string.tap_long_press_to_close_this_screen)

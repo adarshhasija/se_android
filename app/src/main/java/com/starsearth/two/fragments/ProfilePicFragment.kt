@@ -3,7 +3,7 @@ package com.starsearth.two.fragments
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +30,8 @@ class ProfilePicFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            mByteArray = it.getByteArray(ARG_IMG_ARRAY)
+        arguments?.getByteArray(ARG_IMG_ARRAY)?.let {
+            mByteArray = it
         }
     }
 

@@ -3,11 +3,11 @@ package com.starsearth.two.fragments.lists
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,11 +52,20 @@ class EducatorContentFragment : Fragment() {
         if (view.list is RecyclerView) {
             with(view) {
                 view.list.layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    columnCount <= 1 -> LinearLayoutManager(
+                        context
+                    )
+                    else -> GridLayoutManager(
+                        context,
+                        columnCount
+                    )
                 }
-                view.list.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
+                view.list.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
                 view.list.adapter = EducatorContentRecyclerViewAdapter(mContext, ArrayList(), listener)
             }
         }
@@ -72,9 +81,9 @@ class EducatorContentFragment : Fragment() {
             llPleaseWait?.visibility = View.VISIBLE
             val query = firebaseManager.getQueryForTeachingContentCreatedByUserId(currentUser)
             query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                override fun onDataChange(snapshot: DataSnapshot) {
                     val adapter = (list?.adapter as? EducatorContentRecyclerViewAdapter)
-                    val map = dataSnapshot?.value
+                    val map = snapshot?.value
                     if (map != null && (map as HashMap<*, *>).entries.size > 0) {
                         for (entry in map.entries) {
                             val key = entry.key.toString()
@@ -98,7 +107,7 @@ class EducatorContentFragment : Fragment() {
 
                 }
 
-                override fun onCancelled(p0: DatabaseError?) {
+                override fun onCancelled(error: DatabaseError) {
                     llPleaseWait?.visibility = View.GONE
                     list?.visibility = View.GONE
                     tvEmptyList?.visibility = View.VISIBLE

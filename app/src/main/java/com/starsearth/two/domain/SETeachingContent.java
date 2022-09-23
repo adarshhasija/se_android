@@ -33,6 +33,7 @@ public class SETeachingContent implements Parcelable {
         ENGLISH("english"),
         MATHEMATICS("mathematics"),
         TYPING("typing"),
+        SOCIAL_MEDIA("social_mmedia"),
         SPELLING("spelling")
         ;
 

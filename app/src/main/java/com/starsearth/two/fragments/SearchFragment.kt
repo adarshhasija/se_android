@@ -1,11 +1,11 @@
 package com.starsearth.two.fragments
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +44,8 @@ class SearchFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     private val mEducatorValuesListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null) {
                 val resultsArray = ArrayList<Parcelable>()
                 for (entry in (map as HashMap<*, *>).entries) {
@@ -93,7 +93,7 @@ class SearchFragment : Fragment() {
             llPleaseWait?.visibility = View.GONE
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             llPleaseWait?.visibility = View.GONE
             if (mTagResultsFound == false) {
                 val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
@@ -112,8 +112,8 @@ class SearchFragment : Fragment() {
     }
 
     private val mTagValuesListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null) {
                 val resultsArray = ArrayList<Parcelable>()
                 for (entry in (map as HashMap<*, *>).entries) {
@@ -156,7 +156,7 @@ class SearchFragment : Fragment() {
             llPleaseWait?.visibility = View.GONE
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             llPleaseWait?.visibility = View.GONE
             if (mUserResultsFound == false) {
                 val alertDialog = (activity?.application as? StarsEarthApplication)?.createAlertDialog(mContext)
@@ -207,7 +207,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
@@ -230,7 +230,7 @@ class SearchFragment : Fragment() {
                 //Should only proceed if a search is not currently in progress
                 val searchText = etSearch?.text.toString().trim().toUpperCase(Locale.getDefault())
                 if (searchText.length > 0) {
-                    val imm = activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val imm = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(etSearch.windowToken, 0) //Close keyboard
 
                     llPleaseWait?.visibility = View.VISIBLE

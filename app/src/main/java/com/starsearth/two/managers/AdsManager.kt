@@ -7,8 +7,9 @@ import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
+//import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+//import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.starsearth.two.BuildConfig
 import com.starsearth.two.application.StarsEarthApplication
 import com.starsearth.two.domain.Course
@@ -19,8 +20,8 @@ import java.util.Random
 
 class AdsManager(private val mContext: Context) {
     private var adRequest: AdRequest.Builder? = null
-    var googleInterstitialAd: InterstitialAd? = null
-        private set
+    //var googleInterstitialAd: InterstitialAd? = null
+        //private set
     var facebookInterstitalAd: com.facebook.ads.InterstitialAd? = null
         private set
 
@@ -28,7 +29,7 @@ class AdsManager(private val mContext: Context) {
     private val FACEBOOK = "facebook"
 
 
-    var mGoogleAdListener: AdListener = object : AdListener() {
+  /*  var mGoogleAdListener: AdListener = object : AdListener() {
         override fun onAdLoaded() {
             super.onAdLoaded()
             (mContext.applicationContext as StarsEarthApplication).analyticsManager.sendAnalyticsForAdvertisingEvent("AD_LOADED", GOOGLE)
@@ -43,7 +44,7 @@ class AdsManager(private val mContext: Context) {
             super.onAdImpression()
             (mContext.applicationContext as StarsEarthApplication).analyticsManager.sendAnalyticsForAdvertisingEvent("AD_IMPRESSION", GOOGLE)
         }
-    }
+    }   */
 
     var mFacebookAdListener: InterstitialAdListener = object : InterstitialAdListener {
         override fun onInterstitialDisplayed(ad: Ad) {
@@ -120,18 +121,18 @@ class AdsManager(private val mContext: Context) {
 
     fun showAd() {
         val ads = (mContext as? StarsEarthApplication)?.firebaseRemoteConfigWrapper?.ads
-        if (ads.equals(GOOGLE, true) && googleInterstitialAd?.isLoaded == true) {
+      /*  if (ads.equals(GOOGLE, true) && googleInterstitialAd?.isLoaded == true) {
             googleInterstitialAd?.show()
         }
         else if (ads.equals(FACEBOOK, true) && facebookInterstitalAd?.isAdLoaded == true) {
             facebookInterstitalAd?.show()
-        }
+        }   */
     }
 
     fun generateAd() {
         val ads = (mContext as StarsEarthApplication).firebaseRemoteConfigWrapper.ads
-        if (ads.equals(GOOGLE, ignoreCase = true) && googleInterstitialAd != null && adRequest != null) {
-            googleInterstitialAd!!.loadAd(adRequest!!.build())
+        if (ads.equals(GOOGLE, ignoreCase = true) /*&& googleInterstitialAd != null */&& adRequest != null) {
+            //googleInterstitialAd!!.loadAd(adRequest!!.build())
         } else if (ads.equals(FACEBOOK, ignoreCase = true) && facebookInterstitalAd != null) {
             //AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
             //AdSettings.addTestDevice("171f080c-a50d-457c-9226-bcdc194fda20"); //AH Mac simulator
@@ -154,20 +155,20 @@ class AdsManager(private val mContext: Context) {
     }
 
     private fun setupAdListeners() {
-        googleInterstitialAd!!.adListener = mGoogleAdListener
+        //googleInterstitialAd!!.adListener = mGoogleAdListener
         facebookInterstitalAd!!.setAdListener(mFacebookAdListener)
     }
 
     private fun initializeGoogleAds(context: Context) {
         if (BuildConfig.DEBUG) {
             // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-            MobileAds.initialize(context, "ca-app-pub-3940256099942544~3347511713")
-            googleInterstitialAd = InterstitialAd(context)
-            googleInterstitialAd!!.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+            //MobileAds.initialize(context, "ca-app-pub-3940256099942544~3347511713")
+            //googleInterstitialAd = InterstitialAd(context)
+            //googleInterstitialAd!!.adUnitId = "ca-app-pub-3940256099942544/1033173712"
         } else {
-            MobileAds.initialize(context, "ca-app-pub-1378964097701084~9829207692")
-            googleInterstitialAd = InterstitialAd(context)
-            googleInterstitialAd!!.adUnitId = "ca-app-pub-1378964097701084/1268191394"
+            //MobileAds.initialize(context, "ca-app-pub-1378964097701084~9829207692")
+            //googleInterstitialAd = InterstitialAd(context)
+            //googleInterstitialAd!!.adUnitId = "ca-app-pub-1378964097701084/1268191394"
         }
     }
 

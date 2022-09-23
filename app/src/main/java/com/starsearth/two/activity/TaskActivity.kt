@@ -8,10 +8,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
 import android.media.RingtoneManager
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Vibrator
+import android.os.*
+import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
@@ -22,7 +20,9 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.starsearth.two.R
+import com.starsearth.two.activity.auth.ChangePasswordActivity
 import com.starsearth.two.application.StarsEarthApplication
 import com.starsearth.two.domain.Response
 import com.starsearth.two.domain.Task
@@ -53,7 +53,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
 
             }
             else {
-                vibrate()
+                //vibrate() //This vibrates when a wrong answer is given. Instead we will give a vibration half the time is done.
                 if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_SWIPE,GESTURE_TAP,false, expectedAnswerContentId))
                 }
@@ -114,7 +114,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
 
             }
             else {
-                vibrate()
+                //vibrate() //This vibrates when a wrong answer is given. Instead we will give a vibration half the time is done.
                 if (expectedAnswerContentId != null) {
                     responses.add(Response(tvMain.text.toString(),GESTURE_TAP,GESTURE_SWIPE,false, expectedAnswerContentId))
                 }
@@ -179,14 +179,14 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
 
 
         intent?.extras?.let {
-            mTask = it.getParcelable(TASK)
+            mTask = it.getParcelable(TASK)!!
         }
         setupUI()
         startTimeMillis = System.currentTimeMillis()
         if (mTask.timed) {
             setupTimer(mTask.durationMillis.toLong(), 1000)
         }
-        cl?.setOnTouchListener(SeOnTouchListener(this))
+        //cl?.setOnTouchListener(SeOnTouchListener(this)) //Sept 2022: Using buttons instead
     }
 
     override fun onStart() {
@@ -203,6 +203,15 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                 inputMethodManager.showSoftInput(cl, 0)
             }, 500)
         }
+        btnTrue?.setOnClickListener { gestureTap() }
+        btnFalse?.setOnClickListener { gestureSwipe() }
+        btnSayTimeLeft?.setOnClickListener {
+            val millisUntilFinished = 61000 - timeTakenMillis
+            val secsUntilFinished = millisUntilFinished / 1000
+            tts?.speak(secsUntilFinished.toString() + " seconds", TextToSpeech.QUEUE_ADD, null, "1")
+        }
+        btnSayQuestion?.setOnClickListener { tts?.speak(tvQuestion?.text?.toString(), TextToSpeech.QUEUE_ADD, null, "1") }
+        btnRepeatStatement?.setOnClickListener { tts?.speak(tvMain?.text?.toString(), TextToSpeech.QUEUE_ADD, null, "1") }
         updateContent()
     }
 
@@ -236,8 +245,13 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
 
     private fun vibrate() {
         val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        // Vibrate for 100 milliseconds
-        v.vibrate(100)
+        // Vibrate for 200 milliseconds
+        //v.vibrate(200)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            v.vibrate(200)
+        }
     }
 
     private fun setupTimer(duration: Long, interval: Long) {
@@ -250,6 +264,13 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                         taskCancelled(Task.GESTURE_SPAM)
                     }
                     gestureSpamItemCounter = 0
+                }
+
+                if ((millisUntilFinished / 1000).toInt() == 30) {
+                    //at the halfway mark
+                    vibrate()
+                    Toast.makeText(this@TaskActivity, "Half time finished",
+                        Toast.LENGTH_SHORT).show()
                 }
 
                 if (millisUntilFinished / 1000 < 11) {
@@ -291,12 +312,12 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                     View.GONE
                 }
 
-        tvTapScreenToHearContent?.visibility =
-                if (!mTask.isTextVisibleOnStart) {
+        tvTapScreenToHearContent?.visibility = View.GONE
+           /*     if (!mTask.isTextVisibleOnStart) {
                     View.VISIBLE
                 } else {
                     View.GONE
-                }
+                }   */
 
         tvTimer?.visibility =
                 if (mTask.timed) {
@@ -323,6 +344,8 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
     }
 
     private fun setupUIText() {
+        tvQuestion?.text = mTask.instructions
+
         tvCompletedTotal?.text =
                 if (!mTask.timed && mTask.content.size > 0) {
                     "1" + "/" + mTask.content.size
@@ -330,12 +353,12 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                     ""
                 }
 
-        tvTapScreenToHearContent?.text =
+     /*   tvTapScreenToHearContent?.text =
                 if ((application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
                     getString(R.string.double_tap_screen_to_hear_text_again)
                 } else {
                     getString(R.string.tap_screen_to_hear_text_again)
-                }
+                }   */ //Not needed
     }
 
     private fun updateContent() {
@@ -421,7 +444,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
 
         imageView?.animate()
                 ?.alpha(1f)
-                ?.setDuration(150)
+                ?.setDuration(400)
                 ?.setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         imageView?.visibility = View.GONE
@@ -503,6 +526,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
     //Results constructor takes values as Long
     //Results from FirebaseManager have Integer as Long
     private fun taskCompleted() {
+        (applicationContext as? StarsEarthApplication)?.analyticsManager?.sendAnalyticsForTaskComplete()
         mCountDownTimer?.cancel()
         val map = HashMap<String, Any>()
         map["task_id"] = if (mTask.uid != null) { mTask.uid } else { mTask.id }

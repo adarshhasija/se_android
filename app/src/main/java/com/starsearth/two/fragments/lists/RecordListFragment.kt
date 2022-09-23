@@ -4,9 +4,9 @@ package com.starsearth.two.fragments.lists
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +16,8 @@ import com.starsearth.two.managers.AssetsFileManager
 import com.starsearth.two.R
 import com.starsearth.two.adapter.RecordItemRecyclerViewAdapter
 import java.util.*
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.SearchView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.appcompat.widget.SearchView
 import com.starsearth.two.activity.MainActivity
 import com.starsearth.two.comparator.ComparatorMainMenuItem
 import com.starsearth.two.domain.*
@@ -56,8 +56,8 @@ class RecordListFragment : Fragment() {
         This is called when displaying teaching content belonging to an educator
      */
     private val mTeachingContentListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            val map = dataSnapshot?.value
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val map = snapshot?.value
             if (map != null && (map as HashMap<*, *>).entries.size > 0) {
                 val tcList = ArrayList<SETeachingContent>()
                 for (entry in map.entries) {
@@ -91,7 +91,7 @@ class RecordListFragment : Fragment() {
             }
 
         }
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             progressBar?.visibility = View.GONE
             list?.visibility = View.GONE
             tvEmptyList?.visibility = View.VISIBLE
@@ -101,10 +101,10 @@ class RecordListFragment : Fragment() {
 
 
     private val mSingleTCItemListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             if (mExpentedTCs != null) mExpentedTCs = mExpentedTCs!! - 1
-            val key = dataSnapshot?.key
-            val map = dataSnapshot?.value as HashMap<String, Any>
+            val key = snapshot?.key
+            val map = snapshot?.value as HashMap<String, Any>
             if (key != null && map != null) {
                 val task = Task(key, map)
                 (list?.adapter as? RecordItemRecyclerViewAdapter)?.addItem(RecordItem(task))
@@ -113,12 +113,16 @@ class RecordListFragment : Fragment() {
                 mExpentedTCs = null
                 (list?.adapter as? RecordItemRecyclerViewAdapter)?.notifyDataSetChanged()
                 list?.layoutManager?.scrollToPosition(0)
-                (mContext as? MainActivity)?.mUser?.let { setupResultsListener(it) }
+                //Sept 2022: Do not plan to organize list by most recent results right now. So no need to make below call. Simply show the list of teaching content
+                //(mContext as? MainActivity)?.mUser?.let { setupResultsListener(it) }
+                progressBar?.visibility = View.GONE
+                list?.visibility = View.VISIBLE
+                tvEmptyList?.visibility = View.GONE
             }
 
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(p0: DatabaseError) {
             if (mExpentedTCs != null) mExpentedTCs = mExpentedTCs!! - 1
             if (mExpentedTCs != null && mExpentedTCs!! < 1) {
                 mExpentedTCs = null
@@ -131,9 +135,9 @@ class RecordListFragment : Fragment() {
     }
 
     private val mResultValuesListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             val adapter = (list?.adapter as? RecordItemRecyclerViewAdapter)
-            val map = dataSnapshot?.value
+            val map = snapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
@@ -155,7 +159,7 @@ class RecordListFragment : Fragment() {
             tvEmptyList?.visibility = View.GONE
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             progressBar?.visibility = View.GONE
             list?.visibility = View.VISIBLE
             tvEmptyList?.visibility = View.GONE
@@ -237,38 +241,42 @@ class RecordListFragment : Fragment() {
 
         mPassedInResults = ArrayList()
         if (arguments != null) {
-            mType = if (arguments!!.containsKey(ARG_TYPE) == true) {
-                        SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE)) //Can come from simple list
+            mType = if (requireArguments().containsKey(ARG_TYPE) == true) {
+                        SEOneListItem.Type.fromString(requireArguments().getString(ARG_TYPE)) //Can come from simple list
                         ?:
-                        DetailListFragment.ListItem.valueOf(arguments!!.getString(ARG_TYPE)!!) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
+                        DetailListFragment.ListItem.valueOf(requireArguments().getString(ARG_TYPE)!!) //Can come from Courses section REPEAT_PREVIOUSLY_ATTEMPTED_TASKS
                     }
                     else {
                         null
                     }
-            mContent = arguments!!.getString(ARG_CONTENT)
-            mTeachingContent = arguments!!.getParcelable(ARG_TEACHING_CONTENT)
-            arguments!!.getParcelableArrayList<Result>(ARG_RESULTS)?.let {
+            mContent = requireArguments().getString(ARG_CONTENT)
+            mTeachingContent = requireArguments().getParcelable(ARG_TEACHING_CONTENT)
+            requireArguments().getParcelableArrayList<Result>(ARG_RESULTS)?.let {
                 mPassedInResults.addAll(it)
             }
-            val searchType = arguments!!.getString(ARG_SEARCH_TYPE)
+            val searchType = requireArguments().getString(ARG_SEARCH_TYPE)
             if (searchType == "EDUCATOR") {
-                mCreator = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
+                mCreator = requireArguments().getParcelable(ARG_SELECTED_SEARCH_ITEM)
             }
             else if (searchType == "TAG") {
-                mTag = arguments!!.getParcelable(ARG_SELECTED_SEARCH_ITEM)
+                mTag = requireArguments().getParcelable(ARG_SELECTED_SEARCH_ITEM)
             }
 
         }
-        var mainMenuItems = ArrayList<RecordItem>() //getDataFromLocalFile(mType)
-        /*   var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL)
+        //var mainMenuItems = ArrayList<RecordItem>() //Uncomment this if you want to read teaching content from server
+        var mainMenuItems = getDataFromLocalFile(mType).reversed() as ArrayList<RecordItem> //Uncomment this if you want to read teaching content from local file
+         /*  var mainMenuItems = getDataFromLocalFile(SEOneListItem.Type.ALL) //Uncomment this block if you want to  upload a new TeachingContent item from tasks.json to Firebase
            for (mainMenuItem in mainMenuItems) {
-               if ((mainMenuItem.teachingContent as Task).id == 76.toLong()) {
+               if ((mainMenuItem.teachingContent as Task).id == 159.toLong()) {
                    val map = (mainMenuItem.teachingContent as Task).toMap()
                    val calendar = Calendar.getInstance()
                //    map.put("created", calendar.timeInMillis)
                    val databaseReference = FirebaseDatabase.getInstance().reference
                    val key = "_" + (mainMenuItem.teachingContent as Task).id.toString() //databaseReference.push().getKey(); //We want this to be the id from our local json file so that it remains the same whenever changes are made
                    databaseReference.child("teachingcontent").child(key).setValue(map)
+                   val tagsMap = HashMap<String, Boolean>()
+                   tagsMap["RycAhfhPsXOrUdbO8GOJqucktAA3"] = true
+                   databaseReference.child("tags/SOCIAL_MEDIA/teachingcontent/"+key).setValue(tagsMap)
 
                //    val storageRef = FirebaseStorage.getInstance().getReference().child("images/tc_741.jpg");
                //    val bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.autism_1);
@@ -277,7 +285,7 @@ class RecordListFragment : Fragment() {
                //    val data = baos.toByteArray();
                //    storageRef.putBytes(data);
                }
-           }   */
+           }    */
         if (mType == DetailListFragment.ListItem.REPEAT_PREVIOUSLY_PASSED_TASKS) {
             mainMenuItems = removeUnattemptedTasks(mainMenuItems, mPassedInResults)
         }
@@ -290,9 +298,14 @@ class RecordListFragment : Fragment() {
         // Set the adapter
         if (view.list is RecyclerView) {
             val context = view.getContext()
-            view.list.layoutManager = LinearLayoutManager(context)
-            view.list.addItemDecoration(DividerItemDecoration(context,
-                    DividerItemDecoration.VERTICAL))
+            view.list.layoutManager =
+                LinearLayoutManager(context)
+            view.list.addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
             view.list.adapter = mAdapter
         }
         return view
@@ -309,7 +322,7 @@ class RecordListFragment : Fragment() {
             mTag?.name?.let {
                 setupTCByTagListener(it)
             }
-            mType?.let {
+            mContent?.let {
                 val tagAsString = it.toString().toUpperCase(Locale.getDefault())
                 setupTCByTagListener(tagAsString)
             }
@@ -385,7 +398,7 @@ class RecordListFragment : Fragment() {
     /*
         If we are in REPEAT_PREVIOUSLY_ATTEMPTED_TASKS mode, we only want to see tasks that we have attempted. Remove the others
      */
-    private fun removeUnattemptedTasks(mainMenuItems: List<RecordItem>, resultList: List<Result>) : ArrayList<RecordItem> {
+    private fun removeUnattemptedTasks(mainMenuItems: ArrayList<RecordItem>, resultList: List<Result>) : ArrayList<RecordItem> {
         val returnList = ArrayList<RecordItem>()
         mainMenuItems.forEach {
             val isPassed = (it.teachingContent as? Task)?.isPassed(resultList)
@@ -448,8 +461,8 @@ class RecordListFragment : Fragment() {
         progressBar?.visibility = View.VISIBLE
         list?.visibility = View.GONE
         query?.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                val map = dataSnapshot?.value
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val map = snapshot?.value
                 if (map != null) {
                     val map1 =  (map as HashMap<*, *>).get(tagName.toUpperCase(Locale.getDefault()))
                     val tcMap =  (map1 as HashMap<*, *>).get("teachingcontent")
@@ -476,7 +489,7 @@ class RecordListFragment : Fragment() {
 
             }
 
-            override fun onCancelled(p0: DatabaseError?) {
+            override fun onCancelled(error: DatabaseError) {
                 progressBar?.visibility = View.GONE
                 list?.visibility = View.GONE
                 tvEmptyList?.visibility = View.VISIBLE
@@ -496,13 +509,13 @@ class RecordListFragment : Fragment() {
     }
 
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnRecordListFragmentInteractionListener) {
             mListener = context
             mContext = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
+            throw RuntimeException(requireContext().toString() + " must implement OnTaskDetailListFragmentListener")
         }
     }
 

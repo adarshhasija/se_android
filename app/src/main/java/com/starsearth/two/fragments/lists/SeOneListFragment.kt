@@ -2,10 +2,10 @@ package com.starsearth.two.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import com.starsearth.two.R
 import com.starsearth.two.adapter.SeOneListItemRecyclerViewAdapter
 import com.starsearth.two.domain.SEOneListItem
-import android.support.v7.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration
 import kotlin.collections.ArrayList
 
 
@@ -39,7 +39,7 @@ class SeOneListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            mType = SEOneListItem.Type.fromString(arguments!!.getString(ARG_TYPE))
+            mType = SEOneListItem.Type.fromString(requireArguments().getString(ARG_TYPE))
         }
     }
 
@@ -50,11 +50,24 @@ class SeOneListFragment : Fragment() {
         if (view is RecyclerView) {
             val context = view.getContext()
             if (mColumnCount <= 1) {
-                view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                view.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
+                view.layoutManager =
+                    LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                view.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
             } else {
-                view.layoutManager = GridLayoutManager(context, mColumnCount)
+                view.layoutManager =
+                    GridLayoutManager(
+                        context,
+                        mColumnCount
+                    )
             }
             view.adapter = SeOneListItemRecyclerViewAdapter(context, getData(), mListener)
         }
@@ -70,13 +83,13 @@ class SeOneListFragment : Fragment() {
     }
 
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnSeOneListFragmentInteractionListener) {
             mListener = context
             mContext = context
         } else {
-            throw RuntimeException(context!!.toString() + " must implement OnTaskDetailListFragmentListener")
+            throw RuntimeException(requireContext().toString() + " must implement OnTaskDetailListFragmentListener")
         }
     }
 

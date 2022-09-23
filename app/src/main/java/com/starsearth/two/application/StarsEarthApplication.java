@@ -4,11 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+//import com.google.android.gms.ads.InterstitialAd;
 import com.starsearth.two.domain.SeOneAccessibilityManager;
 import com.starsearth.two.managers.AdsManager;
 import com.starsearth.two.managers.AnalyticsManager;
@@ -32,13 +30,13 @@ public class StarsEarthApplication extends Application {
         return mFirebaseRemoteConfigWrapper;
     }
 
-    public InterstitialAd getGoogleInterstitialAd() {
+  /*  public InterstitialAd getGoogleInterstitialAd() {
         InterstitialAd result = null;
         if (mAdsManager != null) {
             result = mAdsManager.getGoogleInterstitialAd();
         }
         return result;
-    }
+    }   */
 
     public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
         com.facebook.ads.InterstitialAd result = null;
@@ -69,7 +67,7 @@ public class StarsEarthApplication extends Application {
         mFirebaseRemoteConfigWrapper = new FirebaseRemoteConfigWrapper(getApplicationContext());
         mAnalyticsManager = new AnalyticsManager(getApplicationContext());
         mSeOneAccessibilityManager = new SeOneAccessibilityManager(getApplicationContext());
-        mAdsManager = new AdsManager(getApplicationContext());
+        //mAdsManager = new AdsManager(getApplicationContext());
 
         //Skill skill = new Skill("Adarsh", "Hasija", "sample_email@gmail.com", "accessibility6");
         //String key = mDatabase.push().getKey();

@@ -3,10 +3,14 @@ package com.starsearth.two.fragments.lists
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v7.widget.*
+import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.*
 import android.util.Log
 import android.view.*
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -46,10 +50,10 @@ class TagListFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null
 
     private val mSelectedTagsListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             llPleaseWait?.visibility = View.GONE
-            val key = dataSnapshot?.key
-            val map = dataSnapshot?.value
+            val key = snapshot?.key
+            val map = snapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val tagName = entry.key as String
@@ -60,16 +64,16 @@ class TagListFragment : Fragment() {
             (view?.list?.adapter as MyTagRecyclerViewAdapter).notifyDataSetChanged()
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             llPleaseWait?.visibility = View.GONE
         }
 
     }
 
     private val mTagsListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             llPleaseWait?.visibility = View.GONE
-            val map = dataSnapshot?.value
+            val map = snapshot?.value
             if (map != null) {
                 for (entry in (map as HashMap<*, *>).entries) {
                     val key = entry.key as String
@@ -95,7 +99,7 @@ class TagListFragment : Fragment() {
             list?.visibility = View.VISIBLE
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             llPleaseWait?.visibility = View.GONE
         }
 
@@ -123,11 +127,20 @@ class TagListFragment : Fragment() {
         if (view.list is RecyclerView) {
             with(view.list) {
                 layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    columnCount <= 1 -> LinearLayoutManager(
+                        context
+                    )
+                    else -> GridLayoutManager(
+                        context,
+                        columnCount
+                    )
                 }
-                view.list.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
+                view.list.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
                 //var dummyArray = ArrayList<TagListItem>()
                 adapter = mAdapter //MyTagRecyclerViewAdapter(dummyArray, mTeachingContent, listener)
 
@@ -177,13 +190,13 @@ class TagListFragment : Fragment() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
         if (mIsModeMultiSelect) inflater?.inflate(R.menu.fragment_tags_list, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item!!.itemId) {
             R.id.done -> {

@@ -1,7 +1,7 @@
 package com.starsearth.two.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -80,7 +80,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             }
 
 
-            holder.mSlidesImageView.visibility =
+        /*    holder.mSlidesImageView.visibility =
                     if (it.type == Task.Type.SLIDES) {
                         View.VISIBLE
                     }
@@ -121,7 +121,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
                     }
                     else {
                         View.GONE
-                    }
+                    }   */
         }
         (teachingContent as? Course)?.let {
             holder.mTypeView.text = mContext?.getString(R.string.course)?.capitalize()
@@ -137,7 +137,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
             ""
         }   */
 
-        holder.mTimedImageView.visibility =
+    /*    holder.mTimedImageView.visibility =
                 if (teachingContent is Task && teachingContent.timed) {
                     View.VISIBLE
                 } else {
@@ -148,7 +148,7 @@ class RecordItemRecyclerViewAdapter(private val mContext: Context?, private val 
                     mContext?.getText(R.string.timed)
                 } else {
                     ""
-                }
+                }   */ //Uncomment this to show the timed icon
 
         holder.mLastTriedView.text = if (results?.isNotEmpty()!!) {
             formatLatTriedTime(results.peek())

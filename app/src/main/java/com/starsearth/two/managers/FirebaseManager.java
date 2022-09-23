@@ -123,32 +123,34 @@ public class FirebaseManager {
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, values);
 
-        databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //Sept 2022: Not logging any results to Firebase
+    /*    databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("FIREBASE_MANAGER", "****** TYPING RESULT SAVED. KEY IS: "+key);
             }
-        });
+        }); */
         return testResult;
     }
 
     public Result writeNewResult(HashMap<String, Object> map) {
         String key = databaseReference.push().getKey();
-        FirebaseUser userId = FirebaseAuth.getInstance().getCurrentUser();
         map.put("uid", key);
-        map.put("userId", userId.getUid());
+        //FirebaseUser userId = FirebaseAuth.getInstance().getCurrentUser();
+        //map.put("userId", userId.getUid()); //Sept 2022: Not using Firebase now. These  2 lines should be uncommented when using Firebase
         Result testResult = new Result(map);
         Map<String, Object> values = testResult.toMap();
         values.put("timestamp", ServerValue.TIMESTAMP); //testResult has local timestamp, values has sever timestamp
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, values);
 
-        databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //Sept 2022: Not logging any results to Firebase
+     /*   databaseReference.updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("FIREBASE_MANAGER", "****** RESULT SAVED. KEY IS: "+key);
             }
-        });
+        }); */
         return testResult;
     }
 

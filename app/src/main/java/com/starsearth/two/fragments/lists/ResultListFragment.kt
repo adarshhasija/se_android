@@ -2,11 +2,11 @@ package com.starsearth.two.fragments.lists
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +40,9 @@ class ResultListFragment : Fragment() {
     private var listener: OnResultListFragmentInteractionListener? = null
 
     private val mResultValuesListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot?) {
+        override fun onDataChange(snapshot: DataSnapshot) {
             val adapter = (list.adapter as ResultRecyclerViewAdapter)
-            val map = dataSnapshot?.value
+            val map = snapshot?.value
             if (map != null) {
                 val results = ArrayList<Result>()
                 for (entry in (map as HashMap<*, *>).entries) {
@@ -65,7 +65,7 @@ class ResultListFragment : Fragment() {
             list?.visibility = View.VISIBLE
         }
 
-        override fun onCancelled(p0: DatabaseError?) {
+        override fun onCancelled(error: DatabaseError) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             progressBar?.visibility = View.GONE
         }
@@ -77,11 +77,13 @@ class ResultListFragment : Fragment() {
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-            mTask = it.getParcelable(ARG_TASK)
             it.getParcelableArrayList<Result>(ARG_RESULTS_ARRAY)?.let {
                 mResults.addAll(it)
                 Collections.reverse(mResults)
             }
+        }
+        arguments?.getParcelable<Task>(ARG_TASK)?.let {
+            mTask = it
         }
     }
 
@@ -93,11 +95,20 @@ class ResultListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    columnCount <= 1 -> LinearLayoutManager(
+                        context
+                    )
+                    else -> GridLayoutManager(
+                        context,
+                        columnCount
+                    )
                 }
-                view.addItemDecoration(DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL))
+                view.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
                 adapter = ResultRecyclerViewAdapter(context, mTask, mResults,listener)
             }
         }

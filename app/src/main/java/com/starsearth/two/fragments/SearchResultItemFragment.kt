@@ -3,10 +3,10 @@ package com.starsearth.two.fragments
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +33,7 @@ class SearchResultItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            resultsList.addAll(it.getParcelableArrayList<Parcelable>(ARG_RESULTS))
+            resultsList.addAll(it.getParcelableArrayList<Parcelable>(ARG_RESULTS) as  Collection<Parcelable>)
             resultType = it.getString(ARG_TYPE)
         }
     }
@@ -46,8 +46,13 @@ class SearchResultItemFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+                    columnCount <= 1 -> LinearLayoutManager(
+                        context
+                    )
+                    else -> GridLayoutManager(
+                        context,
+                        columnCount
+                    )
                 }
                 adapter = MySearchResultItemRecyclerViewAdapter(mContext, resultsList, resultType, listener)
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl"
@@ -45,7 +45,13 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:text="1:00" />
 
-
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textAlignment="center"
+            android:layout_margin="5dp" />
 
         <TextView
             android:id="@+id/tvMain"
@@ -110,6 +116,7 @@
 
         <LinearLayout
             android:id="@+id/llTap"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -131,6 +138,7 @@
 
         <LinearLayout
             android:id="@+id/llSwipe"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -151,4 +159,57 @@
         </LinearLayout>
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <!-- This linear layout is for buttons UX. Remove this and keep the layout above if using the gestures UX -->
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:id="@+id/btnTrue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0000FF"
+            android:textColor="#FFFFFF"
+            android:text="@string/true_" />
+
+        <Button
+            android:id="@+id/btnFalse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:textColor="#FFFFFF"
+            android:text="@string/false_" />
+
+        <Button
+            android:id="@+id/btnSayTimeLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#008000"
+            android:textColor="#FFFFFF"
+            android:text="SAY TIME LEFT" />
+
+        <Button
+            android:id="@+id/btnSayQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#008000"
+            android:textColor="#FFFFFF"
+            android:text="SAY QUESTION" />
+
+        <Button
+            android:id="@+id/btnRepeatStatement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#008000"
+            android:textColor="#FFFFFF"
+            android:text="REPEAT STATEMENT" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

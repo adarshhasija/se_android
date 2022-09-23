@@ -3,9 +3,9 @@ package com.starsearth.two.activity.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -61,13 +61,14 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                     .show()
         }
 
-        override fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken?) {
-            super.onCodeSent(verificationId, token)
+        override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
+            //Guessing p0 is verificationID
+            super.onCodeSent(p0, p1)
             mViewPleaseWait?.visibility = View.GONE
             val intent = Intent(this@AddEditPhoneNumberActivity, SendOTPActivity::class.java)
             val bundle = Bundle()
             bundle.putString("phone_number", phoneNumber)
-            bundle.putString("verificationId", verificationId)
+            bundle.putString("verificationId", p0)
             intent.putExtras(bundle)
             startActivityForResult(intent, 0)
         }
@@ -244,7 +245,7 @@ class AddEditPhoneNumberActivity : AppCompatActivity() {
                         builder.setMessage(R.string.login_successful)
                                 .setPositiveButton(android.R.string.ok) { dialog, which -> dialog.dismiss() }
                                 .show()
-                        phoneNumberVerificationSuccessful(user.uid)
+                        if (user != null) phoneNumberVerificationSuccessful(user.uid)
                         // ...
                     } else {
                         // Sign in failed, display a message and update the UI

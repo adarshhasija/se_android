@@ -1,26 +1,22 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.starsearth.two"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 4
+        targetSdkVersion 32
+        versionCode 6
 
-        versionName "1.0.4"
+        versionName "1.0.6"
     }
 
-    aaptOptions {
-        ignoreAssetsPattern "!tasks.json" // we do not want our tasks.json file accessible to the outside world
-    }
 
     buildTypes {
         debug {
             minifyEnabled true
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
@@ -31,38 +27,46 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        //targetCompatibility 1.8
+        //sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    androidResources {
+        //ignoreAssetsPattern '!tasks.json' //This was there to ensure tasks.json could not be decompiled and the content read. But in Sept 2022, this was causing FileNotFoundException. So it has been commented out
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4G"
     }
 }
 
 dependencies {
     //implementation 'com.android.support:support-v4:25.4.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.13'
+    implementation 'com.google.firebase:firebase-analytics:21.1.1'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation "com.android.support:customtabs:28.0.0"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.google.code.gson:gson:2.8.1'
-    implementation 'com.google.guava:guava:16.0.+'
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'commons-io:commons-io:2.6'
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
-        transitive = true
-    }
-    implementation 'com.google.firebase:firebase-core:15.0.0'
-    implementation 'com.google.firebase:firebase-database:15.0.0'
-    implementation 'com.google.firebase:firebase-storage:15.0.0'
-    implementation 'com.google.firebase:firebase-auth:15.0.0'
-    implementation 'com.google.firebase:firebase-config:15.0.2'
-    implementation 'com.google.android.gms:play-services-ads:15.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-database:20.0.6'
+    implementation 'com.google.firebase:firebase-storage:20.0.2'
+    implementation 'com.google.firebase:firebase-auth:21.0.8'
+    implementation 'com.google.firebase:firebase-config:21.1.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -70,7 +74,8 @@ dependencies {
     //Currently not in use as app id not approved by Facebook
     implementation 'com.facebook.android:audience-network-sdk:4.28.1'
 
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
 
 }
