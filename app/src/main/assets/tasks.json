@@ -9254,6 +9254,24 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 172,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Fifa World Cup Winners 1990 to 2022",
+      "instructions": "Did this country win the Fifa World Cup in this year?",
+      "tap": ["France 2018", "Germany 2014", "Spain 2010", "Italy 2006", "Brazil 2002", "France 1998", "Brazil 1994", "West Germany 1990"
+      ],
+      "swipe": ["Germany 2018", "Croatia 2018", "Egypt 2018", "Ireland 2018", "Brazil 2014", "USA 2014", "Scotland 2014", "Wales 2014", "Germany 2010", "Spain 2010", "Zimbabwe 2010", "Namibia 2010", "Switzerland 2006", "Russia 2006", "USA 2006", "Indonesia 2006", "Pakistan 2002", "Portugal 2002", "Canada 2002", "Kenya 2002", "Switzerland 1998", "Australia 1998", "Barbados 1998", "Austria 1998", "Argentina 1994", "Indonesia 1994", "Thailand 1994", "Spain 1994", "China 1990", "South Korea 1990", "Japan 1990", "Iceland 1990"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
