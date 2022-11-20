@@ -9272,6 +9272,24 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 173,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Fifa World Cup Golden Ball Winners 1986 to 2022",
+      "instructions": "Did this player win the Golden Ball in Fifa World Cup in this year?",
+      "tap": ["Luka Modric 2018", "Lionel Messi 2014", "Diego Forlan 2010", "Zinedine Zidane 2006", "Oliver Kahn 2002", "Ronaldo 1998", "Romario 1994", "Salvatore Schillaci 1990", "Diego Maradona 1986"
+      ],
+      "swipe": ["Kylian Mbappe 2018", "Lionel Messi 2018", "Christiano Ronaldo 2018", "Thomas Muller 2018", "Manuel Neuer 2018", "Neymar 2014", "Christiano Ronald 2014", "Harry Kane 2014", "Wayne Rooney 2014", "Oliver Kahn 2014", "Arjen Robben 2014", "Lionel Messi 2010", "Manuel Neuer 2010", "Thomas Muller 2010", "Sami Khedira 2010", "Wayne Rooney 2006", "Harry Kane 2006", "Diego Maradona 2006", "Kylian Mbappe 2006", "Thomas Muller 2006", "Ronaldo 2002", "Miroslav Klose 2002", "Ronaldinho 2002", "Wayne Rooney 2002", "Rivaldo 1998", "Ronaldinho 1998", "Lionel Messi 1998", "Diego Maradona 1998", "Ronaldo 1994", "Wayne Rooney 1994", "Sami Khedira 1994", "Kylian Mbappe 1994"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
