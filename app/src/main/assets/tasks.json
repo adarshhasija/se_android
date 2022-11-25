@@ -9290,6 +9290,24 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 174,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Fifa World Cup Golden Boot Winners 1990 to 2022",
+      "instructions": "Did this player win the Golden Boot in Fifa World Cup in this year?",
+      "tap": ["Harry Kane 2018", "James Rodríguez 2014", "Thomas Müller 2010", "Miroslav Klose 2006", "Ronaldo 2002", "Davor Šuker 1998", "Oleg Salenko 1994", "Hristo Strichkov 1994", "Salvatore Schillaci 1990"
+      ],
+      "swipe": ["Lionel Messi 2018", "Christiano Ronaldo 2018", "Rivaldo 2019", "Wayne Rooney 2018", "Lionel Messi 2014", "Christiano Ronaldo 2014", "Rivaldo 2014", "Pele 2014", "Diego Maradona 2014", "Miroslav Klose 2010", "Wayne Rooney 2010", "Rivaldo 2010", "Oliver Kahn 2010", "Christiano Ronaldo 2006", "David Beckham 2006", "Rivaldo 2006", "Arjen Robben 2006", "Lionel Messi 2002", "Diego Maradona 2002", "Ronaldo 2002", "Wayne Rooney 1998", "David Beckham 1998", "Zinedine Zidane 1998", "Harry Kane 1998", "Diego Maradona 1994", "David Beckham 1994", "Manuel Neuer 1994", "Miroslav Klose 1994", "Harry Kane 1990", "Wayne Rooney 1990", "Christiano Ronaldo 1990", "Diego Maradona 1990", "Manuel Neuer 1990"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
