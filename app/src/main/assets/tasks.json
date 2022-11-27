@@ -9308,6 +9308,24 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 175,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Fifa World Cup Golden Glove Winners 1986 to 2018",
+      "instructions": "For each question, did this player win the Golden Glove in Fifa World Cup in the given year?",
+      "tap": ["Thibaut Courtois 2018", "Manuel Neuer 2014", "Iker Casillas 2010", "Gianluigi Buffon 2006", "Oliver Kahn 2002", "Fabian Barthez 1998", "Michel Preudhomme 1994", "Gabelo Conejo 1990", "Sergio Goycochea 1990", "Jean Marie Pfaff 1986"
+      ],
+      "swipe": ["Fabian Barthez 2018", "Iker Casillas 2018", "David Beckham 2018", "Diego Maradona 2018", "David James 2014", "Julio Cesar 2014", "Lionel Messi 2014", "Wayne Rooney 2014", "Manuel Neuer 2010", "Fabian Barthez 2010", "Miroslav Klose 2010", "Lionel Messi 2010", "David James 2006", "Oliver Kahn 2006", "Christiano Ronaldo 2006", "Harry Kane 2006", "Manuel Neuer 2002", "Iker Casillas 2002", "Lionel Messi 2002", "Kylian Mbappe 2002", "Zinedine Zidane 1998", "Diego Maradona 1998", "Oliver Kahn 1998", "Julio Cesar 1998", "Fabian Barthez 1994", "Oliver Kahn 1994", "Manuel Neuer 1994", "David James 1994", "Iker Casillas 1990", "David James 1990", "Oliver Kahn 1990", "Rivaldo 1990", "Julio Cesar 1986", "David Beckham 1986", "Oliver Kahn 1986", "Manuel Neuer 1986"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
