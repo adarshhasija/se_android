@@ -333,8 +333,11 @@ class DetailFragment : Fragment(), SeOnTouchListener.OnSeTouchListenerInterface 
                     mContext.getText(R.string.unknown).toString().toLowerCase().capitalize()
                 }
         tvTimeLimit?.text =
-                if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 0) {
+                if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 60000) {
                     (((mTeachingContent as Task).durationMillis/1000)/60).toString() + " " + "minute"
+                }
+                else if ((mTeachingContent as? Task)?.durationMillis != null && (mTeachingContent as Task).durationMillis > 0 && (mTeachingContent as Task).durationMillis < 60000) {
+                    (((mTeachingContent as Task).durationMillis - 1000)/1000).toString() + " " + "seconds"  //We do "- 1000" because we always give 1 second higher in tasks.json file. This is so that when the task starts we do not lose a second
                 }
                 else {
                     "0"

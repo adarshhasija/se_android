@@ -9326,6 +9326,42 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 176,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 41000,
+      "isGame": true,
+      "title": "Fifa World Cup Most Entertaining Team Winners 1994 to 2018",
+      "instructions": "For each question, did this team win the Most Entertaining Team award in Fifa World Cup in the given year?",
+      "tap": ["Brazil 1994", "France 1998", "South Korea 2002", "Portugal 2006", "Germany 2010", "Columbia 2014", "Belgium 2018"
+      ],
+      "swipe": ["Argentina 1994", "England 1994", "China 1994", "Kenya 1994", "Germany 1998", "Russia 1998", "Wales 1998", "Scotland 1998", "Japan 2002", "China 2002", "Nepal 2002", "Maldives 2002", "Spain 2006", "Italy 2006", "USA 2006", "Thailand 2006", "France 2010", "England 2010", "Bangladesh 2010", "Indonesia 2010", "Argentina 2014", "Brazil 2014", "Mexico 2014", "New Zealand 2014", "Ireland 2018", "South Korea 2018", "USA 2018", "Barbados 2018"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 177,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 41000,
+      "isGame": true,
+      "title": "Fifa World Cup Goal of the Tournament Winners 2006 to 2018",
+      "instructions": "For each question, was this player awarded the Goal of the Tournament in the Fifa World Cup in the given year?",
+      "tap": ["Maxi Rodriguez 2006", "Diego Forlan 2010", "James Rodriguez 2014", "Benjamin Savard 2018"
+      ],
+      "swipe": ["Christiano Ronaldo 2006", "Lionel Messi 2006", "Wayne Rooney 2006", "Rivaldo 2006", "Thomas Muller 2010", "Arjen Robben 2010", "David Beckham 2010", "Robert Pires 2010", "Diego Maradona 2014", "Ronaldo 2014", "Rivaldo 2014", "Harry Kane 2014", "Wayne Rooney 2018", "Diego Maradona 2018",  "Ronaldo 2018", "Lionel Messi 2018"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],

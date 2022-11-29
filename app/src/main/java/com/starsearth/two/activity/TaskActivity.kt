@@ -266,7 +266,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                     gestureSpamItemCounter = 0
                 }
 
-                if ((millisUntilFinished / 1000).toInt() == 30) {
+                if ((millisUntilFinished / 1000).toInt() == (((mTask.durationMillis - 1000)/1000)/2)) {
                     //at the halfway mark
                     vibrate()
                     Toast.makeText(this@TaskActivity, "Half time finished",
