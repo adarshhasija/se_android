@@ -9362,6 +9362,24 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 178,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Fifa World Cup 2022 Winners",
+      "instructions": "For each question, did this player or this team win this award in the 2022 FIFA World Cup?",
+      "tap": ["Lionel Messi - Golden Ball", "Kylian Mbappe - Silver Ball", "Luka Modric - Bronze Ball", "Kylian Mbappe - Golden Boot", "Lionel Messi - Silver Boot", "Olivier Giroud - Bronze Boot", "Emiliano Martinez - Golden Glove", "Enzo Fernandez - Young Player Award", "England - Fair Play Award", "Argentina - Winner", "France - Runners Up", "Croatia - Third Place"
+      ],
+      "swipe": ["Christiano Ronaldo - Golden Ball", "Neymar Jr - Golden Ball", "Harry Kane - Golden Ball", "Lionel Messi - Silver Ball", "Luis Suarez - Silver Ball", "Kylian Mbappe - Bronze Ball", "Lionel Messi - Golden Boot", "Christiano Ronaldo - Golden Boot", "Neymar Jr - Golden Boot", "Harry Kane - Golden Boot", "Jordan Pickford - Golden Glove", "Hugo Lloris - Golden Glove", "Manuel Neuer - Golden Glove", "Yassine Bounou - Golden Glove", "France - Winner", "England - Winner", "Brazil - Winner", "Croatia - Winner", "Portugal - Winner", "Belgium - Winner", "Germany - Winner", "Argentina - Runners Up", "Croatia - Runners Up", "Brazil - Runners Up", "England - Runners Up", "Portugal - Runners Up", "Germany - Runners Up", "Belgium - Runners Up", "Morocco - Third Place", "Argentina - Third Place", "France - Third Place", "Portugal - Third Place", "England - Third Place", "Australia - Third Place", "Germany - Third Place"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
