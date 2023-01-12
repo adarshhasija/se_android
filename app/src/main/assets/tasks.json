@@ -9380,6 +9380,42 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 179,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Hockey World Cup Winners till 2018",
+      "instructions": "For each question, did this country win the Men's Hockey World Cup in this year?",
+      "tap": ["Belgium 2018", "Australia 2014", "Australia 2010", "Germany 2006", "Germany 2002", "Netherlands 1998", "Pakistan 1994", "Netherlands 1990"
+      ],
+      "swipe": ["Italy 2018", "Spain 2018", "Germany 2018", "Japan 2018", "England 2014", "USA 2014",  "Canada 2014", "Wales 2014", "China 2010", "Zimbabwe 2010", "Kenya 2010", "Portugal 2006", "Belgium 2006", "Netherlands 2006", "Scotland 2006", "India 2002", "Pakistan 2002", "Australia 2002", "England 2002", "India 1998", "Pakistan 1998", "Germany 1998", "Switzerland 1998", "Bangladesh 1994", "SriLanka 1994", "Thailand 1994", "Indonesia 1994", "Italy 1990", "Spain 1990", "India 1990", "Australia 1990"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 180,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Hockey World Cup Hosts till 2023",
+      "instructions": "For each question, did this country host the Men's Hockey World Cup in this year?",
+      "tap": ["India 2023", "India 2018", "Netherlands 2014", "India 2010", "Germany 2006", "Malaysia 2002", "Netherlands 1998", "Australia 1994", "Pakistan 1990"
+      ],
+      "swipe": ["Pakistan 2023", "Germany 2023", "Zimbabwe 2023", "China 2023", "Pakistan 2018", "Bangladesh 2018", "Australia 2018", "USA 2018", "Spain 2014", "Japan 2014", "Kenya 2014", "Nepal 2014", "SriLanka 2010", "Thailand 2010", "Indonesia 2010", "Brazil 2010", "Switzerland 2006", "Belgium 2006", "China 2006", "SriLanka 2006", "Indonesia 2002", "England 2002", "Scotland 2002", "USA 2002", "India 1998", "China 1998", "Australia 1998", "Argentina 1998", "Canada 1994", "Portugal 1994", "Afghanistan 1994", "England 1994", "India 1990", "Bangladesh 1990", "Zimbabwe 1990", "Canada 1990"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
     
   ],
