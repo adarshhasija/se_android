@@ -9416,6 +9416,42 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 181,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Australian Open tennis Mens Singles Winners till 2022",
+      "instructions": "For each question, did this player win the Australian Open mens singles tournament in this year?",
+      "tap": ["Rafael Nadal 2022", "Novak Djokovic 2021", "Novak Djokovic 2020", "Novak Djokovic 2019", "Roger Federer 2018", "Roger Federer 2017", "Novak Djokovic 2016", "Novak Djokovic 2015", "Stan Wawrinka 2014", "Novak Djokovic 2013", "Novak Djokovic 2012", "Novak Djokovic 2011", "Roger Federer 2010"
+      ],
+      "swipe": ["Roger Federer 2022", "Novak Djokovic 2022", "Andy Roddick 2022", "Pete Sampras 2022", "Roger Federer 2021", "Rafael Nadal 2021", "Andy Roddick 2021", "Pete Sampras 2021", "Roger Federer 2020", "Rafael Nadal 2020", "Andy Roddick 2020", "Pete Sampras 2020", "Andy Murray 2019", "Andy Roddick 2019", "Lleyton Hewitt 2019",  "Pete Sampras 2019", "Novak Djokovic 2018", "Andy Murray 2018", "Lleyton Hewitt 2018", "Pete Sampras 2018", "Novak Djokovic 2017", "Pete Sampras 2017", "Andre Agassi 2017", "Stan Wawrinka 2017", "Roger Federer 2016", "Andy Murray 2016", "Kei Nishikori 2016", "Stan Wawrinka 2016", "Andy Roddick 2015", "Andre Agassi 2015", "Pete Sampras 2015", "Boris Becker 2015", "Roger Federer 2014", "Rafael Nadal 2014", "Novak Djokovic 2014", "Andy Murray 2014", "Pete Sampras 2013", "Andre Agassi 2013", "Andy Roddick 2013", "John McEnroe 2013", "Bjorn Borg 2012", "John McEnroe 2012", "Stan Wawrinka 2012", "Kei Nishikori 2012", "Roger Federer 2011", "Kei Nishikori 2011", "James Blake 2011", "John McEnroe 2011", "Novak Djokovic 2010", "Pete Sampras 2010", "Andy Roddick 2010", "Andre Agassi 2010"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 182,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Australian Open tennis Womens Singles Winners till 2022",
+      "instructions": "For each question, did this player win the Australian Open womens singles tournament in this year?",
+      "tap": ["Ashleigh Barty 2022", "Naomi Osaka 2021", "Sofia Kenin 2020", "Naomi Osaka 2019", "Caroline Wozniacki 2018", "Serena Williams 2017", "Angelique Kerber 2016", "Serena Williams 2015", "Li Na 2014", "Victoria Azarenka 2013", "Victoria Azarenka 2012", "Kim Clijsters 2011", "Serena Williams 2010"
+      ],
+      "swipe": ["Naomi Osaka 2022", "Emma Raducanu 2022", "Serena Williams 2022", "Justine Henin 2022", "Ashleigh Barty 2021", "Li Na 2021", "Venus Williams 2021", "Kim Clijsters 2021", "Steffi Graf 2020", "Serena Williams 2020", "Maria Sharapova 2020", "Venus Williams 2020", "Serena Williams 2019", "Steffi Graf 2019", "Mary Pierce 2019", "Maria Sharapova 2018", "Steffi Graf 2018", "Victoria Azarenka 2018", "Emma Raducanu 2018", "Venus Williams 2017", "Justine Henin 2017", "Mary Pierce 2017", "Victoria Azarenka 2017", "Serena Williams 2016", "Steffi Graf 2016", "Justine Henin 2016", "Martina Hingis 2016", "Martina Hingis 2015", "Steffi Graf 2015", "Emma Raducanu 2015", "Justine Henin 2015", "Serena Williams 2014", "Martina Hingis 2014", "Maria Sharapova 2014", "Naomi Osaka 2014", "La Na 2013", "Steffi Graf 2013", "Mary Pierce 2013", "Venus Williams 2013", "Emma Raducanu 2012", "Li Na 2012", "Naomi Osaka 2012", "Kim Clijsters 2012", "Serena Williams 2011", "Martina Hingis 2011", "Justine Henin 2011", "Mary Pierce 2011", "Venus Williams 2010", "Li Na 2010", "Maria Sharapova 2010", "Emma Raducanu 2010"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
     }
     
   ],
