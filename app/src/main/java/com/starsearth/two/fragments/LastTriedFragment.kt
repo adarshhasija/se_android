@@ -137,7 +137,8 @@ class LastTriedFragment : Fragment() {
                     tvTitle?.text.toString() + " " + tvMessage?.text.toString() + tvLongPressCloseScreen?.text.toString()
                 }
                 else if (mTeachingContent != null && mResult != null) {
-                    tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                    //tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                    "Your result is " + tvResult?.text.toString() + ". This means you got " + tvResult?.text.toString() + " correct"
                 }
                 else {
                     ""
@@ -147,7 +148,8 @@ class LastTriedFragment : Fragment() {
                     tvTitle?.text.toString() + " " + tvMessage?.text.toString() + tvLongPressCloseScreen?.text.toString()
                 }
                 else if (mTeachingContent != null && mResult != null) {
-                    tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                    //tvTitle?.text.toString() + " " + tvResult?.text.toString() + tvLongPressCloseScreen?.text.toString()
+                    "Your result is " + tvResult?.text.toString() + ". This means you got " + tvResult?.text.toString() + " correct"
                 }
                 else {
                     ""

@@ -42,7 +42,8 @@
             android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:text="1:00" />
 
         <TextView
@@ -171,6 +172,14 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <Button
+            android:id="@+id/btnRepeatStatement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#008000"
+            android:textColor="#FFFFFF"
+            android:text="REPEAT STATEMENT" />
+
+        <Button
             android:id="@+id/btnTrue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -201,14 +210,6 @@
             android:background="#008000"
             android:textColor="#FFFFFF"
             android:text="SAY QUESTION" />
-
-        <Button
-            android:id="@+id/btnRepeatStatement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#008000"
-            android:textColor="#FFFFFF"
-            android:text="REPEAT STATEMENT" />
 
     </LinearLayout>
 

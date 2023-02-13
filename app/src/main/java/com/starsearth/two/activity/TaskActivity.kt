@@ -29,6 +29,8 @@ import com.starsearth.two.domain.Task
 import com.starsearth.two.domain.TaskContent
 import com.starsearth.two.listeners.SeOnTouchListener
 import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.android.synthetic.main.activity_task.tvTapScreenToHearContent
+import kotlinx.android.synthetic.main.fragment_course_description.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -192,6 +194,11 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
     override fun onStart() {
         super.onStart()
 
+        if ((application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == true) {
+            tvTimer?.text = "Talkback is ON. Timer will not be displayed. But it will run in background and voice notifications will be given"
+            tvTimer?.setTextColor(Color.GRAY)
+        }
+
         tts = TextToSpeech(this, null)
         tts.setLanguage(Locale.US)
 
@@ -272,17 +279,25 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
                     Toast.makeText(this@TaskActivity, "Half time finished",
                         Toast.LENGTH_SHORT).show()
                 }
-
-                if (millisUntilFinished / 1000 < 11) {
-                    tvTimer?.setTextColor(Color.RED)
+                if (millisUntilFinished.toInt() / 1000 == 10) {
+                    //Only when its 10. Not every number after 10
+                    Toast.makeText(this@TaskActivity, "10 seconds left",
+                        Toast.LENGTH_SHORT).show()
                 }
 
-                if (millisUntilFinished / 1000 < 10) {
-                    tvTimer?.setText((millisUntilFinished / 1000 / 60).toString() + ":0" + millisUntilFinished / 1000)
-                } else {
-                    val mins = (millisUntilFinished / 1000).toInt() / 60
-                    val seconds = (millisUntilFinished / 1000).toInt() % 60
-                    tvTimer?.setText(mins.toString() + ":" + if (seconds == 0) "00" else seconds) //If seconds are 0, print double 0, else print seconds
+                //when talkback is on, it speaks everytime the llabel is updated with a new  time.  We dont  want  that.  So only if talklbaack is off will we update
+                if ((application as? StarsEarthApplication)?.accessibilityManager?.isTalkbackOn == false) {
+                    if (millisUntilFinished / 1000 < 11) {
+                        tvTimer?.setTextColor(Color.RED)
+                    }
+
+                    if (millisUntilFinished / 1000 < 10) {
+                        tvTimer?.setText((millisUntilFinished / 1000 / 60).toString() + ":0" + millisUntilFinished / 1000)
+                    } else {
+                        val mins = (millisUntilFinished / 1000).toInt() / 60
+                        val seconds = (millisUntilFinished / 1000).toInt() % 60
+                        tvTimer?.setText(mins.toString() + ":" + if (seconds == 0) "00" else seconds) //If seconds are 0, print double 0, else print seconds
+                    }
                 }
 
 
@@ -398,6 +413,7 @@ class TaskActivity : AppCompatActivity(), SeOnTouchListener.OnSeTouchListenerInt
             expectedAnswerAudioHint = nextItem.hintAudio
             if (mTask.isTextVisibleOnStart) {
                 tvMain?.text = nextItem.question
+                llMain?.contentDescription = nextItem.question
             }
             else {
                 tvMain?.text = ""

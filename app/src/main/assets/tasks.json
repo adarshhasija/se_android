@@ -9452,6 +9452,204 @@
       "ordered": false,
       "tags": ["social_media", "tennis"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 182,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Australian Open tennis Womens Singles Winners till 2022",
+      "instructions": "For each question, did this player win the Australian Open womens singles tournament in this year?",
+      "tap": ["Ashleigh Barty 2022", "Naomi Osaka 2021", "Sofia Kenin 2020", "Naomi Osaka 2019", "Caroline Wozniacki 2018", "Serena Williams 2017", "Angelique Kerber 2016", "Serena Williams 2015", "Li Na 2014", "Victoria Azarenka 2013", "Victoria Azarenka 2012", "Kim Clijsters 2011", "Serena Williams 2010"
+      ],
+      "swipe": ["Naomi Osaka 2022", "Emma Raducanu 2022", "Serena Williams 2022", "Justine Henin 2022", "Ashleigh Barty 2021", "Li Na 2021", "Venus Williams 2021", "Kim Clijsters 2021", "Steffi Graf 2020", "Serena Williams 2020", "Maria Sharapova 2020", "Venus Williams 2020", "Serena Williams 2019", "Steffi Graf 2019", "Mary Pierce 2019", "Maria Sharapova 2018", "Steffi Graf 2018", "Victoria Azarenka 2018", "Emma Raducanu 2018", "Venus Williams 2017", "Justine Henin 2017", "Mary Pierce 2017", "Victoria Azarenka 2017", "Serena Williams 2016", "Steffi Graf 2016", "Justine Henin 2016", "Martina Hingis 2016", "Martina Hingis 2015", "Steffi Graf 2015", "Emma Raducanu 2015", "Justine Henin 2015", "Serena Williams 2014", "Martina Hingis 2014", "Maria Sharapova 2014", "Naomi Osaka 2014", "La Na 2013", "Steffi Graf 2013", "Mary Pierce 2013", "Venus Williams 2013", "Emma Raducanu 2012", "Li Na 2012", "Naomi Osaka 2012", "Kim Clijsters 2012", "Serena Williams 2011", "Martina Hingis 2011", "Justine Henin 2011", "Mary Pierce 2011", "Venus Williams 2010", "Li Na 2010", "Maria Sharapova 2010", "Emma Raducanu 2010"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 183,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest wicket takers till 2021 - Australia",
+      "instructions": "For each question, Was this player the highest wicket taker for Australia in the Border Gavaskar trophy in this yearWas this player the highest wicket taker for Australiia in the Border Gavaskar trophy in this year?",
+      "tap": ["Pat Cummins 2020-2021", "Nathan Lyon 2018-2019", "Steve OKeefe 2016-2017", "Nathan Lyon 2016-2017", "Nathan Lyon 2014-2015", "Nathan Lyon 2012-2013", "Ben Hilfenhaus 2011-2012", "Mitchell Johnson 2010-2011", "Mitchell Johnson 2008-2009", "Brett Lee 2007-2008", "Jason Gillespie 2004-2005", "Stuart MacGill 2003-2004", "Glenn McGrath 2000-2001", "Glenn McGrath 1999-2000", "Gavin Robertson 1997-1998"
+      ],
+      "swipe": ["David Warner 2020-2021", "Steve Smith 2020-2021", "Rohit Sharma 2020-2021", "Ajinkya Rahane 2020-2021", "Usmaan Khawaja 2018-2019", "David Warner 2018-2019", "Sachin Tendulkar 2018-2019", "Rahul Dravid 2018-2019", "Ricky Ponting 2016-2017", "Michael Clarke 2016-2017", "Sachin Tendulkar 2016-2017", "Rahul Dravid 2016-2017", "Ricky Ponting 2014-2015", "Steve Smith 2014-2015", "Sourav Ganguly 2014-2015", "Rohit Sharma 2014-2015", "David Warner 2012-2013", "Michael Clarke 2012-2013", "Rahul Dravid 2012-2013", "Rishabh Pant 2012-2013", "Steve Smith 2011-2012", "Matthew Hayden 2011-2012", "Rohit Sharma 2011-2012", "Robin Singh 2011-2012", "Mark Taylor 2010-2011", "Mark Waugh 2010-2011", "Rishabh Pant 2010-2011", "Hardik Pandya 2010-2011", "Adam Gilchrist 2008-2009", "Matthew Hayden 2008-2009", "Rishabh Pant 2008-2009", "Hardik Pandya 2008-2009", "Damian Martyn 2007-2008", "Michael Bevan 2007-2008", "Rahul Dravid 2007-2008", "MS Dhoni 2007-2008", "Ricky Ponting 2004-2005", "Steve Waugh 2004-2005", "MS Dhoni 2004-2005", "Dinesh Karthik 2004-2005", "David Warner 2003-2004", "Michael Clarke 2003-2004", "Sachin Tendulkar 2003-2004", "Rahul Dravid 2003-2004", "Adam Gilchrist 2000-2001", "Matthew Hayden 2000-2001", "Rohit Sharma 2000-2001", "VVS Laxman 2000-2001", "Michael Hussey 1999-2000", "Adam Gilchrist 1999-2000", "Virender Sehwag 1999-2000", "Gautam Gambhir 1999-2000", "Mark Taylor 1997-1998", "David Warner 1997-1998", "Rahul Dravid 1997-1998", "MS Dhoni 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 184,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest run scorer till 2021 - Australia",
+      "instructions": "For each question, Was this player the highest run scorer for Australia in the Border Gavaskar trophy in this year?Was this player the highest run scorer for Australia in the Border Gavaskar trophy in this year?",
+      "tap": ["Marnus Lambuschagne 2020-2021", "Marcus Harris 2018-2019", "Steve Smith 2016-2017", "Steve Smith 2014-2015", "Michael Clarke 2012-2013", "Michael Clarke 2011-2012", "Shane Watson 2010-2011", "Michael Hussey 2008-2009", "Matthew Hayden 2007-2008", "Damian Martyn 2004-2005", "Ricky Ponting 2003-2004", "Matthew Hayden 2000-2001", "Ricky Ponting 1999-2000", "Mark Waugh 1997-1998","Marnus Lambuschagne 2020-2021", "Marcus Harris 2018-2019", "Steve Smith 2016-2017", "Steve Smith 2014-2015", "Michael Clarke 2012-2013", "Michael Clarke 2011-2012", "Shane Watson 2010-2011", "Michael Hussey 2008-2009", "Matthew Hayden 2007-2008", "Damian Martyn 2004-2005", "Ricky Ponting 2003-2004", "Matthew Hayden 2000-2001", "Ricky Ponting 1999-2000", "Mark Waugh 1997-1998"
+      ],
+      "swipe": ["Glenn McGrath 2020-2021", "Shane Warne 2020-2021", "Zaheer Khan 2020-2021", "Harbhajan Singh 2020-2021", "Brett Lee 2018-2019", "Glenn McGrath 2018-2019", "Zaheer Khan 2018-2019", "Anil Kumble 2018-2019", "Mitchell Johnson 2016-2017", "Mitchell Starc 2016-2017", "Ashish Nehra 2016-2017", "Anil Kumble 2016-2017", "Brett Lee 22014-2015", "Jason Gillespie 2014-2015", "Jasprit Bumrah 2014-2015", "Anil Kumble 2014-2015", "Glenn McGrath 2012-2013", "Pat Cummins 2012-2013", "Jasprit Bumrah 2012-2013", "Ishant Sharma 2012-2013", "Pat Cummins 2011-2012", "Mitchell Starc  2011-2012", "Javagal Srinath 2011-2012", "Anil Kumble 2011-2012", "Pat Cummins 2010-2011", "Glenn McGrath 2010-2011", "Jasprit Bumrah 2010-2011", "Anil Kumble 2010-2011", "Pat Cummins 2008-2009", "Mitchell Johnson 2008-2009", "Jasprit Bumrah 2008-2009", "Anil Kumble 2008-2009", "Brett Lee 2007-2008", "Mitchell Johnson 2007-2008", "Jasprit Bumrah 2007-2008", "Anil Kumble 2007-2008", "Glenn McGrath 2004-2005", "Pat Cummins 2004-2005", "Jasprit Bumrah 2004-2005", "Anil Kumble 2004-2005", "Mitchell Starc 2003-2004", "Mitchell Johnson 2003-2004", "Axar Patel 2003-2004", "Ashish Nehra 2003-2004", "Shane Warne 2000-2001", "Nathan Lyon 2000-2001", "Zaheer Khan 2000-2001", "Amit Mishra 2000-2001", "Pat Cummins 1999-2000", "Mitchell Starc 1999-2000", "Axar Patel 1999-2000", "Ashish Nehra 1999-2000", "Glenn McGrath 1997-1998", "Brett Lee 1997-1998", "Javagal Srinath 1997-1998", "Ashish Nehra 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 185,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest wicket takers till 2021 - India",
+      "instructions": "For each question, Was this player the highest wicket taker for India in the Border Gavaskar trophy in this year?",
+      "tap": ["Mohammad Siraj 2020-2021", "Jasprit Bumrah 2018-2019", "Ravindra Jadeja 2016-2017", "Mohammed Shami 2014-2015", "Ravichandran Ashwin 2012-2013", "Zaheer Khan 2011-2012", "Zaheer Khan 2010-2011", "Ishant Sharma 2008-2009", "Harbhajan Singh 2008-2009", "Anil Kumble 2007-2008", "Anil Kumble 2004-2005", "Anil Kumble 2003-2004", "Harbhajan Singh 2000-2001", "Ajit Agarkar 1999-2000", "Anil Kumble 1997-1998","Mohammad Siraj 2020-2021", "Jasprit Bumrah 2018-2019", "Ravindra Jadeja 2016-2017", "Mohammed Shami 2014-2015", "Ravichandran Ashwin 2012-2013", "Zaheer Khan 2011-2012", "Zaheer Khan 2010-2011", "Ishant Sharma 2008-2009", "Harbhajan Singh 2008-2009", "Anil Kumble 2007-2008", "Anil Kumble 2004-2005", "Anil Kumble 2003-2004", "Harbhajan Singh 2000-2001", "Ajit Agarkar 1999-2000", "Anil Kumble 1997-1998"
+      ],
+      "swipe": ["David Warner 2020-2021", "Steve Smith 2020-2021", "Rohit Sharma 2020-2021", "Ajinkya Rahane 2020-2021", "Usmaan Khawaja 2018-2019", "David Warner 2018-2019", "Sachin Tendulkar 2018-2019", "Rahul Dravid 2018-2019", "Ricky Ponting 2016-2017", "Michael Clarke 2016-2017", "Sachin Tendulkar 2016-2017", "Rahul Dravid 2016-2017", "Ricky Ponting 2014-2015", "Steve Smith 2014-2015", "Sourav Ganguly 2014-2015", "Rohit Sharma 2014-2015", "David Warner 2012-2013", "Michael Clarke 2012-2013", "Rahul Dravid 2012-2013", "Rishabh Pant 2012-2013", "Steve Smith 2011-2012", "Matthew Hayden 2011-2012", "Rohit Sharma 2011-2012", "Robin Singh 2011-2012", "Mark Taylor 2010-2011", "Mark Waugh 2010-2011", "Rishabh Pant 2010-2011", "Hardik Pandya 2010-2011", "Adam Gilchrist 2008-2009", "Matthew Hayden 2008-2009", "Rishabh Pant 2008-2009", "Hardik Pandya 2008-2009", "Damian Martyn 2007-2008", "Michael Bevan 2007-2008", "Rahul Dravid 2007-2008", "MS Dhoni 2007-2008", "Ricky Ponting 2004-2005", "Steve Waugh 2004-2005", "MS Dhoni 2004-2005", "Dinesh Karthik 2004-2005", "David Warner 2003-2004", "Michael Clarke 2003-2004", "Sachin Tendulkar 2003-2004", "Rahul Dravid 2003-2004", "Adam Gilchrist 2000-2001", "Matthew Hayden 2000-2001", "Rohit Sharma 2000-2001", "VVS Laxman 2000-2001", "Michael Hussey 1999-2000", "Adam Gilchrist 1999-2000", "Virender Sehwag 1999-2000", "Gautam Gambhir 1999-2000", "Mark Taylor 1997-1998", "David Warner 1997-1998", "Rahul Dravid 1997-1998", "MS Dhoni 1997-1998", "David Warner 2020-2021", "Steve Smith 2020-2021", "Rohit Sharma 2020-2021", "Ajinkya Rahane 2020-2021", "Usmaan Khawaja 2018-2019", "David Warner 2018-2019", "Sachin Tendulkar 2018-2019", "Rahul Dravid 2018-2019", "Ricky Ponting 2016-2017", "Michael Clarke 2016-2017", "Sachin Tendulkar 2016-2017", "Rahul Dravid 2016-2017", "Ricky Ponting 2014-2015", "Steve Smith 2014-2015", "Sourav Ganguly 2014-2015", "Rohit Sharma 2014-2015", "David Warner 2012-2013", "Michael Clarke 2012-2013", "Rahul Dravid 2012-2013", "Rishabh Pant 2012-2013", "Steve Smith 2011-2012", "Matthew Hayden 2011-2012", "Rohit Sharma 2011-2012", "Robin Singh 2011-2012", "Mark Taylor 2010-2011", "Mark Waugh 2010-2011", "Rishabh Pant 2010-2011", "Hardik Pandya 2010-2011", "Adam Gilchrist 2008-2009", "Matthew Hayden 2008-2009", "Rishabh Pant 2008-2009", "Hardik Pandya 2008-2009", "Damian Martyn 2007-2008", "Michael Bevan 2007-2008", "Rahul Dravid 2007-2008", "MS Dhoni 2007-2008", "Ricky Ponting 2004-2005", "Steve Waugh 2004-2005", "MS Dhoni 2004-2005", "Dinesh Karthik 2004-2005", "David Warner 2003-2004", "Michael Clarke 2003-2004", "Sachin Tendulkar 2003-2004", "Rahul Dravid 2003-2004", "Adam Gilchrist 2000-2001", "Matthew Hayden 2000-2001", "Rohit Sharma 2000-2001", "VVS Laxman 2000-2001", "Michael Hussey 1999-2000", "Adam Gilchrist 1999-2000", "Virender Sehwag 1999-2000", "Gautam Gambhir 1999-2000", "Mark Taylor 1997-1998", "David Warner 1997-1998", "Rahul Dravid 1997-1998", "MS Dhoni 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 186,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest run scorers till 2021 - India",
+      "instructions": "For each question, Was this player the highest run scorer for India in the Border Gavaskar trophy in this year?",
+      "tap": ["Rishabh Pant 2020-2021", "Cheteshwar Pujara 2018-2019", "Cheteshwar Pujara 2016-2017", "Virat Kohli 2014-2015", "Murali Vijay 2012-2013", "Virat Kohli 2011-2012", "Sachin Tendulkar 2010-2011", "Gautam Gambhir 2008-2009", "Sachin Tendulkar 2007-2008", "Virender Sehwag 2004-2005", "Rahul Dravid 2003-2004", "VVS Laxman 2000-2001", "Sachin Tendulkar 1999-2000", "Sachin Tendulkar 1997-1998"
+      ],
+      "swipe": ["Glenn McGrath 2020-2021", "Shane Warne 2020-2021", "Zaheer Khan 2020-2021", "Harbhajan Singh 2020-2021", "Brett Lee 2018-2019", "Glenn McGrath 2018-2019", "Zaheer Khan 2018-2019", "Anil Kumble 2018-2019", "Mitchell Johnson 2016-2017", "Mitchell Starc 2016-2017", "Ashish Nehra 2016-2017", "Anil Kumble 2016-2017", "Brett Lee 22014-2015", "Jason Gillespie 2014-2015", "Jasprit Bumrah 2014-2015", "Anil Kumble 2014-2015", "Glenn McGrath 2012-2013", "Pat Cummins 2012-2013", "Jasprit Bumrah 2012-2013", "Ishant Sharma 2012-2013", "Pat Cummins 2011-2012", "Mitchell Starc  2011-2012", "Javagal Srinath 2011-2012", "Anil Kumble 2011-2012", "Pat Cummins 2010-2011", "Glenn McGrath 2010-2011", "Jasprit Bumrah 2010-2011", "Anil Kumble 2010-2011", "Pat Cummins 2008-2009", "Mitchell Johnson 2008-2009", "Jasprit Bumrah 2008-2009", "Anil Kumble 2008-2009", "Brett Lee 2007-2008", "Mitchell Johnson 2007-2008", "Jasprit Bumrah 2007-2008", "Anil Kumble 2007-2008", "Glenn McGrath 2004-2005", "Pat Cummins 2004-2005", "Jasprit Bumrah 2004-2005", "Anil Kumble 2004-2005", "Mitchell Starc 2003-2004", "Mitchell Johnson 2003-2004", "Axar Patel 2003-2004", "Ashish Nehra 2003-2004", "Shane Warne 2000-2001", "Nathan Lyon 2000-2001", "Zaheer Khan 2000-2001", "Amit Mishra 2000-2001", "Pat Cummins 1999-2000", "Mitchell Starc 1999-2000", "Axar Patel 1999-2000", "Ashish Nehra 1999-2000", "Glenn McGrath 1997-1998", "Brett Lee 1997-1998", "Javagal Srinath 1997-1998", "Ashish Nehra 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 187,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest wicket takers till 2021",
+      "instructions": "For each question, Did this player take the most wickets in the Border Gavaskar series in this year?",
+      "tap": ["Pat Cummins 2020-2021", "Nathan Lyon 2018-2019", "Jasprit Bumrah 2018-2019", "Ravindra Jadeja 2016-2017", "Steve O'Keefe 2016-2017", "Nathan Lyon 2016-2017", "Nathan Lyon 2014-2015", "Ravichandran Ashwin 2012-2013", "Ben Hilfenhaus 2011-2012", "Zaheer Khan 2010-2011", "Ishant Sharma 2008-2009", "Harbhajan Singh 2008-2009", "Brett Lee 2007-2008", "Anil Kumble 2004-2005", "Anil Kumble 2003-2004", "Harbhajan Singh 2000-2001", "Glenn McGrath 1999-2000", "Anil Kumble 1997-1998"
+      ],
+      "swipe": ["David Warner 2020-2021", "Steve Smith 2020-2021", "Rohit Sharma 2020-2021", "Ajinkya Rahane 2020-2021", "Usmaan Khawaja 2018-2019", "David Warner 2018-2019", "Sachin Tendulkar 2018-2019", "Rahul Dravid 2018-2019", "Ricky Ponting 2016-2017", "Michael Clarke 2016-2017", "Sachin Tendulkar 2016-2017", "Rahul Dravid 2016-2017", "Ricky Ponting 2014-2015", "Steve Smith 2014-2015", "Sourav Ganguly 2014-2015", "Rohit Sharma 2014-2015", "David Warner 2012-2013", "Michael Clarke 2012-2013", "Rahul Dravid 2012-2013", "Rishabh Pant 2012-2013", "Steve Smith 2011-2012", "Matthew Hayden 2011-2012", "Rohit Sharma 2011-2012", "Robin Singh 2011-2012", "Mark Taylor 2010-2011", "Mark Waugh 2010-2011", "Rishabh Pant 2010-2011", "Hardik Pandya 2010-2011", "Adam Gilchrist 2008-2009", "Matthew Hayden 2008-2009", "Rishabh Pant 2008-2009", "Hardik Pandya 2008-2009", "Damian Martyn 2007-2008", "Michael Bevan 2007-2008", "Rahul Dravid 2007-2008", "MS Dhoni 2007-2008", "Ricky Ponting 2004-2005", "Steve Waugh 2004-2005", "MS Dhoni 2004-2005", "Dinesh Karthik 2004-2005", "David Warner 2003-2004", "Michael Clarke 2003-2004", "Sachin Tendulkar 2003-2004", "Rahul Dravid 2003-2004", "Adam Gilchrist 2000-2001", "Matthew Hayden 2000-2001", "Rohit Sharma 2000-2001", "VVS Laxman 2000-2001", "Michael Hussey 1999-2000", "Adam Gilchrist 1999-2000", "Virender Sehwag 1999-2000", "Gautam Gambhir 1999-2000", "Mark Taylor 1997-1998", "David Warner 1997-1998", "Rahul Dravid 1997-1998", "MS Dhoni 1997-1998","David Warner 2020-2021", "Steve Smith 2020-2021", "Rohit Sharma 2020-2021", "Ajinkya Rahane 2020-2021", "Usmaan Khawaja 2018-2019", "David Warner 2018-2019", "Sachin Tendulkar 2018-2019", "Rahul Dravid 2018-2019", "Ricky Ponting 2016-2017", "Michael Clarke 2016-2017", "Sachin Tendulkar 2016-2017", "Rahul Dravid 2016-2017", "Ricky Ponting 2014-2015", "Steve Smith 2014-2015", "Sourav Ganguly 2014-2015", "Rohit Sharma 2014-2015", "David Warner 2012-2013", "Michael Clarke 2012-2013", "Rahul Dravid 2012-2013", "Rishabh Pant 2012-2013", "Steve Smith 2011-2012", "Matthew Hayden 2011-2012", "Rohit Sharma 2011-2012", "Robin Singh 2011-2012", "Mark Taylor 2010-2011", "Mark Waugh 2010-2011", "Rishabh Pant 2010-2011", "Hardik Pandya 2010-2011", "Adam Gilchrist 2008-2009", "Matthew Hayden 2008-2009", "Rishabh Pant 2008-2009", "Hardik Pandya 2008-2009", "Damian Martyn 2007-2008", "Michael Bevan 2007-2008", "Rahul Dravid 2007-2008", "MS Dhoni 2007-2008", "Ricky Ponting 2004-2005", "Steve Waugh 2004-2005", "MS Dhoni 2004-2005", "Dinesh Karthik 2004-2005", "David Warner 2003-2004", "Michael Clarke 2003-2004", "Sachin Tendulkar 2003-2004", "Rahul Dravid 2003-2004", "Adam Gilchrist 2000-2001", "Matthew Hayden 2000-2001", "Rohit Sharma 2000-2001", "VVS Laxman 2000-2001", "Michael Hussey 1999-2000", "Adam Gilchrist 1999-2000", "Virender Sehwag 1999-2000", "Gautam Gambhir 1999-2000", "Mark Taylor 1997-1998", "David Warner 1997-1998", "Rahul Dravid 1997-1998", "MS Dhoni 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 188,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy highest run scorers till 2021",
+      "instructions": "For each question, Did this player score the most runs in the Border Gavaskar series in this year?",
+      "tap": ["Marnus Labuschagne 2020-2021", "Cheteshwar Pujara 2018-2019", "Steve Smith 2016-2017", "Steve Smith 2014-2015", "Murali Vijay 2012-2013", "Michael Clarke 2011-2012", "Sachin Tendulkar 2010-2011", "Gautam Gambhir 2008-2009", "Sachin Tendulkar 2007-2008", "Damian Martyn 2004-2005", "Ricky Ponting 2003-2004", "Matthew Hayden 2000-2001", "Ricky Ponting 1999-2000", "Sachin Tendulkar 1997-1998"
+      ],
+      "swipe": ["Glenn McGrath 2020-2021", "Shane Warne 2020-2021", "Zaheer Khan 2020-2021", "Harbhajan Singh 2020-2021", "Brett Lee 2018-2019", "Glenn McGrath 2018-2019", "Zaheer Khan 2018-2019", "Anil Kumble 2018-2019", "Mitchell Johnson 2016-2017", "Mitchell Starc 2016-2017", "Ashish Nehra 2016-2017", "Anil Kumble 2016-2017", "Brett Lee 22014-2015", "Jason Gillespie 2014-2015", "Jasprit Bumrah 2014-2015", "Anil Kumble 2014-2015", "Glenn McGrath 2012-2013", "Pat Cummins 2012-2013", "Jasprit Bumrah 2012-2013", "Ishant Sharma 2012-2013", "Pat Cummins 2011-2012", "Mitchell Starc  2011-2012", "Javagal Srinath 2011-2012", "Anil Kumble 2011-2012", "Pat Cummins 2010-2011", "Glenn McGrath 2010-2011", "Jasprit Bumrah 2010-2011", "Anil Kumble 2010-2011", "Pat Cummins 2008-2009", "Mitchell Johnson 2008-2009", "Jasprit Bumrah 2008-2009", "Anil Kumble 2008-2009", "Brett Lee 2007-2008", "Mitchell Johnson 2007-2008", "Jasprit Bumrah 2007-2008", "Anil Kumble 2007-2008", "Glenn McGrath 2004-2005", "Pat Cummins 2004-2005", "Jasprit Bumrah 2004-2005", "Anil Kumble 2004-2005", "Mitchell Starc 2003-2004", "Mitchell Johnson 2003-2004", "Axar Patel 2003-2004", "Ashish Nehra 2003-2004", "Shane Warne 2000-2001", "Nathan Lyon 2000-2001", "Zaheer Khan 2000-2001", "Amit Mishra 2000-2001", "Pat Cummins 1999-2000", "Mitchell Starc 1999-2000", "Axar Patel 1999-2000", "Ashish Nehra 1999-2000", "Glenn McGrath 1997-1998", "Brett Lee 1997-1998", "Javagal Srinath 1997-1998", "Ashish Nehra 1997-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 189,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy captains till 2021",
+      "instructions": "For each question, Did this player captain the team in any Border Gavaskar test match?",
+      "tap": ["Tim Paine", "Virat Kohli", "Ajinkya Rahane", "MS Dhoni", "Steve Waugh", "Sourav Ganguly", "Steve Smith", "Michael Clarke", "Ricky Ponting", "Virender Sehwag", "Anil Kumble", "Rahul Dravid", "Adam Gilchrist", "Steve Waugh", "Sachin Tendulkar", "Mark Taylor", "Mohammad Azharuddin"
+      ],
+      "swipe": ["David Warner", "Shane Warne", "Harbhajan Singh", "Yuvraj Singh", "Glenn McGrath", "Nathan Lyon", "Mark Waugh", "Brett Lee", "Matthew Hayden", "Zaheer Khan", "Cheteshwar Pujara", "Ravichandran Ashwin", "Ishant Sharma", "Nayan Mongia", "Shubhman Gill", "Glenn Maxwell", "Marcus Stoinis", "Mitchell Marsh", "Damian Martyn"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 190,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy Player of the Tournament winners till 2021",
+      "instructions": "For each question, Did this player win Player of the Tournament in the Border Gavaskar series in this year?",
+      "tap": ["Pat Cummins 2020-2021", "Cheteshwar Pujara 2018-2019", "Ravindra Jadeja 2016-2017", "Steve Smith 2014-2015", "Ravichandran Ashwin 2012-2013", "Michael Clarke 2011-2012", "Sachin Tendulkar 2010-2011", "Ishant Sharma 2008-2009", "Brett Lee 2007-2008", "Damien Martin 2004-2005", "Rahul Dravid 2003-2004", "Harbhajan Singh 2000-2001", "Sachin Tendulkar 1999-2000", "Sachin Tendulkar 1997-1998", "Nayan Mongia 1996-1997"
+      ],
+      "swipe": ["Ajinkya Rahane 2020-2021", "Rishabh Pant 2020-2021", "Jasprit Bumrah 2020-2021", "Virat Kohli 2020-2021", "KL Rahul 2020-2021", "Rohit Sharma 2020-2021", "Cheteshwar Pujara 2020-2021", "Steve Smith 2020-2021", "David Warner 2020-2021", "Nathan Lyon 2020-2021", "Mitchell Starc 2020-2021", "Virat Kohli 2018-2019", "Rohit Sharma 2018-2019", "Jasprit Bumrah 2018-2019", "Steve Smith 2018-2019", "David Warner 2018-2019", "Usman Khawaja 2018-2019", "Ricky Ponting 2018-2019", "Glenn McGrath 2018-2019", "Virat Kohli 2016-2017", "Sachin Tendulkar 2016-2017", "Michael Clarke 2016-2017", "Ricky Ponting 2016-2017", "Harbhajan Singh 2016-2017", "David Warner 2014-2015", "Pat Cummins 2014-2015", "Nathan Lyon 2014-2015", "Virat Kohli 2014-2015", "Sachin Tendulkar 2014-2015", "MS Dhoni 2014-2015", "Zaheer Khan 2014-2015", "Harbhajan Singh 2012-2013", "Zaheer Khan 2012-2013", "Sunil Gavaskar 2012-2013", "Sachin Tendulkar 2012-2013", "Kapil Dev 2012-2013", "Rahul Dravid 2012-2013", "Ricky Ponting 2012-2013", "Brett Lee 2012-2013", "Steve Waugh 2011-2012", "Mark Waugh 2011-2012", "Mark Taylor 2011-2012", "Sourav Ganguly 2011-2012", "Sachin Tendulkar 2011-2012", "Sourav Ganguly 2010-2011", "Rahul Dravid 2010-2011", "Steve Waugh 2010-2011", "Zaheer Khan 2008-2009", "Ricky Ponting 2008-2009", "Glenn McGrath 2007-2008", "Mark Taylor 2007-2008", "Sourav Ganguly 2004-2005", "Rahul Dravid 2004-2005", "Kapil Dev 2003-2004", "Sunil Gavaskar 2003-2004", "MS Dhoni 2003-2004", "Shane Warne 2000-2001", "Matthew Hayden 2000-2001", "Adam Gilchrist 2000-2001", "Ian Healy 2000-2001", "Glenn McGrath 2000-2001","Ajinkya Rahane 2020-2021", "Rishabh Pant 2020-2021", "Jasprit Bumrah 2020-2021", "Virat Kohli 2020-2021", "KL Rahul 2020-2021", "Rohit Sharma 2020-2021", "Cheteshwar Pujara 2020-2021", "Steve Smith 2020-2021", "David Warner 2020-2021", "Nathan Lyon 2020-2021", "Mitchell Starc 2020-2021", "Virat Kohli 2018-2019", "Rohit Sharma 2018-2019", "Jasprit Bumrah 2018-2019", "Steve Smith 2018-2019", "David Warner 2018-2019", "Usman Khawaja 2018-2019", "Ricky Ponting 2018-2019", "Glenn McGrath 2018-2019", "Virat Kohli 2016-2017", "Sachin Tendulkar 2016-2017", "Michael Clarke 2016-2017", "Ricky Ponting 2016-2017", "Harbhajan Singh 2016-2017", "David Warner 2014-2015", "Pat Cummins 2014-2015", "Nathan Lyon 2014-2015", "Virat Kohli 2014-2015", "Sachin Tendulkar 2014-2015", "MS Dhoni 2014-2015", "Zaheer Khan 2014-2015", "Harbhajan Singh 2012-2013", "Zaheer Khan 2012-2013", "Sunil Gavaskar 2012-2013", "Sachin Tendulkar 2012-2013", "Kapil Dev 2012-2013", "Rahul Dravid 2012-2013", "Ricky Ponting 2012-2013", "Brett Lee 2012-2013", "Steve Waugh 2011-2012", "Mark Waugh 2011-2012", "Mark Taylor 2011-2012", "Sourav Ganguly 2011-2012", "Sachin Tendulkar 2011-2012", "Sourav Ganguly 2010-2011", "Rahul Dravid 2010-2011", "Steve Waugh 2010-2011", "Zaheer Khan 2008-2009", "Ricky Ponting 2008-2009", "Glenn McGrath 2007-2008", "Mark Taylor 2007-2008", "Sourav Ganguly 2004-2005", "Rahul Dravid 2004-2005", "Kapil Dev 2003-2004", "Sunil Gavaskar 2003-2004", "MS Dhoni 2003-2004", "Shane Warne 2000-2001", "Matthew Hayden 2000-2001", "Adam Gilchrist 2000-2001", "Ian Healy 2000-2001", "Glenn McGrath 2000-2001"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 191,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy hosts till 2021",
+      "instructions": "For each question, Did this country host the Border Gavaskar cricket tournament in this year?",
+      "tap": ["Australia 2020-2021", "Australia 2018-2019", "India 2016-2017", "Australia 2014-2015", "India 2012-2013", "Australia 2011-2012", "India 2010-2011", "India 2008-2009", "Australia 2007-2008", "India 2004-2005", "Australia 2003-2004", "India 2000-2001", "Australia 1999-2000", "India 1997-1998", "India 1996-1997"
+      ],
+      "swipe": ["India 2020-2021", "India 2018-2019", "Australia 2016-2017", "India 2014-2015", "Australia 2012-2013", "India 2011-2012", "Australia 2010-2011", "Australia 2008-2009", "India 2007-2008", "Australia 2004-2005", "India 2003-2004", "Australia 2000-2001", "India 1999-2000", "Australia 1997-1998", "Australia 1996-1997"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 192,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "BGT Border Gavaskar Trophy winners till 2021",
+      "instructions": "For each question, Did this country win the Border Gavaskar cricket trophy in this year?",
+      "tap": ["India 2020-2021", "India 2018-2019", "India 2016-2017", "Australia 2014-2015", "India 2012-2013", "Australia 2011-2012", "India 2010-2011", "India 2008-2009", "Australia 2007-2008", "Australia 2004-2005", "India 2003-2004", "India 2000-2001", "Australia 1999-2000", "India 1997-1998", "India 1996-1997"
+      ],
+      "swipe": ["Australia 2020-2021", "Australia 2018-2019", "Australia 2016-2017", "India 2014-2015", "Australia 2012-2013", "India 2011-2012", "Australia 2010-2011", "Australia 2008-2009", "India 2007-2008", "India 2004-2005", "Australia 2003-2004", "Australia 2000-2001", "India 1999-2000", "Australia 1997-1998", "Australia 1996-1997"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
     }
     
   ],
