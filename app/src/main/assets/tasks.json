@@ -9668,6 +9668,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 194,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Runners Up till 2022",
+      "instructions": "For each question, Was this team the Runners Up in the IPL in this year?",
+      "tap": ["Rajasthan Royals 2022", "Kolkata Knight Riders 2021", "Delhi Capitals 2020", "Chennai Super Kings 2019", "Sunrisers Hyderabad 2018", "Rising Pune Supergiants 2017", "Royal Challengers Bangalore 2016", "Chennai Super Kings 2015", "Kings XI Punjab 2014", "Chennai Super Kings 2013", "Chennai Super Kings 2012", "Royal Challengers Bangalore 2011", "Mumbai Indians 2010", "Royal Challengers Bangalore 2009", "Chennai Super Kings 2008"
+      ],
+      "swipe": ["Mumbai Indians 2022", "Sunrisers Hyderabad 2022", "Kolkata Knight Riders 2022", "Sunrisers Hyderabad 2021", "Rajasthan Royals 2021", "Punjab Kings 2021", "Rajasthan Royals 2020", "Chennai Super Kings 2020", "Royal Challengers Bangalore 2020", "Royal Challengers Bangalore 2019", "Rajasthan Royals 2019", "Sunrisers Hyderabad 2019", "Delhi Capitals 2018", "Royal Challengers Bangalore 2018", "Mumbai Indians 2018", "Royal Challengers Bangalore 2017", "Delhi Capitals 2017", "Kings XI Punjab 2017", "Kings XI Punjab 2016", "Delhi Capitals 2016", "Mumbai Indians 2016", "Kings XI Punjab 2015", "Delhi Capitals 2015", "Sunrisers Hyderabad 2015", "Delhi Capitals 2014", "Royal Challengers Bangalore 2014", "Sunrisers Hyderabad 2014", "Delhi Capitals 2013", "Kolkata Knight Riders 2013", "Kings XI Punjab 2013", "Rajasthan Royals 2012", "Kings XI Punjab 2012", "Royal Challengers Bangalore 2012", "Delhi Capitals 2011", "Rajasthan Royals 2011", "Kings XI Punjab 2011", "Kings XI Punnjab 2010", "Rajasthan Royals 2010", "Kolkata Knight Riders 2010", "Kolkata Knight Riders 2009", "Mumbai Indians 2009", "Rajasthan Royals 2009", "Deccan Chargers 2008", "Kolkata Knight Riders 2008", "Royal Challengers Bangalore 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
     
   ],
