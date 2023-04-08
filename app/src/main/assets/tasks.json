@@ -9686,6 +9686,78 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 195,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Playoffs till 2022",
+      "instructions": "For each question, Did this team reach the IPL playoffs in this year?",
+      "tap": ["Lucknow Super Giants 2022", "Royal Challengers Bangalore 2022", "Royal Challengers Bangalore 2021", "Kolkata Knight Riders 2021", "Sunrisers Hyderabad 2020", "Royal Challengers Bangalore 2020", "Delhi Capitals 2019", "Sunrisers Hyderabad 2019", "Kolkata Knight Riders 2018", "Rajasthan Royals 2018", "Sunrisers Hyderabad 2017", "Kolkata Knight Riders 2017", "Sunrisers Hyderabad 2016", "Kolkata Knight Riders 2016", "Royal Challengers Bangalore 2015", "Rajasthan Royals 2015", "Chennai Super Kings 2014", "Mumbai Indians 2014", "Rajasthan Royals 2013", "Sunrisers Hyderabad 2013", "Mumbai Indians 2012", "Chennai Super Kings 2012", "Kolkata Knight Riders 2011", "Punjab Kings 2011", "Chennai Super Kings 2010", "Royal Challengers Bangalore 2010", "Royal Challengers Bangalore 2009", "Deccan Chargers 2009", "Chennai Super Kings 2008", "Delhi Daredevils 2008"
+      ],
+      "swipe": ["Mumbai Indians 2022", "Chennai Super Kings 2022", "Sunrisers Hyderabad 2022", "Sunrisers Hyderabad 2021", "Rajasthan Royals 2021", "Punjab Kings 2021", "Rajasthan Royals 2020", "Chennai Super Kings 2020", "Punjab Kings 2020", "Royal Challengers Bangalore 2019", "Raajasthan Royals 2019", "Punjab Kings 2019", "Delhi Capitals 2018", "Punjab Kings 2018", "Royal Challengers Bangalore 2018", "Royal Challengers Bangalore 2017", "Delhi Capitals 2017", "Punjab Kings 2017", "Punjab Kings 2016", "Delhi Capitals 2016", "Mumbai Indians 2016", "Punjab Kings 2015", "Delhi Capitals 2015", "Sunrisers Hyderabad 2015", "Delhi Capitals 2014", "Royal Challengers Bangalore 2014", "Sunrisers Hyderabad 2014", "Delhi Capitals 2013", "Kolkata Knight Riders 2013", "Punjab Kings 2013", "Rajasthan Royaals 2012", "Punjab Kings 2012", "Royal Challengers Bangalore 2012", "Delhi Capitals 2011", "Deccan Chargers 2011", "Rajasthan Royals 2011", "Punjab Kings 2010", "Rajasthan Royals 2010", "Kolkata Knight Riders 2010", "Kolkata Knight Riders 2009", "Mumbai Indians 2009", "Rajasthan Royals 2009", "Deccan Chargers 2008", "Royal Challengers Bangalore 2008", "Kolkata Knight Riders 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 196,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Wooden Spoon holders (last place) till 2022",
+      "instructions": "For each question, Did this team get the wooden spoon (last place) in the IPL in this year?",
+      "tap": ["Mumbai Indians 2022", "Sunrisers Hyderabad 2021", "Rajasthan Royals 2020", "Royal Challengers Bangalore 2019", "Delhi Daredevils 2018", "Royal Challengers Bangalore 2017", "Kings XI Punjab 2016", "Kings XI Punjab 2015", "Delhi Daredevils 2014", "Delhi Daredevils 2013", "Pune Warriors India 2012", "Delhi Daredevils 2011", "Kings XI Punjab 2010", "Kolkata Knight Riders 2009", "Deccan Chargers 2008"
+      ],
+      "swipe": ["Gujarat Titans 2022", "Royal Challengers Bangalore 2022", "Rajasthan Royals 2022", "Delhi Capitals 2021", "Chennai Super Kings 2021", "Royal Challengers Bangalore 2021", "Mumbai Indians 2020", "Delhi Capitals 2020", "Sunrisers Hyderabad 2020", "Mumbai Indians 2019", "Chennai Super Kings 2019", "Delhi Capitals 2019", "Sunrisers Hyderabad 2018", "Chennai Super Kings 2018", "Kolkata Knight Riders 2018",  "Mumbai Indians 2017", "Sunrisers Hyderabad 2017", "Kolkata Knight Riders 2017", "Royal Challengers Bangalore 2016", "Sunrisers Hyderabad 2016", "Kolkata Knight Riders 2016", "Chennai Super Kings 2015", "Mumbai Indians 2015", "Royal Challengers Bangalore 2015", "Kolkata Knight Riders 2014", "Chennai Super Kings 2014", "Mumbai Indians 2014", "Chennai Super Kings 2013", "Mumbai Indians. 2013", "Rajasthan Royals 2013", "Kolkata Knight Riders 2012", "Mumbai Indians 2012", "Chennai Super Kings 2012", "Royal Challengers Bangalore 2011", "Chennai Super Kings 2011", "Mumbai Indians 2011", "Mumbai Indians 2010", "Chennai Super Kings 2010", "Royal Challengers Bangalore 2010", "Mumbai Indians 2009", "Chennai Super Kings 2009", "Royal Challengers Bangalore 2009", "Rajasthan Royals 2008", "Chennai Super Kings 2008", "Royal Challengers Bangalore 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 197,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Orange Cap Winners till 2022",
+      "instructions": "For each question, Did this player win the Orange Cap in the IPL in this year?",
+      "tap": ["Jos Buttler 2022", "Ruturaj Gaikwad 2021", "KL Rahul 2020", "David Warner 2019", "Kane Williamson 2018",  "David Warner 2017", "Virat Kohli 2016", "David Warner 2015", "Robin Uthappa 2014", "Michael Hussey 2013", "Chris Gayle 2012", "Chris Gayle 2011", "Sachin Tendulkar 2010", "Matthew Hayden 2009", "Shaun Marsh 2008","Jos Buttler 2022", "Ruturaj Gaikwad 2021", "KL Rahul 2020", "David Warner 2019", "Kane Williamson 2018",  "David Warner 2017", "Virat Kohli 2016", "David Warner 2015", "Robin Uthappa 2014", "Michael Hussey 2013", "Chris Gayle 2012", "Chris Gayle 2011", "Sachin Tendulkar 2010", "Matthew Hayden 2009", "Shaun Marsh 2008"
+      ],
+      "swipe": ["Jasprit Bumrah 2022", "Anil Kumble 2022", "Amit Mishra 2021", "Bhuvneshwar Kumar 2021", "Mitchell Starc 2020", "Rashid Khan 2020", "Sunil Narine 2019", "Umran Malik 2019", "Mitchell Johnson 2018", "Rashid Khan 2018", "Anil Kumble 2017", "Shane Warne 2017", "Daniel Vettori 2016", "Trent Boult 2016", "RP Singh 2015", "Pragyan Ojha 2015", "Arshdeep Singh 2014", "Umran Malik 2014", "Dale Steyn 2013",  "Morne Morkel 2013", "Zaheer Khan 2012", "James Anderson 2012", "Stuart Broad 2011", "Mitchell Johnson 2011", "Rashin Khan 2010", "Sunil Narine 2010", "Jasprit Bumrah 2009", "Umesh Yadav 2009", "T Natarajan 2008", "Trent Boult 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 198,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Purple Cap Winners till 2022",
+      "instructions": "For each question, Did this player win the Purple Cap in the IPL in this year?",
+      "tap": ["Yuzvendra Chahal 2022", "Harshal Patel 2021", "Kagiso Ramada 2020", "Immran Tahir 2019", "Andrew Tye 2018", "Bhuvneshwar Kumar 2017", "Bhuvneshwar Kumar 2016", "Dwayne Bravo 2015", "Mohit Sharma 2014", "Dwayne Bravo 2013", "Morne Morkel 2012", "Lasith Malinga 2011", "Pragyan Ojha 2010", "RP Singh 2009", "Sohail Tanvir 2008"
+      ],
+      "swipe": ["Virat Kohli 2022", "Rohit Sharma 2022", "Kane Williamson 2021", "David Warner 2021", "Joe Root 2020", "Ben Stokes 2020", "Alastair Cook 2019", "Rishabh Pant 2019", "Ajinkya Rahane 2018",  "AD de Villiers 2018", "Brendon McCullum 2017", "MS Dhoni 2017", "Shreyas Iyer 2016", "Shubman Gill 2016", "Sachin Tendulkar 2015", "Ricky Ponting 2015", "Shikhar Dhawan 2014", "Virender Sehwag 2014", "Gautam Gambhir 2013", "Dinesh Karthik 2013", "Kevin Pietersen 2012", "Andrew Strauss 2012", "Steve Smith 2011", "Adam Gilchrist 2011", "Andrew Symonds 2010", "Rahul Dravid 2010", "Sourav Ganguly 2009", "Michael Hussey 2009", "Graeme Smith 2008", "Sachin Tendulkar 2008","Virat Kohli 2022", "Rohit Sharma 2022", "Kane Williamson 2021", "David Warner 2021", "Joe Root 2020", "Ben Stokes 2020", "Alastair Cook 2019", "Rishabh Pant 2019", "Ajinkya Rahane 2018",  "AD de Villiers 2018", "Brendon McCullum 2017", "MS Dhoni 2017", "Shreyas Iyer 2016", "Shubman Gill 2016", "Sachin Tendulkar 2015", "Ricky Ponting 2015", "Shikhar Dhawan 2014", "Virender Sehwag 2014", "Gautam Gambhir 2013", "Dinesh Karthik 2013", "Kevin Pietersen 2012", "Andrew Strauss 2012", "Steve Smith 2011", "Adam Gilchrist 2011", "Andrew Symonds 2010", "Rahul Dravid 2010", "Sourav Ganguly 2009", "Michael Hussey 2009", "Graeme Smith 2008", "Sachin Tendulkar 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
     
   ],
