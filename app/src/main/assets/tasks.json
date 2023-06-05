@@ -9848,8 +9848,43 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 204,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis French Open Womens Singles Winners till 2022",
+      "instructions": "For each question, Has this player won the French Open Womens Singles title?",
+      "tap": ["Iga Świątek", "Barbora Krejchikova", "Iga Świątek", "Ashleigh Barty", "Simona Halep", "Jelena Ostapenko", "Garbine Muguruza", "Serena Williams", "Maria Sharapova", "Li Na", "Justine Henin", "Steffi Graf"
+      ],
+      "swipe": ["Martina Hingis", "Kim Clijsters", "Elena Dementieva", "Dinara Safina", "Caroline Wozniacki", "Jelena Jankovic", "Vera Zvonerareva", "Agnieszka Radwanska", "Dominika Cibulkova", "Simona Halep"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 205,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis French Open Mens Singles Winners till 2022",
+      "instructions": "For each question, Has this player won the French Open Mens Singles title?",
+      "tap": ["Rafael Nadal", "Novak Djokovic", "Stan Wawrinka", "Roger Federer", "Juan Carlos Ferrerro", "Albert Costa", "Gustavo Kuerten", "Andre Agassi", "Carlos Moya", "Jim Courier", "Michael Change","Rafael Nadal", "Novak Djokovic", "Stan Wawrinka", "Roger Federer", "Juan Carlos Ferrerro", "Albert Costa", "Gustavo Kuerten", "Andre Agassi", "Carlos Moya", "Jim Courier", "Michael Chang"
+      ],
+      "swipe": ["Nick Kyrgios", "Carlos Alcaraz", "Andy Roddick", "Pete Sampras", "James Blake", "Kei Nishikori", "Domminic Thiem", "Casper Rudd", "Andy Murray", "David Ferrer", "John McEnnroe", "John Isner", "Nicholas Mahut", "Robin Soderling", "Stefanos Tsitsipas", "Juan Martin del Porto", "Jo Wilfried Tsonga", "Grigor Dimitrov"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
     }
-    
   ],
 
   "courses": [
