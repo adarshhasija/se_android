@@ -9884,6 +9884,42 @@
       "ordered": false,
       "tags": ["social_media", "tennis"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 206,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis Wimbledon Womens Singles Winners till 2022",
+      "instructions": "For each question, Has this player won the Wimbledon Womens Singles title?",
+      "tap": ["Ashleigh Barty", "Simona Halep", "Angelique Kerber", "Serena Williams", "Venus Williams", "Maria Sharapova", "Lindsay Davenport", "Steffi Graf", "Martina Navratilova", "Chris Evert"
+      ],
+      "swipe": ["Li Na", "Elena Dementieva", "Dinara Safina", "Jelena Jankovic", "Vera Zvonareva", "Caroline Wozniacki", "Sania Mirza", "Mary Pierce", "Justine Henin", "Mary Pierce"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 207,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis Wimbledon Mens Singles Winners till 2022",
+      "instructions": "For each question, Has this player won the Wimbledon Mens Singles title?",
+      "tap": ["Novak Djokovic", "Roger Federer", "Andy Murray", "Rafael Nadal", "Lleyton Hewitt", "Goran Ivanisevic", "Pete Sampras", "Andre Agassi", "Stefan Edberg", "Boris Becker", "John McEnroe"
+      ],
+      "swipe": ["Nick Krygios", "Kevin Anderson", "Kei Nishikori", "Danil Medvedev", "Carlos Alcaraz", "Stan Wawrinka", "Milos Raonic", "Tomas Berdych", "Patrick Rafter", "Tim Henman", "Grigor Dimitrov", "Andy Roddick", "Marin Cilic", "Jo Wilfried Tsonga", "Stefanos Tsitsipas", "Alexander Zverev"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
     }
   ],
 
