@@ -9920,6 +9920,114 @@
       "ordered": false,
       "tags": ["social_media", "tennis"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 208,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Most Wickets in a single series till 2022",
+      "instructions": "For each question, Does this player hold the distinction of finishing any Ashes series as the highest wicket taker?",
+      "tap": ["Shane Warne", "Dennis Lillee", "Mitchell Johnson", "Glenn McGrath", "Geoff Lawson", "Ian Botham", "Harold Larwood", "Craig McDermott", "Richie Benaud", "Merv Hughes", "Pat Cummins", "Stuart MacGill", "Ray Lindwall", "Graeme Swann", "Ryan Harris", "Andrew Caddick", "Andrew Flintoff", "Stuart Broad", "Jofra Archer", "Mitchell Starc", "James Anderson"
+      ],
+      "swipe": ["David Warner",  "Usman Khawaja", "Steve Smith", "Travis Head", "Michael Clarke", "Adam Gilchrist", "Ian Healy", "Ricky Ponting", "Damian Martyn", "Michael Bevan", "Justin Langer", "Matthew Hayden", "Mark Taylor", "Steve Waugh", "Mark Waugh", "Chris Rogers", "Simon Katich", "Michael Hussey", "Timm Paine", "Joe Root", "Ben Stokes", "Alastair Cook", "Andrew Strauss", "Michael Vaughan", "Marcus Trescothick", "Kevin Pietersen", "Johnny Bairstow", "Jos Buttler", "Monty Panesar"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 209,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Most Runs in a single series till 2022",
+      "instructions": "For each question, Does this player hold the distinction of finishing any Ashes series as the highest run scorer?",
+      "tap": ["Don Bradman", "Walter Hammond", "Mark Taylor", "Steve Smith", "Alastair Cook", "David Gower", "Graham Gooch", "Jack Hobbs", "Geoffrey Boycott", "Michael Vaughan", "Michael Slater", "Greg Chappell", "Allan Border", "Ricky Ponting", "Michael Hussey", "Dean Jones", "Ian Bell", "David Boon", "Mark Waugh"
+      ],
+      "swipe": ["Glenn McGrath", "Brett Lee", "Jason Gillespie", "Mitchell Starc", "Mitchell Johnson", "Scott Roland", "Pat Cummins", "Shane Warne", "Nathan Lyon", "Tim Paine", "Stuart MacGill", "Stuart Broad", "James Anderson", "Steve Harmison", "Andrew Caddick", "Ian Healy", "Ian Chappell", "Trevor Chappell"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 210,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Player of the Series till 2022",
+      "instructions": "For each question, Has this player won Player of the Series in an Ashes series?",
+      "tap": ["Travis Head", "Steve Smith", "Joe Root", "Chris Rogers", "Mitchell Johnson", "Ian Bell", "Ryan Harris", "Alastair Cook", "Andrew Strauss", "Michael Clarke", "Ricky Ponting", "Andrew Flintoff", "Shane Warne", "Michael Vaughan", "Glenn McGrath", "Steve Waugh", "Graham Thorpe", "Craig McDermott", "Graham Gooch", "Chris Broad", "David Gower", "Geoff Lawson", "Ian Botham", "Dennis Lillee","Travis Head", "Steve Smith", "Joe Root", "Chris Rogers", "Mitchell Johnson", "Ian Bell", "Ryan Harris", "Alastair Cook", "Andrew Strauss", "Michael Clarke", "Ricky Ponting", "Andrew Flintoff", "Shane Warne", "Michael Vaughan", "Glenn McGrath", "Steve Waugh", "Graham Thorpe", "Craig McDermott", "Graham Gooch", "Chris Broad", "David Gower", "Geoff Lawson", "Ian Botham", "Dennis Lillee"
+      ],
+      "swipe": ["David Warner", "Mitchell Starc", "Nathan Lyon", "Usman Khawaja", "Alex Carey", "Adam Gilchrist", "Ian Healy", "Don Bradman", "Justin Langer", "Matthew Hayden", "Mark Taylor", "Damien Martyn", "Brett Lee", "Jason Gillespie", "Stuart MacGill", "Brad Hogg", "Allan Border", "Ollie Robinson", "Ollie Pope", "Ben Stokes", "Johnny Bairstow", "Zak Crawley", "Nasser Hussein", "Marcus Trescothick"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 211,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Captains till 2022",
+      "instructions": "For each question, Has this player captained their country in an Ashes Test?",
+      "tap": ["Ricky Ponting", "Allan Border", "Don Bradman", "Michael Clarke", "Mark Taylor", "Mike Atherton", "Alastair Cook", "Joe Root", "Richie Benaud", "WG Grace", "Greg Chappell", "Andrew Strauss", "Steve Waugh", "Graham Gooch", "Walter Hammond", "Nasser Hussain", "Pat Cummins", "Kim Hughes", "Steve Smith", "Andrew Flintoff", "Mike Gatting", "Tim Paine", "Alec Stewart", "Michael Vaughan", "Ian Botham", "Ben Stokes", "Adam Gilchrist"
+      ],
+      "swipe": ["Shane Warne", "Glenn McGrath", "Brett Lee", "Jason Gillespie", "Brad Hogg", "Stuart MacGill", "Tom Moddy", "Michael Kasprowicz", "Steve Harmison", "James Anderson", "Stuart Broad", "Chris Broad", "Monty Panesar", "Ashley Giles", "Nathan Lyon", "Todd Murphy", "Mark Waugh", "Matthew Hayden", "Justin Langer", "Ian Healy", "Ian Chappell", "Trevor Chappell", "David Warner", "Usman Khawaja", "Alex Carey", "Travis Head", "Mitchell Starc", "Mitchell Johnson", "Matt Renshaw", "Ollie Pope", "Ollie Robinson"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 212,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Hosts 1998 to 2022",
+      "instructions": "For each question, Did this country host the Ashes series in this year?",
+      "tap": ["Australia 2022", "England 2019", "Australia 2017-2018", "England 2015", "Australia 2013-2014", "England 2013", "Australia 2010-2011", "England 2009", "Australia 2006-2007", "England 2005", "Australia 2002-2003", "England 2001", "Australia 1998-1999"
+      ],
+      "swipe": ["England 2022", "Australia 2019", "England 2017-2018", "Australia 2015", "England 2013-2014", "Australia 2013", "England 2010-2011", "Australia 2009",  "England 2006-2007", "Australia 2005", "England 2002-2003", "Australia 2001", "England 1999-1998"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 213,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket Ashes Winners 1998 to 2022",
+      "instructions": "For each question, Did this country win the Ashes series or was it a draw in the given year?",
+      "tap": ["Australia 2022", "Draw 2019", "Australia 2017-2018", "England 2015", "Australia 2013-2014", "England 2013", "England 2010-2011", "England 2009", "Australia 2006-2007", "England 2005", "Australia 2002-2003", "Australia 2001", "Australia 1998-1999"
+      ],
+      "swipe": ["England 2022", "Draw 2022", "England 2019", "Australia 2019", "England 2017-2018", "Draw 2017-2018", "Australia 2015", "Draw 2015", "England 2013-2014", "Draw 2013-2014", "Australia 2013", "Draw 2013", "Australia 2010-2011", "Draw 2010-2011", "Australia 2009", "Draw 2009", "England 2006-2007", "Draw 2006-2007", "Australia 2005", "Draw 2005", "England 2002-2003", "Draw 2002-2003", "England 2001", "Draw 2001", "England 1998-1999", "Draw 1998-1999","England 2022", "Draw 2022", "England 2019", "Australia 2019", "England 2017-2018", "Draw 2017-2018", "Australia 2015", "Draw 2015", "England 2013-2014", "Draw 2013-2014", "Australia 2013", "Draw 2013", "Australia 2010-2011", "Draw 2010-2011", "Australia 2009", "Draw 2009", "England 2006-2007", "Draw 2006-2007", "Australia 2005", "Draw 2005", "England 2002-2003", "Draw 2002-2003", "England 2001", "Draw 2001", "England 1998-1999", "Draw 1998-1999"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
     }
   ],
 
