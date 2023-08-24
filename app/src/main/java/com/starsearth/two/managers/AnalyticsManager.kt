@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsConstants
-import com.facebook.appevents.AppEventsLogger
+//import com.facebook.FacebookSdk
+//import com.facebook.appevents.AppEventsConstants
+//import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
 //import com.starsearth.two.BuildConfig
 import com.starsearth.two.R
@@ -16,7 +16,7 @@ import com.starsearth.two.domain.*
 class AnalyticsManager(private val mContext: Context) {
 
     private var firebaseAnalytics: FirebaseAnalytics? = null
-    private var facebookAnalytics: AppEventsLogger? = null
+  //  private var facebookAnalytics: AppEventsLogger? = null
 
     companion object {
         enum class GESTURES {
@@ -40,22 +40,22 @@ class AnalyticsManager(private val mContext: Context) {
                 if (firebaseAnalytics == null) {
                     initializeFirebaseAnalytics()
                 }
-                if (facebookAnalytics == null) {
+            /*    if (facebookAnalytics == null) {
                     initializeFacebookAnalytics()
-                }
+                }   */
             } else if (remoteConfigAnalytics.equals("firebase", ignoreCase = true)) {
                 if (firebaseAnalytics == null) {
                     initializeFirebaseAnalytics()
                 }
-                facebookAnalytics = null
+            //    facebookAnalytics = null
             } else if (remoteConfigAnalytics.equals("facebook", ignoreCase = true)) {
                 firebaseAnalytics = null
-                if (facebookAnalytics == null) {
+            /*    if (facebookAnalytics == null) {
                     initializeFacebookAnalytics()
-                }
+                }   */
             } else {
                 firebaseAnalytics = null
-                facebookAnalytics = null
+            //    facebookAnalytics = null
             }
         }
     }
@@ -65,20 +65,20 @@ class AnalyticsManager(private val mContext: Context) {
     }
 
     private fun initializeFacebookAnalytics() {
-        FacebookSdk.setApplicationId(mContext.resources.getString(R.string.facebook_app_id))
+     /*   FacebookSdk.setApplicationId(mContext.resources.getString(R.string.facebook_app_id))
         FacebookSdk.sdkInitialize(mContext)
         AppEventsLogger.activateApp(mContext)
-        facebookAnalytics = AppEventsLogger.newLogger(mContext)
+        facebookAnalytics = AppEventsLogger.newLogger(mContext) */
     }
 
     fun logActionEvent(eventName: String, bundle: Bundle) {
         firebaseAnalytics?.logEvent(eventName, bundle)
-        facebookAnalytics?.logEvent(eventName, bundle)
+     //   facebookAnalytics?.logEvent(eventName, bundle)
     }
 
     fun logActionEvent(eventName: String, bundle: Bundle, score: Int) {
         firebaseAnalytics?.logEvent(eventName, bundle)
-        facebookAnalytics?.logEvent(eventName, score.toDouble(), bundle)
+    //    facebookAnalytics?.logEvent(eventName, score.toDouble(), bundle)
     }
 
     /*
@@ -86,11 +86,11 @@ class AnalyticsManager(private val mContext: Context) {
      */
     fun logFragmentViewEvent(fragmentName: String, activity: Activity) {
         firebaseAnalytics?.setCurrentScreen(activity, fragmentName, null)
-        if (facebookAnalytics != null) {
+    /*    if (facebookAnalytics != null) {
             val bundle = Bundle()
             bundle.putString("content", fragmentName)
             facebookAnalytics!!.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, bundle)
-        }
+        }   */
     }
 
     fun updateUserAnalyticsInfo(userId: String) {
@@ -100,9 +100,9 @@ class AnalyticsManager(private val mContext: Context) {
 
     fun updateAnalyticsUserId(userId: String) {
         firebaseAnalytics?.setUserId(userId)
-        if (facebookAnalytics != null) {
+    /*    if (facebookAnalytics != null) {
             AppEventsLogger.setUserID(userId)
-        }
+        }   */
     }
 
     private fun updateUserProperties() {
@@ -111,9 +111,9 @@ class AnalyticsManager(private val mContext: Context) {
         user_props?.keySet()?.forEach {
             firebaseAnalytics?.setUserProperty(it, user_props.get(it)!!.toString()) //must be a string
         }
-        if (facebookAnalytics != null) {
+    /*    if (facebookAnalytics != null) {
             AppEventsLogger.updateUserProperties(user_props, null)
-        }
+        }   */
     }
 
 

@@ -38,13 +38,13 @@ public class StarsEarthApplication extends Application {
         return result;
     }   */
 
-    public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
+  /*  public com.facebook.ads.InterstitialAd getFacebookInterstitalAd() {
         com.facebook.ads.InterstitialAd result = null;
         if (mAdsManager != null) {
             result = mAdsManager.getFacebookInterstitalAd();
         }
         return result;
-    }
+    }   */
 
     public AdsManager getAdsManager() {
         return mAdsManager;

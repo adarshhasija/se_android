@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.starsearth.two"
         minSdkVersion 21
-        targetSdkVersion 32
-        versionCode 25
+        targetSdkVersion 33
+        versionCode 29
 
-        versionName "1.0.25"
+        versionName "1.0.29"
     }
 
 
@@ -70,9 +70,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
+   // implementation 'com.facebook.android:facebook-android-sdk:4.33.0'
     //Currently not in use as app id not approved by Facebook
-    implementation 'com.facebook.android:audience-network-sdk:4.28.1'
+   // implementation 'com.facebook.android:audience-network-sdk:4.28.1'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'

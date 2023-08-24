@@ -1,7 +1,7 @@
 package com.starsearth.two.managers
 
 import android.content.Context
-
+/*
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAdListener
@@ -10,6 +10,7 @@ import com.google.android.gms.ads.AdRequest
 //import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 //import com.google.android.gms.ads.interstitial.InterstitialAd
+*/
 import com.starsearth.two.BuildConfig
 import com.starsearth.two.application.StarsEarthApplication
 import com.starsearth.two.domain.Course
@@ -19,11 +20,11 @@ import com.starsearth.two.domain.Task
 import java.util.Random
 
 class AdsManager(private val mContext: Context) {
-    private var adRequest: AdRequest.Builder? = null
+  //  private var adRequest: AdRequest.Builder? = null
     //var googleInterstitialAd: InterstitialAd? = null
         //private set
-    var facebookInterstitalAd: com.facebook.ads.InterstitialAd? = null
-        private set
+  //  var facebookInterstitalAd: com.facebook.ads.InterstitialAd? = null
+     //   private set
 
     private val GOOGLE = "google"
     private val FACEBOOK = "facebook"
@@ -46,7 +47,7 @@ class AdsManager(private val mContext: Context) {
         }
     }   */
 
-    var mFacebookAdListener: InterstitialAdListener = object : InterstitialAdListener {
+ /*   var mFacebookAdListener: InterstitialAdListener = object : InterstitialAdListener {
         override fun onInterstitialDisplayed(ad: Ad) {
             (mContext.applicationContext as StarsEarthApplication).analyticsManager.sendAnalyticsForAdvertisingEvent("INTERSTITIAL_DISPLAYED", FACEBOOK)
         }
@@ -70,7 +71,7 @@ class AdsManager(private val mContext: Context) {
         override fun onLoggingImpression(ad: Ad) {
             (mContext.applicationContext as StarsEarthApplication).analyticsManager.sendAnalyticsForAdvertisingEvent("LOGGING_IMPRESSION", FACEBOOK)
         }
-    }
+    }   */
 
     init {
         initializeGoogleAds(mContext)
@@ -131,17 +132,18 @@ class AdsManager(private val mContext: Context) {
 
     fun generateAd() {
         val ads = (mContext as StarsEarthApplication).firebaseRemoteConfigWrapper.ads
-        if (ads.equals(GOOGLE, ignoreCase = true) /*&& googleInterstitialAd != null */&& adRequest != null) {
+        if (ads.equals(GOOGLE, ignoreCase = true) /*&& googleInterstitialAd != null *//*&& adRequest != null*/) {
             //googleInterstitialAd!!.loadAd(adRequest!!.build())
-        } else if (ads.equals(FACEBOOK, ignoreCase = true) && facebookInterstitalAd != null) {
+        } else if (ads.equals(FACEBOOK, ignoreCase = true) /*&& facebookInterstitalAd != null*/) {
             //AdSettings.addTestDevice("cc5a9eab-c86b-4529-83bb-902568670129"); //TS Mac simulator
             //AdSettings.addTestDevice("171f080c-a50d-457c-9226-bcdc194fda20"); //AH Mac simulator
-            facebookInterstitalAd!!.loadAd() //This may need to be called on the UI thread
+
+        //    facebookInterstitalAd!!.loadAd() //This may need to be called on the UI thread
         }
     }
 
     fun generateAd(teachingContent: SETeachingContent?, results: List<Result>) {
-        val shouldGenerate : Boolean? = teachingContent?.let { shouldGenerateAd(mContext, it, results) }
+      /*  val shouldGenerate : Boolean? = teachingContent?.let { shouldGenerateAd(mContext, it, results) }
         if (shouldGenerate == true) {
             if (adRequest == null) {
                 adRequest = AdRequest.Builder()
@@ -151,12 +153,12 @@ class AdsManager(private val mContext: Context) {
                 adRequest!!.addKeyword(tag)
             }
             generateAd()
-        }
+        }   */
     }
 
     private fun setupAdListeners() {
         //googleInterstitialAd!!.adListener = mGoogleAdListener
-        facebookInterstitalAd!!.setAdListener(mFacebookAdListener)
+        //facebookInterstitalAd!!.setAdListener(mFacebookAdListener)
     }
 
     private fun initializeGoogleAds(context: Context) {
@@ -173,6 +175,6 @@ class AdsManager(private val mContext: Context) {
     }
 
     private fun initializeFacebookAds(context: Context) {
-        facebookInterstitalAd = com.facebook.ads.InterstitialAd(context, "2064355667218856_2069620790025677")
+      //  facebookInterstitalAd = com.facebook.ads.InterstitialAd(context, "2064355667218856_2069620790025677")
     }
 }
