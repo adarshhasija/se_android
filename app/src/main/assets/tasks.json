@@ -10028,6 +10028,43 @@
       "ordered": false,
       "tags": ["social_media", "cricket"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 214,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis US Open Mens Singles Winners till 2022",
+      "instructions": "For each question, Did this player win the US Open Mens singles title in this year?",
+      "tap": ["Alcaraz 2022", "Medvedev 2021","Thiem 2020","Nadal 2019","Djokovic 2018","Nadal 2017","Wawrinka 2016","Djokovic 2015","Cilic 2014","Nadal 2013",
+        "Murray 2012","Djokovic 2011","Nadal 2010","Del Potro 2009","Federer 2008", "Federer 2007", "Federer 2006", "Federer 2005", "Federer 2004", "Roddick 2003", "Sampras 2002", "Hewitt 2001", "Safin 2000"
+      ],
+      "swipe": ["Djokovic 2022", "Rudd 2022", "Nadal 2022", "Djokovic 2021", "Borg 2021", "Federer 2021", "Sampras 2021", "Djokovic 2020", "Nadal 2020", "Federer 2020", "Sampras 2020", "Agassi 2020", "Djokovic 2019", "Federer 2019", "Sampras 2019", "Agassi 2019", "Nadal 2018", "Federer 2018", "Borg 2018", "Sampras 2018", "Agassi 2018", "Djokovic 2017", "Federer 2017", "McEnroe 2017", "Sampras 2017", "Djokovic 2016", "Nadal 2016", "Federer 2016", "Sampras 2016", "Agassi 2016", "Nadal 2015", "Federer 2015", "Laver 2015", "Borg 2015", "McEnroe 2014", "Nadal 2014", "Federer 2014", "Sampras 2014", "Djokovic 2013", "Federer 2013", "Sampras 2013", "Henman 2013", "Laver 2013", "Djokovic 2012", "Nadal 2012", "McEnroe 2012", "Sampras 2012", "Agassi 2012", "Sampras 2011", "Federer 2011", "Roddick 2011", "Borg 2011", "Djokovic 2010", "Federer 2010", "Roddick 2010", "McEnroe 2010", "Borg 2010", "McEnroe 2009", "Nadal 2009", "Federer 2009", "Sampras 2009", "Roddick 2009", "Nadal 2008", "Roddick 2008", "Murray 2008", "Djokovic 2008", "Borg 2008", "McEnroe 2008", "Laver 2008", "Roddick 2007", "Sampras 2007", "Djokovic 2007", "Agassi 2007", "Borg 2007", "McEnroe 2007", "Roddick 2006", "Sampras 2006", "Djokovic 2006", "Agassi 2006", "Borg 2006", "McEnroe 2006", "Roddick 2005", "Sampras 2005", "Djokovic 2005", "Agassi 2005", "Borg 2005", "McEnroe 2005", "Roddick 2004", "Sampras 2004", "Djokovic 2004", "Agassi 2004", "Borg 2004", "McEnroe 2004", "Federer 2003", "Murray 2003", "Djokovic 2003", "Sampras 2003", "Agassi 2003", "McEnroe 2003", "Borg 2002", "Nadal 2002", "Agassi 2002", "Hewitt 2002", "Roddick 2002", "Sampras 2001", "Agassi 2001", "Roddick 2001", "Kyrgios 2001", "McEnroe 2001", "Sampras 2000", "Agassi 2000", "Roddick 2000", "McEnroe 2000", "Borg 2000"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 215,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Tennis US Open Womens Singles Winners till 2022",
+      "instructions": "For each question, Did this player win the US Open Womens singles title in this year?",
+      "tap": ["Swiątek 2022", "Raducanu 2021", "Osaka 2020", "Andreescu 2019", "Osaka 2018", "Stephens 2017", "Kerber 2016", "Pennetta 2015", "S Williams 2014", "S Williams 2013", "S Williams 2012", "Stosur 2011", "Clijsters 2010", "Klijsters 2009", "S Williams 2008", "Henin 2007", "Sharapova 2006", "Clijsters 2005", "Kuznetsova 2004", "Henin 2003", "S Williams 2002", "V Williams 2001", "V Williams 2000"
+      ],
+      "swipe": ["Barty 2022", "Osaka 2022", "Sharapova 2022", "Fernandez 2021", "Barty 2021", "Sabalenka 2021", "Osaka 2021", "Azarenka 2020", "Pliskova 2020", "Kenin 2020", "S Williams 2020", "S Williams 2019", "Osaka 2019", "Barty 2019", "Pliskova 2019", "Halep 2019", "S Williams 2018", "Halep 2018", "Wozniacki 2018", "Kerber 2018", "S Williams 2017", "V Williams 2017", "Pliskova 2017", "Halep 2017", "S Williams 2016", "V Williams 2016", "Halep 2016", "Muguruza 2016", "S Williams 2015", "V Williams 2015", "Halep 2015", "Sharapova 2015", "V Williams 2014", "Halep 2014", "Kvitkova 2014", "Sharapova 2014", "V Williams 2013", "Azarenka 2013", "LiNa 2013", "Stosur 2013", "V Williams 2012", "Azarenka 2012", "Sharapova 2012", "LiNa 2012", "S Williams 2011", "V Williams 2011", "Sharapova 2011", "LiNa 2011", "S Williams 2010", "V Williams 2010", "Wozniacki 2010", "LiNa 2010", "S Williams 2009", "V Williams 2009", "Wozniacki 2009", "Safina 2009", "V Williams 2008", "Ivanovic 2008", "Kuznetsova 2008", "Jankovic 2008", "Sharapova 2007", "Jankovic 2007", "Kuznetsova 2007", "S Williams 2007", "S Williams 2006", "V Williams 2006", "Henin 2006", "Mauresmo 2006", "Sharapova 2005", "Davenport 2005", "Mauresmo 2005", "V Williams 2005", "S Williams 2005", "Henin 2005", "Henin 2004", "S Williams 2004", "V Williams 2004", "Davenport 2004", "Mauresmo 2004", "Clijsters 2003", "Davenport 2003", "V Williams 2003", "S Williams 2003", "Mauresmo 2003", "V Williams 2002", "Capriati 2002", "Davenport 2002", "Seles 2002", "Henin 2002", "Hingis 2002", "Hingis 2001", "Capriati 2001", "Davenport 2001", "Henin 2001", "Seles 2001", "Hingis 2000", "Davenport 2000", "Pierce 2000", "S Williams 2000", "Seles 2000"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "tennis"],
+      "isExitOnInterruption": true
     }
   ],
 
