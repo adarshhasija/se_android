@@ -10065,6 +10065,24 @@
       "ordered": false,
       "tags": ["social_media", "tennis"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 216,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Apple Event 2022",
+      "instructions": "For each question, Were these products announced in Apple's event in September 2022?",
+      "tap": ["iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "Apple Watch Series 8", "Apple Watch Ultra", "Apple Watch SE", "AirPods Pro 2"
+      ],
+      "swipe": ["iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max", "Apple Watch Series 7", "iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 12 XXL", "iPhone 14", "iPhone 14 mini", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 14 XXL", "iPhone X", "Apple Watch Series 8", "Apple Watch Series 6", "Apple Watch Series 5", "iPad Pro", "iPad Air", "Swimming workout", "Running workout", "Breathe app", "MacBook Pro", "MacBook Air", "MacBook", "Mac Pro", "AirPod", "AirPod Pro", "CarPlay", "Apple Pay", "iPhone SE", "iPhone 5C", "iSocks", "iCar", "iPad 2", "iShoes", "Apple Glasses", "Apple Spectacles", "Apple drone", "HomePod", "HomePod mini"
+      ],
+      "ordered": false,
+      "tags": ["social_media"],
+      "isExitOnInterruption": true
     }
   ],
 
