@@ -10083,6 +10083,61 @@
       "ordered": false,
       "tags": ["social_media"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 217,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Asia Cup Cricket Hosts till 2022",
+      "instructions": "This game covers all editions of Asia Cup till 2022. For each question, did country host the Asia Cup in this year?",
+      "tap": ["UAE 2022", "UAE 2018","Bangladesh 2016","Bangladesh 2014","Bangladesh 2012","SriLanka 2010","Pakistan 2008","SriLanka 2004","Bangladesh 2000","SriLanka 1997",
+        "UAE 1995","India 1990","Bangladesh 1988","SriLanka 1986","UAE 1984"
+      ],
+      "swipe": ["Pakistan 2022", "Bangladesh 2022", "India 2018", "Pakistan 2018", "SriLanka 2018", "Bangladesh 2018", "UAE 2016", "Pakistan 2016", "India 2016", "SriLanka 2016", "SriLanka 2014", "UAE 2014", "Pakistan 2014", "India 2014", "SriLanka 2014", "UAE 2012", "Pakistan 2012", "India 2012", "SriLanka 2012", "UAE 2010", "Pakistan 2010", "India 2010", "Bangladesh 2010", "UAE 2008", "Bangladesh 2008", "India 2008", "SriLanka 2008", "UAE 2004", "Pakistan 2004", "India 2004", "Bangladesh 2004", "UAE 2000", "Pakistan 2000", "India 2000", "SriLanka 2000", "UAE 1997", "Pakistan 1997", "India 1997", "Bangladesh 1997", "Bangladesh 1995", "Pakistan 1995", "India 1995", "SriLanka 1995", "UAE 1990", "Pakistan 1990", "Bangladesh 1990", "SriLanka 1990", "UAE 1988", "Pakistan 1988", "India 1988", "SriLanka 1988", "UAE 1986", "Pakistan 1986", "India 1986", "Bangladesh 1986", "Bangladesh 1984", "Pakistan 1984", "India 1984", "SriLanka 1984"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 218,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Asia Cup Cricket Winners till 2022",
+      "instructions": "This game covers all editions of Asia Cup till 2022. For each question, did this country win the Asia Cup in this year?",
+      "tap": ["SriLanka 2022", "India 2018","India 2016","SriLanka 2014","Pakistan 2012","India 2010","SriLanka 2008"
+      ],
+      "swipe": ["Pakistan 2022", "Nepal 2022", "UAE 2018", "Pakistan 2018", "SriLanka 2018", "Bangladesh 2018", "Australia 2018", "England 2018", "Zimbabwe 2018", "UAE 2016", "Australia 2016", "Bangladesh 2016", "SriLanka 2016", "England 2016", "Australia 2014", "England 2014", "UAE 2014", "Pakistan 2014", "India 2014", "UAE 2012", "Bangladesh 2012", "India 2012", "SriLanka 2012", "Ireland 2012", "Zimbabwe 2012", "UAE 2010", "Pakistan 2010", "Zimbabwe 2010", "Bangladesh 2010", "Australia 2010", "UAE 2008", "Bangladesh 2008", "India 2008", "Pakistan 2008", "Australia 2008", "England 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 219,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Asia Cup Cricket India Captains till 2022",
+      "instructions": "This game covers all editions of Asia Cup till 2022. For each question, was this player the India captain in this edition of Asia Cup?",
+      "tap": ["R Sharma 2022", "R Sharma 2018", "Dhoni 2016", "Kohli 2014", "Dhoni 2012", "Dhoni 2010", "Dhoni 2008", "Ganguly 2004", "Ganguly 2000", "Tendulkar 1997", "Azharuddin 1995", "Azharuddin 1990", "Vengsarkar 1988", "Gavaskar 1984"
+      ],
+      "swipe": ["Kohli 2022", "Dhoni 2022", "Kohli 2018", "Dhawan 2018", "Dhoni 2018", "R Sharma 2016", "Kohli 2016", "Dhawan 2016", "Dhoni 2014", "Sharma 2014", "Dhawan 2014", "Gambhir 2014", "Sehwag 2014", "Yuvraj 2014", "Kohli 2012", "Gambhir 2012", "Sehwag 2012", "Yuvraj 2012", "Gambhir 2010", "Sehwag 2010", "Yuvraj 2010", "Tendulkar 2010", "Gambhir 2008", "Sehwag 2008", "Yuvraj 2008", "Tendulkar 2008", "Tendulkar 2004", "Dravid 2004", "Sehwag 2004", "Harbhajan 2004", "Tendulkar 2000", "Dravid 2000", "Kumble 2000", "Azharuddin 1997", "Ganguly 1997", "Dravid 1997", "Kumble 1997", "Tendulkar 1995", "Manjrekar 1995", "Jadeja 1995", "Dev 1990", "Gavaskar 1990", "Vengsarkar 1990", "Azharuddin 1988",  "Shastri 1988", "Gavaskar 1988", "Dev 1988", "Dev 1984", "Srikanth 1984", "Vengsarkar 1984", "Shastri 1984","Kohli 2022", "Dhoni 2022", "Kohli 2018", "Dhawan 2018", "Dhoni 2018", "R Sharma 2016", "Kohli 2016", "Dhawan 2016", "Dhoni 2014", "Sharma 2014", "Dhawan 2014", "Gambhir 2014", "Sehwag 2014", "Yuvraj 2014", "Kohli 2012", "Gambhir 2012", "Sehwag 2012", "Yuvraj 2012", "Gambhir 2010", "Sehwag 2010", "Yuvraj 2010", "Tendulkar 2010", "Gambhir 2008", "Sehwag 2008", "Yuvraj 2008", "Tendulkar 2008", "Tendulkar 2004", "Dravid 2004", "Sehwag 2004", "Harbhajan 2004", "Tendulkar 2000", "Dravid 2000", "Kumble 2000", "Azharuddin 1997", "Ganguly 1997", "Dravid 1997", "Kumble 1997", "Tendulkar 1995", "Manjrekar 1995", "Jadeja 1995", "Dev 1990", "Gavaskar 1990", "Vengsarkar 1990", "Azharuddin 1988",  "Shastri 1988", "Gavaskar 1988", "Dev 1988", "Dev 1984", "Srikanth 1984", "Vengsarkar 1984", "Shastri 1984"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
     }
   ],
 
