@@ -10140,24 +10140,6 @@
       "isExitOnInterruption": true
     },
     {
-      "id": 219,
-      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
-      "type": 4,
-      "isOwnerWantingAds": false,
-      "timed": true,
-      "durationMillis": 61000,
-      "isGame": true,
-      "title": "Asia Cup Cricket India Captains till 2022",
-      "instructions": "This game covers all editions of Asia Cup till 2022. For each question, was this player the India captain in this edition of Asia Cup?",
-      "tap": ["R Sharma 2022", "R Sharma 2018", "Dhoni 2016", "Kohli 2014", "Dhoni 2012", "Dhoni 2010", "Dhoni 2008", "Ganguly 2004", "Ganguly 2000", "Tendulkar 1997", "Azharuddin 1995", "Azharuddin 1990", "Vengsarkar 1988", "Gavaskar 1984"
-      ],
-      "swipe": ["Kohli 2022", "Dhoni 2022", "Kohli 2018", "Dhawan 2018", "Dhoni 2018", "R Sharma 2016", "Kohli 2016", "Dhawan 2016", "Dhoni 2014", "Sharma 2014", "Dhawan 2014", "Gambhir 2014", "Sehwag 2014", "Yuvraj 2014", "Kohli 2012", "Gambhir 2012", "Sehwag 2012", "Yuvraj 2012", "Gambhir 2010", "Sehwag 2010", "Yuvraj 2010", "Tendulkar 2010", "Gambhir 2008", "Sehwag 2008", "Yuvraj 2008", "Tendulkar 2008", "Tendulkar 2004", "Dravid 2004", "Sehwag 2004", "Harbhajan 2004", "Tendulkar 2000", "Dravid 2000", "Kumble 2000", "Azharuddin 1997", "Ganguly 1997", "Dravid 1997", "Kumble 1997", "Tendulkar 1995", "Manjrekar 1995", "Jadeja 1995", "Dev 1990", "Gavaskar 1990", "Vengsarkar 1990", "Azharuddin 1988",  "Shastri 1988", "Gavaskar 1988", "Dev 1988", "Dev 1984", "Srikanth 1984", "Vengsarkar 1984", "Shastri 1984","Kohli 2022", "Dhoni 2022", "Kohli 2018", "Dhawan 2018", "Dhoni 2018", "R Sharma 2016", "Kohli 2016", "Dhawan 2016", "Dhoni 2014", "Sharma 2014", "Dhawan 2014", "Gambhir 2014", "Sehwag 2014", "Yuvraj 2014", "Kohli 2012", "Gambhir 2012", "Sehwag 2012", "Yuvraj 2012", "Gambhir 2010", "Sehwag 2010", "Yuvraj 2010", "Tendulkar 2010", "Gambhir 2008", "Sehwag 2008", "Yuvraj 2008", "Tendulkar 2008", "Tendulkar 2004", "Dravid 2004", "Sehwag 2004", "Harbhajan 2004", "Tendulkar 2000", "Dravid 2000", "Kumble 2000", "Azharuddin 1997", "Ganguly 1997", "Dravid 1997", "Kumble 1997", "Tendulkar 1995", "Manjrekar 1995", "Jadeja 1995", "Dev 1990", "Gavaskar 1990", "Vengsarkar 1990", "Azharuddin 1988",  "Shastri 1988", "Gavaskar 1988", "Dev 1988", "Dev 1984", "Srikanth 1984", "Vengsarkar 1984", "Shastri 1984"
-      ],
-      "ordered": false,
-      "tags": ["social_media", "cricket"],
-      "isExitOnInterruption": true
-    },
-    {
       "id": 220,
       "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
       "type": 4,
@@ -10188,6 +10170,42 @@
       "tap": ["West Indies", "India", "Australia", "Pakistan", "SriLanka", "England"
       ],
       "swipe": ["New Zealand", "Zimbabwe", "South Africa", "Kenya", "UAE", "Hong Kong", "China", "France", "Germany", "USA", "Bangladesh", "Nepal", "Taiwan", "Japan", "South Korea", "Canada", "Brazil", "Argentina", "Cameroon", "Ireland", "Scotland", "Wales", "Portugal",  "Netherlands"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 222,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket ODI World Cup Captains till 2019",
+      "instructions": "Has this player been a captain in any edition of Mens ODI Cricket World Cup?",
+      "tap": ["Clive Lloyd", "Kapil Dev", "Alan Border", "Imran Khan", "Arjuna Ranatunga", "Steve Waugh", "Ricky Ponting", "MS Dhoni", "Kane Williamson",  "Brendon McCullum", "Eoin Morgan", "Brian Lara", "Wasim Akram", "Inzamam-ul-Haq", "Sourav Ganguly", "Rahul Dravid", "Virat Kohli"
+      ],
+      "swipe": ["Don Bradman", "Garfield Sobers", "WG Grace", "Frank Worrell", "Zaheer Khan", "Jasprit Bumrah", "Anil Kumble", "LeBron James", "Harry Kane", "Mesut Özil", "Didier Brogba", "Manuel Neuer", "Fabian Barthez", "Zinedine Zidane", "Fabian Barthez", "Christiano Ronaldo", "Lionel Messi"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 223,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket ODI World Cup POTM Awardees till 2019",
+      "instructions": "Has this player won the Player of the Tournament in any edition of Mens ODI Cricket World Cup?",
+      "tap": ["Clive Lloyd", "Viv Richards", "Mohinder Amarnath", "David Boon", "Martin Crowe", "Sanath Jayasuriya", "Lance Klusener", "Sachin Tendulkar", "Glenn McGrath", "Yuvraj Singh", "Mitchell Starc", "Kane Williamson"
+      ],
+      "swipe": ["Sunil Gavaskar", "Kapil Dev", "Virat Kohli", "MS Dhoni", "Ricky Ponting", "Adam Gilchrist", "Rohit Sharma", "Harry Kane", "Don Bradman", "Garfield Sobers", "Alan Border", "Christiano Ronaldo", "Lionel Messi", "Michael Jordan", "LeBron James", "Tiger Woods", "Usain Bolt"
       ],
       "ordered": false,
       "tags": ["social_media", "cricket"],
