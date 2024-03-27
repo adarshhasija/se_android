@@ -10300,6 +10300,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 229,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Purple Cap Winners till 2023",
+      "instructions": "For each question, Did this player win the Purple Cap in the IPL in this year?",
+      "tap": ["Mohammad Shami 2023", "Yuzvendra Chahal 2022", "Harshal Patel 2021", "Kagiso Ramada 2020", "Immran Tahir 2019", "Andrew Tye 2018", "Bhuvneshwar Kumar 2017", "Bhuvneshwar Kumar 2016", "Dwayne Bravo 2015", "Mohit Sharma 2014", "Dwayne Bravo 2013", "Morne Morkel 2012", "Lasith Malinga 2011", "Pragyan Ojha 2010", "RP Singh 2009", "Sohail Tanvir 2008"
+      ],
+      "swipe": ["MS Dhoni 2023", "AB De Villiers 2023", "Virat Kohli 2022", "Rohit Sharma 2022", "Kane Williamson 2021", "David Warner 2021", "Joe Root 2020", "Ben Stokes 2020", "Alastair Cook 2019", "Rishabh Pant 2019", "Ajinkya Rahane 2018",  "AD de Villiers 2018", "Brendon McCullum 2017", "MS Dhoni 2017", "Shreyas Iyer 2016", "Shubman Gill 2016", "Sachin Tendulkar 2015", "Ricky Ponting 2015", "Shikhar Dhawan 2014", "Virender Sehwag 2014", "Gautam Gambhir 2013", "Dinesh Karthik 2013", "Kevin Pietersen 2012", "Andrew Strauss 2012", "Steve Smith 2011", "Adam Gilchrist 2011", "Andrew Symonds 2010", "Rahul Dravid 2010", "Sourav Ganguly 2009", "Michael Hussey 2009", "Graeme Smith 2008", "Sachin Tendulkar 2008","Virat Kohli 2022", "Rohit Sharma 2022", "Kane Williamson 2021", "David Warner 2021", "Joe Root 2020", "Ben Stokes 2020", "Alastair Cook 2019", "Rishabh Pant 2019", "Ajinkya Rahane 2018",  "AD de Villiers 2018", "Brendon McCullum 2017", "MS Dhoni 2017", "Shreyas Iyer 2016", "Shubman Gill 2016", "Sachin Tendulkar 2015", "Ricky Ponting 2015", "Shikhar Dhawan 2014", "Virender Sehwag 2014", "Gautam Gambhir 2013", "Dinesh Karthik 2013", "Kevin Pietersen 2012", "Andrew Strauss 2012", "Steve Smith 2011", "Adam Gilchrist 2011", "Andrew Symonds 2010", "Rahul Dravid 2010", "Sourav Ganguly 2009", "Michael Hussey 2009", "Graeme Smith 2008", "Sachin Tendulkar 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
   ],
 

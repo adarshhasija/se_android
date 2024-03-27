@@ -8,9 +8,9 @@ android {
         applicationId "com.starsearth.two"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 40
+        versionCode 41
 
-        versionName "1.0.40"
+        versionName "1.0.41"
     }
 
 
