@@ -10282,6 +10282,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 228,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Orange Cap Winners till 2023",
+      "instructions": "For each question, Did this player win the Orange Cap in the IPL in this year?",
+      "tap": ["Shubman Gill 2023","Jos Buttler 2022", "Ruturaj Gaikwad 2021", "KL Rahul 2020", "David Warner 2019", "Kane Williamson 2018",  "David Warner 2017", "Virat Kohli 2016", "David Warner 2015", "Robin Uthappa 2014", "Michael Hussey 2013", "Chris Gayle 2012", "Chris Gayle 2011", "Sachin Tendulkar 2010", "Matthew Hayden 2009", "Shaun Marsh 2008","Jos Buttler 2022", "Ruturaj Gaikwad 2021", "KL Rahul 2020", "David Warner 2019", "Kane Williamson 2018",  "David Warner 2017", "Virat Kohli 2016", "David Warner 2015", "Robin Uthappa 2014", "Michael Hussey 2013", "Chris Gayle 2012", "Chris Gayle 2011", "Sachin Tendulkar 2010", "Matthew Hayden 2009", "Shaun Marsh 2008"
+      ],
+      "swipe": ["Zaheer Khan 2023", "Sachin Tendulkar 2023", "Jasprit Bumrah 2022", "Anil Kumble 2022", "Amit Mishra 2021", "Bhuvneshwar Kumar 2021", "Mitchell Starc 2020", "Rashid Khan 2020", "Sunil Narine 2019", "Umran Malik 2019", "Mitchell Johnson 2018", "Rashid Khan 2018", "Anil Kumble 2017", "Shane Warne 2017", "Daniel Vettori 2016", "Trent Boult 2016", "RP Singh 2015", "Pragyan Ojha 2015", "Arshdeep Singh 2014", "Umran Malik 2014", "Dale Steyn 2013",  "Morne Morkel 2013", "Zaheer Khan 2012", "James Anderson 2012", "Stuart Broad 2011", "Mitchell Johnson 2011", "Rashin Khan 2010", "Sunil Narine 2010", "Jasprit Bumrah 2009", "Umesh Yadav 2009", "T Natarajan 2008", "Trent Boult 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
   ],
 
