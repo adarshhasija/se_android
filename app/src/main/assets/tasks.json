@@ -10318,6 +10318,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 230,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Maximum Sixes Award Winners till 2023",
+      "instructions": "For each question, Did this player win the Maximum Sixes Award in the IPL in this year?",
+      "tap": ["Faf du Plessis 2023","Jos Buttler 2022", "KL Rahul 2021", "Ishan Kishan 2020", "Andre Russell 2019", "Rishabh Pant 2018", "Glenn Maxwell 2017", "Virat Kohli 2016", "Chris Gayle 2015", "Glenn Maxwell 2014", "Chris Gayle 2013", "Chris Gayle 2012", "Chris Gayle 2011", "Robin Uthappa 2010", "Adam Gilchrist 2009", "Sanath Jayasuriya 2008"
+      ],
+      "swipe": ["Jasprit Bumrah 2023","Kapil Dev 2023", "Mitchell Starc 2022", "Jasprit Bumrah 2022", "Amit Mishra 2021", "Ravi Bishnoi 2021", "Pragyan Ojha 2020", "Harbhajan Singh 2020", "Anil Kumble 2019", "Shane Warne 2019", "Rashid Khan 2018", "Zaheer Khan 2018", "Mitchell Johnson 2017", "Lasith Malinga 2017", "James Anderson 2016", "Stuart Broad 2016", "Dale Steyn 2015", "Morne Morkel 2015", "Glenn McGrath 2014", "Brett Lee 2014", "Chaminda Vaas 2013", "Trent Boult 2013", "Tim Southee 2012", "Kuldeep Yadav 2012", "Zaheer Khan 2011", "Jasprit Bumrah 2011", "Jason Gillespie 2011", "Dale Steyn 2010", "Anil Kumble 2010", "Shane Warne 2009", "Rashid Khan 2009", "Sunil Narine 2008", "Brett Lee 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
   ],
 
