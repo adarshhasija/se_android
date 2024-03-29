@@ -10336,6 +10336,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 231,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL MVP Award Winners till 2023",
+      "instructions": "For each question, Did this player win the Most Valuable Player Award in the IPL in this year?",
+      "tap": ["Shubman Gill 2023", "Jos Buttler 2022", "Harshal Patel 2021", "Jofra Archer 2020", "Andre Russell 2019", "Sunil Narine 2018", "Ben Stokes 2017", "Virat Kohli 2016", "Andre Russell 2015", "Glenn Maxwell 2014", "Shane Watson 2013", "Sunil Narine 2012", "Chris Gayle 2011", "Sachin Tendulkar 2010", "Adam Gilchrist 2009", "Shane Watson 2008"
+      ],
+      "swipe": ["David Warner 2023","Sunil Gavaskar 2023", "Sanju Samson 2022", "Chris Gayle 2022", "Virat Kohli 2021", "Jasprit Bumrah 2021", "Rashid Khan 2020", "AD de Villiers 2020", "Chris Gayle 2019", "MS Dhoni 2019", "Rohit Sharma 2018", "Ricky Ponting 2018", "Joe Root 2017", "Ajinkya Rahane 2017", "Sunil Narine 2016", "Rishabh Pant 2016", "Michael Hussey 2015", "Kieron Pollard 2015", "David Miller 2014", "Amit Mishra 2014", "Shane Warne 2013", "Zaheer Khan 2013", "Abdul Qadir 2012", "Alec Stewart 2012", "Viv Richards 2011", "Clive Lloyd 2011", "Kapil Dev 2010", "Sunil Gavaskar 2010", "Ajit Agarkar 2009", "Chaminda Vaas 2009", "Sachin Tendulkar 2008", "Michael Holding 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
     }
   ],
 
