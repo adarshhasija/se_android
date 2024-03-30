@@ -10354,6 +10354,96 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 232,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Player of the Match Award Winners till 2023",
+      "instructions": "For each question, Did this player win the Player of the Match Award in the final in the IPL in this year?",
+      "tap": ["Devon Conway 2023","Hardik Pandya 2022", "Faf du Plessis 2021", "Trent Boult 2020", "Jasprit Bumrah 2019", "Shane Watson 2018", "Krunal Pandya 2017", "Ben Cutting 2016", "Rohit Sharma 2015", "Manish Pandey 2014", "Kieron Pollard 2013", "Manvinder Bisla 2012", "Murali Vijay 2011", "Suresh Raina 2010", "Anil Kumble 2009", "Yusuf Pathan 2008"
+      ],
+      "swipe": ["MS Dhoni 2023","Rohit Sharma 2023","Krunal Pandya 2022", "Ajit Agarkar 2022", "Rohit Sharma 2021", "Jasprit Bumrah 2021", "Virat Kohli 2020", "David Warner 2020", "Shane Watson 2019", "MS Dhoni 2019", "Adam Gilchrist 2018", "Michael Hussey 2018", "Rishabh Pant 2017", "Rashid Khan 2017", "Ben Stokes 2016", "Joe Root 2016", "Virender Sehwag 2015", "Gautam Gambhir 2015", "Saurabh Tiwary 2014", "Vijay Shankar 2014", "Prithvi Shaw 2013", "Harbhajan Singh 2013", "Sachin Tendulkar 2012", "Ricky Ponting 2012", "Sachin Tendulkar 2011", "Kapil Dev 2011", "Viv Richards 2010", "Michael Bevan 2010", "Andrew Symonds 2009", "Irfan Pathan 2009", "Gordon Greenidge 2008", "Desmmond Haynes 2008"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket", "ipl"],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 233,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Emerging Player Award Winners till 2023",
+      "instructions": "For each question, Did this player win the Emerging Player Award in the IPL in this year?",
+      "tap": ["Yashasvi Jaiswal 2023","Umran Malik 2022", "Ruturaj Gaikwad 2021", "Devdutt Padikkal 2020", "Shubman Gill 2019", "Rishabh Pant 2018", "Basil Thampi 2017", "Mustafizur Rahman 2016", "Shreyas Iyer 2015", "Axar Patel 2014", "Sanju Samson 2013", "Mandeep Singh 2012", "Iqbal Abdulla 2011", "Saurabh Tiwary 2010", "Rohit Sharma 2009", "Shreevats Goswami 2008"
+      ],
+      "swipe": ["Anil Kumble 2023","Gautam Gambhir 2023","Ajit Agarkar 2022", "Sachin Tendulkar 2022", "Ajinkya Rahane 2021", "Cheteshwar Pujara 2021", "Rahul Dravid 2020", "Kieron Pollard 2020", "Dwayne Bravo 2019", "Andre Russell 2019", "Chris Gayle 2018", "Graeme Smith 2018", "Mark Boucher 2017", "MS Dhoni 2017", "Ian Healy 2016", "Alec Stewart 2016", "Michael Hussey 2015", "Ricky Ponting 2015", "Steve Smith 2014", "David Warner 2014", "Joe Root 2013", "Ben Stokes 2013", "Kevin Pietersen 2012",  "Jasprit Bumrah 2012", "Zaheer Khan 2011", "Sourav Ganguly 2011", "Adam Gilchrist 2010", "Shane Warne 2010", "Prithvi Shaw 2009", "Shubmman Gill 2009", "Cameron Green 2008", "Dale Steyn 2008"
+      ],
+      "ordered": false,
+      "tags": [],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 234,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Super Striker Award Winners till 2023",
+      "instructions": "For each question, Did this player win the Super Striker of the Season Award in the IPL in this year?",
+      "tap": ["Glenn Maxwell 2023","Dinesh Karthik 2022", "Shimron Hetmyer 2021", "Kieron Pollard 2020", "Andre Russell 2019", "Sunil Narine 2018"
+      ],
+      "swipe": ["Jasprit Bumrah 2023","Glenn McGrath 2023","Kieron Pollard 2022", "Ben Stokes 2022", "Chris Gayle 2021", "David Warner 2021", "Rishabh Pant 2020", "Yuvraj Singh 2020", "MS Dhoni 2019", "Yusuf Pathan 2019", "Andre Russell 2018", "Rohit Sharma 2018"
+      ],
+      "ordered": false,
+      "tags": [],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 235,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Captains till 2023",
+      "instructions": "For each question, Did this player ever captain an IPL team?",
+      "tap": ["Shane Warne", "Adam Gilchrist", "MS Dhoni", "Gautam Gambhir", "Rohit Sharma", "David Warner", "Hardik Pandya", "Virat Kohli", "Rahul Dravid", "Sourav Ganguly", "Sachin Tendulkar", "Steven Smith", "Kumar Sangakkara", "Danniel Vettori", "KL Rahul", "Ravichandran Ashwin", "Shikhar Dhawan", "Suresh Raina", "Nitish Rana", "Faf du Plessis", "Ricky Ponting", "Sanju Samson", "Rishabh Pant", "Dinesh Karthik", "Pat Cummins", "Kane Williamson", "Krunal Pandya"
+      ],
+      "swipe": ["S Sreesanth", "Joe Root", "Matthew Hayden", "Parthiv Patel", "Ajit Agarkar", "VVS Laxman", "Chris Gayle", "AB de Villiers", "Mitchell Johnson", "Michael Hussey", "Sunil Gavaskar", "Viv Richards", "Brian Lara", "Andre Russell", "Tom Curran", "Ben Stokes", "Viv Richards", "Clive Lloyd", "Ravi Shastri", "Mike Atherton", "Imran Khan", "Shahid Afridi", "Babar Azam", "Shaheen Shah Afridi", "Vijay Shankar", "Cheteshwar Pujara", "Yuzvendra Chahal", "Amit Mishra"
+      ],
+      "ordered": false,
+      "tags": [],
+      "isExitOnInterruption": true
+    },
+    {
+      "id": 236,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "IPL Winning Captains till 2023",
+      "instructions": "For each question, Did this player ever win the IPL as captain?",
+      "tap": ["Shane Warne", "Adam Gilchrist", "MS Dhoni", "Gautam Gambhir", "Rohit Sharma", "David Warner", "Hardik Pandya"
+      ],
+      "swipe": ["Virat Kohli", "Rahul Dravid", "Sourav Ganguly", "Sachin Tendulkar", "Steven Smith", "Kumar Sangakkara", "Danniel Vettori", "KL Rahul", "Ravichandran Ashwin", "Shikhar Dhawan", "Suresh Raina", "Faf du Plessis"
+      ],
+      "ordered": false,
+      "tags": [],
+      "isExitOnInterruption": true
     }
   ],
 
