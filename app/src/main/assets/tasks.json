@@ -10442,7 +10442,7 @@
       "swipe": ["Virat Kohli", "Rahul Dravid", "Sourav Ganguly", "Sachin Tendulkar", "Steven Smith", "Kumar Sangakkara", "Danniel Vettori", "KL Rahul", "Ravichandran Ashwin", "Shikhar Dhawan", "Suresh Raina", "Faf du Plessis"
       ],
       "ordered": false,
-      "tags": [],
+      "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
     }
   ],
