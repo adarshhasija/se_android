@@ -10444,6 +10444,24 @@
       "ordered": false,
       "tags": ["social_media", "cricket", "ipl"],
       "isExitOnInterruption": true
+    },
+    {
+      "id": 237,
+      "creator": "RycAhfhPsXOrUdbO8GOJqucktAA3",
+      "type": 4,
+      "isOwnerWantingAds": false,
+      "timed": true,
+      "durationMillis": 61000,
+      "isGame": true,
+      "title": "Cricket T20 World Cup Winners till 2022",
+      "instructions": "Did this country win the T20 World Cup in this year?",
+      "tap": ["India 2007", "Pakistan 2009", "England 2010", "West Indies 2012", "SriLanka 2014", "West Indies 2016", "Australia 2021", "England 2022"
+      ],
+      "swipe": ["Pakistan 2007", "South Africa 2007", "USA 2007", "China 2007", "India 2009", "Australia 2009", "USA 2009", "Russia 2009", "SriLanka 2010", "West Indies 2010", "USA 2010", "Canada 2010", "England 2012", "South Africa 2012", "Namibia 2012", "Kenya 2012", "Bangladesh 2014", "West Indies 2014", "Zimbabwe 2014", "USA 2014", "India 2016", "Ireland 2016", "England 2016", "Italy 2016", "Pakistan 2021", "New Zealand 2021", "Germany 2021", "Spain 2021", "Portugal 2022", "China 2022"
+      ],
+      "ordered": false,
+      "tags": ["social_media", "cricket"],
+      "isExitOnInterruption": true
     }
   ],
 
